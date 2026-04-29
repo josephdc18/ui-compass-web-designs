@@ -11,6 +11,22 @@ eleventyNavigation:
   key: "Locations"
   order: 1000
 ---
+{% set cityLinks = [
+  { name: "Arlington", stateSlug: "texas", slug: "arlington" },
+  { name: "Fort Worth", stateSlug: "texas", slug: "fort-worth" },
+  { name: "Dallas", stateSlug: "texas", slug: "dallas" },
+  { name: "Austin", stateSlug: "texas", slug: "austin" },
+  { name: "Houston", stateSlug: "texas", slug: "houston" },
+  { name: "San Antonio", stateSlug: "texas", slug: "san-antonio" },
+  { name: "Frisco", stateSlug: "texas", slug: "frisco" },
+  { name: "Irving", stateSlug: "texas", slug: "irving" },
+  { name: "Grand Prairie", stateSlug: "texas", slug: "grand-prairie" },
+  { name: "Mansfield", stateSlug: "texas", slug: "mansfield" },
+  { name: "Memphis", stateSlug: "tennessee", slug: "memphis" },
+  { name: "Nashville", stateSlug: "tennessee", slug: "nashville" },
+  { name: "Knoxville", stateSlug: "tennessee", slug: "knoxville" },
+  { name: "Chattanooga", stateSlug: "tennessee", slug: "chattanooga" }
+] %}
 <div id="banner-1106-8">
   <div class="cs-container">
     <h1 class="cs-int-title">Where We Work</h1>
@@ -32,34 +48,11 @@ eleventyNavigation:
 <section id="content-page-1399-2">
   <div class="cs-container cs-container-listing">
     <div class="cs-content">
-      <h2 class="cs-title">All of our contractors and partners proudly work 100% remote from home, allowing us to help businesses across various towns and cities in the UK:</h2>
+      <h2 class="cs-title">I work 100% remote from home, allowing me to help businesses across various towns and cities in the US:</h2>
       <ul class="cs-ul-columns">
-        <li><a href="/abingdon/small-business-web-designer/">Web Design in Abingdon</a></li>
-        <li><a href="/andover/small-business-web-designer/">Web Design in Andover</a></li>
-        <li><a href="/banbury/small-business-web-designer/">Web Design in Banbury</a></li>
-        <li><a href="/basingstoke/small-business-web-designer/">Web Design in Basingstoke</a></li>
-        <li><a href="/bicester/small-business-web-designer/">Web Design in Bicester</a></li>
-        <li><a href="/bourton-on-the-water/small-business-web-designer/">Web Design in Bourton-on-the-Water</a></li>
-        <li><a href="/burford/small-business-web-designer/">Web Design in Burford</a></li>
-        <li><a href="/cheltenham/small-business-web-designer/">Web Design in Cheltenham</a></li>
-        <li><a href="/cirencester/small-business-web-designer/">Web Design in Cirencester</a></li>
-        <li><a href="/eastleigh/small-business-web-designer/">Web Design in Eastleigh</a></li>
-        <li><a href="/fareham/small-business-web-designer/">Web Design in Fareham</a></li>
-        <li><a href="/gosport/small-business-web-designer/">Web Design in Gosport</a></li>
-        <li><a href="/havant/small-business-web-designer/">Web Design in Havant</a></li>
-        <li><a href="/horndean/small-business-web-designer/">Web Design in Horndean</a></li>
-        <li><a href="/kidlington/small-business-web-designer/">Web Design in Kidlington</a></li>
-        <li><a href="/malmesbury/small-business-web-designer/">Web Design in Malmesbury</a></li>
-        <li><a href="/oxford/small-business-web-designer/">Web Design in Oxford</a></li>
-        <li><a href="/petersfield/small-business-web-designer/">Web Design in Petersfield</a></li>
-        <li><a href="/portsmouth/small-business-web-designer/">Web Design in Portsmouth</a></li>
-        <li><a href="/southampton/small-business-web-designer/">Web Design in Southampton</a></li>
-        <li><a href="/stroud/small-business-web-designer/">Web Design in Stroud</a></li>
-        <li><a href="/wantage/small-business-web-designer/">Web Design in Wantage</a></li>
-        <li><a href="/waterlooville/small-business-web-designer/">Web Design in Waterlooville</a></li>
-        <li><a href="/winchester/small-business-web-designer/">Web Design in Winchester</a></li>
-        <li><a href="/witney/small-business-web-designer/">Web Design in Witney</a></li>
-        <li><a href="/wychwood/small-business-web-designer/">Web Design in Wychwood</a></li>
+        {% for city in cityLinks %}
+        <li><a href="/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/">Web Design in {{ city.name }}</a></li>
+        {% endfor %}
       </ul>
     </div>
   </div>

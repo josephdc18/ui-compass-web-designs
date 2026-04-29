@@ -37,7 +37,7 @@
   <link rel="manifest" href="/assets/favicons/site.webmanifest">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <script defer src="/assets/pwa-splash.js"></script>
+  <script defer src="/assets/pwa-splash.js?v={{ build.hash }}"></script>
 
   <!-- Preload -->
   <link rel="preload" as="image" href="/assets/logo.svg">
@@ -45,23 +45,23 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-700.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-900.woff2" crossorigin>
 
-  <link rel="stylesheet" href="/css/root.css">
+  <link rel="stylesheet" href="/css/root.css?v={{ build.hash }}">
 
   {% if preloadImg %}
   <link rel="preload" as="image" href="{{ preloadImg }}" />
   {% endif %}
 
   <!-- Loading in page specific CSS sheets from css block -->
-  <link rel="stylesheet" href="/css/critical.css" />
+  <link rel="stylesheet" href="/css/critical.css?v={{ build.hash }}" />
   {% if page.url == '/' %}
-  <link rel="stylesheet" href="/css/local.css" />
+  <link rel="stylesheet" href="/css/local.css?v={{ build.hash }}" />
   {% endif %}
   {% if interior %}
-  <link rel="preload" as="style" href="/css/interior.css">
-  <link rel="stylesheet" href="/css/interior.css">
+  <link rel="preload" as="style" href="/css/interior.css?v={{ build.hash }}">
+  <link rel="stylesheet" href="/css/interior.css?v={{ build.hash }}">
   {% endif %}
   {% if preloadCSS %}
-  <link rel="stylesheet" href="{{ preloadCSS }}">
+  <link rel="stylesheet" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}">
   {% endif %}
 
   <!--Put analytics tag here at the bottom to prevent it from render blocking-->
@@ -74,7 +74,7 @@
     {{ tagTitle }} | {{ client.name }}
     {% endif %}
   </title>
-  <link rel="stylesheet" href="/css/shop.css">
+  <link rel="stylesheet" href="/css/shop.css?v={{ build.hash }}">
 </head>
 
 <body>
@@ -90,11 +90,11 @@
   {% endif %}
 
   {% if not hideSiteChrome %}
-  <script defer src="/assets/js/nav.js"></script>
+  <script defer src="/assets/js/nav.js?v={{ build.hash }}"></script>
   {% endif %}
-  <script defer src="/assets/js/sections.js"></script>
-  <script defer src="/assets/js/site-effects.js"></script>
-  <script defer src="/assets/js/formspree.js"></script>
+  <script defer src="/assets/js/sections.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/site-effects.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/formspree.js?v={{ build.hash }}"></script>
 
   <!--
         This script adds a class to the body after scrolling 100px
@@ -168,16 +168,18 @@
   </script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js');
+      navigator.serviceWorker.register('/service-worker.js', {
+        updateViaCache: 'none'
+      });
     }
 
   </script>
 
-  <script type="module" src="/assets/js/push.js"></script>
-  <script defer src="/assets/js/toc.js"></script>
-  <script defer src="/assets/js/article-actions.js"></script>
-  <script defer src="/assets/js/shop.js"></script>
-  <script defer src="/assets/js/checkout.js"></script>
+  <script type="module" src="/assets/js/push.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/article-actions.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/shop.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/checkout.js?v={{ build.hash }}"></script>
   <!-- Cart Drawer (injected by shop feature) -->
   <div id="cart-overlay" class="cs-cart-overlay"></div>
   <div id="cart-drawer" class="cs-cart-drawer">

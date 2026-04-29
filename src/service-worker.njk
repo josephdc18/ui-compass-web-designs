@@ -29,9 +29,9 @@ const PAGES_CACHE = `${CACHE_PREFIX}-pages-${SW_VERSION}`;
 const PRECACHE_ASSETS = [
     '/',
     '/offline.html',
-    '/css/root.css',
-    '/css/critical.css',
-    '/assets/favicons/android-chrome-192x192.png',
+    `/css/root.css?v=${SW_VERSION}`,
+    `/css/critical.css?v=${SW_VERSION}`,
+    '/assets/favicons/favicon-192x192.png',
     '/assets/favicons/favicon-32x32.png'
 ];
 
@@ -157,7 +157,7 @@ self.addEventListener('fetch', (event) => {
  */
 async function handleNavigationRequest(request) {
     try {
-        const response = await fetch(request);
+        const response = await fetch(request, { cache: 'reload' });
 
         // Cache successful responses
         if (response.ok) {
@@ -199,7 +199,7 @@ async function handleStaticAsset(request) {
     }
 
     try {
-        const response = await fetch(request);
+        const response = await fetch(request, { cache: 'reload' });
 
         if (response.ok) {
             const responseClone = response.clone();

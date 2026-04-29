@@ -1,0 +1,982 @@
+---
+pagination:
+  data: cityPages
+  size: 1
+  alias: city
+permalink: "/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/"
+layout: base.html
+preloadCSS: '/css/location.css'
+eleventyComputed:
+  fullTitle: "{{ city.name }} Web Designer | Custom Coded Websites For Small Businesses | UI Compass Web Designs & SEO"
+  metaTitle: "{{ city.name }} Web Designer | Custom Coded Websites For Small Businesses | UI Compass Web Designs & SEO"
+  description: "Professional web design in {{ city.name }}, {{ city.stateAbbr }}. Hand-coded, high-performance sites for small businesses starting at $0 down, $150/mo. Local SEO & Analytics."
+---
+
+{% set copyOverrides = {
+  "arlington": {
+    "heroIntro": "Stop losing Arlington customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Arlington web design' keywords, and convert local traffic into revenue.",
+    "whyTitle": "Why Arlington Companies Choose Custom Code",
+    "whyIntro": "WordPress powers 43% of the internet, but for Arlington businesses competing with Dallas and Fort Worth giants, 'average' isn't enough. Mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Arlington's on-the-go audience.",
+    "performanceTitle": "Google Performance, Speed, and SEO for Arlington Markets",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Arlington's competitive market. With 15.6 million visitors annually and a fast-growing population, mobile performance is critical. If your site takes >3s to load, you lose 50% of that traffic. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Arlington TX' and related terms.",
+    "marketingTitle": "SEO Services for Arlington, Texas Businesses",
+    "seoBlurb": "Arlington draws 15M+ visitors and has a median age of 33.6—a mobile-first audience. You can't rank a homepage for everything. We build dedicated local landing pages targeting 'Arlington small business websites', 'custom coded websites in Arlington', and specific service keywords to dominate the I-20 and I-30 corridors.",
+    "analyticsBlurb": "We implement analytics and conversion tracking for Arlington businesses so you know which pages and channels drive leads. Clear data means better decisions without wasted spend.",
+    "growthTitle": "Arlington Business Growth Advantages",
+    "growthContent": "Arlington is central to the fastest-growing metro in the U.S., adding 170k residents in a year. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market (Source: <a href='https://www.arlingtontx.gov/city_hall/departments/economic_development' target='_blank' rel='noopener'>Arlington Economic Development</a>).",
+    "demographicsTitle": "Arlington’s Diverse & Young Demographics",
+    "demographicsContent": "With a median age of 33.6 and a rich multicultural population, Arlington's audience is tech-savvy and mobile-dependent. We design for this reality—delivering mobile-first experiences that feel native on every device.",
+    "tourismTitle": "Tourism & Search Volume Influence",
+    "tourismContent": "Home to AT&T Stadium and Six Flags, Arlington sees 15.6 million visitors annually. High-performing websites are essential to capturing tourist search traffic looking for local services, restaurants, and retail (Source: <a href='https://www.arlington.org/' target='_blank' rel='noopener'>Arlington Chamber</a>).",
+    "speedTitle": "Why Fast Websites Matter in Arlington",
+    "speedContent": "In a city where population growth meets high competition, speed is your differentiator. Our custom-coded sites load in under 1 second, giving you the edge over competitors relying on slow WordPress themes.",
+    "strategyTitle": "Content & SEO Strategy for Arlington Businesses",
+    "strategyContent": "We don't just build websites; we build rankings. By creating content silos and service-specific pages for Arlington, we establish your business as the local authority, driving consistent organic traffic.",
+    "faq": [
+        { "q": "Do you provide SEO services for Arlington businesses?", "a": "Yes. Our web design packages include foundational on-page SEO. We optimize your site structure, metadata, and content to rank for keywords like 'Arlington web design' and 'Arlington SEO services'." },
+        { "q": "Why is custom code better for Arlington small businesses?", "a": "Custom code eliminates the bloat of WordPress, ensuring your site loads instantly. This is crucial for Arlington's mobile-first users and improves your Google rankings." },
+        { "q": "Can you help me rank for keywords in Dallas and Fort Worth too?", "a": "Absolutely. Our local SEO strategy involves creating dedicated location pages for surrounding cities like Dallas, Fort Worth, Mansfield, and Grand Prairie to expand your reach." },
+        { "q": "How long does it take to build a website?", "a": "Most custom websites are launched within 2-4 weeks, depending on the complexity and content requirements." },
+        { "q": "Do you offer website maintenance?", "a": "Yes. Our $150/mo subscription includes unlimited updates, 24/7 support, and secure hosting, so you never have to worry about your website again." },
+        { "q": "Are your websites mobile-friendly?", "a": "Yes. We design mobile-first, ensuring your site looks and functions perfectly on all devices, which is essential for Arlington's younger demographic." }
+    ]
+  },
+  "fort-worth": {
+    "heroIntro": "Fort Worth is growing fast—and so is the competition. We build hand-coded, high-performance websites that rank for 'Fort Worth web design' and convert local traffic. If you need a web designer in Fort Worth, TX who understands DFW web design and small business needs, you're in the right place.",
+    "whyTitle": "Why Fort Worth Businesses Choose Custom Code",
+    "whyIntro": "Fort Worth passed 1,008,000 residents in 2024—now the 11th‑largest U.S. city, recently surpassing Austin. From 2023–2024 alone, Fort Worth added 23,442 residents (top‑5 growth nationally) and grew 9.7% since 2020, far outpacing Dallas at 1.7%. In a market this competitive, template sites aren’t enough. Our 100% hand‑coded approach eliminates bloat, boosts security, and gives your business the speed advantage on mobile.",
+    "servicesTitle": "Custom‑Coded Websites for Fort Worth Small Businesses",
+    "performanceTitle": "High-Performance Websites for a Fast-Growing Fort Worth Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "New residents bring big‑city expectations—and they search on mobile first. Our custom coded websites in Fort Worth deliver sub‑1s load times and near‑perfect PageSpeed scores so you win clicks and conversions. Faster pages improve engagement and organic rankings for terms like 'Fort Worth web design' and 'web designer in Fort Worth TX'.",
+    "marketingTitle": "SEO Services for Fort Worth, Texas Companies",
+    "seoBlurb": "Fort Worth SEO services work best when they mirror how the city searches. We build local landing pages for Downtown, the Cultural District, Stockyards, TCU, Alliance, Keller, Benbrook, and North Richland Hills—helping you appear where Fort Worth customers actually look.",
+    "analyticsBlurb": "Better Fort Worth landing pages deserve clear tracking. We set up conversion events and reporting so you can see which campaigns and pages earn the best ROI.",
+    "growthTitle": "Fort Worth’s Explosive Growth = More Customers… and More Competition",
+    "growthContent": "Fort Worth passed 1,008,000 residents in 2024 and added 23,442 people in a single year—making it one of the fastest‑growing large cities in America. It’s part of the only U.S. metro with two 1M+ cities (Dallas–Fort Worth). To keep up, your website must load instantly, build trust fast, and convert on mobile. Learn more from <a href='https://www.fortworthtexas.gov/departments/economic-development' target='_blank' rel='noopener'>Fort Worth Economic Development</a> and the <a href='https://www.fortworthchamber.com/' target='_blank' rel='noopener'>Fort Worth Chamber of Commerce</a>.",
+    "demographicsTitle": "A Small-Business City That Demands a Strong Website",
+    "demographicsContent": "99.6% of firms in the DFW metro are small businesses. Fort Worth also earned an A+ for small‑business friendliness and ranked #1 in Texas (top‑10 U.S.) for starting a business (WalletHub 2023); DFW led the nation in small‑business job growth in late 2024. Translation: nearly every niche has multiple competitors—your site must be faster and clearer than theirs.",
+    "tourismTitle": "Local SEO Opportunities Across Fort Worth Neighborhoods",
+    "tourismContent": "Target neighborhood intent across Downtown, the Cultural District, the Stockyards, TCU/Bluebonnet, Alliance, Keller, Benbrook, and NRH. We create location‑specific pages and content silos that help you rank for 'Fort Worth small business websites' and related queries citywide.",
+    "speedTitle": "Speed and Mobile Experience for Fort Worth Customers",
+    "speedContent": "Smartphones lead discovery in Fort Worth. Sub‑1 second load times and clean, semantic code help you rank and convert—especially when competing with high‑authority DFW sites.",
+    "strategyTitle": "Better Landing Pages for Fort Worth Campaigns",
+    "strategyContent": "High‑performing Fort Worth landing pages raise Quality Scores, reduce CPC, and turn 'Fort Worth [service]' clicks into real leads.",
+    "faq": [
+      { "q": "Why does my Fort Worth business need a custom‑coded website?", "a": "Custom code removes page‑builder bloat so your site loads almost instantly—vital in a fast‑growing market where visitors won’t wait for slow pages." },
+      { "q": "How can local SEO help my Fort Worth company stand out?", "a": "We build location‑specific content and service pages that match Fort Worth search behavior across Downtown, Cultural District, Stockyards, TCU, Alliance, Keller, and more." },
+      { "q": "What areas of Fort Worth do you serve?", "a": "All of Fort Worth and DFW, including Benbrook, Keller, North Richland Hills, and the Alliance corridor." },
+      { "q": "How fast will my new website load?", "a": "Our custom builds regularly achieve sub‑1s load times and near‑100 mobile PageSpeed scores when paired with optimized hosting." },
+      { "q": "Do you work with small service businesses in Fort Worth?", "a": "Yes. 99.6% of DFW firms are small businesses—we specialize in building fast, trustworthy websites that convert local traffic." }
+    ],
+    "ctaTitle": "Fort Worth Is Growing Fast—Is Your Website Keeping Up?",
+    "ctaText": "If your site isn't fast and modern, you're leaving customers on the table. Let's build a custom‑coded site ready for Fort Worth's next million residents."
+  },
+  "dallas": {
+    "heroIntro": "Stop losing Dallas customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Dallas web design' keywords, and convert local traffic into revenue. In a city with 65,000+ small businesses competing for attention, your website needs to be faster and sharper than the competition.",
+    "whyTitle": "Why Dallas Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Dallas is home to 1.3 million residents in an 8.3 million-person metro—the fastest-growing major metro in America, adding 177,000 people per year. With 65,000+ small businesses in Dallas alone and 23 Fortune 500 headquarters creating intense competition, template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Dallas's on-the-go audience.",
+    "servicesTitle": "Custom-Coded Websites for Dallas Small Businesses",
+    "performanceTitle": "High-Performance Websites for a Competitive Dallas Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Dallas's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Dallas TX' and 'Dallas website developer' searches. In a metro adding 487 people per day, your site must load instantly or you lose potential customers to competitors.",
+    "marketingTitle": "SEO Services for Dallas, Texas Companies",
+    "seoBlurb": "Dallas has 65,000+ small businesses—82% with fewer than 20 employees. You can't rank a homepage for everything. We build dedicated local landing pages targeting 'Dallas small business websites', 'custom coded websites in Dallas', and specific service keywords to dominate Downtown, Deep Ellum, Bishop Arts, and neighborhoods across the city.",
+    "analyticsBlurb": "Get immediate clarity on Dallas traffic: we wire up analytics and conversions to show which visitors turn into leads, so you can double down on what works.",
+    "growthTitle": "Dallas Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "The Dallas–Fort Worth metro has 8.3M+ people—more than 38 U.S. states. If DFW were a state, it would rank 13th in population. Dallas alone has 1.3 million residents, and the metro adds 177,000 new people per year (about 487 per day). Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "A City of Small Businesses and Startups",
+    "demographicsContent": "65,000+ small businesses operate in Dallas, and roughly 82% have fewer than 20 employees. DFW ranked #1 among major U.S. metros for small-business employment and earnings growth. Translation: nearly every niche has multiple competitors—your site must be faster and clearer than theirs. A slow, generic website makes you invisible in this environment.",
+    "tourismTitle": "Competing with Big Brands in Dallas Search Results",
+    "tourismContent": "Dallas hosts 23 Fortune 500 headquarters—the 4th-highest concentration in the U.S. Small businesses can still win local rankings with better SEO and performance. 97% of consumers search online to find local businesses, and 88% of local searches lead to a call or visit within 24 hours. Custom-coded, fast-loading sites give Dallas small businesses an edge over competitors' bloated, slow sites.",
+    "speedTitle": "Speed and Mobile Experience for Dallas Customers",
+    "speedContent": "In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded sites load in under 1 second, avoid plugin-heavy setups, and reduce security risks—giving Dallas businesses an edge over competitors relying on slow WordPress themes.",
+    "strategyTitle": "Local SEO for Dallas Neighborhoods",
+    "strategyContent": "Dallas neighborhoods—Downtown, Deep Ellum, Bishop Arts, Uptown, and more—have distinct search behavior. We create location-specific pages and content silos that help you rank for 'Dallas web design' and neighborhood-specific queries, establishing your business as the local authority.",
+    "faq": [
+      { "q": "Why does my Dallas business need a custom-coded website?", "a": "With 65,000+ small businesses in Dallas competing for attention, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load." },
+      { "q": "How can local SEO help my company stand out in Dallas?", "a": "We build location-specific content and service pages that match how Dallas searches. With 97% of consumers searching online for local businesses, targeted SEO helps you appear when Dallas customers need your services." },
+      { "q": "Do you only work with small businesses in Dallas?", "a": "Yes. We specialize in Dallas small businesses—82% of Dallas companies have fewer than 20 employees. Our custom-coded sites are built to compete with larger brands while staying affordable for small businesses." },
+      { "q": "How fast will my new Dallas website load?", "a": "Our custom builds regularly achieve sub-1s load times and near-100 mobile PageSpeed scores. This is essential in Dallas, where mobile performance directly impacts your ability to rank and convert." },
+      { "q": "Can you set up analytics for Dallas campaigns?", "a": "Yes. We implement tracking across Dallas campaigns and landing pages so you can see which audiences and offers convert before you add more budget." },
+      { "q": "What areas of Dallas do you serve?", "a": "We serve all of Dallas and the DFW metro, including Downtown, Deep Ellum, Bishop Arts, Uptown, and surrounding areas. Our local SEO strategy helps you rank across Dallas neighborhoods." }
+    ]
+  },
+  "austin": {
+    "heroIntro": "Stop losing Austin customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Austin web design' keywords, and convert local traffic. In a city with 42,000+ small businesses and thousands of new startups launching each year, your website needs to be faster and sharper than the competition.",
+    "whyTitle": "Why Austin Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Austin is approaching 1 million residents in a 2.47 million-person metro—the fastest-growing major city in America, adding 82,000+ people since 2022 with another 100,000 projected by 2026. Austin led the nation in tech job growth (40% from 2020–2022) and ranked #1 on the Milken 'Best-Performing Cities' list. With 42,000+ small businesses and over 7,000 new businesses created in 2024 alone, template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that matches Austin's tech-savvy expectations.",
+    "servicesTitle": "Custom-Coded Websites for Austin Small Businesses & Startups",
+    "performanceTitle": "High-Performance Websites for Austin's Tech-Driven Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Austin's tech-driven market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Many Austin areas have gigabit internet (Google Fiber), so users expect instant load times. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Austin TX' and 'Austin startup web design' searches. In a city where slow sites feel broken, Austin customers are less tolerant of clunky UX.",
+    "marketingTitle": "SEO Services for Austin, Texas Companies",
+    "seoBlurb": "Austin has 42,000+ small businesses and over 7,000 new businesses created in 2024. You can't rank a homepage for everything. We build dedicated local landing pages targeting 'Austin small business websites', 'custom coded websites in Austin', and specific service keywords to dominate Downtown, South Congress (SoCo), East Austin, The Domain, Westlake, Round Rock, and Cedar Park.",
+    "analyticsBlurb": "Austin markets move fast. We instrument analytics and conversion tracking so you can see which campaigns and pages convert during peaks like SXSW and ACL.",
+    "growthTitle": "Austin Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "The Austin–Round Rock metro reached 2.47 million residents in 2023—a 31% population increase from 2013–2023. Austin is approaching 1 million residents, and the metro added 82,000+ new people since early 2022, with another 100,000 projected by 2026. Austin ranked #1 on the Milken 'Best-Performing Cities' list and saw 14.3% GDP growth from 2021–2022. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "A City of Small Businesses and Startups",
+    "demographicsContent": "Austin has 42,000+ small businesses in the region. A 2025 USA Today study ranked Austin the #1 city in the U.S. to start a new business. Over 7,000 new businesses were created in 2024, with a business entry rate of 13.5%—one of the highest in the country. Around 13.2% of households report self-employment income. Translation: Austin's culture of entrepreneurship ('Keep Austin Weird') means thousands of new businesses every year and intense competition online. A cookie-cutter website won't stand out in a city full of creative, design-aware founders.",
+    "tourismTitle": "Competing in Austin's Crowded Local Search Landscape",
+    "tourismContent": "Local search in Austin is crowded because of the boom in small businesses and startups. Many top spots in Google are held by older, more established websites or national brands moving into Austin. Small businesses can still win local rankings with better SEO and performance. 97% of consumers search online to find local businesses, and 88% of local searches lead to a call or visit within 24 hours. Custom-coded, fast-loading sites give Austin small businesses an edge over competitors' bloated, slow sites.",
+    "speedTitle": "Speed and Mobile Experience for Austin's Tech-Savvy Customers",
+    "speedContent": "Austin's median metro age is about 35—younger, tech-savvy users who expect instant load times. Many areas have gigabit internet, so users expect instant load times. In this environment, a slow site feels broken. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded sites load in under 1 second, avoid plugin-heavy setups, and reduce security risks—giving Austin businesses an edge over competitors relying on slow WordPress themes.",
+    "strategyTitle": "Local SEO for Austin Neighborhoods",
+    "strategyContent": "Austin neighborhoods—Downtown, South Congress (SoCo), East Austin, The Domain, Westlake, Round Rock, Cedar Park—have distinct search behavior. We create location-specific pages and content silos targeting 'web designer in East Austin', 'best [service] South Austin', and neighborhood-specific queries. Effective Austin SEO involves location-specific content, neighborhood references, 'near me' optimization, Google Business Profile optimization, and local reviews from Austin customers.",
+    "faq": [
+      { "q": "Why does my Austin business need a custom-coded website?", "a": "With 42,000+ small businesses in Austin and over 7,000 new businesses created in 2024, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a city with gigabit internet where users expect instant performance." },
+      { "q": "How can SEO help me stand out in Austin's crowded market?", "a": "We build location-specific content and service pages that match how Austin searches. With 97% of consumers searching online for local businesses, targeted SEO helps you appear when Austin customers need your services, even in a market crowded with startups and established brands." },
+      { "q": "Do you work with Austin startups as well as established businesses?", "a": "Yes. We specialize in Austin startups and small businesses. Austin ranked #1 in the U.S. to start a new business, and our custom-coded sites are built to scale as startups grow, avoiding the security and performance issues of plugin-heavy WordPress setups." },
+      { "q": "How fast can you launch a new site for an Austin company?", "a": "Most custom websites are launched within 2-4 weeks, depending on complexity and content requirements. Our streamlined process ensures Austin businesses get online fast without sacrificing quality or performance." },
+      { "q": "Can you set up analytics for Austin campaigns?", "a": "Yes. We configure tracking across Downtown, SoCo, East Austin, Round Rock, and Cedar Park so you see which campaigns and landing pages convert—especially during spikes like SXSW and ACL." },
+      { "q": "What areas of Austin do you serve?", "a": "We serve all of Austin and the metro, including Downtown, South Congress (SoCo), East Austin, The Domain, Westlake, Round Rock, Cedar Park, and surrounding areas. Our local SEO strategy helps you rank across Austin neighborhoods." }
+    ]
+  },
+  "houston": {
+    "heroIntro": "Stop losing Houston customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Houston web design' keywords, and convert local traffic. In a city with 680,000+ small businesses across the metro and intense competition in every category, your website needs to be faster and sharper than the competition.",
+    "whyTitle": "Why Houston Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Houston is the 4th most populous U.S. city with 2.3 million residents in a 7.8 million-person metro—the second-fastest growing U.S. metro, adding 1.5+ million people from 2010–2023 and nearly 200,000 more in 2023–2024 alone. Houston is projected to overtake Chicago as the 3rd-largest U.S. city by around 2035. With 680,000+ small businesses across greater Houston generating $36 billion in revenue per year, template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Houston's diverse, on-the-go audience.",
+    "servicesTitle": "Custom-Coded Websites for Houston Small Businesses",
+    "performanceTitle": "High-Performance Websites for a Competitive Houston Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Houston's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Houston spans 650–670 square miles—larger than NYC, LA, or Chicago—and users often search on mobile while on the go. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Houston TX' and 'Houston website developer' searches. In a metro with over 2 million households relying heavily on Google to find local services, your site must load instantly or you lose potential customers to competitors.",
+    "marketingTitle": "SEO Services for Houston, Texas Companies",
+    "seoBlurb": "Houston has 680,000+ small businesses across greater Houston, with about 77,900 in Harris County alone having fewer than 10 employees. You can't rank a homepage for everything. We build dedicated local landing pages targeting 'Houston small business websites', 'custom coded websites in Houston', and specific service keywords to dominate Heights, Montrose, Downtown, Midtown, Galleria, Katy, Sugar Land, The Woodlands, Pearland, and neighborhoods across the sprawling metro.",
+    "analyticsBlurb": "Houston is competitive. We set up granular analytics and conversion tracking by suburb and ZIP so you can see which efforts lower cost per lead and cut waste in crowded markets.",
+    "growthTitle": "Houston Is Massive and Still Growing. Your Website Has to Keep Up.",
+    "growthContent": "Houston is the 4th most populous U.S. city with 2.3 million residents in a 7.8 million-person metro. From 2010–2023, the Houston metro added 1.5+ million residents—the second-fastest growing U.S. metro. From 2023–2024, Houston gained nearly 200,000 people, second only to the New York area. Houston is projected to overtake Chicago as the 3rd-largest U.S. city by around 2035. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "A City of Small Businesses in a Big Market",
+    "demographicsContent": "Houston has 23 Fortune 500 headquarters, but is still very much a small-business city. Across greater Houston, there are roughly 680,000 small businesses generating about $36 billion in revenue per year. Harris County has about 77,900 small businesses with fewer than 10 employees. Fort Bend County saw a 101% increase in small firms from 2010–2022, Montgomery County grew 60%+, and Harris County saw 22% growth—above national averages. Translation: virtually every niche in Houston is crowded with small competitors. You need a strong web presence to stand out in this 'small fish in a big pond' environment.",
+    "tourismTitle": "Competing in Houston's Intense Local Search Landscape",
+    "tourismContent": "Houston has intense competition across almost every category, from plumbers and restaurants to boutiques and law firms. The metro has over 2 million households, many relying heavily on Google to find local services. High-value keywords like 'Houston HVAC repair', 'Houston roofer', 'personal injury lawyer Houston' often have dozens of businesses competing for top positions. The #1 organic result gets ~27.6% of all clicks; second-page results get almost none. If you're not near the top for your core Houston keywords, you're missing most potential online traffic. Winning requires technical SEO, quality content, and strong local signals.",
+    "speedTitle": "Speed and Mobile Experience for Houston's Diverse Customers",
+    "speedContent": "Houston spans 650–670 square miles with more than 145 languages spoken locally. Users often search with neighborhood or suburb modifiers like 'Katy plumbing', 'Galleria area roofing', 'Sugar Land dentist'. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded sites load in under 1 second, avoid plugin-heavy setups, and reduce security risks—giving Houston businesses an edge over competitors relying on slow WordPress themes.",
+    "strategyTitle": "Neighborhood & Suburb-Focused SEO for Houston",
+    "strategyContent": "Houston's geography demands a neighborhood-focused approach. We create location-specific content for Heights, Montrose, Downtown, Midtown, Galleria, and nearby cities like Sugar Land, Pearland, The Woodlands, and Katy. We optimize Google Business Profile by service areas, use localized content and testimonials, and send strong relevance signals to Google. This helps you rank for neighborhood-specific searches like 'web designer in Katy TX' and 'best [service] Sugar Land'.",
+    "faq": [
+      { "q": "Why does my Houston business need a custom-coded website?", "a": "With 680,000+ small businesses across greater Houston competing for attention, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a sprawling metro where users search on mobile while on the go." },
+      { "q": "How can SEO help me stand out in Houston's crowded market?", "a": "We build location-specific content and service pages that match how Houston searches. With intense competition across every category, winning requires technical SEO, quality content, and strong local signals. The #1 organic result gets ~27.6% of all clicks—if you're not near the top, you're missing most potential traffic." },
+      { "q": "Do you work with businesses across the Houston metro and suburbs?", "a": "Yes. We serve all of Houston and the metro, including Heights, Montrose, Downtown, Midtown, Galleria, Katy, Sugar Land, The Woodlands, Pearland, Kingwood, and surrounding areas. Our neighborhood-focused SEO strategy helps you rank across Houston's sprawling geography." },
+      { "q": "Can you build landing pages and tracking for my Houston campaigns?", "a": "Yes. Houston is competitive, so we build fast, dedicated landing pages and configure conversion tracking to show which suburbs and offers lower your cost per lead." },
+      { "q": "How long does it take to launch a new website for my Houston company?", "a": "Most custom websites are launched within 2-4 weeks, depending on complexity and content requirements. Our streamlined process ensures Houston businesses get online fast without sacrificing quality or performance." },
+      { "q": "What makes your approach different for Houston businesses?", "a": "Houston spans 650–670 square miles with intense competition. We create neighborhood-specific content, optimize for suburb modifiers like 'Katy' and 'Sugar Land', and build fast, secure sites that convert expensive clicks into leads instead of bounces." }
+    ]
+  },
+  "san-antonio": {
+    "heroIntro": "Stop losing San Antonio customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'San Antonio web design' keywords, and convert local traffic. In a city with 35.6 million annual visitors and a fast-growing population, your website needs to be faster and sharper than the competition.",
+    "whyTitle": "Why San Antonio Companies Choose Custom Code Over Templates",
+    "whyIntro": "San Antonio is the 7th largest city in the U.S., gaining about 22,000 new residents from 2022–2023—the #1 numeric increase among large U.S. cities. The San Antonio–New Braunfels metro has 2.7 million people across 8 counties, with a metro economy reaching $193 billion in 2024. With Texas new business applications jumping from ~175k pre-2020 to 400k+ in 2023, template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures San Antonio's diverse, multicultural audience.",
+    "servicesTitle": "Custom-Coded Websites for San Antonio Small Businesses & Family-Owned Companies",
+    "performanceTitle": "High-Performance Websites for a Fast-Growing San Antonio Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in San Antonio's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Around 8 in 10 consumers search online for local businesses at least weekly, and over half of local searches happen on mobile. People downtown, at the River Walk, in Pearl, etc., are searching 'near me' on their phones. Our sub-second load times signal authority to Google, helping you rank for 'web designer in San Antonio TX' and 'San Antonio website developer' searches. Being in Google's Local 3-Pack can yield ~126% more traffic and 93% more customer actions than lower-ranked results.",
+    "marketingTitle": "SEO Services for San Antonio, Texas Businesses",
+    "seoBlurb": "San Antonio has a diverse economy spanning hospitality, military/defense, healthcare, finance, and construction. You can't rank a homepage for everything. We build dedicated local landing pages targeting 'San Antonio small business websites', 'custom coded websites in San Antonio', and specific service keywords to dominate Downtown, River Walk, Pearl, Southtown, Alamo Heights, Stone Oak, North Side, and surrounding areas like New Braunfels, Boerne, Schertz, Converse, and Helotes.",
+    "analyticsBlurb": "For San Antonio, we configure analytics and conversion tracking to reveal which offers and pages convert during tourism peaks and local events—no guessing where leads come from.",
+    "growthTitle": "San Antonio Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "San Antonio is the 7th largest city in the U.S., gaining about 22,000 new residents from 2022–2023—the #1 numeric increase among large U.S. cities (+1.5% in a single year). The San Antonio–New Braunfels metro has 2.7 million people across 8 counties, with a metro economy reaching $193 billion in 2024 and projected to approach $210 billion by 2026. Metro GDP grew 40% over the last decade, outpacing the U.S. average of 28%. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market (Source: <a href='https://www.visitsanantonio.com/' target='_blank' rel='noopener'>Visit San Antonio</a>).",
+    "demographicsTitle": "A City of Small Businesses and Family-Owned Companies",
+    "demographicsContent": "Around 34.11% of small businesses in the San Antonio metro are family-owned—the highest percentage in the U.S. (one of only three metros where >1/3 of businesses are family-run). Medium-sized enterprises employ over half of the city's workforce. The metro is full of mom-and-pop shops and local brands. Texas new business applications jumped from ~175k pre-2020 to 400k+ in 2023, with San Antonio riding that wave. Translation: authenticity and local story matter in San Antonio. Your sites emphasize local roots, family stories, reputation, and reviews to resonate with the 'small business USA' culture.",
+    "tourismTitle": "Competing in San Antonio's Diverse Economic Landscape",
+    "tourismContent": "San Antonio's economy spans hospitality & tourism (35.6 million visitors in 2023, ~$21.5B annual impact, <a href='https://www.visitsanantonio.com/' target='_blank' rel='noopener'>Visit San Antonio</a>), military & defense ('Military City, USA'), healthcare & bioscience, finance & professional services, and construction & manufacturing. With such a broad set of industries, you need tailored content structure, messaging, and schema for each niche—not one-size-fits-all templates. Roughly 46% of all Google searches have local intent, and with a swelling population plus tens of millions of tourists, a large share of these searches are in or around San Antonio.",
+    "speedTitle": "Speed and Mobile Experience for San Antonio's Diverse Customers",
+    "speedContent": "San Antonio is nearly 65% Hispanic, making bilingual content and culturally relevant design a competitive advantage. Locals and tourists alike won't wait on slow sites—especially in the heat. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded sites load in under 1 second, avoid plugin-heavy setups, and reduce security risks. We score 100/100 on Google Mobile PageSpeed, keeping users and Google happy.",
+    "strategyTitle": "Neighborhood & Metro Reach for San Antonio SEO",
+    "strategyContent": "San Antonio is sprawling, with key areas including Downtown, River Walk, Pearl, Southtown, Alamo Heights, Stone Oak, and North Side, plus surrounding areas like New Braunfels, Boerne, Schertz, Converse, and Helotes. We create location-specific landing pages targeting different parts of Greater San Antonio, using keywords that reflect actual search behavior (e.g., 'HVAC repair Stone Oak', 'plumber in Alamo Heights', 'best tacos near the River Walk'). We use local landmarks and seasonal behavior to guide content.",
+    "bilingualTitle": "Bilingual & Culturally Relevant Design for San Antonio",
+    "bilingualContent": "San Antonio is nearly 65% Hispanic, and many businesses benefit from bilingual content (English + Spanish) and culturally aware messaging. We can support multilingual sites or Spanish-focused SEO targeting if the audience calls for it. This can be a major differentiator against competitors with only English, generic content.",
+    "faq": [
+      { "q": "Why does my San Antonio business need a custom-coded website?", "a": "With San Antonio gaining 22,000+ new residents annually and Texas new business applications jumping to 400k+ in 2023, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially with 35.6 million annual visitors searching on mobile." },
+      { "q": "How can local SEO help me get more customers in San Antonio?", "a": "Around 8 in 10 consumers search online for local businesses at least weekly, and roughly 46% of all Google searches have local intent. Being in Google's Local 3-Pack can yield ~126% more traffic and 93% more customer actions. We build location-specific content and service pages that match how San Antonio searches." },
+      { "q": "Do you work with family-owned and small businesses in San Antonio?", "a": "Yes. Around 34.11% of San Antonio businesses are family-owned—the highest percentage in the U.S. We specialize in building sites that emphasize local roots, family stories, and authentic messaging that resonates with San Antonio's 'small business USA' culture." },
+      { "q": "Can you help my San Antonio company with bilingual or Spanish-language SEO?", "a": "Yes. San Antonio is nearly 65% Hispanic, and many businesses benefit from bilingual content. We can support multilingual sites or Spanish-focused SEO targeting, which can be a major differentiator against competitors with only English content." },
+      { "q": "How fast will my new San Antonio website load?", "a": "Our custom builds regularly achieve sub-1s load times and 100/100 mobile PageSpeed scores. This is essential in San Antonio, where locals and tourists won't wait on slow sites, especially in the heat." },
+      { "q": "What areas of San Antonio do you serve?", "a": "We serve all of San Antonio and the metro, including Downtown, River Walk, Pearl, Southtown, Alamo Heights, Stone Oak, North Side, and surrounding areas like New Braunfels, Boerne, Schertz, Converse, and Helotes. Our neighborhood-focused SEO strategy helps you rank across Greater San Antonio." }
+    ]
+  },
+  "frisco": {
+    "heroIntro": "Stop losing Frisco customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Frisco web design' keywords, and convert local traffic. In a city with median household income around $140,000 and over 67% of adults holding bachelor's degrees, your website needs to meet high standards—fast, polished, and built to perform.",
+    "whyTitle": "Why Frisco Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Frisco's population grew over 500% since 2000, from about 33,000 to 240,000+ as of 2025, with recent annual growth rates close to 7%. Frisco has been ranked the #1 fastest-growing city in Texas and #3 in the U.S. (2024), meaning dozens of new businesses are launching and optimizing sites every year. With median household income around $140,000—nearly double the U.S. median—Frisco residents are affluent, discerning, and tech-savvy. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that meets Frisco's high standards.",
+    "servicesTitle": "Custom-Coded Websites for Frisco Small Businesses",
+    "performanceTitle": "High-Performance Websites for Frisco's Fast-Growing Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Frisco's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Frisco residents are affluent, educated, and tech-oriented—they'll immediately notice slow load times, outdated design, or clunky mobile experience. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Frisco TX' and 'Frisco website developer' searches. In a city used to high standards (schools, amenities, sports, neighborhoods), your website should meet that same standard.",
+    "marketingTitle": "SEO Services for Frisco, Texas Companies",
+    "seoBlurb": "Frisco is a distinct, highly competitive local market, not just 'a Dallas suburb.' Local businesses compete with each other and with nearby cities like Plano, Allen, and McKinney. We build dedicated local landing pages targeting 'Frisco small business websites', 'custom coded websites in Frisco', and specific service keywords to dominate Frisco Square, The Star, PGA area, and neighborhoods across the city.",
+    "analyticsBlurb": "Frisco campaigns need clarity. We implement analytics and conversion tracking tuned to local searches so you know which pages and offers actually convert.",
+    "growthTitle": "Frisco Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "Frisco's population grew over 500% since 2000, from about 33,000 to 240,000+ as of 2025, with recent annual growth rates close to 7%. As of 2021, Frisco was only ~75% built out, with substantial development still underway—the 'Frisco Effect.' Frisco has been ranked the #1 city for job growth among mid-sized U.S. cities and #1 fastest-growing city in Texas (<a href='https://www.friscoedc.com/' target='_blank' rel='noopener'>Frisco EDC</a>). Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "Affluent, Educated, and Tech-Savvy Customers",
+    "demographicsContent": "Frisco's median household income is around $140,000—nearly double the U.S. median. Over 67% of adults hold a bachelor's degree or higher, and about 34% of residents work from home. Frisco residents are affluent, discerning, and tech-savvy. They expect fast, high-quality digital experiences and judge businesses by their websites. A sluggish, generic template site can push away high-value customers; a premium, custom-coded site builds immediate trust. With many residents working from home and online all day, local businesses must be visible and impressive in search.",
+    "tourismTitle": "Competing in Frisco's Thriving Business Climate",
+    "tourismContent": "Frisco is known as 'Sports City USA,' home to five professional sports teams, the Dallas Cowboys' training center at The Star, and the new PGA of America headquarters. The city offers abundant shopping, dining, parks, and highly rated schools, earning accolades like Money Magazine's #1 Best Place to Live (2018) and #1 place to live for families in Texas (<a href='https://www.friscotexas.gov/' target='_blank' rel='noopener'>City of Frisco</a>). Frisco is a destination city within the DFW metro. Local businesses benefit from affluent, family-oriented customers but face stiff competition. A site that looks polished and performs well in search results is crucial to stand out.",
+    "speedTitle": "Speed and Mobile Experience for Frisco's Discerning Customers",
+    "speedContent": "Frisco residents are affluent, educated, and tech-oriented—they'll immediately notice slow load times, outdated design, or clunky mobile experience. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our hand-coded, lightweight sites often load in under 1 second, avoiding bloated themes and plugins that can hurt speed and stability. We give Google exactly what it wants (fast, mobile-first, structured, clean HTML), which supports higher rankings and better conversions.",
+    "strategyTitle": "Neighborhood & Regional Targeting for Frisco SEO",
+    "strategyContent": "Frisco residents and nearby customers search using local modifiers like 'web designer near Frisco Square', 'best [service] in Frisco', 'Prosper [service]', or '[service] in West Frisco.' We create location-specific content and landing pages for Frisco and nearby communities (Prosper, Little Elm, McKinney, Plano, etc., where relevant). We incorporate real local landmarks and phrases (Frisco Square, The Star, PGA area, etc.) and ensure your Google Business Profile and on-site content line up with how locals actually search.",
+    "faq": [
+      { "q": "Why does my Frisco business need a custom-coded website?", "a": "With Frisco's population growing over 500% since 2000 and dozens of new businesses launching every year, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a city where residents are affluent, educated, and tech-savvy." },
+      { "q": "How can SEO help me reach more customers in Frisco?", "a": "Frisco is a distinct, highly competitive local market. Dominating local search requires fast-loading, mobile-friendly code, clean site architecture, high-quality localized content, and strong local signals. We build location-specific pages targeting Frisco Square, The Star, PGA area, and neighborhoods across the city." },
+      { "q": "Do you work with Frisco startups as well as established businesses?", "a": "Yes. Frisco has been ranked #1 for job growth among mid-sized U.S. cities, with business count and startups surging. We specialize in building fast, scalable, custom-coded websites that help both startups and established businesses thrive in Frisco's competitive market." },
+      { "q": "How fast will my new Frisco website load?", "a": "Our hand-coded, lightweight sites often load in under 1 second. We avoid bloated themes and plugins, giving Google exactly what it wants—fast, mobile-first, structured, clean HTML. This is essential in Frisco, where residents expect high-quality digital experiences." },
+      { "q": "Can you help my Frisco business show up in local Google search and maps?", "a": "Yes. We create location-specific content and landing pages, incorporate real local landmarks (Frisco Square, The Star, PGA area), and ensure your Google Business Profile and on-site content align with how Frisco residents actually search. This helps you compete with nearby cities like Plano, Allen, and McKinney." },
+      { "q": "What makes your approach different for Frisco businesses?", "a": "Frisco residents are affluent, educated, and tech-savvy—they judge businesses by their websites. We build premium, custom-coded sites that meet Frisco's high standards. With 34% of residents working from home, your site must be visible and impressive in search to capture these high-value customers." }
+    ]
+  },
+  "irving": {
+    "heroIntro": "Stop losing Irving customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Irving web design' keywords, and convert local traffic. In a city with 8,500+ businesses, 10 Fortune 500 headquarters, and 3.4 million annual visitors, your website needs to meet corporate-level standards—fast, polished, and built to perform.",
+    "whyTitle": "Why Irving Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Irving is the 12th most populous city in Texas with roughly 258,000 residents, nicknamed 'The Corner Office of the Metroplex.' Las Colinas is known as the 'Headquarters of Headquarters,' with 10 Fortune 500 and 4 Fortune 1000 companies calling Irving home. Irving ranks #2 in North Texas (after Dallas) for number of corporate offices, with major employers including Citigroup, Verizon, Microsoft, and ExxonMobil. With Irving's corporate presence raising expectations for professionalism, WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that meets Irving's high standards.",
+    "servicesTitle": "Custom-Coded Websites for Irving Small Businesses",
+    "performanceTitle": "High-Performance Websites for Irving's Competitive Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Irving's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Irving's median age is ~32.8 years—a young, tech-savvy workforce and consumer base that expects modern, fast, mobile-friendly websites. Irving attracts 3.4 million visitors annually, spending $2.3B on local hotels, dining, and entertainment. These travelers search on mobile constantly. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Irving TX' and 'Irving website developer' searches. In a city where residents are used to polished, fast, high-quality digital experiences from corporate brands, your website should meet that same standard.",
+    "marketingTitle": "SEO Services for Irving, Texas Companies",
+    "seoBlurb": "Irving search results often include well-established DFW companies with authoritative, decade-old domains. To rank against these competitors, we build dedicated local landing pages targeting 'Irving small business websites', 'custom coded websites in Irving', and specific service keywords to dominate Las Colinas, Valley Ranch, Heritage District, South Irving, and the DFW Airport area.",
+    "analyticsBlurb": "Irving competition spans corporate and regional players. We configure analytics and conversion tracking for Irving, Las Colinas, Valley Ranch, Coppell, Grand Prairie, and the airport area to spotlight which pages and campaigns deliver the best cost per lead.",
+    "growthTitle": "Irving Is a Corporate Powerhouse. Your Website Has to Keep Up.",
+    "growthContent": "Irving supports 8,500+ businesses, from startups to enterprises, with growth that's modest but steady (~0.1% annually), contributing to the fast-growing DFW metro. Irving ranks #2 in North Texas (after Dallas) for number of corporate offices, with 10 Fortune 500 and 4 Fortune 1000 companies having headquarters here (<a href='https://www.irvingchamber.com/' target='_blank' rel='noopener'>Irving Chamber of Commerce</a>). Key sectors include finance, tech, logistics, healthcare, aviation, and manufacturing. Irving household income averages $106k+, with median around $80k—solid purchasing power. Your digital presence must compete with enterprise-level branding. We build websites that handle high traffic without breaking, ensuring you capture your share of Irving's corporate-driven market.",
+    "demographicsTitle": "A Young, Diverse, and Highly Digital City",
+    "demographicsContent": "Irving is one of America's most ethnically diverse cities for its size, with a median age of ~32.8 years—meaning a young, tech-savvy workforce and consumer base. Irving is youthful, diverse, and highly digital. Customers expect modern, fast, mobile-friendly websites, and businesses need to appeal to a multicultural, connected audience. A diverse population means multilingual/bilingual content can be an advantage. With Irving's corporate presence raising expectations for professionalism, a custom-coded, high-performance site is essential to compete with enterprise-level branding.",
+    "tourismTitle": "Competing in Irving's Corporate and Visitor Market",
+    "tourismContent": "Irving includes part of DFW International Airport, generating heavy travel searches. Irving attracts 3.4 million visitors annually, spending $2.3B on local hotels, dining, and entertainment. Big venues include Toyota Music Factory and Irving Convention Center at Las Colinas (100,000 sq ft) (<a href='https://www.lascolinas.org/' target='_blank' rel='noopener'>Las Colinas District</a>). Businesses must capture local + traveler search traffic. Irving consumers are young digital natives who search on mobile constantly. Distinct areas like Las Colinas, Valley Ranch, Heritage District, and South Irving each have distinct search behavior. We create location-specific content that helps you rank for both local and visitor searches.",
+    "speedTitle": "Speed and Mobile Experience for Irving's Tech-Savvy Customers",
+    "speedContent": "Irving's median age is ~32.8 years—a young, mobile-first audience that won't wait on slow sites. High diversity means multilingual support may help certain businesses. Slow websites lose visitors immediately. Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. Clean, hand-coded HTML provides better ranking signals and fewer security issues. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded approach avoids plugin-heavy setups, reducing security risks and improving reliability.",
+    "strategyTitle": "Local SEO for Irving Neighborhoods and Corporate Areas",
+    "strategyContent": "Irving's distinct areas—Las Colinas, Valley Ranch, Heritage District, South Irving—each have distinct search behavior. To rank against well-established DFW companies, small businesses need strong technical SEO, local keywords (e.g., 'Las Colinas dentist', 'Valley Ranch cafe'), clean semantic HTML, structured data (schema), Google Business Profile optimization, local backlinks, and fast page loads with good Core Web Vitals. We create location-specific content and landing pages targeting Irving neighborhoods and surrounding areas like Coppell and Grand Prairie.",
+    "faq": [
+      { "q": "Why does my Irving business need a custom-coded website?", "a": "With Irving's corporate presence (10 Fortune 500 HQs) raising expectations for professionalism, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a city where residents are used to polished, fast, high-quality digital experiences from corporate brands." },
+      { "q": "How can SEO help me compete in Irving's competitive market?", "a": "Irving search results often include well-established DFW companies with authoritative, decade-old domains. To rank against these competitors, we build strong technical SEO, local keywords for Las Colinas, Valley Ranch, Heritage District, and South Irving, clean semantic HTML, structured data, Google Business Profile optimization, and fast page loads with good Core Web Vitals." },
+      { "q": "Do you work with businesses in Las Colinas, Valley Ranch, and South Irving?", "a": "Yes. We serve all of Irving, including Las Colinas, Valley Ranch, Heritage District, South Irving, and surrounding areas like Coppell and Grand Prairie. We create location-specific content and landing pages targeting each area's distinct search behavior." },
+      { "q": "Can you help my Irving company track campaigns across DFW?", "a": "Yes. We set up analytics and conversion tracking for Irving, Las Colinas, Valley Ranch, Coppell, Grand Prairie, and the airport area so you can see which locations deliver the best cost per lead." },
+      { "q": "How fast will my new Irving website load?", "a": "Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. This is essential in Irving, where the median age is ~32.8 years—a young, mobile-first audience that expects instant load times and won't wait on slow sites." },
+      { "q": "What makes your approach different for Irving businesses?", "a": "Irving is nicknamed 'The Corner Office of the Metroplex' with Las Colinas known as the 'Headquarters of Headquarters.' We build custom-coded, high-performance sites that compete with enterprise-level branding. With 3.4 million annual visitors and a young, diverse, tech-savvy population, your site must capture both local and traveler search traffic." }
+    ]
+  },
+  "grand-prairie": {
+    "heroIntro": "Stop losing Grand Prairie customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Grand Prairie web design' keywords, and convert local traffic. In a city with ~207,000 residents, strong middle-class spending power, and a thriving entrepreneurial ecosystem, your website needs to be fast, professional, and built to perform.",
+    "whyTitle": "Why Grand Prairie Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Grand Prairie is the 16th most populous city in Texas with ~207,000 residents, growing about 7% since 2020 and projected to surpass 210,000 by 2025. Grand Prairie was ranked #1 'Most Dynamic Small City' in America (2019) and #11 in the U.S. for Hispanic entrepreneurs. With major employers like Lockheed Martin (5,000+ jobs) and Grand Prairie ISD (~3,800 jobs), plus numerous aerospace, manufacturing, and logistics firms, Grand Prairie supports both big employers and a thriving entrepreneurial ecosystem. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Grand Prairie's young, diverse, dual-income community.",
+    "servicesTitle": "Custom-Coded Websites for Grand Prairie Small Businesses",
+    "performanceTitle": "High-Performance Websites for Grand Prairie's Growing Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Grand Prairie's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Grand Prairie's median age is around 33 years—a young, working-age population that's online constantly. Roughly 47% Hispanic/Latino, 24% Black, 20% White—very diverse, with dual-income households that judge businesses by their websites. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Grand Prairie TX' and 'Grand Prairie website developer' searches. In a city ranked #1 Safest City in the Dallas–Fort Worth area (WalletHub 2024) and frequently among the happiest cities in Texas, your website should match that same standard of quality.",
+    "marketingTitle": "SEO Services for Grand Prairie, Texas Companies",
+    "seoBlurb": "Grand Prairie's ~200k+ population, young demographics, and decent incomes generate lots of online search activity. Residents likely search 'near me' for home services, restaurants, professional services, and entertainment. We build dedicated local landing pages targeting 'Grand Prairie small business websites', 'custom coded websites in Grand Prairie', and specific service keywords to dominate Grand Prairie searches and attract customers from nearby cities like Arlington, Irving, and Mansfield.",
+    "analyticsBlurb": "We set up analytics and conversion tracking for Grand Prairie so you can see which local searches and pages drive leads—making it easy to fund what works.",
+    "growthTitle": "Grand Prairie Is Growing. Your Website Has to Keep Up.",
+    "growthContent": "Grand Prairie's population is ~207,000 (2024), making it the 16th most populous city in Texas, with growth of about 7% since 2020 and projected to surpass 210,000 by 2025. Grand Prairie was ranked #1 'Most Dynamic Small City' in America (2019), #11 in the U.S. for Hispanic entrepreneurs, and economic development efforts received a national Silver Award in 2024 (<a href='https://www.gptx.org/' target='_blank' rel='noopener'>City of Grand Prairie</a>). Median household income around $78–79k; fewer than 10% of families below the poverty line. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "A Diverse, Young, and Growing Community",
+    "demographicsContent": "Grand Prairie's median age is around 33 years—a young, working-age population. Roughly 47% Hispanic/Latino, 24% Black, 20% White—very diverse. Described as a '30-something, dual-income' community with both long-time residents and newcomers. Grand Prairie is a sizable, growing, and diverse city with an expanding customer base. Young, dual-income households are online constantly and judge businesses by their websites. Bilingual/culturally aware content can be an advantage for some businesses.",
+    "tourismTitle": "Quality of Life and Community Highlights",
+    "tourismContent": "Grand Prairie was ranked #1 Safest City in the Dallas–Fort Worth area (WalletHub 2024) and frequently ranked among the safest and happiest cities in Texas, with recent Top 5 'Happiest Cities' in the state. The city has an award-winning Parks, Arts & Recreation Department (named best in the nation in 2017 in its category), ~58 parks, Joe Pool Lake beaches, trails, and sports complexes. Attractions like Epic Waters Indoor Waterpark, ranked among the top indoor water parks in the U.S. (<a href='https://www.gptx.org/' target='_blank' rel='noopener'>City of Grand Prairie</a>). Stable, happy, safe communities drive strong local shopping and loyalty. People love where they live and are inclined to support local businesses—if they can find and trust them online.",
+    "speedTitle": "Speed and Mobile Experience for Grand Prairie's Young, Diverse Customers",
+    "speedContent": "Grand Prairie's median age is around 33 years—a young, working-age population that's online constantly. Roughly 47% Hispanic/Latino, making bilingual/culturally aware content an advantage for some businesses. Slow websites lose visitors immediately. Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. Clean, hand-coded HTML provides better ranking signals and fewer security issues. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded approach avoids plugin-heavy setups, reducing security risks and improving reliability.",
+    "strategyTitle": "Strategic Location and Regional Targeting",
+    "strategyContent": "Grand Prairie is centrally located between Dallas and Fort Worth—~12 miles west of Downtown Dallas and ~15 miles east of Downtown Fort Worth. DFW International Airport is just 5–10 minutes north of the city's border. Two major interstates, I-30 and I-20, run directly through Grand Prairie. Grand Prairie businesses can realistically serve customers across the whole DFW region. A well-optimized Grand Prairie page can also attract searches from nearby cities (Arlington, Irving, Mansfield, etc.). We use location-specific wording and landing pages, mention known corridors and landmarks (I-30, I-20, EpicCentral, DFW Airport proximity), and help businesses rank for both Grand Prairie searches and relevant metro-wide searches.",
+    "faq": [
+      { "q": "Why does my Grand Prairie business need a custom-coded website?", "a": "With Grand Prairie's population growing about 7% since 2020 and projected to surpass 210,000 by 2025, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a city with a young, working-age population that's online constantly." },
+      { "q": "How can SEO help me reach more customers in Grand Prairie and the DFW area?", "a": "Grand Prairie's ~200k+ population, young demographics, and decent incomes generate lots of online search activity. Effective Grand Prairie SEO means optimized Google Business Profile, localized content referencing Grand Prairie and its landmarks, fast mobile-optimized site code, and structured data. We build hand-coded sites that typically load in under 1 second, use clean architecture and semantic HTML, and focus on long-term authority." },
+      { "q": "Do you work with both small businesses and industrial companies in Grand Prairie?", "a": "Yes. Grand Prairie supports both big employers (Lockheed Martin, Grand Prairie ISD, Poly-America) and a thriving entrepreneurial ecosystem. We serve businesses across all sectors, from small local shops to aerospace, manufacturing, and logistics firms in the Great Southwest Industrial District." },
+      { "q": "How fast will my new Grand Prairie website load?", "a": "Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. This is essential in Grand Prairie, where the median age is around 33 years—a young, working-age population that expects instant load times and won't wait on slow sites." },
+      { "q": "Can you help my Grand Prairie business show up on Google Maps and 'near me' searches?", "a": "Yes. We optimize Google Business Profile (reviews, NAP, hours, photos), create localized content referencing Grand Prairie and its landmarks (EpicCentral, Joe Pool Lake, parks), and build fast, mobile-optimized site code with structured data. This helps you rank for both Grand Prairie-specific searches and broader DFW regional searches." },
+      { "q": "What makes your approach different for Grand Prairie businesses?", "a": "Grand Prairie is centrally located between Dallas and Fort Worth, with DFW Airport just 5–10 minutes north. We build custom-coded, high-performance sites that help businesses serve customers across the whole DFW region. With Grand Prairie ranked #1 Safest City in DFW and frequently among the happiest cities in Texas, your site should match that same standard of quality." }
+    ]
+  },
+  "mansfield": {
+    "heroIntro": "Stop losing Mansfield customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Mansfield web design' keywords, and convert local traffic. In a city ranked #27 Best Place to Live in the U.S. (U.S. News & World Report 2025) with median household income around $117,000, your website needs to meet premium standards—fast, polished, and built to perform.",
+    "whyTitle": "Why Mansfield Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Mansfield's population has exploded from ~15,000 in 1980 to 83,000+ today, with 13.7% growth since 2020 and projections to nearly double to ~160,000 by 2040. Mansfield is one of North Texas' fastest-growing cities, with 2.4% annual growth in recent years. The city expects 4–8% annual growth in the number of businesses moving into the community over the next decade. With Mansfield ranked #27 Best Place to Live in the U.S. and #9 Best Place to Live in Texas (U.S. News & World Report 2025), WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that meets Mansfield's premium standards.",
+    "servicesTitle": "Custom-Coded Websites for Mansfield Small Businesses",
+    "performanceTitle": "High-Performance Websites for Mansfield's Fast-Growing Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Mansfield's competitive market. With 53% of visitors abandoning sites that take more than 3 seconds to load, mobile performance is critical. Mansfield's median household income is around $117,000—well above state and national averages. Residents are often busy, commuting (~28-minute average drive time) and value convenience. Mansfield consumers won't tolerate slow, confusing websites. Our sub-second load times signal authority to Google, helping you rank for 'web designer in Mansfield TX' and 'Mansfield website developer' searches. Premium service + premium website = aligned with Mansfield's expectations.",
+    "marketingTitle": "SEO Services for Mansfield, Texas Companies",
+    "seoBlurb": "Mansfield businesses compete not only with each other, but with those in Arlington, Fort Worth, Dallas, and nearby suburbs. Many Mansfield residents' searches pull results from across DFW, not just Mansfield. We build dedicated local landing pages targeting 'Mansfield small business websites', 'custom coded websites in Mansfield', and specific service keywords to dominate Mansfield searches and attract customers from nearby cities like Arlington, Midlothian, and Cedar Hill.",
+    "analyticsBlurb": "Mansfield businesses get clear reporting: we implement analytics and conversion tracking tuned to local searches so you know which pages convert.",
+    "growthTitle": "Mansfield Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "Mansfield's population has exploded from ~15,000 in 1980 to 83,000+ today, with 13.7% growth since 2020 and projections to nearly double to ~160,000 by 2040. Mansfield is one of North Texas' fastest-growing cities, with 2.4% annual growth in recent years. The city expects 4–8% annual growth in the number of businesses moving into the community over the next decade (<a href='https://www.mansfieldtexas.gov/' target='_blank' rel='noopener'>City of Mansfield</a>). The online market is growing fast; those who invest in SEO early can lock in top positions before competition intensifies. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "Affluent, Family-Oriented, and Forward-Looking",
+    "demographicsContent": "Mansfield's median household income is around $117,000—well above state and national averages, with approximately $364K median home value. Age profile: nearly one-third under 20, over half between 25 and 64 (families + working professionals). Mansfield is affluent, family-oriented, and full of working professionals. Locals have strong buying power and expect quality—in services and in online experience. A premium, fast, custom-coded website aligns with this 'top 30 in the country' standard.",
+    "tourismTitle": "Small-Town Feel with Big-City Access",
+    "tourismContent": "Mansfield is located ~12 miles south of Arlington, ~30 minutes from both Fort Worth and Dallas. The city covers 37 square miles, with 50% of land still undeveloped. Award-winning school district, historic downtown, and prize-winning park system. City leaders emphasize balancing rapid growth with hometown atmosphere (<a href='https://www.mansfieldtexas.gov/' target='_blank' rel='noopener'>City of Mansfield</a>). Mansfield businesses benefit from both a growing audience and strong local loyalty. Your content/design can lean into community roots, hometown service, and long-term relationships—this resonates with Mansfield's 'fast-growing but still tight-knit' identity.",
+    "speedTitle": "Speed and Mobile Experience for Mansfield's Busy Professionals",
+    "speedContent": "Mansfield's median income is 30–40% higher than U.S. median. Residents are often busy, commuting (~28-minute average drive time) and value convenience. Mansfield consumers won't tolerate slow, confusing websites. Our custom-coded approach delivers sub-1-second load times, perfect mobile responsiveness, and clean, intuitive layouts for quick decisions on the go. In 2024, about 96% of WordPress security vulnerabilities were due to plugins or themes, not WordPress core. Our custom-coded approach avoids plugin-heavy setups, reducing security risks and improving reliability.",
+    "strategyTitle": "Local SEO for Mansfield and Surrounding Communities",
+    "strategyContent": "Mansfield businesses compete not only with each other, but with those in Arlington, Fort Worth, Dallas, and nearby suburbs. Many Mansfield residents' searches pull results from across DFW, not just Mansfield. We build strong Mansfield-specific SEO signals, optimized Google Business Profiles, and localized service-area content (Mansfield + nearby cities). We intentionally include community-specific terms, events, and neighborhood references (Historic Downtown Mansfield, Broad Street, The Reserve, future entertainment district) in site content. This improves local SEO relevance and makes the site feel 'actually from here,' which boosts engagement and trust.",
+    "developmentTitle": "Major Developments & Forward-Looking Projects",
+    "developmentContent": "Mansfield is actively investing in its future. 'The Reserve' is a $1 billion mixed-use development on East Broad Street, including a riverwalk-style canal, new City Hall, hotels, and retail. Plans include an entertainment district with a pro soccer stadium, an innovation corridor to attract corporate offices and high-tech companies, and upgrades to downtown (e.g., redesigning Highway 287 through downtown for better traffic/walkability). Modern businesses here should match that forward-looking mindset with modern, high-performance websites. Referencing developments like The Reserve or the entertainment district can help local readers feel, 'They actually know Mansfield.'",
+    "faq": [
+      { "q": "Why does my Mansfield business need a custom-coded website?", "a": "With Mansfield's population projected to nearly double to ~160,000 by 2040 and 4–8% annual growth in businesses moving into the community, custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of visitors abandon sites that take more than 3 seconds to load, especially in a city where residents have strong buying power and expect quality." },
+      { "q": "How can SEO help me stand out against competitors in Arlington, Fort Worth, and Dallas?", "a": "Mansfield businesses compete not only with each other, but with those in Arlington, Fort Worth, Dallas, and nearby suburbs. We build strong Mansfield-specific SEO signals, optimized Google Business Profiles, localized service-area content, and on-page optimization with Mansfield-focused keywords. We build a structure that can rank for both Mansfield searches and regional 'near me' searches." },
+      { "q": "Do you work with Mansfield startups as well as established local businesses?", "a": "Yes. Mansfield expects 4–8% annual growth in the number of businesses moving into the community over the next decade. We specialize in building fast, scalable, custom-coded websites that help both startups and established businesses thrive in Mansfield's fast-growing market." },
+      { "q": "Can you help my Mansfield company show up for 'Mansfield, Arlington, and surrounding areas' searches?", "a": "Yes. We build localized service-area content (Mansfield + nearby cities like Arlington, Midlothian, Cedar Hill), intentionally include community-specific terms and neighborhood references (Historic Downtown Mansfield, Broad Street, The Reserve), and optimize for both Mansfield-specific searches and regional 'near me' searches." },
+      { "q": "How fast will my new Mansfield website load on mobile?", "a": "Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. This is essential in Mansfield, where residents are often busy, commuting (~28-minute average drive time) and value convenience. Mansfield consumers won't tolerate slow, confusing websites." },
+      { "q": "What makes your approach different for Mansfield businesses?", "a": "Mansfield is ranked #27 Best Place to Live in the U.S. and #9 Best Place to Live in Texas, with median household income around $117,000. We build premium, custom-coded sites that align with Mansfield's 'top 30 in the country' standard. With Mansfield actively investing in its future (The Reserve, entertainment district, innovation corridor), modern businesses should match that forward-looking mindset with modern, high-performance websites." }
+    ]
+  },
+  "memphis": {
+    "heroIntro": "Stop losing Memphis customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Memphis web design' keywords, and convert local traffic. In a city with 136,000+ small businesses, 43% Black-owned businesses (highest in the U.S.), and a $100+ billion regional economy, your website needs to be fast, professional, and built to perform.",
+    "whyTitle": "Why Memphis Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Memphis is the second-largest city in Tennessee with ~633,104 residents, and the Memphis metro has roughly 1.34 million people. Greater Memphis Gross Regional Product (GRP) surpassed $100 billion in 2023, with 5.8% growth from 2022 to 2023 and 32.3% cumulative GRP growth over five years. Memphis has 136,000+ small businesses (98.9% of all businesses), with small businesses employing about 41.3% of the workforce. Memphis is the only major U.S. city where women own more small businesses than men, and 43% of businesses in the city are Black-owned—the highest proportion in the U.S. With such a diverse, entrepreneurial economy, WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Memphis's diverse, community-rooted business culture.",
+    "servicesTitle": "Custom-Coded Websites for Memphis Small Businesses",
+    "performanceTitle": "High-Performance Websites for the Memphis Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Memphis's competitive market. Average mobile webpage load time is 8.6 seconds (2023), but we aim for under 1 second load times and 100/100 Google PageSpeed scores. Even 0.1 second improvement in mobile site speed can boost conversion rates by 8%+. With 57% of local searches happening on mobile devices, performance directly impacts revenue. Our custom-coded approach avoids bloated themes/plugins and focuses on lean, efficient code. This is especially important in Memphis where some users may be on inconsistent mobile networks—a light site still loads quickly. Google rewards fast sites via Core Web Vitals, leading to better rankings and more organic traffic. Faster pages = less bounce, more calls/forms, more booked work.",
+    "marketingTitle": "SEO Services for Memphis, Tennessee Companies",
+    "seoBlurb": "58% of businesses overall don't optimize for local search, and only about one-third have a local SEO strategy—huge opportunity. 8 out of 10 consumers search for local businesses online at least weekly. We build dedicated local landing pages targeting 'Memphis small business websites', 'custom coded websites in Memphis', and specific service keywords to dominate Downtown, Midtown, East Memphis, Whitehaven, and suburbs like Germantown, Collierville, Bartlett, and Cordova.",
+    "analyticsBlurb": "Memphis campaigns need proof, not guesses. We configure analytics and conversion tracking for neighborhood-level audiences so you can see which pages and outreach actually generate revenue.",
+    "growthTitle": "Memphis Has a Serious, Growing Regional Economy. Your Website Has to Keep Up.",
+    "growthContent": "Greater Memphis Gross Regional Product (GRP) surpassed $100 billion in 2023, with 5.8% growth from 2022 to 2023 (~$6B increase) and 32.3% cumulative GRP growth over five years, nearly tracking national GDP growth. Key industries include logistics (FedEx global hub), healthcare (St. Jude), manufacturing, and tourism (music & culture) (<a href='https://www.memphischamber.com/' target='_blank' rel='noopener'>Greater Memphis Chamber</a>). Memphis has a serious, growing regional economy. Local businesses need professional, high-performance websites to match that opportunity. A diverse economic base means your clients range from trades and restaurants to logistics, healthcare, and creative businesses.",
+    "demographicsTitle": "A City Powered by Local Entrepreneurs and Family Businesses",
+    "demographicsContent": "Memphis has 136,000+ small businesses (98.9% of all businesses), with ~17,300 small employer firms. Small businesses employ about 41.3% of the Memphis workforce. Memphis is the only major U.S. city where women own more small businesses than men (female-to-male ratio ~1.01:1), and 43% of businesses in the city are Black-owned—the highest proportion in the U.S. Memphis is deeply powered by local entrepreneurs and family businesses. Your ideal clients are scrappy, relationship-focused owners—and your sites reflect that with personal, community-rooted storytelling. We position our services as supportive of women-owned and Black-owned businesses, with inclusive, accessible design.",
+    "tourismTitle": "Cost of Living & Business Climate Advantages",
+    "tourismContent": "Memphis cost of living is about 10% lower than U.S. average, with housing costs ~14% below national norms. Tennessee has no personal state income tax on wages and is considered highly business-friendly, with low state debt and strong fiscal stability (<a href='https://www.memphismoves.com/' target='_blank' rel='noopener'>Memphis Moves</a>). Lower costs + favorable tax environment free up budget for growth investments (like a serious website and SEO). Memphis small businesses can stretch their marketing dollars further—which makes a high-ROI, performance-focused site especially attractive.",
+    "speedTitle": "Speed and Mobile Experience for Memphis's Diverse Customers",
+    "speedContent": "Average mobile webpage load time is 8.6 seconds (2023), but we aim for under 1 second load times and 100/100 Google PageSpeed scores. Even 0.1 second improvement in mobile site speed can boost conversion rates by 8%+. With 57% of local searches happening on mobile devices, performance is not just a 'nice to have'—it directly impacts revenue. Our custom-coded approach avoids bloated themes/plugins and focuses on lean, efficient code. This is especially important in Memphis where some users may be on inconsistent mobile networks—a light site still loads quickly.",
+    "strategyTitle": "Neighborhood & Suburb Targeting for Memphis SEO",
+    "strategyContent": "People search with neighborhood/local modifiers such as 'CPA in Downtown Memphis', 'boutique in Midtown', 'plumber Cordova TN.' Important areas include Downtown, Midtown, East Memphis, Whitehaven, and suburbs like Germantown, Collierville, Bartlett, and Cordova. We structure site content and metadata to reflect real search patterns, incorporate 'Memphis, TN' and neighborhood names naturally into headings, copy, and schema, and focus on ranking both within the Memphis city limits and across the broader metro. Businesses in the local 3-pack get 126% more traffic and 93% more calls/clicks than those ranked just below.",
+    "faq": [
+      { "q": "Why does my Memphis business need a custom-coded website?", "a": "With Memphis's $100+ billion regional economy and 136,000+ small businesses, custom code eliminates WordPress bloat so your site loads instantly. Average mobile webpage load time is 8.6 seconds, but we aim for under 1 second. This is crucial when 57% of local searches happen on mobile devices and even 0.1 second improvement in speed can boost conversion rates by 8%+." },
+      { "q": "How can SEO help me compete with established Memphis companies online?", "a": "58% of businesses overall don't optimize for local search, and only about one-third have a local SEO strategy—huge opportunity. With even a moderately strong SEO strategy, a Memphis business can leapfrog competitors. We build Memphis- and neighborhood-specific keywords, optimized on-page content and metadata, claimed and fully optimized Google Business Profile(s), and strong local signals (reviews, citations, local backlinks)." },
+      { "q": "Do you work with women-owned and Black-owned businesses in Memphis?", "a": "Yes. Memphis is the only major U.S. city where women own more small businesses than men, and 43% of businesses in the city are Black-owned—the highest proportion in the U.S. We position our services as supportive of women-owned and Black-owned businesses, with inclusive, accessible design and community-rooted storytelling." },
+      { "q": "How fast will my new Memphis website load on mobile?", "a": "Our sites typically load in under 1 second and score 100/100 on mobile PageSpeed. This is essential in Memphis, where average mobile webpage load time is 8.6 seconds and 57% of local searches happen on mobile devices. Our lean, efficient code loads quickly even on inconsistent mobile networks." },
+      { "q": "Can you help my Memphis business show up in Google's local 3-pack?", "a": "Yes. Businesses in the local 3-pack get 126% more traffic and 93% more calls/clicks than those ranked just below. We build Memphis- and neighborhood-specific keywords, optimize Google Business Profile(s), create strong local signals (reviews, citations, local backlinks), and structure content to rank for both Memphis city limits and broader metro searches." },
+      { "q": "What makes your approach different for Memphis businesses?", "a": "Memphis has 136,000+ small businesses, with 43% Black-owned (highest in the U.S.) and women owning more businesses than men. We build custom-coded, high-performance sites that support diverse, community-rooted businesses. With Memphis's cost of living 10% lower than U.S. average and favorable tax environment, small businesses can stretch their marketing dollars further—making our high-ROI, performance-focused sites especially attractive." }
+    ]
+  },
+  "nashville": {
+    "heroIntro": "Stop losing Nashville customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Nashville web design' keywords, and convert local traffic. In a city with 60,000+ businesses, ~16.1 million annual visitors, and rapid population growth, your website needs to be fast, professional, and built to perform.",
+    "whyTitle": "Why Nashville Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Nashville metro has ~2.1 million people, adding 136,000+ from 2020–2024 (+6.4% growth). Nashville-Davidson County gained 10,413 residents from 2023–2024 (~+1.4%), the biggest one-year jump in nearly a decade. The region ranked the 3rd fastest-growing headquarter market in the country. Nashville has 60,000+ businesses, with around 60% having fewer than 25 employees and ~99% being small or mid-sized. 89% of downtown Nashville merchants are local or regional brands, not national chains. With such rapid growth and intense competition, WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Nashville's creative, fast-moving business culture.",
+    "servicesTitle": "Custom-Coded Websites for Nashville Small Businesses",
+    "performanceTitle": "High-Performance Websites for a Growing Nashville Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Nashville's competitive market. 53% of mobile users abandon sites that take >3 seconds to load, and average mobile webpage load time is ~14 seconds on 4G. We build hand-coded sites that routinely load in under 1 second and hit 100/100 PageSpeed. This matters in Nashville, where many users browse on the go (downtown, events, commutes), the audience includes 120,000+ college students and a large population of young professionals—very tech-savvy and impatient with slow pages. Fast, stable, mobile-optimized sites keep users from bouncing, rank better thanks to Core Web Vitals, and make businesses feel premium and trustworthy.",
+    "marketingTitle": "SEO Services for Nashville, Tennessee Companies",
+    "seoBlurb": "46% of all Google searches seek local information ('near me', specific cities). 80% of consumers use local search weekly; 32% do so daily. Businesses in Google's local 3-pack (Map Pack) can see 126% more traffic and 93% more actions than those ranking 4–10. We build dedicated local landing pages targeting 'Nashville small business websites', 'custom coded websites in Nashville', and specific service keywords to dominate Downtown, Broadway, Music Row, East Nashville, Germantown, The Gulch, Green Hills, West End, Belle Meade, Antioch, and suburbs like Brentwood, Franklin, Hendersonville, and Murfreesboro.",
+    "analyticsBlurb": "Nashville businesses get clear attribution: we map conversion tracking across Downtown, East Nashville, Franklin, Brentwood, and beyond so you know which campaigns and pages earn new leads.",
+    "growthTitle": "Nashville Is Booming. Your Website Has to Keep Up.",
+    "growthContent": "Nashville metro has ~2.1 million people, adding 136,000+ from 2020–2024 (+6.4% growth). Nashville-Davidson County gained 10,413 residents from 2023–2024 (~+1.4%), the biggest one-year jump in nearly a decade. The region ranked the 3rd fastest-growing headquarter market in the country and is consistently listed among the 'Best Places to Live' in the U.S. (<a href='https://www.nashvillechamber.com/' target='_blank' rel='noopener'>Nashville Area Chamber of Commerce</a>). Rapid population and business growth means more potential customers and more competition. A strong web presence is essential to stand out as new residents and companies arrive.",
+    "demographicsTitle": "A Thriving Economy Powered by Small Businesses",
+    "demographicsContent": "Nashville has major sectors including music & entertainment, health care (~333,000 jobs, ~$68B annual economic impact), tourism & hospitality (106,000+ jobs, ~$19B impact), advanced manufacturing, and technology (ranked #10 nationwide for tech job growth). Unemployment around 2.7% (2022), and average household income recently jumped 10%+ to $112k+. Tennessee ranked 8th Best State for Business (2025). Nashville is a serious economic hub, not just 'Music City.' Both established corporations and fast-moving startups call Nashville home. Any business hoping to compete must project professionalism and credibility online.",
+    "tourismTitle": "Tourism, Newcomers & Constant New Audiences",
+    "tourismContent": "Nashville attracts ~16.1 million visitors annually, with tourism events including festivals, music, conferences, bachelor parties, sports, and universities. Between 2020–2024, ~72,000 people relocated from other U.S. states and ~38,000 from abroad. 630+ arts, culture, and humanities destinations in the metro (<a href='https://www.visitmusiccity.com/' target='_blank' rel='noopener'>Visit Music City</a>). Tourists Google everything: 'best hot chicken in Nashville', 'hotels near Broadway Nashville', 'Nashville live music tonight.' New residents search for 'best [service] in Nashville' as they settle in. Well-optimized websites + Google Business Profiles can capture a slice of this constant inflow of demand.",
+    "speedTitle": "Speed and Mobile Experience for Nashville's Tech-Savvy Audience",
+    "speedContent": "53% of mobile users abandon sites that take >3 seconds to load, and average mobile webpage load time is ~14 seconds on 4G. We build hand-coded sites that routinely load in under 1 second and hit 100/100 PageSpeed. This matters in Nashville, where many users browse on the go (downtown, events, commutes), the audience includes 120,000+ college students and a large population of young professionals—very tech-savvy and impatient with slow pages. Fast, stable, mobile-optimized sites keep users from bouncing, rank better thanks to Core Web Vitals, and make businesses feel premium and trustworthy.",
+    "strategyTitle": "Neighborhood & Suburb Targeting for Nashville SEO",
+    "strategyContent": "Nashville region has 10 counties and many suburbs: Brentwood, Franklin, Murfreesboro, Hendersonville, etc. Distinct areas include Downtown, Broadway, Music Row, East Nashville, Germantown, The Gulch, Green Hills, West End, Belle Meade, and Antioch. Different neighborhoods and suburbs have their own search patterns and demographics. We research actual local queries and tailor content, headings, and landing pages accordingly (e.g., 'web design in Franklin', 'Nashville SEO for restaurants in East Nashville'). We also ensure NAP + schema are accurate and localized. For queries like 'Nashville web design company', 'BBQ in East Nashville', 'music stores in Nashville', local SEO is critical.",
+    "faq": [
+      { "q": "Why does my Nashville business need a custom-coded website instead of a template?", "a": "With Nashville's rapid growth (136,000+ people added 2020–2024) and 60,000+ businesses competing for attention, custom code eliminates WordPress bloat so your site loads instantly. 53% of mobile users abandon sites that take >3 seconds to load, and average mobile webpage load time is ~14 seconds on 4G. We build sites that load in under 1 second—essential in a city with 120,000+ college students and young professionals who are very tech-savvy and impatient with slow pages." },
+      { "q": "How can SEO help me stand out among the 60,000+ businesses in Nashville?", "a": "46% of all Google searches seek local information, and 80% of consumers use local search weekly. Businesses in Google's local 3-pack can see 126% more traffic and 93% more actions than those ranking 4–10. We focus on technical SEO (fast, clean code), authoritative service-focused content, strong local signals (Google reviews, local links, citations), and Nashville-focused schema markup. Top results are often dominated by long-established local brands or big chains—our approach helps you compete." },
+      { "q": "Do you work with small, locally owned Nashville businesses and startups?", "a": "Yes. Around 60% of Nashville businesses have fewer than 25 employees, and ~99% are small or mid-sized. 89% of downtown Nashville merchants are local or regional brands, not national chains. Nashville is powered by small businesses and independent brands. We specialize in building distinctive, custom-coded, content-rich sites that serve as a major differentiator in a city where creativity is normal, not special." },
+      { "q": "How fast will my new Nashville website load on mobile?", "a": "Our sites routinely load in under 1 second and hit 100/100 PageSpeed. This is essential in Nashville, where average mobile webpage load time is ~14 seconds on 4G and 53% of mobile users abandon sites that take >3 seconds to load. With many users browsing on the go (downtown, events, commutes) and a tech-savvy audience, fast load times are critical for keeping users from bouncing." },
+      { "q": "Can you help my Nashville business appear in Google's local 3-Pack?", "a": "Yes. Businesses in the local 3-pack can see 126% more traffic and 93% more actions than those ranking 4–10. We build Nashville- and neighborhood-specific keywords, optimize Google Business Profiles, create strong local signals (reviews, citations, local backlinks), and structure content to rank for both Nashville city limits and broader metro searches. We research actual local queries and tailor content accordingly for different neighborhoods and suburbs." },
+      { "q": "What makes your approach different for Nashville businesses?", "a": "Nashville is ranked the 3rd fastest-growing headquarter market in the country, with ~16.1 million annual visitors and rapid population growth. We build custom-coded, high-performance sites that project professionalism and credibility online. With Nashville's diverse economy (music, health care, tourism, tech) and intense competition among 60,000+ businesses, a distinctive, custom-coded, content-rich site is a major differentiator in a city where creativity is normal, not special." }
+    ]
+  },
+  "knoxville": {
+    "heroIntro": "Stop losing Knoxville customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Knoxville web design' keywords, and convert local traffic. In a city with 40,000+ UT students, steady population growth, and Knoxville expected to be the #1 'move-to' city in the U.S. by 2026, your website needs to be fast, professional, and built to perform.",
+    "whyTitle": "Why Knoxville Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Knoxville is the 3rd-largest city in Tennessee with ~200,000 residents and a metro population of ~958,000 (nearly 1 million). Population growth around 0.9–1% annually, with migration projections showing Knoxville expected to be the #1 'move-to' city in the U.S. by 2026, with ~1.61 newcomers per 1 person leaving. Knox County issued 244 new business licenses in July 2023 alone, up 13% from the previous year. With such rapid growth and hundreds of new businesses launching each year, WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that captures Knoxville's young, tech-savvy, student-heavy population.",
+    "servicesTitle": "Custom-Coded Websites for Knoxville Small Businesses",
+    "performanceTitle": "High-Performance Websites for a Growing Knoxville Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Knoxville's competitive market. With 53% of mobile users abandoning sites that take >3 seconds to load, mobile performance is critical. Knoxville is home to the University of Tennessee's flagship campus, with 40,000+ students (Fall 2025) plus faculty and staff. Median age in Knoxville is about 33—a young, tech-savvy city with a heavy student and young professional presence. This demographic lives on smartphones and expects modern, mobile-friendly experiences. If a site is slow or clunky, you lose a big chunk of this audience instantly. We build hand-coded sites for speed, aiming for <1 second load times and 100/100 PageSpeed. A fast, responsive site keeps impatient users from bouncing, sends positive signals to search engines, and often wins customers immediately when a competitor's site feels slow or broken.",
+    "marketingTitle": "SEO Services for Knoxville, Tennessee Companies",
+    "seoBlurb": "Rising competition for local search due to hundreds of new businesses each year. Many established Knoxville companies and national chains already occupy prime search positions. We build dedicated local landing pages targeting 'Knoxville small business websites', 'custom coded websites in Knoxville', and specific service keywords to dominate Downtown Knoxville, Market Square, Old City, and neighborhoods and suburbs like Farragut, Oak Ridge, and Maryville.",
+    "analyticsBlurb": "Knoxville teams need to see what works. We set up conversion tracking for Downtown Knoxville, the UT campus area, and suburbs like Farragut, Oak Ridge, and Maryville so you can direct budget to proven pages and offers.",
+    "growthTitle": "Knoxville Is Growing. Your Website Has to Keep Up.",
+    "growthContent": "Knoxville is the 3rd-largest city in Tennessee with ~200,000 residents and a metro population of ~958,000 (nearly 1 million). Population growth around 0.9–1% annually, with migration projections showing Knoxville expected to be the #1 'move-to' city in the U.S. by 2026, with ~1.61 newcomers per 1 person leaving (<a href='https://www.knoxvillechamber.com/' target='_blank' rel='noopener'>Knoxville Chamber</a>). High inbound migration means lots of new residents actively searching for services online. A strong web presence and local SEO are critical to be discovered by those newcomers. Your digital presence must scale with this growth. We build websites that handle high traffic without breaking, ensuring you capture your share of the expanding market.",
+    "demographicsTitle": "A Young, Tech-Savvy City with University Influence",
+    "demographicsContent": "Knoxville is home to the University of Tennessee's flagship campus, with 40,000+ students (Fall 2025) plus faculty and staff. Median age in Knoxville is about 33—a young, tech-savvy city with a heavy student and young professional presence. Local economy supports 98,300 jobs, with top employment sectors including healthcare (~12.5k jobs), retail (~12.3k jobs), and hospitality/food & accommodation (~11.5k jobs). Knoxville MSA unemployment rate: 2.9% (March 2025) vs 4.2% U.S. average—strong local economy. This demographic lives on smartphones and expects modern, mobile-friendly experiences. A modern, fast site can quickly earn trust from UT students and younger professionals.",
+    "tourismTitle": "Vibrant Small-Business Scene and Rising Competition",
+    "tourismContent": "Knoxville has a vibrant, competitive small-business scene, especially in services. Knox County issued 244 new business licenses in July 2023 alone, up 13% from the previous year. Most new ventures are in services, construction, retail, and finance/real estate (<a href='https://www.utk.edu/' target='_blank' rel='noopener'>UT Knoxville</a>). New businesses are launching constantly, so online competition is heating up. Rising competition for local search due to hundreds of new businesses each year. Many established Knoxville companies and national chains already occupy prime search positions. To outrank them, your site needs excellent technical SEO, fast load times, strong Core Web Vitals, proper schema markup, and authoritative Knoxville-focused content.",
+    "speedTitle": "Mobile Performance for a Young, Student-Heavy Audience",
+    "speedContent": "Young, student-heavy population = mobile-first behavior. Google uses mobile-first indexing, so mobile performance is non-negotiable. We hand-code sites for speed, aiming for <1 second load times and 100/100 PageSpeed. Responsive layouts work flawlessly on phones and tablets. Clean code and optimized assets deliver strong Core Web Vitals. A fast, responsive site keeps impatient users from bouncing, sends positive signals to search engines (improving rankings), and often wins customers immediately when a competitor's site feels slow or broken.",
+    "strategyTitle": "Localized Keyword & Geography Strategy for Knoxville",
+    "strategyContent": "We optimize for core terms like '[Your service] in Knoxville' and 'best [service] Knoxville TN'. We research how people actually search across the Knoxville area and create or plan location-specific landing pages or sections to target Downtown Knoxville, Market Square, Old City, and neighborhoods and suburbs like Farragut, Oak Ridge, Maryville, Cedar Bluff, and Bearden. This helps dominate local search results across both Knoxville proper and the surrounding East Tennessee region. We showcase Knoxville roots and history, local landmarks like the Sunsphere, Market Square, Tennessee River, and neighborhoods—these touches help with local SEO keywords and build trust with visitors who recognize their city.",
+    "faq": [
+      { "q": "Why does my Knoxville business need a custom-coded website?", "a": "With Knoxville expected to be the #1 'move-to' city in the U.S. by 2026 and hundreds of new businesses launching each year (244 new business licenses in July 2023 alone, up 13%), custom code eliminates WordPress bloat so your site loads instantly. This is crucial when 53% of mobile users abandon sites that take >3 seconds to load, especially in a city with 40,000+ UT students and a young, tech-savvy population that lives on smartphones." },
+      { "q": "How can SEO help me stand out as more people move to Knoxville?", "a": "High inbound migration means lots of new residents actively searching for services online. Rising competition for local search due to hundreds of new businesses each year. We build long-term authority via white-hat SEO: structured content, local signals (reviews, local backlinks), accurate NAP + schema, and authoritative Knoxville-focused content. This helps you steadily climb Knoxville's search rankings even against older, established domains." },
+      { "q": "Do you work with new Knoxville startups as well as established local businesses?", "a": "Yes. Knox County issued 244 new business licenses in July 2023 alone, up 13% from the previous year. Most new ventures are in services, construction, retail, and finance/real estate. We specialize in building fast, scalable, custom-coded websites that help both startups and established businesses thrive in Knoxville's growing, competitive market." },
+      { "q": "Can you help my Knoxville company show up when people search 'near me' on Google?", "a": "Yes. In a city with lots of newcomers, Google Maps / Google Business Profile is crucial. We ensure complete and accurate NAP (Name, Address, Phone), up-to-date hours and categories, quality photos and occasional posts, and a strategy to generate steady local reviews. This increases visibility for 'near me' searches and map results, and combined with on-site SEO, improves chances of appearing in the local Map Pack (top 3)." },
+      { "q": "How fast will my new Knoxville website load on mobile?", "a": "Our sites load in under 1 second and hit 100/100 PageSpeed. This is essential in Knoxville, where 53% of mobile users abandon sites that take >3 seconds to load. With 40,000+ UT students and a young, tech-savvy population that lives on smartphones, fast load times are critical for keeping impatient users from bouncing." },
+      { "q": "What makes your approach different for Knoxville businesses?", "a": "Knoxville is expected to be the #1 'move-to' city in the U.S. by 2026, with ~1.61 newcomers per 1 person leaving. We build custom-coded, high-performance sites that showcase Knoxville roots and history, local landmarks (Sunsphere, Market Square, Tennessee River), and neighborhoods. This makes the site feel 'from Knoxville, for Knoxville' instead of generic, building trust with visitors and helping with local SEO keywords." }
+    ]
+  },
+  "chattanooga": {
+    "heroIntro": "Stop losing Chattanooga customers to slow, generic websites. We build 100% hand-coded sites that load instantly, rank for 'Chattanooga web design' keywords, and convert local traffic. In 'Gig City' with citywide 25-gigabit internet, rising incomes, and a thriving small-business ecosystem, your website needs to meet premium standards—fast, polished, and built to perform.",
+    "whyTitle": "Why Chattanooga Businesses Choose Custom Code Over Templates",
+    "whyIntro": "Chattanooga is the 'Scenic City' with ~193,800 residents and a metro population of ~585,000 (including parts of North Georgia). Growth rate ~1.2% annually, with ~6.3% total increase since 2020. Chattanooga was the first U.S. city with citywide 1-gig internet (EPB, 2010), and by 2022, EPB offers 25-gigabit internet citywide—'Gig City.' Over 99% of Tennessee businesses are small businesses (~664,000 small firms), and Chattanooga has a strong entrepreneurial ecosystem with a dedicated Office of Entrepreneurship. The city's 'renaissance' over the past decade has been driven by grassroots entrepreneurship and innovation. With such tech-forward infrastructure and expectations, WordPress-powered template sites won't cut it. WordPress powers 43% of the internet, but mass-produced page builders create bloated code that kills your rankings. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that matches Chattanooga's Gig City ethos.",
+    "servicesTitle": "Custom-Coded Websites for Chattanooga Small Businesses",
+    "performanceTitle": "High-Performance Websites for Chattanooga's Gig City Market",
+    "performanceSubtitle": "Why Speed Matters",
+    "performanceContent": "Speed isn't just technical; it's a revenue driver in Chattanooga's competitive market. With 53% of mobile users abandoning sites that take >3 seconds to load, mobile performance is critical. In 'Gig City' with citywide 25-gigabit internet, connectivity is not a bottleneck—residents and businesses have some of the fastest internet in the world. This means expectations for website speed are extremely high; a slow, bloated site stands out in a bad way. Our hand-coded, sub-1-second load-time sites and 100/100 PageSpeed scores are a perfect fit for Chattanooga's Gig City ethos. We position our builds as performance-tuned and tech-forward to match Chattanooga's brand.",
+    "marketingTitle": "SEO Services for Chattanooga, Tennessee Companies",
+    "seoBlurb": "Some top Google results in Chattanooga may be older local firms or larger agencies from cities like Nashville or Atlanta. Local relevance and trust can beat size. We build dedicated local landing pages targeting 'Chattanooga small business websites', 'custom coded websites in Chattanooga', and specific service keywords to dominate Downtown/Riverfront, Southside, Hixson, East Brainerd/Hamilton Place, Ooltewah, Collegedale, and neighboring areas like East Ridge and Ringgold, GA.",
+    "analyticsBlurb": "For Chattanooga, we implement analytics and conversion tracking tuned to local intent so you can see which pages convert and trim wasted spend.",
+    "growthTitle": "Chattanooga Is Growing. Your Website Has to Keep Up.",
+    "growthContent": "Chattanooga's population is ~193,800 (2025), with growth rate ~1.2% annually and ~6.3% total increase since 2020. Metro median household income: ~$75,000. Recent economic development: $1B+ in new capital investment and 700+ new jobs in the past year. Unemployment around 3.2% (2024), with average wage of new jobs announced: ~$60,000. Forbes has predicted Chattanooga to be a 'top city for job opportunities' (<a href='https://www.chattanoogachamber.com/' target='_blank' rel='noopener'>Chattanooga Chamber of Commerce</a>). The region is adding jobs and investment, attracting both workers and new businesses. This creates opportunity but also stiffer competition online. A professional, distinctive web presence is key to standing out as Chattanooga grows.",
+    "demographicsTitle": "A Thriving Small-Business Climate & Entrepreneurship",
+    "demographicsContent": "Over 99% of Tennessee businesses are small businesses (~664,000 small firms; 99.5% of all businesses). Chattanooga has a strong entrepreneurial ecosystem and a dedicated Office of Entrepreneurship to grow small business. The city's 'renaissance' over the past decade has been driven by grassroots entrepreneurship and innovation. Chattanooga has been highlighted as an 'ultimate destination for remote workers' (Travel + Leisure) and a vibrant startup hub (featured by Inc., Livability, etc.). Chattanooga business owners operate in a community that values local, home-grown success. Emphasizing your small-business identity, Chattanooga roots, and local testimonials on your site will resonate with this spirit. A modern, high-performance website aligns with the city's tech-forward, startup-friendly identity.",
+    "tourismTitle": "Gig City Tech Infrastructure & Expectations",
+    "tourismContent": "Chattanooga was the first U.S. city with citywide 1-gig internet (EPB, 2010). By 2015, the city offered community-wide 10-gig service. As of 2022, EPB offers 25-gigabit internet citywide (<a href='https://epb.com/' target='_blank' rel='noopener'>EPB</a>). In 'Gig City', connectivity is not a bottleneck—residents and businesses have some of the fastest internet in the world. Gig City broadband + rising incomes = a market that expects premium experiences. Locals are proud of Chattanooga's transformation and support community-engaged businesses. We emphasize performance metrics (sub-1s load, PageSpeed 100/100) to match Gig City expectations and position our services as modern, performance-pure, and rooted in Chattanooga's forward-looking identity.",
+    "speedTitle": "Speed, Quality & Local Pride in Gig City",
+    "speedContent": "In 'Gig City' with citywide 25-gigabit internet, expectations for website speed are extremely high. A slow, bloated site stands out in a bad way. Our hand-coded, sub-1-second load-time sites and 100/100 PageSpeed scores are a perfect fit for Chattanooga's Gig City ethos. We position our builds as performance-tuned and tech-forward to match Chattanooga's brand. Gig City broadband + rising incomes = a market that expects premium experiences. Locals are proud of Chattanooga's transformation and support community-engaged businesses.",
+    "strategyTitle": "Local Market & Neighborhood SEO Strategy",
+    "strategyContent": "Chattanooga is known as the 'Scenic City' and includes Downtown/Riverfront, Southside, Hixson (north), East Brainerd/Hamilton Place (retail hub), Ooltewah, Collegedale (fast-growing communities), and neighboring areas like East Ridge and Ringgold, GA. Locals often include place names in searches ('web design near Hamilton Place', 'SEO in Chattanooga', 'restaurant in Southside'). We optimize for 'Chattanooga, TN' plus neighborhood and regional keywords where appropriate. We create or plan location-targeted content or sections for 'serving clients from Downtown to Hixson, East Brainerd, Ooltewah, and beyond.' We reference local landmarks (Tennessee Aquarium, Walnut Street Bridge, Lookout Mountain, etc.) and include Chattanooga-focused testimonials to build local relevance and trust.",
+    "faq": [
+      { "q": "Why does my Chattanooga business need a custom-coded website instead of a template?", "a": "In 'Gig City' with citywide 25-gigabit internet, expectations for website speed are extremely high. A slow, bloated site stands out in a bad way. With Chattanooga's tech-forward infrastructure and rising incomes (~$61,000 median household income, up 5.8% from 2022), custom code eliminates WordPress bloat so your site loads instantly. Our hand-coded, sub-1-second load-time sites and 100/100 PageSpeed scores are a perfect fit for Chattanooga's Gig City ethos." },
+      { "q": "How can SEO help me stand out against larger agencies from Nashville or Atlanta?", "a": "Some top Google results in Chattanooga may be older local firms or larger agencies from cities like Nashville or Atlanta. Local relevance and trust can beat size, especially with Google Business Profile optimization, locally-focused content, local backlinks and citations (Chamber listings, local news, etc.), references to local landmarks (Tennessee Aquarium, Walnut Street Bridge, Lookout Mountain), and Chattanooga-focused testimonials. Our technical SEO (clean HTML, schema, speed), plus strategic local content, helps Chattanooga businesses rank above generic or out-of-market competitors." },
+      { "q": "Do you work with Chattanooga startups and small local businesses?", "a": "Yes. Over 99% of Tennessee businesses are small businesses, and Chattanooga has a strong entrepreneurial ecosystem with a dedicated Office of Entrepreneurship. The city's 'renaissance' over the past decade has been driven by grassroots entrepreneurship and innovation. Chattanooga has been highlighted as an 'ultimate destination for remote workers' and a vibrant startup hub. We specialize in building modern, high-performance websites that align with the city's tech-forward, startup-friendly identity." },
+      { "q": "How fast will my new Chattanooga website load in Gig City?", "a": "Our sites load in under 1 second and hit 100/100 PageSpeed. This is essential in Chattanooga, where EPB offers 25-gigabit internet citywide—'Gig City.' In a city with some of the fastest internet in the world, expectations for website speed are extremely high. Our hand-coded, sub-1-second load-time sites and 100/100 PageSpeed scores are a perfect fit for Chattanooga's Gig City ethos." },
+      { "q": "Can you help my Chattanooga business appear in local 'near me' searches on Google?", "a": "Yes. We optimize Google Business Profile with complete and accurate NAP (Name, Address, Phone), up-to-date hours and categories, quality photos and occasional posts, and a strategy to generate steady local reviews. We create location-targeted content for Downtown/Riverfront, Southside, Hixson, East Brainerd/Hamilton Place, Ooltewah, Collegedale, and neighboring areas. This increases visibility for 'near me' searches and map results, and combined with on-site SEO, improves chances of appearing in the local Map Pack (top 3)." },
+      { "q": "What makes your approach different for Chattanooga businesses?", "a": "Chattanooga is 'Gig City' with citywide 25-gigabit internet—some of the fastest internet in the world. We build custom-coded, high-performance sites that match Chattanooga's tech-forward brand. With Chattanooga's strong entrepreneurial ecosystem, rising incomes, and community that values local, home-grown success, we emphasize performance metrics (sub-1s load, PageSpeed 100/100) and position our services as modern, performance-pure, and rooted in Chattanooga's forward-looking identity." }
+    ]
+  }
+} %}
+{% set copy = copyOverrides[city.slug] or {} %}
+
+<!-- SEO / Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "UI Compass - {{ city.name }} Web Design",
+  "url": "https://uicompass.com/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/",
+  "priceRange": "$150/mo",
+  "image": "https://uicompass.com/assets/images/logo-light.png",
+  "description": "Professional hand-coded web design and SEO services in {{ city.name }}, {{ city.state }}.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{ city.name }}",
+    "addressRegion": "{{ city.stateAbbr }}",
+    "addressCountry": "US"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "{{ city.name }}",
+    "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "{{ city.stateAbbr }}"
+    }
+  },
+  "servesLocation": "{{ city.name }}, {{ city.stateAbbr }}",
+  "knowsAbout": [
+    "{{ city.name }} Web Design",
+    "Custom Websites",
+    "SEO",
+    "Small Business Websites"{% if city.slug == 'san-antonio' %},
+    "Bilingual Web Design",
+    "Local SEO San Antonio"{% elif city.slug == 'frisco' %},
+    "Local SEO Frisco",
+    "Frisco Digital Marketing"{% elif city.slug == 'irving' %},
+    "Local SEO Irving",
+    "Irving Digital Marketing"{% elif city.slug == 'grand-prairie' %},
+    "Local SEO Grand Prairie",
+    "DFW Web Design"{% elif city.slug == 'mansfield' %},
+    "Local SEO Mansfield",
+    "DFW Web Design"{% elif city.slug == 'memphis' %},
+    "Memphis Digital Marketing",
+    "Local SEO Memphis"{% elif city.slug == 'nashville' %},
+    "Local SEO Nashville",
+    "Digital Marketing Nashville"{% elif city.slug == 'knoxville' %},
+    "Local SEO Knoxville",
+    "Digital Marketing Knoxville"{% elif city.slug == 'chattanooga' %},
+    "Local SEO Chattanooga",
+    "Gig City Web Design"{% elif city.slug == 'dallas' or city.slug == 'fort-worth' or city.slug == 'arlington' %},
+    "DFW Web Design"{% endif %}
+  ],
+  "serviceType": ["Web Design", "Custom-Coded Websites", "Local SEO", "Landing Page Design", "Analytics & Tracking", "Website Speed Optimization"],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61555680039337",
+    "https://www.instagram.com/uicompass/"
+  ]
+  {% if copy.faq %}
+  ,"mainEntity": [
+    {% for item in copy.faq %}
+    {
+      "@type": "Question",
+      "name": "{{ item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ item.a }}"
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+  {% endif %}
+}
+</script>
+
+
+<section id="hero-{{ city.slug }}" class="relative overflow-hidden" style="padding-top: clamp(8rem, 12vh, 10rem); padding-bottom: 0;">
+    <div class="container">
+        <div class="flex flex-col items-center text-center">
+            <p class="section-eyebrow">
+                Serving {{ city.name }}, {{ city.stateAbbr }} & {{ city.nearby }}
+            </p>
+            <h1 class="section-heading">
+                {{ city.name }} Web Design <br>
+                <span>For Small Businesses</span>
+            </h1>
+            <p class="section-subheading">
+                {{ copy.heroIntro or ("Most websites function like static digital brochures. We take a different approach. Through strategic design and sub-second load times, we build high-performance websites that actively generate leads. If your site takes more than 3 seconds to load, you lose nearly half your visitors. Our hand-coded sites load instantly, keeping potential customers engaged and ready to choose you over the competition.") }}
+            </p>
+            <div class="location-hero-buttons">
+                <a href="/services" class="link-underline-effect" style="font-weight: 600;">
+                    <span>View All Services</span>
+                    <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% include "curved-divider.html" %}
+{% include "starfield.html" %}
+</section>
+
+<section class="location-content-section relative">
+    <div class="container">
+        <div class="location-two-col align-start">
+            <div class="location-content-text">
+                <p class="section-eyebrow text-left">The Custom Advantage</p>
+                <h2 class="section-heading text-left">
+                    {{ copy.whyTitle or ("Why <span>Custom Code</span> Wins in " ~ city.name) | safe }}
+                </h2>
+                <p>
+                    {{ copy.whyIntro or ("WordPress powers 43% of the internet, which makes it incredibly difficult to stand out. But the issues go deeper than generic templates. Mass-produced page builders often come with bloated code that slows down your site. We take a different route: 100% hand-written code. This means zero bloat, enhanced security, and a mobile experience that feels instantaneous.") }}
+                </p>
+                <p style="margin-top: 1.5rem;">
+                    To truly compete in <strong>{{ city.name }}</strong>, you can't rely on the same tools as everyone else. You need a digital presence that is faster, sharper, and built to convert. That is exactly what we deliver.
+                </p>
+            </div>
+            <div class="location-content-text">
+                <ul class="location-feature-list">
+                    <li>
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Eliminate bloat: No unnecessary code slowing down your {{ city.name }} customers</span>
+                    </li>
+                    <li>
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Maximize security: No database or plugins means virtually zero attack surface</span>
+                    </li>
+                    <li>
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Set-it-and-forget-it: No constant security patches or plugin updates needed</span>
+                    </li>
+                    <li>
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Unmatched flexibility: We build exactly what {{ city.name }} businesses need</span>
+                    </li>
+                    <li>
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Search engine preferred: Clean, semantic code that helps you rank higher</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- New Services Grid Section -->
+<section class="location-services-section relative">
+    <div class="container">
+        <div class="text-center" style="margin-bottom: 3.5rem;">
+            <p class="section-eyebrow">Comprehensive Solutions</p>
+            <h2 class="section-heading">{{ copy.servicesTitle or ("Professional Web Design & Development <br><span>Services for " ~ city.name ~ ", " ~ city.stateAbbr ~ "</span>") | replace("Small Businesses", "<span>Small Businesses</span>") | replace("Family-Owned Companies", "<span>Family-Owned Companies</span>") | safe }}</h2>
+            <p class="section-subheading" style="max-width: 800px; margin: 1rem auto 0;">
+                We offer a full stack of digital services designed to help {{ city.name }} businesses grow. From design to rankings, we handle it all.
+            </p>
+        </div>
+        <div class="location-services-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <!-- 1. Mobile Design -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-device-mobile"></i></div>
+                <h3>Mobile-First Design for {{ city.name }}</h3>
+                <p>Since most customers find you on phones, we build for mobile first. Your site performs perfectly on every device, from the smallest phone to the largest tablet.</p>
+            </a>
+
+            <!-- 2. Responsive -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-monitor"></i></div>
+                <h3>Fully Responsive Layouts</h3>
+                <p>Unlike template sites that break on different screens, your website looks perfect across every possible device size used in {{ city.name }}.</p>
+            </a>
+
+            <!-- 3. Speed -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-lightning"></i></div>
+                <h3>Speed Optimization</h3>
+                <p>Every lost second costs you money. Our hand-coded approach ensures instant loading times that keep {{ city.name }} visitors on your site.</p>
+            </a>
+
+            <!-- 4. Local SEO -->
+            <a href="/services/seo/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-map-pin"></i></div>
+                <h3>{{ city.name }} Local SEO</h3>
+                <p>We create location-specific content and silos that help {{ city.name }} customers find you when searching for "near me" services.</p>
+            </a>
+
+            <!-- 5. Analytics & Tracking -->
+            <a href="/services/google-analytics/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-chart-line-up"></i></div>
+                <h3>Analytics & Tracking</h3>
+                <p>See which channels deliver results in {{ city.name }} with clean analytics, conversion tracking, and reports you can act on.</p>
+            </a>
+
+            <!-- 6. US Based -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-code"></i></div>
+                <h3>US-Based Development</h3>
+                <p>Work directly with developers who understand the {{ city.name }} market nuances - no overseas outsourcing.</p>
+            </a>
+
+            <!-- 7. Maintenance (New) -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-wrench"></i></div>
+                <h3>Website Maintenance</h3>
+                <p>We handle all updates and edits. Focus on running your {{ city.name }} business while we keep your digital presence polished.</p>
+            </a>
+
+            <!-- 8. Secure Hosting (New) -->
+            <a href="/services/web-design/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-shield-check"></i></div>
+                <h3>Secure Hosting</h3>
+                <p>Enterprise-grade security and hosting included. Rest easy knowing your {{ city.name }} customer data is safe.</p>
+            </a>
+
+            <!-- 9. Google Business Profile (New) -->
+            <a href="/services/seo/" class="location-service-card">
+                <div class="service-icon"><i class="ph ph-storefront"></i></div>
+                <h3>Google Business Profile</h3>
+                <p>We optimize your Maps listing to help you dominate the local "pack" results in {{ city.name }} and surrounding areas.</p>
+            </a>
+        </div>
+        <div class="text-center" style="margin-top: 3rem;">
+            <a href="/services/" class="btn btn-primary">Explore All Services</a>
+        </div>
+    </div>
+</section>
+
+<!-- Better Performance Section - 3 Col Layout -->
+<section class="location-performance-section relative">
+    <div class="container">
+        <div class="text-center mb-3rem">
+             <p class="section-eyebrow">Speed & Efficiency</p>
+             <h2 class="section-heading">
+                {{ copy.performanceTitle or ("Better Performance Means <br><span>Better Business</span>") | safe }}
+            </h2>
+        </div>
+        
+        <div class="three-col-feature">
+            <div class="feature-col">
+                <h3 class="feature-col-title">{{ copy.performanceSubtitle or "Why Speed Matters" }}</h3>
+                <p class="feature-col-text">
+                    {{ copy.performanceContent or ("Speed isn't just a technical metric; it's a revenue driver. If your site takes longer than 3 seconds to load, over 50% of visitors will leave before seeing your content. Our custom-coded approach ensures sub-second load times, keeping potential customers on your site rather than bouncing back to Google.") }}
+                </p>
+            </div>
+            
+            <div class="feature-col center-col relative">
+                 <div class="location-stats-box">
+                    <h3>Performance By The Numbers</h3>
+                    <div class="location-stats-grid">
+                        <div class="location-stat-item">
+                            <div class="location-stat-number">98+</div>
+                            <div class="location-stat-label">Mobile Score</div>
+                        </div>
+                        <div class="location-stat-item">
+                            <div class="location-stat-number">&lt;1s</div>
+                            <div class="location-stat-label">Load Time</div>
+                        </div>
+                        <div class="location-stat-item">
+                            <div class="location-stat-number">0</div>
+                            <div class="location-stat-label">Plugins</div>
+                        </div>
+                        <div class="location-stat-item">
+                            <div class="location-stat-number">100%</div>
+                            <div class="location-stat-label">Ownership</div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="feature-col">
+                {% if copy.speedTitle %}
+                <h3 class="feature-col-title">{{ copy.speedTitle | replace("Speed and Mobile Experience", "<span>Speed and Mobile Experience</span>") | replace("Speed, Quality", "<span>Speed, Quality</span>") | replace("Mobile Performance", "<span>Mobile Performance</span>") | safe }}</h3>
+                <p class="feature-col-text">
+                    {{ copy.speedContent }}
+                </p>
+                {% else %}
+                <p class="feature-col-text">
+                    This speed advantage does more than just please users—it's a critical ranking factor. Search engines prioritize fast, efficient sites. By eliminating the friction of slow loading times, you improve bounce rates, increase engagement, and signal to Google that your business is the authoritative choice in {{ city.name }}.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if copy.growthTitle %}
+<section class="location-content-section relative">
+    <div class="container">
+        <div class="text-center mb-3rem">
+            <p class="section-eyebrow">Local Market Insights</p>
+            <h2 class="section-heading">{{ copy.growthTitle | replace("Your Website Has to Keep Up", "<span>Your Website Has to Keep Up</span>") | replace("Is Booming", "<span>Is Booming</span>") | replace("Is Growing", "<span>Is Growing</span>") | safe }}</h2>
+        </div>
+        
+        <div class="insights-grid">
+             <!-- Card 1: Growth -->
+             <div class="insight-card">
+                <div class="insight-icon"><i class="ph ph-trend-up"></i></div>
+                <h3>Growth Potential</h3>
+                <p>{{ copy.growthContent | safe }}</p>
+             </div>
+
+             <!-- Card 2: Demographics -->
+             {% if copy.demographicsTitle %}
+             <div class="insight-card">
+                <div class="insight-icon"><i class="ph ph-users-three"></i></div>
+                <h3>{{ copy.demographicsTitle }}</h3>
+                <p>{{ copy.demographicsContent | safe }}</p>
+             </div>
+             {% endif %}
+
+             <!-- Card 3: Tourism/Strategy -->
+             {% if copy.tourismTitle %}
+             <div class="insight-card">
+                <div class="insight-icon"><i class="ph ph-airplane-tilt"></i></div>
+                <h3>{{ copy.tourismTitle }}</h3>
+                <p>{{ copy.tourismContent | safe }}</p>
+             </div>
+             {% elif copy.strategyTitle %}
+             <div class="insight-card">
+                <div class="insight-icon"><i class="ph ph-strategy"></i></div>
+                <h3>{{ copy.strategyTitle | replace("Local SEO", "<span>Local SEO</span>") | replace("Neighborhood", "<span>Neighborhood</span>") | replace("Regional Targeting", "<span>Regional Targeting</span>") | replace("SEO Strategy", "<span>SEO Strategy</span>") | safe }}</h3>
+                <p>{{ copy.strategyContent | safe }}</p>
+             </div>
+             {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if copy.developmentTitle %}
+<!-- Development Section -->
+<section class="location-content-section relative">
+    <div class="container">
+        <div class="location-two-col align-start">
+            <div class="location-content-text">
+                <p class="section-eyebrow text-left">Future-Focused</p>
+                <h2 class="section-heading text-left">
+                    {{ copy.developmentTitle | replace("Forward-Looking", "<span>Forward-Looking</span>") | replace("Major Developments", "<span>Major Developments</span>") | safe }}
+                </h2>
+                <p>
+                    {{ copy.developmentContent }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if copy.bilingualTitle %}
+<!-- Bilingual Section -->
+<section class="location-content-section relative">
+    <div class="container">
+        <div class="location-two-col align-start">
+            <div class="location-content-text">
+                <p class="section-eyebrow text-left">Cultural Relevance</p>
+                <h2 class="section-heading text-left">
+                    {{ copy.bilingualTitle | replace("Culturally Relevant", "<span>Culturally Relevant</span>") | replace("Bilingual", "<span>Bilingual</span>") | safe }}
+                </h2>
+                <p>
+                    {{ copy.bilingualContent }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- New Industries Section -->
+<section class="location-industries-section relative">
+    <div class="container">
+        <div class="location-two-col">
+            <div class="location-content-text">
+                <p class="section-eyebrow text-left">Sectors We Serve</p>
+                <h2 class="section-heading text-left">
+                    Custom Website Development <br><span>For Every {{ city.name }} Business</span>
+                </h2>
+                <p>
+                    Because we write every line of code ourselves, we can create any functionality your business needs. No limiting templates, no pre-built restrictions - just pure creative freedom to build exactly what works for your {{ city.name }} audience. Here are some of the local industries we serve:
+                </p>
+            </div>
+            <div class="industries-list-wrapper">
+                <ul class="industries-list">
+                    <li><i class="ph-fill ph-storefront"></i> Retail shops in {{ city.name }}</li>
+                    <li><i class="ph-fill ph-factory"></i> Local manufacturing</li>
+                    <li><i class="ph-fill ph-briefcase"></i> Professional services</li>
+                    <li><i class="ph-fill ph-coffee"></i> {{ city.name }} Restaurants</li>
+                    <li><i class="ph-fill ph-heartbeat"></i> Healthcare providers</li>
+                    <li><i class="ph-fill ph-hard-hat"></i> Construction & Trades</li>
+                    <li><i class="ph-fill ph-car"></i> Auto services</li>
+                    <li><i class="ph-fill ph-wrench"></i> Home Service Pros</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="marketing">
+    <div class="container">
+        <div class="text-center marketing-intro">
+            <p class="section-eyebrow">Digital Growth</p>
+            <h2 class="section-heading">
+                {{ copy.marketingTitle or ("Strategic Digital Marketing <br><span>for " ~ city.name ~ ", " ~ city.stateAbbr ~ "</span>") | safe }}
+            </h2>
+            <p class="section-subheading">
+                Forget the typical SEO buzzwords. We know exactly how to rank your site for your specific services in {{ city.name }} and beyond. It's not about plugins or basic optimization - it's about creating dedicated <a href="/services/seo/" class="link-underline-effect">service pages</a> and content silos that dominate the local market.
+            </p>
+        </div>
+
+        <div class="location-marketing-grid">
+            <!-- SEO -->
+            <div class="location-marketing-card">
+                <div class="location-marketing-icon-wrapper">
+                    <img src="/assets/svgs/stat2.svg" alt="SEO Icon" width="48" height="48" class="location-marketing-icon">
+                </div>
+                <h3>Local SEO Dominance</h3>
+                <p>
+                    {{ copy.seoBlurb or ("You can't rank a homepage for multiple services across multiple cities - that's not how Google works. Instead, we build out strategic content targeting specific keywords in specific locations. This comprehensive approach helps you systematically dominate local search results.") }}
+                </p>
+                <ul class="location-marketing-list">
+                    <li><span>•</span> Google Business Profile Optimization</li>
+                    <li><span>•</span> Local Keyword Research</li>
+                    <li><span>•</span> Content Strategy for {{ city.stateAbbr }} Markets</li>
+                </ul>
+            </div>
+
+            <!-- Performance Analytics -->
+            <div class="location-marketing-card accent-border">
+                <div class="location-marketing-icon-wrapper">
+                    <img src="/assets/svgs/stat3.svg" alt="Analytics Icon" width="48" height="48" class="location-marketing-icon">
+                </div>
+                <h3>Performance Analytics</h3>
+                <p>
+                    {{ copy.analyticsBlurb or ("Get clarity on what drives leads. We implement analytics and conversion tracking so you can see which channels, pages, and offers perform—no wasted spend, just data-backed decisions.") }}
+                </p>
+                <ul class="location-marketing-list">
+                    <li><span>•</span> Conversion Tracking</li>
+                    <li><span>•</span> Channel Attribution</li>
+                    <li><span>•</span> Actionable Reporting</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if copy.faq %}
+<section class="location-faq-section relative" style="padding-top: 0;">
+    <div class="container">
+        <div class="text-center" style="margin-bottom: 3rem;">
+            <p class="section-eyebrow">Common Questions</p>
+            <h2 class="section-heading">Frequently Asked Questions <br><span>About {{ city.name }} Web Design</span></h2>
+        </div>
+        <div class="faq-wrapper" style="max-width: 800px; margin: 0 auto; display: grid; gap: 1.5rem;">
+            {% for item in copy.faq %}
+            <div class="faq-item" style="background: var(--card); padding: 2rem; border-radius: 1rem; border: 1px solid var(--border);">
+                <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--foreground);">{{ item.q }}</h3>
+                <p style="color: var(--muted-foreground); margin: 0;">{{ item.a }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section id="pricing" class="relative overflow-hidden">
+    <div class="container relative z-10">
+        <div class="pricing-section-grid">
+            <div class="pricing-section-content">
+                <p class="section-eyebrow text-left">Accessible Pricing</p>
+                <h2 class="section-heading text-left">
+                    {{ city.name }} Websites Starting at <br>
+                    <span>$0 Down & $150/mo</span>
+                </h2>
+                <p class="pricing-section-description">
+                    We believe small businesses in {{ city.name }} deserve agency-quality design without the $5,000+ upfront price tag. Our subscription model keeps your cash flow healthy while giving you a premium online presence.
+                </p>
+                <a href="/contact/" class="btn btn-primary">Get Started Today</a>
+            </div>
+            <div class="pricing-container reveal-up">
+            <div class="pricing-details">
+                <span class="popular-badge">Our Signature Plan</span>
+                <h3>All-Inclusive Subscription</h3>
+                <p>Get a world-class website and peace of mind. We handle everything from design to lifetime updates.</p>
+                <ul class="pricing-features">
+                    <li class="pricing-feature"><i class="ph-fill ph-check-circle"></i> Custom Design & Development</li>
+                    <li class="pricing-feature"><i class="ph-fill ph-check-circle"></i> Unlimited Edits & Support</li>
+                    <li class="pricing-feature"><i class="ph-fill ph-check-circle"></i> Secure Hosting & Maintenance</li>
+                    <li class="pricing-feature"><i class="ph-fill ph-check-circle"></i> Lifetime Updates</li>
+                </ul>
+            </div>
+            <div class="pricing-price-box">
+                <div class="pricing-price">$150<span>/mo</span></div>
+                <div class="pricing-down">$0 Down Payment</div>
+                <a class="btn btn-primary" href="/contact/" style="margin-top: 1.5rem;">Get Started Today</a>
+            </div>
+            </div>
+        </div>
+        <p class="pricing-note reveal-up">Prefer to pay up-front? We offer a one-time payment option of $2,500 as well. <a href="/contact/" class="link-underline-effect" style="font-weight: 600;">Contact us</a> for details.</p>
+    </div>
+</section>
+
+<section class="location-links-section">
+    <div class="container text-center">
+        <h3>Explore More Locations in {{ city.state }}</h3>
+        <div class="location-links-wrapper">
+            {% for loc in locations[city.stateSlug].cities %}
+                <a href="/locations/{{ city.stateSlug }}/{{ loc.slug }}-web-design/" class="location-link-item">
+                    {{ loc.name }} Web Design
+                </a>
+                {% if not loop.last %}<span class="location-link-separator">•</span>{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+    <section id="cta-1693">
+        <div class="cs-wrapper">
+            <div class="cs-container">
+                <div class="cs-content">
+                    <h2 class="cs-title">Let's Build the Site You've Always Wanted</h2>
+                    <a href="/contact/" class="btn btn-primary">Get Started Today</a>
+                </div>
+            </div>
+            <div class="cs-lights-wrapper" aria-hidden="true">
+                <picture class="cs-lights">
+                    <source media="(max-width: 1023px)" srcset="/assets/svgs/lights-m.svg">
+                    <source media="(min-width: 1024px)" srcset="/assets/svgs/lights.svg">
+                    <img alt="graphic" aria-hidden="true" decoding="async" height="132" src="/assets/svgs/lights-m.svg" width="275" loading="lazy">
+                </picture>
+                <div class="cs-flare light1"></div>
+                <div class="cs-flare light2"></div>
+                <div class="cs-flare light3"></div>
+                <div class="cs-flare light4"></div>
+                <div class="cs-flare light5"></div>
+                <div class="cs-bulb cs-bulb1"></div>
+                <div class="cs-bulb cs-bulb2"></div>
+                <div class="cs-bulb cs-bulb3"></div>
+                <div class="cs-bulb cs-bulb4"></div>
+                <div class="cs-bulb cs-bulb5"></div>
+            </div>
+        </div>
+    </section>
+	<div class="cs-footer-swoosh-container">
+		<svg class="cs-footer-swoosh" viewBox="0 0 1920 254" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+			<path d="M1668.54 58.137c124.52 31.881 204.12 63.173 251.46 85.537V-4H0v254C356.508 169.957 717.072 91.544 986.268 43.36 1255.46-4.822 1443.9.623 1668.54 58.138Z" fill="currentColor"></path>
+		</svg>
+	</div>

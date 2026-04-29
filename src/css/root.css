@@ -97,30 +97,6 @@ body.dark-mode .pb-inline-color-body{color:var(--bodyTextColorWhite) !important}
 body.dark-mode .pb-inline-color-heading{color:var(--bodyTextColorWhite) !important}
 body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
 
-/* Mobile menu open: lock body scroll */
-body.cs-open{overflow:hidden}
-
-/* Hide nav top bar on scroll with a simple upward slide. */
-#cs-navigation .cs-top-bar{max-height:8rem;overflow:hidden;transition:max-height .3s ease}
-#cs-navigation .cs-top-container{transform:translateY(0);transition:transform .3s ease}
-body.scroll #cs-navigation .cs-top-bar,#cs-navigation.scroll .cs-top-bar{max-height:0}
-body.scroll #cs-navigation .cs-top-container,#cs-navigation.scroll .cs-top-container{transform:translateY(-100%)}
-
-/* Dark mode toggle button */
-#dark-mode-toggle{background:transparent;border:none;bottom:1rem;display:block;height:3rem;overflow:hidden;padding:0;position:absolute;right:5rem;width:3rem;z-index:1000}
-#dark-mode-toggle img,#dark-mode-toggle svg{height:1.25rem;left:50%;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);width:1.25rem}
-#dark-mode-toggle .cs-moon{transition:transform .3s,opacity .3s;z-index:2;fill:var(--headerColor)}
-#dark-mode-toggle .cs-sun{opacity:0;transform:translate(-50%,100%);transition:transform .3s,opacity .3s;z-index:1}
-body.dark-mode #dark-mode-toggle .cs-sun{opacity:1;transform:translate(-50%,-50%)}
-body.dark-mode #dark-mode-toggle .cs-moon{opacity:0;transform:translate(-50%,-150%);fill:#fff}
-@media only screen and (min-width:48rem){
-  #dark-mode-toggle{bottom:auto;margin-left:1rem;order:3;position:relative;right:auto}
-}
-@media only screen and (min-width:64rem){
-  #dark-mode-toggle{bottom:auto;margin:0;position:relative;right:auto;transform:none}
-  #dark-mode-toggle:hover{cursor:pointer}
-}
-
 .cs-topper{font-size:var(--topperFontSize);line-height:1.2em;text-transform:uppercase;text-align:inherit;letter-spacing:.1em;font-weight:700;color:var(--primary);margin-bottom:0.25rem;display:block}
 
 .cs-title{font-size:var(--headerFontSize);font-weight:900;line-height:1.2em;text-align:inherit;max-width:43.75rem;margin:0 0 1rem 0;color:var(--headerColor);position:relative}
@@ -152,6 +128,41 @@ body.dark-mode #dark-mode-toggle .cs-moon{opacity:0;transform:translate(-50%,-15
 .cs-form-success h3{font-size:clamp(1.25rem,3vw,1.75rem);font-weight:700;line-height:1.2em;margin:0 0 0.5rem;color:var(--primary)}
 .cs-form-success p{color:var(--bodyTextColor);margin:0;line-height:1.5em}
 .cs-form-error{color:#c0392b;font-size:.875rem;line-height:1.4em;margin:0.5rem 0 0;width:100%;text-align:center}
+
+/* Global footer chrome. */
+@media only screen and (min-width:0rem){
+  #cs-footer-309{background-color:var(--bodyTextColorWhite);padding:var(--sectionPadding)}
+  #cs-footer-309 .cs-container{align-items:flex-start;display:flex;flex-wrap:wrap;gap:2.5rem;justify-content:flex-start;margin:auto;max-width:43.75rem;width:100%}
+  #cs-footer-309 .cs-logo-group{position:relative;width:100%}
+  #cs-footer-309 .cs-logo{display:block;height:auto;margin-bottom:1.5rem;width:11.125rem}
+  #cs-footer-309 .cs-logo-img{height:auto;width:100%}
+  #cs-footer-309 .cs-logo-img.dark{display:none}
+  #cs-footer-309 .cs-nav{align-items:flex-start;display:flex;flex-direction:column;gap:.75rem;justify-content:center;margin:0;padding:0;width:100%}
+  #cs-footer-309 .cs-header{font-weight:700}
+  #cs-footer-309 .cs-nav-li{align-items:flex-start;display:flex;justify-content:flex-start;list-style:none}
+  #cs-footer-309 .cs-nav-link{color:var(--headerColor);display:inline-block;font-size:1rem;line-height:1.5em;position:relative;text-decoration:none;transition:color .3s}
+  #cs-footer-309 .cs-nav-link:before{background:currentColor;bottom:-.125rem;content:"";display:block;height:.125rem;left:0;opacity:1;position:absolute;transition:width .3s;width:0}
+  #cs-footer-309 .cs-nav-link:hover{color:var(--primary)}
+  #cs-footer-309 .cs-nav-link:hover:before{width:100%}
+  #cs-footer-309 .cs-icon{height:auto;margin-right:.75rem;width:1.5rem}
+  #cs-footer-309 .cs-bottom{align-items:center;border-top:1px solid #484848;display:flex;justify-content:center;margin:2rem auto auto;max-width:80rem;padding-top:1.5rem}
+  #cs-footer-309 .cs-copyright,#cs-footer-309 .cs-copyright-link{color:var(--headerColor);font-size:1rem;line-height:1.5em}
+  #cs-footer-309 .cs-copyright-link{text-decoration:none;transition:color .3s}
+  #cs-footer-309 .cs-copyright-link:hover{color:var(--primary)}
+  body.dark-mode #cs-footer-309{background:var(--medium)}
+  body.dark-mode #cs-footer-309 .cs-copyright,body.dark-mode #cs-footer-309 .cs-copyright-link,body.dark-mode #cs-footer-309 .cs-nav-link,body.dark-mode #cs-footer-309 .cs-text{color:var(--bodyTextColorWhite)}
+  body.dark-mode #cs-footer-309 .cs-icon{filter:brightness(1000%)}
+  body.dark-mode #cs-footer-309 .cs-bottom{border-top:1px solid rgba(255,255,255,0.10)}
+}
+@media only screen and (min-width:48rem){
+  #cs-footer-309 .cs-container{flex-direction:row;justify-content:space-between;row-gap:2.5rem}
+  #cs-footer-309 .cs-nav{width:auto}
+}
+@media only screen and (min-width:64rem){
+  #cs-footer-309 .cs-container{column-gap:5.25rem;flex-wrap:nowrap;justify-content:flex-end;max-width:80rem}
+  #cs-footer-309 .cs-logo-group{margin-right:auto;max-width:24.1875rem;width:30%}
+  #cs-footer-309 .cs-text{width:100%}
+}
 
 /* Reusable bottom contact CTA, adapted from Stitch 1392. */
 @media only screen and (min-width:0rem){

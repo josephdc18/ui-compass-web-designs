@@ -134,7 +134,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   #cs-footer-309{background-color:var(--bodyTextColorWhite);padding:var(--sectionPadding)}
   #cs-footer-309 .cs-container{align-items:flex-start;display:flex;flex-wrap:wrap;gap:2.5rem;justify-content:flex-start;margin:auto;max-width:43.75rem;width:100%}
   #cs-footer-309 .cs-logo-group{position:relative;width:100%}
-  #cs-footer-309 .cs-logo{display:block;height:auto;margin-bottom:.5rem;width:11.125rem}
+  #cs-footer-309 .cs-logo{display:block;height:auto;margin-bottom:.875rem;width:11.125rem}
   #cs-footer-309 .cs-logo .logo-slot{display:block}
   #cs-footer-309 .cs-logo-img{display:block;height:auto;width:100%}
   #cs-footer-309 .cs-logo-img.dark{display:none}

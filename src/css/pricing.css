@@ -24,6 +24,9 @@
   #pricing-1690 .cs-footnote{margin:-0.75rem 0 1.25rem;font-size:0.8125rem;color:var(--bodyTextColor);text-align:center;line-height:1.5;opacity:0.7}
   #pricing-1690 .cs-fineprint{margin:2rem auto 0;max-width:50rem;font-size:0.8125rem;color:var(--bodyTextColor);text-align:center;line-height:1.5;opacity:0.7;font-style:italic}
 }
+@media only screen and (max-width:63.96875rem){
+  #pricing-1690 .cs-item.cs-popular{order:-1}
+}
 @media only screen and (min-width:48rem){
   #pricing-1690 .cs-content{flex-direction:row;justify-content:space-between;align-items:flex-end;text-align:left}
   #pricing-1690 .cs-title{margin:0}

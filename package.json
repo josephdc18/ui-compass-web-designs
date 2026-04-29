@@ -5,7 +5,7 @@
   "scripts": {
     "start": "eleventy && wrangler pages dev public/",
     "build": "eleventy",
-    "dev": "eleventy --watch & wrangler pages dev public/",
+    "dev": "eleventy --watch & wrangler pages dev public/ --ip 0.0.0.0",
     "init": "node setup.js",
     "teardown": "node teardown.js"
   },

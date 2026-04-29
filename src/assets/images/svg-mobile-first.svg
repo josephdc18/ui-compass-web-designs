@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" role="img" aria-hidden="true">
+  <rect width="600" height="500" fill="#e6d9c7"/>
+  <g fill="#006940" opacity="0.1">
+    <circle cx="60" cy="70" r="4"/>
+    <circle cx="120" cy="110" r="4"/>
+    <circle cx="80" cy="170" r="4"/>
+    <circle cx="540" cy="80" r="4"/>
+    <circle cx="490" cy="140" r="4"/>
+    <circle cx="560" cy="200" r="4"/>
+    <circle cx="50" cy="430" r="4"/>
+    <circle cx="100" cy="470" r="4"/>
+    <circle cx="540" cy="420" r="4"/>
+    <circle cx="500" cy="380" r="4"/>
+  </g>
+  <g stroke="#006940" stroke-width="6" stroke-linecap="round" opacity="0.45">
+    <line x1="80" y1="200" x2="190" y2="200"/>
+    <line x1="50" y1="260" x2="200" y2="260"/>
+    <line x1="80" y1="320" x2="170" y2="320"/>
+  </g>
+  <g transform="translate(220 90) rotate(-8 130 160)">
+    <rect x="0" y="0" width="200" height="320" rx="22" fill="#262421"/>
+    <rect x="10" y="14" width="180" height="292" rx="14" fill="#faf7f4"/>
+    <rect x="80" y="20" width="40" height="6" rx="3" fill="#262421"/>
+    <rect x="22" y="42" width="80" height="10" rx="5" fill="#006940"/>
+    <rect x="22" y="62" width="156" height="70" rx="8" fill="#00bd74"/>
+    <rect x="32" y="78" width="60" height="6" rx="3" fill="#faf7f4"/>
+    <rect x="32" y="92" width="80" height="4" rx="2" fill="#faf7f4" opacity="0.85"/>
+    <rect x="32" y="102" width="50" height="4" rx="2" fill="#faf7f4" opacity="0.85"/>
+    <rect x="22" y="146" width="74" height="60" rx="6" fill="#e6d9c7"/>
+    <rect x="104" y="146" width="74" height="60" rx="6" fill="#e6d9c7"/>
+    <rect x="22" y="218" width="156" height="6" rx="3" fill="#262421" opacity="0.18"/>
+    <rect x="22" y="232" width="120" height="6" rx="3" fill="#262421" opacity="0.18"/>
+    <rect x="22" y="258" width="156" height="32" rx="16" fill="#006940"/>
+    <rect x="78" y="270" width="44" height="8" rx="4" fill="#faf7f4"/>
+  </g>
+  <g transform="translate(420 60)">
+    <circle cx="40" cy="40" r="40" fill="#006940"/>
+    <path d="M44 18 L26 44 L36 44 L32 62 L52 36 L42 36 Z" fill="#faf7f4"/>
+  </g>
+</svg>

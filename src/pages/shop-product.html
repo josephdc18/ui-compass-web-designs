@@ -5,6 +5,7 @@ pagination:
   size: 1
   alias: product
 permalink: "shop/{{ product.slug }}/"
+shop: true
 eleventyComputed:
   tagTitle: "{{ product.name }}"
   metaTitle: "{{ product.name }} | {{ client.name }}"

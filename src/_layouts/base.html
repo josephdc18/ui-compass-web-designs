@@ -45,7 +45,9 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-700.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-900.woff2" crossorigin>
 
-  <link rel="stylesheet" href="/css/root.css?v={{ build.hash }}">
+  <!-- root.css is inlined at build time to remove one render-blocking round-trip.
+       Defines design tokens + base typography; required for first paint on every page. -->
+  <style>{{ "/css/root.css" | cssInline | safe }}</style>
 
   {% if preloadImg %}
   <link rel="preload" as="image" href="{{ preloadImg }}" />
@@ -74,7 +76,9 @@
     {{ tagTitle }} | {{ client.name }}
     {% endif %}
   </title>
+  {% if shop %}
   <link rel="stylesheet" href="/css/shop.css?v={{ build.hash }}">
+  {% endif %}
   {% if not hideSiteChrome %}
   <!-- audit-fab.css is loaded async so it doesn't block first paint. The FAB
        has the `hidden` attribute in markup until JS reveals it after init. -->
@@ -188,9 +192,10 @@
   <script type="module" src="/assets/js/push.js?v={{ build.hash }}"></script>
   <script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
   <script defer src="/assets/js/article-actions.js?v={{ build.hash }}"></script>
+  {% if shop %}
   <script defer src="/assets/js/shop.js?v={{ build.hash }}"></script>
   <script defer src="/assets/js/checkout.js?v={{ build.hash }}"></script>
-  <!-- Cart Drawer (injected by shop feature) -->
+  <!-- Cart Drawer (only on shop pages) -->
   <div id="cart-overlay" class="cs-cart-overlay"></div>
   <div id="cart-drawer" class="cs-cart-drawer">
     <div class="cs-cart-drawer-header">
@@ -206,6 +211,7 @@
       <a href="/cart/" class="cs-button-solid" style="width:100%;text-align:center">View Cart</a>
     </div>
   </div>
+  {% endif %}
 
 </body>
 

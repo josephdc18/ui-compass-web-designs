@@ -180,6 +180,22 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData('i18nConfig', i18nConfig);
   eleventyConfig.addGlobalData('locales', locales);
 
+  /**
+   * Inline a CSS file's contents at build time so it can be dropped into a
+   * <style> block in the template, removing one render-blocking round-trip.
+   * Usage: <style>{{ "/css/root.css" | cssInline | safe }}</style>
+   * Path is resolved against ./src so the leading slash maps to the site root.
+   */
+  const cssInlineCache = {};
+  eleventyConfig.addFilter('cssInline', (cssPath) => {
+    if (cssInlineCache[cssPath]) return cssInlineCache[cssPath];
+    const rel = cssPath.replace(/^\//, '');
+    const full = path.join(__dirname, 'src', rel);
+    const content = fs.readFileSync(full, 'utf8');
+    cssInlineCache[cssPath] = content;
+    return content;
+  });
+
   return {
     dir: {
       input: 'src',

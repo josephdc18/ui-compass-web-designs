@@ -85,6 +85,7 @@ async function fetchVapidKey() {
             vapidPublicKey = data.key;
             return data.key;
         }
+        if (data.configured === false) return null;
     } catch (error) {
         console.error('[Push] Failed to fetch VAPID key:', error);
     }
@@ -389,13 +390,78 @@ export function createNotificationButton(container, options = {}) {
 }
 
 // ============================================================================
+// PWA-only footer notification toggle
+// ============================================================================
+
+/**
+ * Bind the footer notification button (rendered by _includes/footer.html as
+ * `[data-pwa-notify-toggle]`). The button is hidden by CSS unless body has
+ * `is-pwa`, which we add here once we confirm the page is running as a
+ * standalone PWA. Click toggles subscription via the existing push API.
+ */
+function applyPwaToggleState(button, state) {
+    button.dataset.state = state;
+    const label = button.querySelector('[data-pwa-notify-label]');
+    const text =
+        state === 'on' ? 'Notifications On' :
+        state === 'off' ? 'Enable Notifications' :
+        state === 'denied' ? 'Notifications Blocked' :
+        state === 'unsupported' ? 'Notifications Unsupported' :
+        'Loading…';
+    if (label) label.textContent = text;
+    button.setAttribute('aria-label', text);
+    button.disabled = state === 'loading' || state === 'denied' || state === 'unsupported';
+}
+
+function bindPwaNotifyToggle() {
+    const button = document.querySelector('[data-pwa-notify-toggle]');
+    if (!button) return;
+
+    if (!isStandalonePWA()) return; // CSS keeps it hidden; nothing to do.
+    document.body.classList.add('is-pwa');
+
+    if (!isPushSupported()) {
+        applyPwaToggleState(button, 'unsupported');
+        return;
+    }
+
+    if (Notification.permission === 'denied') {
+        applyPwaToggleState(button, 'denied');
+        return;
+    }
+
+    checkSubscription().then(({ subscribed }) => {
+        applyPwaToggleState(button, subscribed ? 'on' : 'off');
+    });
+
+    button.addEventListener('click', async () => {
+        if (button.disabled) return;
+        const goingOn = button.dataset.state !== 'on';
+        applyPwaToggleState(button, 'loading');
+        const result = goingOn ? await subscribeToPush() : await unsubscribeFromPush();
+        if (goingOn && !result.success && result.error === 'permission_denied') {
+            applyPwaToggleState(button, 'denied');
+            return;
+        }
+        if (!result.success) {
+            applyPwaToggleState(button, button.dataset.state === 'loading' ? 'off' : button.dataset.state);
+            return;
+        }
+        applyPwaToggleState(button, goingOn ? 'on' : 'off');
+    });
+}
+
+// ============================================================================
 // Auto-initialize when DOM is ready
 // ============================================================================
 
 if (typeof window !== 'undefined') {
+    const boot = () => {
+        initPush().then(() => bindPwaNotifyToggle());
+    };
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => initPush());
+        document.addEventListener('DOMContentLoaded', boot);
     } else {
-        initPush();
+        boot();
     }
 }

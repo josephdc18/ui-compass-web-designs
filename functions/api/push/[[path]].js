@@ -115,16 +115,18 @@ async function handleGetVapidKey(request, env) {
     if (!env.VAPID_PUBLIC_KEY) {
         return jsonResponse(
             {
+                configured: false,
+                key: null,
                 error: 'Push notifications not configured',
                 setup: 'Run: npx web-push generate-vapid-keys && wrangler secret put VAPID_PUBLIC_KEY',
             },
-            503,
+            200,
             request,
             env
         );
     }
 
-    return jsonResponse({ key: env.VAPID_PUBLIC_KEY }, 200, request, env);
+    return jsonResponse({ configured: true, key: env.VAPID_PUBLIC_KEY }, 200, request, env);
 }
 
 async function handleSubscribe(request, env) {

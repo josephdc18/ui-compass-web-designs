@@ -9,6 +9,7 @@
 import { preflight } from '../lib/preflight.js';
 import { isValidEmail, sanitizeString, checkRateLimit } from '../lib/security.js';
 import { sendEmail } from '../lib/email.js';
+import { broadcastPush } from '../scheduler/lib/push.js';
 import {
   INDUSTRY_WHITELIST,
   validateUrl,
@@ -54,6 +55,10 @@ function jsonResponse(data, status, request, env, extraHeaders) {
   });
 }
 
+function hasDatabase(env) {
+  return typeof env?.DB?.prepare === 'function';
+}
+
 // ----------------------------------------------------------------------------
 // Cleanup — runs at the start of every POST. Indexed by expires_at so it's cheap.
 // Deletes the R2 screenshot before the row to avoid orphans.
@@ -91,6 +96,11 @@ export async function onRequest(context) {
   }
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405, request, env);
+  }
+
+  if (!hasDatabase(env)) {
+    console.error('[PSI Audit] DB binding is not configured');
+    return jsonResponse({ error: 'Audit service is not configured' }, 503, request, env);
   }
 
   const pre = preflight(env, ['PSI_API_KEY', 'RESEND_API_KEY']);
@@ -160,7 +170,13 @@ export async function onRequest(context) {
     ];
 
     for (const lim of limits) {
-      const r = await checkRateLimit(env.DB, lim.key, lim.max, lim.window);
+      let r;
+      try {
+        r = await checkRateLimit(env.DB, lim.key, lim.max, lim.window);
+      } catch (err) {
+        console.error('[PSI Audit] rate limit check failed:', err);
+        return jsonResponse({ error: 'Audit service is not ready. Try again soon.' }, 503, request, env);
+      }
       if (!r.allowed) {
         const retryAfterSeconds = r.expiresAt ? Math.max(1, Math.ceil((new Date(r.expiresAt).getTime() - Date.now()) / 1000)) : lim.window * 60;
         return jsonResponse(
@@ -195,12 +211,31 @@ export async function onRequest(context) {
     jobId, targetUrl, targetHost, industry, email, ip, userAgent,
   }));
 
+  // Broadcast a push to anyone subscribed (Joseph + admins via the PWA-only
+  // footer toggle). Fires in parallel with runAudit so the response isn't held.
+  // VAPID not configured? broadcastPush no-ops gracefully — see scheduler/lib/push.js.
+  waitUntil(broadcastAuditPush(env, { email, host: targetHost, industry, jobId })
+    .catch(err => console.error('[PSI Audit] broadcastPush error:', err)));
+
   return jsonResponse(
     { jobId, pollUrl: '/api/psi-audit/' + jobId, estimatedSeconds: 25 },
     202,
     request,
     env
   );
+}
+
+async function broadcastAuditPush(env, { email, host, industry, jobId }) {
+  if (!env.VAPID_PUBLIC_KEY || !env.VAPID_PRIVATE_KEY) return; // not configured
+  return broadcastPush(env, {
+    title: 'New audit started',
+    body: email + ' just ran an audit on ' + host + ' (' + industry + ')',
+    icon: '/assets/favicons/android-chrome-192x192.png',
+    badge: '/assets/favicons/favicon-32x32.png',
+    tag: 'audit-' + jobId,
+    url: '/',
+    data: { type: 'audit', jobId, email, host, industry },
+  });
 }
 
 // ----------------------------------------------------------------------------

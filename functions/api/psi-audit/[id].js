@@ -40,6 +40,10 @@ function jsonResponse(data, status, request, env) {
   });
 }
 
+function hasDatabase(env) {
+  return typeof env?.DB?.prepare === 'function';
+}
+
 function progressHintFrom(secondsSinceStart, hasStarted) {
   if (!hasStarted) return 'queued';
   if (secondsSinceStart < 5) return 'fetching';
@@ -55,6 +59,11 @@ export async function onRequest(context) {
   }
   if (request.method !== 'GET') {
     return jsonResponse({ error: 'Method not allowed' }, 405, request, env);
+  }
+
+  if (!hasDatabase(env)) {
+    console.error('[PSI Poll] DB binding is not configured');
+    return jsonResponse({ error: 'Audit service is not configured' }, 503, request, env);
   }
 
   const jobId = params?.id;

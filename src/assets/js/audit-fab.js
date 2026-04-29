@@ -749,6 +749,14 @@
     }
 
     fab.addEventListener('click', openDialog);
+    // Inline triggers — any element with `data-audit-trigger` opens the dialog,
+    // so copy can read "Tap the Free Audit button" while also being the button.
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-audit-trigger]');
+      if (!trigger) return;
+      e.preventDefault();
+      openDialog();
+    });
     dialog.addEventListener('close', onDialogClose);
     dialog.addEventListener('click', onDialogClick);
 

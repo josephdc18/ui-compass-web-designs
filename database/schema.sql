@@ -470,3 +470,34 @@ CREATE TABLE IF NOT EXISTS delivery_packages (
   FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 CREATE INDEX IF NOT EXISTS idx_packages_client ON delivery_packages(client_id);
+
+
+-- =============================================================================
+-- PSI Audit Jobs
+-- =============================================================================
+-- Stores asynchronous PageSpeed Insights audit jobs spawned by /api/psi-audit.
+-- The POST handler inserts a 'pending' row and kicks off `runAudit` via
+-- ctx.waitUntil; the GET poll handler reads back status/result.
+-- expires_at = retention TTL (default 30 days). Polling validity (10 min) and
+-- stale-pending self-heal (75s) are enforced in the GET handler, not here.
+
+CREATE TABLE IF NOT EXISTS psi_audit_jobs (
+  id TEXT PRIMARY KEY,
+  status TEXT NOT NULL DEFAULT 'pending',
+  industry TEXT,
+  email TEXT,
+  url TEXT,
+  ip_address TEXT,
+  result_json TEXT,
+  error_code TEXT,
+  error_message TEXT,
+  screenshot_r2_key TEXT,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  locked_until TEXT,
+  created_at TEXT DEFAULT (datetime('now')),
+  started_at TEXT,
+  completed_at TEXT,
+  expires_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_psi_audit_jobs_expires       ON psi_audit_jobs(expires_at);
+CREATE INDEX IF NOT EXISTS idx_psi_audit_jobs_email_created ON psi_audit_jobs(email, created_at);

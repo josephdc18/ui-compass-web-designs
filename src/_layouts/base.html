@@ -75,6 +75,12 @@
     {% endif %}
   </title>
   <link rel="stylesheet" href="/css/shop.css?v={{ build.hash }}">
+  {% if not hideSiteChrome %}
+  <!-- audit-fab.css is loaded async so it doesn't block first paint. The FAB
+       has the `hidden` attribute in markup until JS reveals it after init. -->
+  <link rel="preload" href="/css/audit-fab.css?v={{ build.hash }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/css/audit-fab.css?v={{ build.hash }}"></noscript>
+  {% endif %}
 </head>
 
 <body>
@@ -91,6 +97,7 @@
 
   {% if not hideSiteChrome %}
   <script defer src="/assets/js/nav.js?v={{ build.hash }}"></script>
+  <script defer src="/assets/js/audit-fab.js?v={{ build.hash }}"></script>
   {% endif %}
   <script defer src="/assets/js/sections.js?v={{ build.hash }}"></script>
   <script defer src="/assets/js/site-effects.js?v={{ build.hash }}"></script>
@@ -123,6 +130,7 @@
   </script>
   {% endif %}
 
+  {% if not hideSiteChrome %}
   <div class="pb-go-top-progress" aria-hidden="true">
     <svg class="pb-progress-ring" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
       <circle class="pb-progress-ring-track" cx="18" cy="18" r="16" pathLength="1"></circle>
@@ -134,6 +142,8 @@
       </svg>
     </button>
   </div>
+  {% include "audit-fab.html" %}
+  {% endif %}
 
 
   <script>

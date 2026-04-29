@@ -93,10 +93,20 @@ crons = ["*/5 * * * *"]
 #   STRIPE_WEBHOOK_SECRET   - Stripe webhook signing secret for invoice payments
 
 # =============================================================================
+# PageSpeed Insights Audit
+# =============================================================================
+# Secrets (set via npx wrangler pages secret put):
+#   PSI_API_KEY         - Google PageSpeed Insights v5 API key
+#                         https://developers.google.com/speed/docs/insights/v5/get-started
+# Reuses RESEND_API_KEY, NOTIFICATION_EMAIL, EMAIL_FROM, SITE_URL.
+# Stores async jobs in D1 (psi_audit_jobs) and screenshots in R2 (audits/{id}.jpg).
+
+# =============================================================================
 # Media Files & Delivery Packages
 # =============================================================================
 # R2 Binding: MEDIA_BUCKET — stores uploaded media files and delivery ZIPs
 # Key format: media/{client_id}/{uuid}/{filename} and packages/{client_id}/{uuid}/{filename}.zip
+# Also stores PSI audit screenshots at audits/{jobId}.jpg.
 
 
 # R2 Storage Bucket (media file uploads)

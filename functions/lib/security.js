@@ -135,7 +135,10 @@ export function isValidEmail(email) {
 
 /**
  * Check rate limit using D1 rate_limits table.
- * @returns {{ allowed: boolean, remaining: number }}
+ * `expiresAt` is projected through strftime so JS can parse it as UTC reliably
+ * (SQLite's bare datetime() returns 'YYYY-MM-DD HH:MM:SS' which `new Date()`
+ * interprets as local time on most engines — that silently corrupts retry math).
+ * @returns {{ allowed: boolean, remaining: number, expiresAt: string|null }}
  */
 export async function checkRateLimit(db, key, maxCount, windowMinutes) {
   await db.prepare('DELETE FROM rate_limits WHERE expires_at < datetime(\'now\')').run();
@@ -157,8 +160,12 @@ export async function checkRateLimit(db, key, maxCount, windowMinutes) {
          ELSE rate_limits.expires_at
        END`
   ).bind(key, windowModifier, windowModifier).run();
-  const current = await db.prepare('SELECT count FROM rate_limits WHERE key = ?').bind(key).first();
+  const current = await db.prepare(
+    `SELECT count, strftime('%Y-%m-%dT%H:%M:%SZ', expires_at) AS expires_at_iso
+     FROM rate_limits WHERE key = ?`
+  ).bind(key).first();
   const currentCount = Number(current?.count || 0);
-  if (currentCount > maxCount) return { allowed: false, remaining: 0 };
-  return { allowed: true, remaining: Math.max(0, maxCount - currentCount) };
+  const expiresAt = current?.expires_at_iso || null;
+  if (currentCount > maxCount) return { allowed: false, remaining: 0, expiresAt };
+  return { allowed: true, remaining: Math.max(0, maxCount - currentCount), expiresAt };
 }

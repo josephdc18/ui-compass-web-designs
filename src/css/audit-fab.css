@@ -1,0 +1,1006 @@
+/* =================================================================
+   Real-time PageSpeed Audit — FAB + dialog
+   Vanilla HTML/CSS/JS, premium feel without a single dependency.
+   Tokens come from root.css; no hardcoded brand colors.
+   ================================================================= */
+
+/* ---- Local tokens ------------------------------------------------ */
+:root {
+  --audit-z-fab:     9998;
+  --audit-easing:    cubic-bezier(0.22, 1, 0.36, 1);
+  --audit-good:      #00bd74;
+  --audit-amber:     #f59e0b;
+  --audit-poor:      #ef4444;
+  --audit-grey:      #9ca3af;
+  --audit-panel-bg:  #ffffff;
+  --audit-panel-fg:  #262421;
+  --audit-muted:     #4e4b66;
+  --audit-faint:     #9ca3af;
+  --audit-border:    #eef0ee;
+  --audit-track:     rgba(0, 0, 0, 0.08);
+  --audit-shadow:    0 24px 60px -12px rgba(17, 24, 39, 0.25), 0 0 0 1px rgba(17, 24, 39, 0.06);
+  --audit-input-bg:  #faf7f4;
+}
+body.dark-mode {
+  --audit-panel-bg:  var(--medium);
+  --audit-panel-fg:  var(--bodyTextColorWhite);
+  --audit-muted:     rgba(250, 251, 252, 0.72);
+  --audit-faint:     rgba(250, 251, 252, 0.42);
+  --audit-border:    rgba(255, 255, 255, 0.08);
+  --audit-track:     rgba(255, 255, 255, 0.10);
+  --audit-shadow:    0 24px 60px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --audit-input-bg:  rgba(255, 255, 255, 0.04);
+}
+
+/* =================================================================
+   FAB
+   ================================================================= */
+.audit-fab {
+  position: fixed;
+  /* pb-go-top is 3rem wide at right:1rem. We're 3.75rem — shift right by half the
+     size diff so our centerline matches its centerline (else the right-edge
+     anchor makes them look misaligned). */
+  right: calc(1rem - (3.75rem - 3rem) / 2);
+  bottom: 4.5rem; /* sits above pb-go-top (3rem at bottom:1rem + 0.5rem gap) */
+  z-index: var(--audit-z-fab);
+
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: #ffffff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.22), transparent 60%),
+    linear-gradient(135deg, var(--primary) 0%, var(--primaryLight) 100%);
+  box-shadow:
+    0 0.75rem 1.5rem rgba(0, 105, 64, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  /* Mirror pb-go-top reveal: invisible at the top of the page, fade in once the
+     user scrolls. Removes the FAB from competing with the hero CTA on first paint
+     and lets audit-fab.css load async without FOUC.
+     `:where()` on the reveal selector keeps it at zero specificity so :hover /
+     :active still beat it cleanly without selector wars. */
+  --audit-fab-tx: 0px;
+  --audit-fab-ty: 0px;
+  transform: translate3d(var(--audit-fab-tx), calc(0.5rem + var(--audit-fab-ty)), 0) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 240ms var(--audit-easing),
+    opacity 240ms var(--audit-easing),
+    box-shadow 220ms var(--audit-easing);
+}
+:where(body.scroll) .audit-fab {
+  transform: translate3d(var(--audit-fab-tx), var(--audit-fab-ty), 0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+body.dark-mode .audit-fab {
+  box-shadow:
+    0 0.75rem 1.75rem rgba(0, 189, 116, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.audit-fab:hover {
+  transform: translate3d(var(--audit-fab-tx), calc(var(--audit-fab-ty) - 2px), 0) scale(1.03);
+  box-shadow:
+    0 1rem 2rem rgba(0, 105, 64, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.audit-fab:focus-visible {
+  outline: 3px solid var(--primaryLight);
+  outline-offset: 4px;
+}
+.audit-fab:active {
+  transform: translate3d(var(--audit-fab-tx), var(--audit-fab-ty), 0) scale(0.97);
+}
+
+.audit-fab__icon {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  transform: translateY(-2px);
+}
+.audit-fab__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.audit-fab__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Pulse ring — hidden once the user opens the dialog at least once */
+.audit-fab__pulse {
+  position: absolute;
+  inset: -0.5rem;
+  border-radius: 999px;
+  border: 2px solid var(--primaryLight);
+  pointer-events: none;
+  animation: audit-pulse 2.4s var(--audit-easing) infinite;
+}
+.audit-fab.is-acknowledged .audit-fab__pulse {
+  display: none;
+}
+@keyframes audit-pulse {
+  0%   { opacity: 0.7; transform: scale(1);   }
+  100% { opacity: 0;   transform: scale(1.7); }
+}
+
+@media (max-width: 47.99rem) {
+  .audit-fab {
+    width: 3.25rem;
+    height: 3.25rem;
+    bottom: 4rem;
+    right: calc(1rem - (3.25rem - 3rem) / 2);
+  }
+  .audit-fab__icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* =================================================================
+   Dialog + backdrop
+   ================================================================= */
+.audit-dialog {
+  /* Resets the heavy default browser styling */
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--audit-panel-fg);
+  max-width: min(560px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  width: 100%;
+  overflow: visible;
+  font-family: var(--bodyFontFamily);
+}
+.audit-dialog::backdrop {
+  background:
+    radial-gradient(circle at 100% 100%, rgba(0, 189, 116, 0.20), transparent 50%),
+    rgba(13, 20, 17, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  opacity: 1;
+  transition: opacity 240ms var(--audit-easing);
+}
+
+/* Spring entrance — modern browsers (Chromium 117+, Safari 17.5+, FF 129+) */
+@starting-style {
+  .audit-dialog[open] .audit-dialog__panel {
+    transform: scale(0.94) translateY(10px);
+    opacity: 0;
+  }
+  .audit-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.audit-dialog__panel {
+  position: relative;
+  background: var(--audit-panel-bg);
+  color: var(--audit-panel-fg);
+  border-radius: 1.25rem;
+  box-shadow: var(--audit-shadow);
+  padding: clamp(1.25rem, 4vw, 2rem);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  transform-origin: bottom right;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition:
+    transform 320ms var(--audit-easing),
+    opacity   320ms var(--audit-easing);
+}
+
+/* Scrollbar styling inside the panel (modern only — it's progressive enhancement) */
+.audit-dialog__panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+body.dark-mode .audit-dialog__panel {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+/* Close button */
+.audit-dialog__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--audit-muted);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background 160ms ease, color 160ms ease;
+  z-index: 2;
+}
+.audit-dialog__close svg { width: 1.125rem; height: 1.125rem; }
+.audit-dialog__close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--audit-panel-fg);
+}
+body.dark-mode .audit-dialog__close:hover { background: rgba(255, 255, 255, 0.08); }
+.audit-dialog__close:focus-visible {
+  outline: 2px solid var(--primaryLight);
+  outline-offset: 2px;
+}
+
+/* =================================================================
+   Stage shell
+   ================================================================= */
+.audit-stage { display: block; }
+.audit-stage[hidden] { display: none; }
+
+.audit-stage__topper {
+  display: inline-block;
+  font: 700 0.75rem/1 var(--bodyFontFamily);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--primary);
+  background: rgba(0, 189, 116, 0.10);
+  padding: 0.375rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+body.dark-mode .audit-stage__topper {
+  color: var(--primaryLight);
+  background: rgba(0, 189, 116, 0.14);
+}
+
+.audit-stage__title {
+  margin: 0 0 0.5rem 0;
+  font: 800 clamp(1.4rem, 3.4vw, 1.75rem)/1.15 var(--headerFontFamily);
+  letter-spacing: -0.01em;
+  color: var(--audit-panel-fg);
+}
+.audit-stage__subtitle {
+  margin: 0 0 1.5rem 0;
+  font: 400 0.9375rem/1.5 var(--bodyFontFamily);
+  color: var(--audit-muted);
+}
+
+.audit-section-title {
+  margin: 0 0 0.75rem 0;
+  font: 700 0.75rem/1 var(--bodyFontFamily);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--audit-faint);
+}
+
+/* =================================================================
+   Form stage
+   ================================================================= */
+.audit-form { display: flex; flex-direction: column; gap: 1rem; }
+.audit-hp { position: absolute; left: -10000px; top: -10000px; width: 1px; height: 1px; }
+
+.audit-field {
+  position: relative;
+  display: block;
+}
+.audit-field input,
+.audit-field select {
+  width: 100%;
+  height: 3.25rem;
+  padding: 0 1rem;
+  font: 400 1rem/1 var(--bodyFontFamily);
+  color: var(--audit-panel-fg);
+  background: var(--audit-input-bg);
+  border: 1.5px solid var(--audit-border);
+  border-radius: 0.625rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.audit-field--select select { cursor: pointer; padding-right: 2.5rem; }
+
+/* Hide the native placeholder so the floating label can act as one. */
+.audit-field input::placeholder { color: transparent; }
+
+.audit-field input:focus,
+.audit-field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 105, 64, 0.16);
+  background: var(--audit-panel-bg);
+}
+body.dark-mode .audit-field input:focus,
+body.dark-mode .audit-field select:focus {
+  border-color: var(--primaryLight);
+  box-shadow: 0 0 0 3px rgba(0, 189, 116, 0.22);
+}
+
+/* Floating label — matches the site's existing .cs-label-text pattern in
+   root.css 276-298: starts vertically centered as a placeholder, then notches up
+   onto the input's top border with a panel-bg "pill" behind it on focus or
+   when filled. Same 180ms / `ease` timing as the contact form. */
+.audit-field__label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font: 400 1rem/1 var(--bodyFontFamily);
+  color: var(--audit-faint);
+  opacity: 0.7;
+  pointer-events: none;
+  background: transparent;
+  padding: 0;
+  border-radius: 4px;
+  transition:
+    top 180ms ease,
+    left 180ms ease,
+    font-size 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease,
+    padding 180ms ease,
+    background-color 180ms ease;
+}
+.audit-field:has(input:focus) .audit-field__label,
+.audit-field:has(input:not(:placeholder-shown)) .audit-field__label,
+.audit-field:has(select:focus) .audit-field__label,
+.audit-field:has(select:valid) .audit-field__label {
+  top: 0;
+  left: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  opacity: 1;
+  background: var(--audit-panel-bg);
+  padding: 0 0.375rem;
+}
+body.dark-mode .audit-field:has(input:focus) .audit-field__label,
+body.dark-mode .audit-field:has(input:not(:placeholder-shown)) .audit-field__label,
+body.dark-mode .audit-field:has(select:focus) .audit-field__label,
+body.dark-mode .audit-field:has(select:valid) .audit-field__label {
+  color: var(--primaryLight);
+}
+@media (prefers-reduced-motion: reduce) {
+  .audit-field__label { transition-duration: 0s !important; }
+}
+
+/* Select chevron */
+.audit-field__chevron {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--audit-muted);
+}
+.audit-field__chevron svg { display: block; width: 0.75rem; height: 0.5rem; }
+
+/* Per-field error text */
+.audit-field__error {
+  display: none;
+  margin-top: 0.375rem;
+  font: 400 0.8125rem/1.4 var(--bodyFontFamily);
+  color: var(--audit-poor);
+}
+.audit-field.is-invalid .audit-field__error { display: block; }
+.audit-field.is-invalid input,
+.audit-field.is-invalid select {
+  border-color: var(--audit-poor);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
+}
+
+/* Consent */
+.audit-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  font: 400 0.875rem/1.5 var(--bodyFontFamily);
+  color: var(--audit-muted);
+  user-select: none;
+  position: relative;
+}
+.audit-consent input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+.audit-consent__box {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  border: 2px solid var(--audit-border);
+  border-radius: 0.3125rem;
+  background: var(--audit-input-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: background 200ms ease, border-color 200ms ease, transform 160ms var(--audit-easing);
+}
+.audit-consent__box svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 160ms ease, transform 200ms var(--audit-easing);
+}
+.audit-consent input:checked ~ .audit-consent__box {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.audit-consent input:checked ~ .audit-consent__box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.audit-consent input:focus-visible ~ .audit-consent__box {
+  outline: 3px solid var(--primaryLight);
+  outline-offset: 2px;
+}
+.audit-consent.is-invalid .audit-consent__box {
+  border-color: var(--audit-poor);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
+}
+.audit-consent.is-invalid .audit-field__error { display: block; }
+
+/* Form-level error block */
+.audit-form__error {
+  display: none;
+  margin: 0;
+  padding: 0.625rem 0.875rem;
+  font: 400 0.875rem/1.4 var(--bodyFontFamily);
+  color: var(--audit-poor);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.24);
+  border-radius: 0.5rem;
+}
+.audit-form__error.is-visible { display: block; }
+
+/* Submit */
+.audit-submit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3.25rem;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 0.625rem;
+  font: 700 1rem/1 var(--bodyFontFamily);
+  color: #ffffff;
+  cursor: pointer;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(135deg, var(--primary), var(--primaryLight));
+  box-shadow: 0 0.5rem 1rem rgba(0, 105, 64, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 200ms var(--audit-easing), box-shadow 200ms var(--audit-easing), filter 200ms ease;
+}
+.audit-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0.625rem 1.25rem rgba(0, 105, 64, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.audit-submit:focus-visible {
+  outline: 3px solid var(--primaryLight);
+  outline-offset: 3px;
+}
+.audit-submit:active { transform: translateY(0) scale(0.98); }
+.audit-submit[disabled] { opacity: 0.65; cursor: progress; }
+.audit-submit__arrow {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  transition: transform 200ms var(--audit-easing);
+}
+.audit-submit:hover .audit-submit__arrow { transform: translateX(2px); }
+
+.audit-fineprint {
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+  font: 400 0.75rem/1.5 var(--bodyFontFamily);
+  color: var(--audit-faint);
+}
+
+/* =================================================================
+   Loading stage
+   ================================================================= */
+.audit-stage--loading {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.5rem 0 1rem 0;
+}
+.audit-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.875rem;
+  padding-top: 0.5rem;
+}
+.audit-loading__ring {
+  width: 4.5rem;
+  height: 4.5rem;
+  transform: rotate(-90deg);
+  animation: audit-spin 2.4s linear infinite;
+}
+.audit-loading__ring-track {
+  fill: none;
+  stroke: var(--audit-track);
+  stroke-width: 5;
+}
+.audit-loading__ring-arc {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 24 100;
+  animation: audit-arc-grow 1.6s ease-in-out infinite alternate;
+}
+body.dark-mode .audit-loading__ring-arc { stroke: var(--primaryLight); }
+@keyframes audit-spin {
+  from { transform: rotate(-90deg); }
+  to   { transform: rotate(270deg); }
+}
+@keyframes audit-arc-grow {
+  from { stroke-dasharray: 12 100; }
+  to   { stroke-dasharray: 60 100; }
+}
+
+.audit-loading__status {
+  margin: 0;
+  font: 700 1rem/1.3 var(--headerFontFamily);
+  color: var(--audit-panel-fg);
+}
+.audit-loading__sub {
+  margin: 0;
+  font: 400 0.8125rem/1.4 var(--bodyFontFamily);
+  color: var(--audit-faint);
+}
+
+/* Skeleton shimmer */
+.audit-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--audit-border);
+}
+.audit-skeleton__shot {
+  height: 7.5rem;
+  border-radius: 0.625rem;
+  background: var(--audit-track);
+  position: relative;
+  overflow: hidden;
+}
+.audit-skeleton__gauges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.audit-skeleton__gauge {
+  height: 4.5rem;
+  border-radius: 0.625rem;
+  background: var(--audit-track);
+  position: relative;
+  overflow: hidden;
+}
+.audit-skeleton__row {
+  display: flex;
+  gap: 0.375rem;
+}
+.audit-skeleton__row span {
+  flex: 1;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--audit-track);
+  position: relative;
+  overflow: hidden;
+}
+/* Shimmer sweep */
+.audit-skeleton__shot::after,
+.audit-skeleton__gauge::after,
+.audit-skeleton__row span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  background-size: 200% 100%;
+  animation: audit-shimmer 1.6s linear infinite;
+}
+body.dark-mode .audit-skeleton__shot::after,
+body.dark-mode .audit-skeleton__gauge::after,
+body.dark-mode .audit-skeleton__row span::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.10), transparent);
+}
+@keyframes audit-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@media (max-width: 30rem) {
+  .audit-skeleton__gauges { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =================================================================
+   Results stage
+   ================================================================= */
+.audit-stage--results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.audit-results__heading {
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+.audit-results__summary {
+  margin: 0;
+  font: 400 0.9375rem/1.5 var(--bodyFontFamily);
+  color: var(--audit-muted);
+}
+
+/* Screenshot — PSI mobile audit always returns a portrait-shaped iPhone-sized
+   capture (412×732). We frame it like a phone resting in a card: subtle gradient
+   "bezel" backdrop, contain-fit so the whole hero + nav are visible, rounded
+   "screen" corners. Image is small but complete (which the mobile-first brand
+   actually likes — that's the viewport their customers see). */
+.audit-results__shot {
+  margin: 0;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 22rem;
+  padding: 1rem;
+  background:
+    radial-gradient(140% 90% at 50% 0%, rgba(0, 105, 64, 0.06), transparent 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.10));
+  box-shadow:
+    0 8px 24px rgba(17, 24, 39, 0.18),
+    inset 0 0 0 1px rgba(17, 24, 39, 0.06);
+}
+body.dark-mode .audit-results__shot {
+  background:
+    radial-gradient(140% 90% at 50% 0%, rgba(0, 189, 116, 0.10), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.32));
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.audit-results__shot img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.625rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  filter: blur(20px) saturate(0.6);
+  transform: scale(1.04);
+  opacity: 0.7;
+  transition:
+    filter 700ms var(--audit-easing),
+    transform 700ms var(--audit-easing),
+    opacity 500ms ease;
+}
+
+@media (max-width: 30rem) {
+  .audit-results__shot { height: 18rem; padding: 0.625rem; }
+}
+.audit-results__shot.is-loaded img {
+  filter: none;
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Score gauges */
+.audit-gauges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+@media (max-width: 30rem) {
+  .audit-gauges { grid-template-columns: repeat(2, 1fr); }
+}
+.audit-gauge {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.25rem;
+  /* defaults overwritten by data-bucket */
+  --audit-gauge-color: var(--audit-grey);
+}
+.audit-gauge[data-bucket="good"]    { --audit-gauge-color: var(--audit-good); }
+.audit-gauge[data-bucket="amber"]   { --audit-gauge-color: var(--audit-amber); }
+.audit-gauge[data-bucket="poor"]    { --audit-gauge-color: var(--audit-poor); }
+
+.audit-gauge__svg-wrap {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+}
+.audit-gauge__svg-wrap svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.audit-gauge__track {
+  fill: none;
+  stroke: var(--audit-track);
+  stroke-width: 8;
+}
+.audit-gauge__arc {
+  fill: none;
+  stroke: var(--audit-gauge-color);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition:
+    stroke-dashoffset 1.6s var(--audit-easing),
+    stroke 700ms ease;
+}
+.audit-gauge__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 800 1.5rem/1 var(--headerFontFamily);
+  color: var(--audit-gauge-color);
+  letter-spacing: -0.02em;
+  transition: color 700ms ease;
+}
+.audit-gauge__label {
+  font: 700 0.6875rem/1 var(--bodyFontFamily);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--audit-muted);
+  text-align: center;
+}
+
+/* Vitals row */
+.audit-vitals-block { display: flex; flex-direction: column; gap: 0.5rem; }
+.audit-vitals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.audit-vital {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  font: 700 0.75rem/1 var(--bodyFontFamily);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.audit-vital[data-bucket="good"]  { background: rgba(0, 189, 116, 0.14); color: var(--audit-good); }
+.audit-vital[data-bucket="amber"] { background: rgba(245, 158, 11, 0.16); color: var(--audit-amber); }
+.audit-vital[data-bucket="poor"]  { background: rgba(239, 68, 68, 0.14); color: var(--audit-poor); }
+.audit-vital[data-bucket="none"]  { background: rgba(156, 163, 175, 0.14); color: var(--audit-faint); }
+.audit-vital__label { font-weight: 700; }
+.audit-vital__value {
+  font: 700 0.8125rem/1 var(--bodyFontFamily);
+  color: var(--audit-panel-fg);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.audit-vital[data-bucket="none"] .audit-vital__value { color: var(--audit-faint); }
+.audit-vitals__note {
+  margin: 0;
+  font: 400 0.75rem/1.4 var(--bodyFontFamily);
+  color: var(--audit-faint);
+}
+
+/* Opportunities list */
+.audit-opps__list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.audit-opp {
+  font: 400 0.875rem/1.5 var(--bodyFontFamily);
+  color: var(--audit-panel-fg);
+}
+.audit-opp__savings {
+  display: inline-block;
+  margin-left: 0.375rem;
+  padding: 0.0625rem 0.4375rem;
+  border-radius: 999px;
+  font: 700 0.75rem/1.4 var(--bodyFontFamily);
+  background: rgba(0, 105, 64, 0.10);
+  color: var(--primary);
+}
+body.dark-mode .audit-opp__savings {
+  background: rgba(0, 189, 116, 0.16);
+  color: var(--primaryLight);
+}
+
+/* Sticky CTA at bottom */
+.audit-results__footer {
+  position: sticky;
+  bottom: -1px;
+  margin: 1rem -1.25rem -1.25rem -1.25rem;
+  padding: 1rem 1.25rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  background:
+    linear-gradient(to top, var(--audit-panel-bg) 70%, transparent);
+}
+.audit-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3.25rem;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 0.625rem;
+  font: 800 1rem/1 var(--bodyFontFamily);
+  text-decoration: none;
+  color: #ffffff;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(135deg, var(--primary), var(--primaryLight));
+  box-shadow: 0 0.5rem 1rem rgba(0, 105, 64, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 200ms var(--audit-easing), box-shadow 200ms var(--audit-easing);
+}
+.audit-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0.625rem 1.25rem rgba(0, 105, 64, 0.40);
+}
+.audit-cta:focus-visible {
+  outline: 3px solid var(--primaryLight);
+  outline-offset: 3px;
+}
+.audit-cta__arrow {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  transition: transform 200ms var(--audit-easing);
+}
+.audit-cta:hover .audit-cta__arrow { transform: translateX(3px); }
+
+.audit-results__again {
+  background: transparent;
+  border: 0;
+  padding: 0.5rem;
+  font: 700 0.8125rem/1 var(--bodyFontFamily);
+  color: var(--audit-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: center;
+}
+.audit-results__again:hover { color: var(--audit-panel-fg); }
+.audit-results__again:focus-visible {
+  outline: 2px solid var(--primaryLight);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* =================================================================
+   Error stage
+   ================================================================= */
+.audit-stage--error { display: flex; flex-direction: column; gap: 1.25rem; }
+.audit-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.875rem;
+  padding: 1rem 0;
+}
+.audit-error__icon {
+  display: inline-flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  color: var(--audit-amber);
+}
+.audit-error__icon svg { width: 100%; height: 100%; }
+
+.audit-stage__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  align-items: stretch;
+}
+.audit-stage__contact {
+  text-align: center;
+  font: 700 0.875rem/1.4 var(--bodyFontFamily);
+  color: var(--audit-muted);
+  text-decoration: none;
+  padding: 0.5rem;
+}
+.audit-stage__contact:hover { color: var(--primary); text-decoration: underline; }
+body.dark-mode .audit-stage__contact:hover { color: var(--primaryLight); }
+
+/* =================================================================
+   Mobile bottom-sheet
+   ================================================================= */
+@media (max-width: 37.5rem) {
+  .audit-dialog {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    top: auto;
+    bottom: 0;
+    height: auto;
+    max-height: 90dvh;
+  }
+  .audit-dialog__panel {
+    border-radius: 1.25rem 1.25rem 0 0;
+    transform-origin: bottom center;
+    max-height: 90dvh;
+  }
+  @starting-style {
+    .audit-dialog[open] .audit-dialog__panel {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+  }
+  .audit-results__footer {
+    /* Account for iOS safe area */
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* =================================================================
+   Reduced motion
+   ================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .audit-fab,
+  .audit-fab__pulse,
+  .audit-dialog__panel,
+  .audit-dialog::backdrop,
+  .audit-loading__ring,
+  .audit-loading__ring-arc,
+  .audit-skeleton__shot::after,
+  .audit-skeleton__gauge::after,
+  .audit-skeleton__row span::after,
+  .audit-results__shot img,
+  .audit-gauge__arc,
+  .audit-gauge__value,
+  .audit-cta__arrow,
+  .audit-submit__arrow {
+    transition: none !important;
+    animation: none !important;
+  }
+  .audit-fab__pulse { display: none; }
+  .audit-results__shot img {
+    filter: none;
+    transform: none;
+    opacity: 1;
+  }
+}

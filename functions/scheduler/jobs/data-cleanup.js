@@ -16,6 +16,8 @@ export const DataCleanup = {
             expiredSessions: 0,
             expiredSubscriptions: 0,
             oldNotifications: 0,
+            psiAuditJobs: 0,
+            psiAuditScreenshots: 0,
         };
 
         console.log('[DataCleanup] Starting cleanup');
@@ -79,6 +81,42 @@ export const DataCleanup = {
             console.log(`[DataCleanup] Deleted ${results.oldNotifications} old notifications`);
         } catch (e) {
             // Table doesn't exist, that's fine
+        }
+
+        // PSI audit jobs — paired R2 screenshot deletion. We can't rely on the
+        // per-POST cleanup in functions/api/psi-audit.js because low-traffic days
+        // would leave expired rows + screenshots living indefinitely.
+        try {
+            const expired = await db
+                .prepare(`
+                SELECT id, screenshot_r2_key
+                FROM psi_audit_jobs
+                WHERE expires_at < datetime('now')
+                LIMIT 200
+            `)
+                .all();
+            const rows = expired?.results || [];
+            if (rows.length > 0) {
+                const keys = rows.filter(r => r.screenshot_r2_key).map(r => r.screenshot_r2_key);
+                if (keys.length > 0 && env.MEDIA_BUCKET) {
+                    const r2Results = await Promise.allSettled(
+                        keys.map(k => env.MEDIA_BUCKET.delete(k))
+                    );
+                    results.psiAuditScreenshots = r2Results.filter(r => r.status === 'fulfilled').length;
+                }
+                const placeholders = rows.map(() => '?').join(',');
+                const delResult = await db
+                    .prepare(`DELETE FROM psi_audit_jobs WHERE id IN (${placeholders})`)
+                    .bind(...rows.map(r => r.id))
+                    .run();
+                results.psiAuditJobs = delResult.meta.changes || 0;
+                console.log(
+                    `[DataCleanup] Deleted ${results.psiAuditJobs} expired PSI audit jobs ` +
+                    `(${results.psiAuditScreenshots} screenshots from R2)`
+                );
+            }
+        } catch (e) {
+            console.log('[DataCleanup] psi_audit_jobs cleanup skipped:', e?.message || e);
         }
 
         const totalDeleted = Object.values(results).reduce((a, b) => a + b, 0);

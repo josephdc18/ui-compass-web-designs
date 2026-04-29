@@ -6,29 +6,28 @@ description: "Thank you for your purchase"
 preloadImg: ""
 permalink: "order-confirmation/"
 ---
-
 <section id="order-confirmation">
-    <div class="cs-container" style="text-align:center;max-width:40rem;margin:auto;padding:var(--sectionPadding)">
-        <div id="order-loading" style="padding:3rem 0">
-            <p style="color:var(--bodyTextColor)">Confirming your order...</p>
-        </div>
-        <div id="order-success" style="display:none">
-            <div style="font-size:4rem;margin-bottom:1rem">&#10003;</div>
-            <h1 class="cs-title">Thank You!</h1>
-            <p class="cs-text" style="margin-bottom:1.5rem">Your order has been confirmed. You will receive an email confirmation shortly.</p>
-            <p class="cs-text" style="font-size:0.9rem;color:var(--bodyTextColor);opacity:0.7" id="order-email"></p>
-            <a href="/shop/" class="cs-button-solid" style="margin-top:2rem;display:inline-block">Continue Shopping</a>
-        </div>
-        <div id="order-error" style="display:none">
-            <h1 class="cs-title">Something went wrong</h1>
-            <p class="cs-text">We couldn't confirm your order. Please check your email or contact support.</p>
-            <a href="/" class="cs-button-solid" style="margin-top:2rem;display:inline-block">Go Home</a>
-        </div>
+  <div class="cs-container" style="text-align:center;max-width:40rem;margin:auto;padding:var(--sectionPadding)">
+    <div id="order-loading" style="padding:3rem 0">
+      <p style="color:var(--bodyTextColor)">Confirming your order...</p>
     </div>
+    <div id="order-success" style="display:none">
+      <div style="font-size:4rem;margin-bottom:1rem">&#10003;</div>
+      <h1 class="cs-title">Thank You!</h1>
+      <p class="cs-text" style="margin-bottom:1.5rem">Your order has been confirmed. You will receive an email confirmation shortly.</p>
+      <p class="cs-text" style="font-size:0.9rem;color:var(--bodyTextColor);opacity:0.7" id="order-email"></p>
+      <a href="/shop/" class="cs-button-solid" style="margin-top:2rem;display:inline-block">Continue Shopping</a>
+    </div>
+    <div id="order-error" style="display:none">
+      <h1 class="cs-title">Something went wrong</h1>
+      <p class="cs-text">We couldn't confirm your order. Please check your email or contact support.</p>
+      <a href="/" class="cs-button-solid" style="margin-top:2rem;display:inline-block">Go Home</a>
+    </div>
+  </div>
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     var params = new URLSearchParams(window.location.search);
     var sessionId = params.get('session_id');
     var loading = document.getElementById('order-loading');
@@ -37,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var emailEl = document.getElementById('order-email');
 
     if (!sessionId) {
-        loading.style.display = 'none';
-        error.style.display = '';
-        return;
+      loading.style.display = 'none';
+      error.style.display = '';
+      return;
     }
 
     // Verify order status server-side before showing success
@@ -47,31 +46,34 @@ document.addEventListener('DOMContentLoaded', function() {
     var maxAttempts = 10; // Poll for up to ~10 seconds (webhook may be slightly delayed)
 
     function checkStatus() {
-        fetch('/api/order-status?session_id=' + encodeURIComponent(sessionId))
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                if (data.status === 'paid') {
-                    // Server confirmed payment — safe to show success and clear cart
-                    loading.style.display = 'none';
-                    success.style.display = '';
-                    if (data.email) emailEl.textContent = 'Confirmation sent to ' + data.email;
-                    if (window.shopCart) window.shopCart.clear();
-                } else if (data.status === 'pending' && attempts < maxAttempts) {
-                    // Webhook hasn't processed yet — retry after 1 second
-                    attempts++;
-                    setTimeout(checkStatus, 1000);
-                } else {
-                    // Failed or timed out
-                    loading.style.display = 'none';
-                    error.style.display = '';
-                }
-            })
-            .catch(function() {
-                loading.style.display = 'none';
-                error.style.display = '';
-            });
+      fetch('/api/order-status?session_id=' + encodeURIComponent(sessionId))
+        .then(function(res) {
+          return res.json();
+        })
+        .then(function(data) {
+          if (data.status === 'paid') {
+            // Server confirmed payment — safe to show success and clear cart
+            loading.style.display = 'none';
+            success.style.display = '';
+            if (data.email) emailEl.textContent = 'Confirmation sent to ' + data.email;
+            if (window.shopCart) window.shopCart.clear();
+          } else if (data.status === 'pending' && attempts < maxAttempts) {
+            // Webhook hasn't processed yet — retry after 1 second
+            attempts++;
+            setTimeout(checkStatus, 1000);
+          } else {
+            // Failed or timed out
+            loading.style.display = 'none';
+            error.style.display = '';
+          }
+        })
+        .catch(function() {
+          loading.style.display = 'none';
+          error.style.display = '';
+        });
     }
 
     checkStatus();
-});
+  });
+
 </script>

@@ -6,89 +6,95 @@ description: "Review your cart"
 preloadImg: ""
 permalink: "cart/"
 ---
-
 <section id="cart-page">
-    <div class="cs-container">
-        <h1 class="cs-title">Your Cart</h1>
-        <div id="cart-page-items"></div>
-        <div class="cs-cart-summary">
-            <div class="cs-cart-total-row">
-                <span>Subtotal</span>
-                <span id="cart-page-total">$0.00</span>
-            </div>
-            <a href="/checkout/" class="cs-button-solid" id="cart-checkout-btn" style="display:none">Proceed to Checkout</a>
-            <p id="cart-empty-msg" style="text-align:center;color:#888;padding:2rem 0">Your cart is empty. <a href="/shop/">Browse products</a></p>
-        </div>
+  <div class="cs-container">
+    <h1 class="cs-title">Your Cart</h1>
+    <div id="cart-page-items"></div>
+    <div class="cs-cart-summary">
+      <div class="cs-cart-total-row">
+        <span>Subtotal</span>
+        <span id="cart-page-total">$0.00</span>
+      </div>
+      <a href="/checkout/" class="cs-button-solid" id="cart-checkout-btn" style="display:none">Proceed to Checkout</a>
+      <p id="cart-empty-msg" style="text-align:center;color:#888;padding:2rem 0">Your cart is empty. <a href="/shop/">Browse products</a></p>
     </div>
+  </div>
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     function render() {
-        var items = window.shopCart.getItems();
-        var container = document.getElementById('cart-page-items');
-        var total = document.getElementById('cart-page-total');
-        var checkoutBtn = document.getElementById('cart-checkout-btn');
-        var emptyMsg = document.getElementById('cart-empty-msg');
+      var items = window.shopCart.getItems();
+      var container = document.getElementById('cart-page-items');
+      var total = document.getElementById('cart-page-total');
+      var checkoutBtn = document.getElementById('cart-checkout-btn');
+      var emptyMsg = document.getElementById('cart-empty-msg');
 
-        if (items.length === 0) {
-            container.innerHTML = '';
-            total.textContent = '$0.00';
-            checkoutBtn.style.display = 'none';
-            emptyMsg.style.display = '';
-            return;
-        }
+      if (items.length === 0) {
+        container.innerHTML = '';
+        total.textContent = '$0.00';
+        checkoutBtn.style.display = 'none';
+        emptyMsg.style.display = '';
+        return;
+      }
 
-        emptyMsg.style.display = 'none';
-        checkoutBtn.style.display = '';
-        total.textContent = '$' + window.shopCart.getTotalFormatted();
+      emptyMsg.style.display = 'none';
+      checkoutBtn.style.display = '';
+      total.textContent = '$' + window.shopCart.getTotalFormatted();
 
-        function e(s) { var d = document.createElement('div'); d.textContent = String(s||''); return d.innerHTML; }
+      function e(s) {
+        var d = document.createElement('div');
+        d.textContent = String(s || '');
+        return d.innerHTML;
+      }
 
-        container.innerHTML = items.map(function(item) {
-            var k = e(item.key);
-            var q = parseInt(item.quantity, 10);
-            return '<div class="cs-cart-item cs-cart-page-item" data-key="' + k + '">' +
-                (item.image_url ? '<img class="cs-cart-item-img" src="' + e(item.image_url) + '" alt="" width="80" height="80">' : '') +
-                '<div class="cs-cart-item-info">' +
-                    '<div class="cs-cart-item-name">' + e(item.name) + '</div>' +
-                    '<div class="cs-cart-item-price">$' + e(item.price) + ' × ' + q + '</div>' +
-                '</div>' +
-                '<div class="cs-cart-item-actions">' +
-                    '<div class="cs-cart-qty">' +
-                        '<button class="cs-cart-qty-btn" data-action="minus" data-key="' + k + '">−</button>' +
-                        '<span class="cs-cart-qty-num">' + q + '</span>' +
-                        '<button class="cs-cart-qty-btn" data-action="plus" data-key="' + k + '">+</button>' +
-                    '</div>' +
-                    '<button class="cs-cart-remove" data-key="' + k + '" aria-label="Remove">×</button>' +
-                '</div>' +
-            '</div>';
-        }).join('');
+      container.innerHTML = items.map(function(item) {
+        var k = e(item.key);
+        var q = parseInt(item.quantity, 10);
+        return '<div class="cs-cart-item cs-cart-page-item" data-key="' + k + '">' +
+          (item.image_url ? '<img class="cs-cart-item-img" src="' + e(item.image_url) + '" alt="" width="80" height="80">' : '') +
+          '<div class="cs-cart-item-info">' +
+          '<div class="cs-cart-item-name">' + e(item.name) + '</div>' +
+          '<div class="cs-cart-item-price">$' + e(item.price) + ' × ' + q + '</div>' +
+          '</div>' +
+          '<div class="cs-cart-item-actions">' +
+          '<div class="cs-cart-qty">' +
+          '<button class="cs-cart-qty-btn" data-action="minus" data-key="' + k + '">−</button>' +
+          '<span class="cs-cart-qty-num">' + q + '</span>' +
+          '<button class="cs-cart-qty-btn" data-action="plus" data-key="' + k + '">+</button>' +
+          '</div>' +
+          '<button class="cs-cart-remove" data-key="' + k + '" aria-label="Remove">×</button>' +
+          '</div>' +
+          '</div>';
+      }).join('');
     }
 
     // Event delegation for cart page quantity/remove buttons
     var pageContainer = document.getElementById('cart-page-items');
     if (pageContainer) {
-        pageContainer.addEventListener('click', function(ev) {
-            var actionBtn = ev.target.closest('[data-action]');
-            if (actionBtn) {
-                var key = actionBtn.dataset.key;
-                var items = window.shopCart.getItems();
-                var item = items.find(function(i) { return i.key === key; });
-                if (item) {
-                    var newQty = actionBtn.dataset.action === 'plus' ? item.quantity + 1 : item.quantity - 1;
-                    window.shopCart.updateQuantity(key, newQty);
-                }
-                return;
-            }
-            var removeBtn = ev.target.closest('.cs-cart-remove');
-            if (removeBtn) {
-                window.shopCart.remove(removeBtn.dataset.key);
-            }
-        });
+      pageContainer.addEventListener('click', function(ev) {
+        var actionBtn = ev.target.closest('[data-action]');
+        if (actionBtn) {
+          var key = actionBtn.dataset.key;
+          var items = window.shopCart.getItems();
+          var item = items.find(function(i) {
+            return i.key === key;
+          });
+          if (item) {
+            var newQty = actionBtn.dataset.action === 'plus' ? item.quantity + 1 : item.quantity - 1;
+            window.shopCart.updateQuantity(key, newQty);
+          }
+          return;
+        }
+        var removeBtn = ev.target.closest('.cs-cart-remove');
+        if (removeBtn) {
+          window.shopCart.remove(removeBtn.dataset.key);
+        }
+      });
     }
 
     document.addEventListener('cart:updated', render);
     render();
-});
+  });
+
 </script>

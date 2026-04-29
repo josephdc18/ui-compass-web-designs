@@ -8,13 +8,12 @@ eleventyComputed:
     preloadImg: '{{ image }}'
     permalink: '/blog/{{ pageName | slug }}/index.html'
 ---
-
 <!-- ============================================ -->
 <!--                    LANDING                   -->
 <!-- ============================================ -->
 
 <section id="int-hero">
-    <h1>{{ blogTitle }}</h1>
+  <h1>{{ blogTitle }}</h1>
 </section>
 
 <!-- ============================================ -->
@@ -22,7 +21,7 @@ eleventyComputed:
 <!-- ============================================ -->
 
 <nav class="toc-mobile" aria-label="Table of contents">
-    <!-- TOC chips populated by toc.js -->
+  <!-- TOC chips populated by toc.js -->
 </nav>
 
 <!-- ============================================ -->
@@ -30,55 +29,55 @@ eleventyComputed:
 <!-- ============================================ -->
 
 <div class="blog-container main-content-wrapper blog-with-toc">
-    <!-- Desktop Table of Contents -->
-    <aside class="toc-sidebar" aria-label="Table of contents">
-        <h3>On This Page</h3>
-        <ul class="toc-list">
-            <!-- TOC items populated by toc.js -->
-        </ul>
-    </aside>
+  <!-- Desktop Table of Contents -->
+  <aside class="toc-sidebar" aria-label="Table of contents">
+    <h3>On This Page</h3>
+    <ul class="toc-list">
+      <!-- TOC items populated by toc.js -->
+    </ul>
+  </aside>
 
-    <!-- Main content -->
-    <div class="main-content">
-        <article class="blog-article">
-            {% if image %}
-            <picture class="blog-mainImage">
-                <img src="{{ image }}" alt="{{ imageAlt }}" width="795" height="400" decoding="async"/>
-            </picture>
-            {% endif %}
+  <!-- Main content -->
+  <div class="main-content">
+    <article class="blog-article">
+      {% if image %}
+      <picture class="blog-mainImage">
+        <img src="{{ image }}" alt="{{ imageAlt }}" width="795" height="400" decoding="async" />
+      </picture>
+      {% endif %}
 
-            <div class="article-group">
-                <h1 class="blog-h1">{{ blogTitle }}</h1>
-                <div class="blog-meta-row">
-                    <div class="blog-authorGroup">
-                        <span class="blog-author">{{ author }}</span>
-                        <span aria-hidden="true" class="blog-dot"></span>
-                        <span class="blog-date">{{ date | postDate }}</span>
-                        <span aria-hidden="true" class="blog-dot"></span>
-                        <span class="blog-reading-time" id="readingTimeText">3 min read</span>
-                    </div>
-                </div>
-            </div>
-            <section id="blog-content" class="article-content">
-                {{ content | safe }}
-            </section>
+      <div class="article-group">
+        <h1 class="blog-h1">{{ blogTitle }}</h1>
+        <div class="blog-meta-row">
+          <div class="blog-authorGroup">
+            <span class="blog-author">{{ author }}</span>
+            <span aria-hidden="true" class="blog-dot"></span>
+            <span class="blog-date">{{ date | postDate }}</span>
+            <span aria-hidden="true" class="blog-dot"></span>
+            <span class="blog-reading-time" id="readingTimeText">3 min read</span>
+          </div>
+        </div>
+      </div>
+      <section id="blog-content" class="article-content">
+        {{ content | safe }}
+      </section>
 
-            <!-- Share Actions -->
-            <div class="article-share">
-                <div class="share-heading">
-                    <span>Share this article</span>
-                </div>
-                <div class="share-buttons">
-                    <button class="share-btn share-twitter" onclick="shareTwitter()" aria-label="Share on X" title="Share on X">X</button>
-                    <button class="share-btn share-facebook" onclick="shareFacebook()" aria-label="Share on Facebook" title="Share on Facebook">Facebook</button>
-                    <button class="share-btn share-linkedin" onclick="shareLinkedIn()" aria-label="Share on LinkedIn" title="Share on LinkedIn">LinkedIn</button>
-                    <button class="share-btn share-reddit" onclick="shareReddit()" aria-label="Share on Reddit" title="Share on Reddit">Reddit</button>
-                    <button class="share-btn share-email" onclick="shareEmail()" aria-label="Share via Email" title="Share via Email">Email</button>
-                    <button class="share-btn share-copy" onclick="copyLink()" aria-label="Copy link" title="Copy link">Copy Link</button>
-                </div>
-            </div>
-        </article>
-    </div>
+      <!-- Share Actions -->
+      <div class="article-share">
+        <div class="share-heading">
+          <span>Share this article</span>
+        </div>
+        <div class="share-buttons">
+          <button class="share-btn share-twitter" onclick="shareTwitter()" aria-label="Share on X" title="Share on X">X</button>
+          <button class="share-btn share-facebook" onclick="shareFacebook()" aria-label="Share on Facebook" title="Share on Facebook">Facebook</button>
+          <button class="share-btn share-linkedin" onclick="shareLinkedIn()" aria-label="Share on LinkedIn" title="Share on LinkedIn">LinkedIn</button>
+          <button class="share-btn share-reddit" onclick="shareReddit()" aria-label="Share on Reddit" title="Share on Reddit">Reddit</button>
+          <button class="share-btn share-email" onclick="shareEmail()" aria-label="Share via Email" title="Share via Email">Email</button>
+          <button class="share-btn share-copy" onclick="copyLink()" aria-label="Copy link" title="Copy link">Copy Link</button>
+        </div>
+      </div>
+    </article>
+  </div>
 
-    {% include 'featured-post.html' %}
+  {% include 'featured-post.html' %}
 </div>

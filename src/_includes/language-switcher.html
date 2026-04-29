@@ -12,50 +12,39 @@
 {% set availableLocales = "" | availableLocales %}
 
 <div class="language-switcher" data-language-switcher>
-    <button
-        type="button"
-        class="language-switcher-toggle"
-        aria-expanded="false"
-        aria-haspopup="listbox"
-        aria-label="{{ 'accessibility.language' | t(currentLocale) }}: {{ currentLocaleInfo.nativeName }}"
-    >
-        <span class="language-flag" aria-hidden="true">{{ currentLocaleInfo.flag }}</span>
-        <span class="language-code">{{ currentLocale | upper }}</span>
-        <svg class="language-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-        </svg>
-    </button>
+  <button type="button" class="language-switcher-toggle" aria-expanded="false" aria-haspopup="listbox" aria-label="{{ 'accessibility.language' | t(currentLocale) }}: {{ currentLocaleInfo.nativeName }}">
+    <span class="language-flag" aria-hidden="true">{{ currentLocaleInfo.flag }}</span>
+    <span class="language-code">{{ currentLocale | upper }}</span>
+    <svg class="language-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+  </button>
 
-    <ul class="language-switcher-dropdown" role="listbox" aria-label="{{ 'accessibility.language' | t(currentLocale) }}">
-        {% for loc in availableLocales %}
-            <li role="option" {% if loc.code == currentLocale %}aria-selected="true"{% endif %}>
-                <a
-                    href="{{ page.url | localizedUrl(loc.code) }}"
-                    class="language-option{% if loc.code == currentLocale %} active{% endif %}"
-                    lang="{{ loc.code }}"
-                    hreflang="{{ loc.hreflang }}"
-                >
-                    <span class="language-flag" aria-hidden="true">{{ loc.flag }}</span>
-                    <span class="language-name">{{ loc.nativeName }}</span>
-                    {% if loc.code == currentLocale %}
-                        <svg class="language-check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
-                    {% endif %}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+  <ul class="language-switcher-dropdown" role="listbox" aria-label="{{ 'accessibility.language' | t(currentLocale) }}">
+    {% for loc in availableLocales %}
+    <li role="option" {% if loc.code == currentLocale %}aria-selected="true" {% endif %}>
+      <a href="{{ page.url | localizedUrl(loc.code) }}" class="language-option{% if loc.code == currentLocale %} active{% endif %}" lang="{{ loc.code }}" hreflang="{{ loc.hreflang }}">
+        <span class="language-flag" aria-hidden="true">{{ loc.flag }}</span>
+        <span class="language-name">{{ loc.nativeName }}</span>
+        {% if loc.code == currentLocale %}
+        <svg class="language-check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 
 <style>
-/* Language Switcher Styles */
-.language-switcher {
+  /* Language Switcher Styles */
+  .language-switcher {
     position: relative;
     display: inline-block;
-}
+  }
 
-.language-switcher-toggle {
+  .language-switcher-toggle {
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -68,36 +57,36 @@
     color: var(--bodyTextColor);
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
-}
+  }
 
-.language-switcher-toggle:hover {
+  .language-switcher-toggle:hover {
     background: var(--mm-bg-hover, #f8f9fa);
     border-color: var(--primary);
-}
+  }
 
-.language-flag {
+  .language-flag {
     font-size: 1rem;
     line-height: 1;
-}
+  }
 
-.language-code {
+  .language-code {
     font-weight: 600;
     letter-spacing: 0.025em;
-}
+  }
 
-.language-chevron {
+  .language-chevron {
     width: 0.75rem;
     height: 0.75rem;
     opacity: 0.6;
     transition: transform 0.2s;
-}
+  }
 
-.language-switcher[data-open="true"] .language-chevron {
+  .language-switcher[data-open="true"] .language-chevron {
     transform: rotate(180deg);
-}
+  }
 
-/* Dropdown */
-.language-switcher-dropdown {
+  /* Dropdown */
+  .language-switcher-dropdown {
     position: absolute;
     top: 100%;
     right: 0;
@@ -114,15 +103,15 @@
     transform: translateY(-8px);
     transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
     z-index: 1000;
-}
+  }
 
-.language-switcher[data-open="true"] .language-switcher-dropdown {
+  .language-switcher[data-open="true"] .language-switcher-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-}
+  }
 
-.language-option {
+  .language-option {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -130,121 +119,123 @@
     color: var(--bodyTextColor);
     text-decoration: none;
     transition: background 0.1s;
-}
+  }
 
-.language-option:hover {
+  .language-option:hover {
     background: var(--mm-bg-hover, #f8f9fa);
-}
+  }
 
-.language-option.active {
+  .language-option.active {
     background: var(--mm-bg-hover, #f8f9fa);
     font-weight: 600;
-}
+  }
 
-.language-name {
+  .language-name {
     flex: 1;
     font-size: 0.9rem;
-}
+  }
 
-.language-check {
+  .language-check {
     width: 1rem;
     height: 1rem;
     color: var(--primary);
-}
+  }
 
-/* Dark mode */
-body.dark-mode .language-switcher-toggle {
+  /* Dark mode */
+  body.dark-mode .language-switcher-toggle {
     color: var(--bodyTextColorWhite);
     border-color: var(--mm-border);
-}
+  }
 
-body.dark-mode .language-switcher-dropdown {
+  body.dark-mode .language-switcher-dropdown {
     background: var(--mm-bg);
     border-color: var(--mm-border);
-}
+  }
 
-body.dark-mode .language-option {
+  body.dark-mode .language-option {
     color: var(--bodyTextColorWhite);
-}
+  }
 
-/* RTL support */
-[dir="rtl"] .language-switcher-dropdown {
+  /* RTL support */
+  [dir="rtl"] .language-switcher-dropdown {
     right: auto;
     left: 0;
-}
+  }
 
-/* Mobile adjustments */
-@media (max-width: 1023px) {
+  /* Mobile adjustments */
+  @media (max-width: 1023px) {
     .language-code {
-        display: none;
+      display: none;
     }
 
     .language-switcher-toggle {
-        height: 2.25rem;
-        padding: 0 0.5rem;
-        border: none;
-        background: transparent;
+      height: 2.25rem;
+      padding: 0 0.5rem;
+      border: none;
+      background: transparent;
     }
 
     .language-flag {
-        font-size: 1.25rem;
+      font-size: 1.25rem;
     }
 
     .language-chevron {
-        display: none;
+      display: none;
     }
-}
+  }
+
 </style>
 
 <script>
-// Language Switcher Interaction
-(function() {
+  // Language Switcher Interaction
+  (function() {
     const switchers = document.querySelectorAll('[data-language-switcher]');
 
     switchers.forEach(switcher => {
-        const toggle = switcher.querySelector('.language-switcher-toggle');
-        const dropdown = switcher.querySelector('.language-switcher-dropdown');
+      const toggle = switcher.querySelector('.language-switcher-toggle');
+      const dropdown = switcher.querySelector('.language-switcher-dropdown');
 
-        // Toggle dropdown
-        toggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = switcher.dataset.open === 'true';
-            switcher.dataset.open = !isOpen;
-            toggle.setAttribute('aria-expanded', !isOpen);
-        });
+      // Toggle dropdown
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = switcher.dataset.open === 'true';
+        switcher.dataset.open = !isOpen;
+        toggle.setAttribute('aria-expanded', !isOpen);
+      });
 
-        // Close on click outside
-        document.addEventListener('click', (e) => {
-            if (!switcher.contains(e.target)) {
-                switcher.dataset.open = 'false';
-                toggle.setAttribute('aria-expanded', 'false');
-            }
-        });
+      // Close on click outside
+      document.addEventListener('click', (e) => {
+        if (!switcher.contains(e.target)) {
+          switcher.dataset.open = 'false';
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
 
-        // Close on Escape
-        switcher.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                switcher.dataset.open = 'false';
-                toggle.setAttribute('aria-expanded', 'false');
-                toggle.focus();
-            }
-        });
+      // Close on Escape
+      switcher.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          switcher.dataset.open = 'false';
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.focus();
+        }
+      });
 
-        // Keyboard navigation in dropdown
-        dropdown.addEventListener('keydown', (e) => {
-            const options = dropdown.querySelectorAll('.language-option');
-            const currentIndex = Array.from(options).indexOf(document.activeElement);
+      // Keyboard navigation in dropdown
+      dropdown.addEventListener('keydown', (e) => {
+        const options = dropdown.querySelectorAll('.language-option');
+        const currentIndex = Array.from(options).indexOf(document.activeElement);
 
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
-                options[nextIndex].focus();
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
-                options[prevIndex].focus();
-            }
-        });
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+          options[nextIndex].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+          options[prevIndex].focus();
+        }
+      });
     });
-})();
+  })();
+
 </script>

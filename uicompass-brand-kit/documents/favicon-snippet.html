@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon HTML Snippet</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre;
+        }
+        .copy-btn {
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .copy-btn:hover {
+            background: #1d4ed8;
+        }
+        .instructions {
+            margin-top: 32px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .instructions h2 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .instructions ol {
+            padding-left: 20px;
+            color: #475569;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Favicon HTML Snippet</h1>
+    <p class="subtitle">Copy this code into your HTML &lt;head&gt; section</p>
+
+    <div class="code-block" id="snippet">&lt;!-- Favicon --&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/x-icon&quot; href=&quot;/favicon.ico&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;32x32&quot; href=&quot;/favicons/favicon-32x32.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/favicons/favicon-16x16.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;192x192&quot; href=&quot;/favicons/favicon-192x192.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;512x512&quot; href=&quot;/favicons/favicon-512x512.png&quot;&gt;
+
+&lt;!-- Apple Touch Icon --&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/favicons/apple-touch-icon-180x180.png&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;152x152&quot; href=&quot;/favicons/apple-touch-icon-152x152.png&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;120x120&quot; href=&quot;/favicons/apple-touch-icon-120x120.png&quot;&gt;
+
+&lt;!-- Web Manifest --&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/site.webmanifest&quot;&gt;
+
+&lt;!-- Theme Color --&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#ffffff&quot;&gt;
+
+&lt;!-- iOS PWA Splash Screen (runtime script) --&gt;
+&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
+&lt;script src=&quot;/pwa-splash.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Open Graph / Social Media --&gt;
+&lt;meta property=&quot;og:image&quot; content=&quot;/social-media/og-facebook.png&quot;&gt;
+&lt;meta property=&quot;og:image:width&quot; content=&quot;1200&quot;&gt;
+&lt;meta property=&quot;og:image:height&quot; content=&quot;630&quot;&gt;
+
+&lt;!-- Twitter Card --&gt;
+&lt;meta name=&quot;twitter:card&quot; content=&quot;summary_large_image&quot;&gt;
+&lt;meta name=&quot;twitter:image&quot; content=&quot;/social-media/og-twitter.png&quot;&gt;</div>
+
+    <button class="copy-btn" onclick="copySnippet()">Copy to Clipboard</button>
+
+    <div class="instructions">
+        <h2>Installation Instructions</h2>
+        <ol>
+            <li>Upload the <code>favicons/</code> folder to your website root</li>
+            <li>Upload the <code>social-media/</code> folder to your website root</li>
+            <li>Upload <code>pwa-splash.js</code> to your website root</li>
+            <li>Upload <code>site.webmanifest</code> to your website root</li>
+            <li>Copy the HTML snippet above into your <code>&lt;head&gt;</code> section</li>
+            <li>Update the URLs if your files are in a different location</li>
+        </ol>
+    </div>
+
+    <p class="footer">Generated by LogoNuri</p>
+
+    <script>
+        function copySnippet() {
+            const snippet = document.getElementById('snippet').textContent;
+            navigator.clipboard.writeText(snippet).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+            });
+        }
+    </script>
+</body>
+</html>

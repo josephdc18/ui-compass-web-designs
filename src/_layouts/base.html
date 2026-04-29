@@ -1,172 +1,200 @@
 <!DOCTYPE html>
 <html lang="{{ locale | default(i18nConfig.defaultLocale) }}" dir="{{ locale | default(i18nConfig.defaultLocale) | localeDir }}">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% include "hreflang.html" %}
 
-        <!--Swap our for actual link-->
-        <link rel="canonical" href="https://{{ client.domain }}{{ page.url }}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% include "hreflang.html" %}
 
-        <meta name="description" content="{{ description }}">
-        <meta name="keywords" content="">
+  <!--Swap our for actual link-->
+  <link rel="canonical" href="https://{{ client.domain }}{{ page.url }}">
 
-        <!--Social Media Display-->
-        <meta property="og:title" content="{{ metaTitle }}"/>
-        <meta property="og:description" content="{{ description }}"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="https://{{ client.domain }}{{ page.url }}"/>
-        <meta property="og:image" content="/images/social.jpg"/>
-        <meta property="og:image:secure_url" content="/images/social.jpg"/>
+  <meta name="description" content="{{ description }}">
+  <meta name="keywords" content="">
 
-        <!--Favicons-->
-        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png?v1">
-        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
-        <link rel="manifest" href="/assets/favicons/site.webmanifest">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
+  <!--Social Media Display-->
+  <meta property="og:title" content="{{ metaTitle }}" />
+  <meta property="og:description" content="{{ description }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://{{ client.domain }}{{ page.url }}" />
+  <meta property="og:image" content="https://{{ client.domain }}/assets/social-media/og-facebook.png" />
+  <meta property="og:image:secure_url" content="https://{{ client.domain }}/assets/social-media/og-facebook.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://{{ client.domain }}/assets/social-media/og-twitter.png" />
 
-        <!-- Preload -->
-        <link rel="preload" as="image" href="/assets/logo-light.png">
-        <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-regular.woff2" crossorigin>
-        <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-700.woff2" crossorigin>
+  <!--Favicons-->
+  <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicons/favicon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicons/favicon-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-touch-icon-120x120.png">
+  <link rel="manifest" href="/assets/favicons/site.webmanifest">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script defer src="/assets/pwa-splash.js"></script>
 
-        <link rel="stylesheet" href="/css/root.css">
+  <!-- Preload -->
+  <link rel="preload" as="image" href="/assets/logo.svg">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-700.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-v29-latin-900.woff2" crossorigin>
 
-        {% if preloadImg %}
-        <link rel="preload" as="image" href="{{ preloadImg }}"/>
-        {% endif %}
+  <link rel="stylesheet" href="/css/root.css">
 
-        <!-- Loading in page specific CSS sheets from css block -->
-        <link rel="stylesheet" href="/css/critical.css"/>
-        {% if page.url == '/' %}
-        <link rel="stylesheet" href="/css/local.css"/>
-        {% endif %}
-        {% if preloadCSS %}
-        <link rel="stylesheet" href="{{ preloadCSS }}">
-        {% endif %}
+  {% if preloadImg %}
+  <link rel="preload" as="image" href="{{ preloadImg }}" />
+  {% endif %}
 
-        <!--Put analytics tag here at the bottom to prevent it from render blocking-->
+  <!-- Loading in page specific CSS sheets from css block -->
+  <link rel="stylesheet" href="/css/critical.css" />
+  {% if page.url == '/' %}
+  <link rel="stylesheet" href="/css/local.css" />
+  {% endif %}
+  {% if interior %}
+  <link rel="preload" as="style" href="/css/interior.css">
+  <link rel="stylesheet" href="/css/interior.css">
+  {% endif %}
+  {% if preloadCSS %}
+  <link rel="stylesheet" href="{{ preloadCSS }}">
+  {% endif %}
 
-        <!-- For home page, use full title, including location for SEO. Other pages should just include the page name -->
-        <title>
-            {% if page.url == '/'%}
-                {{ client.name }} | {{ tagTitle }} | {{ client.address.city }}, {{ client.address.county }}
-            {% else %}
-                {{ tagTitle }} | {{ client.name }}
-            {% endif %}
-        </title>
-            <link rel="stylesheet" href="/css/shop.css">
-    </head>
-    <body>
-        {% if not hideSiteChrome %}
-        <!--Screen reader skip main nav-->
-        <a class="skip" aria-label="skip to main content" href="#main">Click To Skip To Main Content</a>
+  <!--Put analytics tag here at the bottom to prevent it from render blocking-->
 
-        {% include "header.html" %}
-        {% endif %}
-        <main id="main">{{ content | safe }}</main>
-        {% if not hideSiteChrome %}
-        {% include "footer.html" %}
-        {% endif %}
+  <!-- For home page, use full title, including location for SEO. Other pages should just include the page name -->
+  <title>
+    {% if page.url == '/'%}
+    {{ client.name }} | {{ tagTitle }} | {{ client.address.city }}, {{ client.address.county }}
+    {% else %}
+    {{ tagTitle }} | {{ client.name }}
+    {% endif %}
+  </title>
+  <link rel="stylesheet" href="/css/shop.css">
+</head>
 
-        {% if not hideSiteChrome %}
-        <script defer src="/assets/js/nav.js"></script>
-        {% endif %}
-        <script defer src="/assets/js/sections.js"></script>
-        <script defer src="/assets/js/site-effects.js"></script>
+<body>
+  {% if not hideSiteChrome %}
+  <!--Screen reader skip main nav-->
+  <a class="skip" aria-label="skip to main content" href="#main">Click To Skip To Main Content</a>
 
-        <!--
+  {% include "header.html" %}
+  {% endif %}
+  <main id="main">{{ content | safe }}</main>
+  {% if not hideSiteChrome %}
+  {% include "footer.html" %}
+  {% endif %}
+
+  {% if not hideSiteChrome %}
+  <script defer src="/assets/js/nav.js"></script>
+  {% endif %}
+  <script defer src="/assets/js/sections.js"></script>
+  <script defer src="/assets/js/site-effects.js"></script>
+  <script defer src="/assets/js/formspree.js"></script>
+
+  <!--
         This script adds a class to the body after scrolling 100px
         and we used these body.scroll styles to create some on scroll
         animations with the navbar
     -->
-        {% if not hideSiteChrome %}
-        <script defer>
-            document.addEventListener('scroll', (e) => {
-                const scroll = document.documentElement.scrollTop;
-                if (scroll >= 100) {
-                    document
-                        .querySelector('body')
-                        .classList
-                        .add('scroll')
-                } else {
-                    document
-                        .querySelector('body')
-                        .classList
-                        .remove('scroll')
-                }
-            });
-        </script>
-        {% endif %}
+  {% if not hideSiteChrome %}
+  <script defer>
+    document.addEventListener('scroll', (e) => {
+      const scroll = document.documentElement.scrollTop;
+      if (scroll > 0) {
+        document
+          .querySelector('body')
+          .classList
+          .add('scroll')
+      } else {
+        document
+          .querySelector('body')
+          .classList
+          .remove('scroll')
+      }
+    }, {
+      passive: true
+    });
 
-<div class="pb-go-top-progress" aria-hidden="true">
-  <svg class="pb-progress-ring" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
-    <circle class="pb-progress-ring-track" cx="18" cy="18" r="16" pathLength="1"></circle>
-    <circle class="pb-progress-ring-fill" cx="18" cy="18" r="16" pathLength="1"></circle>
-  </svg>
-  <button id="pb-go-top" type="button" aria-label="Scroll to top" tabindex="-1" data-press>
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
+  </script>
+  {% endif %}
+
+  <div class="pb-go-top-progress" aria-hidden="true">
+    <svg class="pb-progress-ring" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+      <circle class="pb-progress-ring-track" cx="18" cy="18" r="16" pathLength="1"></circle>
+      <circle class="pb-progress-ring-fill" cx="18" cy="18" r="16" pathLength="1"></circle>
     </svg>
-  </button>
-</div>
+    <button id="pb-go-top" type="button" aria-label="Scroll to top" tabindex="-1" data-press>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
+      </svg>
+    </button>
+  </div>
 
 
-        <script>
-        (function() {
-            function initSiteEffectsDarkMode() {
-                if (typeof window.pbApplySavedTheme === 'function') {
-                    window.pbApplySavedTheme();
-                }
-                var toggles = document.querySelectorAll('[id^="dark-mode-toggle"]');
-                for (var i = 0; i < toggles.length; i++) {
-                    var toggle = toggles[i];
-                    if (toggle.dataset.pbDarkModeBound === 'true') continue;
-                    toggle.dataset.pbDarkModeBound = 'true';
-                    toggle.addEventListener('click', function(e) {
-                        if (typeof window.pbToggleDarkMode === 'function') {
-                            window.pbToggleDarkMode({ transitionOrigin: e });
-                        }
-                    });
-                }
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initSiteEffectsDarkMode, { once: true });
-            } else {
-                initSiteEffectsDarkMode();
-            }
-        })();
-        </script>
-        <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js');
+  <script>
+    (function() {
+      function initSiteEffectsDarkMode() {
+        if (typeof window.pbApplySavedTheme === 'function') {
+          window.pbApplySavedTheme();
         }
-        </script>
+        var toggles = document.querySelectorAll('[id^="dark-mode-toggle"]');
+        for (var i = 0; i < toggles.length; i++) {
+          var toggle = toggles[i];
+          if (toggle.dataset.pbDarkModeBound === 'true') continue;
+          toggle.dataset.pbDarkModeBound = 'true';
+          toggle.addEventListener('click', function(e) {
+            if (typeof window.pbToggleDarkMode === 'function') {
+              window.pbToggleDarkMode({
+                transitionOrigin: e
+              });
+            }
+          });
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSiteEffectsDarkMode, {
+          once: true
+        });
+      } else {
+        initSiteEffectsDarkMode();
+      }
+    })();
 
-            <script type="module" src="/assets/js/push.js"></script>
-        <script defer src="/assets/js/toc.js"></script>
-        <script defer src="/assets/js/article-actions.js"></script>
-        <script defer src="/assets/js/shop.js"></script>
-        <script defer src="/assets/js/checkout.js"></script>
-    <!-- Cart Drawer (injected by shop feature) -->
-<div id="cart-overlay" class="cs-cart-overlay"></div>
-<div id="cart-drawer" class="cs-cart-drawer">
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+
+  </script>
+
+  <script type="module" src="/assets/js/push.js"></script>
+  <script defer src="/assets/js/toc.js"></script>
+  <script defer src="/assets/js/article-actions.js"></script>
+  <script defer src="/assets/js/shop.js"></script>
+  <script defer src="/assets/js/checkout.js"></script>
+  <!-- Cart Drawer (injected by shop feature) -->
+  <div id="cart-overlay" class="cs-cart-overlay"></div>
+  <div id="cart-drawer" class="cs-cart-drawer">
     <div class="cs-cart-drawer-header">
-        <h3>Your Cart</h3>
-        <button id="cart-drawer-close" class="cs-cart-drawer-close" aria-label="Close cart">&times;</button>
+      <h3>Your Cart</h3>
+      <button id="cart-drawer-close" class="cs-cart-drawer-close" aria-label="Close cart">&times;</button>
     </div>
     <div id="cart-drawer-items" class="cs-cart-drawer-items"></div>
     <div class="cs-cart-drawer-footer">
-        <div class="cs-cart-total-row">
-            <span>Subtotal</span>
-            <span id="cart-drawer-total">$0.00</span>
-        </div>
-        <a href="/cart/" class="cs-button-solid" style="width:100%;text-align:center">View Cart</a>
+      <div class="cs-cart-total-row">
+        <span>Subtotal</span>
+        <span id="cart-drawer-total">$0.00</span>
+      </div>
+      <a href="/cart/" class="cs-button-solid" style="width:100%;text-align:center">View Cart</a>
     </div>
-</div>
+  </div>
 
-    </body>
+</body>
+
 </html>

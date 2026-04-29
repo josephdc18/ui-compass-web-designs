@@ -2,9 +2,14 @@
  * Table of Contents Generator
  * - Extracts h2 headers from article content
  * - Generates TOC navigation (desktop sidebar + mobile horizontal scroller)
- * - Highlights current section on scroll
+ * - Highlights blog and service-page sections on scroll
  */
 document.addEventListener('DOMContentLoaded', function() {
+    initBlogToc();
+    initServiceToc();
+});
+
+function initBlogToc() {
     const articleContent = document.querySelector('.article-content');
     if (!articleContent) return;
 
@@ -102,4 +107,76 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}
+
+function initServiceToc() {
+    const serviceToc = document.querySelector('#service-sidebar .toc');
+    if (!serviceToc) return;
+
+    const links = Array.from(serviceToc.querySelectorAll('a[href^="#"]'));
+    if (!links.length) return;
+
+    const items = links.map(link => {
+        const id = getLinkTargetId(link);
+        const heading = id ? document.getElementById(id) : null;
+        return heading ? { id, link, heading } : null;
+    }).filter(Boolean);
+
+    if (!items.length) return;
+
+    const setActiveLink = (id) => {
+        links.forEach(link => {
+            const isActive = getLinkTargetId(link) === id;
+            link.classList.toggle('active', isActive);
+            link.classList.toggle('cs-toc-current', isActive);
+            if (isActive) {
+                link.setAttribute('aria-current', 'true');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    };
+
+    const headerOffset = 140;
+    let ticking = false;
+
+    const updateActiveLink = () => {
+        const scrollPosition = window.scrollY + headerOffset;
+        let activeItem = items[0];
+
+        items.forEach(item => {
+            const headingTop = item.heading.getBoundingClientRect().top + window.scrollY;
+            if (headingTop <= scrollPosition) {
+                activeItem = item;
+            }
+        });
+
+        setActiveLink(activeItem.id);
+        ticking = false;
+    };
+
+    const requestActiveUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateActiveLink);
+    };
+
+    updateActiveLink();
+    window.addEventListener('scroll', requestActiveUpdate, { passive: true });
+    window.addEventListener('resize', requestActiveUpdate);
+
+    links.forEach(link => {
+        link.addEventListener('click', function() {
+            const id = getLinkTargetId(this);
+            if (id) {
+                setActiveLink(id);
+            }
+        });
+    });
+}
+
+function getLinkTargetId(link) {
+    const href = link.getAttribute('href');
+    if (!href || href.charAt(0) !== '#' || href.length < 2) return '';
+    return href.slice(1);
+}

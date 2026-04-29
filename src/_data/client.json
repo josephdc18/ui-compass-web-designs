@@ -1,15 +1,16 @@
 {
-  "name": "Untitled",
+  "name": "UI Compass",
   "tagline": "",
-  "email": "",
-  "phone": "",
-  "phoneFormatted": "",
-  "domain": "",
+  "owner": "Joseph C.",
+  "email": "joseph@uicompass.com",
+  "phone": "9014904750",
+  "phoneFormatted": "(901) 490-4750",
+  "domain": "uicompass.com",
   "address": {
     "lineOne": "",
     "lineTwo": "",
-    "city": "",
-    "county": "",
+    "city": "Arlington",
+    "county": "TX",
     "postcode": "",
     "mapLink": ""
   },

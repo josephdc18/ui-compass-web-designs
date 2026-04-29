@@ -14,7 +14,7 @@ compatibility_date = "2024-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "ui-compass-web-designs-db"
-database_id = "[CHANGE] paste-your-database-id-here"
+database_id = "36cbd822-bfac-4bc3-a3eb-e93f61624c18"
 
 # =============================================================================
 # Environment Variables (set in Cloudflare Pages dashboard)

@@ -10,9 +10,11 @@
   --headerFontSize: clamp(1.9375rem,3.9vw,3.0625rem);
   --bodyFontSize: 1rem;
   --sectionPadding: clamp(3.75rem,7.82vw,6.25rem) 1rem;
-  --dark: #061d17;
-  --medium: #253b30;
-  --accent: #2b4a3e;
+  /* Dark-mode surface tokens — designed for WCAG AA contrast and modern depth.
+     Used only when body.dark-mode is set; do not touch these in light mode. */
+  --dark: #0d1411;        /* page background — base layer */
+  --medium: #1a221d;      /* level-1 surface (sections) */
+  --accent: #232d27;      /* level-2 surface (cards within sections) */
   --headerFontFamily: "Montserrat","Adjusted Verdana Fallback","Verdana",sans-serif;
   --bodyFontFamily: "Lato","Adjusted Tahoma Fallback","Tahoma",sans-serif;
 }
@@ -39,15 +41,154 @@
   text-decoration: none;
 }
 
-body{font-family:"Roboto","Arial",sans-serif;margin:0;padding:0}
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/assets/fonts/roboto-v29-latin-regular.woff2) format("woff2"),url(/assets/fonts/roboto-v29-latin-regular.woff) format("woff")}
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:700;src:url(/assets/fonts/roboto-v29-latin-700.woff2) format("woff2"),url(/assets/fonts/roboto-v29-latin-700.woff) format("woff")}
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:900;src:url(/assets/fonts/roboto-v29-latin-900.woff2) format("woff2"),url(/assets/fonts/roboto-v29-latin-900.woff) format("woff")}
+
+body{font-family:"Roboto","Arial",sans-serif;margin:0;padding:0;transition:background-color .3s}
 
 *,*:before,*:after{box-sizing:border-box}
+
+a{color:var(--primary)}
+a:hover,button:hover{cursor:pointer}
+
+/* Dark mode globals — accessibility-focused refresh.
+   Body text uses bodyTextColorWhite (#fafbfc) on --dark (#0d1411) → ~16:1 contrast (WCAG AAA).
+   Secondary text uses rgba(255,255,255,0.72) → ~10:1 (AAA).
+   Links use --primaryLight (#00bd74) on --dark → ~5.6:1 (AA for normal text). */
+body.dark-mode{background-color:var(--dark);color:var(--bodyTextColorWhite)}
+body.dark-mode h1,body.dark-mode h2,body.dark-mode h3,body.dark-mode h4,body.dark-mode h5,body.dark-mode h6,body.dark-mode li,body.dark-mode p{color:var(--bodyTextColorWhite)}
+body.dark-mode .cs-color,body.dark-mode a:not(.cs-button-solid):not(.cs-button-stroke):not(.cs-button-transparent){color:var(--primaryLight)}
+body.dark-mode .cs-topper{color:var(--primaryLight)}
+body.dark-mode .light{display:none!important}
+body.dark-mode .dark{display:block!important}
+.dark{display:none!important}
+
+/* Dark mode form & card surface defaults — global */
+body.dark-mode .cs-form{background-color:var(--accent);border-color:rgba(255,255,255,0.08);box-shadow:0 8px 24px rgba(0,0,0,0.32)}
+body.dark-mode .cs-input{background-color:var(--medium);color:var(--bodyTextColorWhite)}
+body.dark-mode .cs-input::placeholder{color:rgba(255,255,255,0.45)}
+body.dark-mode .cs-h3{color:var(--bodyTextColorWhite)}
+
+/* Dark mode pricing-1690 surface depth (cards lift above section bg) */
+body.dark-mode #pricing-1690{background-color:var(--medium)}
+body.dark-mode #pricing-1690 .cs-item{background-color:var(--accent);border-color:rgba(255,255,255,0.08)}
+body.dark-mode #pricing-1690 .cs-item.cs-popular{border-color:var(--primaryLight)}
+body.dark-mode #pricing-1690 .cs-package,body.dark-mode #pricing-1690 .cs-price,body.dark-mode #pricing-1690 .cs-includes-header{color:var(--bodyTextColorWhite)}
+body.dark-mode #pricing-1690 .cs-tagline,body.dark-mode #pricing-1690 .cs-duration,body.dark-mode #pricing-1690 .cs-li,body.dark-mode #pricing-1690 .cs-footnote{color:rgba(255,255,255,0.72)}
+body.dark-mode #pricing-1690 .cs-li.cs-disabled{color:rgba(255,255,255,0.32)}
+body.dark-mode #pricing-1690 .cs-li::before{color:var(--primaryLight)}
+body.dark-mode #pricing-1690 .cs-li.cs-disabled::before{color:rgba(255,255,255,0.32)}
+body.dark-mode #pricing-1690 .cs-price-block{border-bottom-color:rgba(255,255,255,0.08)}
+body.dark-mode #pricing-1690 .cs-badge{background-color:rgba(255,255,255,0.10);color:var(--bodyTextColorWhite)}
+body.dark-mode #pricing-1690 .cs-item.cs-popular .cs-badge{background-color:var(--primaryLight);color:var(--dark)}
+
+/* Dark mode contact-1392 (auto-injected CTA section) */
+body.dark-mode #contact-1392{background-color:var(--medium)}
+body.dark-mode #contact-1392 .cs-h3{color:var(--bodyTextColorWhite)}
+body.dark-mode #contact-1392 .cs-header{color:var(--bodyTextColorWhite)}
+body.dark-mode #contact-1392 .cs-icon-wrapper{border-color:rgba(255,255,255,0.16)}
+body.dark-mode #contact-1392 .cs-link{color:rgba(255,255,255,0.72)}
+body.dark-mode #contact-1392 .cs-link:hover{color:var(--primaryLight)}
+
+/* Dark mode pb-inline-color-* overrides — original light-mode rules use !important,
+   so these overrides must too in order to win specificity. */
+body.dark-mode .pb-inline-color-body{color:var(--bodyTextColorWhite) !important}
+body.dark-mode .pb-inline-color-heading{color:var(--bodyTextColorWhite) !important}
+body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
+
+/* Mobile menu open: lock body scroll */
+body.cs-open{overflow:hidden}
+
+/* Hide nav top bar on scroll with a simple upward slide. */
+#cs-navigation .cs-top-bar{max-height:8rem;overflow:hidden;transition:max-height .3s ease}
+#cs-navigation .cs-top-container{transform:translateY(0);transition:transform .3s ease}
+body.scroll #cs-navigation .cs-top-bar,#cs-navigation.scroll .cs-top-bar{max-height:0}
+body.scroll #cs-navigation .cs-top-container,#cs-navigation.scroll .cs-top-container{transform:translateY(-100%)}
+
+/* Dark mode toggle button */
+#dark-mode-toggle{background:transparent;border:none;bottom:1rem;display:block;height:3rem;overflow:hidden;padding:0;position:absolute;right:5rem;width:3rem;z-index:1000}
+#dark-mode-toggle img,#dark-mode-toggle svg{height:1.25rem;left:50%;pointer-events:none;position:absolute;top:50%;transform:translate(-50%,-50%);width:1.25rem}
+#dark-mode-toggle .cs-moon{transition:transform .3s,opacity .3s;z-index:2;fill:var(--headerColor)}
+#dark-mode-toggle .cs-sun{opacity:0;transform:translate(-50%,100%);transition:transform .3s,opacity .3s;z-index:1}
+body.dark-mode #dark-mode-toggle .cs-sun{opacity:1;transform:translate(-50%,-50%)}
+body.dark-mode #dark-mode-toggle .cs-moon{opacity:0;transform:translate(-50%,-150%);fill:#fff}
+@media only screen and (min-width:48rem){
+  #dark-mode-toggle{bottom:auto;margin-left:1rem;order:3;position:relative;right:auto}
+}
+@media only screen and (min-width:64rem){
+  #dark-mode-toggle{bottom:auto;margin:0;position:relative;right:auto;transform:none}
+  #dark-mode-toggle:hover{cursor:pointer}
+}
 
 .cs-topper{font-size:var(--topperFontSize);line-height:1.2em;text-transform:uppercase;text-align:inherit;letter-spacing:.1em;font-weight:700;color:var(--primary);margin-bottom:0.25rem;display:block}
 
 .cs-title{font-size:var(--headerFontSize);font-weight:900;line-height:1.2em;text-align:inherit;max-width:43.75rem;margin:0 0 1rem 0;color:var(--headerColor);position:relative}
 
 .cs-text{font-size:var(--bodyFontSize);line-height:1.5em;text-align:inherit;width:100%;max-width:40.625rem;margin:0;color:var(--bodyTextColor)}
+
+.cs-button-solid{background-color:var(--primary);border:none;color:var(--bodyTextColorWhite);display:inline-block;font-size:1rem;font-weight:700;line-height:3.125em;padding:0 1.875rem;position:relative;text-align:center;text-decoration:none;transition:color .3s;transition-delay:.1s;width:auto;z-index:1;box-sizing:border-box}
+.cs-button-solid:hover{color:var(--bodyTextColorWhite)}
+.cs-button-solid:before{background-color:#000;content:"";display:block;height:100%;left:0;opacity:1;position:absolute;top:0;transition:width .3s;width:0;z-index:-1}
+.cs-button-solid:hover:before{width:100%}
+.cs-button-transparent{background-color:transparent;box-sizing:border-box;color:var(--bodyTextColorWhite);display:inline-block;font-size:1rem;font-weight:700;line-height:clamp(2.875rem,5.5vw,3.5rem);margin:0;min-width:9.375rem;padding:0 1.5rem;position:relative;text-align:center;text-decoration:none;transition:color .3s;z-index:1}
+.cs-button-transparent:before{background:var(--bodyTextColorWhite);content:"";height:100%;left:0;opacity:1;position:absolute;top:0;transition:width .3s;width:0;z-index:-1}
+.cs-button-transparent:after{background-color:transparent;border:1px solid var(--bodyTextColorWhite);box-sizing:border-box;content:"";height:100%;left:0;pointer-events:none;position:absolute;top:0;width:100%}
+.cs-button-transparent:hover{color:var(--primary)}
+.cs-button-transparent:hover:before{width:100%}
+
+/* Global form styles — font-size/color on .cs-label intentionally omitted so the floating-label rules below win. */
+.cs-form{width:100%;max-width:39.375rem;padding:clamp(1.5rem,5.18vw,3rem) clamp(1rem,4vw,3rem);box-sizing:border-box;background-color:#fff;border:1px solid #e5e7eb;border-radius:1rem;box-shadow:0 8px 24px rgba(17,24,39,0.06);display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:0.75rem}
+.cs-label{width:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:0.25rem}
+.cs-input{font-size:1rem;width:100%;height:3.5rem;padding:0 1.5rem;color:var(--headerColor);background-color:#f7f7f7;border-radius:0.5rem;border:none;box-sizing:border-box}
+.cs-input::placeholder{color:#7d799c;opacity:0.6}
+.cs-textarea{min-height:7.5rem;padding-top:1.5rem;margin-bottom:0.75rem;font-family:inherit}
+.cs-form .cs-submit{width:100%;min-width:12.5rem;border:none}
+.cs-form .cs-submit:hover{cursor:pointer}
+@media only screen and (min-width:48rem){.cs-form .cs-submit{width:auto}}
+
+/* Formspree async submission states */
+.cs-form-success{padding:clamp(1.5rem,4vw,2.5rem) 1rem;text-align:center;width:100%}
+.cs-form-success h3{font-size:clamp(1.25rem,3vw,1.75rem);font-weight:700;line-height:1.2em;margin:0 0 0.5rem;color:var(--primary)}
+.cs-form-success p{color:var(--bodyTextColor);margin:0;line-height:1.5em}
+.cs-form-error{color:#c0392b;font-size:.875rem;line-height:1.4em;margin:0.5rem 0 0;width:100%;text-align:center}
+
+/* Reusable bottom contact CTA, adapted from Stitch 1392. */
+@media only screen and (min-width:0rem){
+  #contact-1392{padding:var(--sectionPadding);padding-bottom:0;background-color:#f7f7f7;position:relative;z-index:10}
+  #contact-1392 .cs-container{width:100%;max-width:36.5rem;margin:auto;display:flex;justify-content:center;align-items:stretch;flex-direction:column;column-gap:auto;gap:clamp(2rem,3vw,3rem);position:relative}
+  #contact-1392 .cs-content{text-align:left;width:100%;display:flex;flex-direction:column;align-items:flex-start}
+  #contact-1392 .cs-title{max-width:23ch}
+  #contact-1392 .cs-text{margin-bottom:1rem}
+  #contact-1392 .cs-text:last-of-type{margin-bottom:2rem}
+  #contact-1392 .cs-ul{text-align:left;width:100%;margin:0;padding:0;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;gap:1.5rem;position:relative}
+  #contact-1392 .cs-li{list-style:none;display:flex;justify-content:flex-start;align-items:flex-start;gap:1.25rem}
+  #contact-1392 .cs-li:hover .cs-icon-wrapper{transform:scale(1.1)}
+  #contact-1392 .cs-header{font-size:1.25rem;font-weight:700;line-height:1.2em;margin-bottom:0.75rem;color:var(--headerColor);display:block}
+  #contact-1392 .cs-link{font-size:1rem;line-height:1.5em;text-decoration:none;color:#767676;display:block;position:relative}
+  #contact-1392 .cs-link:hover{text-decoration:underline}
+  #contact-1392 .cs-icon-wrapper{width:3.75rem;height:3.75rem;margin:0;border-radius:50%;border:1px solid #bababa;display:flex;justify-content:center;align-items:center;flex:none;transition:transform 0.3s}
+  #contact-1392 .cs-icon{width:1.5rem;height:auto;display:block}
+  #contact-1392 .cs-form{margin-bottom:calc(clamp(1.875rem,7vw,6.25rem)*-1)}
+  #contact-1392 .cs-h3{font-size:clamp(1.25rem,3vw,2.4375rem);line-height:1.2em;font-weight:700;margin:0 0 0.25rem;color:var(--headerColor)}
+  #contact-1392 .cs-button-solid{font-size:1rem;line-height:3.5rem;text-decoration:none;font-weight:700;overflow:hidden;margin:0;color:#fff;padding:0 3rem;background-color:var(--primary);display:inline-block;position:relative;z-index:1;transition:color 0.3s}
+  #contact-1392 .cs-button-solid:before{content:"";position:absolute;display:block;height:100%;width:0;background:#1a1a1a;opacity:1;top:0;left:0;z-index:-1;transition:width 0.3s}
+  #contact-1392 .cs-button-solid:hover{color:var(--primary)}
+  #contact-1392 .cs-button-solid:hover:before{width:100%}
+  #contact-1392 .cs-submit:hover{color:#fff;cursor:pointer}
+  #cs-footer-309{position:relative;z-index:1}
+  body:has(#contact-1392) #cs-footer-309{padding-top:clamp(8rem,11vw,9.5rem)}
+}
+@media only screen and (min-width:48rem){
+  #contact-1392 .cs-container{max-width:80rem;flex-direction:row;justify-content:space-between}
+  #contact-1392 .cs-content{width:47%;flex:none}
+  #contact-1392 .cs-submit{width:auto}
+}
+@media only screen and (min-width:64rem){
+  #contact-1392 .cs-form{width:46%;max-width:36.125rem}
+  #contact-1392 .cs-submit{width:auto}
+}
+@media only screen and (min-width:93.75rem){#contact-1392 .cs-graphic{display:block}}
 
 body { font-family: 'Montserrat', 'Roboto', Arial, sans-serif; }
 
@@ -120,59 +261,28 @@ html.pb-theme-transition-active::view-transition-new(root) {
 }
 
 
-@supports selector(label:has(> input)) {
-  body:not(.pb-floating-labels-off) form label:has(> input:not([type="checkbox"]):not([type="radio"])),
-  body:not(.pb-floating-labels-off) form label:has(> textarea),
-  body:not(.pb-floating-labels-off) form label:has(+ input:not([type="checkbox"]):not([type="radio"])),
-  body:not(.pb-floating-labels-off) form label:has(+ textarea) {
-    display: block;
-    color: var(--bodyTextColor, #4e4b66);
-    transition: color 180ms ease, font-size 180ms ease, transform 180ms ease;
+/* Floating-label animation. Opt-in by wrapping label text in a <span class="cs-label-text">.
+   The label-text is absolutely positioned over the input so it can move independently. */
+@supports selector(:has(> input)) {
+  .cs-label:has(> .cs-label-text){position:relative}
+  .cs-label-text{position:absolute;left:1.5rem;top:50%;transform:translateY(-50%);font-size:1rem;line-height:1;color:#7d799c;opacity:0.6;pointer-events:none;background-color:transparent;padding:0;border-radius:0.25rem;z-index:1;transition:top 180ms ease,left 180ms ease,font-size 180ms ease,color 180ms ease,opacity 180ms ease,padding 180ms ease,background-color 180ms ease}
+
+  /* Textareas: label-text starts top-aligned (not vertically centered). */
+  .cs-label:has(> textarea) > .cs-label-text{top:1.5rem;transform:none}
+
+  /* When using a label-text overlay, hide the input's native placeholder. */
+  .cs-label:has(> .cs-label-text) > .cs-input::placeholder,
+  .cs-label:has(> .cs-label-text) > .cs-textarea::placeholder{color:transparent}
+
+  /* Floated state — input/textarea is focused or has content. Moves up + left to sit on the input's top border. */
+  .cs-label:has(> input:focus) > .cs-label-text,
+  .cs-label:has(> input:not(:placeholder-shown)) > .cs-label-text,
+  .cs-label:has(> textarea:focus) > .cs-label-text,
+  .cs-label:has(> textarea:not(:placeholder-shown)) > .cs-label-text{
+    top:0;left:0.75rem;transform:translateY(-50%);font-size:0.78rem;color:var(--primary);opacity:1;background-color:#fff;padding:0 0.375rem
   }
 
-  body:not(.pb-floating-labels-off) form label:has(> input[placeholder]:not(:focus):placeholder-shown),
-  body:not(.pb-floating-labels-off) form label:has(> textarea[placeholder]:not(:focus):placeholder-shown),
-  body:not(.pb-floating-labels-off) form label:has(+ input[placeholder]:not(:focus):placeholder-shown),
-  body:not(.pb-floating-labels-off) form label:has(+ textarea[placeholder]:not(:focus):placeholder-shown) {
-    font-size: 0;
-    line-height: 0;
-  }
-
-  body:not(.pb-floating-labels-off) form label:has(> input:focus),
-  body:not(.pb-floating-labels-off) form label:has(> input:not(:placeholder-shown)),
-  body:not(.pb-floating-labels-off) form label:has(> input:not([placeholder])),
-  body:not(.pb-floating-labels-off) form label:has(> textarea:focus),
-  body:not(.pb-floating-labels-off) form label:has(> textarea:not(:placeholder-shown)),
-  body:not(.pb-floating-labels-off) form label:has(> textarea:not([placeholder])),
-  body:not(.pb-floating-labels-off) form label:has(+ input:focus),
-  body:not(.pb-floating-labels-off) form label:has(+ input:not(:placeholder-shown)),
-  body:not(.pb-floating-labels-off) form label:has(+ input:not([placeholder])),
-  body:not(.pb-floating-labels-off) form label:has(+ textarea:focus),
-  body:not(.pb-floating-labels-off) form label:has(+ textarea:not(:placeholder-shown)),
-  body:not(.pb-floating-labels-off) form label:has(+ textarea:not([placeholder])) {
-    color: var(--primary, #ff6a3e);
-    font-size: 0.78rem;
-    line-height: 1.2;
-    transform: translateY(-0.125rem);
-  }
-
-  body:not(.pb-floating-labels-off) form label:has(> :is(input, textarea):focus) > :is(input, textarea)::placeholder,
-  body:not(.pb-floating-labels-off) form label:has(+ :is(input, textarea):focus) + :is(input, textarea)::placeholder {
-    opacity: 0.18;
-  }
-
-  body:not(.pb-floating-labels-off) form input:not([type="checkbox"]):not([type="radio"])::placeholder,
-  body:not(.pb-floating-labels-off) form textarea::placeholder {
-    transition: opacity 180ms ease, color 180ms ease;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    body:not(.pb-floating-labels-off) form label,
-    body:not(.pb-floating-labels-off) form input::placeholder,
-    body:not(.pb-floating-labels-off) form textarea::placeholder {
-      transition-duration: 0s !important;
-    }
-  }
+  @media (prefers-reduced-motion: reduce){.cs-label-text{transition-duration:0s !important}}
 }
 
 

@@ -1,109 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ui-compass-web-designs — Setup Guide</title>
-    <style>
-:root {
-  --bg: #0f0f0f;
-  --bg-card: #1a1a1a;
-  --border: #333;
-  --text: #e5e5e5;
-  --text-muted: #888;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --code-bg: #0d0d0d;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
-.header { background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%); padding:3rem 1.5rem; text-align:center; border-bottom:1px solid var(--border); }
-.header h1 { font-size:2.5rem; font-weight:700; margin-bottom:0.5rem; }
-.header p { color:var(--text-muted); font-size:1.1rem; max-width:600px; margin:0 auto; }
-.progress-container { background:var(--bg-card); padding:1.5rem; position:sticky; top:0; z-index:100; border-bottom:1px solid var(--border); }
-.progress-inner { max-width:800px; margin:0 auto; }
-.progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; }
-.progress-text { font-weight:600; font-size:0.9rem; }
-.progress-percent { color:var(--primary); font-weight:700; }
-.progress-bar { height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
-.progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--success)); border-radius:4px; transition:width 0.3s ease; }
-.container { max-width:800px; margin:0 auto; padding:2rem 1.5rem 4rem; }
-.phase { margin-bottom:2rem; }
-.phase-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
-.phase-number { background:var(--primary); color:white; width:2.5rem; height:2.5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.1rem; flex-shrink:0; }
-.phase-title { font-size:1.5rem; font-weight:700; }
-.phase-subtitle { color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem; }
-.step { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; transition:all 0.2s ease; animation:fadeIn 0.3s ease forwards; }
-.step:hover { border-color:#444; }
-.step.completed { border-color:var(--success); background:rgba(34,197,94,0.05); }
-.step-header { display:flex; align-items:flex-start; gap:1rem; padding:1.25rem; cursor:pointer; user-select:none; }
-.step-checkbox { width:1.5rem; height:1.5rem; border:2px solid var(--border); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; transition:all 0.2s ease; }
-.step.completed .step-checkbox { background:var(--success); border-color:var(--success); }
-.step-checkbox svg { width:14px; height:14px; stroke:white; stroke-width:3; opacity:0; transition:opacity 0.2s ease; }
-.step.completed .step-checkbox svg { opacity:1; }
-.step-info { flex:1; min-width:0; }
-.step-title { font-weight:600; font-size:1.1rem; display:flex; align-items:center; gap:0.5rem; }
-.step-title .badge { font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:4px; font-weight:500; }
-.badge-required { background:rgba(239,68,68,0.2); color:var(--error); }
-.badge-optional { background:rgba(136,136,136,0.2); color:var(--text-muted); }
-.step-desc { color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem; }
-.step-toggle { color:var(--text-muted); transition:transform 0.2s ease; flex-shrink:0; }
-.step.open .step-toggle { transform:rotate(180deg); }
-.step-content { display:none; padding:0 1.25rem 1.25rem; border-top:1px solid var(--border); margin-top:-0.25rem; padding-top:1.25rem; }
-.step.open .step-content { display:block; }
-.instruction { margin-bottom:1.25rem; }
-.instruction:last-child { margin-bottom:0; }
-.instruction-label { font-weight:600; font-size:0.85rem; color:var(--primary); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem; }
-.instruction ol,.instruction ul { padding-left:1.25rem; color:var(--text-muted); }
-.instruction li { margin-bottom:0.5rem; }
-.instruction li strong { color:var(--text); }
-.code-block { background:var(--code-bg); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin:0.75rem 0; }
-.code-header { display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0.75rem; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); }
-.code-label { font-size:0.75rem; color:var(--text-muted); font-weight:500; }
-.copy-btn { background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:0.25rem 0.5rem; border-radius:4px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; gap:0.25rem; transition:all 0.2s ease; }
-.copy-btn:hover { background:var(--border); color:var(--text); }
-.copy-btn.copied { border-color:var(--success); color:var(--success); }
-.code-body { padding:0.75rem; overflow-x:auto; }
-.code-body code { font-family:'SF Mono','Fira Code',monospace; font-size:0.85rem; line-height:1.5; white-space:pre; color:#a5f3fc; }
-.tip { background:rgba(59,130,246,0.1); border-left:3px solid var(--primary); padding:0.75rem 1rem; border-radius:0 6px 6px 0; margin:0.75rem 0; }
-.tip-label { font-weight:600; font-size:0.8rem; color:var(--primary); margin-bottom:0.25rem; }
-.tip p { font-size:0.9rem; color:var(--text-muted); }
-.tip p a { color:var(--primary); }
-.warning { background:rgba(245,158,11,0.1); border-left:3px solid var(--warning); padding:0.75rem 1rem; border-radius:0 6px 6px 0; margin:0.75rem 0; }
-.warning-label { font-weight:600; font-size:0.8rem; color:var(--warning); margin-bottom:0.25rem; }
-.warning p { font-size:0.9rem; color:var(--text-muted); }
-.reset-container { text-align:center; padding:2rem; border-top:1px solid var(--border); margin-top:2rem; }
-.reset-btn { background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:0.75rem 1.5rem; border-radius:6px; font-size:0.9rem; cursor:pointer; transition:all 0.2s ease; }
-.reset-btn:hover { border-color:var(--error); color:var(--error); }
-.confetti-container { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1000; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-@keyframes fall { to{transform:translateY(100vh) rotate(720deg);opacity:0} }
-@media (max-width:640px) { .header{padding:2rem 1rem} .header h1{font-size:1.75rem} .container{padding:1.5rem 1rem} .step-header{padding:1rem} .code-body code{font-size:0.8rem} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ui-compass-web-designs — Setup Guide</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --bg-card: #1a1a1a;
+      --border: #333;
+      --text: #e5e5e5;
+      --text-muted: #888;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --code-bg: #0d0d0d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .progress-container {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .progress-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .progress-percent {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .phase {
+      margin-bottom: 2rem;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .phase-number {
+      background: var(--primary);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .phase-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .phase-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .step:hover {
+      border-color: #444;
+    }
+
+    .step.completed {
+      border-color: var(--success);
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .step-checkbox {
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .step.completed .step-checkbox {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .step-checkbox svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      stroke-width: 3;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .step.completed .step-checkbox svg {
+      opacity: 1;
+    }
+
+    .step-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-title .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .badge-required {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--error);
+    }
+
+    .badge-optional {
+      background: rgba(136, 136, 136, 0.2);
+      color: var(--text-muted);
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .step-toggle {
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .step.open .step-toggle {
+      transform: rotate(180deg);
+    }
+
+    .step-content {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--border);
+      margin-top: -0.25rem;
+      padding-top: 1.25rem;
+    }
+
+    .step.open .step-content {
+      display: block;
+    }
+
+    .instruction {
+      margin-bottom: 1.25rem;
+    }
+
+    .instruction:last-child {
+      margin-bottom: 0;
+    }
+
+    .instruction-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .instruction ol,
+    .instruction ul {
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+    }
+
+    .instruction li {
+      margin-bottom: 0.5rem;
+    }
+
+    .instruction li strong {
+      color: var(--text);
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0.75rem 0;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .code-body {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+
+    .code-body code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      white-space: pre;
+      color: #a5f3fc;
+    }
+
+    .tip {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 0.75rem 0;
+    }
+
+    .tip-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .tip p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .tip p a {
+      color: var(--primary);
+    }
+
+    .warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 3px solid var(--warning);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 0.75rem 0;
+    }
+
+    .warning-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--warning);
+      margin-bottom: 0.25rem;
+    }
+
+    .warning p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .reset-container {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0
+      }
+    }
+
+    @media (max-width:640px) {
+      .header {
+        padding: 2rem 1rem
+      }
+
+      .header h1 {
+        font-size: 1.75rem
+      }
+
+      .container {
+        padding: 1.5rem 1rem
+      }
+
+      .step-header {
+        padding: 1rem
+      }
+
+      .code-body code {
+        font-size: 0.8rem
+      }
+    }
+
+  </style>
 </head>
+
 <body>
-    <header class="header">
-        <h1>ui-compass-web-designs</h1>
-        <p>Follow these steps to deploy your project. Check off each step as you complete it.</p>
-    </header>
+  <header class="header">
+    <h1>ui-compass-web-designs</h1>
+    <p>Follow these steps to deploy your project. Check off each step as you complete it.</p>
+  </header>
 
-    <div class="progress-container">
-        <div class="progress-inner">
-            <div class="progress-header">
-                <span class="progress-text">Setup Progress</span>
-                <span class="progress-percent" id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width:0%"></div>
-            </div>
-        </div>
+  <div class="progress-container">
+    <div class="progress-inner">
+      <div class="progress-header">
+        <span class="progress-text">Setup Progress</span>
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
     </div>
+  </div>
 
-    <div class="container">
-        
+  <div class="container">
+
     <div style="background:rgba(59,130,246,0.08);border:2px solid var(--primary);border-radius:12px;padding:2rem;margin-bottom:2rem;text-align:center">
       <h3 style="color:var(--primary);font-size:1.3rem;margin-bottom:0.5rem">Prefer Automated Setup?</h3>
       <p style="color:var(--text-muted);margin-bottom:1rem">
@@ -117,7 +505,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
         Requires: Node.js, Git. Optional: GitHub CLI (<a href="https://cli.github.com" style="color:var(--primary)">gh</a>) for repo creation.<br>Still manual: GitHub OAuth App (CMS) and Stripe keys.
       </p>
     </div>
-  
+
 
     <div class="phase">
       <div class="phase-header">
@@ -128,94 +516,131 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
         </div>
       </div>
 
-    <div class="step" data-step="1">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="1">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Install Dependencies <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Install npm packages</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Install Dependencies <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Install npm packages</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>cd ui-compass-web-designs
+                  npm install</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">What This Does</div>
+            <p>Installs all packages listed in package.json</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>cd ui-compass-web-designs
-npm install</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">What This Does</div><p>Installs all packages listed in package.json</p></div>
-    </div>
-    </div>
 
-    <div class="step" data-step="2">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="2">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Configure Local Secrets <span class="badge badge-optional">Optional</span></div>
+            <div class="step-desc">Fill in .dev.vars for local development</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Configure Local Secrets <span class="badge badge-optional">Optional</span></div>
-          <div class="step-desc">Fill in .dev.vars for local development</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Edit File</div>
+            <p style="color:var(--text-muted)">Open <code>.dev.vars</code> and fill in any required values. This file is auto-generated and already in <code>.gitignore</code>.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>cat .dev.vars</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">What This Is</div>
+            <p>Cloudflare Pages uses <code>.dev.vars</code> for local environment variables (equivalent to <code>.env</code>). Your deployed secrets are set separately via <code>npx wrangler pages secret put</code>.</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Edit File</div><p style="color:var(--text-muted)">Open <code>.dev.vars</code> and fill in any required values. This file is auto-generated and already in <code>.gitignore</code>.</p>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>cat .dev.vars</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">What This Is</div><p>Cloudflare Pages uses <code>.dev.vars</code> for local environment variables (equivalent to <code>.env</code>). Your deployed secrets are set separately via <code>npx wrangler pages secret put</code>.</p></div>
-    </div>
-    </div>
 
-    <div class="step" data-step="3">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="3">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Start Dev Server <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Make sure everything works locally</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Start Dev Server <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Make sure everything works locally</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npm start</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Expected Result</div>
+            <p>Browser opens automatically to <strong>http://localhost:8080</strong> with your site</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npm start</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">Expected Result</div><p>Browser opens automatically to <strong>http://localhost:8080</strong> with your site</p></div>
     </div>
-    </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">2</div>
@@ -225,38 +650,50 @@ npm install</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="4">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="4">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Initialize Git & Push <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Create a local repo and push to GitHub</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Initialize Git & Push <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Create a local repo and push to GitHub</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>git init
+                  git add .
+                  git commit -m &quot;Initial commit&quot;
+                  gh repo create ui-compass-web-designs --public --source=. --push</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Prerequisite</div>
+            <p>You need the <a href="https://cli.github.com/" target="_blank" style="color:var(--primary)">GitHub CLI</a> installed and authenticated (<code>gh auth login</code>)</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>git init
-git add .
-git commit -m &quot;Initial commit&quot;
-gh repo create ui-compass-web-designs --public --source=. --push</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">Prerequisite</div><p>You need the <a href="https://cli.github.com/" target="_blank" style="color:var(--primary)">GitHub CLI</a> installed and authenticated (<code>gh auth login</code>)</p></div>
     </div>
-    </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">3</div>
@@ -266,66 +703,90 @@ gh repo create ui-compass-web-designs --public --source=. --push</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="5">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="5">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Login to Wrangler <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Authenticate with Cloudflare</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Login to Wrangler <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Authenticate with Cloudflare</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler login</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">What This Does</div>
+            <p>Opens your browser to authenticate with your Cloudflare account</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler login</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">What This Does</div><p>Opens your browser to authenticate with your Cloudflare account</p></div>
-    </div>
-    </div>
 
-    <div class="step" data-step="6">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="6">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Build & Deploy <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Create Cloudflare Pages project and deploy</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Build & Deploy <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Create Cloudflare Pages project and deploy</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npm run build
+                  npx wrangler pages project create ui-compass-web-designs
+                  npx wrangler pages deploy public/</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Result</div>
+            <p>Your site will be live at <strong>https://ui-compass-web-designs.pages.dev</strong></p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-      <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npm run build
-npx wrangler pages project create ui-compass-web-designs
-npx wrangler pages deploy public/</code></div>
-    </div></div>
-      <div class="tip"><div class="tip-label">Result</div><p>Your site will be live at <strong>https://ui-compass-web-designs.pages.dev</strong></p></div>
     </div>
-    </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">4</div>
@@ -335,123 +796,166 @@ npx wrangler pages deploy public/</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="7">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="7">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Create D1 Database <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Create a Cloudflare D1 database</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Create D1 Database <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Create a Cloudflare D1 database</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler d1 create ui-compass-web-designs-db</code></div>
+            </div>
+          </div>
+          <div class="warning">
+            <div class="warning-label">Important</div>
+            <p>Copy the <strong>database_id</strong> from the output — you need it in the next step</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler d1 create ui-compass-web-designs-db</code></div>
-    </div></div>
-        <div class="warning"><div class="warning-label">Important</div><p>Copy the <strong>database_id</strong> from the output — you need it in the next step</p></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="8">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="8">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Update wrangler.toml <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Paste your database ID into the config</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Update wrangler.toml <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Paste your database ID into the config</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Edit File</div>
+            <p style="color:var(--text-muted)">Open <code>wrangler.toml</code> and replace the placeholder database_id:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">toml</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>[[d1_databases]]
+                  binding = &quot;DB&quot;
+                  database_name = &quot;ui-compass-web-designs-db&quot;
+                  database_id = &quot;paste-your-database-id-here&quot;</code></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Edit File</div><p style="color:var(--text-muted)">Open <code>wrangler.toml</code> and replace the placeholder database_id:</p>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">toml</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>[[d1_databases]]
-binding = &quot;DB&quot;
-database_name = &quot;ui-compass-web-designs-db&quot;
-database_id = &quot;paste-your-database-id-here&quot;</code></div>
-    </div></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="9">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="9">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Run Local Migrations <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Set up database tables locally</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Run Local Migrations <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Set up database tables locally</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler d1 execute ui-compass-web-designs-db --local --file=database/schema.sql</code></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler d1 execute ui-compass-web-designs-db --local --file=database/schema.sql</code></div>
-    </div></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="10">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="10">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Run Remote Migrations <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Set up database tables on production</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Run Remote Migrations <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Set up database tables on production</div>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler d1 execute ui-compass-web-designs-db --remote --file=database/schema.sql</code></div>
+            </div>
+          </div>
+          <div class="warning">
+            <div class="warning-label">Production</div>
+            <p>This runs against your live database. Make sure you've tested locally first.</p>
+          </div>
         </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler d1 execute ui-compass-web-designs-db --remote --file=database/schema.sql</code></div>
-    </div></div>
-        <div class="warning"><div class="warning-label">Production</div><p>This runs against your live database. Make sure you've tested locally first.</p></div>
       </div>
     </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">5</div>
@@ -461,35 +965,47 @@ database_id = &quot;paste-your-database-id-here&quot;</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="11">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="11">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Create R2 Bucket <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Create a Cloudflare R2 bucket for media files</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Create R2 Bucket <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Create a Cloudflare R2 bucket for media files</div>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler r2 bucket create ui-compass-web-designs-media</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">What This Does</div>
+            <p>Creates an R2 object storage bucket for file uploads, media delivery, and ZIP packages</p>
+          </div>
         </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler r2 bucket create ui-compass-web-designs-media</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">What This Does</div><p>Creates an R2 object storage bucket for file uploads, media delivery, and ZIP packages</p></div>
       </div>
     </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">6</div>
@@ -499,62 +1015,79 @@ database_id = &quot;paste-your-database-id-here&quot;</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="12">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="12">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Create GitHub OAuth App <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Required for CMS login</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Create GitHub OAuth App <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Required for CMS login</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Steps</div>
+            <ol>
+              <li>Go to <a href="https://github.com/settings/developers" target="_blank" style="color:var(--primary)">GitHub Developer Settings</a></li>
+              <li>Click <strong>New OAuth App</strong></li>
+              <li>Set <strong>Homepage URL</strong> to your site URL</li>
+              <li>Set <strong>Callback URL</strong> to <code>https://ui-compass-web-designs.pages.dev/api/auth</code></li>
+              <li>Copy the <strong>Client ID</strong> and generate a <strong>Client Secret</strong></li>
+            </ol>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Steps</div>
-          <ol>
-            <li>Go to <a href="https://github.com/settings/developers" target="_blank" style="color:var(--primary)">GitHub Developer Settings</a></li>
-            <li>Click <strong>New OAuth App</strong></li>
-            <li>Set <strong>Homepage URL</strong> to your site URL</li>
-            <li>Set <strong>Callback URL</strong> to <code>https://ui-compass-web-designs.pages.dev/api/auth</code></li>
-            <li>Copy the <strong>Client ID</strong> and generate a <strong>Client Secret</strong></li>
-          </ol>
-        </div>
-      </div>
-    </div>
 
-    <div class="step" data-step="13">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="13">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Set CMS Secrets <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Add OAuth credentials to Cloudflare</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Set CMS Secrets <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Add OAuth credentials to Cloudflare</div>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler pages secret put GITHUB_CLIENT_ID
+                  npx wrangler pages secret put GITHUB_CLIENT_SECRET</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Optional</div>
+            <p>Restrict CMS access: <code>npx wrangler pages secret put CMS_ALLOWED_USERS</code> (comma-separated GitHub usernames)</p>
+          </div>
         </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler pages secret put GITHUB_CLIENT_ID
-npx wrangler pages secret put GITHUB_CLIENT_SECRET</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">Optional</div><p>Restrict CMS access: <code>npx wrangler pages secret put CMS_ALLOWED_USERS</code> (comma-separated GitHub usernames)</p></div>
       </div>
     </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">7</div>
@@ -564,66 +1097,90 @@ npx wrangler pages secret put GITHUB_CLIENT_SECRET</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="14">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="14">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Generate VAPID Keys <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Create encryption keys for push notifications</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Generate VAPID Keys <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Create encryption keys for push notifications</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx web-push generate-vapid-keys</code></div>
+            </div>
+          </div>
+          <div class="warning">
+            <div class="warning-label">Save These</div>
+            <p>Copy both the <strong>Public Key</strong> and <strong>Private Key</strong> — you need them in the next step</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx web-push generate-vapid-keys</code></div>
-    </div></div>
-        <div class="warning"><div class="warning-label">Save These</div><p>Copy both the <strong>Public Key</strong> and <strong>Private Key</strong> — you need them in the next step</p></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="15">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="15">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Set VAPID Secrets <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Add push keys to Cloudflare</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Set VAPID Secrets <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Add push keys to Cloudflare</div>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler pages secret put VAPID_PUBLIC_KEY
+                  npx wrangler pages secret put VAPID_PRIVATE_KEY
+                  npx wrangler pages secret put VAPID_SUBJECT</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">VAPID_SUBJECT</div>
+            <p>Set this to <code>mailto:your@email.com</code> or your site URL</p>
+          </div>
         </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler pages secret put VAPID_PUBLIC_KEY
-npx wrangler pages secret put VAPID_PRIVATE_KEY
-npx wrangler pages secret put VAPID_SUBJECT</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">VAPID_SUBJECT</div><p>Set this to <code>mailto:your@email.com</code> or your site URL</p></div>
       </div>
     </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">8</div>
@@ -633,98 +1190,135 @@ npx wrangler pages secret put VAPID_SUBJECT</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="16">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="16">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Verify Cron Trigger <span class="badge badge-required">Required</span></div>
+            <div class="step-desc">Ensure the cron trigger is in your wrangler.toml</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Verify Cron Trigger <span class="badge badge-required">Required</span></div>
-          <div class="step-desc">Ensure the cron trigger is in your wrangler.toml</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Check wrangler.toml</div>
+            <p style="color:var(--text-muted)">Your <code>wrangler.toml</code> should contain this trigger block. If not, add it:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">toml</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>[triggers]
+                  crons = [&quot;*/5 * * * *&quot;]</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">How It Works</div>
+            <p>Cloudflare invokes <code>functions/scheduler/index.js</code> every 5 minutes. Job schedules are configured in the database, not in wrangler.toml.</p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Check wrangler.toml</div><p style="color:var(--text-muted)">Your <code>wrangler.toml</code> should contain this trigger block. If not, add it:</p>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">toml</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>[triggers]
-crons = [&quot;*/5 * * * *&quot;]</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">How It Works</div><p>Cloudflare invokes <code>functions/scheduler/index.js</code> every 5 minutes. Job schedules are configured in the database, not in wrangler.toml.</p></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="17">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="17">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Set Email Secrets <span class="badge badge-optional">Optional</span></div>
+            <div class="step-desc">For email notifications from scheduled jobs</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Set Email Secrets <span class="badge badge-optional">Optional</span></div>
-          <div class="step-desc">For email notifications from scheduled jobs</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler pages secret put EMAIL_PROVIDER
+                  npx wrangler pages secret put EMAIL_API_KEY
+                  npx wrangler pages secret put EMAIL_FROM
+                  npx wrangler pages secret put NOTIFICATION_EMAIL</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Providers</div>
+            <p>EMAIL_PROVIDER can be <code>resend</code>, <code>mailgun</code>, or <code>webhook</code></p>
+          </div>
         </div>
       </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler pages secret put EMAIL_PROVIDER
-npx wrangler pages secret put EMAIL_API_KEY
-npx wrangler pages secret put EMAIL_FROM
-npx wrangler pages secret put NOTIFICATION_EMAIL</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">Providers</div><p>EMAIL_PROVIDER can be <code>resend</code>, <code>mailgun</code>, or <code>webhook</code></p></div>
-      </div>
-    </div>
 
-    <div class="step" data-step="18">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="18">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Set Cache Purge Secrets <span class="badge badge-optional">Optional</span></div>
+            <div class="step-desc">For the cache-purge scheduled job</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Set Cache Purge Secrets <span class="badge badge-optional">Optional</span></div>
-          <div class="step-desc">For the cache-purge scheduled job</div>
+        <div class="step-content">
+          <div class="instruction">
+            <div class="instruction-label">Run in Terminal</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-label">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-body"><code>npx wrangler pages secret put CF_ZONE_ID
+                  npx wrangler pages secret put CF_API_TOKEN</code></div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-label">Where to Find</div>
+            <p>CF_ZONE_ID is on your Cloudflare domain overview page. Create an API token at <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" style="color:var(--primary)">dash.cloudflare.com/profile/api-tokens</a></p>
+          </div>
         </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <div class="instruction"><div class="instruction-label">Run in Terminal</div>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">bash</span>
-        <button class="copy-btn" onclick="copyCode(this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy
-        </button>
-      </div>
-      <div class="code-body"><code>npx wrangler pages secret put CF_ZONE_ID
-npx wrangler pages secret put CF_API_TOKEN</code></div>
-    </div></div>
-        <div class="tip"><div class="tip-label">Where to Find</div><p>CF_ZONE_ID is on your Cloudflare domain overview page. Create an API token at <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" style="color:var(--primary)">dash.cloudflare.com/profile/api-tokens</a></p></div>
       </div>
     </div>
-</div>
     <div class="phase">
       <div class="phase-header">
         <div class="phase-number">9</div>
@@ -734,278 +1328,288 @@ npx wrangler pages secret put CF_API_TOKEN</code></div>
         </div>
       </div>
 
-    <div class="step" data-step="19">
-      <div class="step-header">
-        <div class="step-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div class="step" data-step="19">
+        <div class="step-header">
+          <div class="step-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-info">
+            <div class="step-title">Environment Variables Checklist </div>
+            <div class="step-desc">Complete list based on your enabled features</div>
+          </div>
+          <div class="step-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
-        <div class="step-info">
-          <div class="step-title">Environment Variables Checklist </div>
-          <div class="step-desc">Complete list based on your enabled features</div>
-        </div>
-        <div class="step-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-      <div class="step-content">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
-          <thead>
-            <tr style="border-bottom:2px solid var(--border);text-align:left">
-              <th style="padding:0.5rem;color:var(--text)">Feature</th>
-              <th style="padding:0.5rem;color:var(--text)">Secret</th>
-              <th style="padding:0.5rem;color:var(--text)">Required</th>
-            </tr>
-          </thead>
-          <tbody>
-            
+        <div class="step-content">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);text-align:left">
+                <th style="padding:0.5rem;color:var(--text)">Feature</th>
+                <th style="padding:0.5rem;color:var(--text)">Secret</th>
+                <th style="padding:0.5rem;color:var(--text)">Required</th>
+              </tr>
+            </thead>
+            <tbody>
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">General</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">SITE_URL</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">CMS</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">GITHUB_CLIENT_ID</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">CMS</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">GITHUB_CLIENT_SECRET</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">CMS</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">CMS_ALLOWED_USERS</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Push</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">VAPID_PUBLIC_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Push</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">VAPID_PRIVATE_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Push</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">VAPID_SUBJECT</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (email)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">EMAIL_PROVIDER</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (email)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">EMAIL_API_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (email)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">EMAIL_FROM</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (email)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">NOTIFICATION_EMAIL</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (cache)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">CF_ZONE_ID</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Cron (cache)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">CF_API_TOKEN</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Shop</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">STRIPE_SECRET_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Shop</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">STRIPE_PUBLISHABLE_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Shop</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">STRIPE_WEBHOOK_SECRET</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Admin CRM</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">CRM_ADMIN_TOKEN</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Portal</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">JWT_SECRET</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Portal (email)</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">RESEND_API_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--warning)">Yes</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">Messaging</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">GIPHY_API_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
+
               <tr style="border-bottom:1px solid var(--border)">
                 <td style="padding:0.5rem;color:var(--text-muted)">E-Sign</td>
                 <td style="padding:0.5rem"><code style="color:#a5f3fc">BROWSERLESS_API_KEY</code></td>
                 <td style="padding:0.5rem;color:var(--text-muted)">Optional</td>
               </tr>
-            
-          </tbody>
-        </table>
-        <div class="tip"><div class="tip-label">How to Set</div><p>Use <code>npx wrangler pages secret put SECRET_NAME</code> or set via the Cloudflare Pages dashboard under Settings → Environment Variables</p></div>
+
+            </tbody>
+          </table>
+          <div class="tip">
+            <div class="tip-label">How to Set</div>
+            <p>Use <code>npx wrangler pages secret put SECRET_NAME</code> or set via the Cloudflare Pages dashboard under Settings → Environment Variables</p>
+          </div>
+        </div>
       </div>
     </div>
-</div>
 
-        <div id="completionSection" style="display:none;background:rgba(34,197,94,0.05);border:1px solid var(--success);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center">
-            <h3 style="color:var(--success);margin-bottom:0.75rem">Setup Complete!</h3>
-            <p style="color:var(--text-muted);margin-bottom:1rem">Your project is live. Here are some useful links:</p>
-            <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center">
-                <a href="https://ui-compass-web-designs.pages.dev" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--primary);color:white;padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;font-weight:500">Live Site</a>
-                <a href="https://dash.cloudflare.com" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--bg-card);color:var(--text);padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border)">Cloudflare Dashboard</a>
-                <a href="https://github.com" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--bg-card);color:var(--text);padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border)">GitHub Repository</a>
-            </div>
-        </div>
-
-        <div class="reset-container">
-            <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
-        </div>
+    <div id="completionSection" style="display:none;background:rgba(34,197,94,0.05);border:1px solid var(--success);border-radius:12px;padding:1.5rem;margin-top:2rem;text-align:center">
+      <h3 style="color:var(--success);margin-bottom:0.75rem">Setup Complete!</h3>
+      <p style="color:var(--text-muted);margin-bottom:1rem">Your project is live. Here are some useful links:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center">
+        <a href="https://ui-compass-web-designs.pages.dev" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--primary);color:white;padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;font-weight:500">Live Site</a>
+        <a href="https://dash.cloudflare.com" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--bg-card);color:var(--text);padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border)">Cloudflare Dashboard</a>
+        <a href="https://github.com" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--bg-card);color:var(--text);padding:0.6rem 1rem;border-radius:6px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border)">GitHub Repository</a>
+      </div>
     </div>
 
-    <div class="confetti-container" id="confetti"></div>
+    <div class="reset-container">
+      <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
+    </div>
+  </div>
 
-    <script>
+  <div class="confetti-container" id="confetti"></div>
+
+  <script>
     const TOTAL_STEPS = 19;
     let completedSteps = new Set(JSON.parse(localStorage.getItem('setupProgress-ui-compass-web-designs') || '[]'));
 
     document.addEventListener('DOMContentLoaded', () => {
-        initSteps();
-        updateProgress();
+      initSteps();
+      updateProgress();
     });
 
-    
     function initSteps() {
-        document.querySelectorAll('.step').forEach(step => {
-            const stepNum = parseInt(step.dataset.step);
-            if (completedSteps.has(stepNum)) step.classList.add('completed');
+      document.querySelectorAll('.step').forEach(step => {
+        const stepNum = parseInt(step.dataset.step);
+        if (completedSteps.has(stepNum)) step.classList.add('completed');
 
-            const header = step.querySelector('.step-header');
-            header.addEventListener('click', (e) => {
-                const checkbox = step.querySelector('.step-checkbox');
-                const rect = checkbox.getBoundingClientRect();
-                if (e.clientX >= rect.left && e.clientX <= rect.right &&
-                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                    toggleComplete(step, stepNum);
-                    return;
-                }
-                step.classList.toggle('open');
-            });
-
-            if (!completedSteps.has(stepNum) && !document.querySelector('.step.open')) {
-                step.classList.add('open');
-            }
+        const header = step.querySelector('.step-header');
+        header.addEventListener('click', (e) => {
+          const checkbox = step.querySelector('.step-checkbox');
+          const rect = checkbox.getBoundingClientRect();
+          if (e.clientX >= rect.left && e.clientX <= rect.right &&
+            e.clientY >= rect.top && e.clientY <= rect.bottom) {
+            toggleComplete(step, stepNum);
+            return;
+          }
+          step.classList.toggle('open');
         });
+
+        if (!completedSteps.has(stepNum) && !document.querySelector('.step.open')) {
+          step.classList.add('open');
+        }
+      });
     }
 
     function toggleComplete(step, stepNum) {
-        if (completedSteps.has(stepNum)) {
-            completedSteps.delete(stepNum);
-            step.classList.remove('completed');
-        } else {
-            completedSteps.add(stepNum);
-            step.classList.add('completed');
-            step.classList.remove('open');
-            const nextStep = document.querySelector('[data-step="' + (stepNum + 1) + '"]');
-            if (nextStep && !completedSteps.has(stepNum + 1)) {
-                nextStep.classList.add('open');
-                nextStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+      if (completedSteps.has(stepNum)) {
+        completedSteps.delete(stepNum);
+        step.classList.remove('completed');
+      } else {
+        completedSteps.add(stepNum);
+        step.classList.add('completed');
+        step.classList.remove('open');
+        const nextStep = document.querySelector('[data-step="' + (stepNum + 1) + '"]');
+        if (nextStep && !completedSteps.has(stepNum + 1)) {
+          nextStep.classList.add('open');
+          nextStep.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
         }
-        saveProgress();
-        updateProgress();
+      }
+      saveProgress();
+      updateProgress();
     }
 
     function updateProgress() {
-        const percent = Math.round((completedSteps.size / TOTAL_STEPS) * 100);
-        document.getElementById('progressPercent').textContent = percent + '%';
-        document.getElementById('progressFill').style.width = percent + '%';
-        var cs = document.getElementById('completionSection');
-        if (cs) cs.style.display = percent >= 80 ? 'block' : 'none';
-        if (percent === 100) triggerConfetti();
+      const percent = Math.round((completedSteps.size / TOTAL_STEPS) * 100);
+      document.getElementById('progressPercent').textContent = percent + '%';
+      document.getElementById('progressFill').style.width = percent + '%';
+      var cs = document.getElementById('completionSection');
+      if (cs) cs.style.display = percent >= 80 ? 'block' : 'none';
+      if (percent === 100) triggerConfetti();
     }
 
     function saveProgress() {
-        localStorage.setItem('setupProgress-' + document.title.split(' ')[0], JSON.stringify([...completedSteps]));
+      localStorage.setItem('setupProgress-' + document.title.split(' ')[0], JSON.stringify([...completedSteps]));
     }
 
     function resetProgress() {
-        if (confirm('Reset all progress?')) {
-            completedSteps.clear();
-            localStorage.removeItem('setupProgress-' + document.title.split(' ')[0]);
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('completed', 'open'));
-            const first = document.querySelector('.step');
-            if (first) first.classList.add('open');
-            updateProgress();
-        }
+      if (confirm('Reset all progress?')) {
+        completedSteps.clear();
+        localStorage.removeItem('setupProgress-' + document.title.split(' ')[0]);
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('completed', 'open'));
+        const first = document.querySelector('.step');
+        if (first) first.classList.add('open');
+        updateProgress();
+      }
     }
 
     function copyCode(btn) {
-        const code = btn.closest('.code-block').querySelector('code').textContent;
-        navigator.clipboard.writeText(code).then(() => {
-            btn.classList.add('copied');
-            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
-            setTimeout(() => {
-                btn.classList.remove('copied');
-                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy';
-            }, 2000);
-        });
+      const code = btn.closest('.code-block').querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy';
+        }, 2000);
+      });
     }
 
     function triggerConfetti() {
-        const container = document.getElementById('confetti');
-        const colors = ['#3b82f6','#22c55e','#f59e0b','#ef4444','#8b5cf6'];
-        for (let i = 0; i < 100; i++) {
-            const c = document.createElement('div');
-            c.style.cssText = 'position:absolute;width:10px;height:10px;background:' + colors[Math.floor(Math.random()*colors.length)] + ';left:' + (Math.random()*100) + '%;top:-10px;border-radius:' + (Math.random()>0.5?'50%':'0') + ';animation:fall ' + (2+Math.random()*2) + 's linear forwards';
-            container.appendChild(c);
-            setTimeout(() => c.remove(), 4000);
-        }
+      const container = document.getElementById('confetti');
+      const colors = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+      for (let i = 0; i < 100; i++) {
+        const c = document.createElement('div');
+        c.style.cssText = 'position:absolute;width:10px;height:10px;background:' + colors[Math.floor(Math.random() * colors.length)] + ';left:' + (Math.random() * 100) + '%;top:-10px;border-radius:' + (Math.random() > 0.5 ? '50%' : '0') + ';animation:fall ' + (2 + Math.random() * 2) + 's linear forwards';
+        container.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }
     }
 
-    </script>
+  </script>
 </body>
+
 </html>

@@ -14,7 +14,7 @@
 
 {# Generate hreflang for each available locale #}
 {% for loc in availableLocales %}
-    <link rel="alternate" hreflang="{{ loc.hreflang }}" href="{{ baseUrl }}{{ page.url | localizedUrl(loc.code) }}">
+<link rel="alternate" hreflang="{{ loc.hreflang }}" href="{{ baseUrl }}{{ page.url | localizedUrl(loc.code) }}">
 {% endfor %}
 
 {# x-default for language selector pages or when no specific language matches #}

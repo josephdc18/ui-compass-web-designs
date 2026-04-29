@@ -9,35 +9,33 @@ eleventyNavigation:
   key: Shop
   order: 500
 ---
-
 <section id="shop">
-    <div class="cs-container">
-        <div class="cs-content">
-            <span class="cs-topper">Shop</span>
-            <h1 class="cs-title">Our Products</h1>
-            <p class="cs-text">Browse our collection below.</p>
-        </div>
-        <ul class="cs-card-group" id="product-grid">
-            {%- for product in products %}
-            <li class="cs-item">
-                <a href="/shop/{{ product.slug }}/" class="cs-link">
-                    <picture class="cs-picture">
-                        <img src="{{ product.image_url }}" alt="{{ product.name }}"
-                             loading="lazy" decoding="async" width="413" height="280">
-                    </picture>
-                    <div class="cs-text-box">
-                        <h3 class="cs-h3">{{ product.name }}</h3>
-                        <p class="cs-item-text">{{ product.description }}</p>
-                        <div class="cs-flex">
-                            <span class="cs-price">${{ product.price }}</span>
-                            {% if product.compareAtPrice %}
-                            <span class="cs-was-price">${{ product.compareAtPrice }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            </li>
-            {%- endfor %}
-        </ul>
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">Shop</span>
+      <h1 class="cs-title">Our Products</h1>
+      <p class="cs-text">Browse our collection below.</p>
     </div>
+    <ul class="cs-card-group" id="product-grid">
+      {%- for product in products %}
+      <li class="cs-item">
+        <a href="/shop/{{ product.slug }}/" class="cs-link">
+          <picture class="cs-picture">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy" decoding="async" width="413" height="280">
+          </picture>
+          <div class="cs-text-box">
+            <h3 class="cs-h3">{{ product.name }}</h3>
+            <p class="cs-item-text">{{ product.description }}</p>
+            <div class="cs-flex">
+              <span class="cs-price">${{ product.price }}</span>
+              {% if product.compareAtPrice %}
+              <span class="cs-was-price">${{ product.compareAtPrice }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
 </section>

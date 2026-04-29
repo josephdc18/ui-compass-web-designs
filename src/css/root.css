@@ -15,8 +15,8 @@
   --dark: #0d1411;        /* page background — base layer */
   --medium: #1a221d;      /* level-1 surface (sections) */
   --accent: #232d27;      /* level-2 surface (cards within sections) */
-  --headerFontFamily: "Montserrat","Adjusted Verdana Fallback","Verdana",sans-serif;
-  --bodyFontFamily: "Lato","Adjusted Tahoma Fallback","Tahoma",sans-serif;
+  --headerFontFamily: "Roboto","Arial",sans-serif;
+  --bodyFontFamily: "Roboto","Arial",sans-serif;
 }
 
 .skip {
@@ -202,7 +202,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
 }
 @media only screen and (min-width:93.75rem){#contact-1392 .cs-graphic{display:block}}
 
-body { font-family: 'Montserrat', 'Roboto', Arial, sans-serif; }
+body { font-family: "Roboto", Arial, sans-serif; }
 
 
 .pb-inline-color-accent {

@@ -52,8 +52,11 @@ export async function initPush() {
     }
 
     try {
-        swRegistration = await navigator.serviceWorker.register('/service-worker.js');
-        console.log('[Push] Service worker registered');
+        swRegistration = await navigator.serviceWorker.getRegistration('/')
+            || await navigator.serviceWorker.register('/service-worker.js', {
+                updateViaCache: 'none'
+            });
+        console.log('[Push] Service worker ready');
 
         await navigator.serviceWorker.ready;
 

@@ -70,3 +70,79 @@ body.dark-mode #hero-1950 .cs-text{
     transform:translateY(-2.75rem);
   }
 }
+
+html{
+  scroll-behavior:smooth;
+}
+
+#hero-1950 .cs-hero-actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem 1.75rem;
+}
+
+#hero-1950 .cs-hero-work-link{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  color:var(--bodyTextColorWhite);
+  font-size:1rem;
+  font-weight:700;
+  line-height:1.4em;
+  text-decoration:none;
+  transition:color .3s ease;
+}
+
+#hero-1950 .cs-hero-work-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-.15rem;
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .35s ease;
+}
+
+#hero-1950 .cs-hero-work-link:hover,
+#hero-1950 .cs-hero-work-link:focus-visible{
+  color:var(--primaryLight);
+}
+
+#hero-1950 .cs-hero-work-link:hover::after,
+#hero-1950 .cs-hero-work-link:focus-visible::after{
+  transform:scaleX(1);
+}
+
+#hero-1950 .cs-hero-work-link:focus-visible{
+  outline:none;
+}
+
+#hero-1950 .cs-hero-work-arrow{
+  display:block;
+  width:1rem;
+  height:1rem;
+  flex:none;
+  transition:transform .3s ease;
+}
+
+#hero-1950 .cs-hero-work-link:hover .cs-hero-work-arrow,
+#hero-1950 .cs-hero-work-link:focus-visible .cs-hero-work-arrow{
+  transform:translate(2px,2px);
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto;
+  }
+
+  #hero-1950 .cs-hero-work-link,
+  #hero-1950 .cs-hero-work-link::after,
+  #hero-1950 .cs-hero-work-arrow{
+    transition:none;
+  }
+}

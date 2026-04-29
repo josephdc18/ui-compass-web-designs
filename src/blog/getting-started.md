@@ -8,7 +8,7 @@ date: 2024-01-15T12:00:00.000Z
 tags:
   - post
   - featured
-image: /images/blog/placeholder.jpg
+image: /assets/images/2990879accb1.jpg
 imageAlt: Blog placeholder image
 ---
 
@@ -20,10 +20,10 @@ Blog posts are written in Markdown, which makes formatting easy. You can use **b
 
 ## Adding Images
 
-Place images in the `src/images/blog/` directory and reference them in your frontmatter:
+Place images in the `src/assets/images/` directory and reference them in your frontmatter:
 
 ```yaml
-image: /images/blog/my-image.jpg
+image: /assets/images/my-image.jpg
 imageAlt: Description of the image
 ```
 
@@ -44,6 +44,6 @@ tags:
 ## Next Steps
 
 1. Replace this sample post with your own content
-2. Add your own images to `src/images/blog/`
+2. Add your own images to `src/assets/images/`
 3. Customize the blog styling in `src/css/blog.css`
 4. Update the blog page metadata in `src/pages/blog.html`

@@ -77,6 +77,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('./src/admin');
   eleventyConfig.addPassthroughCopy({ './src/offline.html': 'offline.html' });
 
+  eleventyConfig.on('eleventy.after', () => {
+    fs.rmSync('./public/assets/images/_sources.json', { force: true });
+  });
+
   // open on npm start and watch CSS files for changes - doesn't trigger 11ty rebuild
   eleventyConfig.setBrowserSyncConfig({
     open: true,

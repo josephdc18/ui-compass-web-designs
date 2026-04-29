@@ -1,0 +1,12 @@
+/shop-admin /crm/ 301
+/shop-admin/* /crm/ 301
+/clients-admin /crm/ 301
+/clients-admin/* /crm/ 301
+/messaging-admin /crm/ 301
+/messaging-admin/* /crm/ 301
+/contracts-admin /crm/ 301
+/contracts-admin/* /crm/ 301
+/invoicing-admin /crm/ 301
+/invoicing-admin/* /crm/ 301
+/media-admin /crm/ 301
+/media-admin/* /crm/ 301

@@ -1,0 +1,105 @@
+# Cloudflare Workers / Pages configuration
+# https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "ui-compass-web-designs"
+compatibility_date = "2024-01-01"
+
+# =============================================================================
+# D1 Database (for form submissions)
+# =============================================================================
+# Create your database:
+#   wrangler d1 create ui-compass-web-designs-db
+# Then update the database_id below with the returned ID.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ui-compass-web-designs-db"
+database_id = "[CHANGE] paste-your-database-id-here"
+
+# =============================================================================
+# Environment Variables (set in Cloudflare Pages dashboard)
+# =============================================================================
+# GITHUB_CLIENT_ID     - GitHub OAuth App Client ID (for Decap CMS)
+# GITHUB_CLIENT_SECRET - GitHub OAuth App Client Secret
+# CMS_ALLOWED_USERS    - (optional) Comma-separated GitHub usernames
+# SITE_URL             - Your production URL (e.g., https://yourdomain.com)
+# ADMIN: CRM_ADMIN_TOKEN (auto-generated during setup)
+# PORTAL: JWT_SECRET, RESEND_API_KEY
+# MESSAGING: GIPHY_API_KEY (optional)
+# ESIGN: BROWSERLESS_API_KEY (optional)
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+# =============================================================================
+# Push Notification Secrets (VAPID)
+# =============================================================================
+# Generate VAPID keys:  npx web-push generate-vapid-keys
+# Then set as secrets:
+#   wrangler secret put VAPID_PUBLIC_KEY
+#   wrangler secret put VAPID_PRIVATE_KEY
+#   wrangler secret put VAPID_SUBJECT        # mailto:your@email.com
+#   wrangler secret put PUSH_ADMIN_KEY       # any random string (protects /api/push/test)
+
+# =============================================================================
+# Cron Scheduler
+# =============================================================================
+# The scheduler worker runs every 5 minutes and checks which jobs are due.
+# Job schedules are configured in the database (not in wrangler.toml).
+# Entry point: functions/scheduler/index.js
+#
+# Secrets (set via npx wrangler secret put):
+#   EMAIL_PROVIDER        - "resend" | "mailgun" | "webhook"
+#   EMAIL_API_KEY         - Your email provider's API key
+#   EMAIL_FROM            - Default sender address
+#   NOTIFICATION_EMAIL    - Where to send form notifications
+#   CF_ZONE_ID            - Cloudflare zone ID (for cache-purge job)
+#   CF_API_TOKEN          - Cloudflare API token (for cache-purge job)
+
+# =============================================================================
+# E-Commerce (Shop)
+# =============================================================================
+# Secrets (set via npx wrangler secret put):
+#   STRIPE_SECRET_KEY       - Stripe secret key (sk_live_... or sk_test_...)
+#   STRIPE_PUBLISHABLE_KEY  - Stripe publishable key (pk_live_... or pk_test_...)
+#   STRIPE_WEBHOOK_SECRET   - Stripe webhook signing secret (whsec_...)
+#   CRM_ADMIN_TOKEN          - Admin bearer token for CRM panel (auto-generated during setup)
+
+# =============================================================================
+# Client Portal
+# =============================================================================
+# Secrets (set via npx wrangler pages secret put):
+#   JWT_SECRET          - HMAC key for portal client JWTs (generate: openssl rand -hex 64)
+#   CRM_ADMIN_TOKEN     - Admin bearer token for CRM panel (auto-generated during setup)
+#   RESEND_API_KEY      - Resend API key for transactional emails
+
+# =============================================================================
+# Messaging
+# =============================================================================
+# Secrets (set via npx wrangler pages secret put):
+#   GIPHY_API_KEY       - (optional) Giphy API key for GIF search
+
+# =============================================================================
+# E-Sign / Contracts
+# =============================================================================
+# Secrets (set via npx wrangler pages secret put):
+#   BROWSERLESS_API_KEY - (optional) Browserless API key for PDF generation
+
+# =============================================================================
+# Invoicing
+# =============================================================================
+# Secrets (set via npx wrangler pages secret put):
+#   STRIPE_SECRET_KEY       - Stripe secret key for checkout sessions
+#   STRIPE_WEBHOOK_SECRET   - Stripe webhook signing secret for invoice payments
+
+# =============================================================================
+# Media Files & Delivery Packages
+# =============================================================================
+# R2 Binding: MEDIA_BUCKET — stores uploaded media files and delivery ZIPs
+# Key format: media/{client_id}/{uuid}/{filename} and packages/{client_id}/{uuid}/{filename}.zip
+
+
+# R2 Storage Bucket (media file uploads)
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "ui-compass-web-designs-media"

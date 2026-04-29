@@ -1,0 +1,78 @@
+# =============================================================================
+# DECAP CMS CONFIGURATION
+# =============================================================================
+# SETUP REQUIRED: Update the values marked with [CHANGE] before deploying
+# =============================================================================
+
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME  # [CHANGE] e.g., username/my-site
+  branch: main
+  base_url: https://YOUR_DOMAIN.com          # [CHANGE] Your production domain
+  auth_endpoint: /api/auth                   # Points to Cloudflare Function OAuth proxy
+
+# Enable local backend for development (run: npx decap-server)
+local_backend: true
+
+# Media settings
+media_folder: 'src/assets/images/uploads'  # Where uploaded files are stored
+public_folder: '/assets/images/uploads'    # Public path to uploaded files
+
+# =============================================================================
+# COLLECTIONS
+# =============================================================================
+
+collections:
+  # ---------------------------------------------------------------------------
+  # BLOG POSTS
+  # ---------------------------------------------------------------------------
+  - name: 'blog'
+    label: 'Blog Posts'
+    label_singular: 'Blog Post'
+    folder: 'src/blog'
+    create: true
+    slug: '{{slug}}'
+    sortable_fields: ['date', 'title']
+    view_filters:
+      - label: 'Published'
+        field: draft
+        pattern: false
+      - label: 'Drafts'
+        field: draft
+        pattern: true
+    fields:
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Slug', name: 'slug', widget: 'string', hint: 'URL-friendly name (lowercase, dashes only)' }
+      - { label: 'Description', name: 'description', widget: 'text', hint: 'SEO meta description (150-160 chars)' }
+      - { label: 'Author', name: 'author', widget: 'string', default: 'Your Name' }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'] }
+      - { label: 'Featured Image', name: 'image', widget: 'image', required: false }
+      - { label: 'Image Alt Text', name: 'imageAlt', widget: 'string', required: false }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+
+  # ---------------------------------------------------------------------------
+  # SITE SETTINGS
+  # ---------------------------------------------------------------------------
+  - name: 'settings'
+    label: 'Site Settings'
+    files:
+      - name: 'general'
+        label: 'General Settings'
+        file: 'src/_data/client.json'
+        fields:
+          - { label: 'Business Name', name: 'name', widget: 'string' }
+          - { label: 'Email', name: 'email', widget: 'string' }
+          - { label: 'Phone', name: 'phone', widget: 'string' }
+          - { label: 'Phone (Formatted)', name: 'phoneFormatted', widget: 'string' }
+          - label: 'Address'
+            name: 'address'
+            widget: 'object'
+            fields:
+              - { label: 'Street', name: 'lineOne', widget: 'string' }
+              - { label: 'City', name: 'city', widget: 'string' }
+              - { label: 'State', name: 'county', widget: 'string' }
+              - { label: 'Zip', name: 'postcode', widget: 'string' }
+              - { label: 'Map Link', name: 'mapLink', widget: 'string' }
+          - { label: 'Domain', name: 'domain', widget: 'string' }

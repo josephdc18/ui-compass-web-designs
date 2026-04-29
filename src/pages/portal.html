@@ -1,0 +1,2212 @@
+---
+layout: base.html
+tagTitle: "Client Portal"
+metaTitle: "Client Portal"
+description: "Secure client portal"
+preloadImg: ""
+permalink: "portal/"
+hideSiteChrome: true
+eleventyExcludeFromCollections: true
+---
+
+<style>
+  /* ── Portal V2 — tokenized design system ── */
+
+  /* Skip to content */
+  .portal-skip-link {
+    position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    background: var(--portal-accent, #ff6a3e); color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; z-index: 10000;
+  }
+  .portal-skip-link:focus { position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; overflow: visible; }
+
+  /* Ambient background */
+  .portal-bg-ambient {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,106,62,0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(255,186,67,0.04) 0%, transparent 60%);
+  }
+
+  /* Custom properties */
+  #portal-app {
+    --portal-bg: var(--bodyBg, #fcfbf7);
+    --portal-panel: var(--bodyBg, #ffffff);
+    --portal-border: #e5e7eb;
+    --portal-text: var(--headerColor, #1f2937);
+    --portal-text-muted: var(--bodyTextColor, #6b7280);
+    --portal-accent: var(--primary, #ff6a3e);
+    --portal-accent-hover: var(--primaryLight, #ffba43);
+    --portal-font-sm: calc(var(--bodyFontSize, 1rem) * 0.875);
+    --portal-font-xs: calc(var(--bodyFontSize, 1rem) * 0.75);
+    --portal-radius: 12px;
+    --portal-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    --portal-topbar-height: 32px;
+    --portal-header-height: 56px;
+    --portal-nav-height: 72px;
+    --portal-sidebar-width: 80px;
+  }
+
+  /* Panel */
+  .portal-panel {
+    background: var(--portal-panel);
+    border: 1px solid var(--portal-border);
+    border-radius: var(--portal-radius);
+    box-shadow: var(--portal-shadow);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  /* Buttons */
+  .portal-btn {
+    display: inline-block; padding: 0.75rem 1.5rem;
+    background: var(--portal-accent); color: var(--bodyTextColorWhite, #fafbfc);
+    border: none; border-radius: 0.5rem; font-size: var(--bodyFontSize, 1rem);
+    font-weight: 600; cursor: pointer; width: 100%; text-align: center;
+    transition: background 0.15s ease;
+  }
+  .portal-btn:hover { background: var(--portal-accent-hover); }
+  .portal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .portal-btn-secondary {
+    background: transparent; color: var(--portal-accent);
+    border: 1px solid var(--portal-accent);
+    border-radius: 0.5rem; padding: 0.75rem 1.5rem;
+    font-size: var(--bodyFontSize, 1rem); font-weight: 600; cursor: pointer; width: 100%; text-align: center;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .portal-btn-secondary:hover { background: var(--portal-accent); color: var(--bodyTextColorWhite, #fafbfc); }
+
+  /* Input */
+  .portal-input {
+    width: 100%; padding: 0.75rem 1rem; background: var(--portal-bg);
+    border: 1px solid var(--portal-border); border-radius: 0.5rem;
+    font-size: var(--bodyFontSize, 1rem); margin-bottom: 1rem; box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .portal-input:focus { outline: none; border-color: var(--portal-accent); box-shadow: 0 0 0 3px rgba(255,106,62,0.12); }
+
+  /* Badge */
+  .portal-badge {
+    display: inline-block; padding: 0.125rem 0.5rem; border-radius: 9999px;
+    font-size: var(--portal-font-xs); font-weight: 600; line-height: 1.5;
+    background: var(--portal-accent); color: #fff;
+  }
+  .portal-badge.secondary { background: var(--portal-border); color: var(--portal-text); }
+  .portal-badge.success { background: #10b981; color: #fff; }
+
+  /* Links */
+  .portal-link {
+    color: var(--portal-accent); cursor: pointer; text-decoration: underline;
+    background: none; border: none; font-size: var(--bodyFontSize, 1rem);
+  }
+
+  /* Feedback messages */
+  .portal-error { color: #dc2626; font-size: var(--bodyFontSize, 1rem); margin: 0.5rem 0; }
+  .portal-success { color: #16a34a; font-size: var(--bodyFontSize, 1rem); margin: 0.5rem 0; }
+
+  /* Empty state */
+  .portal-empty { text-align: center; padding: 3rem 1rem; color: var(--portal-text-muted); }
+
+  /* Login */
+  .portal-login { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+  .portal-login h1 { color: var(--portal-text); font-size: clamp(1.5rem,3vw,2rem); margin: 0 0 0.5rem; text-align: center; }
+  .portal-login p { color: var(--portal-text-muted); font-size: var(--bodyFontSize, 1rem); margin: 0 0 1.5rem; text-align: center; }
+
+  /* Dashboard shell */
+  .portal-shell { display: none; }
+
+  /* Top bar */
+  .portal-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--portal-topbar-height); background: var(--portal-accent);
+    color: #fff; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1rem; font-size: var(--portal-font-xs); font-weight: 500;
+  }
+  .portal-topbar-link { color: #fff; text-decoration: none; opacity: 0.85; font-size: var(--portal-font-xs); }
+  .portal-topbar-link:hover { opacity: 1; text-decoration: underline; }
+
+  /* Sticky header */
+  .portal-sticky-header {
+    position: fixed; top: var(--portal-topbar-height); left: 0; right: 0; z-index: 90;
+    height: var(--portal-header-height); background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--portal-border);
+  }
+  .portal-header-inner {
+    max-width: 48rem; margin: 0 auto; height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1rem;
+  }
+  .portal-header-left { display: flex; align-items: center; gap: 0.75rem; }
+  .portal-header-right { display: flex; align-items: center; gap: 0.5rem; }
+  .portal-header-name { color: var(--portal-text); font-weight: 600; font-size: var(--portal-font-sm); }
+  .portal-header-icon-btn {
+    background: none; border: none; cursor: pointer; padding: 0.375rem;
+    color: var(--portal-text-muted); border-radius: 0.375rem;
+    transition: color 0.15s ease, background 0.15s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .portal-header-icon-btn:hover { color: var(--portal-text); background: rgba(0,0,0,0.05); }
+
+  /* Avatar */
+  .portal-avatar {
+    width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--portal-accent); color: var(--bodyTextColorWhite, #fafbfc);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: var(--portal-font-xs);
+  }
+
+  /* Main content */
+  #portal-main-content {
+    padding-top: calc(var(--portal-topbar-height) + var(--portal-header-height) + 1rem);
+    max-width: 48rem;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: calc(var(--portal-nav-height) + 1rem);
+  }
+
+  /* Bottom nav (mobile default) */
+  .portal-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    height: var(--portal-nav-height);
+    display: flex; justify-content: space-around; align-items: stretch;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--portal-border);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .portal-nav-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.25rem; flex: 1; padding: 0.75rem 0;
+    background: none; border: none; border-top: 3px solid transparent;
+    color: var(--portal-text-muted); cursor: pointer; font-size: 0.625rem;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .portal-nav-btn svg { width: 20px; height: 20px; }
+  .portal-nav-btn span { line-height: 1; }
+  .portal-nav-btn:hover { color: var(--portal-accent); background: rgba(0,0,0,0.02); }
+  .portal-nav-btn.active {
+    color: var(--portal-accent);
+    border-top-color: var(--portal-accent);
+    background: rgba(255,106,62,0.05);
+  }
+
+  /* Desktop: convert bottom nav to left sidebar */
+  @media (min-width: 768px) {
+    .portal-nav {
+      top: var(--portal-topbar-height); bottom: 0; right: auto;
+      width: var(--portal-sidebar-width); height: auto;
+      flex-direction: column; justify-content: flex-start;
+      padding-top: 1.5rem; border-top: none;
+      border-right: 1px solid var(--portal-border);
+    }
+    .portal-nav-btn {
+      width: 100%; padding: 1.25rem 0;
+      border-top: none; border-left: 3px solid transparent;
+    }
+    .portal-nav-btn.active { border-top-color: transparent; border-left-color: var(--portal-accent); }
+    .portal-sticky-header { left: var(--portal-sidebar-width); width: calc(100% - var(--portal-sidebar-width)); }
+    #portal-main-content { padding-left: calc(var(--portal-sidebar-width) + 1rem); padding-bottom: 2rem; }
+  }
+
+  .portal-tab-content { display: none; }
+  .portal-tab-content.active { display: block; }
+
+  /* Notifications */
+  .portal-notif-list { list-style: none; padding: 0; margin: 0; }
+  .portal-notif-item { padding: 1rem; border-bottom: 1px solid var(--portal-border); display: flex; gap: 0.75rem; align-items: flex-start; }
+  .portal-notif-item.unread { background: rgba(0,0,0,0.02); }
+  .portal-notif-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--portal-accent); margin-top: 0.5rem; flex-shrink: 0; }
+  .portal-notif-dot.read { background: transparent; }
+  .portal-notif-body { flex: 1; }
+  .portal-notif-title { font-weight: 600; color: var(--portal-text); font-size: var(--portal-font-sm); }
+  .portal-notif-msg { color: var(--portal-text-muted); font-size: var(--bodyFontSize, 1rem); margin-top: 0.25rem; }
+  .portal-notif-time { color: #9ca3af; font-size: var(--portal-font-xs); margin-top: 0.25rem; }
+
+  /* Set password banner */
+  .portal-set-pw-banner {
+    background: rgba(0,0,0,0.03); border: 1px solid var(--portal-accent);
+    border-radius: var(--portal-radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .portal-set-pw-banner p { margin: 0; color: var(--portal-text-muted); font-size: var(--bodyFontSize, 1rem); flex: 1; }
+  .portal-set-pw-form { display: flex; gap: 0.5rem; }
+  .portal-set-pw-form input { padding: 0.5rem 0.75rem; border: 1px solid var(--portal-border); border-radius: 0.375rem; font-size: var(--bodyFontSize, 1rem); }
+  .portal-set-pw-form button { padding: 0.5rem 1rem; }
+
+  /* ── Dark mode ── */
+  body.dark-mode #portal-app {
+    --portal-bg: #1a1a2e;
+    --portal-panel: #16213e;
+    --portal-border: #334155;
+    --portal-text: #f1f5f9;
+    --portal-text-muted: #94a3b8;
+    --portal-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+  }
+  body.dark-mode .portal-bg-ambient {
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,106,62,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(255,186,67,0.05) 0%, transparent 60%);
+  }
+  body.dark-mode .portal-sticky-header { background: rgba(26,26,46,0.85); }
+  body.dark-mode .portal-input { background: var(--portal-panel); border-color: var(--portal-border); color: var(--portal-text); }
+  body.dark-mode .portal-nav { background: rgba(26,26,46,0.95); border-color: var(--portal-border); }
+  body.dark-mode .portal-nav-btn:hover { background: rgba(255,255,255,0.04); }
+  body.dark-mode .portal-nav-btn.active { background: rgba(255,106,62,0.08); }
+  body.dark-mode .portal-header-icon-btn:hover { background: rgba(255,255,255,0.08); }
+  body.dark-mode .portal-notif-item { border-bottom-color: var(--portal-border); }
+  body.dark-mode .portal-notif-item.unread { background: rgba(255,255,255,0.03); }
+  body.dark-mode .portal-set-pw-banner { background: rgba(255,255,255,0.04); border-color: var(--portal-accent); }
+  body.dark-mode .portal-set-pw-form input { background: var(--portal-panel); border-color: var(--portal-border); color: var(--portal-text); }
+  body.dark-mode .portal-badge.secondary { background: var(--portal-border); color: var(--portal-text); }
+  body.dark-mode .portal-panel { background: var(--portal-panel); border-color: var(--portal-border); }
+  body.dark-mode .portal-error { color: #fca5a5; }
+  body.dark-mode .portal-success { color: #6ee7b7; }
+  body.dark-mode .portal-login h1 { color: var(--portal-text); }
+  body.dark-mode .portal-login p { color: var(--portal-text-muted); }
+
+  /* Toast */
+  #portal-toast-container { position:fixed; top:5rem; left:50%; transform:translateX(-50%); z-index:9000; display:flex; flex-direction:column; gap:0.5rem; pointer-events:none; width:90%; max-width:24rem; }
+  .portal-toast-item { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1rem; border-radius:var(--portal-radius); background:var(--portal-panel); border:1px solid var(--portal-border); box-shadow:0 8px 24px rgba(0,0,0,0.12); font-size:var(--portal-font-sm); color:var(--portal-text); pointer-events:auto; cursor:pointer; position:relative; overflow:hidden; transform:translateY(-1rem); opacity:0; transition:transform 0.3s ease, opacity 0.3s ease; }
+  .portal-toast-item.visible { transform:translateY(0); opacity:1; }
+  .portal-toast-item.removing { transform:translateY(-1rem); opacity:0; }
+  .portal-toast-item.success { border-left:3px solid #22c55e; }
+  .portal-toast-item.error { border-left:3px solid #ef4444; }
+  .portal-toast-item.warning { border-left:3px solid #f59e0b; }
+  .portal-toast-progress { position:absolute; bottom:0; left:0; height:2px; background:var(--portal-accent); animation:portal-toast-shrink linear forwards; }
+  @keyframes portal-toast-shrink { from { width:100%; } to { width:0; } }
+
+  /* Confirm dialog */
+  .portal-confirm-overlay { position:fixed; inset:0; z-index:9500; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; }
+  .portal-confirm-panel { max-width:400px; width:90%; padding:1.5rem; }
+  .portal-confirm-actions { display:flex; gap:0.5rem; justify-content:flex-end; margin-top:1.25rem; }
+  .portal-confirm-cancel { padding:0.5rem 1rem; background:transparent; border:1px solid var(--portal-border); border-radius:0.5rem; color:var(--portal-text-muted); cursor:pointer; font-size:var(--portal-font-sm); }
+  .portal-confirm-cancel:hover { background:rgba(0,0,0,0.05); }
+  .portal-confirm-danger { background:#ef4444; }
+  .portal-confirm-danger:hover { background:#dc2626; }
+
+  /* Modal/Drawer */
+  #portal-modal-backdrop { position:fixed; inset:0; z-index:8000; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); opacity:0; pointer-events:none; transition:opacity 0.3s ease; }
+  #portal-modal-backdrop.open { opacity:1; pointer-events:auto; }
+  .portal-drawer { position:fixed; z-index:8100; transition:transform 0.3s ease, opacity 0.3s ease; }
+  .portal-drawer-bottom { inset:auto 0 0 0; transform:translateY(100%); opacity:0; }
+  .portal-drawer-bottom.open { transform:translateY(0); opacity:1; }
+  .portal-drawer-center { inset:0; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; }
+  .portal-drawer-center.open { opacity:1; pointer-events:auto; }
+
+  /* Offline banner */
+  #portal-offline-banner { display:none; position:fixed; top:0; left:0; right:0; z-index:10000; background:#ef4444; color:#fff; text-align:center; padding:0.5rem; font-size:var(--portal-font-xs); font-weight:600; }
+
+  /* Dark mode additions */
+  body.dark-mode .portal-toast-item { background:var(--portal-panel); border-color:var(--portal-border); color:var(--portal-text); }
+  body.dark-mode .portal-confirm-cancel { border-color:var(--portal-border); color:var(--portal-text-muted); }
+  body.dark-mode .portal-confirm-cancel:hover { background:rgba(255,255,255,0.05); }
+
+  /* Notification dropdown */
+  #portal-notif-dropdown { box-shadow:0 8px 24px rgba(0,0,0,0.15); transform-origin:top right; }
+
+  /* Photo lightbox */
+  #portal-lightbox { position:fixed; inset:0; z-index:9200; background:rgba(0,0,0,0.95); display:none; flex-direction:column; }
+  #portal-lightbox.open { display:flex; }
+  .portal-lightbox-header { padding:1rem; display:flex; justify-content:space-between; align-items:center; }
+  .portal-lightbox-title { color:#fff; font-weight:600; font-size:var(--portal-font-sm); }
+  .portal-lightbox-controls { display:flex; gap:0.5rem; }
+  .portal-lightbox-btn { background:rgba(255,255,255,0.1); border:none; color:#fff; padding:0.5rem; border-radius:0.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .portal-lightbox-btn:hover { background:rgba(255,255,255,0.2); }
+  .portal-lightbox-stage { flex:1; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; cursor:grab; touch-action:none; }
+  .portal-lightbox-stage.dragging { cursor:grabbing; }
+  .portal-lightbox-img { max-width:100%; max-height:100%; object-fit:contain; transform-origin:center center; will-change:transform; user-select:none; pointer-events:none; }
+  .portal-lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); z-index:1; }
+  .portal-lightbox-nav-left { left:1rem; }
+  .portal-lightbox-nav-right { right:1rem; }
+</style>
+
+<!-- Skip to content -->
+<a href="#portal-main-content" class="portal-skip-link">Skip to content</a>
+
+<!-- Ambient background -->
+<div class="portal-bg-ambient" aria-hidden="true"></div>
+
+<div id="portal-app">
+  <!-- Login View -->
+  <div id="portal-login" class="portal-login">
+    <div class="portal-panel" style="max-width:28rem;margin:2rem auto;padding:2rem;">
+      <h1>Client Portal</h1>
+      <p>Sign in to access your account</p>
+      <div id="portal-login-form">
+        <input type="email" id="portal-email" class="portal-input" placeholder="Email address" autocomplete="email" />
+        <input type="password" id="portal-password" class="portal-input" placeholder="Password" autocomplete="current-password" style="display:none;" />
+        <div id="portal-login-error" class="portal-error" style="display:none;"></div>
+        <div id="portal-login-success" class="portal-success" style="display:none;"></div>
+        <button class="portal-btn" id="portal-login-btn">Sign In</button>
+        <div style="margin-top:1rem;">
+          <button class="portal-link" id="portal-toggle-mode">Sign in with password</button>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <button class="portal-link" id="portal-forgot-btn" style="display:none;">Forgot password?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard View -->
+  <div id="portal-shell" class="portal-shell">
+    <!-- Top bar -->
+    <div class="portal-topbar">
+      <span>Client Portal</span>
+      <a href="/" class="portal-topbar-link">Back to site</a>
+    </div>
+
+    <!-- Sticky header -->
+    <header class="portal-sticky-header">
+      <div class="portal-header-inner">
+        <div class="portal-header-left">
+          <div class="portal-avatar" id="portal-avatar-circle"></div>
+          <span class="portal-header-name" id="portal-client-name"></span>
+        </div>
+        <div class="portal-header-right">
+          <!-- Notification bell dropdown -->
+          <div style="position:relative;" id="portal-notif-wrap">
+            <button type="button" id="portal-notif-bell" class="portal-header-icon-btn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" aria-controls="portal-notif-dropdown">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+              <span id="portal-notif-badge" style="display:none;position:absolute;top:0.25rem;right:0.25rem;width:0.5rem;height:0.5rem;border-radius:50%;background:#ef4444;border:2px solid var(--portal-panel);"></span>
+            </button>
+            <div id="portal-notif-dropdown" role="menu" style="display:none;position:absolute;right:0;top:2.75rem;width:20rem;max-height:24rem;overflow-y:auto;z-index:500;" class="portal-panel">
+              <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--portal-border);display:flex;justify-content:space-between;align-items:center;">
+                <strong style="font-size:var(--portal-font-sm);color:var(--portal-text);">Notifications</strong>
+                <button type="button" id="portal-notif-mark-all" style="font-size:var(--portal-font-xs);color:var(--portal-accent);background:none;border:none;cursor:pointer;font-weight:600;">Mark all read</button>
+              </div>
+              <div id="portal-notif-dropdown-list"></div>
+              <div id="portal-notif-dropdown-empty" style="padding:2rem 1rem;text-align:center;color:var(--portal-text-muted);font-size:var(--portal-font-sm);">No notifications</div>
+            </div>
+          </div>
+          <!-- Theme toggle -->
+          <button type="button" id="portal-theme-toggle" class="portal-header-icon-btn" aria-label="Switch to dark mode" aria-pressed="false">
+            <svg id="portal-theme-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            <svg id="portal-theme-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+          <!-- Logout icon -->
+          <button type="button" id="portal-logout-btn" class="portal-header-icon-btn" aria-label="Log out">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 17 5-5-5-5M21 12H9M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="portal-nav" id="portal-nav" role="tablist" aria-orientation="horizontal">
+      <button class="portal-nav-btn active" data-tab="dashboard" id="tab-btn-dashboard" role="tab" aria-selected="true" aria-controls="tab-dashboard" tabindex="0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="portal-nav-btn" data-tab="messages" id="tab-btn-messages" role="tab" aria-selected="false" aria-controls="tab-messages" tabindex="-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Messages</span></button>
+      <button class="portal-nav-btn" data-tab="contracts" id="tab-btn-contracts" role="tab" aria-selected="false" aria-controls="tab-contracts" tabindex="-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg><span>Contracts</span></button>
+      <button class="portal-nav-btn" data-tab="invoices" id="tab-btn-invoices" role="tab" aria-selected="false" aria-controls="tab-invoices" tabindex="-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2z"/><path d="M15 8H9"/><path d="M15 12H9"/><path d="M13 16H9"/></svg><span>Invoices</span></button>
+      <button class="portal-nav-btn" data-tab="files" id="tab-btn-files" role="tab" aria-selected="false" aria-controls="tab-files" tabindex="-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v1"/><path d="m3 13 2-4h16l-2 10H5z"/></svg><span>Files</span></button>
+      <button class="portal-nav-btn" data-tab="account" id="tab-btn-account" role="tab" aria-selected="false" aria-controls="tab-account" tabindex="-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Account</span>
+      </button>
+    </nav>
+
+    <!-- Main content -->
+    <main id="portal-main-content">
+      <!-- Set password banner -->
+      <div id="portal-set-pw" class="portal-set-pw-banner" style="display:none;">
+        <p>Set a password so you can log in anytime without a magic link.</p>
+        <div class="portal-set-pw-form">
+          <input type="password" id="portal-new-pw" class="portal-input" placeholder="New password (8+ chars)" />
+          <button class="portal-btn" id="portal-set-pw-btn" style="width:auto;">Set Password</button>
+        </div>
+      </div>
+
+      <!-- Dashboard tab -->
+      <div id="tab-dashboard" class="portal-tab-content active" role="tabpanel" aria-labelledby="tab-btn-dashboard">
+        <!-- Greeting -->
+        <h1 id="portal-greeting" style="font-size:1.75rem;font-weight:700;color:var(--portal-text);margin:0 0 0.25rem;">Hi &#x1F44B;</h1>
+        <p style="font-size:var(--portal-font-sm);color:var(--portal-text-muted);margin:0 0 1.5rem;">Here's what's happening.</p>
+
+        <!-- Push notification prompt (dismissible) -->
+        <div id="portal-push-prompt" class="portal-panel" style="display:none;padding:1rem 1.25rem;margin-bottom:1.5rem;border-left:3px solid var(--portal-accent);">
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <strong style="font-size:var(--portal-font-sm);color:var(--portal-text);">Enable Notifications</strong>
+              <p style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin:0.25rem 0 0;">Get notified about messages, invoices, and updates.</p>
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="portal-btn" style="padding:0.4rem 1rem;font-size:var(--portal-font-xs);" id="portal-push-enable">Enable</button>
+              <button class="portal-btn-secondary" style="padding:0.4rem 0.75rem;font-size:var(--portal-font-xs);" id="portal-push-dismiss">Later</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI cards -->
+        <div id="portal-kpi-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem;">
+          <div class="portal-panel" style="padding:1rem;text-align:center;">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--portal-text);" id="portal-kpi-notifs">0</div>
+            <h3 style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin:0.25rem 0 0;font-weight:500;">Notifications</h3>
+          </div>
+          <div class="portal-panel" style="padding:1rem;text-align:center;">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--portal-text);" id="portal-kpi-actions">0</div>
+            <h3 style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin:0.25rem 0 0;font-weight:500;">Action Items</h3>
+          </div>
+          <div class="portal-panel" style="padding:1rem;text-align:center;">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--portal-text);" id="portal-kpi-messages">&mdash;</div>
+            <h3 style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin:0.25rem 0 0;font-weight:500;">Messages</h3>
+          </div>
+        </div>
+
+        <!-- Recent activity -->
+        <h2 style="font-size:1rem;font-weight:600;color:var(--portal-text);margin:0 0 0.75rem;">Recent Activity</h2>
+        <ul id="portal-activity-feed" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+          <li class="portal-empty" id="portal-activity-empty"><p>No recent activity.</p></li>
+        </ul>
+
+        
+      </div>
+
+      <!-- Account tab -->
+      <div class="portal-tab-content" id="tab-account" role="tabpanel" aria-labelledby="tab-btn-account">
+        <!-- Profile card -->
+        <div class="portal-panel" style="padding:1.25rem;display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+          <div class="portal-avatar" id="portal-account-avatar" style="width:3.5rem;height:3.5rem;font-size:1.25rem;"></div>
+          <div>
+            <div style="font-weight:700;font-size:1.1rem;color:var(--portal-text);" id="portal-account-name"></div>
+            <div style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);" id="portal-account-email"></div>
+          </div>
+        </div>
+
+        <!-- Security / Change Password -->
+        <div class="portal-panel" style="padding:1.25rem;margin-bottom:1rem;">
+          <h3 style="font-size:var(--portal-font-sm);font-weight:600;color:var(--portal-text);margin:0 0 1rem;">Security</h3>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div>
+              <label for="portal-acct-new-pw" style="display:block;font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin-bottom:0.25rem;">New Password</label>
+              <input type="password" id="portal-acct-new-pw" class="portal-input" placeholder="Minimum 8 characters" autocomplete="new-password" style="width:100%;" />
+            </div>
+            <div>
+              <label for="portal-acct-confirm-pw" style="display:block;font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin-bottom:0.25rem;">Confirm Password</label>
+              <input type="password" id="portal-acct-confirm-pw" class="portal-input" placeholder="Repeat password" autocomplete="new-password" style="width:100%;" />
+            </div>
+            <button class="portal-btn" id="portal-acct-save-pw" style="width:auto;align-self:flex-start;padding:0.5rem 1.25rem;font-size:var(--portal-font-sm);">Update Password</button>
+          </div>
+        </div>
+
+        <!-- Logout -->
+        <button class="portal-panel" id="portal-acct-logout" style="width:100%;padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;cursor:pointer;border:1px solid var(--portal-border);background:var(--portal-panel);border-radius:var(--portal-radius);" aria-label="Log out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="m16 17 5-5-5-5M21 12H9M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+          <span style="font-size:var(--portal-font-sm);font-weight:600;color:#ef4444;">Log Out</span>
+        </button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="portal-toast-container" role="status" aria-live="polite"></div>
+
+<!-- Modal backdrop -->
+<div id="portal-modal-backdrop"></div>
+
+<!-- Offline banner -->
+<div id="portal-offline-banner" role="alert">You are offline. Some features may be unavailable.</div>
+
+<!-- Photo lightbox -->
+<div id="portal-lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="portal-lightbox-header">
+    <span class="portal-lightbox-title" id="portal-lightbox-title">Photo</span>
+    <div class="portal-lightbox-controls">
+      <button type="button" class="portal-lightbox-btn" id="portal-lightbox-zoom-in" aria-label="Zoom in"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg></button>
+      <button type="button" class="portal-lightbox-btn" id="portal-lightbox-zoom-out" aria-label="Zoom out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M8 11h6"/></svg></button>
+      <button type="button" class="portal-lightbox-btn" id="portal-lightbox-close" aria-label="Close lightbox"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="portal-lightbox-stage" id="portal-lightbox-stage">
+    <button type="button" class="portal-lightbox-btn portal-lightbox-nav portal-lightbox-nav-left" id="portal-lightbox-prev" aria-label="Previous photo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+    <img id="portal-lightbox-img" class="portal-lightbox-img" alt="" />
+    <button type="button" class="portal-lightbox-btn portal-lightbox-nav portal-lightbox-nav-right" id="portal-lightbox-next" aria-label="Next photo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var API_BASE = '/api/portal';
+  var state = { token: '', client: null, mode: 'magic_link', notifications: [] };
+
+  // DOM refs
+  var loginView = document.getElementById('portal-login');
+  var shellView = document.getElementById('portal-shell');
+  var emailInput = document.getElementById('portal-email');
+  var pwInput = document.getElementById('portal-password');
+  var loginBtn = document.getElementById('portal-login-btn');
+  var loginError = document.getElementById('portal-login-error');
+  var loginSuccess = document.getElementById('portal-login-success');
+  var toggleMode = document.getElementById('portal-toggle-mode');
+  var forgotBtn = document.getElementById('portal-forgot-btn');
+  var clientName = document.getElementById('portal-client-name');
+  var avatarCircle = document.getElementById('portal-avatar-circle');
+  var logoutBtn = document.getElementById('portal-logout-btn');
+  var setPwBanner = document.getElementById('portal-set-pw');
+  var newPwInput = document.getElementById('portal-new-pw');
+  var setPwBtn = document.getElementById('portal-set-pw-btn');
+  var portalNav = document.getElementById('portal-nav');
+  var navDesktopMQ = window.matchMedia('(min-width: 768px)');
+
+  // Utils
+  function showError(msg) { loginError.textContent = msg; loginError.style.display = 'block'; loginSuccess.style.display = 'none'; }
+  function showSuccess(msg) { loginSuccess.textContent = msg; loginSuccess.style.display = 'block'; loginError.style.display = 'none'; }
+  function hideMessages() { loginError.style.display = 'none'; loginSuccess.style.display = 'none'; }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function timeAgo(iso) {
+    var d = new Date(iso); var now = Date.now(); var diff = (now - d.getTime()) / 1000;
+    if (diff < 60) return 'just now'; if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff/3600) + 'h ago'; return Math.floor(diff/86400) + 'd ago';
+  }
+  function safeSrc(url) {
+    if (!url) return '';
+    var s = String(url).trim();
+    if (s.startsWith('/') || s.startsWith('https:') || s.startsWith('http:')) return s;
+    if (s.startsWith('data:image/')) return s;
+    return '';
+  }
+
+  async function apiFetch(path, opts) {
+    opts = opts || {};
+    var headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+    if (state.token) headers['Authorization'] = 'Bearer ' + state.token;
+    var res = await fetch(API_BASE + path, Object.assign({}, opts, { headers: headers }));
+    var data = await res.json().catch(function() { return {}; });
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  // Check for magic link token in URL
+  async function checkMagicLink() {
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get('token');
+    if (!token) return false;
+    try {
+      var data = await apiFetch('/auth/verify?token=' + encodeURIComponent(token));
+      window.history.replaceState({}, '', window.location.pathname);
+      state.token = data.token;
+      state.client = data.client;
+      sessionStorage.setItem('portal_token', data.token);
+      sessionStorage.setItem('portal_client', JSON.stringify(data.client));
+      if (data.auth_mode === 'recovery') state.showSetPassword = true;
+      return true;
+    } catch (e) {
+      window.history.replaceState({}, '', window.location.pathname);
+      showError(e.message);
+      return false;
+    }
+  }
+
+  // Check existing session
+  async function checkSession() {
+    var token = sessionStorage.getItem('portal_token');
+    if (!token) return false;
+    try {
+      state.token = token;
+      var data = await apiFetch('/auth/check');
+      state.client = data.client;
+      sessionStorage.setItem('portal_client', JSON.stringify(data.client));
+      return true;
+    } catch (e) {
+      sessionStorage.removeItem('portal_token');
+      sessionStorage.removeItem('portal_client');
+      state.token = '';
+      return false;
+    }
+  }
+
+  function showDashboard() {
+    loginView.style.display = 'none';
+    shellView.style.display = 'block';
+    var c = state.client;
+    clientName.textContent = c.name || c.email || 'Client';
+    var initials = (c.name || c.email || '?').split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0,2);
+    avatarCircle.textContent = initials;
+    var firstName = (state.client.name || '').split(' ')[0] || 'there';
+    document.getElementById('portal-greeting').textContent = 'Hi, ' + firstName + ' 👋';
+    if (!c.hasPassword || state.showSetPassword) setPwBanner.style.display = 'flex';
+    loadDashboard();
+    populateAccountTab();
+  }
+
+  // Login
+  loginBtn.addEventListener('click', async function() {
+    hideMessages();
+    loginBtn.disabled = true;
+    try {
+      if (state.mode === 'magic_link') {
+        var email = emailInput.value.trim();
+        if (!email) { showError('Enter your email'); return; }
+        await apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email: email }) });
+        showSuccess('Check your email for a login link.');
+      } else {
+        var email = emailInput.value.trim();
+        var password = pwInput.value;
+        if (!email || !password) { showError('Enter email and password'); return; }
+        var data = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify({ email: email, password: password }) });
+        state.token = data.token;
+        state.client = data.client;
+        sessionStorage.setItem('portal_token', data.token);
+        sessionStorage.setItem('portal_client', JSON.stringify(data.client));
+        showDashboard();
+      }
+    } catch (e) { showError(e.message); }
+    finally { loginBtn.disabled = false; }
+  });
+
+  // Toggle login mode
+  toggleMode.addEventListener('click', function() {
+    hideMessages();
+    if (state.mode === 'magic_link') {
+      state.mode = 'password';
+      pwInput.style.display = 'block';
+      forgotBtn.style.display = 'inline';
+      toggleMode.textContent = 'Sign in with magic link';
+      loginBtn.textContent = 'Sign In';
+    } else {
+      state.mode = 'magic_link';
+      pwInput.style.display = 'none';
+      forgotBtn.style.display = 'none';
+      toggleMode.textContent = 'Sign in with password';
+      loginBtn.textContent = 'Send Magic Link';
+    }
+  });
+
+  // Forgot password
+  forgotBtn.addEventListener('click', async function() {
+    var email = emailInput.value.trim();
+    if (!email) { showError('Enter your email first'); return; }
+    try {
+      await apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email: email }) });
+      showSuccess('If that email is registered, a recovery link has been sent.');
+    } catch (e) { showError(e.message); }
+  });
+
+  // Set password
+  setPwBtn.addEventListener('click', async function() {
+    var pw = newPwInput.value;
+    if (!pw || pw.length < 8) { alert('Password must be at least 8 characters'); return; }
+    try {
+      await apiFetch('/auth/set-password', { method: 'POST', body: JSON.stringify({ password: pw }) });
+      setPwBanner.style.display = 'none';
+      state.client.hasPassword = true;
+    } catch (e) { alert(e.message); }
+  });
+
+  // Shared logout logic
+  function doLogout() {
+    sessionStorage.removeItem('portal_token');
+    sessionStorage.removeItem('portal_client');
+    state.token = ''; state.client = null;
+    shellView.style.display = 'none';
+    loginView.style.display = 'block';
+    emailInput.value = ''; pwInput.value = '';
+  }
+
+  // Logout (header icon) — with confirmation
+  logoutBtn.addEventListener('click', async function() {
+    var confirmed = await showConfirm({ message: 'Log out of your portal?', danger: true, confirmLabel: 'Log Out' });
+    if (confirmed) doLogout();
+  });
+
+  // Tab switching with ARIA + keyboard
+  function activateTab(btn) {
+    if (btn.dataset.tab === 'notifications') { console.info("Portal: 'notifications' tab redirected to bell dropdown (migration shim)"); toggleNotifDropdown(); return; }
+    document.querySelectorAll('.portal-nav-btn').forEach(function(b) {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+      b.setAttribute('tabindex', '-1');
+    });
+    document.querySelectorAll('.portal-tab-content').forEach(function(c) { c.classList.remove('active'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    btn.setAttribute('tabindex', '0');
+    var tab = document.getElementById('tab-' + btn.dataset.tab);
+    if (tab) tab.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function syncNavOrientation() {
+    if (!portalNav) return;
+    portalNav.setAttribute('aria-orientation', navDesktopMQ.matches ? 'vertical' : 'horizontal');
+  }
+  syncNavOrientation();
+  if (typeof navDesktopMQ.addEventListener === 'function') {
+    navDesktopMQ.addEventListener('change', syncNavOrientation);
+  } else if (typeof navDesktopMQ.addListener === 'function') {
+    navDesktopMQ.addListener(syncNavOrientation);
+  }
+
+  if (portalNav) portalNav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.portal-nav-btn');
+    if (!btn) return;
+    activateTab(btn);
+  });
+
+  if (portalNav) portalNav.addEventListener('keydown', function(e) {
+    var btn = e.target.closest('.portal-nav-btn');
+    if (!btn) return;
+    var tabs = Array.from(document.querySelectorAll('.portal-nav-btn'));
+    var idx = tabs.indexOf(btn);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      var moveForward = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+      var next = moveForward ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      activateTab(tabs[next]);
+    }
+    if (e.key === 'Home') { e.preventDefault(); tabs[0].focus(); activateTab(tabs[0]); }
+    if (e.key === 'End') { e.preventDefault(); tabs[tabs.length-1].focus(); activateTab(tabs[tabs.length-1]); }
+  });
+
+  // Theme toggle
+  function setPortalTheme(isDark) {
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('portal-theme', isDark ? 'dark' : 'light');
+    var toggle = document.getElementById('portal-theme-toggle');
+    var sun = document.getElementById('portal-theme-sun');
+    var moon = document.getElementById('portal-theme-moon');
+    if (toggle) { toggle.setAttribute('aria-pressed', String(isDark)); toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode'); }
+    if (sun) sun.style.display = isDark ? 'none' : 'block';
+    if (moon) moon.style.display = isDark ? 'block' : 'none';
+  }
+  var savedTheme = localStorage.getItem('portal-theme');
+  if (savedTheme === 'dark') setPortalTheme(true);
+  var themeToggle = document.getElementById('portal-theme-toggle');
+  if (themeToggle) themeToggle.addEventListener('click', function() { setPortalTheme(!document.body.classList.contains('dark-mode')); });
+
+  // Notifications
+  async function loadNotifications() {
+    try {
+      var data = await apiFetch('/notifications');
+      state.notifications = data.notifications || [];
+      var unread = state.notifications.filter(function(n) { return !n.is_read; }).length;
+      var kpiEl = document.getElementById('portal-kpi-notifs');
+      if (kpiEl) kpiEl.textContent = String(unread);
+      var actCount = state.notifications.filter(function(n) { return !n.is_read && n.action_url; }).length;
+      var actEl = document.getElementById('portal-kpi-actions');
+      if (actEl) actEl.textContent = String(actCount);
+      renderActivityFeed();
+      updateNotifBadge();
+    } catch (e) { /* ignore */ }
+  }
+
+  function renderNotifications() {
+    // Legacy compat — notifications now shown in dropdown + activity feed
+  }
+
+  // Format helpers
+  function formatCurrency(cents) { return '$' + (Number(cents) / 100).toFixed(2); }
+  function formatDate(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function formatFileSize(bytes) {
+    if (!bytes) return '';
+    var units = ['B', 'KB', 'MB', 'GB'];
+    var i = 0; var size = Number(bytes);
+    while (size >= 1024 && i < units.length - 1) { size /= 1024; i++; }
+    return size.toFixed(i > 0 ? 1 : 0) + ' ' + units[i];
+  }
+
+  // Toast system
+  var portalToastStack = [];
+  var portalToastQueue = [];
+  var PORTAL_TOAST_MAX = 3;
+
+  function dismissToast(entry) {
+    if (entry.dismissed) return;
+    entry.dismissed = true;
+    if (entry.timer) clearTimeout(entry.timer);
+    entry.el.classList.remove('visible');
+    entry.el.classList.add('removing');
+    setTimeout(function() {
+      if (entry.el.parentNode) entry.el.parentNode.removeChild(entry.el);
+      var idx = portalToastStack.indexOf(entry);
+      if (idx !== -1) portalToastStack.splice(idx, 1);
+      if (portalToastQueue.length && portalToastStack.length < PORTAL_TOAST_MAX) {
+        var next = portalToastQueue.shift();
+        showToast(next.message, next.options);
+      }
+    }, 300);
+  }
+
+  function showToast(message, typeOrOptions) {
+    var options = {};
+    if (typeof typeOrOptions === 'string' || !typeOrOptions) { options.type = typeOrOptions || ''; }
+    else { options = typeOrOptions; }
+    var container = document.getElementById('portal-toast-container');
+    if (!container) return;
+    var type = options.type || '';
+    var duration = typeof options.duration === 'number' ? options.duration : 3000;
+    if (portalToastStack.length >= PORTAL_TOAST_MAX) {
+      portalToastQueue.push({ message: message, options: options });
+      return;
+    }
+    var el = document.createElement('div');
+    el.className = 'portal-toast-item' + (type ? ' ' + type : '');
+    var span = document.createElement('span');
+    span.style.flex = '1';
+    span.textContent = message;
+    el.appendChild(span);
+    if (duration > 0) {
+      var progress = document.createElement('div');
+      progress.className = 'portal-toast-progress';
+      progress.style.animationDuration = duration + 'ms';
+      el.appendChild(progress);
+    }
+    var entry = { el: el, dismissed: false, timer: null };
+    el.addEventListener('click', function() { dismissToast(entry); });
+    container.appendChild(el);
+    portalToastStack.push(entry);
+    setTimeout(function() { el.classList.add('visible'); }, 10);
+    if (duration > 0) {
+      entry.timer = setTimeout(function() { dismissToast(entry); }, duration);
+    }
+  }
+
+  // Centralized modal manager
+  var portalModalStack = [];
+
+  function pushModal(el, opts) {
+    opts = opts || {};
+    var entry = { el: el, onClose: opts.onClose || null, triggerEl: opts.triggerEl || null, trapFocus: opts.trapFocus !== false };
+    portalModalStack.push(entry);
+    if (entry.trapFocus) setupFocusTrap(el);
+    var backdrop = document.getElementById('portal-modal-backdrop');
+    if (backdrop) backdrop.classList.add('open');
+  }
+
+  function popModal() {
+    if (portalModalStack.length === 0) return;
+    var entry = portalModalStack.pop();
+    if (entry.onClose) entry.onClose();
+    if (entry.triggerEl && entry.triggerEl.focus) entry.triggerEl.focus();
+    if (portalModalStack.length === 0) {
+      var backdrop = document.getElementById('portal-modal-backdrop');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+  }
+
+  function topModal() { return portalModalStack.length > 0 ? portalModalStack[portalModalStack.length - 1] : null; }
+  function isModalOpen() { return portalModalStack.length > 0; }
+
+  function setupFocusTrap(el) {
+    var focusable = el.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (focusable.length > 0) focusable[0].focus();
+    el.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
+      var nodes = el.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (nodes.length === 0) return;
+      var first = nodes[0];
+      var last = nodes[nodes.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+
+  // Single Escape listener for modal stack
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && portalModalStack.length > 0) {
+      e.preventDefault();
+      popModal();
+    }
+  });
+
+  // Backdrop click closes top modal
+  var modalBackdrop = document.getElementById('portal-modal-backdrop');
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', function() { if (portalModalStack.length > 0) popModal(); });
+  }
+
+  // Confirm dialog (promise-based)
+  function showConfirm(options) {
+    options = options || {};
+    var message = options.message || 'Are you sure?';
+    var danger = options.danger || false;
+    var confirmLabel = options.confirmLabel || 'Confirm';
+    var cancelLabel = options.cancelLabel || 'Cancel';
+    return new Promise(function(resolve) {
+      var overlay = document.createElement('div');
+      overlay.className = 'portal-confirm-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      var panel = document.createElement('div');
+      panel.className = 'portal-panel portal-confirm-panel';
+      var msg = document.createElement('p');
+      msg.textContent = message;
+      msg.style.fontSize = 'var(--portal-font-sm)';
+      msg.style.color = 'var(--portal-text)';
+      msg.style.margin = '0';
+      panel.appendChild(msg);
+      var actions = document.createElement('div');
+      actions.className = 'portal-confirm-actions';
+      var cancelBtn = document.createElement('button');
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'portal-confirm-cancel';
+      cancelBtn.textContent = cancelLabel;
+      var confirmBtn = document.createElement('button');
+      confirmBtn.type = 'button';
+      confirmBtn.className = 'portal-btn' + (danger ? ' portal-confirm-danger' : '');
+      confirmBtn.style.padding = '0.5rem 1rem';
+      confirmBtn.style.fontSize = 'var(--portal-font-sm)';
+      confirmBtn.textContent = confirmLabel;
+      actions.appendChild(cancelBtn);
+      actions.appendChild(confirmBtn);
+      panel.appendChild(actions);
+      overlay.appendChild(panel);
+      var done = false;
+      function finish(result) {
+        if (done) return;
+        done = true;
+        popModal();
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        resolve(result);
+      }
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) finish(false); });
+      cancelBtn.addEventListener('click', function() { finish(false); });
+      confirmBtn.addEventListener('click', function() { finish(true); });
+      document.body.appendChild(overlay);
+      pushModal(overlay, { onClose: function() { finish(false); }, trapFocus: true });
+    });
+  }
+
+  // Drawer helpers
+  function openPortalDrawer(id, triggerEl) {
+    var drawer = document.getElementById(id);
+    if (!drawer) return;
+    drawer.classList.add('open');
+    pushModal(drawer, { onClose: function() { drawer.classList.remove('open'); }, triggerEl: triggerEl, trapFocus: true });
+  }
+  function closePortalDrawers() {
+    while (portalModalStack.length > 0) popModal();
+  }
+
+  // Offline indicator
+  var offlineBanner = document.getElementById('portal-offline-banner');
+  if (offlineBanner) {
+    if (!navigator.onLine) offlineBanner.style.display = 'block';
+    window.addEventListener('offline', function() { offlineBanner.style.display = 'block'; showToast('You are offline', 'warning'); });
+    window.addEventListener('online', function() { offlineBanner.style.display = 'none'; showToast('Back online', 'success'); });
+  }
+
+  // Dashboard loader
+  function loadDashboard() {
+    loadNotifications();
+    // KPI: notification count
+    var unread = (state.notifications || []).filter(function(n) { return !n.is_read; }).length;
+    var el = document.getElementById('portal-kpi-notifs');
+    if (el) el.textContent = String(unread);
+    // KPI: action items (notifications with action_url)
+    var actions = (state.notifications || []).filter(function(n) { return !n.is_read && n.action_url; }).length;
+    var actEl = document.getElementById('portal-kpi-actions');
+    if (actEl) actEl.textContent = String(actions);
+    // Activity feed
+    renderActivityFeed();
+    // Push prompt
+    if (!localStorage.getItem('portal-push-dismissed')) {
+      var prompt = document.getElementById('portal-push-prompt');
+      if (prompt) prompt.style.display = 'block';
+    }
+  }
+
+  function renderActivityFeed() {
+    var feed = document.getElementById('portal-activity-feed');
+    var empty = document.getElementById('portal-activity-empty');
+    if (!feed) return;
+    var items = (state.notifications || []).slice(0, 5);
+    if (items.length === 0) { if (empty) empty.style.display = 'block'; return; }
+    if (empty) empty.style.display = 'none';
+    feed.innerHTML = items.map(function(n) {
+      return '<li class="portal-panel" style="padding:0.75rem 1rem;display:flex;align-items:flex-start;gap:0.75rem;">' +
+        '<div style="width:2rem;height:2rem;border-radius:0.5rem;background:rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--portal-text-muted)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>' +
+        '</div>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-size:var(--portal-font-sm);font-weight:600;color:var(--portal-text);">' + esc(n.title || '') + '</div>' +
+          '<div style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin-top:0.15rem;">' + esc(n.message || '') + '</div>' +
+        '</div>' +
+        '<time style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);white-space:nowrap;" datetime="' + esc(n.created_at || '') + '">' + timeAgo(n.created_at) + '</time>' +
+      '</li>';
+    }).join('');
+  }
+
+  // Push prompt handlers
+  var pushEnableBtn = document.getElementById('portal-push-enable');
+  var pushDismissBtn = document.getElementById('portal-push-dismiss');
+  if (pushEnableBtn) pushEnableBtn.addEventListener('click', function() {
+    showToast('Notifications will be enabled when supported.', 'success');
+    document.getElementById('portal-push-prompt').style.display = 'none';
+    localStorage.setItem('portal-push-dismissed', '1');
+  });
+  if (pushDismissBtn) pushDismissBtn.addEventListener('click', function() {
+    document.getElementById('portal-push-prompt').style.display = 'none';
+    localStorage.setItem('portal-push-dismissed', '1');
+  });
+
+  // Account tab
+  function populateAccountTab() {
+    var c = state.client;
+    if (!c) return;
+    var name = document.getElementById('portal-account-name');
+    var email = document.getElementById('portal-account-email');
+    var avatar = document.getElementById('portal-account-avatar');
+    if (name) name.textContent = c.name || c.email || 'Client';
+    if (email) email.textContent = c.email || '';
+    if (avatar) avatar.textContent = (c.name || c.email || '?').split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0,2);
+  }
+
+  // Change password (Account tab)
+  var acctSavePw = document.getElementById('portal-acct-save-pw');
+  if (acctSavePw) acctSavePw.addEventListener('click', async function() {
+    var newPw = document.getElementById('portal-acct-new-pw').value;
+    var confirmPw = document.getElementById('portal-acct-confirm-pw').value;
+    if (!newPw || newPw.length < 8) { showToast('Password must be at least 8 characters', 'error'); return; }
+    if (newPw !== confirmPw) { showToast('Passwords do not match', 'error'); return; }
+    try {
+      await apiFetch('/auth/set-password', { method: 'POST', body: JSON.stringify({ password: newPw }) });
+      showToast('Password updated', 'success');
+      document.getElementById('portal-acct-new-pw').value = '';
+      document.getElementById('portal-acct-confirm-pw').value = '';
+      state.client.hasPassword = true;
+      if (setPwBanner) setPwBanner.style.display = 'none';
+    } catch(e) { showToast(e.message || 'Failed to update password', 'error'); }
+  });
+
+  // Account logout with confirmation (reuses doLogout)
+  var acctLogout = document.getElementById('portal-acct-logout');
+  if (acctLogout) acctLogout.addEventListener('click', async function() {
+    var confirmed = await showConfirm({ message: 'Log out of your portal?', danger: true, confirmLabel: 'Log Out' });
+    if (confirmed) doLogout();
+  });
+
+  // Notification bell dropdown
+  var notifBell = document.getElementById('portal-notif-bell');
+  var notifDropdown = document.getElementById('portal-notif-dropdown');
+  var notifDropdownOpen = false;
+
+  function toggleNotifDropdown() {
+    notifDropdownOpen = !notifDropdownOpen;
+    if (notifDropdown) notifDropdown.style.display = notifDropdownOpen ? 'block' : 'none';
+    if (notifBell) notifBell.setAttribute('aria-expanded', String(notifDropdownOpen));
+    if (notifDropdownOpen) {
+      renderNotifDropdown();
+      // Focus first menuitem on open
+      setTimeout(function() {
+        var first = notifDropdown.querySelector('[role="menuitem"]');
+        if (first) first.focus();
+      }, 10);
+    } else {
+      // Return focus to bell on close
+      if (notifBell) notifBell.focus();
+    }
+  }
+
+  function renderNotifDropdown() {
+    var list = document.getElementById('portal-notif-dropdown-list');
+    var empty = document.getElementById('portal-notif-dropdown-empty');
+    if (!list) return;
+    var items = (state.notifications || []).slice(0, 5);
+    if (items.length === 0) { list.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
+    if (empty) empty.style.display = 'none';
+    list.innerHTML = items.map(function(n) {
+      return '<div role="menuitem" tabindex="-1" style="padding:0.75rem 1rem;border-bottom:1px solid var(--portal-border);display:flex;gap:0.5rem;align-items:flex-start;cursor:pointer;" class="portal-notif-dropdown-item">' +
+        (!n.is_read ? '<span style="width:0.5rem;height:0.5rem;border-radius:50%;background:#ef4444;margin-top:0.4rem;flex-shrink:0;"></span>' : '<span style="width:0.5rem;flex-shrink:0;"></span>') +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-size:var(--portal-font-xs);font-weight:600;color:var(--portal-text);">' + esc(n.title || '') + '</div>' +
+          '<div style="font-size:var(--portal-font-xs);color:var(--portal-text-muted);margin-top:0.1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(n.message || '') + '</div>' +
+        '</div>' +
+        '<span style="font-size:0.65rem;color:var(--portal-text-muted);white-space:nowrap;">' + timeAgo(n.created_at) + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (notifBell) notifBell.addEventListener('click', function(e) { e.stopPropagation(); toggleNotifDropdown(); });
+
+  // Close dropdown on outside click
+  document.addEventListener('click', function(e) {
+    if (notifDropdownOpen && notifDropdown && !notifDropdown.contains(e.target) && e.target !== notifBell) {
+      toggleNotifDropdown();
+    }
+  });
+
+  // Mark all read
+  var markAllBtn = document.getElementById('portal-notif-mark-all');
+  if (markAllBtn) markAllBtn.addEventListener('click', function() {
+    var unreadIds = (state.notifications || []).filter(function(n) { return !n.is_read; }).map(function(n) { return n.id; });
+    if (unreadIds.length > 0) {
+      apiFetch('/notifications/read', { method: 'POST', body: JSON.stringify({ ids: unreadIds }) }).catch(function() {});
+      state.notifications.forEach(function(n) { n.is_read = true; });
+    }
+    updateNotifBadge();
+    renderNotifDropdown();
+    showToast('All notifications marked as read', 'success');
+  });
+
+  function updateNotifBadge() {
+    var badge = document.getElementById('portal-notif-badge');
+    var unread = (state.notifications || []).filter(function(n) { return !n.is_read; }).length;
+    if (badge) badge.style.display = unread > 0 ? 'block' : 'none';
+    if (notifBell) notifBell.setAttribute('aria-label', 'Notifications' + (unread > 0 ? ', ' + unread + ' unread' : ''));
+  }
+
+  // Keyboard navigation for notification dropdown (WAI-ARIA Menu pattern)
+  if (notifDropdown) notifDropdown.addEventListener('keydown', function(e) {
+    var items = Array.from(notifDropdown.querySelectorAll('[role="menuitem"]'));
+    var idx = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); var next = idx < items.length - 1 ? idx + 1 : 0; items[next].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); var prev = idx > 0 ? idx - 1 : items.length - 1; items[prev].focus(); }
+    if (e.key === 'Home') { e.preventDefault(); if (items.length) items[0].focus(); }
+    if (e.key === 'End') { e.preventDefault(); if (items.length) items[items.length-1].focus(); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (idx >= 0) items[idx].click(); }
+    if (e.key === 'Escape') { toggleNotifDropdown(); }
+    if (e.key === 'Tab') { toggleNotifDropdown(); }
+  });
+
+  // Poll notification count every 60s
+  setInterval(function() {
+    if (state.token && document.visibilityState !== 'hidden') {
+      apiFetch('/notifications').then(function(data) {
+        state.notifications = data.notifications || [];
+        updateNotifBadge();
+      }).catch(function() {});
+    }
+  }, 60000);
+
+  // Photo lightbox
+  var lbState = { images: [], index: 0, scale: 1, x: 0, y: 0, dragging: false, lastX: 0, lastY: 0 };
+
+  function openLightbox(images, startIndex) {
+    if (!images || images.length === 0) return;
+    lbState.images = images;
+    lbState.index = startIndex || 0;
+    lbState.scale = 1; lbState.x = 0; lbState.y = 0;
+    var lb = document.getElementById('portal-lightbox');
+    if (!lb) return;
+    lb.classList.add('open');
+    loadLightboxImage();
+    pushModal(lb, { onClose: function() { lb.classList.remove('open'); }, trapFocus: true });
+  }
+
+  function closeLightbox() { popModal(); }
+
+  function loadLightboxImage() {
+    var img = document.getElementById('portal-lightbox-img');
+    var title = document.getElementById('portal-lightbox-title');
+    var curr = lbState.images[lbState.index];
+    if (!curr) return;
+    if (img) { img.src = safeSrc(curr.src || ''); img.alt = curr.alt || 'Photo'; }
+    if (title) title.textContent = curr.alt || 'Photo ' + (lbState.index + 1);
+    lbState.scale = 1; lbState.x = 0; lbState.y = 0;
+    applyLbTransform();
+    updateLbNav();
+  }
+
+  function applyLbTransform() {
+    var img = document.getElementById('portal-lightbox-img');
+    if (img) img.style.transform = 'translate(' + lbState.x + 'px,' + lbState.y + 'px) scale(' + lbState.scale + ')';
+  }
+
+  function updateLbNav() {
+    var prev = document.getElementById('portal-lightbox-prev');
+    var next = document.getElementById('portal-lightbox-next');
+    var show = lbState.images.length > 1;
+    if (prev) prev.style.display = show ? 'flex' : 'none';
+    if (next) next.style.display = show ? 'flex' : 'none';
+  }
+
+  function lbNav(dir) {
+    lbState.index = (lbState.index + dir + lbState.images.length) % lbState.images.length;
+    loadLightboxImage();
+  }
+
+  // Lightbox button handlers
+  var lbClose = document.getElementById('portal-lightbox-close');
+  var lbPrev = document.getElementById('portal-lightbox-prev');
+  var lbNext = document.getElementById('portal-lightbox-next');
+  var lbZoomIn = document.getElementById('portal-lightbox-zoom-in');
+  var lbZoomOut = document.getElementById('portal-lightbox-zoom-out');
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (lbPrev) lbPrev.addEventListener('click', function() { lbNav(-1); });
+  if (lbNext) lbNext.addEventListener('click', function() { lbNav(1); });
+  if (lbZoomIn) lbZoomIn.addEventListener('click', function() { lbState.scale = Math.min(4, lbState.scale + 0.25); applyLbTransform(); });
+  if (lbZoomOut) lbZoomOut.addEventListener('click', function() { lbState.scale = Math.max(0.5, lbState.scale - 0.25); applyLbTransform(); });
+
+  // Keyboard: arrows for lightbox (when open)
+  document.addEventListener('keydown', function(e) {
+    var lb = document.getElementById('portal-lightbox');
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); lbNav(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); lbNav(1); }
+  });
+
+  // Lightbox backdrop click → close (click on stage outside nav buttons)
+  var lbStage = document.getElementById('portal-lightbox-stage');
+  if (lbStage) {
+    lbStage.addEventListener('click', function(e) {
+      // Only close on direct stage click (not on img or nav buttons)
+      if (e.target === lbStage && !lbState.dragging) closeLightbox();
+    });
+
+    // Mouse drag for pan
+    lbStage.addEventListener('mousedown', function(e) {
+      if (!document.getElementById('portal-lightbox').classList.contains('open')) return;
+      if (e.target.closest('button')) return; // Don't drag from buttons
+      e.preventDefault();
+      lbState.dragging = true; lbState.lastX = e.clientX; lbState.lastY = e.clientY;
+      lbStage.classList.add('dragging');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!lbState.dragging) return;
+      lbState.x += e.clientX - lbState.lastX;
+      lbState.y += e.clientY - lbState.lastY;
+      lbState.lastX = e.clientX; lbState.lastY = e.clientY;
+      applyLbTransform();
+    });
+    document.addEventListener('mouseup', function() {
+      if (lbState.dragging) { lbState.dragging = false; if (lbStage) lbStage.classList.remove('dragging'); }
+    });
+
+    // Touch pan support
+    lbStage.addEventListener('touchstart', function(e) {
+      if (!document.getElementById('portal-lightbox').classList.contains('open')) return;
+      if (e.touches.length === 1) {
+        lbState.dragging = true;
+        lbState.lastX = e.touches[0].clientX;
+        lbState.lastY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+    lbStage.addEventListener('touchmove', function(e) {
+      if (!lbState.dragging || e.touches.length !== 1) return;
+      e.preventDefault();
+      lbState.x += e.touches[0].clientX - lbState.lastX;
+      lbState.y += e.touches[0].clientY - lbState.lastY;
+      lbState.lastX = e.touches[0].clientX;
+      lbState.lastY = e.touches[0].clientY;
+      applyLbTransform();
+    }, { passive: false });
+    lbStage.addEventListener('touchend', function() {
+      lbState.dragging = false;
+    }, { passive: true });
+
+    // Wheel zoom (desktop)
+    lbStage.addEventListener('wheel', function(e) {
+      if (!document.getElementById('portal-lightbox').classList.contains('open')) return;
+      e.preventDefault();
+      var delta = e.deltaY > 0 ? -0.15 : 0.15;
+      lbState.scale = Math.max(0.5, Math.min(4, lbState.scale + delta));
+      applyLbTransform();
+    }, { passive: false });
+  }
+
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+
+  // Expose utilities on window for injected packs
+  window.esc = esc;
+  window.safeSrc = safeSrc;
+  window.apiFetch = apiFetch;
+  window.timeAgo = timeAgo;
+  window.showToast = showToast;
+  window.showConfirm = showConfirm;
+  window.formatCurrency = formatCurrency;
+  window.formatDate = formatDate;
+  window.formatFileSize = formatFileSize;
+  window.openPortalDrawer = openPortalDrawer;
+  window.closePortalDrawers = closePortalDrawers;
+  window.pushModal = pushModal;
+  window.popModal = popModal;
+
+  // Portal tab injection JS
+  
+  // === Messages Tab ===
+  (function initMessagesTab() {
+    // Inject CSS for new features
+    var msgStyle = document.createElement('style');
+    msgStyle.textContent = [
+      '.msg-typing-indicator{display:inline-flex;align-items:center;gap:0.25rem;padding:0.5rem 1rem;background:#f3f4f6;border-radius:1rem;border-bottom-left-radius:0.25rem;}',
+      '.msg-typing-dot{width:6px;height:6px;background:var(--bodyTextColor,#4e4b66);border-radius:50%;animation:msg-typing-bounce 1.2s infinite;}',
+      '.msg-typing-dot:nth-child(2){animation-delay:0.15s;}',
+      '.msg-typing-dot:nth-child(3){animation-delay:0.3s;}',
+      '@keyframes msg-typing-bounce{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-4px);opacity:1;}}',
+      '.msg-date-sep{text-align:center;margin:0.75rem 0;}',
+      '.msg-date-sep span{display:inline-block;padding:0.25rem 0.75rem;font-size:calc(var(--bodyFontSize,1rem)*0.7);color:var(--bodyTextColor,#4e4b66);background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;}',
+      '.msg-receipt{display:inline-flex;align-items:center;margin-left:0.25rem;vertical-align:middle;}',
+      '.msg-receipt svg{width:14px;height:14px;}',
+      '.msg-receipt.read svg{color:#3b82f6;}',
+      '.msg-receipt.sent svg{opacity:0.6;}',
+      '.msg-admin-row{display:flex;gap:0.5rem;align-items:flex-end;align-self:flex-start;max-width:80%;}',
+      '.msg-msg-avatar{width:1.75rem;height:1.75rem;border-radius:50%;flex-shrink:0;overflow:hidden;background:var(--primary,#ff6a3e);color:var(--bodyTextColorWhite,#fafbfc);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;}',
+      '.msg-msg-avatar img{width:100%;height:100%;object-fit:cover;}',
+      'body.dark-mode .msg-typing-indicator{background:var(--medium,#2a2a2a);}',
+      'body.dark-mode .msg-typing-dot{background:var(--bodyTextColorWhite,#fafbfc);}',
+      'body.dark-mode .msg-date-sep span{background:var(--medium,#2a2a2a);border-color:#444;color:var(--bodyTextColorWhite,#fafbfc);}',
+    ].join('\n');
+    document.head.appendChild(msgStyle);
+
+    var tabContent = document.createElement('div');
+    tabContent.className = 'portal-tab-content';
+    tabContent.id = 'tab-messages';
+    tabContent.innerHTML =
+      '<div id="msg-portal-header" style="padding:0.5rem 0;border-bottom:1px solid #e5e7eb;margin-bottom:0.5rem;">' +
+        '<strong style="color:var(--headerColor,#1a1a1a);font-size:var(--bodyFontSize,1rem);">Messages</strong>' +
+        '<div id="msg-portal-status" style="font-size:calc(var(--bodyFontSize,1rem)*0.75);color:var(--bodyTextColor,#4e4b66);"></div>' +
+      '</div>' +
+      '<div id="msg-portal-messages" style="display:flex;flex-direction:column;gap:0.5rem;max-height:60vh;overflow-y:auto;padding:0.5rem 0;"></div>' +
+      '<div id="msg-portal-typing" style="display:none;padding:0.25rem 0;"></div>' +
+      '<div style="display:flex;gap:0.5rem;margin-top:1rem;">' +
+        '<input type="text" id="msg-portal-input" placeholder="Type a message..." style="flex:1;padding:0.625rem 1rem;border:1px solid #d1d5db;border-radius:1.5rem;font-size:var(--bodyFontSize,1rem);" />' +
+        '<button id="msg-portal-send" class="portal-btn" style="width:auto;border-radius:1.5rem;padding:0.625rem 1.25rem;">Send</button>' +
+      '</div>';
+    var portalMain = document.getElementById('portal-main-content') || document.getElementById('portal-shell');
+    if (portalMain) portalMain.appendChild(tabContent);
+
+    var msgPollTimer = null;
+    var msgLastTime = null;
+    var msgLastId = null;
+    var convId = null;
+    var adminLastReadAt = null;
+    var adminLastReadId = null;
+    var businessName = 'Support';
+    var lastPortalTypingSent = 0;
+    var lastRenderedDate = '';
+    var lastSentReadAt = null;
+    var lastSentReadId = null;
+
+    function esc(s) { var d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+
+    function svgCheck() {
+      return '<span class="msg-receipt sent"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 4"/></svg></span>';
+    }
+    function svgDoubleCheck() {
+      return '<span class="msg-receipt read"><svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 8.5l3.5 3.5L11 4"/><path d="M5 8.5l3.5 3.5L15 4"/></svg></span>';
+    }
+
+    function formatDateSeparator(dateStr) {
+      var d = new Date(dateStr);
+      var now = new Date();
+      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var msgDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      var diffDays = Math.round((today - msgDay) / 86400000);
+      if (diffDays === 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      return d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function formatMessageTime(dateStr) {
+      var d = new Date(dateStr);
+      var now = new Date();
+      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var msgDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      var diffDays = Math.round((today - msgDay) / 86400000);
+      var timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      if (diffDays === 0) return timeStr;
+      if (diffDays === 1) return 'Yesterday ' + timeStr;
+      return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ', ' + timeStr;
+    }
+
+    function isReadByAdmin(m) {
+      if (!adminLastReadAt) return false;
+      if (m.created_at < adminLastReadAt) return true;
+      if (m.created_at === adminLastReadAt && m.id <= adminLastReadId) return true;
+      return false;
+    }
+
+    function getDateKey(dateStr) {
+      var d = new Date(dateStr);
+      return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+    }
+
+    function typingIndicatorHTML() {
+      return '<div class="msg-typing-indicator"><span class="msg-typing-dot"></span><span class="msg-typing-dot"></span><span class="msg-typing-dot"></span></div>';
+    }
+
+    function renderPortalMsgsWithDateSeps(msgs) {
+      var html = '';
+      msgs.forEach(function(m) {
+        var dateKey = getDateKey(m.created_at);
+        if (dateKey !== lastRenderedDate) {
+          html += '<div class="msg-date-sep"><span>' + formatDateSeparator(m.created_at) + '</span></div>';
+          lastRenderedDate = dateKey;
+        }
+        html += renderMsg(m);
+      });
+      return html;
+    }
+
+    function renderMsg(m) {
+      var isClient = m.sender_type === 'client';
+      var bg = !isClient
+        ? 'background:#f3f4f6;color:var(--headerColor,#1a1a1a);'
+        : 'background:var(--primary,#ff6a3e);color:var(--bodyTextColorWhite,#fafbfc);';
+      var align = isClient ? 'align-self:flex-end;' : '';
+      var time = formatMessageTime(m.created_at);
+      var body = m.is_deleted ? '<i>[deleted]</i>' : (m.message_type === 'gif' && m.gif_url ? '<img src="'+esc(m.gif_url)+'" style="max-width:200px;border-radius:0.5rem;" />' : esc(m.body||''));
+
+      var receipt = '';
+      if (isClient && !m.is_deleted) {
+        receipt = isReadByAdmin(m) ? svgDoubleCheck() : svgCheck();
+      }
+
+      var bubble = '<div style="max-width:75%;padding:0.5rem 1rem;border-radius:1rem;font-size:var(--bodyFontSize,1rem);line-height:1.5;word-break:break-word;'+bg+align+'"' +
+        (isClient ? ' data-msg-id="'+m.id+'" data-created-at="'+m.created_at+'"' : '') +
+        '>'+body+'<div style="font-size:calc(var(--bodyFontSize,1rem)*0.7);opacity:0.7;margin-top:0.125rem;display:flex;align-items:center;gap:0.25rem;">'+time+(m.is_edited?' (edited)':'')+receipt+'</div></div>';
+
+      if (!isClient) {
+        var initial = (businessName || 'S').charAt(0).toUpperCase();
+        return '<div class="msg-admin-row"><div class="msg-msg-avatar"><span>' + initial + '</span></div><div>' + bubble + '</div></div>';
+      }
+      return bubble;
+    }
+
+    function updatePortalReadReceipts() {
+      document.querySelectorAll('#msg-portal-messages [data-msg-id]').forEach(function(el) {
+        var msgId = el.getAttribute('data-msg-id');
+        var createdAt = el.getAttribute('data-created-at');
+        var isRead = isReadByAdmin({ id: msgId, created_at: createdAt });
+        var receiptEl = el.querySelector('.msg-receipt');
+        if (!receiptEl) return;
+        if (isRead && receiptEl.classList.contains('sent')) {
+          receiptEl.outerHTML = svgDoubleCheck();
+        }
+      });
+    }
+
+    function portalMaybeMarkRead(msgs) {
+      var newestAdmin = null;
+      for (var i = msgs.length - 1; i >= 0; i--) {
+        if (msgs[i].sender_type === 'admin') { newestAdmin = msgs[i]; break; }
+      }
+      if (!newestAdmin) return;
+      if (lastSentReadAt && (newestAdmin.created_at < lastSentReadAt ||
+          (newestAdmin.created_at === lastSentReadAt && newestAdmin.id <= lastSentReadId))) return;
+      lastSentReadAt = newestAdmin.created_at;
+      lastSentReadId = newestAdmin.id;
+      apiFetch('/messages/read', { method:'POST', body: JSON.stringify({ last_read_id: newestAdmin.id, last_read_at: newestAdmin.created_at }) }).catch(function(){});
+    }
+
+    async function loadMessages() {
+      try {
+        msgLastTime = null;
+        msgLastId = null;
+        lastSentReadAt = null;
+        lastSentReadId = null;
+        lastRenderedDate = '';
+        var data = await apiFetch('/messages');
+        convId = data.conversation_id;
+        adminLastReadAt = data.admin_last_read_at || null;
+        adminLastReadId = data.admin_last_read_id || null;
+        if (data.business_name) businessName = data.business_name;
+        var container = document.getElementById('msg-portal-messages');
+        var msgs = data.messages || [];
+        container.innerHTML = renderPortalMsgsWithDateSeps(msgs);
+        container.scrollTop = container.scrollHeight;
+        if (msgs.length > 0) { msgLastTime = msgs[msgs.length-1].created_at; msgLastId = msgs[msgs.length-1].id; }
+        portalMaybeMarkRead(msgs);
+
+        // Update header with last admin reply time
+        var lastAdminMsg = null;
+        for (var i = msgs.length - 1; i >= 0; i--) {
+          if (msgs[i].sender_type === 'admin') { lastAdminMsg = msgs[i]; break; }
+        }
+        var statusEl = document.getElementById('msg-portal-status');
+        if (lastAdminMsg) {
+          statusEl.textContent = 'Last reply: ' + formatMessageTime(lastAdminMsg.created_at);
+        } else {
+          statusEl.textContent = 'Send a message to get started';
+        }
+      } catch (e) { console.error('Messages load error:', e); }
+    }
+
+    var msgPollInterval = 3000;
+    var msgPollFailures = 0;
+
+    function startMsgPoll() {
+      if (msgPollTimer) clearTimeout(msgPollTimer);
+      msgPollInterval = 3000; msgPollFailures = 0;
+      scheduleMsgPoll();
+    }
+
+    function scheduleMsgPoll() { msgPollTimer = setTimeout(doMsgPoll, msgPollInterval); }
+
+    async function doMsgPoll() {
+      if (document.visibilityState === 'hidden') { scheduleMsgPoll(); return; }
+      var activeTab = document.querySelector('.portal-nav-btn.active, .portal-tab-btn.active');
+      if (!activeTab || activeTab.dataset.tab !== 'messages') { scheduleMsgPoll(); return; }
+      try {
+        var params = new URLSearchParams();
+        if (msgLastTime) { params.set('after_time', msgLastTime); params.set('after_id', msgLastId); }
+        var data = await apiFetch('/messages/poll?' + params);
+        msgPollInterval = 3000; msgPollFailures = 0;
+
+        // Update admin read watermarks
+        if ('admin_last_read_at' in data) {
+          var oldReadAt = adminLastReadAt;
+          adminLastReadAt = data.admin_last_read_at;
+          adminLastReadId = data.admin_last_read_id;
+          if (oldReadAt !== adminLastReadAt) {
+            updatePortalReadReceipts();
+          }
+        }
+
+        var newMsgs = data.messages || [];
+        if (newMsgs.length > 0) {
+          var container = document.getElementById('msg-portal-messages');
+          var wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+          container.insertAdjacentHTML('beforeend', renderPortalMsgsWithDateSeps(newMsgs));
+          if (wasAtBottom) container.scrollTop = container.scrollHeight;
+          var last = newMsgs[newMsgs.length-1];
+          msgLastTime = last.created_at; msgLastId = last.id;
+          portalMaybeMarkRead(newMsgs);
+        }
+        var typingEl = document.getElementById('msg-portal-typing');
+        if (data.typing && data.typing.length > 0) {
+          typingEl.innerHTML = typingIndicatorHTML();
+          typingEl.style.display = 'block';
+        } else {
+          typingEl.style.display = 'none';
+        }
+      } catch (e) {
+        msgPollFailures++;
+        msgPollInterval = Math.min(3000 * Math.pow(2, msgPollFailures), 30000);
+      }
+      scheduleMsgPoll();
+    }
+
+    function hasPortalMessage(msgId) {
+      if (!msgId) return false;
+      return !!document.querySelector('#msg-portal-messages [data-msg-id="' + msgId + '"]');
+    }
+
+    function advancePortalCursor(msg) {
+      if (!msg || !msg.created_at || !msg.id) return;
+      if (!msgLastTime || msg.created_at > msgLastTime || (msg.created_at === msgLastTime && msg.id > msgLastId)) {
+        msgLastTime = msg.created_at;
+        msgLastId = msg.id;
+      }
+    }
+
+    document.getElementById('msg-portal-send').addEventListener('click', sendPortalMsg);
+    document.getElementById('msg-portal-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendPortalMsg(); });
+
+    // Typing heartbeat (debounced to 3s)
+    document.getElementById('msg-portal-input').addEventListener('input', function() {
+      var now = Date.now();
+      if (now - lastPortalTypingSent < 3000) return;
+      lastPortalTypingSent = now;
+      apiFetch('/messages/typing', { method:'POST', body:'{}' }).catch(function(){});
+    });
+
+    async function sendPortalMsg() {
+      var input = document.getElementById('msg-portal-input');
+      var body = input.value.trim();
+      if (!body) return;
+      input.value = '';
+      try {
+        var data = await apiFetch('/messages/send', { method:'POST', body: JSON.stringify({ body: body, client_dedup_id: crypto.randomUUID() }) });
+        var sent = data && data.message;
+        if (sent && !hasPortalMessage(sent.id)) {
+          var container = document.getElementById('msg-portal-messages');
+          var wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+          container.insertAdjacentHTML('beforeend', renderPortalMsgsWithDateSeps([sent]));
+          if (wasAtBottom) container.scrollTop = container.scrollHeight;
+          advancePortalCursor(sent);
+        }
+      } catch (e) { alert(e.message); input.value = body; }
+    }
+
+    // Load on tab activation
+    var observer = new MutationObserver(function() {
+      if (tabContent.classList.contains('active') && !convId) { loadMessages(); startMsgPoll(); }
+    });
+    observer.observe(tabContent, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+
+  // === Contracts Tab ===
+  (function initContractsTab() {
+    const tabContent = document.createElement('div');
+    tabContent.className = 'portal-tab-content';
+    tabContent.id = 'tab-contracts';
+    tabContent.innerHTML =
+      '<div id="contracts-list" style="display:flex;flex-direction:column;gap:0.75rem;"></div>' +
+      '<div id="contracts-empty" class="portal-empty" style="display:none;"><p>No contracts yet.</p></div>';
+    var portalMain = document.getElementById('portal-main-content') || document.getElementById('portal-shell');
+    if (portalMain) portalMain.appendChild(tabContent);
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+    function statusBadge(status) {
+      const styles = {
+        draft: 'background:rgba(0,0,0,0.06);color:var(--bodyTextColor,#4e4b66);',
+        sent: 'background:color-mix(in srgb, var(--primary,#ff6a3e) 18%, transparent);color:var(--primary,#ff6a3e);',
+        viewed: 'background:color-mix(in srgb, var(--primaryLight,#ffba43) 28%, transparent);color:var(--headerColor,#1a1a1a);',
+        signed: 'background:color-mix(in srgb, var(--primary,#ff6a3e) 22%, transparent);color:var(--primary,#ff6a3e);',
+        voided: 'background:rgba(0,0,0,0.06);color:var(--bodyTextColor,#4e4b66);',
+        expired: 'background:rgba(0,0,0,0.06);color:var(--bodyTextColor,#4e4b66);'
+      };
+      const badgeStyle = styles[status] || styles.draft;
+      return '<span style="display:inline-block;padding:0.2rem 0.6rem;border-radius:999px;font-size:calc(var(--bodyFontSize,1rem)*0.7);font-weight:600;text-transform:uppercase;' + badgeStyle + '">' + esc(status) + '</span>';
+    }
+
+    async function loadContracts() {
+      try {
+        const data = await apiFetch('/contracts');
+        const contracts = data.contracts || [];
+        const list = document.getElementById('contracts-list');
+        const empty = document.getElementById('contracts-empty');
+        if (contracts.length === 0) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        list.innerHTML = contracts.map(c => {
+          const date = c.created_at ? new Date(c.created_at).toLocaleDateString() : '';
+          const signed = c.signed_at ? 'Signed ' + new Date(c.signed_at).toLocaleDateString() : '';
+          return '<div style="padding:1rem;border:1px solid #e5e7eb;border-radius:0.5rem;display:flex;justify-content:space-between;align-items:center;">' +
+            '<div><div style="font-weight:600;color:var(--headerColor,#1a1a1a);">Service Agreement</div>' +
+            '<div style="font-size:calc(var(--bodyFontSize,1rem)*0.8);color:var(--bodyTextColor,#4e4b66);margin-top:0.25rem;">' + date + (signed ? ' &middot; ' + signed : '') + '</div></div>' +
+            '<div>' + statusBadge(c.status) + '</div></div>';
+        }).join('');
+      } catch (e) { console.error('Contracts load error:', e); }
+    }
+
+    const observer = new MutationObserver(() => {
+      if (tabContent.classList.contains('active')) loadContracts();
+    });
+    observer.observe(tabContent, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+
+  // === Invoices Tab ===
+  (function initInvoicesTab() {
+    var invStyle = document.createElement('style');
+    invStyle.textContent = [
+      '.inv-list-item{padding:0.875rem;border:1px solid #e5e7eb;border-radius:0.75rem;margin-bottom:0.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}',
+      '.inv-list-item:hover{background:rgba(0,0,0,0.02);}',
+      '.inv-status-badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:999px;font-size:calc(var(--bodyFontSize,1rem)*0.7);font-weight:600;color:#fff;text-transform:uppercase;}',
+      '.inv-status-sent{background:#3b82f6;}',
+      '.inv-status-viewed{background:#8b5cf6;}',
+      '.inv-status-paid{background:#22c55e;}',
+      '.inv-status-overdue{background:#ef4444;}',
+      '.inv-status-cancelled{background:#9ca3af;}',
+      '.inv-detail-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;}',
+      '.inv-detail-modal{background:#fff;border-radius:0.75rem;max-width:56rem;width:95%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;}',
+      '.inv-detail-modal-header{padding:1rem 1.5rem;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;}',
+      '.inv-detail-modal-body{flex:1;overflow-y:auto;padding:0;}',
+      '.inv-detail-modal-body iframe{width:100%;min-height:70vh;border:none;}',
+      '.inv-detail-modal-footer{padding:1rem 1.5rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:0.5rem;}',
+      'body.dark-mode .inv-list-item{border-color:#444;}',
+      'body.dark-mode .inv-list-item:hover{background:rgba(255,255,255,0.03);}',
+      'body.dark-mode .inv-detail-modal{background:var(--dark,#1a1a1a);}',
+      'body.dark-mode .inv-detail-modal-header{border-bottom-color:#444;}',
+      'body.dark-mode .inv-detail-modal-footer{border-top-color:#444;}',
+    ].join('\n');
+    document.head.appendChild(invStyle);
+
+    var tabContent = document.createElement('div');
+    tabContent.className = 'portal-tab-content';
+    tabContent.id = 'tab-invoices';
+    tabContent.innerHTML =
+      '<div style="padding:0.5rem 0;border-bottom:1px solid #e5e7eb;margin-bottom:0.75rem;">' +
+        '<strong style="color:var(--headerColor,#1a1a1a);font-size:var(--bodyFontSize,1rem);">Invoices</strong>' +
+      '</div>' +
+      '<div id="inv-portal-list" style="min-height:10rem;"></div>';
+    var portalMain = document.getElementById('portal-main-content') || document.getElementById('portal-shell');
+    if (portalMain) portalMain.appendChild(tabContent);
+
+    var invLoaded = false;
+
+    function formatCents(cents) { return '$' + (cents / 100).toFixed(2); }
+    function formatInvDate(str) {
+      if (!str) return '';
+      var d = new Date(str);
+      if (isNaN(d.getTime())) return str;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    async function loadInvoiceList() {
+      var container = document.getElementById('inv-portal-list');
+      try {
+        var data = await apiFetch('/invoices');
+        var invoices = data.invoices || [];
+        if (invoices.length === 0) {
+          container.innerHTML = '<div style="text-align:center;color:var(--bodyTextColor,#4e4b66);padding:2rem;">No invoices yet.</div>';
+          return;
+        }
+        container.innerHTML = invoices.map(function(inv) {
+          return '<div class="inv-list-item" data-inv-id="' + esc(inv.id) + '">' +
+            '<div>' +
+              '<div style="font-weight:600;color:var(--headerColor,#1a1a1a);">' + esc(inv.title) + '</div>' +
+              '<div style="font-size:calc(var(--bodyFontSize,1rem)*0.8);color:var(--bodyTextColor,#4e4b66);margin-top:0.125rem;">' +
+                formatInvDate(inv.created_at) +
+                (inv.due_date ? ' &middot; Due: ' + formatInvDate(inv.due_date) : '') +
+              '</div>' +
+            '</div>' +
+            '<div style="text-align:right;">' +
+              '<div style="font-weight:600;color:var(--headerColor,#1a1a1a);">' + formatCents(inv.total || 0) + '</div>' +
+              '<span class="inv-status-badge inv-status-' + esc(inv.status) + '">' + esc(inv.status) + '</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      } catch (e) {
+        container.innerHTML = '<div style="color:#ef4444;padding:1rem;">Failed to load invoices.</div>';
+        console.error('Invoice list error:', e);
+      }
+    }
+
+    function showInvoiceDetail(invoiceId) {
+      var overlay = document.createElement('div');
+      overlay.className = 'inv-detail-overlay';
+      overlay.innerHTML =
+        '<div class="inv-detail-modal">' +
+          '<div class="inv-detail-modal-header">' +
+            '<strong style="color:var(--headerColor,#1a1a1a);">Invoice</strong>' +
+            '<button id="inv-modal-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--headerColor,#1a1a1a);">&times;</button>' +
+          '</div>' +
+          '<div class="inv-detail-modal-body"><div style="text-align:center;padding:2rem;color:var(--bodyTextColor,#4e4b66);">Loading...</div></div>' +
+          '<div class="inv-detail-modal-footer" id="inv-modal-footer"></div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+
+      overlay.querySelector('#inv-modal-close').addEventListener('click', function() { overlay.remove(); });
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+
+      apiFetch('/invoices/' + invoiceId).then(function(data) {
+        var inv = data.invoice;
+        var htmlContent = data.html;
+        var modalBody = overlay.querySelector('.inv-detail-modal-body');
+        var iframe = document.createElement('iframe');
+        iframe.sandbox = 'allow-same-origin';
+        modalBody.innerHTML = '';
+        modalBody.appendChild(iframe);
+        iframe.addEventListener('load', function() {
+          try {
+            iframe.contentDocument.open();
+            iframe.contentDocument.write(htmlContent);
+            iframe.contentDocument.close();
+            var bodyH = iframe.contentDocument.body.scrollHeight;
+            iframe.style.minHeight = Math.min(bodyH + 40, 600) + 'px';
+          } catch (_) {}
+        });
+        iframe.srcdoc = htmlContent;
+
+        var footer = overlay.querySelector('#inv-modal-footer');
+        if (inv.status === 'sent' || inv.status === 'viewed' || inv.status === 'overdue') {
+          var payBtn = document.createElement('button');
+          payBtn.className = 'portal-btn';
+          payBtn.style.cssText = 'width:auto;padding:0.625rem 1.5rem;';
+          payBtn.textContent = 'Pay Now (' + formatCents(inv.total || 0) + ')';
+          payBtn.addEventListener('click', async function() {
+            payBtn.disabled = true;
+            payBtn.textContent = 'Redirecting...';
+            try {
+              var linkData = await apiFetch('/invoices/' + invoiceId + '/pay-link', { method: 'POST', body: '{}' });
+              if (linkData.url) {
+                window.location.href = linkData.url;
+              } else {
+                alert('Could not generate payment link.');
+                payBtn.disabled = false;
+                payBtn.textContent = 'Pay Now (' + formatCents(inv.total || 0) + ')';
+              }
+            } catch (err) {
+              alert('Payment error: ' + err.message);
+              payBtn.disabled = false;
+              payBtn.textContent = 'Pay Now (' + formatCents(inv.total || 0) + ')';
+            }
+          });
+          footer.appendChild(payBtn);
+        } else if (inv.status === 'paid') {
+          footer.innerHTML = '<span style="color:#22c55e;font-weight:600;">Paid ' + formatInvDate(inv.paid_at) + '</span>';
+        }
+      }).catch(function(err) {
+        overlay.querySelector('.inv-detail-modal-body').innerHTML = '<div style="color:#ef4444;padding:2rem;">Failed to load invoice: ' + esc(err.message) + '</div>';
+      });
+    }
+
+    document.getElementById('inv-portal-list').addEventListener('click', function(e) {
+      var item = e.target.closest('.inv-list-item');
+      if (item && item.dataset.invId) showInvoiceDetail(item.dataset.invId);
+    });
+
+    var observer = new MutationObserver(function() {
+      if (tabContent.classList.contains('active') && !invLoaded) {
+        invLoaded = true;
+        loadInvoiceList();
+      }
+    });
+    observer.observe(tabContent, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+
+  // === Files Tab ===
+  (function initFilesTab() {
+    var mStyle = document.createElement('style');
+    mStyle.textContent = [
+      '.mf-sub-tabs{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}',
+      '.mf-sub-tab{padding:0.375rem 0.75rem;border:1px solid #e5e7eb;border-radius:999px;font-size:calc(var(--bodyFontSize,1rem)*0.8);cursor:pointer;background:transparent;color:var(--bodyTextColor,#4e4b66);font-weight:500;}',
+      '.mf-sub-tab.active{background:var(--primary,#ff6a3e);color:#fff;border-color:var(--primary,#ff6a3e);}',
+      '.mf-panel{display:none;}',
+      '.mf-panel.active{display:block;}',
+      '.mf-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(8rem,1fr));gap:0.5rem;}',
+      '.mf-photo-card{border-radius:0.5rem;overflow:hidden;cursor:pointer;aspect-ratio:1;background:#f3f4f6;display:flex;align-items:center;justify-content:center;}',
+      '.mf-photo-card img{width:100%;height:100%;object-fit:cover;}',
+      '.mf-video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(12rem,1fr));gap:0.75rem;}',
+      '.mf-video-card{border:1px solid #e5e7eb;border-radius:0.75rem;overflow:hidden;display:flex;flex-direction:column;}',
+      '.mf-video-thumb{position:relative;aspect-ratio:16/9;background:#f3f4f6;display:flex;align-items:center;justify-content:center;overflow:hidden;}',
+      '.mf-video-thumb img{width:100%;height:100%;object-fit:cover;}',
+      '.mf-video-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(to top, rgba(0,0,0,0.42), rgba(0,0,0,0.12));}',
+      '.mf-video-meta{padding:0.625rem 0.75rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;}',
+      '.mf-video-text{min-width:0;}',
+      '.mf-video-name{font-weight:600;color:var(--headerColor,#1a1a1a);font-size:calc(var(--bodyFontSize,1rem)*0.88);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.mf-video-size{font-size:calc(var(--bodyFontSize,1rem)*0.75);color:var(--bodyTextColor,#4e4b66);}',
+      '.mf-doc-item{padding:0.75rem;border:1px solid #e5e7eb;border-radius:0.75rem;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;}',
+      '.mf-pkg-card{padding:0.75rem;border:1px solid #e5e7eb;border-radius:0.75rem;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;}',
+      '.mf-dl-btn{padding:0.375rem 0.75rem;border:none;border-radius:0.5rem;font-size:calc(var(--bodyFontSize,1rem)*0.8);font-weight:600;cursor:pointer;background:var(--primary,#ff6a3e);color:#fff;}',
+      '.mf-dl-btn:hover{opacity:0.9;}',
+      '.mf-play-btn{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--primary,#ff6a3e);color:#fff;border:none;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:0;}',
+      '.mf-lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;}',
+      '.mf-lightbox img{max-width:90%;max-height:90%;object-fit:contain;border-radius:0.5rem;}',
+      '.mf-empty{text-align:center;color:var(--bodyTextColor,#4e4b66);padding:2rem;font-size:calc(var(--bodyFontSize,1rem)*0.9);}',
+      '.mf-badge-expired{display:inline-block;padding:0.1rem 0.4rem;border-radius:999px;font-size:calc(var(--bodyFontSize,1rem)*0.7);font-weight:600;background:#9ca3af;color:#fff;margin-left:0.5rem;}',
+      '.mf-badge-ready{display:inline-block;padding:0.1rem 0.4rem;border-radius:999px;font-size:calc(var(--bodyFontSize,1rem)*0.7);font-weight:600;background:#22c55e;color:#fff;margin-left:0.5rem;}',
+      '.mf-collection-title{font-weight:600;margin:1rem 0 0.5rem;color:var(--headerColor,#1a1a1a);font-size:calc(var(--bodyFontSize,1rem)*0.95);}',
+      'body.dark-mode .mf-video-card,body.dark-mode .mf-doc-item,body.dark-mode .mf-pkg-card{border-color:#444;}',
+      'body.dark-mode .mf-sub-tab{border-color:#444;color:var(--bodyTextColor,#b0b0b0);}',
+      'body.dark-mode .mf-sub-tab.active{background:var(--primary,#ff6a3e);color:#fff;border-color:var(--primary,#ff6a3e);}',
+      'body.dark-mode .mf-photo-card{background:#2a2a2a;}',
+      'body.dark-mode .mf-video-thumb{background:#2a2a2a;}',
+    ].join('\n');
+    document.head.appendChild(mStyle);
+
+    var tabContent = document.createElement('div');
+    tabContent.className = 'portal-tab-content';
+    tabContent.id = 'tab-files';
+    tabContent.innerHTML =
+      '<div style="padding:0.5rem 0;border-bottom:1px solid #e5e7eb;margin-bottom:0.75rem;">' +
+        '<strong style="color:var(--headerColor,#1a1a1a);font-size:var(--bodyFontSize,1rem);">Files</strong>' +
+      '</div>' +
+      '<div class="mf-sub-tabs">' +
+        '<button class="mf-sub-tab active" data-panel="photos">Photos</button>' +
+        '<button class="mf-sub-tab" data-panel="videos">Videos</button>' +
+        '<button class="mf-sub-tab" data-panel="documents">Documents</button>' +
+        '<button class="mf-sub-tab" data-panel="packages">Packages</button>' +
+      '</div>' +
+      '<div class="mf-panel active" id="mf-photos"><div class="mf-empty">Loading...</div></div>' +
+      '<div class="mf-panel" id="mf-videos"><div class="mf-empty">Loading...</div></div>' +
+      '<div class="mf-panel" id="mf-documents"><div class="mf-empty">Loading...</div></div>' +
+      '<div class="mf-panel" id="mf-packages"><div class="mf-empty">Loading...</div></div>';
+    var portalMain = document.getElementById('portal-main-content') || document.getElementById('portal-shell');
+    if (portalMain) portalMain.appendChild(tabContent);
+
+    var mfLoaded = false;
+
+    // Sub-tab switching
+    tabContent.querySelector('.mf-sub-tabs').addEventListener('click', function(e) {
+      var btn = e.target.closest('.mf-sub-tab');
+      if (!btn) return;
+      tabContent.querySelectorAll('.mf-sub-tab').forEach(function(t) { t.classList.remove('active'); });
+      tabContent.querySelectorAll('.mf-panel').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      var panel = tabContent.querySelector('#mf-' + btn.dataset.panel);
+      if (panel) panel.classList.add('active');
+    });
+
+    function formatFileSize(bytes) {
+      if (!bytes || bytes === 0) return '0 B';
+      var units = ['B', 'KB', 'MB', 'GB'];
+      var i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return (bytes / Math.pow(1024, i)).toFixed(i > 0 ? 1 : 0) + ' ' + units[i];
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      var d = new Date(str);
+      if (isNaN(d.getTime())) return str;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function filenameFromDisposition(disposition, fallbackName) {
+      var fallback = fallbackName || 'download';
+      if (!disposition) return fallback;
+      var utf = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+      if (utf && utf[1]) {
+        try { return decodeURIComponent(utf[1]); } catch (_) {}
+      }
+      var ascii = disposition.match(/filename="?([^";]+)"?/i);
+      if (ascii && ascii[1]) return ascii[1];
+      return fallback;
+    }
+
+    async function fetchPortalBlob(path) {
+      var headers = {};
+      if (state && state.token) headers['Authorization'] = 'Bearer ' + state.token;
+      var res = await fetch(API_BASE + path, { method: 'GET', headers: headers });
+      if (!res.ok) {
+        var message = 'Request failed';
+        try {
+          var errData = await res.json();
+          if (errData && errData.error) message = errData.error;
+        } catch (_) {}
+        throw new Error(message);
+      }
+      var blob = await res.blob();
+      return {
+        blob: blob,
+        disposition: res.headers.get('Content-Disposition') || '',
+        contentType: res.headers.get('Content-Type') || blob.type || 'application/octet-stream',
+      };
+    }
+
+    async function triggerPortalDownload(path, fallbackName) {
+      var fileData = await fetchPortalBlob(path);
+      var objectUrl = URL.createObjectURL(fileData.blob);
+      var link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = filenameFromDisposition(fileData.disposition, fallbackName);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(function() {
+        link.remove();
+        URL.revokeObjectURL(objectUrl);
+      }, 1000);
+    }
+
+    function renderPhotos(collections) {
+      var container = tabContent.querySelector('#mf-photos');
+      var photos = [];
+      collections.forEach(function(col) {
+        var colPhotos = col.files.filter(function(f) { return f.category === 'photo'; });
+        if (colPhotos.length > 0) photos.push({ name: col.name, files: colPhotos });
+      });
+      if (photos.length === 0) {
+        container.innerHTML = '<div class="mf-empty">No photos available.</div>';
+        return;
+      }
+      var html = '';
+      photos.forEach(function(col) {
+        html += '<div class="mf-collection-title">' + esc(col.name) + '</div>';
+        html += '<div class="mf-photo-grid">';
+        col.files.forEach(function(f) {
+          var thumb = f.thumbnail_base64
+            ? '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" />'
+            : '<span style="font-size:2rem;">&#128247;</span>';
+          html += '<div class="mf-photo-card" data-file-id="' + esc(f.id) + '" title="' + esc(f.title || f.filename) + '">' + thumb + '</div>';
+        });
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function renderVideos(collections) {
+      var container = tabContent.querySelector('#mf-videos');
+      var videos = [];
+      collections.forEach(function(col) {
+        var colVideos = col.files.filter(function(f) { return f.category === 'video'; });
+        if (colVideos.length > 0) videos.push({ name: col.name, files: colVideos });
+      });
+      if (videos.length === 0) {
+        container.innerHTML = '<div class="mf-empty">No videos available.</div>';
+        return;
+      }
+      var html = '';
+      videos.forEach(function(col) {
+        html += '<div class="mf-collection-title">' + esc(col.name) + '</div>';
+        html += '<div class="mf-video-grid">';
+        col.files.forEach(function(f) {
+          var thumb = f.thumbnail_base64
+            ? '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" />'
+            : '<span style="font-size:2rem;">&#127909;</span>';
+          html += '<div class="mf-video-card">' +
+            '<div class="mf-video-thumb" data-file-id="' + esc(f.id) + '" title="Play video">' +
+              thumb +
+              '<div class="mf-video-play-overlay">' +
+                '<button class="mf-play-btn" data-file-id="' + esc(f.id) + '" aria-label="Play video">&#9654;</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mf-video-meta">' +
+              '<div class="mf-video-text">' +
+                '<div class="mf-video-name" title="' + esc(f.title || f.filename) + '">' + esc(f.title || f.filename) + '</div>' +
+                '<div class="mf-video-size">' + formatFileSize(f.file_size) + '</div>' +
+              '</div>' +
+              '<button class="mf-dl-btn" data-dl-id="' + esc(f.id) + '">Download</button>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function renderDocuments(collections) {
+      var container = tabContent.querySelector('#mf-documents');
+      var docs = [];
+      collections.forEach(function(col) {
+        var colDocs = col.files.filter(function(f) { return f.category === 'document'; });
+        if (colDocs.length > 0) docs.push({ name: col.name, files: colDocs });
+      });
+      if (docs.length === 0) {
+        container.innerHTML = '<div class="mf-empty">No documents available.</div>';
+        return;
+      }
+      var html = '';
+      docs.forEach(function(col) {
+        html += '<div class="mf-collection-title">' + esc(col.name) + '</div>';
+        col.files.forEach(function(f) {
+          html += '<div class="mf-doc-item">' +
+            '<div>' +
+              '<div style="font-weight:600;color:var(--headerColor,#1a1a1a);">' + esc(f.title || f.filename) + '</div>' +
+              '<div style="font-size:calc(var(--bodyFontSize,1rem)*0.8);color:var(--bodyTextColor,#4e4b66);">' + formatFileSize(f.file_size) + (f.description ? ' &middot; ' + esc(f.description) : '') + '</div>' +
+            '</div>' +
+            '<button class="mf-dl-btn" data-dl-id="' + esc(f.id) + '">Download</button>' +
+          '</div>';
+        });
+      });
+      container.innerHTML = html;
+    }
+
+    function renderPackages(packages) {
+      var container = tabContent.querySelector('#mf-packages');
+      if (packages.length === 0) {
+        container.innerHTML = '<div class="mf-empty">No packages available.</div>';
+        return;
+      }
+      container.innerHTML = packages.map(function(p) {
+        var badge = p.is_expired
+          ? '<span class="mf-badge-expired">Expired</span>'
+          : '<span class="mf-badge-ready">Ready</span>';
+        var dlBtn = (!p.is_expired && p.status === 'ready')
+          ? '<button class="mf-dl-btn" data-pkg-id="' + esc(p.id) + '">Download</button>'
+          : '';
+        return '<div class="mf-pkg-card">' +
+          '<div>' +
+            '<div style="font-weight:600;color:var(--headerColor,#1a1a1a);">' + esc(p.filename) + badge + '</div>' +
+            '<div style="font-size:calc(var(--bodyFontSize,1rem)*0.8);color:var(--bodyTextColor,#4e4b66);">' +
+              formatFileSize(p.file_size) + ' &middot; ' + formatDate(p.created_at) +
+              (p.expires_at ? ' &middot; Expires: ' + formatDate(p.expires_at) : '') +
+              ' &middot; Downloads: ' + (p.download_count || 0) +
+            '</div>' +
+          '</div>' +
+          dlBtn +
+        '</div>';
+      }).join('');
+    }
+
+    async function loadMediaData() {
+      try {
+        var data = await apiFetch('/media');
+        var collections = data.collections || [];
+        renderPhotos(collections);
+        renderVideos(collections);
+        renderDocuments(collections);
+      } catch (err) {
+        var errMsg = '<div style="color:#ef4444;padding:1rem;">Failed to load files.</div>';
+        tabContent.querySelector('#mf-photos').innerHTML = errMsg;
+        tabContent.querySelector('#mf-videos').innerHTML = errMsg;
+        tabContent.querySelector('#mf-documents').innerHTML = errMsg;
+        console.error('Media load error:', err);
+      }
+
+      try {
+        var pkgData = await apiFetch('/packages');
+        renderPackages(pkgData.packages || []);
+      } catch (err) {
+        tabContent.querySelector('#mf-packages').innerHTML = '<div style="color:#ef4444;padding:1rem;">Failed to load packages.</div>';
+        console.error('Package load error:', err);
+      }
+    }
+
+    // Photo lightbox
+    tabContent.querySelector('#mf-photos').addEventListener('click', function(e) {
+      var card = e.target.closest('.mf-photo-card');
+      if (!card) return;
+      var fileId = card.dataset.fileId;
+      var lightbox = document.createElement('div');
+      lightbox.className = 'mf-lightbox';
+      lightbox.innerHTML = '<div class="mf-empty" style="color:#fff;">Loading photo...</div>';
+      lightbox.addEventListener('click', function() {
+        if (lightbox.dataset.objectUrl) URL.revokeObjectURL(lightbox.dataset.objectUrl);
+        lightbox.remove();
+      });
+      document.body.appendChild(lightbox);
+
+      fetchPortalBlob('/media/' + encodeURIComponent(fileId) + '/file')
+        .then(function(fileData) {
+          var objectUrl = URL.createObjectURL(fileData.blob);
+          lightbox.dataset.objectUrl = objectUrl;
+          lightbox.innerHTML = '<img src="' + objectUrl + '" alt="Photo" />';
+        })
+        .catch(function(err) {
+          lightbox.innerHTML = '<div class="mf-empty" style="color:#fff;">Failed to load photo.</div>';
+          console.error('Photo load error:', err);
+        });
+    });
+
+    // Video play button — open authenticated stream in new tab
+    tabContent.querySelector('#mf-videos').addEventListener('click', function(e) {
+      var playBtn = e.target.closest('.mf-play-btn');
+      var videoThumb = e.target.closest('.mf-video-thumb[data-file-id]');
+      var fileId = playBtn ? playBtn.dataset.fileId : (videoThumb ? videoThumb.dataset.fileId : null);
+      if (fileId) {
+        var previewWin = window.open('', '_blank');
+        if (!previewWin) {
+          alert('Please allow popups to preview videos.');
+          return;
+        }
+        previewWin.document.write('<p style="font-family:sans-serif;padding:1rem;">Loading video...</p>');
+        fetchPortalBlob('/media/' + encodeURIComponent(fileId) + '/file')
+          .then(function(fileData) {
+            var objectUrl = URL.createObjectURL(fileData.blob);
+            previewWin.location.href = objectUrl;
+            setTimeout(function() { URL.revokeObjectURL(objectUrl); }, 5 * 60 * 1000);
+          })
+          .catch(function(err) {
+            try { previewWin.close(); } catch (_) {}
+            alert('Failed to open video: ' + err.message);
+          });
+        return;
+      }
+    });
+
+    // Download buttons (files and packages)
+    tabContent.addEventListener('click', function(e) {
+      if (e.target.classList.contains('mf-dl-btn') && e.target.dataset.dlId) {
+        triggerPortalDownload('/media/' + encodeURIComponent(e.target.dataset.dlId) + '/download', 'download')
+          .catch(function(err) {
+            alert('Download failed: ' + err.message);
+          });
+        return;
+      }
+      if (e.target.classList.contains('mf-dl-btn') && e.target.dataset.pkgId) {
+        triggerPortalDownload('/packages/' + encodeURIComponent(e.target.dataset.pkgId) + '/download', 'package.zip')
+          .catch(function(err) {
+            alert('Package download failed: ' + err.message);
+          });
+      }
+    });
+
+    var observer = new MutationObserver(function() {
+      if (tabContent.classList.contains('active') && !mfLoaded) {
+        mfLoaded = true;
+        loadMediaData();
+      }
+    });
+    observer.observe(tabContent, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+
+  // Init
+  (async function init() {
+    var magicOk = await checkMagicLink();
+    if (magicOk) { showDashboard(); return; }
+    var sessionOk = await checkSession();
+    if (sessionOk) { showDashboard(); return; }
+    loginView.style.display = 'block';
+  })();
+})();
+</script>

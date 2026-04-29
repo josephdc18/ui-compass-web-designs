@@ -1,0 +1,361 @@
+---
+permalink: /service-worker.js
+eleventyExcludeFromCollections: true
+---
+/**
+ * Service Worker - Auto-generated at build time
+ *
+ * Features:
+ * - Auto cache-busting via build timestamp (no stale content)
+ * - Network-first for HTML (always fresh content)
+ * - Cache-first for static assets (fast loading)
+ * - Offline fallback page
+ *
+ * Build: {{ build.buildTime }}
+ */
+
+// =============================================================================
+// CACHE CONFIGURATION - Auto-updated on each build
+// =============================================================================
+
+const SW_VERSION = '{{ build.hash }}';
+const BUILD_TIME = '{{ build.timestamp }}';
+const CACHE_PREFIX = 'app';
+const STATIC_CACHE = `${CACHE_PREFIX}-static-${SW_VERSION}`;
+const PAGES_CACHE = `${CACHE_PREFIX}-pages-${SW_VERSION}`;
+
+// Static assets to pre-cache on install
+// [CUSTOMIZE] Add your critical assets here
+const PRECACHE_ASSETS = [
+    '/',
+    '/offline.html',
+    '/css/root.css',
+    '/css/critical.css',
+    '/assets/favicons/android-chrome-192x192.png',
+    '/assets/favicons/favicon-32x32.png'
+];
+
+// File extensions to cache with cache-first strategy
+const STATIC_EXTENSIONS = [
+    '.css', '.js', '.mjs',
+    '.woff', '.woff2', '.ttf', '.eot',
+    '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.avif', '.ico',
+    '.json', '.xml'
+];
+
+// =============================================================================
+// INSTALL - Pre-cache critical assets and activate immediately
+// =============================================================================
+
+self.addEventListener('install', (event) => {
+    console.log(`[SW] Installing v${SW_VERSION}`);
+
+    event.waitUntil(
+        caches.open(STATIC_CACHE)
+            .then((cache) => {
+                // Pre-cache with error handling (don't fail on missing assets)
+                return Promise.allSettled(
+                    PRECACHE_ASSETS.map((url) =>
+                        cache.add(url).catch((err) => {
+                            console.warn(`[SW] Failed to cache: ${url}`, err);
+                        })
+                    )
+                );
+            })
+            .then(() => {
+                // Skip waiting - activate immediately
+                return self.skipWaiting();
+            })
+    );
+});
+
+// =============================================================================
+// ACTIVATE - Clean old caches and take control
+// =============================================================================
+
+self.addEventListener('activate', (event) => {
+    console.log(`[SW] Activating v${SW_VERSION}`);
+
+    event.waitUntil(
+        caches.keys()
+            .then((cacheNames) => {
+                return Promise.all(
+                    cacheNames
+                        .filter((name) => {
+                            // Delete caches that start with our prefix but aren't current version
+                            return name.startsWith(CACHE_PREFIX) &&
+                                   name !== STATIC_CACHE &&
+                                   name !== PAGES_CACHE;
+                        })
+                        .map((name) => {
+                            console.log(`[SW] Deleting old cache: ${name}`);
+                            return caches.delete(name);
+                        })
+                );
+            })
+            .then(() => {
+                // Take control of all clients immediately
+                return self.clients.claim();
+            })
+            .then(() => {
+                // Notify all clients about the update
+                return self.clients.matchAll().then((clients) => {
+                    clients.forEach((client) => {
+                        client.postMessage({
+                            type: 'SW_UPDATED',
+                            version: SW_VERSION,
+                            buildTime: BUILD_TIME
+                        });
+                    });
+                });
+            })
+    );
+});
+
+// =============================================================================
+// FETCH - Network-first for pages, cache-first for assets
+// =============================================================================
+
+self.addEventListener('fetch', (event) => {
+    const { request } = event;
+    const url = new URL(request.url);
+
+    // Skip non-GET requests
+    if (request.method !== 'GET') return;
+
+    // Skip API calls
+    if (url.pathname.startsWith('/api/')) return;
+
+    // Skip external resources
+    if (url.origin !== self.location.origin) return;
+
+    // Skip admin panel
+    if (url.pathname.startsWith('/admin')) return;
+
+    // Handle navigation requests (HTML pages) - NETWORK FIRST
+    if (request.mode === 'navigate') {
+        event.respondWith(handleNavigationRequest(request));
+        return;
+    }
+
+    // Handle static assets - CACHE FIRST
+    if (isStaticAsset(url.pathname)) {
+        event.respondWith(handleStaticAsset(request));
+        return;
+    }
+
+    // Default: network with cache fallback
+    event.respondWith(
+        fetch(request)
+            .catch(() => caches.match(request))
+    );
+});
+
+/**
+ * Handle navigation requests with network-first strategy
+ * Always try to get fresh HTML, fall back to cache if offline
+ */
+async function handleNavigationRequest(request) {
+    try {
+        const response = await fetch(request);
+
+        // Cache successful responses
+        if (response.ok) {
+            const responseClone = response.clone();
+            const cache = await caches.open(PAGES_CACHE);
+            cache.put(request, responseClone);
+        }
+
+        return response;
+    } catch (error) {
+        // Network failed - try cache
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+
+        // No cache - return offline page
+        const offlinePage = await caches.match('/offline.html');
+        if (offlinePage) {
+            return offlinePage;
+        }
+
+        // Last resort
+        return new Response('Offline', {
+            status: 503,
+            statusText: 'Service Unavailable'
+        });
+    }
+}
+
+/**
+ * Handle static assets with cache-first strategy
+ * Fast loading for CSS, JS, images, fonts
+ */
+async function handleStaticAsset(request) {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+
+    try {
+        const response = await fetch(request);
+
+        if (response.ok) {
+            const responseClone = response.clone();
+            const cache = await caches.open(STATIC_CACHE);
+            cache.put(request, responseClone);
+        }
+
+        return response;
+    } catch (error) {
+        return new Response('Asset not available', { status: 404 });
+    }
+}
+
+/**
+ * Check if a path is a static asset based on extension
+ */
+function isStaticAsset(pathname) {
+    return STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext));
+}
+
+// =============================================================================
+// PUSH NOTIFICATIONS
+// =============================================================================
+
+async function updateBadgeCount() {
+    try {
+        if (!('setAppBadge' in navigator)) return;
+        const notifications = await self.registration.getNotifications();
+        const count = notifications.length;
+        if (count > 0) {
+            await navigator.setAppBadge(count);
+        }
+    } catch (e) {
+        console.warn('[SW] Badge update failed:', e);
+    }
+}
+
+async function clearBadge() {
+    try {
+        if ('clearAppBadge' in navigator) {
+            await navigator.clearAppBadge();
+        } else if ('setAppBadge' in navigator) {
+            await navigator.setAppBadge(0);
+        }
+    } catch (e) {
+        console.warn('[SW] Badge clear failed:', e);
+    }
+}
+
+self.addEventListener('push', (event) => {
+    console.log('[SW] Push received');
+
+    let payload = {
+        title: 'Notification',
+        body: '',
+        icon: '/assets/favicons/android-chrome-192x192.png',
+        badge: '/assets/favicons/favicon-32x32.png',
+        url: '/',
+        tag: 'default',
+        data: {}
+    };
+
+    if (event.data) {
+        try {
+            const data = event.data.json();
+            payload = { ...payload, ...data };
+        } catch (e) {
+            payload.body = event.data.text() || '';
+        }
+    }
+
+    const options = {
+        body: payload.body,
+        icon: payload.icon,
+        badge: payload.badge,
+        tag: payload.tag,
+        data: {
+            url: payload.url,
+            timestamp: Date.now(),
+            ...payload.data
+        },
+        requireInteraction: false,
+        silent: false,
+        vibrate: [100, 50, 100]
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(payload.title, options)
+            .then(() => updateBadgeCount())
+    );
+});
+
+self.addEventListener('notificationclick', (event) => {
+    console.log('[SW] Notification clicked');
+    event.notification.close();
+
+    const url = event.notification.data?.url || '/';
+
+    event.waitUntil(
+        clearBadge()
+            .then(() => self.clients.matchAll({ type: 'window', includeUncontrolled: true }))
+            .then((clients) => {
+                for (const client of clients) {
+                    if (client.url.includes(self.location.origin) && 'focus' in client) {
+                        client.focus();
+                        client.postMessage({ type: 'NOTIFICATION_CLICK', url: url });
+                        return client.navigate(url);
+                    }
+                }
+                return self.clients.openWindow(url);
+            })
+    );
+});
+
+self.addEventListener('notificationclose', (event) => {
+    console.log('[SW] Notification dismissed');
+});
+
+// =============================================================================
+// MESSAGE HANDLER - Communication with main thread
+// =============================================================================
+
+self.addEventListener('message', (event) => {
+    const { type } = event.data || {};
+
+    switch (type) {
+        case 'SKIP_WAITING':
+            self.skipWaiting();
+            break;
+
+        case 'GET_VERSION':
+            event.source.postMessage({
+                type: 'VERSION',
+                version: SW_VERSION,
+                buildTime: BUILD_TIME
+            });
+            break;
+
+        case 'CLEAR_CACHE':
+            Promise.all([
+                caches.delete(STATIC_CACHE),
+                caches.delete(PAGES_CACHE)
+            ]).then(() => {
+                event.source.postMessage({ type: 'CACHE_CLEARED' });
+            });
+            break;
+
+        case 'CHECK_UPDATE':
+            // Force check for new service worker
+            self.registration.update();
+            break;
+
+        case 'CLEAR_BADGE':
+            clearBadge();
+            break;
+    }
+});
+
+console.log(`[SW] Service Worker v${SW_VERSION} loaded (built: {{ build.version }})`);

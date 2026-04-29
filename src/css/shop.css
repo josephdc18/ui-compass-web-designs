@@ -1,0 +1,404 @@
+/* =============================================================================
+   Shop — Product Listing Grid + Product Detail
+   ============================================================================= */
+
+@media only screen and (min-width: 0rem) {
+    #shop {
+        padding: var(--sectionPadding);
+    }
+    #shop .cs-container {
+        width: 100%;
+        max-width: 80rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(3rem, 6vw, 4rem);
+    }
+    #shop .cs-content {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #shop .cs-card-group {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: clamp(1rem, 2vw, 1.25rem);
+        row-gap: 2rem;
+    }
+    #shop .cs-item {
+        list-style: none;
+        width: 100%;
+    }
+    #shop .cs-link {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e7e7e8;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+    #shop .cs-link:hover {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+    #shop .cs-picture {
+        display: block;
+        width: 100%;
+        height: clamp(12rem, 50vw, 18rem);
+        overflow: hidden;
+    }
+    #shop .cs-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    #shop .cs-link:hover .cs-picture img {
+        transform: scale(1.05);
+    }
+    #shop .cs-text-box {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+    }
+    #shop .cs-h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin: 0;
+        color: var(--headerColor);
+    }
+    #shop .cs-item-text {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--bodyTextColor);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    #shop .cs-flex {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-top: auto;
+    }
+    #shop .cs-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1.2;
+    }
+    #shop .cs-was-price {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #999;
+        text-decoration: line-through;
+        line-height: 1.2;
+    }
+}
+
+@media only screen and (min-width: 31.25rem) {
+    #shop .cs-card-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (min-width: 64rem) {
+    #shop .cs-card-group {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- Dark Mode --- */
+@media only screen and (min-width: 0rem) {
+    body.dark-mode #shop .cs-link {
+        background: var(--dark);
+        border-color: var(--dark);
+    }
+    body.dark-mode #shop .cs-h3 {
+        color: var(--bodyTextColorWhite);
+    }
+    body.dark-mode #shop .cs-item-text {
+        color: var(--bodyTextColorWhite);
+        opacity: 0.8;
+    }
+    body.dark-mode #shop .cs-price {
+        color: var(--primaryLight);
+    }
+}
+
+/* =============================================================================
+   Product Detail Page
+   ============================================================================= */
+
+@media only screen and (min-width: 0rem) {
+    #product-detail {
+        padding: var(--sectionPadding);
+    }
+    #product-detail .cs-container {
+        width: 100%;
+        max-width: 80rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(2rem, 5vw, 3rem);
+    }
+    #product-detail .cs-image-group {
+        width: 100%;
+    }
+    #product-detail .cs-picture {
+        display: block;
+        width: 100%;
+        height: clamp(16rem, 60vw, 28rem);
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    #product-detail .cs-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    #product-detail .cs-product-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    #product-detail .cs-title {
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        margin: 0;
+    }
+    #product-detail .cs-pricing {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+    #product-detail .cs-price {
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        font-weight: 700;
+        color: var(--primary);
+    }
+    #product-detail .cs-was-price {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #999;
+        text-decoration: line-through;
+    }
+    #product-detail .cs-text {
+        color: var(--bodyTextColor);
+        line-height: 1.6;
+        margin: 0;
+    }
+    #product-detail .cs-variants {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    #product-detail .cs-option {
+        font-weight: 700;
+        font-size: 0.875rem;
+        color: var(--bodyTextColor);
+    }
+    #product-detail .cs-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    #product-detail .cs-box {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        border: 1px solid #e7e7e8;
+        border-radius: 6.25rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        position: relative;
+    }
+    #product-detail .cs-box input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    #product-detail .cs-box:has(input:checked) {
+        border: 2px solid var(--primary);
+    }
+    #product-detail .cs-button-solid {
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+        font-weight: 700;
+        color: #fff;
+        background-color: var(--primary);
+        padding: 0 1.5rem;
+        line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+        border-radius: 0.25rem;
+        margin-top: 1rem;
+        width: fit-content;
+    }
+    #product-detail .cs-button-solid:hover {
+        opacity: 0.9;
+    }
+}
+
+@media only screen and (min-width: 64rem) {
+    #product-detail .cs-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #product-detail .cs-image-group {
+        flex: 1;
+        max-width: 40rem;
+    }
+    #product-detail .cs-picture {
+        height: clamp(24rem, 30vw, 32rem);
+    }
+    #product-detail .cs-product-info {
+        flex: 1;
+        max-width: 36rem;
+    }
+}
+
+/* --- Product Detail Dark Mode --- */
+@media only screen and (min-width: 0rem) {
+    body.dark-mode #product-detail .cs-title,
+    body.dark-mode #product-detail .cs-text {
+        color: var(--bodyTextColorWhite);
+    }
+    body.dark-mode #product-detail .cs-text {
+        opacity: 0.8;
+    }
+    body.dark-mode #product-detail .cs-price {
+        color: var(--primaryLight);
+    }
+    body.dark-mode #product-detail .cs-box {
+        border-color: var(--dark);
+        color: var(--bodyTextColorWhite);
+    }
+    body.dark-mode #product-detail .cs-option {
+        color: var(--bodyTextColorWhite);
+    }
+}
+
+/* =============================================================================
+   Cart Drawer
+   ============================================================================= */
+
+.cs-cart-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 10001;
+    opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+.cs-cart-overlay.cs-active { opacity: 1; visibility: visible; }
+
+.cs-cart-drawer {
+    position: fixed; top: 0; right: 0; width: 100%; max-width: 24rem; height: 100%;
+    background: #fff; z-index: 10002; box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+    display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform 0.3s ease;
+}
+.cs-cart-drawer.cs-active { transform: translateX(0); }
+
+.cs-cart-drawer-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid #e7e7e8;
+}
+.cs-cart-drawer-header h3 { margin: 0; font-size: 1.25rem; }
+.cs-cart-drawer-close {
+    background: none; border: none; font-size: 1.75rem; cursor: pointer;
+    color: #666; line-height: 1; padding: 0;
+}
+
+.cs-cart-drawer-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+
+.cs-cart-drawer-footer {
+    padding: 1rem 1.5rem; border-top: 1px solid #e7e7e8;
+    display: flex; flex-direction: column; gap: 0.75rem;
+}
+
+/* Shared cart item styles (drawer + page) */
+.cs-cart-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0;
+}
+.cs-cart-item-img {
+    width: 3.75rem; height: 3.75rem; object-fit: cover; border-radius: 0.5rem; flex-shrink: 0;
+}
+.cs-cart-item-info { flex: 1; min-width: 0; }
+.cs-cart-item-name { font-weight: 600; font-size: 0.9rem; color: var(--headerColor); }
+.cs-cart-item-price { font-size: 0.8rem; color: var(--bodyTextColor); margin-top: 0.125rem; }
+.cs-cart-item-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.cs-cart-qty {
+    display: flex; align-items: center; gap: 0; border: 1px solid #e7e7e8; border-radius: 0.25rem;
+}
+.cs-cart-qty-btn {
+    background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0.25rem 0.5rem;
+    color: var(--bodyTextColor); line-height: 1;
+}
+.cs-cart-qty-btn:hover { color: var(--primary); }
+.cs-cart-qty-num { font-size: 0.85rem; min-width: 1.5rem; text-align: center; }
+
+.cs-cart-remove {
+    background: none; border: none; cursor: pointer; font-size: 1.25rem; color: #999;
+    padding: 0.25rem; line-height: 1;
+}
+.cs-cart-remove:hover { color: var(--primary); }
+
+.cs-cart-total-row {
+    display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem;
+}
+
+/* Cart icon in nav */
+.cs-cart-icon {
+    background: none; border: none; cursor: pointer; position: relative;
+    display: flex; align-items: center; color: var(--headerColor); padding: 0.25rem;
+}
+.cs-cart-badge {
+    position: absolute; top: -4px; right: -6px;
+    background: var(--primary); color: #fff; font-size: 0.65rem; font-weight: 700;
+    width: 1.1rem; height: 1.1rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; line-height: 1;
+}
+
+/* Cart page */
+#cart-page { padding: var(--sectionPadding); }
+#cart-page .cs-container { max-width: 50rem; margin: auto; width: 100%; }
+#cart-page .cs-title { margin-bottom: 1.5rem; }
+#cart-page .cs-cart-page-item { padding: 1rem 0; }
+#cart-page .cs-cart-page-item .cs-cart-item-img { width: 5rem; height: 5rem; }
+.cs-cart-summary { margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid #e7e7e8; display: flex; flex-direction: column; gap: 1rem; }
+
+/* Cart drawer dark mode */
+body.dark-mode .cs-cart-drawer { background: var(--dark); }
+body.dark-mode .cs-cart-drawer-header { border-color: rgba(255,255,255,0.1); }
+body.dark-mode .cs-cart-drawer-header h3 { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-drawer-close { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-drawer-footer { border-color: rgba(255,255,255,0.1); }
+body.dark-mode .cs-cart-item { border-color: rgba(255,255,255,0.05); }
+body.dark-mode .cs-cart-item-name { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-item-price { color: var(--bodyTextColorWhite); opacity: 0.8; }
+body.dark-mode .cs-cart-total-row { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-icon { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-qty { border-color: rgba(255,255,255,0.1); }
+body.dark-mode .cs-cart-qty-btn { color: var(--bodyTextColorWhite); }
+body.dark-mode .cs-cart-remove { color: rgba(255,255,255,0.5); }
+
+/* Clear fixed nav — these pages have no hero section to absorb the offset */
+#shop, #product-detail, #cart-page, #shop-admin-app {
+    padding-top: clamp(9.375em, 15vw, 12.5em);
+}

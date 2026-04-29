@@ -1,0 +1,18 @@
+<div class="blog-sidebar">
+  <div class="blog-featured-group">
+    <span class="blog-header">Featured Posts</span>
+    {%- for post in collections.featured | reverse -%}
+    <a class="blog-feature" href="{{ post.url }}">
+      {% if post.data.image %}
+      <picture class="blog-featureImage">
+        <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt }}" width="60" height="60" decoding="async" />
+      </picture>
+      {% endif %}
+      <div class="content-group">
+        <h3 class="feature-h3">{{ post.data.blogTitle }}</h3>
+        <span class="feature-date">{{ post.date | postDate }}</span>
+      </div>
+    </a>
+    {%- endfor -%}
+  </div>
+</div>

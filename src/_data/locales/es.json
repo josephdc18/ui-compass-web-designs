@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "lang": "es",
+    "dir": "ltr"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "services": "Servicios",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "pricing": "Precios",
+    "resources": "Recursos",
+    "solutions": "Soluciones",
+    "skip_to_content": "Saltar al contenido principal",
+    "menu": "Men\u00fa",
+    "close": "Cerrar"
+  },
+  "common": {
+    "read_more": "Leer m\u00e1s",
+    "learn_more": "M\u00e1s informaci\u00f3n",
+    "view_all": "Ver todo",
+    "back": "Atr\u00e1s",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "\u00c9xito",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "yes": "S\u00ed",
+    "no": "No",
+    "or": "o",
+    "and": "y"
+  },
+  "forms": {
+    "name": "Nombre",
+    "email": "Correo electr\u00f3nico",
+    "phone": "Tel\u00e9fono",
+    "message": "Mensaje",
+    "subject": "Asunto",
+    "required": "Obligatorio",
+    "optional": "Opcional",
+    "submit": "Enviar",
+    "sending": "Enviando...",
+    "success_message": "\u00a1Gracias! Tu mensaje ha sido enviado.",
+    "error_message": "Algo sali\u00f3 mal. Por favor, int\u00e9ntalo de nuevo.",
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "email": "Por favor, introduce un correo electr\u00f3nico v\u00e1lido",
+      "phone": "Por favor, introduce un n\u00famero de tel\u00e9fono v\u00e1lido",
+      "min_length": "Debe tener al menos {min} caracteres",
+      "max_length": "No debe superar los {max} caracteres"
+    }
+  },
+  "footer": {
+    "copyright": "\u00a9 {year} {company}. Todos los derechos reservados.",
+    "privacy": "Pol\u00edtica de Privacidad",
+    "terms": "T\u00e9rminos de Servicio",
+    "sitemap": "Mapa del Sitio",
+    "follow_us": "S\u00edguenos"
+  },
+  "404": {
+    "title": "P\u00e1gina No Encontrada",
+    "message": "Lo sentimos, la p\u00e1gina que buscas no existe.",
+    "back_home": "Volver al Inicio"
+  },
+  "accessibility": {
+    "toggle_theme": "Alternar modo claro y oscuro",
+    "open_menu": "Abrir men\u00fa",
+    "close_menu": "Cerrar men\u00fa",
+    "language": "Idioma",
+    "current_language": "Idioma actual",
+    "go_to_top": "Ir arriba"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Untitled",
+  "tagline": "",
+  "email": "",
+  "phone": "",
+  "phoneFormatted": "",
+  "domain": "",
+  "address": {
+    "lineOne": "",
+    "lineTwo": "",
+    "city": "",
+    "county": "",
+    "postcode": "",
+    "mapLink": ""
+  },
+  "social": {
+    "facebook": "",
+    "instagram": "",
+    "linkedin": "",
+    "x": "",
+    "youtube": "",
+    "yelp": ""
+  }
+}

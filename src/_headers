@@ -1,0 +1,39 @@
+# Cloudflare Pages Security Headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+
+  # Prevent clickjacking (backup for CSP frame-ancestors)
+  X-Frame-Options: DENY
+
+  # Enable HSTS - force HTTPS for 1 year, include subdomains
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Disable browser features we don't need
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+
+  # Legacy XSS protection header (modern browsers use CSP)
+  X-XSS-Protection: 1; mode=block
+
+# Cache static assets aggressively
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Service worker - no cache
+/service-worker.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# API routes - no cache
+/api/*
+  Cache-Control: no-store

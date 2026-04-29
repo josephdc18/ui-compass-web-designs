@@ -1,0 +1,90 @@
+---
+layout: base.html
+pagination:
+  data: products
+  size: 1
+  alias: product
+permalink: "shop/{{ product.slug }}/"
+eleventyComputed:
+  tagTitle: "{{ product.name }}"
+  metaTitle: "{{ product.name }} | {{ client.name }}"
+  description: "{{ product.description }}"
+  preloadImg: "{{ product.image_url }}"
+---
+
+<section id="product-detail">
+    <div class="cs-container">
+        <div class="cs-image-group">
+            <picture class="cs-picture">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}"
+                     loading="eager" decoding="async" width="630" height="480">
+            </picture>
+        </div>
+        <div class="cs-product-info">
+            <h1 class="cs-title">{{ product.name }}</h1>
+            <div class="cs-pricing">
+                <span class="cs-price">${{ product.price }}</span>
+                {% if product.compareAtPrice %}
+                <span class="cs-was-price">${{ product.compareAtPrice }}</span>
+                {% endif %}
+            </div>
+            <p class="cs-text">{{ product.description }}</p>
+            {% if product.variants.length > 0 %}
+            <div class="cs-variants">
+                <label class="cs-option">Variant</label>
+                <div class="cs-boxes">
+                    {% for variant in product.variants %}
+                    <label class="cs-box">
+                        <input type="radio" name="variant" value="{{ variant.id }}"
+                               data-price="{{ variant.price_cents }}"
+                               {% if loop.first %}checked{% endif %}>
+                        <span>{{ variant.name }} — ${{ variant.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <div class="cs-product-buttons">
+                <button class="cs-button-solid" id="add-to-cart-btn" type="button"
+                    data-product-id="{{ product.id }}"
+                    data-product-name="{{ product.name }}"
+                    data-product-slug="{{ product.slug }}"
+                    data-product-price="{{ product.price }}"
+                    data-product-price-cents="{{ product.price_cents }}"
+                    data-product-image="{{ product.image_url }}"
+                    data-product-variants="{{ product.variants | dump }}">Add to Cart</button>
+                <a href="/shop/" class="cs-button-outline">Back to Shop</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('add-to-cart-btn');
+    if (!btn || !window.shopCart) return;
+
+    var product = {
+        id: parseInt(btn.dataset.productId, 10),
+        name: btn.dataset.productName,
+        slug: btn.dataset.productSlug,
+        price: btn.dataset.productPrice,
+        price_cents: parseInt(btn.dataset.productPriceCents, 10),
+        image_url: btn.dataset.productImage,
+        variants: JSON.parse(btn.dataset.productVariants || '[]'),
+    };
+
+    btn.addEventListener('click', function() {
+        var selectedVariant = null;
+        var checkedRadio = document.querySelector('input[name="variant"]:checked');
+        if (checkedRadio && product.variants) {
+            selectedVariant = product.variants.find(function(v) {
+                return String(v.id) === checkedRadio.value;
+            });
+        }
+        window.shopCart.add(product, 1, selectedVariant);
+        btn.textContent = 'Added!';
+        setTimeout(function() { btn.textContent = 'Add to Cart'; }, 1500);
+    });
+});
+</script>

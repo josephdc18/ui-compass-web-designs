@@ -1,0 +1,278 @@
+---
+layout: sign.html
+tagTitle: "Sign Contract"
+permalink: "sign/"
+eleventyExcludeFromCollections: true
+---
+
+<style>
+  .sign-app { max-width: 40rem; margin: 0 auto; padding: 2rem 1rem; min-height: 80vh; }
+  .sign-card { background: #fff; border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; }
+  .sign-title { font-size: calc(var(--bodyFontSize, 1rem) * 1.5); font-weight: 700; color: var(--headerColor, #1a1a1a); margin: 0 0 0.5rem; }
+  .sign-subtitle { color: var(--bodyTextColor, #4e4b66); margin: 0 0 1.5rem; }
+  .sign-btn { display: inline-block; padding: 0.75rem 1.5rem; background: var(--primary, #ff6a3e); color: var(--bodyTextColorWhite, #fafbfc); border: none; border-radius: 0.5rem; font-size: var(--bodyFontSize, 1rem); font-weight: 600; cursor: pointer; }
+  .sign-btn:hover { background: var(--primaryLight, #ffba43); }
+  .sign-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .sign-error { color: var(--primary, #ff6a3e); font-size: calc(var(--bodyFontSize, 1rem) * 0.875); margin: 0.5rem 0; }
+  .sign-otp-input { font-size: calc(var(--bodyFontSize, 1rem) * 2); letter-spacing: 0.5rem; text-align: center; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 0.5rem; width: 12rem; }
+  .sign-otp-input:focus { outline: none; border-color: var(--primary, #ff6a3e); }
+  .sign-contract-frame { border: 1px solid #e5e7eb; border-radius: 0.5rem; max-height: 50vh; overflow-y: auto; padding: 1rem; margin: 1rem 0; background: #fff; }
+  .sign-canvas-wrap { border: 2px solid #d1d5db; border-radius: 0.5rem; margin: 1rem 0; background: #fff; }
+  .sign-canvas-wrap canvas { display: block; width: 100%; cursor: crosshair; }
+  .sign-typed-input { font-family: Georgia, 'Times New Roman', serif; font-size: calc(var(--bodyFontSize, 1rem) * 2); font-style: italic; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 0.5rem; width: 100%; box-sizing: border-box; }
+  .sign-consent { display: flex; gap: 0.75rem; align-items: flex-start; margin: 1rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
+  .sign-consent input[type=checkbox] { margin-top: 0.25rem; flex-shrink: 0; }
+  .sign-consent label { font-size: calc(var(--bodyFontSize, 1rem) * 0.875); line-height: 1.5; color: var(--bodyTextColor, #4e4b66); }
+  .sign-tab-btns { display: flex; gap: 0; margin-bottom: 1rem; }
+  .sign-tab-btn { padding: 0.5rem 1rem; background: #f3f4f6; border: 1px solid #d1d5db; cursor: pointer; font-size: calc(var(--bodyFontSize, 1rem) * 0.875); }
+  .sign-tab-btn:first-child { border-radius: 0.5rem 0 0 0.5rem; }
+  .sign-tab-btn:last-child { border-radius: 0 0.5rem 0.5rem 0; }
+  .sign-tab-btn.active { background: var(--primary, #ff6a3e); color: var(--bodyTextColorWhite, #fafbfc); border-color: var(--primary, #ff6a3e); }
+  .sign-done { text-align: center; padding: 3rem 1rem; }
+  .sign-done h2 { color: var(--primary, #ff6a3e); font-size: calc(var(--bodyFontSize, 1rem) * 1.5); margin: 0 0 1rem; }
+  .sign-notice { font-size: calc(var(--bodyFontSize, 1rem) * 0.8); color: var(--bodyTextColor, #4e4b66); margin: 0.5rem 0; line-height: 1.5; }
+
+  body.dark-mode .sign-card { background: var(--medium, #2a2a2a); }
+  body.dark-mode .sign-title { color: var(--bodyTextColorWhite, #fafbfc); }
+  body.dark-mode .sign-subtitle { color: var(--bodyTextColorWhite, #fafbfc); opacity: 0.8; }
+  body.dark-mode .sign-otp-input,
+  body.dark-mode .sign-typed-input { background: var(--dark, #1a1a1a); border-color: #444; color: var(--bodyTextColorWhite, #fafbfc); }
+  body.dark-mode .sign-contract-frame { background: #fff; color: var(--headerColor, #1a1a1a); }
+  body.dark-mode .sign-consent { background: var(--dark, #1a1a1a); border-color: #444; }
+  body.dark-mode .sign-consent label { color: var(--bodyTextColorWhite, #fafbfc); }
+</style>
+
+<div class="sign-app">
+  <!-- Loading -->
+  <div id="sign-loading" class="sign-card" style="text-align:center;padding:3rem;">
+    <p>Verifying your signing link...</p>
+  </div>
+
+  <!-- OTP Step -->
+  <div id="sign-otp" class="sign-card" style="display:none;">
+    <h1 class="sign-title">Verify Your Identity</h1>
+    <p class="sign-subtitle">We sent a 6-digit code to <strong id="sign-email-hint"></strong></p>
+    <div style="text-align:center;margin:2rem 0;">
+      <input type="text" class="sign-otp-input" id="sign-otp-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="000000" />
+    </div>
+    <div id="sign-otp-error" class="sign-error" style="display:none;text-align:center;"></div>
+    <div style="text-align:center;">
+      <button class="sign-btn" id="sign-otp-btn">Verify Code</button>
+    </div>
+    <div style="text-align:center;margin-top:1rem;">
+      <button style="background:none;border:none;color:var(--primary,#ff6a3e);cursor:pointer;font-size:calc(var(--bodyFontSize,1rem)*0.875);" id="sign-resend-btn">Resend code</button>
+    </div>
+  </div>
+
+  <!-- Review + Sign Step -->
+  <div id="sign-review" class="sign-card" style="display:none;">
+    <h1 class="sign-title">Review & Sign</h1>
+    <p class="sign-subtitle">Please review the agreement below, then sign.</p>
+    <div class="sign-contract-frame" id="sign-contract-html"></div>
+
+    <h3 style="margin:1.5rem 0 0.75rem;font-size:var(--bodyFontSize,1rem);color:var(--headerColor,#1a1a1a);">Your Signature</h3>
+    <div class="sign-tab-btns">
+      <button class="sign-tab-btn active" data-mode="draw">Draw</button>
+      <button class="sign-tab-btn" data-mode="type">Type</button>
+    </div>
+
+    <div id="sign-draw-panel">
+      <div class="sign-canvas-wrap">
+        <canvas id="sign-canvas" width="600" height="150"></canvas>
+      </div>
+      <button style="background:none;border:none;color:var(--primary,#ff6a3e);cursor:pointer;font-size:calc(var(--bodyFontSize,1rem)*0.875);" id="sign-clear-btn">Clear</button>
+    </div>
+    <div id="sign-type-panel" style="display:none;">
+      <input type="text" class="sign-typed-input" id="sign-typed-name" placeholder="Type your full name" />
+    </div>
+
+    <div class="sign-notice" id="sign-paper-notice">
+      You have the right to receive a paper copy of this agreement. To request one, contact the service provider.
+    </div>
+
+    <div class="sign-consent">
+      <input type="checkbox" id="sign-consent-check" />
+      <label for="sign-consent-check" id="sign-consent-label">
+        I agree to use electronic signatures and records for this transaction. I understand that I may withdraw this consent at any time by contacting the service provider.
+      </label>
+    </div>
+
+    <div id="sign-submit-error" class="sign-error" style="display:none;"></div>
+    <button class="sign-btn" id="sign-submit-btn" style="width:100%;">Sign Agreement</button>
+  </div>
+
+  <!-- Done -->
+  <div id="sign-done" class="sign-card sign-done" style="display:none;">
+    <h2>Agreement Signed Successfully</h2>
+    <p>A confirmation has been sent to your email. You can close this page.</p>
+  </div>
+
+  <!-- Error -->
+  <div id="sign-error-view" class="sign-card" style="display:none;text-align:center;padding:3rem;">
+    <h2 style="color:var(--primary,#ff6a3e);">Unable to Process</h2>
+    <p id="sign-error-msg" style="color:var(--bodyTextColor,#4e4b66);"></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  const API = '/api/portal/sign';
+  let sessionId = null;
+  let signerName = '';
+  let signMode = 'draw';
+  let canvasDrawn = false;
+  function cssVar(name, fallback) {
+    const value = getComputedStyle(document.body).getPropertyValue(name).trim();
+    return value || fallback;
+  }
+
+  function show(id) { ['sign-loading','sign-otp','sign-review','sign-done','sign-error-view'].forEach(s => { document.getElementById(s).style.display = s === id ? 'block' : 'none'; }); }
+  function showErr(msg) { document.getElementById('sign-error-msg').textContent = msg; show('sign-error-view'); }
+
+  // Init: verify token from URL
+  (async function() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (!token) { showErr('No signing token provided.'); return; }
+    try {
+      const res = await fetch(API + '/verify?token=' + encodeURIComponent(token));
+      const data = await res.json();
+      if (!res.ok) { showErr(data.error || 'Invalid signing link.'); return; }
+      sessionId = data.session_id;
+      document.getElementById('sign-email-hint').textContent = data.email_hint;
+      show('sign-otp');
+      document.getElementById('sign-otp-input').focus();
+    } catch (e) { showErr('Network error. Please try again.'); }
+  })();
+
+  // OTP verify
+  document.getElementById('sign-otp-btn').addEventListener('click', async () => {
+    const otp = document.getElementById('sign-otp-input').value.trim();
+    if (otp.length !== 6) { document.getElementById('sign-otp-error').textContent = 'Enter a 6-digit code'; document.getElementById('sign-otp-error').style.display = 'block'; return; }
+    document.getElementById('sign-otp-btn').disabled = true;
+    try {
+      const res = await fetch(API + '/verify-otp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, otp }) });
+      const data = await res.json();
+      if (!res.ok) { document.getElementById('sign-otp-error').textContent = data.error; document.getElementById('sign-otp-error').style.display = 'block'; return; }
+      signerName = data.signer_name || '';
+      var businessName = (data.business_name || 'the service provider').trim() || 'the service provider';
+      var businessEmail = (data.business_email || '').trim();
+      var contactText = businessEmail ? (businessName + ' at ' + businessEmail) : businessName;
+      document.getElementById('sign-paper-notice').textContent =
+        'You have the right to receive a paper copy of this agreement. To request one, contact ' + contactText + '.';
+      document.getElementById('sign-consent-label').textContent =
+        'I agree to use electronic signatures and records for this transaction. I understand that I may withdraw this consent at any time by contacting ' + contactText + '.';
+      // Render contract in sandboxed iframe (prevents stored XSS from contract_html)
+      var frame = document.createElement('iframe');
+      frame.sandbox = 'allow-same-origin';
+      frame.style.cssText = 'width:100%;border:none;min-height:400px;';
+      var container = document.getElementById('sign-contract-html');
+      container.innerHTML = '';
+      container.appendChild(frame);
+      frame.srcdoc = data.contract_html || '';
+      frame.onload = function() { frame.style.height = frame.contentDocument.body.scrollHeight + 'px'; };
+      document.getElementById('sign-typed-name').value = signerName;
+      show('sign-review');
+      initCanvas();
+    } catch (e) { document.getElementById('sign-otp-error').textContent = 'Network error'; document.getElementById('sign-otp-error').style.display = 'block'; }
+    finally { document.getElementById('sign-otp-btn').disabled = false; }
+  });
+
+  // Resend
+  document.getElementById('sign-resend-btn').addEventListener('click', async () => {
+    try {
+      const res = await fetch(API + '/resend-otp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId }) });
+      const data = await res.json();
+      if (res.ok) { document.getElementById('sign-email-hint').textContent = data.email_hint || ''; alert('New code sent!'); }
+      else { alert(data.error || 'Could not resend code'); }
+    } catch { alert('Network error'); }
+  });
+
+  // Signature mode tabs
+  document.querySelectorAll('.sign-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sign-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      signMode = btn.dataset.mode;
+      document.getElementById('sign-draw-panel').style.display = signMode === 'draw' ? 'block' : 'none';
+      document.getElementById('sign-type-panel').style.display = signMode === 'type' ? 'block' : 'none';
+    });
+  });
+
+  // Canvas drawing
+  function initCanvas() {
+    const canvas = document.getElementById('sign-canvas');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = cssVar('--headerColor', '#1a1a1a');
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    let drawing = false;
+    function getPos(e) {
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches ? e.touches[0] : e;
+      return { x: t.clientX - r.left, y: t.clientY - r.top };
+    }
+    function start(e) { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+    function move(e) { if (!drawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); canvasDrawn = true; }
+    function end() { drawing = false; }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseleave', end);
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    canvas.addEventListener('touchend', end);
+
+    document.getElementById('sign-clear-btn').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+      canvasDrawn = false;
+    });
+  }
+
+  // Submit
+  document.getElementById('sign-submit-btn').addEventListener('click', async () => {
+    const consent = document.getElementById('sign-consent-check').checked;
+    if (!consent) { document.getElementById('sign-submit-error').textContent = 'You must accept the ESIGN consent'; document.getElementById('sign-submit-error').style.display = 'block'; return; }
+
+    let sigData, sigType, name;
+    if (signMode === 'draw') {
+      if (!canvasDrawn) { document.getElementById('sign-submit-error').textContent = 'Please draw your signature'; document.getElementById('sign-submit-error').style.display = 'block'; return; }
+      sigData = document.getElementById('sign-canvas').toDataURL('image/png');
+      sigType = 'drawn';
+      name = signerName || 'Client';
+    } else {
+      name = document.getElementById('sign-typed-name').value.trim();
+      if (!name) { document.getElementById('sign-submit-error').textContent = 'Type your name'; document.getElementById('sign-submit-error').style.display = 'block'; return; }
+      // Create typed signature as canvas image
+      const c = document.createElement('canvas'); c.width = 400; c.height = 80;
+      const cx = c.getContext('2d');
+      cx.fillStyle = cssVar('--bodyTextColorWhite', '#fafbfc'); cx.fillRect(0, 0, 400, 80);
+      cx.font = 'italic 32px Georgia, serif'; cx.fillStyle = cssVar('--headerColor', '#1a1a1a'); cx.fillText(name, 10, 50);
+      sigData = c.toDataURL('image/png');
+      sigType = 'typed';
+    }
+
+    document.getElementById('sign-submit-btn').disabled = true;
+    document.getElementById('sign-submit-error').style.display = 'none';
+    try {
+      const res = await fetch(API + '/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId, signature_data: sigData, signature_type: sigType, signer_name: name, consent_accepted: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) { document.getElementById('sign-submit-error').textContent = data.error; document.getElementById('sign-submit-error').style.display = 'block'; return; }
+      show('sign-done');
+    } catch { document.getElementById('sign-submit-error').textContent = 'Network error. Please try again.'; document.getElementById('sign-submit-error').style.display = 'block'; }
+    finally { document.getElementById('sign-submit-btn').disabled = false; }
+  });
+})();
+</script>

@@ -1,0 +1,21 @@
+{# ==========================================================================
+   Hreflang Tags for SEO
+   Generates alternate language links for search engines
+
+   Usage: {% include "hreflang.html" %}
+
+   These tags tell search engines about language/regional versions of pages.
+   https://developers.google.com/search/docs/specialty/international/localized-versions
+   ========================================================================== #}
+
+{% set currentLocale = locale | default(i18nConfig.defaultLocale) %}
+{% set availableLocales = "" | availableLocales %}
+{% set baseUrl = "https://" + client.domain %}
+
+{# Generate hreflang for each available locale #}
+{% for loc in availableLocales %}
+    <link rel="alternate" hreflang="{{ loc.hreflang }}" href="{{ baseUrl }}{{ page.url | localizedUrl(loc.code) }}">
+{% endfor %}
+
+{# x-default for language selector pages or when no specific language matches #}
+<link rel="alternate" hreflang="x-default" href="{{ baseUrl }}{{ page.url | localizedUrl(i18nConfig.defaultLocale) }}">

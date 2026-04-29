@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "lang": "en",
+    "dir": "ltr"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "blog": "Blog",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "solutions": "Solutions",
+    "skip_to_content": "Skip to main content",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "common": {
+    "read_more": "Read more",
+    "learn_more": "Learn more",
+    "view_all": "View all",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and"
+  },
+  "forms": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "subject": "Subject",
+    "required": "Required",
+    "optional": "Optional",
+    "submit": "Submit",
+    "sending": "Sending...",
+    "success_message": "Thank you! Your message has been sent.",
+    "error_message": "Something went wrong. Please try again.",
+    "validation": {
+      "required": "This field is required",
+      "email": "Please enter a valid email address",
+      "phone": "Please enter a valid phone number",
+      "min_length": "Must be at least {min} characters",
+      "max_length": "Must be no more than {max} characters"
+    }
+  },
+  "footer": {
+    "copyright": "\u00a9 {year} {company}. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "sitemap": "Sitemap",
+    "follow_us": "Follow Us"
+  },
+  "404": {
+    "title": "Page Not Found",
+    "message": "Sorry, the page you're looking for doesn't exist.",
+    "back_home": "Back to Home"
+  },
+  "accessibility": {
+    "toggle_theme": "Toggle light and dark mode",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "language": "Language",
+    "current_language": "Current language",
+    "go_to_top": "Go to top"
+  }
+}

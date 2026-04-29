@@ -1,0 +1,27 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {#- Homepage -#}
+  <url>
+    <loc>https://{{ client.domain }}/</loc>
+    <lastmod>{{ build.buildTime | truncate(10, true, '') }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  {#- All pages from collections.all (excluding drafts and admin) -#}
+  {%- for page in collections.all -%}
+  {%- if page.url and page.url != '/' and '/admin' not in page.url and not page.data.draft and not page.data.eleventyExcludeFromCollections -%}
+  <url>
+    <loc>https://{{ client.domain }}{{ page.url }}</loc>
+    <lastmod>{{ page.date | date('YYYY-MM-DD') }}</lastmod>
+    <changefreq>{% if '/blog/' in page.url %}monthly{% else %}weekly{% endif %}</changefreq>
+    <priority>{% if '/blog/' in page.url %}0.6{% else %}0.8{% endif %}</priority>
+  </url>
+  {%- endif -%}
+  {%- endfor -%}
+</urlset>

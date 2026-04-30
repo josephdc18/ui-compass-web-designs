@@ -14,16 +14,20 @@
   <meta name="keywords" content="">
 
   <!--Social Media Display-->
-  <meta property="og:title" content="{{ metaTitle }}" />
+  {% if page.url == '/' %}
+  <meta property="og:title" content="Small Business Web Designer | UI Compass | $0 Down $150 Per Month" />
+  {% else %}
+  <meta property="og:title" content="{{ tagTitle }} | UI Compass" />
+  {% endif %}
   <meta property="og:description" content="{{ description }}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://{{ client.domain }}{{ page.url }}" />
-  <meta property="og:image" content="https://{{ client.domain }}/assets/social-media/og-facebook.png" />
-  <meta property="og:image:secure_url" content="https://{{ client.domain }}/assets/social-media/og-facebook.png" />
+  <meta property="og:image" content="https://{{ client.domain }}/assets/social-media/og-preview.png" />
+  <meta property="og:image:secure_url" content="https://{{ client.domain }}/assets/social-media/og-preview.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://{{ client.domain }}/assets/social-media/og-twitter.png" />
+  <meta name="twitter:image" content="https://{{ client.domain }}/assets/social-media/og-preview.png" />
 
   <!--Favicons-->
   <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico">

@@ -265,9 +265,16 @@
 
     let res;
     try {
+      // Tag installed-PWA traffic so the server can skip owner-side rate limits
+      // while testing in production. Trivially spoofable from curl, but only the
+      // owner installs this site as a PWA, so the bypass is acceptable here.
+      var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+        || navigator.standalone === true;
+      var headers = { 'Content-Type': 'application/json' };
+      if (isStandalone) headers['X-PWA'] = '1';
       res = await fetch('/api/psi-audit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify({ industry, email, url, consent, _hp }),
       });
     } catch (err) {

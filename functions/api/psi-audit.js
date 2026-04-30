@@ -157,12 +157,17 @@ export async function onRequest(context) {
   // Bypass when the request hits this function via localhost (i.e. `wrangler pages dev`)
   // so iterating on the UI doesn't make you wait an hour. Production traffic always
   // arrives at the real hostname so this branch can never run there.
+  // Also bypass when the client sends X-PWA: 1 — the audit FAB sets this only
+  // when running in standalone (installed-PWA) mode, which only the owner does
+  // while testing prod-only errors. Header is trivially spoofable from curl, so
+  // this is explicitly an "honor system" bypass for owner traffic, not a security control.
   const ip = request.headers.get('CF-Connecting-IP') || request.headers.get('X-Forwarded-For') || 'unknown';
   const userAgent = (request.headers.get('User-Agent') || '').slice(0, 500);
   const reqHost = new URL(request.url).hostname;
   const isLocalDev = reqHost === 'localhost' || reqHost === '127.0.0.1' || reqHost === '0.0.0.0';
+  const isPwa = request.headers.get('X-PWA') === '1';
 
-  if (!isLocalDev) {
+  if (!isLocalDev && !isPwa) {
     const limits = [
       { key: `psi:ip:${ip}`,           max: 3,  window: 60   },
       { key: `psi:email:${email}`,     max: 5,  window: 1440 },

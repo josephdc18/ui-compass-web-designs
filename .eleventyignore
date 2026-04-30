@@ -1,0 +1,6 @@
+# Hidden until blog content is ready. Delete or comment these lines to bring the blog back.
+# Listing page + posts (EN/ES) + the markdown samples directory.
+src/pages/blog.html
+src/pages/blog-content-is-still-king-understanding-website-content-importance-for-web-page-seo.html
+src/pages/es/blog-content-is-still-king-understanding-website-content-importance-for-web-page-seo.html
+src/blog

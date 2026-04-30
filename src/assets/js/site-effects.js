@@ -44,9 +44,43 @@
     return setDarkMode(shouldUseDark);
   };
 
-  window.pbToggleDarkMode = function pbToggleDarkMode() {
+  var themeBusy = false;
+
+  function getToggleButton(opts) {
+    var e = opts && opts.transitionOrigin;
+    return (e && (e.currentTarget || e.target)) || document.getElementById('dark-mode-toggle');
+  }
+
+  window.pbToggleDarkMode = function pbToggleDarkMode(opts) {
+    if (themeBusy) return;
     var isDark = !(document.body && document.body.classList.contains('dark-mode'));
-    return setDarkMode(isDark);
+    var supportsVT = typeof document.startViewTransition === 'function';
+    var motionOk = !window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!supportsVT || !motionOk) return setDarkMode(isDark);
+
+    var btn = getToggleButton(opts);
+    if (!btn || !btn.getBoundingClientRect) return setDarkMode(isDark);
+    var rect = btn.getBoundingClientRect();
+    var x = rect.left + rect.width / 2;
+    var y = rect.top + rect.height / 2;
+    var radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+    var root = document.documentElement;
+    root.style.setProperty('--pb-theme-clip-from', 'circle(0px at ' + x + 'px ' + y + 'px)');
+    root.style.setProperty('--pb-theme-clip-to', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)');
+    root.classList.add('pb-theme-transition-active');
+    themeBusy = true;
+
+    var transition = document.startViewTransition(function() { setDarkMode(isDark); });
+    transition.finished.finally(function() {
+      root.classList.remove('pb-theme-transition-active');
+      root.style.removeProperty('--pb-theme-clip-from');
+      root.style.removeProperty('--pb-theme-clip-to');
+      themeBusy = false;
+    });
+    return isDark;
   };
 })();
 

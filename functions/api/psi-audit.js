@@ -344,44 +344,91 @@ async function runAudit(env, ctx) {
 }
 
 // ----------------------------------------------------------------------------
-// PSI fetch with 24s AbortController — see plan budget table
+// PSI fetch with a 24s overall AbortController — see plan budget table
 // ----------------------------------------------------------------------------
 
 class PsiError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
 
+const PSI_TIMEOUT_MS = 24000;
+const PSI_MAX_ATTEMPTS = 3;
+const PSI_RETRY_DELAYS_MS = [1000, 2000];
+
+function abortError() {
+  return new DOMException('PSI request timed out', 'AbortError');
+}
+
+function delay(ms, signal) {
+  if (signal.aborted) return Promise.reject(abortError());
+  return new Promise((resolve, reject) => {
+    let timer;
+    const cleanup = () => {
+      clearTimeout(timer);
+      signal.removeEventListener('abort', onAbort);
+    };
+    const onDone = () => {
+      cleanup();
+      resolve();
+    };
+    const onAbort = () => {
+      cleanup();
+      reject(abortError());
+    };
+    timer = setTimeout(onDone, ms);
+    signal.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+async function throwForPsiResponse(res) {
+  // PSI quota signals: 429, or 403 with a quotaExceeded / rateLimitExceeded /
+  // dailyLimitExceeded reason in the JSON error envelope. Read the body once
+  // (it's small) so we can route it to the right user-facing copy.
+  if (res.status === 429) {
+    throw new PsiError('PSI_QUOTA', 'PSI rate limit reached');
+  }
+  if (res.status === 403) {
+    let body;
+    try { body = await res.json(); } catch { body = null; }
+    const reasons = body?.error?.errors?.map(e => String(e.reason || '').toLowerCase()) || [];
+    const msg = String(body?.error?.message || '');
+    const isQuota =
+      reasons.some(r => r.includes('quota') || r.includes('rate') || r.includes('dailylimit')) ||
+      /quota|rate.?limit|exceeded/i.test(msg);
+    if (isQuota) {
+      throw new PsiError('PSI_QUOTA', body?.error?.message || 'PSI quota exceeded');
+    }
+    throw new PsiError('UNAUDITABLE', body?.error?.message || 'PSI HTTP 403');
+  }
+  // Other 4xx: the URL is the problem. 5xx: PSI is the problem.
+  const isClient = res.status >= 400 && res.status < 500;
+  throw new PsiError(isClient ? 'UNAUDITABLE' : 'PSI_DOWN', `PSI HTTP ${res.status}`);
+}
+
+function toPsiError(err) {
+  if (err instanceof PsiError || err?.name === 'AbortError') return err;
+  return new PsiError('PSI_DOWN', err?.message || 'PSI request failed');
+}
+
 async function fetchPsi(apiKey, targetUrl) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 24000);
+  const timeoutId = setTimeout(() => controller.abort(), PSI_TIMEOUT_MS);
   try {
-    const res = await fetch(buildPsiUrl(targetUrl, apiKey), { signal: controller.signal });
-    clearTimeout(timeoutId);
-    if (!res.ok) {
-      // PSI quota signals: 429, or 403 with a quotaExceeded / rateLimitExceeded /
-      // dailyLimitExceeded reason in the JSON error envelope. Read the body once
-      // (it's small) so we can route it to the right user-facing copy.
-      if (res.status === 429) {
-        throw new PsiError('PSI_QUOTA', 'PSI rate limit reached');
-      }
-      if (res.status === 403) {
-        let body;
-        try { body = await res.json(); } catch { body = null; }
-        const reasons = body?.error?.errors?.map(e => String(e.reason || '').toLowerCase()) || [];
-        const msg = String(body?.error?.message || '');
-        const isQuota =
-          reasons.some(r => r.includes('quota') || r.includes('rate') || r.includes('dailylimit')) ||
-          /quota|rate.?limit|exceeded/i.test(msg);
-        if (isQuota) {
-          throw new PsiError('PSI_QUOTA', body?.error?.message || 'PSI quota exceeded');
+    for (let attempt = 1; attempt <= PSI_MAX_ATTEMPTS; attempt++) {
+      try {
+        const res = await fetch(buildPsiUrl(targetUrl, apiKey), { signal: controller.signal });
+        if (!res.ok) await throwForPsiResponse(res);
+        return await res.json();
+      } catch (err) {
+        const psiErr = toPsiError(err);
+        const retryable = psiErr instanceof PsiError && psiErr.code === 'PSI_DOWN';
+        if (!retryable || attempt === PSI_MAX_ATTEMPTS) {
+          throw psiErr;
         }
-        throw new PsiError('UNAUDITABLE', body?.error?.message || 'PSI HTTP 403');
+        console.warn('[PSI Audit] retrying PSI after transient failure:', psiErr.message);
+        await delay(PSI_RETRY_DELAYS_MS[attempt - 1] || 2000, controller.signal);
       }
-      // Other 4xx: the URL is the problem. 5xx: PSI is the problem.
-      const isClient = res.status >= 400 && res.status < 500;
-      throw new PsiError(isClient ? 'UNAUDITABLE' : 'PSI_DOWN', `PSI HTTP ${res.status}`);
     }
-    return await res.json();
   } finally {
     clearTimeout(timeoutId);
   }

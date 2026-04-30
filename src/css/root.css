@@ -348,35 +348,61 @@ body.dark-mode .pwa-notify-toggle[data-state="on"] {
 }
 
 
+/* Theme toggle circular reveal.
+   Suppress per-element names on main/header/footer during the wipe so only the root snapshot
+   participates — the class is added before startViewTransition so names are gone for both captures. */
+html.pb-theme-transition-active main,
+html.pb-theme-transition-active header,
+html.pb-theme-transition-active footer {
+  view-transition-name: none !important;
+}
+
 html.pb-theme-transition-active::view-transition-old(root),
 html.pb-theme-transition-active::view-transition-new(root) {
-  animation-duration: 520ms;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  animation-fill-mode: both;
-  mix-blend-mode: normal;
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
 }
 
 html.pb-theme-transition-active::view-transition-old(root) {
-  animation-name: none;
+  animation: none;
+  z-index: 1;
 }
 
 html.pb-theme-transition-active::view-transition-new(root) {
-  animation-name: pb-theme-wipe-in;
+  animation: pb-theme-wipe-in 300ms ease-in-out both;
+  z-index: 2;
 }
 
 @keyframes pb-theme-wipe-in {
   from {
-    clip-path: var(--pb-theme-clip-from);
+    clip-path: var(--pb-theme-clip-from, circle(0px at 50% 0));
   }
   to {
-    clip-path: var(--pb-theme-clip-to);
+    clip-path: var(--pb-theme-clip-to, circle(150% at 50% 0));
   }
 }
 
+/* Defense in depth — explicitly disable any per-region animations on the named pages even if the
+   view-transition-name override above is bypassed for some reason. */
+html.pb-theme-transition-active::view-transition-old(pb-main),
+html.pb-theme-transition-active::view-transition-new(pb-main),
+html.pb-theme-transition-active::view-transition-old(pb-header),
+html.pb-theme-transition-active::view-transition-new(pb-header),
+html.pb-theme-transition-active::view-transition-old(pb-footer),
+html.pb-theme-transition-active::view-transition-new(pb-footer) {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+  }
   html.pb-theme-transition-active::view-transition-old(root),
   html.pb-theme-transition-active::view-transition-new(root) {
     animation: none !important;
+    clip-path: none !important;
   }
 }
 
@@ -503,30 +529,10 @@ footer {
   view-transition-name: pb-footer;
 }
 
-::view-transition-old(pb-main) {
-  animation: pb-fade-out 250ms ease both;
-}
-
-::view-transition-new(pb-main) {
-  animation: pb-slide-up-fade 300ms ease both;
-}
-
-@keyframes pb-fade-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes pb-slide-up-fade {
-  from {
-    opacity: 0;
-    transform: translateY(0.75rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Cross-document nav uses the browser's default cross-fade for the root and pb-main regions —
+   no explicit animations, so the transition feels like an app crossfade rather than a slide.
+   header and footer are also named so they persist visually across navigations instead of
+   fading with the rest of the document. */
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),

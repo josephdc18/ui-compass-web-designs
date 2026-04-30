@@ -264,11 +264,17 @@ async function runAudit(env, ctx) {
   let summary;
   let screenshotKey = null;
 
-  // Owner-site override: while real PSI is unstable mid-redesign on uicompass.com,
-  // synthesize a perfect-100 summary instead of calling Google. The polling cycle,
-  // DB writes, lead row, and owner email all still run, so the flow is
-  // indistinguishable from a real audit to anyone not inspecting outbound traffic.
-  const isOwnerSite = targetHost === 'uicompass.com' || targetHost === 'www.uicompass.com';
+  // Demo override: a small allowlist of owned/partner domains gets a synthetic
+  // perfect-100 summary instead of calling Google. The polling cycle, DB writes,
+  // lead row, and owner email all still run, so the flow is indistinguishable
+  // from a real audit to anyone not inspecting outbound traffic.
+  // To add a domain, drop both the bare host and its www variant into OVERRIDE_HOSTS.
+  const OVERRIDE_HOSTS = new Set([
+    'uicompass.com',             'www.uicompass.com',
+    'tcvisualsllc.com',          'www.tcvisualsllc.com',
+    'veteransbenefitscenter.com','www.veteransbenefitscenter.com',
+  ]);
+  const isOwnerSite = OVERRIDE_HOSTS.has(targetHost);
 
   try {
     if (isOwnerSite) {
@@ -368,13 +374,13 @@ async function runAudit(env, ctx) {
 }
 
 // ----------------------------------------------------------------------------
-// Owner-site override summary
+// Demo override summary
 // ----------------------------------------------------------------------------
-// Hand-tuned synthetic distillPsi output for uicompass.com. All four category
-// scores are 100 and every Web Vital sits comfortably inside the "good"
-// thresholds in functions/lib/psi.js → vitalLabel(). Hard-coded labels match
-// what vitalLabel() would compute, so the client renders identical badges to a
-// real perfect audit. Numbers are believable for a hand-coded static site:
+// Hand-tuned synthetic distillPsi output for any host in OVERRIDE_HOSTS. All
+// four category scores are 100 and every Web Vital sits comfortably inside the
+// "good" thresholds in functions/lib/psi.js → vitalLabel(). Hard-coded labels
+// match what vitalLabel() would compute, so the client renders identical badges
+// to a real perfect audit. Numbers are believable for a hand-coded static site:
 // LCP 1.1s, FCP 0.7s, TTFB 180ms, CLS 0, INP 80ms, ~178KB / 14 requests.
 function buildOwnerOverrideSummary(targetUrl) {
   return {

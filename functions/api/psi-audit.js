@@ -278,13 +278,18 @@ async function runAudit(env, ctx) {
 
   try {
     if (isOwnerSite) {
-      // Real PSI typically takes 22-30s; aim for 20-25s here so the client's status
-      // rotation (queued → fetching → analyzing → rendering) finishes naturally while
-      // still leaving ~5s of waitUntil budget for the DB writes + Resend × 2 below.
-      const delayMs = 20000 + Math.floor(Math.random() * 5000);
-      await new Promise(r => setTimeout(r, delayMs));
+      // Run real PSI for the screenshot only — scores are unreliable mid-redesign,
+      // but Lighthouse's final render is fine and lets the demo card show the
+      // actual site. Failures here degrade to no screenshot rather than failing
+      // the job, since the synthetic summary is what the user sees anyway.
       summary = buildOwnerOverrideSummary(targetUrl);
-      summary.screenshotUrl = null;
+      try {
+        const psi = await fetchPsi(env.PSI_API_KEY, targetUrl);
+        screenshotKey = await storeScreenshotFromPsi(env, psi, jobId);
+      } catch (psiErr) {
+        console.warn('[PSI Audit] override screenshot fetch failed:', psiErr?.message || psiErr);
+      }
+      summary.screenshotUrl = screenshotKey ? '/api/audit-screenshot/' + jobId : null;
     } else {
       const psi = await fetchPsi(env.PSI_API_KEY, targetUrl);
 
@@ -295,20 +300,7 @@ async function runAudit(env, ctx) {
       }
 
       summary = distillPsi(psi, targetUrl);
-
-      // Screenshot → R2 (best-effort: a missing screenshot doesn't fail the audit)
-      const bytes = extractScreenshotBytes(psi);
-      if (bytes) {
-        screenshotKey = `audits/${jobId}.jpg`;
-        try {
-          await env.MEDIA_BUCKET.put(screenshotKey, bytes, {
-            httpMetadata: { contentType: 'image/jpeg', cacheControl: 'public, max-age=2592000' },
-          });
-        } catch (r2Err) {
-          console.error('[PSI Audit] R2 put failed:', r2Err);
-          screenshotKey = null;
-        }
-      }
+      screenshotKey = await storeScreenshotFromPsi(env, psi, jobId);
 
       // Wire the screenshot URL into the summary BEFORE we persist result_json,
       // so the poll handler returns it to the client without an extra hop.
@@ -374,6 +366,26 @@ async function runAudit(env, ctx) {
 }
 
 // ----------------------------------------------------------------------------
+// Screenshot persistence
+// ----------------------------------------------------------------------------
+// Best-effort: a missing or failed screenshot never fails the audit, so any
+// error here is logged and swallowed and the caller gets back null.
+async function storeScreenshotFromPsi(env, psi, jobId) {
+  const bytes = extractScreenshotBytes(psi);
+  if (!bytes) return null;
+  const key = `audits/${jobId}.jpg`;
+  try {
+    await env.MEDIA_BUCKET.put(key, bytes, {
+      httpMetadata: { contentType: 'image/jpeg', cacheControl: 'public, max-age=2592000' },
+    });
+    return key;
+  } catch (r2Err) {
+    console.error('[PSI Audit] R2 put failed:', r2Err);
+    return null;
+  }
+}
+
+// ----------------------------------------------------------------------------
 // Demo override summary
 // ----------------------------------------------------------------------------
 // Hand-tuned synthetic distillPsi output for any host in OVERRIDE_HOSTS. All
@@ -409,14 +421,14 @@ function buildOwnerOverrideSummary(targetUrl) {
 }
 
 // ----------------------------------------------------------------------------
-// PSI fetch with a 27s overall AbortController — see plan budget table
+// PSI fetch with a 30s overall AbortController — see plan budget table
 // ----------------------------------------------------------------------------
 
 class PsiError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
 
-const PSI_TIMEOUT_MS = 27000;
+const PSI_TIMEOUT_MS = 30000;
 const PSI_MAX_ATTEMPTS = 3;
 const PSI_RETRY_DELAYS_MS = [1000, 2000];
 

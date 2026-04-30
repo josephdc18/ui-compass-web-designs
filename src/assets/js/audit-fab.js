@@ -11,7 +11,7 @@
   const STATE_KEY = 'uic_audit_state';
   const SEEN_KEY = 'uic_audit_fab_seen';
   const POLL_INTERVAL_MS = 2000;
-  const POLL_TIMEOUT_MS = 60000;
+  const POLL_TIMEOUT_MS = 90000;
   const RESUME_MAX_AGE_MS = 10 * 60 * 1000;
   const MAGNETIC_STRENGTH = 0.18;
   const MAGNETIC_MAX_PX = 6;

@@ -346,7 +346,7 @@ export function buildUserEmail({ summary, screenshotUrl, siteUrl, host }) {
         </td></tr>
 
         <tr><td style="padding:14px 28px 22px 28px;border-top:1px solid #eef0ee;">
-          <p style="margin:0;font:400 12px/1.5 Arial,sans-serif;color:#9ca3af;">Audited URL: <a href="${safeFinal}" style="color:#9ca3af;">${safeFinal}</a><br>UI Compass &middot; Hand-coded sites for small businesses.</p>
+          <p style="margin:0;font:400 12px/1.5 Arial,sans-serif;color:#9ca3af;">Audited URL: ${safeFinal}<br>UI Compass &middot; Hand-coded sites for small businesses.</p>
         </td></tr>
       </table>
     </td></tr>
@@ -399,7 +399,7 @@ export function buildOwnerEmail({ summary, lead, host, siteUrl, jobId }) {
 
     <table cellpadding="6" cellspacing="0" border="0" style="border-collapse:collapse;width:100%;font:400 14px/1.4 Arial,sans-serif;color:#262421;">
       <tr><td style="color:#9ca3af;width:120px;">Industry</td><td>${safeIndustry}</td></tr>
-      <tr><td style="color:#9ca3af;">URL</td><td><a href="${safeFinal}" style="color:#006940;">${safeFinal}</a></td></tr>
+      <tr><td style="color:#9ca3af;">URL</td><td>${safeFinal}</td></tr>
       <tr><td style="color:#9ca3af;">IP</td><td>${safeIp}</td></tr>
       <tr><td style="color:#9ca3af;">User agent</td><td style="color:#4e4b66;font-size:12px;">${safeUa}</td></tr>
       <tr><td style="color:#9ca3af;">Job ID</td><td style="font-family:monospace;font-size:12px;color:#4e4b66;">${htmlEscape(jobId)}</td></tr>

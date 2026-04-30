@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Expo Prep — Texas Live</title>
+<style>
+  :root {
+    --primary: #006940;
+    --primaryLight: #00bd74;
+    --secondary: #e6d9c7;
+    --secondaryLight: #faf7f4;
+    --headerColor: #262421;
+    --bodyTextColor: #4e4b66;
+    --white: #ffffff;
+    --line: #e8e1d6;
+    --tintGreen: #e6f7ee;
+    --tintGreenStrong: #d1efe0;
+    --tintWarn: #fdecec;
+    --warn: #c0392b;
+    --shadow: 0 8px 24px rgba(38, 36, 33, 0.06);
+    --shadowLg: 0 18px 40px rgba(38, 36, 33, 0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", "Lato", "Helvetica Neue", Arial, sans-serif;
+    background: var(--secondaryLight);
+    color: var(--bodyTextColor);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+
+  h1, h2, h3 { color: var(--headerColor); margin: 0; line-height: 1.15; font-weight: 900; letter-spacing: -0.01em; }
+
+  /* ================ STICKY TOP NAV ================ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 247, 244, 0.92);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 900;
+    color: var(--headerColor);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .nav-brand-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 999px;
+    background: var(--primaryLight);
+    box-shadow: 0 0 0 4px rgba(0, 189, 116, 0.18);
+  }
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--bodyTextColor);
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { background: var(--tintGreen); color: var(--primary); }
+
+  /* ================ HERO ================ */
+  .hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 1.5rem;
+  }
+  .topper {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin-bottom: 0.75rem;
+    color: var(--headerColor);
+  }
+  .hero p {
+    margin: 0;
+    font-size: 1.0625rem;
+    max-width: 50rem;
+  }
+
+  /* ================ LAYOUT ================ */
+  main { max-width: 1080px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
+  section { margin-top: 3rem; scroll-margin-top: 5.5rem; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-num {
+    font-size: 0.875rem;
+    font-weight: 900;
+    color: var(--primaryLight);
+    background: var(--tintGreen);
+    padding: 0.25rem 0.625rem;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+  }
+  .section-head h2 {
+    font-size: clamp(1.4rem, 3vw, 1.875rem);
+  }
+
+  /* ================ CARDS ================ */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card + .card { margin-top: 1rem; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 48rem) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 48rem) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ================ GAME PLAN ================ */
+  .plan-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.875rem;
+  }
+  .plan-list li {
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-start;
+    padding: 0.875rem 1rem;
+    background: var(--secondaryLight);
+    border-radius: 0.625rem;
+    border-left: 4px solid var(--primaryLight);
+  }
+  .plan-list .step {
+    flex: none;
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+    font-size: 0.9375rem;
+  }
+  .plan-list strong { color: var(--headerColor); display: block; margin-bottom: 0.125rem; }
+  .plan-list span { font-size: 0.9375rem; }
+
+  /* ================ PITCH BLOCKS ================ */
+  .pitch-card { position: relative; padding: 1.75rem; }
+  .pitch-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.6875rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    color: var(--primary);
+    background: var(--tintGreen);
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+  }
+  .pitch-when {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bodyTextColor);
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+  }
+  .pitch-card h3 {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    margin-bottom: 1rem;
+  }
+  .say-this {
+    background: var(--tintGreen);
+    border-left: 4px solid var(--primaryLight);
+    border-radius: 0.5rem;
+    padding: 1.125rem 1.25rem;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--headerColor);
+    font-weight: 500;
+  }
+  .say-this strong, .say-this b {
+    background: linear-gradient(transparent 65%, rgba(0, 189, 116, 0.30) 65%);
+    padding: 0 0.125rem;
+    font-weight: 700;
+  }
+  .say-this-label {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .pitch-mega {
+    font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--headerColor);
+    background: var(--tintGreen);
+    border-left: 4px solid var(--primaryLight);
+    border-radius: 0.5rem;
+    padding: 1.5rem 1.5rem;
+  }
+  .pitch-mega .accent { color: var(--primary); }
+
+  /* ================ NUMBERS ================ */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 32rem) { .stats { grid-template-columns: 1fr; } }
+  .stat {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat .num {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .num-suffix { font-size: 0.6em; color: var(--primaryLight); }
+  .stat .lbl {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--headerColor);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .stat .sub {
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--bodyTextColor);
+  }
+
+  /* ================ DO / DON'T ================ */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 48rem) { .compare { grid-template-columns: 1fr 1fr; } }
+  .do, .dont {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .do { background: var(--tintGreen); border-color: rgba(0, 189, 116, 0.3); }
+  .dont { background: var(--tintWarn); border-color: rgba(192, 57, 43, 0.22); }
+  .compare h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .do h3 { color: var(--primary); }
+  .dont h3 { color: var(--warn); }
+  .compare ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.625rem;
+  }
+  .compare li {
+    display: flex;
+    gap: 0.625rem;
+    align-items: flex-start;
+    font-size: 0.9375rem;
+    color: var(--headerColor);
+    line-height: 1.45;
+  }
+  .compare li::before {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+    font-weight: 900;
+    margin-top: 0.125rem;
+  }
+  .do li::before { content: "✓"; background: var(--primary); color: var(--white); }
+  .dont li::before { content: "✕"; background: var(--warn); color: var(--white); }
+
+  /* ================ Q&A ================ */
+  .qa {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .qa-q {
+    font-weight: 900;
+    color: var(--headerColor);
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .qa-q::before {
+    content: "Q";
+    flex: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 999px;
+    background: var(--headerColor);
+    color: var(--white);
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+    font-weight: 900;
+    margin-top: 0.05rem;
+  }
+  .qa-a {
+    font-size: 0.9375rem;
+    color: var(--bodyTextColor);
+    padding-left: 1.875rem;
+    line-height: 1.55;
+  }
+  .qa-a strong { color: var(--headerColor); }
+
+  /* ================ PANIC BOX ================ */
+  .panic {
+    margin-top: 3rem;
+    background: linear-gradient(135deg, var(--primary), var(--primaryLight));
+    color: var(--white);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: var(--shadowLg);
+  }
+  .panic .topper { color: rgba(255, 255, 255, 0.85); }
+  .panic h2 { color: var(--white); font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .panic .line {
+    margin-top: 1.25rem;
+    background: rgba(255, 255, 255, 0.14);
+    border-left: 4px solid var(--white);
+    border-radius: 0.5rem;
+    padding: 1.125rem 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  /* ================ PRINT ================ */
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--white);
+    color: var(--headerColor);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .print-btn:hover { transform: translateY(-1px); box-shadow: var(--shadowLg); }
+
+  @media print {
+    .nav, .print-btn { display: none !important; }
+    body { background: white; }
+    .card, .qa, .stat { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    section { break-inside: avoid; page-break-inside: avoid; }
+    .pitch-mega, .say-this { break-inside: avoid; }
+    .panic { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .print-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Page sections">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">
+      <span class="nav-brand-dot" aria-hidden="true"></span>
+      Expo Prep
+    </a>
+    <div class="nav-links">
+      <a href="#plan">Plan</a>
+      <a href="#pitches">Pitches</a>
+      <a href="#numbers">The 100</a>
+      <a href="#objections">Objections</a>
+      <a href="#rules">Rules</a>
+      <a href="#panic">Panic</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="topper">Texas Live · Small Business Resource Expo</div>
+  <h1>Don't sell. Hand out free mockups.</h1>
+  <p>Your job at the booth is <strong style="color:var(--headerColor)">collect business cards</strong>, not close deals. The free mockup is the hook — it lets people say yes to something risk-free, and gives you a real reason to follow up later when they're actually thinking about their website.</p>
+  <button class="print-btn" onclick="window.print()" type="button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print this page
+  </button>
+</header>
+
+<main>
+
+<!-- =========================================================== -->
+<section id="plan">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2>The game plan</h2>
+  </div>
+  <div class="card">
+    <ol class="plan-list">
+      <li>
+        <span class="step">1</span>
+        <div><strong>Hook them in 5 seconds.</strong><span>One-liner only. If they don't slow down, you didn't lose anything — you planted a seed.</span></div>
+      </li>
+      <li>
+        <span class="step">2</span>
+        <div><strong>If they stop — go 20 seconds.</strong><span>Hit pain → proof → price → risk reversal. Don't go longer than that until they ask a question.</span></div>
+      </li>
+      <li>
+        <span class="step">3</span>
+        <div><strong>Let them ask.</strong><span>If they ask questions, you've already won the next 2 minutes. Answer short. Don't lecture.</span></div>
+      </li>
+      <li>
+        <span class="step">4</span>
+        <div><strong>Close with the free mockup.</strong><span>"Give me a card and I'll send you a free mockup next week." That's the ask. Almost no one says no.</span></div>
+      </li>
+      <li>
+        <span class="step">5</span>
+        <div><strong>Stack their card. Move on.</strong><span>Don't try to talk price unless they push it. The deal closes in the follow-up email, not the booth.</span></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- =========================================================== -->
+<section id="pitches">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2>The pitches</h2>
+  </div>
+
+  <div class="card pitch-card">
+    <span class="pitch-tag">Memorize</span>
+    <div class="pitch-when">When they walk by — 5 seconds</div>
+    <h3>The one-liner</h3>
+    <div class="pitch-mega">
+      "I build <span class="accent">hand-coded websites</span> for small businesses — the kind that load instantly and rank higher on Google than the WordPress sites everyone else is selling."
+    </div>
+  </div>
+
+  <div class="card pitch-card">
+    <span class="pitch-tag">Memorize</span>
+    <div class="pitch-when">When they stop — 20 seconds</div>
+    <h3>The full pitch</h3>
+    <div class="say-this">
+      <span class="say-this-label">Say this</span>
+      "Most small business websites are built on WordPress or Wix — they're <strong>slow, get hacked, and Google buries them</strong> in search. I hand-code mine from scratch, so they load in <strong>under a second</strong> and score <strong>perfect 100s on Google's own performance test</strong>. Most sites score in the 50s. And here's the part people don't believe — <strong>$150 a month, nothing upfront</strong>, and I'll build you a free mockup before you ever pay me a dime. If you don't love it, you walk away and you're out nothing."
+    </div>
+    <p style="margin: 1rem 0 0; font-size: 0.875rem; color: var(--bodyTextColor);">
+      <strong style="color:var(--primary)">Hits 4 levers:</strong> pain (slow / hacked / buried) → proof (Google's own score) → price (no big number to flinch at) → risk reversal (free mockup).
+    </p>
+  </div>
+
+  <div class="card pitch-card">
+    <span class="pitch-tag">The close</span>
+    <div class="pitch-when">When you sense interest — wrap it up</div>
+    <h3>The ask (don't skip this)</h3>
+    <div class="say-this">
+      <span class="say-this-label">Say this</span>
+      "If you give me a card, I'll build you a <strong>free mockup</strong> of what your site could look like and send it over next week. If you like it, we talk. If not — no hard feelings, you got a free design out of it."
+    </div>
+    <p style="margin: 1rem 0 0; font-size: 0.875rem; color: var(--bodyTextColor);">
+      <strong style="color:var(--warn)">Don't ask:</strong> "Are you interested?" — that's a yes/no escape hatch.<br>
+      <strong style="color:var(--primary)">Do ask:</strong> for the card. You're not asking them to buy, you're offering a gift.
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================== -->
+<section id="numbers">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2>Talking about the 100 score</h2>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">100<span class="num-suffix">/100</span></div>
+      <div class="lbl">Google's score</div>
+      <div class="sub">Most sites get 40–55</div>
+    </div>
+    <div class="stat">
+      <div class="num">&lt; 1<span class="num-suffix">s</span></div>
+      <div class="lbl">Load time</div>
+      <div class="sub">Most sites: 3+ seconds</div>
+    </div>
+    <div class="stat">
+      <div class="num">$150<span class="num-suffix">/mo</span></div>
+      <div class="lbl">No upfront</div>
+      <div class="sub">Free mockup first</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:1.125rem; margin-bottom:0.875rem;">Frame it as Google's verdict — not your brag.</h3>
+    <p style="margin: 0 0 1rem;">Don't open with "I get perfect scores." That sounds gimmicky. Open with what the score <em>means</em>.</p>
+    <div class="say-this">
+      <span class="say-this-label">Say this</span>
+      "Google grades every website <strong>0 to 100</strong> on how fast it loads and performs. They use that grade to decide who shows up first in search. Most small business sites score in the <strong>40s or 50s</strong> — mine score 100. That's not a marketing number, that's <strong>Google's own tool</strong>."
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <h3 style="font-size:1.125rem; margin-bottom:0.875rem;">If they want to know <em>why</em> Google cares (Core Web Vitals)</h3>
+    <p style="margin: 0 0 1rem;">Don't say "Largest Contentful Paint" or "Cumulative Layout Shift." Translate it.</p>
+    <div class="say-this">
+      <span class="say-this-label">Say this</span>
+      "Google's basically watching three things on your site: <strong>how fast it shows up</strong>, <strong>how fast it reacts when someone taps a button</strong>, and <strong>whether stuff jumps around while it's loading</strong>. Those three things decide your search ranking. Page builders fail all three. Hand-coded sites pass all three."
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <h3 style="font-size:1.125rem; margin-bottom:0.875rem;">The "why does it matter" follow-up</h3>
+    <div class="say-this">
+      <span class="say-this-label">Say this</span>
+      "If your site takes more than 3 seconds to load, <strong>most people leave before they ever see it</strong>. So you can have the best business in town and a great-looking site — and still be losing customers because Google decided you weren't worth showing first."
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== -->
+<section id="objections">
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2>Objection handlers</h2>
+  </div>
+
+  <div class="grid-3">
+    <div class="qa">
+      <div class="qa-q">"Why is it so cheap?"</div>
+      <div class="qa-a">"I'm a stay-at-home dad. <strong>No office, no employees, no overhead.</strong> I pass that on. It also means you're not getting handed off to a junior — it's me, every time."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"What's the catch with the monthly?"</div>
+      <div class="qa-a">"No catch. <strong>Site, hosting, updates, and me on call</strong> for changes — all in. Most agencies charge $3,000 upfront and then ghost you. I'd rather earn it every month."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Can I edit it myself like WordPress?"</div>
+      <div class="qa-a">"If editing your own content is the main thing you need, <strong>WordPress is honestly the right tool</strong> — and I'll tell you that. But if you mostly need a site that works and brings in customers, hand-coded wins on every other metric."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"How long does it take?"</div>
+      <div class="qa-a">"<strong>Mockup in about a week.</strong> Full site usually 2–4 weeks once we're going."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Is the mockup really free? What's the upsell?"</div>
+      <div class="qa-a">"There isn't one. <strong>The mockup is the demo.</strong> If you don't sign on, I just took an L on a few hours of work — that's my problem, not yours."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"I already have a website."</div>
+      <div class="qa-a">"Awesome — let me run a free PageSpeed audit on it. <strong>Takes me 2 minutes.</strong> If it scores great, I'll tell you. If not, I'll show you exactly what's costing you customers."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"What if I want to cancel?"</div>
+      <div class="qa-a">"You can. <strong>No long contracts.</strong> The whole point of monthly is that I have to keep earning it."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"How is yours different from a Wix site?"</div>
+      <div class="qa-a">"Wix builds your site like <strong>a Frankenstein in real time</strong> — every visitor waits while their server stitches it together. Mine is <strong>pre-built, lightning fast</strong>, and lives on servers all over the world so it can't go down."</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"I don't really need a website."</div>
+      <div class="qa-a">"That's fair. But if customers ever Google you and don't find anything, <strong>they assume you're closed</strong>. Even a one-page site fixes that. Take a card — when you're ready, the mockup is free."</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== -->
+<section id="rules">
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2>The rules</h2>
+  </div>
+
+  <div class="compare">
+    <div class="do">
+      <h3>Do</h3>
+      <ul>
+        <li>Lead with their <strong>pain</strong>, not your tech</li>
+        <li>Say "<strong>Google scored it 100</strong>" — not "I get perfect scores"</li>
+        <li>Frame the price as "<strong>$150/mo, nothing upfront</strong>"</li>
+        <li>Always end with "<strong>give me a card, I'll send a free mockup</strong>"</li>
+        <li>Keep answers <strong>under 2 sentences</strong> unless they ask for more</li>
+        <li>Hand the card with the <strong>free mockup offer printed</strong> on the back</li>
+        <li>Smile, slow down, breathe between sentences</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h3>Don't</h3>
+      <ul>
+        <li>Don't say "<strong>static vs dynamic</strong>" — they don't care</li>
+        <li>Don't say "<strong>Largest Contentful Paint</strong>" or any jargon</li>
+        <li>Don't trash WordPress — <strong>respect it where it fits</strong></li>
+        <li>Don't ask "<strong>Are you interested?</strong>" — too easy to say no</li>
+        <li>Don't quote setup fees — <strong>your model is no upfront</strong></li>
+        <li>Don't get into a 5-minute rabbit hole on speed — <strong>trust the mockup to do the selling</strong></li>
+        <li>Don't apologize for the price — it's a deal, act like it</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== -->
+<section id="panic">
+  <div class="panic">
+    <div class="topper">If you blank — say this</div>
+    <h2>The panic line</h2>
+    <p style="margin: 0; opacity: 0.92;">When you forget the pitch, when someone throws you off, when you've talked to 30 people and your brain is mush — fall back to this. It works on its own.</p>
+    <div class="line">
+      "I build websites for small businesses — <strong>$150 a month, nothing upfront</strong>, and I'll build you a <strong>free mockup before you pay anything</strong>. Want me to send you one?"
+    </div>
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>

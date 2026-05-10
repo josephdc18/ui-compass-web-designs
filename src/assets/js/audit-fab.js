@@ -744,9 +744,11 @@
       fab.classList.add('is-acknowledged');
     }
 
-    // The FAB ships with the `hidden` attribute so it doesn't FOUC before the
-    // async-loaded CSS arrives. Remove it now — CSS controls visibility from here
-    // (`opacity:0` until `body.scroll` toggles in).
+    // root.css (inlined into <head>) provides .audit-fab with position:fixed
+    // and opacity:0 from first paint, so removing `hidden` is safe whether or
+    // not the async-loaded audit-fab.css has arrived yet — there's no longer
+    // a window where the button can paint unstyled. The `hidden` attribute
+    // remains as a no-JS / no-CSS fallback.
     fab.removeAttribute('hidden');
 
     // If the page restored mid-scroll on reload, the inline scroll handler in

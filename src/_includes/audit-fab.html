@@ -1,7 +1,9 @@
 <!-- Real-time PageSpeed audit FAB. Sits above pb-go-top, opens a native <dialog>.
-     `hidden` keeps it out of layout until JS removes it (post-init); the CSS then
-     fades it in on the first scroll, matching pb-go-top behavior. This means the
-     FAB has zero impact on first paint even if audit-fab.css hasn't loaded yet. -->
+     The first-paint hidden state is provided by .audit-fab in root.css (inlined
+     into <head>), so it's stable even before the async-loaded audit-fab.css
+     applies. The `hidden` attribute is a redundant safeguard for the no-JS /
+     no-CSS path — JS removes it post-init, audit-fab.css then fades the FAB in
+     on first scroll, matching pb-go-top. -->
 <button class="audit-fab" type="button" data-press hidden
         aria-label="Run a free PageSpeed audit on your site"
         aria-controls="audit-dialog"

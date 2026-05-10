@@ -883,6 +883,27 @@ html.pb-theme-transition-active::view-transition-new(pb-footer) {
   stroke-linejoin: round;
 }
 
+/* Audit FAB — first-paint baseline.
+   The full styling (gradient, shadow, transitions, scroll reveal) lives in
+   the async-loaded audit-fab.css. This minimal rule lives in root.css (which
+   is inlined into <head>) so the FAB has a stable invisible state available
+   at first paint — same architecture as .pb-go-top-progress above. Without
+   this, audit-fab.js races the async stylesheet on cached reloads: when JS
+   removes the `hidden` attribute before audit-fab.css applies, the button
+   paints as an unstyled inline element at its DOM location for one frame.
+   These properties pin it to the right corner and keep it opacity:0 so the
+   handoff to audit-fab.css is seamless whichever order they arrive in. */
+.audit-fab {
+  position: fixed;
+  right: calc(1rem - (3.75rem - 3rem) / 2);
+  bottom: 4.5rem;
+  width: 3.75rem;
+  height: 3.75rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pb-go-top-progress {
     transition-duration: 0s !important;

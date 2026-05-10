@@ -1,0 +1,827 @@
+/* =====================================================================
+   pricing-widget.css
+   Inline interactive pricing widget on /pricing/. Vanilla CSS only —
+   no build step. Pairs with src/assets/js/pricing-widget.js.
+
+   Layered scope so we never leak outside #price-widget-1701.
+
+   ─────────────────────────────────────────────────────────────────────
+   ⚠ DISABLED ON 2026-05-09. The whole stylesheet is wrapped in
+   `@media (width: 0px)` — it never matches a real viewport, so none of
+   these rules ever apply. The matching markup is also commented out in
+   src/pages/pricing.html. To restore: remove the `@media (width:0px) {`
+   wrapper open below and the matching closing `}` at the very end of
+   this file. See LLM/CLAUDE.md → "Parked / disabled code" for the full
+   restoration recipe.
+   --------------------------------------------------------------------- */
+
+@media (width: 0px) { /* WIDGET-DISABLED-WRAPPER-START */
+
+#price-widget-1701 {
+  /* Local design tokens — keep theming localized to the widget. */
+  --pw-bg:           #fafbfc;
+  --pw-surface:      #ffffff;
+  --pw-surface-2:    #f3f4f6;
+  --pw-border:       #e5e7eb;
+  --pw-border-strong:#d4d8dc;
+  --pw-text:         var(--headerColor, #1a1a1a);
+  --pw-text-muted:   #5f6368;
+  --pw-text-faint:   #94999d;
+  --pw-primary:      var(--primary, #006940);
+  --pw-primary-soft: rgba(0, 105, 64, 0.10);
+  --pw-primary-line: rgba(0, 105, 64, 0.34);
+  --pw-accent:       #d97706;
+  --pw-pulse:        rgba(0, 189, 116, 0.22);
+  --pw-shadow-1:     0 1px 2px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.04);
+  --pw-shadow-2:     0 6px 16px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04);
+  --pw-shadow-3:     0 14px 36px rgba(15,23,42,0.14), 0 4px 12px rgba(15,23,42,0.06);
+  --pw-radius:       14px;
+  --pw-radius-sm:    10px;
+  --pw-radius-lg:    20px;
+  --pw-ease:         cubic-bezier(.22, 1, .36, 1);
+  --pw-ease-out:     cubic-bezier(.16, 1, .3, 1);
+  --pw-spring:       cubic-bezier(.34, 1.56, .64, 1);
+  --pw-fast:         160ms;
+  --pw-base:         260ms;
+  --pw-slow:         420ms;
+
+  background: linear-gradient(180deg, var(--pw-bg) 0%, #ffffff 100%);
+  padding: clamp(3rem, 7vw, 5rem) 0;
+  position: relative;
+  overflow-x: clip;
+}
+
+body.dark-mode #price-widget-1701 {
+  --pw-bg:           var(--medium, #1a221d);
+  --pw-surface:      var(--accent, #232d27);
+  --pw-surface-2:    rgba(255,255,255,0.04);
+  --pw-border:       rgba(255,255,255,0.10);
+  --pw-border-strong:rgba(255,255,255,0.18);
+  --pw-text:         var(--bodyTextColorWhite, #fafbfc);
+  --pw-text-muted:   rgba(255,255,255,0.66);
+  --pw-text-faint:   rgba(255,255,255,0.42);
+  --pw-primary:      var(--primaryLight, #00bd74);
+  --pw-primary-soft: rgba(0, 189, 116, 0.14);
+  --pw-primary-line: rgba(0, 189, 116, 0.40);
+  --pw-shadow-1:     0 1px 2px rgba(0,0,0,0.4);
+  --pw-shadow-2:     0 6px 16px rgba(0,0,0,0.5);
+  --pw-shadow-3:     0 14px 36px rgba(0,0,0,0.6);
+  background: linear-gradient(180deg, var(--pw-bg) 0%, var(--medium, #1a221d) 100%);
+}
+
+#price-widget-1701 .pw-container {
+  width: 94%;
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+#price-widget-1701 .pw-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* ─────────────────────────  HEADER  ────────────────────────── */
+#price-widget-1701 .pw-header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+#price-widget-1701 .pw-topper {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pw-primary);
+  margin-bottom: 0.75rem;
+}
+#price-widget-1701 .pw-title {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: var(--pw-text);
+  margin: 0 auto 0.75rem;
+  max-width: 22ch;
+  letter-spacing: -0.01em;
+}
+#price-widget-1701 .pw-lede {
+  color: var(--pw-text-muted);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 36ch;
+}
+
+/* ─────────────────────────  STAGE CARD  ────────────────────────── */
+#price-widget-1701 .pw-stage {
+  background: var(--pw-surface);
+  border: 1px solid var(--pw-border);
+  border-radius: var(--pw-radius-lg);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: var(--pw-shadow-2);
+  position: relative;
+}
+
+/* ─────────────────────────  INPUTS  ────────────────────────── */
+#price-widget-1701 .pw-inputs {
+  display: grid;
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) {
+  #price-widget-1701 .pw-inputs {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: end;
+  }
+}
+
+#price-widget-1701 .pw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+#price-widget-1701 .pw-field-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pw-text-muted);
+}
+#price-widget-1701 .pw-field-hint {
+  font-size: 0.78rem;
+  color: var(--pw-text-faint);
+  line-height: 1.4;
+}
+
+/* ── Segmented control (sliding pill) ────────────────────────── */
+#price-widget-1701 .pw-segmented {
+  position: relative;
+  display: inline-flex;
+  background: var(--pw-surface-2);
+  border: 1px solid var(--pw-border);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 0;
+  isolation: isolate;
+  width: 100%;
+}
+#price-widget-1701 .pw-segmented button {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.625rem 1rem;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--pw-text-muted);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-segmented button svg {
+  flex: none;
+  opacity: 0.8;
+  transition: opacity var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-segmented button:hover {
+  color: var(--pw-text);
+}
+#price-widget-1701 .pw-segmented button[aria-checked="true"] {
+  color: var(--pw-text);
+}
+#price-widget-1701 .pw-segmented button[aria-checked="true"] svg {
+  opacity: 1;
+  color: var(--pw-primary);
+}
+#price-widget-1701 .pw-segmented button:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+#price-widget-1701 .pw-pill {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  background: var(--pw-surface);
+  border-radius: 999px;
+  box-shadow: var(--pw-shadow-1), 0 0 0 1px var(--pw-border-strong);
+  transform: translateX(0);
+  transition:
+    transform var(--pw-base) var(--pw-spring),
+    width var(--pw-base) var(--pw-spring);
+  pointer-events: none;
+}
+body.dark-mode #price-widget-1701 .pw-pill {
+  background: var(--medium, #1a221d);
+  box-shadow: var(--pw-shadow-1), 0 0 0 1px var(--pw-border-strong);
+}
+
+/* Smaller variant for the "Show me" toggle */
+#price-widget-1701 .pw-segmented--small button {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.85rem;
+}
+
+/* ── Stepper ─────────────────────────────────────────────────── */
+#price-widget-1701 .pw-stepper {
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--pw-surface-2);
+  border: 1px solid var(--pw-border);
+  border-radius: 999px;
+  padding: 4px;
+  width: max-content;
+  user-select: none;
+}
+#price-widget-1701 .pw-step-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: var(--pw-surface);
+  border: 1px solid var(--pw-border-strong);
+  border-radius: 999px;
+  color: var(--pw-text);
+  cursor: pointer;
+  transition: transform var(--pw-fast) var(--pw-spring),
+              background var(--pw-fast) var(--pw-ease),
+              border-color var(--pw-fast) var(--pw-ease),
+              color var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-step-btn:hover {
+  background: var(--pw-primary);
+  border-color: var(--pw-primary);
+  color: #fff;
+  transform: translateY(-1px) scale(1.05);
+}
+#price-widget-1701 .pw-step-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+#price-widget-1701 .pw-step-btn:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+}
+#price-widget-1701 .pw-step-btn[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+#price-widget-1701 .pw-step-btn[disabled]:hover {
+  background: var(--pw-surface);
+  border-color: var(--pw-border-strong);
+  color: var(--pw-text);
+}
+#price-widget-1701 .pw-step-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  padding: 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--pw-text);
+  cursor: ew-resize;
+  position: relative;
+}
+#price-widget-1701 .pw-step-display:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+#price-widget-1701 .pw-step-display[data-dragging="true"] {
+  cursor: grabbing;
+}
+#price-widget-1701 .pw-step-display::after {
+  content: "↔";
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  font-size: 0.6rem;
+  color: var(--pw-text-faint);
+  opacity: 0;
+  transition: opacity var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-step-display:hover::after {
+  opacity: 1;
+}
+#price-widget-1701 .pw-step-display input {
+  width: 3rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+#price-widget-1701 .pw-step-display input::-webkit-outer-spin-button,
+#price-widget-1701 .pw-step-display input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#price-widget-1701 .pw-step-display input:focus {
+  outline: none;
+}
+
+/* ── Switch ──────────────────────────────────────────────────── */
+#price-widget-1701 .pw-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--pw-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  width: max-content;
+}
+#price-widget-1701 .pw-switch:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+#price-widget-1701 .pw-switch-track {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.625rem;
+  background: var(--pw-surface-2);
+  border: 1px solid var(--pw-border-strong);
+  border-radius: 999px;
+  transition: background var(--pw-fast) var(--pw-ease),
+              border-color var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--pw-surface);
+  border-radius: 50%;
+  box-shadow: var(--pw-shadow-1), 0 0 0 1px var(--pw-border-strong);
+  transform: translate(0, -50%);
+  transition: transform var(--pw-base) var(--pw-spring),
+              background var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-switch[aria-checked="true"] .pw-switch-track {
+  background: var(--pw-primary);
+  border-color: var(--pw-primary);
+}
+#price-widget-1701 .pw-switch[aria-checked="true"] .pw-switch-thumb {
+  transform: translate(1.375rem, -50%);
+  background: #fff;
+  box-shadow: var(--pw-shadow-1);
+}
+#price-widget-1701 .pw-switch[aria-checked="true"] .pw-switch-state {
+  color: var(--pw-primary);
+}
+#price-widget-1701 .pw-switch-state {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color var(--pw-fast) var(--pw-ease);
+}
+
+/* ─────────────────────────  VIEW TOGGLE ROW  ────────────────────────── */
+#price-widget-1701 .pw-view-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  margin: clamp(1.5rem, 3vw, 2rem) 0 1.25rem;
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px dashed var(--pw-border);
+  flex-wrap: wrap;
+}
+#price-widget-1701 .pw-view-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pw-text-muted);
+}
+#price-widget-1701 .pw-view-toggle .pw-segmented {
+  width: auto;
+}
+
+/* When "store" is the site type, hide the view toggle — only one card shows. */
+#price-widget-1701[data-state="store"] .pw-view-toggle {
+  display: none;
+}
+
+/* ─────────────────────────  CARDS  ────────────────────────── */
+#price-widget-1701 .pw-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+@media (min-width: 48rem) {
+  #price-widget-1701 .pw-cards[data-view="both"] {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#price-widget-1701 .pw-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--pw-surface);
+  border: 1.5px solid var(--pw-border);
+  border-radius: var(--pw-radius);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  transition: border-color var(--pw-base) var(--pw-ease),
+              transform var(--pw-base) var(--pw-ease),
+              box-shadow var(--pw-base) var(--pw-ease),
+              opacity var(--pw-base) var(--pw-ease);
+  min-height: 0;
+}
+#price-widget-1701 .pw-card[hidden] {
+  display: none;
+}
+#price-widget-1701 .pw-card.pw-card--monthly {
+  border-color: var(--pw-primary);
+  box-shadow: 0 0 0 4px var(--pw-primary-soft), var(--pw-shadow-1);
+}
+#price-widget-1701 .pw-card.pw-card--store {
+  border-color: var(--pw-accent);
+  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.10), var(--pw-shadow-1);
+}
+#price-widget-1701 .pw-card-badge {
+  position: absolute;
+  top: -0.75rem;
+  left: clamp(1.25rem, 2.5vw, 1.75rem);
+  background: var(--pw-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+#price-widget-1701 .pw-card-badge--store {
+  background: var(--pw-accent);
+}
+#price-widget-1701 .pw-card-head {
+  margin-bottom: 1rem;
+}
+#price-widget-1701 .pw-card-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--pw-text);
+  margin: 0 0 0.35rem;
+  line-height: 1.2;
+}
+#price-widget-1701 .pw-card-tagline {
+  font-size: 0.85rem;
+  color: var(--pw-text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ── Price ───────────────────────────────────────────────────── */
+#price-widget-1701 .pw-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.75rem 0 1rem;
+  border-bottom: 1px solid var(--pw-border);
+  margin-bottom: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+#price-widget-1701 .pw-currency {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--pw-text);
+  line-height: 1;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+#price-widget-1701 .pw-amount {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: var(--pw-text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  display: inline-block;
+  min-width: 1.2em;
+}
+#price-widget-1701 .pw-suffix {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--pw-text-muted);
+  margin-left: 0.25rem;
+}
+/* Brief glow when the price changes — JS toggles .is-flash */
+#price-widget-1701 .pw-card-price.is-flash {
+  animation: pw-price-flash var(--pw-slow) var(--pw-ease);
+}
+@keyframes pw-price-flash {
+  0%   { background: transparent; }
+  20%  { background: var(--pw-primary-soft); }
+  100% { background: transparent; }
+}
+
+/* ── Breakdown lines ─────────────────────────────────────────── */
+#price-widget-1701 .pw-breakdown {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto;
+  flex: 1;
+}
+#price-widget-1701 .pw-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--pw-text-muted);
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed transparent;
+  overflow: hidden;
+  /* Slide-in/out transitions controlled via [hidden] attr toggle + classes */
+  transition: max-height var(--pw-base) var(--pw-ease),
+              opacity var(--pw-base) var(--pw-ease),
+              padding var(--pw-base) var(--pw-ease),
+              background var(--pw-slow) var(--pw-ease);
+  max-height: 4rem;
+  opacity: 1;
+}
+#price-widget-1701 .pw-line[hidden] {
+  display: grid !important;       /* override [hidden] so we can animate out */
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+}
+#price-widget-1701 .pw-line-label {
+  color: var(--pw-text-muted);
+}
+#price-widget-1701 .pw-line-value {
+  color: var(--pw-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#price-widget-1701 .pw-line.pw-line--base {
+  color: var(--pw-text);
+}
+#price-widget-1701 .pw-line.pw-line--base .pw-line-label {
+  color: var(--pw-text);
+  font-weight: 600;
+}
+#price-widget-1701 .pw-line.pw-line--note {
+  color: var(--pw-text-faint);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+#price-widget-1701 .pw-line.pw-line--note .pw-line-value {
+  color: var(--pw-text-faint);
+  font-weight: 500;
+  font-style: normal;
+}
+#price-widget-1701 .pw-line.pw-line--check::before {
+  content: "✓";
+  color: var(--pw-primary);
+  font-weight: 800;
+  margin-right: 0.4rem;
+  display: inline-block;
+}
+#price-widget-1701 .pw-line.pw-line--check {
+  grid-template-columns: 1fr;
+}
+/* "What just changed" pulse */
+#price-widget-1701 .pw-line.is-pulse {
+  background: var(--pw-pulse);
+  border-radius: 6px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+/* ── Card foot / CTA ─────────────────────────────────────────── */
+#price-widget-1701 .pw-card-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+#price-widget-1701 .pw-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--pw-text);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background var(--pw-fast) var(--pw-ease),
+              transform var(--pw-fast) var(--pw-spring),
+              box-shadow var(--pw-base) var(--pw-ease);
+  box-shadow: var(--pw-shadow-1);
+}
+#price-widget-1701 .pw-card--monthly .pw-cta {
+  background: var(--pw-primary);
+}
+#price-widget-1701 .pw-card--store .pw-cta {
+  background: var(--pw-accent);
+}
+#price-widget-1701 .pw-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pw-shadow-2);
+}
+#price-widget-1701 .pw-cta:active {
+  transform: translateY(0);
+}
+#price-widget-1701 .pw-cta:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+}
+#price-widget-1701 .pw-cta svg {
+  transition: transform var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-cta:hover svg {
+  transform: translateX(2px);
+}
+#price-widget-1701 .pw-card-fineprint {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--pw-text-faint);
+}
+
+/* ─────────────────────────  RESET BUTTON  ────────────────────────── */
+#price-widget-1701 .pw-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.25rem auto 0;
+  padding: 0.45rem 0.85rem;
+  background: transparent;
+  border: 1px solid var(--pw-border);
+  border-radius: 999px;
+  color: var(--pw-text-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--pw-fast) var(--pw-ease);
+}
+#price-widget-1701 .pw-reset:hover {
+  background: var(--pw-surface-2);
+  border-color: var(--pw-border-strong);
+  color: var(--pw-text);
+}
+#price-widget-1701 .pw-reset:focus-visible {
+  outline: 2px solid var(--pw-primary);
+  outline-offset: 3px;
+}
+#price-widget-1701 .pw-stage:has(.pw-reset) {
+  position: relative;
+}
+#price-widget-1701 .pw-reset {
+  display: flex;
+  width: max-content;
+}
+
+/* ─────────────────────────  FINEPRINT  ────────────────────────── */
+#price-widget-1701 .pw-fineprint {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--pw-text-faint);
+  margin: 1.5rem auto 0;
+  max-width: 50rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+#price-widget-1701 .pw-fineprint a {
+  color: var(--pw-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ─────────────────────────  STICKY CHIP  ────────────────────────── */
+.pw-chip {
+  position: fixed;
+  z-index: 90;
+  bottom: 1.25rem;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.625rem 0.625rem 1rem;
+  background: var(--pw-text, #1a1a1a);
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.32);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translate(-50%, calc(100% + 1.5rem));
+  opacity: 0;
+  transition: transform var(--pw-base, 260ms) cubic-bezier(.34, 1.56, .64, 1),
+              opacity var(--pw-base, 260ms) ease;
+}
+.pw-chip:not([hidden]) {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+.pw-chip[hidden] {
+  display: inline-flex !important;  /* keep transition smooth */
+  pointer-events: none;
+}
+body.dark-mode .pw-chip {
+  background: var(--pw-primary, #00bd74);
+  color: #0d1411;
+}
+.pw-chip-summary {
+  font-variant-numeric: tabular-nums;
+}
+.pw-chip-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  background: rgba(255,255,255,0.16);
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: background 160ms ease;
+}
+body.dark-mode .pw-chip-jump {
+  background: rgba(0,0,0,0.18);
+}
+.pw-chip-jump:hover {
+  background: rgba(255,255,255,0.28);
+}
+body.dark-mode .pw-chip-jump:hover {
+  background: rgba(0,0,0,0.32);
+}
+@media (max-width: 30rem) {
+  .pw-chip {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    transform: translate(0, calc(100% + 1.5rem));
+    justify-content: space-between;
+  }
+  .pw-chip:not([hidden]) {
+    transform: translate(0, 0);
+  }
+}
+
+/* ─────────────────────────  REDUCED MOTION  ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  #price-widget-1701 *,
+  #price-widget-1701 *::before,
+  #price-widget-1701 *::after,
+  .pw-chip {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─────────────────────────  ENTRY ANIMATIONS  ────────────────────────── */
+@keyframes pw-card-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+#price-widget-1701 .pw-card.is-entering {
+  animation: pw-card-in var(--pw-base) var(--pw-ease-out) both;
+}
+
+} /* WIDGET-DISABLED-WRAPPER-END — see top-of-file banner */

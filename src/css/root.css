@@ -129,40 +129,349 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
 .cs-form-success p{color:var(--bodyTextColor);margin:0;line-height:1.5em}
 .cs-form-error{color:#c0392b;font-size:.875rem;line-height:1.4em;margin:0.5rem 0 0;width:100%;text-align:center}
 
-/* Global footer chrome. */
+/* Global footer (#cs-footer-309) — multi-column site map with logo + brand contact block. */
 @media only screen and (min-width:0rem){
-  #cs-footer-309{background-color:var(--bodyTextColorWhite);padding:var(--sectionPadding)}
-  #cs-footer-309 .cs-container{align-items:flex-start;display:flex;flex-wrap:wrap;gap:2.5rem;justify-content:flex-start;margin:auto;max-width:43.75rem;width:100%}
-  #cs-footer-309 .cs-logo-group{position:relative;width:100%}
-  #cs-footer-309 .cs-logo{display:block;height:auto;margin-bottom:.875rem;width:11.125rem}
-  #cs-footer-309 .cs-logo .logo-slot{display:block}
-  #cs-footer-309 .cs-logo-img{display:block;height:auto;width:100%}
-  #cs-footer-309 .cs-logo-img.dark{display:none}
-  #cs-footer-309 .cs-nav{align-items:flex-start;display:flex;flex-direction:column;gap:.75rem;justify-content:center;margin:0;padding:0;width:100%}
-  #cs-footer-309 .cs-header{font-weight:700}
-  #cs-footer-309 .cs-nav-li{align-items:flex-start;display:flex;justify-content:flex-start;list-style:none}
-  #cs-footer-309 .cs-nav-link{color:var(--headerColor);display:inline-block;font-size:1rem;line-height:1.5em;position:relative;text-decoration:none;transition:color .3s}
-  #cs-footer-309 .cs-nav-link:before{background:currentColor;bottom:-.125rem;content:"";display:block;height:.125rem;left:0;opacity:1;position:absolute;transition:width .3s;width:0}
-  #cs-footer-309 .cs-nav-link:hover{color:var(--primary)}
-  #cs-footer-309 .cs-nav-link:hover:before{width:100%}
-  #cs-footer-309 .cs-icon{height:auto;margin-right:.75rem;width:1.5rem}
-  #cs-footer-309 .cs-bottom{align-items:center;border-top:1px solid #484848;display:flex;justify-content:center;margin:2rem auto auto;max-width:80rem;padding-top:1.5rem}
-  #cs-footer-309 .cs-copyright,#cs-footer-309 .cs-copyright-link{color:var(--headerColor);font-size:1rem;line-height:1.5em}
-  #cs-footer-309 .cs-copyright-link{text-decoration:none;transition:color .3s}
-  #cs-footer-309 .cs-copyright-link:hover{color:var(--primary)}
-  body.dark-mode #cs-footer-309{background:var(--medium)}
-  body.dark-mode #cs-footer-309 .cs-copyright,body.dark-mode #cs-footer-309 .cs-copyright-link,body.dark-mode #cs-footer-309 .cs-nav-link,body.dark-mode #cs-footer-309 .cs-text{color:var(--bodyTextColorWhite)}
-  body.dark-mode #cs-footer-309 .cs-icon{filter:brightness(1000%)}
-  body.dark-mode #cs-footer-309 .cs-bottom{border-top:1px solid rgba(255,255,255,0.10)}
+  #cs-footer-309{
+    background-color:var(--bodyTextColorWhite);
+    color:var(--bodyTextColor);
+    padding:clamp(2.5rem,5vw,4rem) 1rem clamp(1.25rem,2.5vw,1.75rem);
+  }
+  #cs-footer-309 .cs-container{
+    margin:0 auto;
+    max-width:80rem;
+    width:100%;
+  }
+
+  /* Top tagline + work link */
+  #cs-footer-309 .cs-top{
+    align-items:flex-start;
+    border-bottom:1px solid rgba(38,36,33,0.10);
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+    justify-content:space-between;
+    padding-bottom:1.25rem;
+  }
+  #cs-footer-309 .cs-top-tagline{
+    color:var(--bodyTextColor);
+    font-size:.9375rem;
+    line-height:1.5em;
+    margin:0;
+  }
+  #cs-footer-309 .cs-top-link{
+    color:var(--primary);
+    font-size:.9375rem;
+    font-weight:700;
+    line-height:1.5em;
+    text-decoration:none;
+    transition:color .3s,transform .3s;
+    white-space:nowrap;
+  }
+  #cs-footer-309 .cs-top-link:hover{
+    color:var(--primaryLight);
+  }
+  #cs-footer-309 .cs-top-link:hover span[aria-hidden]{
+    display:inline-block;
+    transform:translateX(.25rem);
+  }
+
+  /* Site map columns */
+  #cs-footer-309 .cs-columns{
+    display:grid;
+    gap:2rem 1.5rem;
+    grid-template-columns:1fr 1fr;
+    padding:2rem 0;
+  }
+  #cs-footer-309 .cs-col-header{
+    color:var(--headerColor);
+    display:block;
+    font-size:1rem;
+    font-weight:700;
+    line-height:1.5em;
+    margin-bottom:1rem;
+  }
+  #cs-footer-309 .cs-col-ul{
+    display:flex;
+    flex-direction:column;
+    gap:.625rem;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  #cs-footer-309 .cs-li{
+    list-style:none;
+  }
+  #cs-footer-309 .cs-link{
+    color:var(--bodyTextColor);
+    display:inline-block;
+    font-size:.9375rem;
+    line-height:1.5em;
+    position:relative;
+    text-decoration:none;
+    transition:color .3s;
+  }
+  #cs-footer-309 .cs-link:before{
+    background:currentColor;
+    bottom:-.125rem;
+    content:"";
+    display:block;
+    height:.125rem;
+    left:0;
+    position:absolute;
+    transition:width .3s;
+    width:0;
+  }
+  #cs-footer-309 .cs-link:hover{
+    color:var(--primary);
+  }
+  #cs-footer-309 .cs-link:hover:before{
+    width:100%;
+  }
+  #cs-footer-309 .cs-link.cs-featured{
+    color:var(--headerColor);
+  }
+  #cs-footer-309 .cs-link.cs-featured:hover{
+    color:var(--primary);
+  }
+  #cs-footer-309 .cs-subhead-li{
+    list-style:none;
+    margin-top:.5rem;
+  }
+  #cs-footer-309 .cs-subhead{
+    color:var(--primary);
+    display:block;
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+
+  /* Logo + tagline + contact — 3-col grid at desktop */
+  #cs-footer-309 .cs-contact-block{
+    align-items:flex-start;
+    border-top:1px solid rgba(38,36,33,0.10);
+    display:grid;
+    gap:1.5rem;
+    grid-template-columns:1fr;
+    padding:2rem 0;
+  }
+  #cs-footer-309 .cs-brand-mark{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+  }
+  #cs-footer-309 .cs-logo{
+    align-items:center;
+    display:flex;
+    height:auto;
+    max-width:9rem;
+    text-decoration:none;
+    width:100%;
+  }
+  #cs-footer-309 .cs-logo .logo-slot{
+    display:block;
+    width:100%;
+  }
+  #cs-footer-309 .cs-logo-img{
+    display:block;
+    height:auto;
+    width:100%;
+  }
+  #cs-footer-309 .cs-logo-img.dark{
+    display:none;
+  }
+  #cs-footer-309 .cs-tagline{
+    color:var(--bodyTextColor);
+    font-size:.9375rem;
+    line-height:1.55em;
+    margin:0;
+    max-width:28rem;
+  }
+  #cs-footer-309 .cs-contact-list{
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  #cs-footer-309 .cs-contact-li{
+    list-style:none;
+  }
+  #cs-footer-309 .cs-contact-link{
+    align-items:center;
+    color:var(--bodyTextColor);
+    display:inline-flex;
+    font-size:.9375rem;
+    gap:.625rem;
+    line-height:1.5em;
+    text-decoration:none;
+    transition:color .3s;
+  }
+  #cs-footer-309 .cs-contact-link:hover{
+    color:var(--primary);
+  }
+  #cs-footer-309 .cs-icon{
+    color:var(--bodyTextColor);
+    flex:none;
+    height:1.125rem;
+    opacity:.7;
+    transition:color .3s,opacity .3s;
+    width:1.125rem;
+  }
+  #cs-footer-309 .cs-contact-link:hover .cs-icon{
+    color:var(--primary);
+    opacity:1;
+  }
+  #cs-footer-309 .cs-social{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+  #cs-footer-309 .cs-social-link{
+    align-items:center;
+    border:1px solid rgba(38,36,33,0.18);
+    border-radius:50%;
+    color:var(--bodyTextColor);
+    display:inline-flex;
+    height:2rem;
+    justify-content:center;
+    text-decoration:none;
+    transition:background-color .3s,border-color .3s,color .3s,transform .3s;
+    width:2rem;
+  }
+  #cs-footer-309 .cs-social-link:hover{
+    background-color:var(--primary);
+    border-color:var(--primary);
+    color:var(--bodyTextColorWhite);
+    transform:translateY(-.125rem);
+  }
+  #cs-footer-309 .cs-social-img{
+    height:1rem;
+    width:1rem;
+  }
+
+  /* Bottom credit row */
+  #cs-footer-309 .cs-bottom{
+    align-items:center;
+    border-top:1px solid rgba(38,36,33,0.10);
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    justify-content:center;
+    padding-top:1.25rem;
+  }
+  #cs-footer-309 .cs-copyright{
+    color:var(--bodyTextColor);
+    font-size:.875rem;
+    line-height:1.5em;
+    text-align:center;
+  }
+  #cs-footer-309 .cs-heart{
+    color:var(--primary);
+  }
+  #cs-footer-309 .cs-sep{
+    margin:0 .25rem;
+    opacity:.5;
+  }
+
+  /* Dark mode */
+  body.dark-mode #cs-footer-309{
+    background-color:var(--medium);
+    color:rgba(255,255,255,0.72);
+  }
+  body.dark-mode #cs-footer-309 .cs-top,
+  body.dark-mode #cs-footer-309 .cs-contact-block,
+  body.dark-mode #cs-footer-309 .cs-bottom{
+    border-color:rgba(255,255,255,0.10);
+  }
+  body.dark-mode #cs-footer-309 .cs-top-tagline,
+  body.dark-mode #cs-footer-309 .cs-link,
+  body.dark-mode #cs-footer-309 .cs-tagline,
+  body.dark-mode #cs-footer-309 .cs-contact-link,
+  body.dark-mode #cs-footer-309 .cs-copyright{
+    color:rgba(255,255,255,0.72);
+  }
+  body.dark-mode #cs-footer-309 .cs-col-header,
+  body.dark-mode #cs-footer-309 .cs-link.cs-featured{
+    color:var(--bodyTextColorWhite);
+  }
+  body.dark-mode #cs-footer-309 .cs-top-link,
+  body.dark-mode #cs-footer-309 .cs-link:hover,
+  body.dark-mode #cs-footer-309 .cs-link.cs-featured:hover,
+  body.dark-mode #cs-footer-309 .cs-contact-link:hover,
+  body.dark-mode #cs-footer-309 .cs-subhead{
+    color:var(--primaryLight);
+  }
+  body.dark-mode #cs-footer-309 .cs-top-link:hover{
+    color:var(--primary);
+  }
+  body.dark-mode #cs-footer-309 .cs-icon{
+    color:rgba(255,255,255,0.72);
+  }
+  body.dark-mode #cs-footer-309 .cs-contact-link:hover .cs-icon{
+    color:var(--primaryLight);
+  }
+  body.dark-mode #cs-footer-309 .cs-social-link{
+    border-color:rgba(255,255,255,0.18);
+    color:rgba(255,255,255,0.72);
+  }
+  body.dark-mode #cs-footer-309 .cs-social-link:hover{
+    background-color:var(--primaryLight);
+    border-color:var(--primaryLight);
+    color:var(--dark);
+  }
+  body.dark-mode #cs-footer-309 .cs-heart{
+    color:var(--primaryLight);
+  }
+  body.dark-mode #cs-footer-309 .cs-logo-img.light{display:none}
+  body.dark-mode #cs-footer-309 .cs-logo-img.dark{display:block}
 }
+
+@media only screen and (min-width:30rem){
+  #cs-footer-309 .cs-top{
+    align-items:center;
+    flex-direction:row;
+  }
+}
+
 @media only screen and (min-width:48rem){
-  #cs-footer-309 .cs-container{flex-direction:row;justify-content:space-between;row-gap:2.5rem}
-  #cs-footer-309 .cs-nav{width:auto}
+  #cs-footer-309{
+    padding:clamp(3rem,5vw,4rem) 1.5rem clamp(1.25rem,2.5vw,1.75rem);
+  }
+  #cs-footer-309 .cs-columns{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:2.5rem 1.5rem;
+    padding:2.5rem 0;
+  }
+  #cs-footer-309 .cs-contact-block{
+    align-items:flex-start;
+    grid-template-columns:auto minmax(0, 1fr) auto;
+    gap:3rem;
+    padding:2.5rem 0;
+  }
+  #cs-footer-309 .cs-logo{
+    max-width:9.5rem;
+    width:9.5rem;
+  }
+  #cs-footer-309 .cs-bottom{
+    flex-direction:row;
+    gap:1rem;
+    justify-content:space-between;
+  }
+  #cs-footer-309 .cs-copyright{
+    text-align:left;
+  }
 }
+
 @media only screen and (min-width:64rem){
-  #cs-footer-309 .cs-container{column-gap:3rem;flex-wrap:nowrap;justify-content:flex-end;max-width:80rem}
-  #cs-footer-309 .cs-logo-group{margin-right:auto;max-width:22rem;width:26%}
-  #cs-footer-309 .cs-text{width:100%}
+  #cs-footer-309 .cs-columns{
+    gap:3rem 2rem;
+  }
+  #cs-footer-309 .cs-contact-block{
+    align-items:flex-start;
+    gap:3rem;
+  }
 }
 
 /* Reusable bottom contact CTA, adapted from Stitch 1392. */
@@ -207,6 +516,65 @@ body { font-family: "Roboto", Arial, sans-serif; }
 
 .pb-inline-color-accent {
   color: var(--primary, #ff6a3e) !important;
+}
+
+/* Reusable "See our work" style — animated underline + nudge-on-hover arrow.
+   Used in the homepage hero and in the footer. Color is contextual (footer
+   sets its own primary color below; hero text reads white because the hero
+   wrapper sets a dark background and white type). */
+.cs-hero-work-link{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  color:var(--bodyTextColorWhite);
+  font-size:1rem;
+  font-weight:700;
+  line-height:1.4em;
+  text-decoration:none;
+  transition:color .3s ease;
+}
+.cs-hero-work-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-.15rem;
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .35s ease;
+}
+.cs-hero-work-link:hover,
+.cs-hero-work-link:focus-visible{
+  color:var(--primaryLight);
+}
+.cs-hero-work-link:hover::after,
+.cs-hero-work-link:focus-visible::after{
+  transform:scaleX(1);
+}
+.cs-hero-work-link:focus-visible{
+  outline:none;
+}
+.cs-hero-work-arrow{
+  display:block;
+  width:1rem;
+  height:1rem;
+  flex:none;
+  transition:transform .3s ease;
+}
+.cs-hero-work-link:hover .cs-hero-work-arrow,
+.cs-hero-work-link:focus-visible .cs-hero-work-arrow{
+  transform:translate(2px,2px);
+}
+/* Footer override: green base color so the link reads on the light footer
+   background. Hover still goes to --primaryLight, matching the hero. */
+#cs-footer-309 .cs-hero-work-link{
+  color:var(--primary);
+}
+body.dark-mode #cs-footer-309 .cs-hero-work-link{
+  color:var(--primaryLight);
 }
 .pb-inline-color-heading {
   color: var(--headerColor, #1a1a1a) !important;

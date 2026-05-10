@@ -177,6 +177,28 @@ If this export downloaded third-party images for offline hosting, `src/assets/im
 - Read the raw CodeStitch source for a section in `_reference/section-sources/<category>/` before restructuring it.
 - Read the matching page in `_reference/original-template/` before a visual restoration task.
 
+## Parked / disabled code
+
+Some components have been built, deemed not currently needed, and **left in the repo in a disabled (inert) state** so they can be restored quickly without rebuilding from scratch. **Never delete these files.** If you stumble on what looks like dead code, check this list first.
+
+### Inline pricing widget (`#price-widget-1701`) — disabled 2026-05-09
+
+A vanilla-JS interactive pricing calculator that was briefly the contents of `/pricing/`. Reverted to the static `#pricing-1690` cards (same as the homepage). The widget files remain on disk in inert form:
+
+| File | Disabled state |
+|---|---|
+| [src/pages/pricing.html](src/pages/pricing.html) | Widget block + its `<link>` and `<script>` tags wrapped in `<!-- ... -->`. The static `#pricing-1690` section above it is the live one. |
+| [src/css/pricing-widget.css](src/css/pricing-widget.css) | Entire stylesheet wrapped in `@media (width: 0px) { ... }` — never matches a real viewport. Marker comments: `WIDGET-DISABLED-WRAPPER-START` / `WIDGET-DISABLED-WRAPPER-END`. |
+| [src/assets/js/pricing-widget.js](src/assets/js/pricing-widget.js) | IIFE is defined but NOT invoked — the trailing `()` was removed from the very last line. Marker comment: `WIDGET-DISABLED — to restore, change \`)\` to \`)()\`` at the end of file. |
+
+**To restore the widget and remove the static cards:**
+1. In [src/pages/pricing.html](src/pages/pricing.html): delete the entire `<section id="pricing-1690">…</section>` block, then delete the surrounding `<!-- … -->` comment around the widget below it (keeping the widget HTML itself).
+2. In [src/css/pricing-widget.css](src/css/pricing-widget.css): delete the line `@media (width: 0px) { /* WIDGET-DISABLED-WRAPPER-START */` and the matching closing `} /* WIDGET-DISABLED-WRAPPER-END … */` at the bottom.
+3. In [src/assets/js/pricing-widget.js](src/assets/js/pricing-widget.js): change the final line's `});` back to `})();`.
+4. `npm run build` and verify `/pricing/` shows the interactive widget instead of the three static cards.
+
+The widget is **only intended for `/pricing/`**. The static `#pricing-1690` section that lives on the homepage (`src/index.html`), the Spanish pricing page (`src/pages/es/pricing.html`), and the Spanish homepage (`src/pages/es/index.html`) was never replaced and should remain untouched.
+
 ## Build and deploy locally
 
 ```bash

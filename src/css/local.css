@@ -82,58 +82,9 @@ html{
   gap:1rem 1.75rem;
 }
 
-#hero-1950 .cs-hero-work-link{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  color:var(--bodyTextColorWhite);
-  font-size:1rem;
-  font-weight:700;
-  line-height:1.4em;
-  text-decoration:none;
-  transition:color .3s ease;
-}
-
-#hero-1950 .cs-hero-work-link::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-.15rem;
-  height:1px;
-  background:currentColor;
-  transform:scaleX(0);
-  transform-origin:left center;
-  transition:transform .35s ease;
-}
-
-#hero-1950 .cs-hero-work-link:hover,
-#hero-1950 .cs-hero-work-link:focus-visible{
-  color:var(--primaryLight);
-}
-
-#hero-1950 .cs-hero-work-link:hover::after,
-#hero-1950 .cs-hero-work-link:focus-visible::after{
-  transform:scaleX(1);
-}
-
-#hero-1950 .cs-hero-work-link:focus-visible{
-  outline:none;
-}
-
-#hero-1950 .cs-hero-work-arrow{
-  display:block;
-  width:1rem;
-  height:1rem;
-  flex:none;
-  transition:transform .3s ease;
-}
-
-#hero-1950 .cs-hero-work-link:hover .cs-hero-work-arrow,
-#hero-1950 .cs-hero-work-link:focus-visible .cs-hero-work-arrow{
-  transform:translate(2px,2px);
-}
+/* The .cs-hero-work-link styles used here also live in root.css (sitewide)
+   so the same treatment can be reused in the footer. The hero locally sets
+   the white default color via the surrounding dark background context. */
 
 @media (prefers-reduced-motion:reduce){
   html{
@@ -160,3 +111,33 @@ html{
 body.dark-mode #faq-1261{
   background-color:var(--dark);
 }
+
+/* services-1628 .cs-fake-link — match footer link treatment, and keep
+   the green primary color in dark mode (per user request). */
+#services-1628 .cs-fake-link{
+  position:relative;
+}
+#services-1628 .cs-fake-link:after{
+  background:currentColor;
+  bottom:-.125rem;
+  content:"";
+  display:block;
+  height:.125rem;
+  left:0;
+  position:absolute;
+  transition:width .3s;
+  width:0;
+}
+#services-1628 .cs-link:hover .cs-fake-link:after,
+#services-1628 .cs-link:focus-visible .cs-fake-link:after{
+  width:100%;
+}
+body.dark-mode #services-1628 .cs-fake-link{
+  color:var(--primary);
+  opacity:1;
+}
+body.dark-mode #services-1628 .cs-icon{
+  filter:none;
+  opacity:1;
+}
+

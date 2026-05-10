@@ -65,3 +65,210 @@ eleventyNavigation:
     </ul>
   </div>
 </section>
+
+<!-- ─────────────────────────────────────────────────────────────────────
+  PARKED: Inline pricing widget (interactive calculator).
+  Disabled on 2026-05-09 in favor of the static #pricing-1690 cards above.
+  See LLM/CLAUDE.md → "Parked / disabled code" for restoration steps.
+  Files involved (also disabled in place):
+    - src/css/pricing-widget.css   (wrapped in @media (width:0px))
+    - src/assets/js/pricing-widget.js (IIFE never invoked)
+  To restore: uncomment this block, the <link> + <script> tags below,
+  re-enable the CSS/JS files, and DELETE the #pricing-1690 section above.
+───────────────────────────────────────────────────────────────────── -->
+<!--
+<link rel="preload" as="style" href="/css/pricing-widget.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/pricing-widget.css?v={{ build.hash }}"></noscript>
+
+<section id="price-widget-1701" data-pricing-widget data-state="brochure" aria-labelledby="pw-title">
+  <div class="pw-container">
+    <header class="pw-header">
+      <span class="pw-topper">Build your quote</span>
+      <h2 class="pw-title" id="pw-title">How big is your site, and how do you want to pay?</h2>
+      <p class="pw-lede">Click, type, or drag the number. The price moves as you do — no submit button.</p>
+    </header>
+
+    <div class="pw-stage">
+      <div class="pw-inputs" role="group" aria-labelledby="pw-inputs-label">
+        <span id="pw-inputs-label" class="pw-sr-only">Quote inputs</span>
+
+        <div class="pw-field pw-field--type">
+          <label class="pw-field-label" id="pw-field-type">Site type</label>
+          <div class="pw-segmented" role="radiogroup" aria-labelledby="pw-field-type" data-segmented="siteType">
+            <button type="button" role="radio" data-value="brochure" aria-checked="true" tabindex="0">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <span>Brochure</span>
+            </button>
+            <button type="button" role="radio" data-value="blog" aria-checked="false" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <span>Blog</span>
+            </button>
+            <button type="button" role="radio" data-value="store" aria-checked="false" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.3a2 2 0 0 0 2 1.7H18a2 2 0 0 0 2-1.7L21.5 8H6"/></svg>
+              <span>Online store</span>
+            </button>
+            <span class="pw-pill" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="pw-field pw-field--pages" data-pages-field>
+          <label class="pw-field-label" for="pw-pages-input">Pages</label>
+          <div class="pw-stepper" data-stepper>
+            <button type="button" class="pw-step-btn" data-step="-1" aria-label="One fewer page">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+            </button>
+            <span class="pw-step-display" data-scrub aria-hidden="true">
+              <input type="number" min="1" max="30" value="5" id="pw-pages-input" data-pages-input aria-label="Number of pages — drag horizontally on the digit, or type" inputmode="numeric">
+            </span>
+            <button type="button" class="pw-step-btn" data-step="1" aria-label="One more page">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+            </button>
+          </div>
+          <span class="pw-field-hint">First 5 included · $100 each beyond</span>
+        </div>
+
+        <div class="pw-field pw-field--blog" data-blog-field>
+          <label class="pw-field-label" id="pw-field-blog">Add a blog</label>
+          <button type="button" role="switch" aria-checked="false" aria-labelledby="pw-field-blog" class="pw-switch" data-switch="blog">
+            <span class="pw-switch-track" aria-hidden="true">
+              <span class="pw-switch-thumb"></span>
+            </span>
+            <span class="pw-switch-state" data-switch-state>off</span>
+          </button>
+          <span class="pw-field-hint">+$250 add-on</span>
+        </div>
+      </div>
+
+      <div class="pw-view-toggle" data-view-toggle>
+        <span class="pw-view-label" id="pw-view-label">Show me</span>
+        <div class="pw-segmented pw-segmented--small" role="radiogroup" aria-labelledby="pw-view-label" data-segmented="view">
+          <button type="button" role="radio" data-value="both" aria-checked="true" tabindex="0">Both</button>
+          <button type="button" role="radio" data-value="monthly" aria-checked="false" tabindex="-1">Monthly</button>
+          <button type="button" role="radio" data-value="lump" aria-checked="false" tabindex="-1">Lump sum</button>
+          <span class="pw-pill" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="pw-cards" data-cards data-view="both" aria-live="polite" aria-atomic="false">
+        <article class="pw-card pw-card--monthly" data-card="monthly">
+          <span class="pw-card-badge">Most popular</span>
+          <header class="pw-card-head">
+            <h3 class="pw-card-name">Monthly Subscription</h3>
+            <p class="pw-card-tagline">$0 down · build rolled in · 12-mo minimum</p>
+          </header>
+          <div class="pw-card-price" data-price>
+            <span class="pw-currency" aria-hidden="true">$</span>
+            <span class="pw-amount" data-roller data-target="150">150</span>
+            <span class="pw-suffix">/mo</span>
+          </div>
+          <ul class="pw-breakdown" data-breakdown="monthly">
+            <li class="pw-line pw-line--base" data-line="base">
+              <span class="pw-line-label">Base subscription</span>
+              <span class="pw-line-value">$150/mo</span>
+            </li>
+            <li class="pw-line" data-line="extraPages" hidden>
+              <span class="pw-line-label">+ <span data-extra-count>0</span> extra pages</span>
+              <span class="pw-line-value">+$<span data-extra-cost>0</span> build</span>
+            </li>
+            <li class="pw-line" data-line="blog" hidden>
+              <span class="pw-line-label">+ Blog</span>
+              <span class="pw-line-value">+$250 build</span>
+            </li>
+            <li class="pw-line pw-line--note" data-line="rolled" hidden>
+              <span class="pw-line-label">Build cost rolled into the monthly</span>
+              <span class="pw-line-value" aria-hidden="true">✓</span>
+            </li>
+          </ul>
+          <div class="pw-card-foot">
+            <a class="pw-cta" href="/contact/" data-cta="monthly">
+              <span>Start a project</span>
+              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12m-4-4l4 4-4 4"/></svg>
+            </a>
+            <span class="pw-card-fineprint">Hosting included.</span>
+          </div>
+        </article>
+
+        <article class="pw-card pw-card--lump" data-card="lump">
+          <header class="pw-card-head">
+            <h3 class="pw-card-name">Own It Outright</h3>
+            <p class="pw-card-tagline">One-time build · $25/mo hosting separate</p>
+          </header>
+          <div class="pw-card-price" data-price>
+            <span class="pw-currency" aria-hidden="true">$</span>
+            <span class="pw-amount" data-roller data-target="3000">3,000</span>
+          </div>
+          <ul class="pw-breakdown" data-breakdown="lump">
+            <li class="pw-line pw-line--base" data-line="base">
+              <span class="pw-line-label">Base build (up to 5 pages)</span>
+              <span class="pw-line-value">$3,000</span>
+            </li>
+            <li class="pw-line" data-line="extraPages" hidden>
+              <span class="pw-line-label">+ <span data-extra-count>0</span> extra pages × $100</span>
+              <span class="pw-line-value">+$<span data-extra-cost>0</span></span>
+            </li>
+            <li class="pw-line" data-line="blog" hidden>
+              <span class="pw-line-label">+ Blog</span>
+              <span class="pw-line-value">+$250</span>
+            </li>
+            <li class="pw-line pw-line--note" data-line="hosting">
+              <span class="pw-line-label">Hosting (separate)</span>
+              <span class="pw-line-value">$25/mo</span>
+            </li>
+          </ul>
+          <div class="pw-card-foot">
+            <a class="pw-cta" href="/contact/" data-cta="lump">
+              <span>Start a project</span>
+              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12m-4-4l4 4-4 4"/></svg>
+            </a>
+            <span class="pw-card-fineprint">You own everything.</span>
+          </div>
+        </article>
+
+        <article class="pw-card pw-card--store" data-card="store" hidden>
+          <span class="pw-card-badge pw-card-badge--store">Custom scope</span>
+          <header class="pw-card-head">
+            <h3 class="pw-card-name">Online Store</h3>
+            <p class="pw-card-tagline">Custom storefront with Stripe checkout. Final price scales with product count and integrations.</p>
+          </header>
+          <div class="pw-card-price">
+            <span class="pw-currency" aria-hidden="true">$</span>
+            <span class="pw-amount">6,500</span>
+            <span class="pw-suffix">+</span>
+          </div>
+          <ul class="pw-breakdown">
+            <li class="pw-line pw-line--check"><span class="pw-line-label">Custom storefront &amp; product pages</span></li>
+            <li class="pw-line pw-line--check"><span class="pw-line-label">Stripe-powered secure checkout</span></li>
+            <li class="pw-line pw-line--check"><span class="pw-line-label">Inventory &amp; order management</span></li>
+            <li class="pw-line pw-line--check"><span class="pw-line-label">Live cart drawer with instant updates</span></li>
+            <li class="pw-line pw-line--note"><span class="pw-line-label">+ Monthly Subscription</span><span class="pw-line-value">$150/mo</span></li>
+          </ul>
+          <div class="pw-card-foot">
+            <a class="pw-cta" href="/contact/?plan=store" data-cta="store">
+              <span>Talk to us</span>
+              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12m-4-4l4 4-4 4"/></svg>
+            </a>
+            <span class="pw-card-fineprint">Free 30-min scoping call.</span>
+          </div>
+        </article>
+      </div>
+
+      <button type="button" class="pw-reset" data-pw-reset aria-label="Reset to defaults">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+        <span>Reset</span>
+      </button>
+    </div>
+
+    <p class="pw-fineprint">Real numbers from our <a href="/pricing/">pricing page</a>. The contact form prefills with your selections.</p>
+  </div>
+
+  <aside class="pw-chip" data-pw-chip hidden aria-hidden="true">
+    <span class="pw-chip-summary" data-chip-summary></span>
+    <a class="pw-chip-jump" href="#price-widget-1701" data-chip-jump>
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l7-7 7 7M12 19V5"/></svg>
+      <span>Edit</span>
+    </a>
+  </aside>
+</section>
+
+<script defer src="/assets/js/pricing-widget.js?v={{ build.hash }}"></script>
+-->

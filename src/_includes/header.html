@@ -10,7 +10,7 @@
       <div class="cs-ul-wrapper">
         <ul class="cs-ul" id="cs-expanded">
           <li class="cs-li"><a href="/" class="cs-li-link {% if page.url == '/' %}cs-active{% endif %}" aria-current="page">Home</a></li>
-          <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button" aria-controls="dropdown-Services" aria-expanded="false" aria-label="dropdown-Services">Services <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" class="cs-drop-icon"></button>
+          <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button {% if '/web-design/' in page.url or '/web-development/' in page.url or '/hosting-and-domains/' in page.url or '/unlimited-edits-and-support/' in page.url or '/search-engine-optimisation/' in page.url %}cs-active{% endif %}" aria-controls="dropdown-Services" aria-expanded="false" aria-label="dropdown-Services">Services <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" class="cs-drop-icon"></button>
             <ul class="cs-drop-ul" id="dropdown-Services">
               <li class="cs-drop-li"><a href="/web-design/" class="cs-li-link cs-drop-link {% if page.url == '/web-design/' %}cs-active{% endif %}">Web Design</a></li>
               <li class="cs-drop-li"><a href="/web-development/" class="cs-li-link cs-drop-link {% if page.url == '/web-development/' %}cs-active{% endif %}">Web Development</a></li>
@@ -22,6 +22,33 @@
           <li class="cs-li"><a href="/pricing/" class="cs-li-link {% if page.url == '/pricing/' %}cs-active{% endif %}">Pricing</a></li>
           <li class="cs-li"><a href="/blog/" class="cs-li-link {% if page.url == '/blog/' %}cs-active{% endif %}">Blog</a></li>
           <li class="cs-li"><a href="/about/" class="cs-li-link {% if page.url == '/about/' %}cs-active{% endif %}">About</a></li>
+          <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button {% if '/locations/' in page.url %}cs-active{% endif %}" aria-controls="dropdown-Locations" aria-expanded="false" aria-label="dropdown-Locations">Locations <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" class="cs-drop-icon"></button>
+            <ul class="cs-drop-ul" id="dropdown-Locations">
+              <li class="cs-drop-li"><a href="/locations/" class="cs-li-link cs-drop-link {% if page.url == '/locations/' %}cs-active{% endif %}">All Locations</a></li>
+              <li class="cs-drop-li cs-dropdown"><button class="cs-li-link cs-drop-link cs-dropdown-button {% if '/locations/texas/' in page.url %}cs-active{% endif %}" aria-controls="dropdown-Locations-Texas" aria-expanded="false" aria-label="dropdown-Locations-Texas">Texas <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" class="cs-drop-icon"></button>
+                <ul class="cs-drop3" id="dropdown-Locations-Texas">
+                  <li class="cs-drop-li3"><a href="/locations/texas/dallas-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/dallas-web-design/' in page.url %}cs-active{% endif %}">Dallas</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/fort-worth-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/fort-worth-web-design/' in page.url %}cs-active{% endif %}">Fort Worth</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/arlington-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/arlington-web-design/' in page.url %}cs-active{% endif %}">Arlington</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/houston-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/houston-web-design/' in page.url %}cs-active{% endif %}">Houston</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/austin-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/austin-web-design/' in page.url %}cs-active{% endif %}">Austin</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/san-antonio-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/san-antonio-web-design/' in page.url %}cs-active{% endif %}">San Antonio</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/frisco-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/frisco-web-design/' in page.url %}cs-active{% endif %}">Frisco</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/irving-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/irving-web-design/' in page.url %}cs-active{% endif %}">Irving</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/grand-prairie-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/grand-prairie-web-design/' in page.url %}cs-active{% endif %}">Grand Prairie</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/mansfield-web-design/" class="cs-li-link cs-drop-link {% if '/locations/texas/mansfield-web-design/' in page.url %}cs-active{% endif %}">Mansfield</a></li>
+                </ul>
+              </li>
+              <li class="cs-drop-li cs-dropdown"><button class="cs-li-link cs-drop-link cs-dropdown-button {% if '/locations/tennessee/' in page.url %}cs-active{% endif %}" aria-controls="dropdown-Locations-Tennessee" aria-expanded="false" aria-label="dropdown-Locations-Tennessee">Tennessee <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" class="cs-drop-icon"></button>
+                <ul class="cs-drop3" id="dropdown-Locations-Tennessee">
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/nashville-web-design/" class="cs-li-link cs-drop-link {% if '/locations/tennessee/nashville-web-design/' in page.url %}cs-active{% endif %}">Nashville</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/memphis-web-design/" class="cs-li-link cs-drop-link {% if '/locations/tennessee/memphis-web-design/' in page.url %}cs-active{% endif %}">Memphis</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/knoxville-web-design/" class="cs-li-link cs-drop-link {% if '/locations/tennessee/knoxville-web-design/' in page.url %}cs-active{% endif %}">Knoxville</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/chattanooga-web-design/" class="cs-li-link cs-drop-link {% if '/locations/tennessee/chattanooga-web-design/' in page.url %}cs-active{% endif %}">Chattanooga</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
           <li class="cs-li"><a href="/contact/" class="cs-li-link {% if page.url == '/contact/' %}cs-active{% endif %}">Contact</a></li>
         </ul>
       </div><!-- <button data-open-cart="" aria-label="Open cart" class="cs-cart-icon">

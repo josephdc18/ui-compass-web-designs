@@ -47,8 +47,10 @@
       '  --blog-banner-pt: 2rem;',
       '}',
       'body { background: #fff; padding: 0; margin: 0; }',
-      // Inert in preview — these are JS-driven on the live site
-      '.article-actions, .toc-mobile, .toc-sidebar,',
+      // Inert in preview — these are JS-driven on the live site.
+      // .toc-sidebar contains the cs-featured-group panel; hidden because the
+      // TOC is built from rendered headings at runtime, not in preview.
+      '.article-actions, .toc-sidebar,',
       '.banner-print-btn, .pb-go-top-progress, .audit-fab,',
       '.blog-sidebar { display: none !important; }',
       // Banner: collapse padding so it fits the small preview pane

@@ -2,9 +2,15 @@
 const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
 const { DateTime } = require('luxon');
 const Image = require('@11ty/eleventy-img');
+const MarkdownIt = require('markdown-it');
 const path = require('path');
 
 const fs = require('fs');
+
+// Inline markdown renderer — used for short strings in YAML frontmatter
+// (e.g. TLDR points) where we want **bold** / *italic* / `code` to render
+// as HTML without wrapping in a <p>.
+const mdInline = new MarkdownIt({ html: true, linkify: false, typographer: false });
 
 // i18n configuration
 const i18nConfig = require('./src/_data/i18n.js');
@@ -113,6 +119,15 @@ module.exports = function (eleventyConfig) {
       return parsed.isValid ? parsed.toFormat('LLLL yyyy') : dateObj;
     }
     return DateTime.fromJSDate(dateObj).toFormat('LLLL yyyy');
+  });
+
+  // Renders inline markdown (no surrounding <p>) so frontmatter strings can
+  // use **bold**, *italic*, and `code`. Inline HTML in the source passes
+  // through unchanged (e.g. <code>/es/</code> in TLDR points). Used by the
+  // blog post TLDR loop in blog-post.html.
+  eleventyConfig.addFilter('mdInline', (str) => {
+    if (str === undefined || str === null) return '';
+    return mdInline.renderInline(String(str));
   });
 
   // =========================================================================

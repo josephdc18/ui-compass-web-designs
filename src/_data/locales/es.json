@@ -74,5 +74,11 @@
     "language": "Idioma",
     "current_language": "Idioma actual",
     "go_to_top": "Ir arriba"
+  },
+  "blog": {
+    "tldr_default_title": "Lo esencial",
+    "tldr_aria": "TL;DR \u2014 lo esencial",
+    "faq_heading": "Preguntas frecuentes",
+    "related_heading": "Gu\u00edas relacionadas"
   }
 }

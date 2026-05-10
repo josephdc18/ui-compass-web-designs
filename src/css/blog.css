@@ -2,7 +2,7 @@
 <---        Core Styles         -->
 <--- -------------------------- -*/
 /* Mobile - 360px */
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   :root {
     --bodyHeader: #1a1a1a;
     --bodyText: #737373;
@@ -55,7 +55,7 @@
 /*-- -------------------------- -->
 <---   Interior Page Header     -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   #int-hero {
     display: flex;
     justify-content: center;
@@ -88,12 +88,12 @@
     width: 96%;
   }
 }
-@media only screen and (min-width: 48em) {
+@media only screen and (min-width: 48rem) {
   #int-hero h1 {
     font-size: 4rem;
   }
 }
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 64rem) {
   #int-hero {
     min-height: 18.75rem;
     height: auto;
@@ -105,7 +105,7 @@
 /*-- -------------------------- -->
 <---        Main Content        -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .blog-container {
     padding: clamp(60px, 7vw, 100px) 0;
   }
@@ -125,7 +125,7 @@
     width: 100%;
   }
 }
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 64rem) {
   .main-content-wrapper {
     flex-direction: row;
     align-items: flex-start;
@@ -135,7 +135,7 @@
 /*-- -------------------------- -->
 <---    Recent Blog Articles    -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .recent-articles {
     overflow: hidden;
     max-width: 49.6875em;
@@ -212,13 +212,13 @@
     color: var(--bodyText);
   }
 }
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 64rem) {
   .recent-articles .blog-h1 {
     max-width: 31.25rem;
   }
 }
 /* Dark Mode - Recent Articles */
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   body.dark-mode .recent-articles .blog-h1,
   body.dark-mode .recent-articles .blog-desc,
   body.dark-mode .recent-articles .blog-author,
@@ -257,7 +257,7 @@
 /*-- -------------------------- -->
 <---          Sidebar           -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .blog-sidebar {
     max-width: 49.6875em;
     width: 100%;
@@ -348,7 +348,7 @@
     display: block;
   }
 }
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 64rem) {
   .blog-sidebar {
     max-width: 22.5em;
   }
@@ -356,7 +356,7 @@
 /*-- -------------------------- -->
 <---        Blog Articles       -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .blog-article {
     max-width: 49.6875em;
     width: 100%;
@@ -485,124 +485,126 @@
 }
 /*-- -------------------------- -->
 <---    Blog Table of Contents   -->
+<---    Markup mirrors the service-page TOC pattern: a .cs-featured-group
+<---    panel with a centered .cs-sidebar-header title, then a <nav class="toc">
+<---    holding nested <ol>s. h3 children of an h2 nest one level deeper.
+<---    Active link gets a primary-colored left border + slight padding shift,
+<---    all CSS-transitioned so movement between sections feels fluid.
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
-  .toc-mobile {
-    display: flex;
-    position: sticky;
-    top: 60px;
-    z-index: 100;
-    background: #fff;
-    padding: 0.75rem 1rem;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 0.5rem;
-    border-bottom: 1px solid #ebebeb;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    transition: padding-top 0.18s ease;
-  }
-  /* `is-stuck` is toggled in toc.js via a sentinel + IntersectionObserver.
-     Adds breathing room so the chips don't crowd whatever sits above them. */
-  .toc-mobile.is-stuck {
-    padding-top: 1.25rem;
-  }
-  .toc-mobile::-webkit-scrollbar {
-    display: none;
-  }
-  .toc-mobile:empty {
-    display: none;
-  }
-  .toc-chip {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: #f3f4f6;
-    color: var(--bodyText, #737373);
-    text-decoration: none;
-    font-size: 0.8125rem;
-    border-radius: 20px;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-  }
-  .toc-chip:hover,
-  .toc-chip.active {
-    background: var(--primary, #FFBA19);
-    color: var(--bodyHeader, #1a1a1a);
-  }
-  .toc-sidebar {
-    display: none;
-  }
+@media only screen and (min-width: 0rem) {
+  /* On mobile the TOC sits before the article body, full width. The
+     .blog-with-toc grid collapses to a single column there (no grid set
+     until 64em+). */
   .blog-with-toc {
     display: flex;
     flex-direction: column;
     gap: 0;
   }
-}
-@media only screen and (min-width: 48em) {
-  .toc-mobile {
-    top: 70px;
-  }
-}
-@media only screen and (min-width: 64em) {
-  .toc-mobile {
-    display: none;
-  }
   .toc-sidebar {
-    display: block;
-    position: sticky;
-    top: 120px;
-    width: 220px;
-    max-height: calc(100vh - 160px);
-    overflow-y: auto;
-    padding: 1.25rem;
-    background: #f9fafb;
-    border-radius: 0.5rem;
-    border: 1px solid #ebebeb;
-    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 50rem;
+    margin: 0 auto 1.5rem;
     order: -1;
   }
-  .toc-sidebar:empty {
-    display: none;
+  .toc-sidebar:empty { display: none; }
+
+  .toc-sidebar .cs-featured-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    background: #fff;
+    padding: 1.75rem 1.5rem;
+    border-radius: 0.5rem;
   }
-  /* Don't hide based on `.toc-list:empty` — toc.js fills the list on
-     DOMContentLoaded, but :has(:empty) latches the hidden state in some
-     browsers and the sidebar never reappears without a refresh. */
-  .toc-sidebar h3 {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--bodyText, #737373);
-    margin-bottom: 1rem;
-    font-weight: 700;
-  }
-  .toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .toc-list li {
-    margin-bottom: 0.25rem;
-  }
-  .toc-list a {
+  .toc-sidebar .cs-sidebar-header {
     display: block;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.8125rem;
-    color: var(--bodyText, #737373);
-    text-decoration: none;
+    color: var(--headerColor, #1a1a1a);
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    text-align: center;
+  }
+  .toc-sidebar .cs-sidebar-header:after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 3px;
+    margin: 0.875rem auto 0;
+    background: var(--headerColor, #1a1a1a);
+  }
+
+  .toc-sidebar .toc { width: 100%; }
+  .toc-sidebar .toc ol {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.875rem;
+  }
+  .toc-sidebar .toc li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* h3 children indent + tighten gaps so the hierarchy reads cleanly. */
+  .toc-sidebar .toc li > ol {
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+  }
+
+  .toc-sidebar .toc a {
+    display: inline-block;
+    width: 100%;
     border-left: 2px solid transparent;
-    border-radius: 0 4px 4px 0;
-    transition: all 0.2s ease;
-    line-height: 1.4;
+    color: var(--bodyTextColor, #737373);
+    line-height: 1.45em;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, padding 0.2s ease-in-out;
   }
-  .toc-list a:hover {
-    background: rgba(255, 186, 25, 0.1);
-    color: var(--bodyHeader, #1a1a1a);
+  .toc-sidebar .toc a:hover,
+  .toc-sidebar .toc a:focus-visible {
+    color: var(--primary, #006940);
   }
-  .toc-list a.active {
-    border-left-color: var(--primary, #FFBA19);
-    background: rgba(255, 186, 25, 0.1);
-    color: var(--bodyHeader, #1a1a1a);
-    font-weight: 600;
+  .toc-sidebar .toc a.cs-toc-current,
+  .toc-sidebar .toc a.active {
+    border-left-color: var(--primary, #006940);
+    color: var(--primary, #006940);
+    font-weight: 700;
+    padding-left: 0.5rem;
+  }
+}
+@media only screen and (min-width: 64rem) {
+  /* Desktop: become a sticky sidebar in the left column of the 3-col grid. */
+  .toc-sidebar {
+    flex: none;
+    align-self: flex-start;
+    position: sticky;
+    top: 6rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    margin: 0;
+    width: 220px;
+    max-width: none;
+  }
+  .toc-sidebar .cs-featured-group {
+    padding: 1.5rem 1.25rem;
+  }
+  .toc-sidebar .cs-sidebar-header {
+    font-size: 1rem;
+    text-align: left;
+  }
+  .toc-sidebar .cs-sidebar-header:after {
+    margin-left: 0;
+    margin-right: auto;
   }
   .blog-with-toc {
     display: grid;
@@ -624,7 +626,7 @@
     max-width: 100rem;
   }
 }
-@media only screen and (min-width: 81.25em) {
+@media only screen and (min-width: 81.25rem) {
   .toc-sidebar {
     width: 240px;
   }
@@ -636,7 +638,7 @@
     max-width: 110rem;
   }
 }
-@media only screen and (min-width: 100em) {
+@media only screen and (min-width: 100rem) {
   .toc-sidebar {
     width: 260px;
   }
@@ -650,14 +652,14 @@
     max-width: none;
   }
 }
-@media only screen and (min-width: 130em) {
+@media only screen and (min-width: 130rem) {
   .toc-sidebar { width: 280px; }
   .blog-with-toc {
     grid-template-columns: 280px minmax(0, 1fr) 380px;
     gap: 3rem;
   }
 }
-@media only screen and (min-width: 160em) {
+@media only screen and (min-width: 160rem) {
   .toc-sidebar { width: 320px; }
   .blog-with-toc {
     grid-template-columns: 320px minmax(0, 1fr) 440px;
@@ -666,46 +668,43 @@
 }
 /* In the 3-column post layout, let the article fill the center column.
    The narrower 49.6875em cap above is for the listing page's recent-articles. */
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 64rem) {
   .blog-with-toc .blog-article {
     max-width: none;
   }
 }
 /* Dark Mode TOC */
-@media only screen and (min-width: 0em) {
-  body.dark-mode .toc-mobile {
-    background: var(--dark, #0f172a);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  body.dark-mode .toc-chip {
+@media only screen and (min-width: 0rem) {
+  body.dark-mode .toc-sidebar .cs-featured-group {
+    border-color: rgba(255, 255, 255, 0.12);
     background: var(--medium, #1e293b);
-    color: rgba(255, 255, 255, 0.8);
   }
-  body.dark-mode .toc-chip:hover,
-  body.dark-mode .toc-chip.active {
-    background: var(--primary, #FFBA19);
-    color: var(--bodyHeader, #1a1a1a);
+  body.dark-mode .toc-sidebar .cs-sidebar-header {
+    color: var(--bodyTextColorWhite, #fff);
   }
-  body.dark-mode .toc-sidebar {
-    background: var(--medium, #1e293b);
-    border-color: rgba(255, 255, 255, 0.1);
+  body.dark-mode .toc-sidebar .cs-sidebar-header:after {
+    background-color: var(--bodyTextColorWhite, #fff);
   }
-  body.dark-mode .toc-sidebar h3 {
-    color: rgba(255, 255, 255, 0.6);
+  body.dark-mode .toc-sidebar .toc a {
+    color: var(--bodyTextColorWhite, #fff);
+    opacity: 0.75;
   }
-  body.dark-mode .toc-list a {
-    color: rgba(255, 255, 255, 0.7);
+  body.dark-mode .toc-sidebar .toc a:hover,
+  body.dark-mode .toc-sidebar .toc a:focus-visible {
+    color: var(--primaryLight, #00bd74);
+    opacity: 1;
   }
-  body.dark-mode .toc-list a:hover,
-  body.dark-mode .toc-list a.active {
-    background: rgba(255, 186, 25, 0.15);
-    color: #fff;
+  body.dark-mode .toc-sidebar .toc a.cs-toc-current,
+  body.dark-mode .toc-sidebar .toc a.active {
+    border-left-color: var(--primaryLight, #00bd74);
+    color: var(--primaryLight, #00bd74);
+    opacity: 1;
   }
 }
 /*-- -------------------------- -->
 <---      Article Share Bar      -->
 <--- -------------------------- -*/
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .blog-meta-row {
     display: flex;
     flex-wrap: wrap;
@@ -813,7 +812,7 @@
   }
 }
 /* Dark Mode Share */
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   body.dark-mode .article-share {
     border-color: rgba(255, 255, 255, 0.1);
   }
@@ -835,5 +834,502 @@
   }
   body.dark-mode .blog-reading-time {
     color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* =====================================================================
+   FOUC-safe blog post chrome
+   Moved from blog-extras.css so the above-the-fold elements (banner print
+   button, post meta, article actions bar, TL;DR) paint with their tokens
+   on first render. blog-extras.css loads async, so anything visible before
+   the user scrolls belongs here. Keep the token map in sync with the one
+   in blog-extras.css.
+   ===================================================================== */
+.blog-article,
+.article-actions,
+.tldr-box,
+.banner-print-btn,
+.blog-sidebar {
+  --be-primary:        var(--primary, #006940);
+  --be-primary-soft:   rgba(0, 105, 64, 0.08);
+  --be-primary-line:   rgba(0, 105, 64, 0.32);
+  --be-navy:           #1a1a1a;
+  --be-accent:         #d97706;
+  --be-accent-soft:    #fef3c7;
+  --be-accent-line:    #fcd34d;
+  --be-bg:             var(--bodyTextColorWhite, #ffffff);
+  --be-bg-soft:        #f7f7f7;
+  --be-bg-raised:      #f1f5f9;
+  --be-border:         #e5e7eb;
+  --be-text:           var(--headerColor, #1e293b);
+  --be-text-muted:     #64748b;
+  --be-text-faint:     #7a7889;
+  --be-success:        #16a34a;
+  --be-radius-sm:      8px;
+  --be-radius-md:      12px;
+  --be-radius-lg:      16px;
+  --be-shadow-sm:      0 1px 2px rgba(0,0,0,0.05);
+  --be-shadow-md:      0 4px 12px rgba(15,23,42,.08);
+  --be-shadow-lg:      0 10px 28px rgba(15,23,42,.16);
+}
+
+body.dark-mode .blog-article,
+body.dark-mode .article-actions,
+body.dark-mode .tldr-box,
+body.dark-mode .blog-sidebar {
+  --be-bg:             var(--medium, #1f1f1f);
+  --be-bg-soft:        var(--dark, #121212);
+  --be-bg-raised:      rgba(255,255,255,0.06);
+  --be-border:         rgba(255,255,255,0.10);
+  --be-text:           var(--bodyTextColorWhite, #ffffff);
+  --be-text-muted:     rgba(255,255,255,0.72);
+  --be-text-faint:     rgba(255,255,255,0.5);
+  --be-shadow-md:      0 4px 12px rgba(0,0,0,0.4);
+  --be-shadow-lg:      0 12px 32px rgba(0,0,0,0.55);
+}
+
+/* ---------------------------------------------------------------------
+   Blog post banner fallback + Print Guide button
+   The shared #banner-1106-14 expects a .cs-background <picture>. Posts
+   without an `image` frontmatter get a flat dark gradient so the white
+   headline stays readable. Same approach as the checklist banner.
+   --------------------------------------------------------------------- */
+#banner-1106-14:not(:has(.cs-background)) {
+  background: linear-gradient(135deg, #1d1b25 0%, #262421 60%, #0e3b25 100%);
+}
+body.dark-mode #banner-1106-14:not(:has(.cs-background)) {
+  background: linear-gradient(135deg, #0a0a0c 0%, #1a1a1a 60%, #003d23 100%);
+}
+
+/* On blog post pages, override the standard interior banner so the hero
+   takes up much less vertical space than other interior pages.
+   - Vertical padding is collapsed to a small clamped top + tight bottom.
+     padding-top must still clear the fixed nav (~120-150px) so the H1 isn't
+     hidden behind it on first load.
+   - Horizontal padding matches .blog-container's gutter (3vw) so the banner
+     content's left/right edges align with the post grid below.
+   The padding-top is exposed as `--blog-banner-pt` so the absolutely-
+   positioned Print Guide button can align its top edge with the H1 top. */
+body:has(.blog-with-toc) {
+  --blog-banner-pt: clamp(10rem, 10vw, 12rem);
+}
+body:has(.blog-with-toc) #banner-1106-14 {
+  padding: var(--blog-banner-pt) var(--blog-side-gutter) 3rem;
+}
+body:has(.blog-with-toc) #banner-1106-14 .cs-container {
+  width: 100%;
+  max-width: none;
+}
+
+/* Print Guide button anchored to the top-right of the blog post banner.
+   `top` matches the banner's padding-top so the button's top edge sits on
+   the same line as the H1's top. `right` matches the blog page gutter so
+   the button's right edge aligns with the featured-post sidebar's right
+   edge below. Fallback for pages where --blog-banner-pt isn't set. */
+.banner-print-btn {
+  position: absolute;
+  top: var(--blog-banner-pt, 8rem);
+  right: var(--blog-side-gutter);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Smallest-phone defaults: hide the label, tighter padding, smaller font.
+     Wider screens upgrade in the breakpoints below. */
+  padding: 0.55rem 0.7rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.banner-print-btn span { display: none; }
+.banner-print-btn:hover {
+  background: #fff;
+  color: var(--be-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
+.banner-print-btn:focus-visible {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 3px;
+}
+.banner-print-btn svg { width: 1rem; height: 1rem; flex: none; }
+@media only screen and (min-width: 30rem) {
+  .banner-print-btn { padding: 0.5rem 0.85rem; }
+  .banner-print-btn span { display: inline; }
+}
+@media only screen and (min-width: 48rem) {
+  .banner-print-btn {
+    padding: 0.625rem 1.125rem;
+    font-size: 0.9rem;
+  }
+}
+@media print {
+  .banner-print-btn { display: none !important; }
+}
+
+/* ---------------------------------------------------------------------
+   Post author + dates meta block
+   Sits at the top of the article body (below the banner). Avatar (optional)
+   + linked author name + "Updated on <date>" on one line. If `updated`
+   frontmatter is set, an italic "Originally published in <Month Year>"
+   line follows underneath.
+   --------------------------------------------------------------------- */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 1.25rem 0 2rem;
+}
+.post-meta-avatar {
+  flex: none;
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--be-border);
+  background: var(--be-bg-soft);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.post-meta-avatar:hover {
+  border-color: var(--be-primary);
+  transform: scale(1.04);
+}
+.post-meta-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.post-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: var(--be-text-muted);
+  line-height: 1.4;
+}
+.post-meta-author {
+  color: var(--be-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0, 0, 0, 0.25);
+  text-decoration-thickness: 1px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.post-meta-author--plain { text-decoration: none; }
+.post-meta-author:hover {
+  color: var(--be-primary);
+  text-decoration-color: currentColor;
+}
+.post-meta-dot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: var(--be-text-faint);
+  border-radius: 50%;
+  flex: none;
+}
+.post-meta-original {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--be-text-faint);
+}
+body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.3); }
+
+/* ---------------------------------------------------------------------
+   Article actions bar (Focus / Listen / Save / Share + reading time)
+   The share dropdown panel + focus-mode chrome stay in blog-extras.css —
+   they only show after a click, so a brief unstyled flash doesn't matter.
+   --------------------------------------------------------------------- */
+.article-actions {
+  background: var(--be-bg);
+  border-top: 1px solid var(--be-border);
+  border-bottom: 1px solid var(--be-border);
+  padding: 0.875rem 0;
+  /* No top margin — the bar sits flush against the banner above it. */
+  margin: 0 0 0.5rem;
+}
+@media only screen and (min-width: 64rem) {
+  .article-actions { margin-bottom: -3.75rem; }
+}
+.article-actions .article-actions-inner {
+  display: flex;
+  align-items: center;
+  /* Centered on the smallest phones; spread to the edges from 30rem up. */
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 94%;
+  max-width: 70rem;
+  margin: 0 auto;
+}
+@media only screen and (min-width: 30rem) {
+  .article-actions .article-actions-inner { justify-content: space-between; }
+}
+/* Stretch the actions bar to match the wider 3-column post container so the
+   share/save buttons line up with the right featured-post sidebar. */
+@media only screen and (min-width: 64rem) {
+  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 100rem; }
+}
+@media only screen and (min-width: 81.25rem) {
+  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 110rem; }
+}
+@media only screen and (min-width: 100rem) {
+  /* At 100em+ the container itself is uncapped (94% of viewport).
+     Match here so the bar tracks with it. */
+  body:has(.blog-with-toc) .article-actions .article-actions-inner {
+    max-width: none;
+    width: 94%;
+  }
+}
+.article-actions .actions-left,
+.article-actions .actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  /* Cluster centered on smallest phones; reset at 30rem to flex's default. */
+  justify-content: center;
+}
+@media only screen and (min-width: 30rem) {
+  .article-actions .actions-left,
+  .article-actions .actions-right { justify-content: flex-start; }
+}
+.article-actions .reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--be-text-muted);
+  font-weight: 500;
+}
+.article-actions .reading-time svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+.article-actions .action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-radius: 999px;
+  color: var(--be-text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.article-actions .action-btn:hover,
+.article-actions .action-btn.active {
+  background: var(--be-primary);
+  border-color: var(--be-primary);
+  color: #fff;
+}
+.article-actions .action-btn:focus-visible {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 2px;
+}
+.article-actions .action-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+/* Action button labels are hidden on phones; reveal at the tablet breakpoint. */
+.article-actions .action-label { display: none; }
+@media only screen and (min-width: 48rem) {
+  .article-actions .action-label { display: inline; }
+}
+
+/* ---------------------------------------------------------------------
+   TL;DR box
+   --------------------------------------------------------------------- */
+.tldr-box {
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-left: 4px solid var(--be-primary);
+  border-radius: var(--be-radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.tldr-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+.tldr-badge {
+  background: var(--be-navy);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.tldr-title {
+  font-weight: 600;
+  color: var(--be-text);
+  font-size: 1rem;
+}
+.tldr-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tldr-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  color: var(--be-text-muted);
+  line-height: 1.5;
+}
+.tldr-points li:last-child { margin-bottom: 0; }
+.tldr-points li svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--be-primary);
+  flex: none;
+  margin-top: 0.25rem;
+}
+.tldr-points li strong { color: var(--be-text); }
+
+/* ---------------------------------------------------------------------
+   Featured-post sidebar card
+   Used by both the blog index (/blog/) and individual posts. Lives here
+   instead of blog-extras.css because the index doesn't load that async
+   sheet, and a missing card style was letting the image overflow.
+   --------------------------------------------------------------------- */
+.blog-sidebar .featured-card {
+  display: block;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: 0.875rem;
+  overflow: hidden;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.blog-sidebar .featured-card:last-child { margin-bottom: 0; }
+.blog-sidebar .featured-card:hover {
+  border-color: var(--be-primary);
+  box-shadow: var(--be-shadow-md);
+  transform: translateY(-2px);
+}
+.blog-sidebar .featured-card-image {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: var(--be-bg-soft);
+  margin: 0;
+  overflow: hidden;
+}
+.blog-sidebar .featured-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.blog-sidebar .featured-card:hover .featured-card-image img {
+  transform: scale(1.04);
+}
+.blog-sidebar .featured-card-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+.blog-sidebar .featured-card-topper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--be-text-muted);
+  margin-bottom: 0.5rem;
+}
+.blog-sidebar .featured-card-dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--be-accent);
+  border-radius: 50%;
+}
+.blog-sidebar .featured-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--be-text);
+  margin: 0 0 0.5rem;
+}
+.blog-sidebar .featured-card:hover .featured-card-title {
+  color: var(--be-primary);
+}
+.blog-sidebar .featured-card-date {
+  font-size: 0.85rem;
+  color: var(--be-text-muted);
+}
+body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
+
+/* ---------------------------------------------------------------------
+   Article-content tables (Markdown GFM tables)
+   Without these, Eleventy still renders <table> from `| x | y |` rows
+   but the browser default has no borders/padding so the columns look
+   like a plain wrapped paragraph.
+   --------------------------------------------------------------------- */
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0 2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-sm);
+  overflow: hidden;
+}
+.article-content table th,
+.article-content table td {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--be-border);
+}
+.article-content table th {
+  background: var(--be-bg-soft);
+  font-weight: 700;
+  color: var(--be-text);
+}
+.article-content table tr:last-child td {
+  border-bottom: none;
+}
+.article-content table tr:nth-child(even) td {
+  background: var(--be-bg-soft);
+}
+@media only screen and (max-width: 47.99rem) {
+  /* On phones, allow horizontal scroll inside the table cell rather than
+     forcing wrap. The table itself becomes a horizontally scrollable block. */
+  .article-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

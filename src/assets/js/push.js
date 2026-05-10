@@ -63,7 +63,10 @@ export async function initPush() {
         const subscription = await swRegistration.pushManager.getSubscription();
         isSubscribed = !!subscription;
 
-        await fetchVapidKey();
+        // VAPID key is fetched on demand from subscribeToPush() — no need to
+        // pull it eagerly here. Skipping this fetch removes a critical-path
+        // network chain (HTML → push.js → /api/push/vapid-public-key) that
+        // Lighthouse flagged on blog post LCP.
         clearBadge();
 
         navigator.serviceWorker.addEventListener('message', handleSWMessage);

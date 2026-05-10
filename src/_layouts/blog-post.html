@@ -68,7 +68,7 @@ eleventyComputed:
   </button>
   {% if image %}
   <picture class="cs-background">
-    <img alt="{{ imageAlt | default('') }}" src="{{ image }}" decoding="async" width="1920" height="474" aria-hidden="true" loading="eager">
+    <img alt="{{ imageAlt | default('') }}" src="{{ image }}" decoding="async" width="1920" height="474" aria-hidden="true" fetchpriority="high" loading="eager">
   </picture>
   {% endif %}
 </div>
@@ -76,21 +76,20 @@ eleventyComputed:
 <!-- Article actions bar (Focus / Listen / Save / Share + reading time) -->
 {% include 'article-actions.html' %}
 
-<!-- Mobile TOC chip rail -->
-<nav class="toc-mobile" aria-label="Table of contents"></nav>
-
-<!-- Main blog content with desktop TOC sidebar -->
+<!-- Main blog content with TOC sidebar (nested h2 + h3, full-width on mobile, sticky on desktop) -->
 <div class="blog-container main-content-wrapper blog-with-toc">
   <aside class="toc-sidebar" aria-label="Table of contents">
-    <h3>On This Page</h3>
-    <ul class="toc-list"></ul>
+    <div class="cs-featured-group">
+      <span class="cs-sidebar-header">On This Page</span>
+      <nav class="toc"></nav>
+    </div>
   </aside>
 
   <div class="main-content">
     <article class="blog-article">
       {% if image %}
       <picture class="blog-mainImage">
-        <img src="{{ image }}" alt="{{ imageAlt }}" width="795" height="400" decoding="async" />
+        <img src="{{ image }}" alt="{{ imageAlt }}" width="795" height="400" decoding="async" loading="lazy" />
       </picture>
       {% endif %}
 
@@ -124,16 +123,16 @@ eleventyComputed:
       </div>
 
       {% if tldr %}
-      <aside class="tldr-box" aria-label="TL;DR — what you need to know">
+      <aside class="tldr-box" aria-label="{{ 'blog.tldr_aria' | t(locale) }}">
         <div class="tldr-header">
           <span class="tldr-badge">TL;DR</span>
-          <span class="tldr-title">{{ tldrTitle | default('What you need to know') }}</span>
+          <span class="tldr-title">{{ tldrTitle | default('blog.tldr_default_title' | t(locale)) }}</span>
         </div>
         <ul class="tldr-points">
           {% for point in tldr %}
           <li>
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
-            <span>{{ point | safe }}</span>
+            <span>{{ point | mdInline | safe }}</span>
           </li>
           {% endfor %}
         </ul>
@@ -146,10 +145,10 @@ eleventyComputed:
       </section>
 
       {% if faq and faq.length > 0 %}
-      <section class="faq-section" data-toc-section aria-label="Frequently asked questions">
+      <section class="faq-section" data-toc-section aria-label="{{ 'blog.faq_heading' | t(locale) }}">
         <header class="faq-section-header">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <h2>Frequently asked questions</h2>
+          <h2>{{ 'blog.faq_heading' | t(locale) }}</h2>
         </header>
         <div class="faq-section-body">
           <div class="faq-accordion">
@@ -185,10 +184,10 @@ eleventyComputed:
       {% endif %}
 
       {% if related and related.length > 0 %}
-      <section class="related-guides" data-toc-section aria-label="Related guides">
+      <section class="related-guides" data-toc-section aria-label="{{ 'blog.related_heading' | t(locale) }}">
         <header class="related-guides-header">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
-          <h2>Related guides</h2>
+          <h2>{{ 'blog.related_heading' | t(locale) }}</h2>
         </header>
         <div class="related-guides-body">
           {% for link in related %}
@@ -208,12 +207,14 @@ eleventyComputed:
 </div>
 
 <!-- Blog reading-experience scripts. All deferred. listen.js loads on demand.
-     article-actions.js + toc.js already load globally from base.html, so do
-     NOT re-add them here — duplicate IIFEs would register click listeners
-     twice and toggles would cancel themselves out. -->
+     toc.js + article-actions.js are scoped to blog posts (and to service pages
+     via the `serviceToc` frontmatter flag in base.html); both files have IIFE
+     guards but only one tag is emitted per page so listeners don't double-bind. -->
 <link rel="preload" as="style" href="/css/blog-extras.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="/css/blog-extras.css?v={{ build.hash }}"></noscript>
 
+<script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/article-actions.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/tooltips.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/print-extras.js?v={{ build.hash }}"></script>

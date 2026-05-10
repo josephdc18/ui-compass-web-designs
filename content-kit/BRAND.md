@@ -108,8 +108,10 @@ Available templates:
 - `reasons-list.html`: stacked editorial cards on white paper, giant italic Playfair watermark numerals (240px) bleeding off the right edge, hairline emerald top accent. **Use for independent items** — "X reasons", "Y mistakes", "Z things to check" where order doesn't matter.
 - `stat-hero.html`: pull-quote layout — massive italic Playfair stat (~280px) on the left, italic Playfair caption on the right, hairline rule, 3 supporting bullets, source line. **Use when one number tells the whole story** — audit averages, bounce-rate stats, ROI claims.
 - `scorecard.html`: 2×2 grid of SVG progress-ring score circles, italic Playfair numerals in centers, all-caps tracked labels. Drop a score class (`.s-100`, `.s-98`, etc.) and the arc fills proportionally. **Use for proof posts** — PageSpeed scores, Lighthouse audits, accessibility receipts.
+- `comparison.html`: head-to-head versus layout. Massive italic Playfair "vs" mark anchors the center while two columns of stats sit on either side — losing side muted, winning side larger and emerald to signal the winner at a glance. **Use for versus posts** — WordPress vs hand-coded, page builder vs custom, hosting vs maintenance, DIY vs pro, mobile-first vs desktop-first.
+- `anatomy.html`: annotated diagram. Stylized phone mockup centered with hotspot dots on the screen, four curved SVG connector lines arcing out to corner callouts (giant italic Playfair numeral + label + 1-line description). Soft emerald spotlight glow behind the device. **Use for anatomy posts** — "anatomy of X", "the parts of Y", "X things every Z needs in plain sight", "5 things that silently break on…".
 
-When a topic doesn't fit any of the four cleanly, ask the question "what is the post arguing?" — sequence (steps), enumeration (reasons), magnitude (stat), or evidence (scorecard) — and pick the template that matches. If nothing fits, that's a sign to add a new template, not to bend an existing one.
+When a topic doesn't fit any of the six cleanly, ask the question "what is the post arguing?" — sequence (steps), enumeration (reasons), magnitude (stat), evidence (scorecard), contrast (comparison), or composition (anatomy) — and pick the template that matches. If nothing fits, that's a sign to add a new template, not to bend an existing one.
 
 ## Hashtags
 

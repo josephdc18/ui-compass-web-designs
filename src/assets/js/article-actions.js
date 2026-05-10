@@ -73,7 +73,7 @@
   }
 
   function showCopyToast(message) {
-    var toast = document.querySelector('.copy-toast:not(.toc-resume-toast)');
+    var toast = document.querySelector('.copy-toast');
     if (!toast) {
       toast = document.createElement('div');
       toast.className = 'copy-toast';

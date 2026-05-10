@@ -54,7 +54,7 @@
   <style>{{ "/css/root.css" | cssInline | safe }}</style>
 
   {% if preloadImg %}
-  <link rel="preload" as="image" href="{{ preloadImg }}" />
+  <link rel="preload" as="image" href="{{ preloadImg }}" fetchpriority="high" />
   {% endif %}
 
   <!-- Loading in page specific CSS sheets from css block -->
@@ -194,8 +194,10 @@
   </script>
 
   <script type="module" src="/assets/js/push.js?v={{ build.hash }}"></script>
+  {% if serviceToc %}
+  <!-- toc.js for service pages with #service-sidebar; blog posts include it via blog-post.html. -->
   <script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
-  <script defer src="/assets/js/article-actions.js?v={{ build.hash }}"></script>
+  {% endif %}
   {% if shop %}
   <script defer src="/assets/js/shop.js?v={{ build.hash }}"></script>
   <script defer src="/assets/js/checkout.js?v={{ build.hash }}"></script>

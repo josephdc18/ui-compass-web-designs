@@ -74,5 +74,11 @@
     "language": "Language",
     "current_language": "Current language",
     "go_to_top": "Go to top"
+  },
+  "blog": {
+    "tldr_default_title": "What you need to know",
+    "tldr_aria": "TL;DR — what you need to know",
+    "faq_heading": "Frequently asked questions",
+    "related_heading": "Related guides"
   }
 }

@@ -7,6 +7,12 @@ author: UI Compass
 date: 2026-05-09T12:00:00.000Z
 tags:
   - post
+  - seo
+category: "SEO"
+readMins: 14
+topper: "SEO"
+image: /assets/images/2990879accb1.jpg
+imageAlt: A bilingual web designer reviewing English and Spanish layouts side by side
 tldrTitle: What you need to know
 tldr:
   - 'A mature bilingual site isn''t a translated one — it''s **localized**, **operationalized**, and **measured** separately per language.'

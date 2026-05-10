@@ -7,6 +7,11 @@ author: UI Compass
 date: 2026-05-09T12:00:00.000Z
 tags:
   - post
+  - featured
+  - strategy
+category: "Strategy"
+readMins: 9
+topper: "Strategy"
 image: /assets/images/2990879accb1.jpg
 imageAlt: A small business owner reviewing a website design proposal at a desk
 ---

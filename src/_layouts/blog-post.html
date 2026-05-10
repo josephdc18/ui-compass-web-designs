@@ -76,6 +76,10 @@ eleventyComputed:
 <!-- Article actions bar (Focus / Listen / Save / Share + reading time) -->
 {% include 'article-actions.html' %}
 
+<!-- Mobile-only TOC chip rail (h2s only). Hidden on >=64em, where the
+     sticky sidebar TOC takes over. Populated by toc.js. -->
+<nav class="toc-mobile" aria-label="Table of contents (mobile)"></nav>
+
 <!-- Main blog content with TOC sidebar (nested h2 + h3, full-width on mobile, sticky on desktop) -->
 <div class="blog-container main-content-wrapper blog-with-toc">
   <aside class="toc-sidebar" aria-label="Table of contents">
@@ -181,23 +185,6 @@ eleventyComputed:
         ]
       }
       </script>
-      {% endif %}
-
-      {% if related and related.length > 0 %}
-      <section class="related-guides" data-toc-section aria-label="{{ 'blog.related_heading' | t(locale) }}">
-        <header class="related-guides-header">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
-          <h2>{{ 'blog.related_heading' | t(locale) }}</h2>
-        </header>
-        <div class="related-guides-body">
-          {% for link in related %}
-          <a href="{{ link.url }}" class="related-link">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>{{ link.title }}</span>
-          </a>
-          {% endfor %}
-        </div>
-      </section>
       {% endif %}
 
     </article>

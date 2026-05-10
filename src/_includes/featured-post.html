@@ -21,4 +21,43 @@
     </a>
     {%- endfor -%}
   </div>
+
+  {#-
+    Related Posts panel — only renders when the current post sets `related:`
+    in frontmatter. Each `related` entry is `{ url, title }`. We look the url
+    up in collections.post so we can pull image / topper / date from the
+    actual post for the rich card. If a related URL doesn't match a real
+    post (e.g. external link or unpublished draft), we fall back to a minimal
+    card with just the manual title.
+  -#}
+  {%- if related and related.length > 0 -%}
+  <div class="blog-featured-group">
+    <span class="blog-header">Related Posts</span>
+    {%- for link in related -%}
+      {%- set match = null -%}
+      {%- for post in collections.post -%}
+        {%- if post.url == link.url -%}{%- set match = post -%}{%- endif -%}
+      {%- endfor -%}
+      <a class="featured-card" href="{{ link.url }}">
+        {% if match and match.data.image %}
+        <picture class="featured-card-image">
+          <img src="{{ match.data.image }}" alt="{{ match.data.imageAlt | default(match.data.blogTitle) }}" width="600" height="360" decoding="async" loading="lazy" />
+        </picture>
+        {% endif %}
+        <div class="featured-card-body">
+          {% if match and match.data.topper %}
+          <span class="featured-card-topper">
+            <span class="featured-card-dot" aria-hidden="true"></span>
+            {{ match.data.topper }}
+          </span>
+          {% endif %}
+          <h3 class="featured-card-title">{{ link.title | default(match.data.blogTitle) }}</h3>
+          {% if match %}
+          <span class="featured-card-date">{{ match.date | postDate }}</span>
+          {% endif %}
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
 </div>

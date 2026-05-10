@@ -55,6 +55,12 @@ crons = ["*/5 * * * *"]
 #   NOTIFICATION_EMAIL    - Where to send form notifications
 #   CF_ZONE_ID            - Cloudflare zone ID (for cache-purge job)
 #   CF_API_TOKEN          - Cloudflare API token (for cache-purge job)
+#
+# content-kit-weekly job (Sundays 12:00 UTC = 06:00 Central):
+#   ANTHROPIC_API_KEY        - Anthropic API key for copy generation (Sonnet 4.6)
+#   BROWSERLESS_API_KEY      - Browserless.io token for 1080×1350 screenshots
+#   CONTENT_KIT_RECIPIENT    - (optional, env var) email recipient. Default josephclutts@gmail.com
+#   ANTHROPIC_MODEL          - (optional, env var) override model. Default claude-sonnet-4-6
 
 # =============================================================================
 # E-Commerce (Shop)

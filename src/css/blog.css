@@ -492,22 +492,60 @@
 <---    all CSS-transitioned so movement between sections feels fluid.
 <--- -------------------------- -*/
 @media only screen and (min-width: 0rem) {
-  /* On mobile the TOC sits before the article body, full width. The
-     .blog-with-toc grid collapses to a single column there (no grid set
-     until 64em+). */
+  /* On mobile, the .toc-sidebar (nested-OL) is hidden; the .toc-mobile chip
+     rail above the article body handles navigation instead. The grid
+     collapses to a single column at this size. */
   .blog-with-toc {
     display: flex;
     flex-direction: column;
     gap: 0;
   }
   .toc-sidebar {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 50rem;
-    margin: 0 auto 1.5rem;
-    order: -1;
+    display: none;
   }
-  .toc-sidebar:empty { display: none; }
+
+  /* ---- Mobile chip rail ---- */
+  /* Sticky horizontal scroller of h2 chips. Sits between the article-actions
+     bar and the article body. Sticky `top` matches the fixed nav height so
+     it parks just below the nav on scroll. */
+  .toc-mobile {
+    display: flex;
+    position: sticky;
+    top: 60px;
+    z-index: 100;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    border-bottom: 1px solid #ebebeb;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    transition: padding-top 0.18s ease;
+  }
+  /* `is-stuck` is toggled in toc.js via a 1px sentinel + IntersectionObserver.
+     Adds a hair of breathing room when the rail is parked under the nav. */
+  .toc-mobile.is-stuck {
+    padding-top: 1.25rem;
+  }
+  .toc-mobile::-webkit-scrollbar { display: none; }
+  .toc-mobile:empty { display: none; }
+  .toc-chip {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #f3f4f6;
+    color: var(--bodyTextColor, #737373);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    border-radius: 20px;
+    transition: background 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .toc-chip:hover,
+  .toc-chip.active {
+    background: var(--primary, #006940);
+    color: var(--bodyTextColorWhite, #fff);
+  }
 
   .toc-sidebar .cs-featured-group {
     box-sizing: border-box;
@@ -582,9 +620,16 @@
     padding-left: 0.5rem;
   }
 }
+@media only screen and (min-width: 48rem) {
+  /* Tablet: the fixed nav grows slightly taller; nudge the sticky chip rail. */
+  .toc-mobile { top: 70px; }
+}
 @media only screen and (min-width: 64rem) {
-  /* Desktop: become a sticky sidebar in the left column of the 3-col grid. */
+  /* Desktop: hide the chip rail, show the sticky nested-OL sidebar in the
+     left column of the 3-col grid. */
+  .toc-mobile { display: none; }
   .toc-sidebar {
+    display: block;
     flex: none;
     align-self: flex-start;
     position: sticky;
@@ -699,6 +744,20 @@
     border-left-color: var(--primaryLight, #00bd74);
     color: var(--primaryLight, #00bd74);
     opacity: 1;
+  }
+  /* Mobile chip rail */
+  body.dark-mode .toc-mobile {
+    background: var(--dark, #0d1411);
+    border-bottom-color: rgba(255, 255, 255, 0.10);
+  }
+  body.dark-mode .toc-chip {
+    background: var(--medium, #1a221d);
+    color: rgba(255, 255, 255, 0.78);
+  }
+  body.dark-mode .toc-chip:hover,
+  body.dark-mode .toc-chip.active {
+    background: var(--primaryLight, #00bd74);
+    color: var(--dark, #0d1411);
   }
 }
 /*-- -------------------------- -->
@@ -1331,5 +1390,624 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ==============================================================
+   Blog index — featured + clusters + pullquote + archive
+   (Old .recent-articles / .blog-sidebar / .featured-card styles
+   above are still used by single-post sidebar + admin preview, so
+   they stay. These rules only style the rebuilt /blog/ index.)
+   ============================================================== */
+@media only screen and (min-width: 0rem) {
+  #insight-featured,
+  .insight-cluster,
+  .insight-pullquote-wrap,
+  #insight-archive {
+    padding: clamp(2.5rem, 6vw, 5rem) 1rem;
+  }
+  #insight-featured .cs-container,
+  .insight-cluster .cs-container,
+  .insight-pullquote-wrap .cs-container,
+  #insight-archive .cs-container {
+    margin: 0 auto;
+    max-width: 80rem;
+    width: 100%;
+  }
+
+  /* Featured hero card */
+  #insight-featured {
+    background-color: #f7f7f7;
+  }
+  #insight-featured .cs-card {
+    background-color: var(--bodyTextColorWhite);
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #insight-featured .cs-media {
+    aspect-ratio: 16 / 9;
+    background-color: #e5e7eb;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+  }
+  #insight-featured .cs-image {
+    height: 100%;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  #insight-featured .cs-card:hover .cs-image {
+    transform: scale(1.04);
+  }
+  #insight-featured .cs-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  #insight-featured .cs-topper {
+    color: var(--primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  #insight-featured .cs-title {
+    font-size: clamp(1.625rem, 3.5vw, 2.5rem);
+    line-height: 1.2;
+    margin: 0;
+  }
+  #insight-featured .cs-title em {
+    color: var(--primary);
+    font-style: normal;
+  }
+  #insight-featured .cs-title-link {
+    color: var(--headerColor);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  #insight-featured .cs-title-link:hover {
+    color: var(--primary);
+  }
+  #insight-featured .cs-lead {
+    color: var(--bodyTextColor);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  #insight-featured .cs-meta {
+    color: var(--bodyTextColor);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    gap: 0 0.6rem;
+    margin: 0;
+    opacity: 0.85;
+  }
+  #insight-featured .cs-meta-read::before,
+  #insight-featured .cs-meta-category::before {
+    content: "·";
+    margin-right: 0.6rem;
+    opacity: 0.6;
+  }
+  #insight-featured .cs-cta {
+    align-items: center;
+    align-self: flex-start;
+    color: var(--primary);
+    display: inline-flex;
+    font-weight: 700;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  #insight-featured .cs-cta:hover {
+    color: var(--primaryLight);
+  }
+  #insight-featured .cs-cta-arrow {
+    height: 1rem;
+    transition: transform 0.3s;
+    width: 1rem;
+  }
+  #insight-featured .cs-cta:hover .cs-cta-arrow {
+    transform: translateX(0.25rem);
+  }
+
+  /* Clusters */
+  .insight-cluster--default {
+    background-color: var(--bodyTextColorWhite);
+  }
+  .insight-cluster--off-white {
+    background-color: #f7f7f7;
+  }
+  .insight-cluster .cs-header {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .insight-cluster .cs-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .insight-cluster .cs-topper {
+    color: var(--primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .insight-cluster .cs-title {
+    color: var(--headerColor);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.2;
+    margin: 0;
+    max-width: 26ch;
+  }
+  .insight-cluster .cs-title em {
+    color: var(--primary);
+    font-style: normal;
+  }
+  .insight-cluster .cs-view-all {
+    align-items: center;
+    color: var(--headerColor);
+    display: inline-flex;
+    font-weight: 700;
+    gap: 0.4rem;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .insight-cluster .cs-view-all:hover {
+    color: var(--primary);
+  }
+  .insight-cluster .cs-view-all-arrow {
+    height: 1rem;
+    transition: transform 0.3s;
+    width: 1rem;
+  }
+  .insight-cluster .cs-view-all:hover .cs-view-all-arrow {
+    transform: translateX(0.25rem);
+  }
+  .insight-cluster .cs-card-group {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .insight-cluster .cs-item {
+    background-color: var(--bodyTextColorWhite);
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    list-style: none;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .insight-cluster .cs-item:hover {
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+    transform: translateY(-3px);
+  }
+  .insight-cluster .cs-link {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+  }
+  .insight-cluster .cs-media {
+    aspect-ratio: 16 / 9;
+    background-color: #e5e7eb;
+    overflow: hidden;
+    position: relative;
+  }
+  .insight-cluster .cs-date {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+    color: var(--headerColor);
+    font-size: 0.75rem;
+    font-weight: 700;
+    left: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    position: absolute;
+    top: 0.75rem;
+    z-index: 2;
+  }
+  .insight-cluster .cs-image {
+    height: 100%;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    transition: transform 0.6s ease;
+    width: 100%;
+  }
+  .insight-cluster .cs-link:hover .cs-image {
+    transform: scale(1.06);
+  }
+  .insight-cluster .cs-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+  .insight-cluster .cs-category {
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .insight-cluster .cs-h3 {
+    color: var(--headerColor);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+    transition: color 0.3s;
+  }
+  .insight-cluster .cs-link:hover .cs-h3 {
+    color: var(--primary);
+  }
+  .insight-cluster .cs-card-link {
+    color: inherit;
+  }
+  .insight-cluster .cs-text {
+    color: var(--bodyTextColor);
+    display: -webkit-box;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .insight-cluster .cs-footer {
+    align-items: center;
+    color: var(--bodyTextColor);
+    display: flex;
+    font-size: 0.75rem;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+  .insight-cluster .cs-meta {
+    letter-spacing: 0.08em;
+    opacity: 0.75;
+  }
+  .insight-cluster .cs-read-more {
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .insight-cluster .cs-read-more-arrow {
+    display: inline-block;
+    margin-left: 0.15rem;
+    transition: transform 0.3s;
+  }
+  .insight-cluster .cs-link:hover .cs-read-more-arrow {
+    transform: translate(0.15rem, -0.15rem);
+  }
+
+  /* Pullquote interlude */
+  .insight-pullquote-wrap {
+    background-color: var(--bodyTextColorWhite);
+  }
+  .insight-pullquote {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+    max-width: 50rem;
+  }
+  .insight-pullquote .cs-rule {
+    background-color: var(--primary);
+    height: 2px;
+    width: 3rem;
+  }
+  .insight-pullquote .cs-quote {
+    margin: 0;
+    padding: 0;
+  }
+  .insight-pullquote .cs-quote-text {
+    color: var(--headerColor);
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0 0 1rem;
+  }
+  .insight-pullquote .cs-attribution {
+    color: var(--bodyTextColor);
+    font-size: 0.875rem;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Archive */
+  #insight-archive {
+    background-color: #f7f7f7;
+  }
+  #insight-archive .cs-header {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  #insight-archive .cs-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  #insight-archive .cs-topper {
+    color: var(--primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  #insight-archive .cs-title {
+    color: var(--headerColor);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.2;
+    margin: 0;
+  }
+  #insight-archive .cs-tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  #insight-archive .cs-tab {
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    color: var(--bodyTextColor);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+  #insight-archive .cs-tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  #insight-archive .cs-tab[aria-current="true"] {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--bodyTextColorWhite);
+  }
+  #insight-archive .cs-grid {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #insight-archive .cs-row {
+    border-bottom: 1px solid #e5e7eb;
+    list-style: none;
+  }
+  #insight-archive .cs-row:first-child {
+    border-top: 1px solid #e5e7eb;
+  }
+  #insight-archive .cs-row[hidden] {
+    display: none;
+  }
+  #insight-archive .cs-row-link {
+    align-items: center;
+    color: var(--headerColor);
+    display: grid;
+    gap: 0.75rem 1rem;
+    grid-template-columns: 1fr auto;
+    padding: 1rem 0.5rem;
+    text-decoration: none;
+    transition: padding 0.3s, background-color 0.3s;
+  }
+  #insight-archive .cs-row-link:hover {
+    background-color: rgba(0, 105, 64, 0.04);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  #insight-archive .cs-date {
+    color: var(--bodyTextColor);
+    font-size: 0.8125rem;
+    grid-row: 2;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+  }
+  #insight-archive .cs-title-wrap {
+    align-items: baseline;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    grid-row: 1;
+  }
+  #insight-archive .cs-row-title {
+    color: var(--headerColor);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    transition: color 0.3s;
+  }
+  #insight-archive .cs-row-link:hover .cs-row-title {
+    color: var(--primary);
+  }
+  #insight-archive .cs-category {
+    color: var(--bodyTextColor);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+    text-transform: uppercase;
+  }
+  #insight-archive .cs-arrow {
+    color: var(--primary);
+    font-size: 1.25rem;
+    grid-row: 1 / span 2;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  #insight-archive .cs-row-link:hover .cs-arrow {
+    opacity: 1;
+    transform: translateX(0.25rem);
+  }
+  #insight-archive .cs-empty {
+    color: var(--bodyTextColor);
+    margin: 2rem 0 0;
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 48rem) {
+  #insight-featured .cs-card {
+    flex-direction: row;
+  }
+  #insight-featured .cs-media {
+    aspect-ratio: auto;
+    flex: 1 1 50%;
+    min-height: 22rem;
+  }
+  #insight-featured .cs-body {
+    flex: 1 1 50%;
+    justify-content: center;
+  }
+
+  .insight-cluster .cs-header {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .insight-cluster .cs-card-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .insight-pullquote {
+    align-items: flex-start;
+    grid-template-columns: 3rem 1fr;
+    gap: 2rem;
+  }
+  .insight-pullquote .cs-rule {
+    margin-top: 0.85em;
+  }
+
+  #insight-archive .cs-header {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #insight-archive .cs-row-link {
+    gap: 1.5rem;
+    grid-template-columns: 9rem 1fr auto;
+  }
+  #insight-archive .cs-date {
+    grid-row: 1;
+  }
+  #insight-archive .cs-title-wrap {
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+  #insight-archive .cs-arrow {
+    grid-row: 1;
+  }
+}
+
+@media only screen and (min-width: 64rem) {
+  .insight-cluster .cs-card-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Dark mode */
+@media only screen and (min-width: 0rem) {
+  body.dark-mode #insight-featured,
+  body.dark-mode .insight-cluster--off-white,
+  body.dark-mode #insight-archive {
+    background-color: var(--medium);
+  }
+  body.dark-mode .insight-cluster--default,
+  body.dark-mode .insight-pullquote-wrap {
+    background-color: var(--dark);
+  }
+  body.dark-mode #insight-featured .cs-card,
+  body.dark-mode .insight-cluster .cs-item {
+    background-color: var(--accent);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  body.dark-mode #insight-featured .cs-title-link,
+  body.dark-mode .insight-cluster .cs-h3,
+  body.dark-mode .insight-pullquote .cs-quote-text,
+  body.dark-mode #insight-archive .cs-title,
+  body.dark-mode #insight-archive .cs-row-title {
+    color: var(--bodyTextColorWhite);
+  }
+  body.dark-mode #insight-featured .cs-lead,
+  body.dark-mode .insight-cluster .cs-text,
+  body.dark-mode .insight-pullquote .cs-attribution,
+  body.dark-mode #insight-featured .cs-meta,
+  body.dark-mode #insight-archive .cs-tab,
+  body.dark-mode #insight-archive .cs-date,
+  body.dark-mode #insight-archive .cs-category {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  body.dark-mode #insight-featured .cs-topper,
+  body.dark-mode .insight-cluster .cs-topper,
+  body.dark-mode .insight-cluster .cs-category,
+  body.dark-mode #insight-archive .cs-topper,
+  body.dark-mode #insight-featured .cs-title em,
+  body.dark-mode .insight-cluster .cs-title em,
+  body.dark-mode #insight-featured .cs-cta,
+  body.dark-mode .insight-cluster .cs-view-all,
+  body.dark-mode .insight-cluster .cs-link:hover .cs-h3,
+  body.dark-mode .insight-cluster .cs-read-more,
+  body.dark-mode #insight-archive .cs-row-link:hover .cs-row-title,
+  body.dark-mode #insight-archive .cs-arrow {
+    color: var(--primaryLight);
+  }
+  body.dark-mode #insight-featured .cs-cta:hover,
+  body.dark-mode .insight-cluster .cs-view-all:hover,
+  body.dark-mode #insight-featured .cs-title-link:hover {
+    color: var(--primary);
+  }
+  body.dark-mode .insight-pullquote .cs-rule {
+    background-color: var(--primaryLight);
+  }
+  body.dark-mode #insight-archive .cs-row,
+  body.dark-mode #insight-archive .cs-row:first-child {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  body.dark-mode #insight-archive .cs-tab {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+  body.dark-mode #insight-archive .cs-tab:hover {
+    border-color: var(--primaryLight);
+    color: var(--primaryLight);
+  }
+  body.dark-mode #insight-archive .cs-tab[aria-current="true"] {
+    background-color: var(--primaryLight);
+    border-color: var(--primaryLight);
+    color: var(--dark);
+  }
+  body.dark-mode #insight-archive .cs-row-link:hover {
+    background-color: rgba(0, 189, 116, 0.08);
+  }
+  body.dark-mode .insight-cluster .cs-date {
+    background-color: rgba(13, 20, 17, 0.85);
+    color: var(--bodyTextColorWhite);
   }
 }

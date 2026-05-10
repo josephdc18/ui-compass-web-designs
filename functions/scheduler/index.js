@@ -25,11 +25,13 @@ import { processJobQueue, cleanupOldJobs, getQueueStats } from './lib/job-queue.
 import { SitemapRefresh } from './jobs/sitemap-refresh.js';
 import { CachePurge } from './jobs/cache-purge.js';
 import { DataCleanup } from './jobs/data-cleanup.js';
+import { ContentKitWeekly } from './jobs/content-kit-weekly.js';
 
 const JOB_HANDLERS = {
     'sitemap-refresh': SitemapRefresh,
     'cache-purge': CachePurge,
     'data-cleanup': DataCleanup,
+    'content-kit-weekly': ContentKitWeekly,
 };
 
 const DEFAULT_JOBS = [
@@ -53,6 +55,15 @@ const DEFAULT_JOBS = [
         description: 'Clean up old job runs, logs, and temporary data',
         cron_expression: '0 3 * * 0',
         enabled: true,
+    },
+    {
+        id: 'content-kit-weekly',
+        name: 'Content Kit Weekly',
+        description: 'Generate 7 social-media post packages and email zip to josephclutts@gmail.com',
+        // Sundays 06:00 Central = 12:00 UTC
+        cron_expression: '0 12 * * 0',
+        // Start disabled — flip on after a successful manual test run
+        enabled: false,
     },
 ];
 

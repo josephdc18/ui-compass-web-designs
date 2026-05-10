@@ -18,7 +18,6 @@
 .tts-mini-player,
 .print-header,
 .print-footer,
-.related-guides,
 .go-top-progress,
 .focus-exit-btn,
 body.focus-mode {
@@ -51,7 +50,6 @@ body.dark-mode .tldr-box,
 body.dark-mode .faq-accordion,
 body.dark-mode .copy-toast,
 body.dark-mode .tts-mini-player,
-body.dark-mode .related-guides,
 body.dark-mode .focus-exit-btn,
 body.dark-mode.focus-mode {
   --be-bg:             var(--medium, #1f1f1f);
@@ -136,6 +134,7 @@ body.dark-mode.focus-mode {
 body.focus-mode #cs-navigation,
 body.focus-mode #banner-1106-14,
 body.focus-mode .toc-sidebar,
+body.focus-mode .toc-mobile,
 body.focus-mode .article-actions,
 body.focus-mode #cs-footer-309,
 body.focus-mode #contact-1392,
@@ -352,10 +351,11 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   align-items: center;
   gap: 0.5rem;
   padding: 0.55rem 0.75rem;
-  background: var(--be-bg);
-  border: 1px solid var(--be-border);
+  background: var(--be-primary);
+  border: 1px solid var(--be-primary);
   border-radius: 999px;
   box-shadow: var(--be-shadow-lg);
+  color: #fff;
   z-index: 1500;
   opacity: 0;
   transition: transform 0.25s, opacity 0.25s;
@@ -372,20 +372,20 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   height: 2.25rem;
   border-radius: 50%;
   background: transparent;
-  border: 1px solid var(--be-border);
-  color: var(--be-text);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 .tts-mini-btn:hover {
-  background: var(--be-primary);
-  color: #fff;
-  border-color: var(--be-primary);
+  background: #fff;
+  color: var(--be-primary);
+  border-color: #fff;
 }
 .tts-mini-btn svg { width: 0.95rem; height: 0.95rem; }
 .tts-mini-status {
   font-size: 0.85rem;
-  color: var(--be-text-muted);
+  color: #fff;
   padding: 0 0.5rem;
   white-space: nowrap;
 }
@@ -496,66 +496,9 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
 }
 .saved-card .saved-remove:hover { color: #dc2626; }
 
-/* ---------------------------------------------------------------------
-   10. RELATED GUIDES BLOCK (manual or auto)
-   --------------------------------------------------------------------- */
-.related-guides {
-  background: var(--be-bg);
-  border: 1px solid var(--be-border);
-  border-radius: var(--be-radius-lg);
-  box-shadow: var(--be-shadow-md);
-  overflow: hidden;
-  margin: 2rem 0;
-}
-.related-guides-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--be-border);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.related-guides-header svg { width: 1rem; height: 1rem; color: var(--be-accent); }
-.related-guides-header h2 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--be-text);
-}
-.related-guides-body {
-  padding: 1.25rem 1.5rem 1.5rem;
-  display: grid;
-  gap: 0.65rem;
-  grid-template-columns: 1fr;
-}
-@media only screen and (min-width: 48rem) {
-  .related-guides-body { grid-template-columns: repeat(2, 1fr); }
-}
-.related-link {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.75rem;
-  background: var(--be-bg-soft);
-  border: 1px solid var(--be-border);
-  border-radius: var(--be-radius-sm);
-  color: var(--be-text);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-.related-link:hover {
-  background: var(--be-bg);
-  border-color: var(--be-primary);
-  color: var(--be-primary);
-}
-.related-link svg {
-  width: 0.95rem;
-  height: 0.95rem;
-  flex: none;
-  color: var(--be-text-muted);
-}
-.related-link:hover svg { color: var(--be-primary); }
+/* (Removed: standalone .related-guides bottom-of-article block.
+   Related posts now render as a second .blog-featured-group in the sidebar
+   via featured-post.html, reusing the .featured-card styling above.) */
 
 /* ---------------------------------------------------------------------
    11. PRINT EXTRAS (header + QR footer)
@@ -575,6 +518,7 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   #contact-1392,
   .article-actions,
   .toc-sidebar,
+  .toc-mobile,
   .pb-go-top-progress,
   .focus-exit-btn,
   .audit-fab,
@@ -589,8 +533,7 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   #banner-1106-14 .cs-background,  /* Decorative hero photo behind the title */
   #banner-1106-14 .cs-breadcrumbs, /* Redundant with print-header URL */
   .blog-mainImage,                 /* Decorative hero image inside the article */
-  .post-meta-avatar,               /* Photos waste ink at print res */
-  .related-guides {                /* Internal navigation; QR + URL handle this */
+  .post-meta-avatar {              /* Photos waste ink at print res */
     display: none !important;
   }
 

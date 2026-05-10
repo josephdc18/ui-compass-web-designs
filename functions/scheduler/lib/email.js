@@ -21,6 +21,9 @@ export async function sendEmail(env, options) {
         text: options.text,
         html: options.html,
         reply_to: options.replyTo,
+        // Optional: array of { filename, content } where content is base64.
+        // Currently only Resend supports this; other providers throw if present.
+        attachments: options.attachments,
     };
 
     try {
@@ -46,20 +49,30 @@ async function sendViaResend(env, emailData) {
         throw new Error('EMAIL_API_KEY not configured for Resend');
     }
 
+    const payload = {
+        from: emailData.from,
+        to: [emailData.to],
+        subject: emailData.subject,
+        text: emailData.text,
+        html: emailData.html,
+        reply_to: emailData.reply_to,
+    };
+
+    // Resend accepts attachments as [{ filename, content (base64) }], up to 40MB total.
+    if (emailData.attachments && emailData.attachments.length > 0) {
+        payload.attachments = emailData.attachments.map((a) => ({
+            filename: a.filename,
+            content: a.content,
+        }));
+    }
+
     const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${env.EMAIL_API_KEY}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            from: emailData.from,
-            to: [emailData.to],
-            subject: emailData.subject,
-            text: emailData.text,
-            html: emailData.html,
-            reply_to: emailData.reply_to,
-        }),
+        body: JSON.stringify(payload),
     });
 
     const data = await response.json();

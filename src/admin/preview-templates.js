@@ -48,9 +48,9 @@
       '}',
       'body { background: #fff; padding: 0; margin: 0; }',
       // Inert in preview — these are JS-driven on the live site.
-      // .toc-sidebar contains the cs-featured-group panel; hidden because the
-      // TOC is built from rendered headings at runtime, not in preview.
-      '.article-actions, .toc-sidebar,',
+      // .toc-sidebar / .toc-mobile are populated by toc.js from rendered
+      // headings at runtime; in preview they'd just be empty containers.
+      '.article-actions, .toc-sidebar, .toc-mobile,',
       '.banner-print-btn, .pb-go-top-progress, .audit-fab,',
       '.blog-sidebar { display: none !important; }',
       // Banner: collapse padding so it fits the small preview pane
@@ -230,24 +230,10 @@
         );
       }
 
-      // ---- Related guides ----
-      var relatedSection = null;
-      if (related && typeof related.size !== 'undefined' && related.size > 0) {
-        relatedSection = h('section', { className: 'related-guides' },
-          h('header', { className: 'related-guides-header' },
-            h('h2', {}, 'Related guides')
-          ),
-          h('div', { className: 'related-guides-body' },
-            related.map(function (link, i) {
-              var url = (link && typeof link.get === 'function') ? link.get('url') : '#';
-              var title = (link && typeof link.get === 'function') ? link.get('title') : '';
-              return h('a', { className: 'related-link', href: url || '#', key: i },
-                h('span', {}, title || url || '')
-              );
-            }).toArray()
-          )
-        );
-      }
+      // Related posts now render in the sidebar (Featured Posts column),
+      // resolved from collections.post at build time. The sidebar isn't
+      // rendered in preview, so there's nothing to mirror here. The `related`
+      // frontmatter is still editable via the Decap form fields above.
 
       // ---- Compose full preview ----
       return h('div', { className: 'blog-container blog-with-toc main-content-wrapper' },
@@ -260,12 +246,11 @@
             h('section', { className: 'article-content', id: 'blog-content' },
               widgetFor('body')
             ),
-            faqSection,
-            relatedSection
+            faqSection
           )
         ),
         h('div', { className: 'preview-featured-stub' },
-          'Featured Posts sidebar is rendered from collections at build time — not shown in preview.'
+          'Featured Posts + Related Posts sidebar is rendered from collections at build time — not shown in preview.'
         )
       );
     }

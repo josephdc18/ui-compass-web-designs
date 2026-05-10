@@ -68,6 +68,19 @@ body.dark-mode .dark{display:block!important}
 body.dark-mode .cs-form{background-color:var(--accent);border-color:rgba(255,255,255,0.08);box-shadow:0 8px 24px rgba(0,0,0,0.32)}
 body.dark-mode .cs-input{background-color:var(--medium);color:var(--bodyTextColorWhite)}
 body.dark-mode .cs-input::placeholder{color:rgba(255,255,255,0.45)}
+/* Dark-mode floating-label colors. The default `.cs-label-text` color
+   (#7d799c at 0.6 opacity) is invisible against the dark form bg, and
+   the floated state's white pill clashes with the dark surrounding
+   surface. Match the placeholder grey at rest, and use the same
+   --medium input bg + --primaryLight green when floated. */
+body.dark-mode .cs-label-text{color:rgba(255,255,255,0.55);opacity:1}
+body.dark-mode .cs-label:has(> input:focus) > .cs-label-text,
+body.dark-mode .cs-label:has(> input:not(:placeholder-shown)) > .cs-label-text,
+body.dark-mode .cs-label:has(> textarea:focus) > .cs-label-text,
+body.dark-mode .cs-label:has(> textarea:not(:placeholder-shown)) > .cs-label-text{
+  background-color:var(--medium);
+  color:var(--primaryLight);
+}
 body.dark-mode .cs-h3{color:var(--bodyTextColorWhite)}
 
 /* Dark mode pricing-1690 surface depth (cards lift above section bg) */

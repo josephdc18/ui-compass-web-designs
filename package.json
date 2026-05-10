@@ -7,7 +7,10 @@
     "build": "eleventy",
     "dev": "eleventy --watch & wrangler pages dev public/ --ip 0.0.0.0",
     "init": "node setup.js",
-    "teardown": "node teardown.js"
+    "teardown": "node teardown.js",
+    "build:content-kit": "node scripts/build-content-kit-bundle.mjs",
+    "prebuild": "node scripts/build-content-kit-bundle.mjs",
+    "predeploy": "node scripts/build-content-kit-bundle.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",

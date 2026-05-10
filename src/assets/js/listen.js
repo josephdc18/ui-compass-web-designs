@@ -35,6 +35,13 @@
   var stopBtn = null;
   var listenBtn = null;
   var activeWordEl = null;
+  // Built once per Listen session: a flat list of every word's exact DOM position
+  // ({ node, start, end }) plus the global word index where each utterance chunk
+  // begins. This lets us highlight the correct occurrence of repeated words like
+  // "the" by mapping boundary events directly to a word index instead of
+  // text-searching the DOM.
+  var articleWords = [];
+  var chunkStartWord = [];
 
   function pickVoice() {
     var voices = synth.getVoices() || [];
@@ -144,32 +151,63 @@
     window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
   }
 
-  function highlightWord(charIndex, utterText) {
-    // Best-effort: locate the word in the article DOM. If we can't find it, just clear.
-    clearActiveWord();
-    if (typeof charIndex !== 'number' || charIndex < 0) return;
-    if (!utterText) return;
-    var word = (utterText.slice(charIndex).match(/\S+/) || [''])[0];
-    if (!word || word.length < 3) return;
-    var article = document.querySelector('.article-content') || document.querySelector('.blog-article');
+  // Build the flat word index used by highlightAt(). Walks the article DOM once
+  // and records every word's text node + offset so we can highlight a specific
+  // occurrence by ordinal position rather than by text search.
+  function buildWordIndex(article, chunks) {
+    articleWords = [];
+    chunkStartWord = [];
     if (!article) return;
+    try { article.normalize(); } catch (e) {}
     var walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT, null, false);
     var node;
     while ((node = walker.nextNode())) {
-      var idx = node.nodeValue.indexOf(word);
-      if (idx === -1) continue;
-      var range = document.createRange();
-      try {
-        range.setStart(node, idx);
-        range.setEnd(node, idx + word.length);
-        var span = document.createElement('span');
-        span.className = 'tts-active';
-        range.surroundContents(span);
-        activeWordEl = span;
-        scrollIntoBand(span);
-      } catch (e) { /* range failed; skip */ }
-      break;
+      var re = /\S+/g, m;
+      while ((m = re.exec(node.nodeValue)) !== null) {
+        articleWords.push({ node: node, start: m.index, end: m.index + m[0].length });
+      }
     }
+    var w = 0;
+    for (var i = 0; i < chunks.length; i++) {
+      chunkStartWord.push(w);
+      w += (chunks[i].match(/\S+/g) || []).length;
+    }
+  }
+
+  // Convert an utterance-relative charIndex (start of the spoken word) into the
+  // 0-based word offset within that chunk.
+  function wordOffsetInChunk(text, charIndex) {
+    var sub = text.slice(0, Math.min(charIndex + 1, text.length));
+    var matches = sub.match(/\S+/g);
+    return matches ? matches.length - 1 : 0;
+  }
+
+  function highlightAt(globalIdx) {
+    // Defensive: clear any prior span before placing a new one. Also sweep up
+    // orphaned tts-active spans so a missed cleanup can't double-highlight.
+    clearActiveWord();
+    var stragglers = document.querySelectorAll('.tts-active');
+    for (var s = 0; s < stragglers.length; s++) {
+      var sp = stragglers[s], par = sp.parentNode;
+      if (!par) continue;
+      while (sp.firstChild) par.insertBefore(sp.firstChild, sp);
+      par.removeChild(sp);
+      try { par.normalize(); } catch (e) {}
+    }
+    var w = articleWords[globalIdx];
+    if (!w || !w.node || !w.node.parentNode) return;
+    if (w.end > (w.node.nodeValue || '').length) return;
+    if (w.end - w.start < 3) return; // skip 1-2 char words to avoid flicker
+    try {
+      var range = document.createRange();
+      range.setStart(w.node, w.start);
+      range.setEnd(w.node, w.end);
+      var span = document.createElement('span');
+      span.className = 'tts-active';
+      range.surroundContents(span);
+      activeWordEl = span;
+      scrollIntoBand(span);
+    } catch (e) { /* range failed; skip */ }
   }
 
   function speakAt(idx) {
@@ -188,13 +226,16 @@
     if (!raw) return;
     var chunks = chunkText(expandAcronyms(raw));
     if (!chunks.length) return;
+    buildWordIndex(article, chunks);
     var voice = pickVoice();
     utterances = chunks.map(function (chunk, i) {
       var u = new SpeechSynthesisUtterance(chunk);
       if (voice) u.voice = voice;
       u.rate = 1; u.pitch = 1; u.volume = 1;
       u.onboundary = function (ev) {
-        if (ev.name === 'word') highlightWord(ev.charIndex, chunk);
+        if (ev.name !== 'word') return;
+        var idx = (chunkStartWord[i] || 0) + wordOffsetInChunk(chunk, ev.charIndex);
+        highlightAt(idx);
       };
       u.onend = function () {
         clearActiveWord();
@@ -232,6 +273,8 @@
     utterances.forEach(function (u) { u.onend = null; u.onboundary = null; u.onerror = null; });
     utterances = [];
     currentIndex = 0;
+    articleWords = [];
+    chunkStartWord = [];
     clearActiveWord();
     if (player) {
       player.classList.remove('show');

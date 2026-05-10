@@ -96,6 +96,14 @@ module.exports = function (eleventyConfig) {
   // allows the {% image %} shortcode to be used for optimised images (in webp if possible)
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
 
+  // Per-category blog collections — populated by adding the matching tag
+  // (lowercased) to a post's `tags` array, alongside `post`/`featured`.
+  ['strategy', 'seo', 'design', 'performance'].forEach((tag) => {
+    eleventyConfig.addCollection(tag, (api) =>
+      api.getFilteredByTag(tag).reverse(),
+    );
+  });
+
   // date filter for blog posts
   eleventyConfig.addFilter('postDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED);

@@ -8,6 +8,9 @@ date: 2024-01-15T12:00:00.000Z
 tags:
   - post
   - featured
+  - strategy
+category: "Strategy"
+readMins: 3
 image: /assets/images/2990879accb1.jpg
 imageAlt: Blog placeholder image
 topper: "Tutorial"

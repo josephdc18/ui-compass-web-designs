@@ -501,3 +501,24 @@ CREATE TABLE IF NOT EXISTS psi_audit_jobs (
 );
 CREATE INDEX IF NOT EXISTS idx_psi_audit_jobs_expires       ON psi_audit_jobs(expires_at);
 CREATE INDEX IF NOT EXISTS idx_psi_audit_jobs_email_created ON psi_audit_jobs(email, created_at);
+
+
+-- =============================================================================
+-- Content Kit Usage
+-- =============================================================================
+-- Tracks which BACKLOG.md entries have been used by the weekly content-kit job.
+-- Topic selector queries this to enforce a 12-week dedup window and a 4-week
+-- section-diversity bonus. One row per pick; entry_hash is FNV-1a of the
+-- normalized backlog entry text (computed in topic-selector.js).
+
+CREATE TABLE IF NOT EXISTS content_kit_usage (
+  entry_hash   TEXT PRIMARY KEY,
+  used_at      TEXT NOT NULL,
+  template     TEXT NOT NULL,
+  section      TEXT,
+  week         TEXT NOT NULL,
+  source_refs  TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_content_kit_usage_used_at  ON content_kit_usage(used_at);
+CREATE INDEX IF NOT EXISTS idx_content_kit_usage_template ON content_kit_usage(template);
+CREATE INDEX IF NOT EXISTS idx_content_kit_usage_week     ON content_kit_usage(week);

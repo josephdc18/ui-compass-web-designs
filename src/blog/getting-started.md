@@ -10,6 +10,7 @@ tags:
   - featured
 image: /assets/images/2990879accb1.jpg
 imageAlt: Blog placeholder image
+topper: "Tutorial"
 ---
 
 Welcome to your new blog! This sample post demonstrates the features available to you.

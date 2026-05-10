@@ -25,14 +25,17 @@ public_folder: '/assets/images/uploads'    # Public path to uploaded files
 collections:
   # ---------------------------------------------------------------------------
   # BLOG POSTS
+  # Field names below MUST match the frontmatter keys read by
+  # src/_layouts/blog-post.html (blogTitle, pageName, blogDescription, etc.).
+  # Renaming any of these requires updating the layout in lockstep.
   # ---------------------------------------------------------------------------
   - name: 'blog'
     label: 'Blog Posts'
     label_singular: 'Blog Post'
     folder: 'src/blog'
     create: true
-    slug: '{{slug}}'
-    sortable_fields: ['date', 'title']
+    slug: '{{fields.pageName}}'
+    sortable_fields: ['date', 'updated', 'blogTitle']
     view_filters:
       - label: 'Published'
         field: draft
@@ -40,16 +43,66 @@ collections:
       - label: 'Drafts'
         field: draft
         pattern: true
+      - label: 'Featured'
+        field: tags
+        pattern: featured
     fields:
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Slug', name: 'slug', widget: 'string', hint: 'URL-friendly name (lowercase, dashes only)' }
-      - { label: 'Description', name: 'description', widget: 'text', hint: 'SEO meta description (150-160 chars)' }
-      - { label: 'Author', name: 'author', widget: 'string', default: 'Your Name' }
+      - { label: 'Title', name: 'blogTitle', widget: 'string', hint: 'Headline shown in the post banner and across previews.' }
+      - { label: 'URL Slug', name: 'pageName', widget: 'string', hint: 'Lowercase, dashes only. Becomes /blog/<slug>/.' }
+      - { label: 'Browser Tab Title', name: 'titleTag', widget: 'string', required: false, hint: 'Optional. Shown in the browser tab + Google results. Defaults to the post title if empty.' }
+      - { label: 'SEO Description', name: 'blogDescription', widget: 'text', hint: 'Meta description for search results. 150-160 characters.' }
+
+      # ---- Author ----
+      - { label: 'Author Name', name: 'author', widget: 'string', default: 'UI Compass' }
+      - { label: 'Author Avatar', name: 'authorImage', widget: 'image', required: false, hint: 'Optional circular photo shown next to the byline.' }
+      - { label: 'Author Profile URL', name: 'authorUrl', widget: 'string', required: false, hint: 'Optional. Makes the author name clickable. Example: /about/' }
+
+      # ---- Dates ----
       - { label: 'Publish Date', name: 'date', widget: 'datetime' }
-      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
-      - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'] }
-      - { label: 'Featured Image', name: 'image', widget: 'image', required: false }
-      - { label: 'Image Alt Text', name: 'imageAlt', widget: 'string', required: false }
+      - { label: 'Last Updated', name: 'updated', widget: 'datetime', required: false, hint: 'Optional. When set, byline reads "Updated on …" with an italic "Originally published in <Month Year>" line below.' }
+
+      # ---- Listing / preview ----
+      - { label: 'Topper Label', name: 'topper', widget: 'string', required: false, hint: 'Optional uppercase category shown above the title in the featured-card preview. Example: "Strategy" or "Strategy · AI".' }
+      - { label: 'Hero Image', name: 'image', widget: 'image', required: false, hint: 'Used as the post banner background AND the thumbnail in the featured-card preview.' }
+      - { label: 'Hero Image Alt Text', name: 'imageAlt', widget: 'string', required: false }
+
+      # ---- Status ----
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false, hint: 'Drafts are still published — wire up an Eleventy filter if you need them hidden in production.' }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'], hint: "Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts." }
+
+      # ---- Optional in-post components ----
+      - label: 'TL;DR — Title'
+        name: 'tldrTitle'
+        widget: 'string'
+        required: false
+        default: 'What you need to know'
+        hint: 'Heading text for the TL;DR box (only renders if you fill in the bullets below).'
+      - label: 'TL;DR — Bullets'
+        name: 'tldr'
+        widget: 'list'
+        required: false
+        hint: '3-5 short summary bullets shown above the article body. Plain text or HTML.'
+        field: { label: 'Bullet', name: 'point', widget: 'string' }
+
+      - label: 'FAQ'
+        name: 'faq'
+        widget: 'list'
+        required: false
+        hint: 'Optional Q/A list at the bottom of the post. Also auto-generates FAQPage JSON-LD for Google rich results.'
+        fields:
+          - { label: 'Question', name: 'q', widget: 'string' }
+          - { label: 'Answer', name: 'a', widget: 'text', hint: 'Plain text or HTML. For paragraph breaks, wrap in <p>…</p>.' }
+
+      - label: 'Related Guides'
+        name: 'related'
+        widget: 'list'
+        required: false
+        hint: 'Optional list of internal links shown at the bottom of the post.'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'URL', name: 'url', widget: 'string', hint: 'Internal path. Example: /web-design/' }
+
+      # ---- Body ----
       - { label: 'Body', name: 'body', widget: 'markdown' }
 
   # ---------------------------------------------------------------------------

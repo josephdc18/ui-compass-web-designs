@@ -1,0 +1,37 @@
+---
+interior: true
+layout: base.html
+tagTitle: "Saved Articles"
+description: "Your locally saved blog articles. Bookmarks are stored in your browser, never uploaded."
+preloadCSS: "/css/blog-extras.css"
+permalink: "saved/"
+eleventyExcludeFromCollections: true
+---
+<div id="banner-1106-13">
+  <div class="cs-container">
+    <h1 class="cs-int-title">Your Saved Articles</h1>
+    <div class="cs-breadcrumbs"><a href="/" class="cs-link">Home</a> <a href="/blog/" class="cs-link">Blog</a> <a href="/saved/" class="cs-link cs-active">Saved</a></div>
+  </div>
+</div>
+
+<section class="saved-page" aria-label="Saved articles">
+  <p class="saved-sub">These bookmarks are stored only in your browser. Clearing your site data removes them.</p>
+
+  <div class="saved-toolbar">
+    <input type="search" id="savedSearchInput" placeholder="Search saved articles" aria-label="Search saved articles">
+    <select id="savedSortOrder" aria-label="Sort order">
+      <option value="newest">Newest saved first</option>
+      <option value="oldest">Oldest saved first</option>
+      <option value="title">Title A&ndash;Z</option>
+    </select>
+  </div>
+
+  <ul class="saved-list" id="savedBookmarksList" aria-live="polite"></ul>
+</section>
+
+<style>
+  /* Reuse banner styles from interior.css; this banner needs a dark background. */
+  #banner-1106-13 { background: linear-gradient(135deg, #1d1b25 0%, #262421 60%, #0e3b25 100%); }
+</style>
+
+<script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script>

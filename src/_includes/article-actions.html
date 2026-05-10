@@ -1,0 +1,86 @@
+<!--
+  Article actions bar. Sits above the article body on blog posts.
+  All icons are inline SVG (no Font Awesome). Each button is wired in
+  src/assets/js/article-actions.js (focus / share / reading-time) and
+  src/assets/js/listen.js (listen / TTS) and src/assets/js/bookmarks.js (save).
+-->
+<div class="article-actions" data-article-actions>
+  <div class="article-actions-inner">
+    <div class="actions-left">
+      <span class="reading-time">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="readingTimeText">3 min read</span>
+      </span>
+    </div>
+    <div class="actions-right">
+      <button type="button" class="action-btn" id="focusModeBtn" data-press
+              aria-label="Toggle focus mode" title="Focus mode">
+        <svg class="focus-icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="focus-icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10 10 0 0 1 12 19C5 19 1.5 12 1.5 12a17 17 0 0 1 4.06-4.94"/><path d="M9.9 4.24A10 10 0 0 1 12 4c7 0 10.5 7 10.5 7a17 17 0 0 1-3.07 4.06"/><path d="M9.88 9.88A3 3 0 0 0 14.12 14.12"/><path d="M1 1l22 22"/></svg>
+        <span class="action-label" data-focus-label>Focus</span>
+      </button>
+
+      <button type="button" class="action-btn" id="listenBtn" data-press
+              aria-label="Listen to article" title="Listen">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 14v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2z"/><path d="M3 14v3a2 2 0 0 0 2 2h1v-7H5a2 2 0 0 0-2 2z"/></svg>
+        <span class="action-label" data-listen-label>Listen</span>
+      </button>
+
+      <button type="button" class="action-btn" id="bookmarkBtn" data-press
+              aria-label="Save for later" title="Save" aria-pressed="false">
+        <svg class="bookmark-empty" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <svg class="bookmark-filled" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor" style="display:none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="action-label">Save</span>
+      </button>
+
+      <div class="share-wrapper">
+        <button type="button" class="action-btn" id="shareBtn" data-press
+                aria-label="Share this article" title="Share"
+                aria-haspopup="menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span class="action-label">Share</span>
+        </button>
+        <div class="share-dropdown" id="shareDropdown" role="menu">
+          <button type="button" class="share-option" id="nativeShareBtn" role="menuitem" data-share="native">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="M6 9l6-6 6 6"/><rect x="3" y="17" width="18" height="4" rx="1"/></svg>
+            Share...
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="copy">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            Copy link
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="email">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>
+            Email
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="print">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><rect x="7" y="14" width="10" height="6"/></svg>
+            Print
+          </button>
+          <hr class="share-divider">
+          <button type="button" class="share-option" role="menuitem" data-share="twitter">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2H21.5l-7.51 8.587L23 22h-7.064l-5.524-7.226L4.07 22H.81l8.034-9.184L1 2h7.244l4.99 6.6L18.244 2zm-1.24 18h1.794L7.116 4H5.21l11.794 16z"/></svg>
+            X / Twitter
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.563 9.876v-6.99h-2.54V12h2.54V9.797c0-2.506 1.493-3.89 3.776-3.89 1.094 0 2.238.196 2.238.196v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.886h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+            Facebook
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="linkedin">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M20.45 20.45h-3.555v-5.57c0-1.328-.027-3.04-1.852-3.04-1.853 0-2.137 1.448-2.137 2.944v5.667H9.35V9h3.414v1.561h.048c.476-.9 1.637-1.852 3.37-1.852 3.604 0 4.27 2.372 4.27 5.456v6.285zM5.337 7.433a2.062 2.062 0 0 1-2.062-2.063 2.062 2.062 0 1 1 2.062 2.063zm1.78 13.017H3.555V9h3.561v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.732v20.536C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.268V1.732C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </button>
+          <button type="button" class="share-option" role="menuitem" data-share="reddit">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.67 13.05c.027.18.04.36.04.547 0 2.79-3.247 5.05-7.25 5.05s-7.25-2.26-7.25-5.05c0-.187.013-.367.04-.547a1.85 1.85 0 1 1 2.05-3.013c1.27-.85 2.93-1.39 4.77-1.45l.91-4.27a.4.4 0 0 1 .47-.31l2.97.63a1.3 1.3 0 1 1-.13.6l-2.66-.57-.81 3.83c1.81.07 3.46.61 4.71 1.45a1.85 1.85 0 1 1 2.04 3.04zm-10.27.94c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm6.86 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm-3.4 2.34a4.43 4.43 0 0 1-2.97-1.05.4.4 0 0 1 .53-.6 3.65 3.65 0 0 0 4.88 0 .4.4 0 0 1 .53.6 4.43 4.43 0 0 1-2.97 1.05z"/></svg>
+            Reddit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="focus-exit-btn" data-focus-exit aria-label="Exit focus mode">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  Exit focus
+</button>

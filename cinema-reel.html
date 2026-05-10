@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <title>Cinema Reel — A Vertical Film-Festival Slider</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    html, body { margin: 0; padding: 0; background: #0a0908; color: #fff; }
+    body {
+      font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+    .font-playfair { font-family: "Playfair Display", ui-serif, Georgia, serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    img { -webkit-user-drag: none; user-select: none; }
+
+    /* Tailwind CDN doesn't pre-define z-25 — provide it. */
+    .z-25 { z-index: 25; }
+
+    /* Hide system cursor inside the section (also enforced via inline style). */
+    #cinema, #cinema * { cursor: none; }
+    #cinema [data-cursor-pointer] { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <section
+    id="cinema"
+    class="relative h-[100dvh] w-full overflow-hidden select-none [--cinema-pad-x:7.5dvh] max-sm:[--cinema-pad-x:2dvh]"
+    style="background:#0a0908; cursor:none;"
+  >
+    <!-- ───── SVG filter defs (off-screen) ───── -->
+    <svg aria-hidden="true" focusable="false" class="pointer-events-none absolute" style="width:0;height:0;position:absolute;">
+      <defs>
+        <filter id="cinema-motion-blur" x="-5%" y="-25%" width="110%" height="150%">
+          <feGaussianBlur id="cinema-blur" in="SourceGraphic" stdDeviation="0 0" />
+        </filter>
+        <!-- Inline laurel symbols (used in lieu of /public/*-award-symbol.svg) -->
+        <symbol id="laurel-left" viewBox="0 0 28 44">
+          <g fill="currentColor">
+            <path d="M14 4 C 9 8, 6 14, 6 22 C 6 30, 9 36, 14 40 L 14 38 C 11 34, 9 28, 9 22 C 9 16, 11 10, 14 6 Z"/>
+            <path d="M9 12 C 5 13, 3 17, 4 21 C 7 20, 9 17, 9 13 Z"/>
+            <path d="M7 18 C 3 19, 2 23, 4 27 C 7 26, 9 23, 8 19 Z"/>
+            <path d="M7 25 C 3 26, 2 30, 5 33 C 8 32, 9 28, 8 25 Z"/>
+            <path d="M9 31 C 5 32, 4 35, 6 38 C 9 37, 11 34, 10 31 Z"/>
+          </g>
+        </symbol>
+        <symbol id="laurel-right" viewBox="0 0 28 44">
+          <g fill="currentColor">
+            <path d="M14 4 C 19 8, 22 14, 22 22 C 22 30, 19 36, 14 40 L 14 38 C 17 34, 19 28, 19 22 C 19 16, 17 10, 14 6 Z"/>
+            <path d="M19 12 C 23 13, 25 17, 24 21 C 21 20, 19 17, 19 13 Z"/>
+            <path d="M21 18 C 25 19, 26 23, 24 27 C 21 26, 19 23, 20 19 Z"/>
+            <path d="M21 25 C 25 26, 26 30, 23 33 C 20 32, 19 28, 20 25 Z"/>
+            <path d="M19 31 C 23 32, 24 35, 22 38 C 19 37, 17 34, 18 31 Z"/>
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- ───── TRACK (slides injected by JS) ───── -->
+    <div
+      id="cinema-track"
+      class="absolute inset-x-0 top-0 will-change-transform"
+      style="touch-action:none; padding-left:var(--cinema-pad-x); padding-right:var(--cinema-pad-x); filter:url(#cinema-motion-blur);"
+    ></div>
+
+    <!-- ───── Top + bottom mask gradients ───── -->
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 z-30"
+      style="height:10dvh; background:linear-gradient(180deg, #0a0908 0%, rgba(10,9,8,0) 100%);"
+    ></div>
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 z-30"
+      style="height:10dvh; background:linear-gradient(0deg, #0a0908 0%, rgba(10,9,8,0) 100%);"
+    ></div>
+
+    <!-- ───── Scanlines overlay (only during auto-scroll) ───── -->
+    <div
+      id="cinema-scanlines"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 z-25"
+      style="
+        background-image: repeating-linear-gradient(0deg,
+          rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px,
+          transparent 1px, transparent 3px);
+        mix-blend-mode: screen;
+        opacity: 1;
+      "
+    ></div>
+
+    <!-- ───── Right-edge indicator (pip column) ───── -->
+    <div
+      id="cinema-indicator"
+      class="absolute right-[3.5dvh] top-1/2 z-40 flex flex-col items-end gap-3 pointer-events-none"
+      style="transform: translateY(-50%); transition: opacity 400ms ease-out; opacity: 1;"
+    >
+      <div id="cinema-indicator-current" class="font-playfair text-[12px] italic text-white/55">01</div>
+      <div id="cinema-indicator-pips" data-no-drag class="pointer-events-auto flex flex-col items-center"></div>
+      <div id="cinema-indicator-total" class="font-playfair text-[12px] italic text-white/35">06</div>
+    </div>
+
+    <!-- ───── DetailsPanel: backdrop + aside ───── -->
+    <div
+      id="cinema-backdrop"
+      data-no-drag
+      aria-hidden="true"
+      class="absolute z-40 pointer-events-none"
+      style="
+        top: 10dvh; height: 80dvh; left: var(--cinema-pad-x); right: var(--cinema-pad-x);
+        border-radius: 48px; overflow: hidden;
+        background-color: rgba(10,9,8,0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0);
+        transition:
+          background-color 600ms cubic-bezier(0.22, 1, 0.36, 1),
+          backdrop-filter 600ms cubic-bezier(0.22, 1, 0.36, 1),
+          -webkit-backdrop-filter 600ms cubic-bezier(0.22, 1, 0.36, 1);
+      "
+    ></div>
+
+    <aside
+      id="cinema-aside"
+      data-no-drag
+      aria-hidden="true"
+      class="absolute z-50 flex flex-col text-white w-[min(640px,52%)] max-sm:w-[calc(100vw-2*var(--cinema-pad-x))]"
+      style="
+        top: 10dvh; height: 80dvh; right: var(--cinema-pad-x);
+        border-radius: 48px; overflow: hidden;
+        transform: translateX(calc(100% + var(--cinema-pad-x) + 2dvh));
+        transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+        background: linear-gradient(180deg, rgba(18,16,14,0.85) 0%, rgba(10,9,8,0.92) 100%);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: none;
+        will-change: transform;
+      "
+    >
+      <div id="cinema-aside-scroll" class="h-full w-full overflow-y-auto" style="overscroll-behavior: contain; touch-action: pan-y;"></div>
+      <button
+        type="button"
+        id="cinema-aside-close"
+        data-cursor-pointer
+        aria-label="Close details"
+        class="absolute right-[3dvh] top-[3dvh] z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white/85 backdrop-blur-md transition-colors hover:bg-black/60"
+        style="cursor: pointer;"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+      </button>
+    </aside>
+
+    <!-- ───── Custom cursor ───── -->
+    <div
+      id="cinema-cursor"
+      class="pointer-events-none fixed left-0 top-0 z-50"
+      style="width: 104px; height: 104px; opacity: 0; will-change: transform, opacity;"
+    >
+      <div class="relative h-full w-full">
+        <div class="absolute inset-0 rounded-full border border-white/45"></div>
+        <div id="cinema-cursor-scroll" class="absolute inset-0 flex items-center justify-center" style="transition: opacity 180ms ease;">
+          <span class="text-[10px] font-medium uppercase tracking-[0.32em] text-white">SCROLL</span>
+        </div>
+        <div id="cinema-cursor-drag" class="absolute inset-0 flex items-center justify-center" style="opacity:0; transition: opacity 160ms ease;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 11V7.5a1.5 1.5 0 0 1 3 0V11" />
+            <path d="M10 11V6.5a1.5 1.5 0 0 1 3 0V11" />
+            <path d="M13 11V7a1.5 1.5 0 0 1 3 0v6" />
+            <path d="M16 9.5a1.5 1.5 0 0 1 3 0V15c0 3-2.2 6-6 6-3.4 0-5.5-1.8-6.5-3.5l-2.7-4.7a1.4 1.4 0 0 1 2.4-1.4L8 13" />
+          </svg>
+        </div>
+        <div id="cinema-cursor-up" class="absolute" style="bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 160ms ease;">
+          <svg width="22" height="14" viewBox="0 0 22 14" fill="none" aria-hidden="true">
+            <path d="M2 12 C 7 4, 15 4, 20 12" stroke="white" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div id="cinema-cursor-down" class="absolute" style="top: calc(100% + 12px); left: 50%; transform: translateX(-50%) rotate(180deg); opacity: 0; transition: opacity 160ms ease;">
+          <svg width="22" height="14" viewBox="0 0 22 14" fill="none" aria-hidden="true">
+            <path d="M2 12 C 7 4, 15 4, 20 12" stroke="white" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    "use strict";
+
+    /* ─────────────────────────────────────────────────────────
+       § 4 — DATA
+       ───────────────────────────────────────────────────────── */
+    const SLIDES = [
+      {
+        id: "blueprint-no-seven",
+        badge: "true.false",
+        eyebrow: "TRUE/FALSE · TRUE LIFE FUND 2024",
+        category: "HYBRID DOCUMENTARY",
+        titleLines: ["BLUEPRINT", "NO. 7"],
+        year: "2024",
+        director: "SAM BINNS",
+        imageId: "1610847455028-9e55e62bac33",
+        awards: [
+          { stars: 5, label: "TRUE LIFE FUND",     quote: "A PORTRAIT OF NOW" },
+          { stars: 4, label: "BEST FIRST FEATURE", quote: "RAW & UNNERVING" },
+          { stars: 5, label: "CRITICS PRIZE",      quote: "ESSENTIAL VIEWING" },
+        ],
+        description:
+          "An architect of the everyday traces seven anonymous lives across a single city block. Captured in long, unblinking takes, the film constructs an atlas of urban intimacy — strangers passing as a single organism, separated only by the gravity of their private orbits.",
+        stats: { critics: 94, audience: 81, runtime: "1h 38m", format: "16MM",       country: "UK · GERMANY",        language: "ENGLISH",          aspect: "1.66:1" },
+      },
+      {
+        id: "atlas-unfolds",
+        badge: "berlinale",
+        eyebrow: "BERLINALE · ENCOUNTERS 2023",
+        category: "ESSAY FILM",
+        titleLines: ["ATLAS", "UNFOLDS"],
+        year: "2023",
+        director: "ELIAS NORÉN",
+        imageId: "1596956708072-8ca0c2973887",
+        awards: [
+          { stars: 5, label: "BEST CINEMATOGRAPHY", quote: "AN OPULENT CANVAS" },
+          { stars: 4, label: "ENCOUNTERS PRIZE",    quote: "STUNNING IN RESTRAINT" },
+          { stars: 5, label: "FIPRESCI PRIZE",      quote: "A QUIET MASTERWORK" },
+        ],
+        description:
+          "A four-year journey across the high passes of Central Asia, charted entirely on foot. Norén trades narration for breath and footstep — the sky is the protagonist, the path is the verse, and what unfolds is less a documentary than an epic poem to scale.",
+        stats: { critics: 96, audience: 87, runtime: "2h 12m", format: "65MM",       country: "SWEDEN · KAZAKHSTAN", language: "SILENT",           aspect: "2.20:1" },
+      },
+      {
+        id: "the-long-quiet",
+        badge: "tiff.docs",
+        eyebrow: "TIFF DOCS · PLATFORM 2024",
+        category: "OBSERVATIONAL",
+        titleLines: ["THE LONG", "QUIET"],
+        year: "2024",
+        director: "AMARA OKAFOR",
+        imageId: "1633885274919-04b5af171f8c",
+        awards: [
+          { stars: 5, label: "PLATFORM PRIZE", quote: "DEEPLY MOVING" },
+          { stars: 5, label: "BEST DIRECTOR",  quote: "QUIETLY DEVASTATING" },
+          { stars: 4, label: "AUDIENCE AWARD", quote: "A PORTRAIT OF SILENCE" },
+        ],
+        description:
+          "On the eve of a six-month return to silence, four Carmelite nuns open their shutters and their letters. Okafor's patient gaze finds devotion in the smallest gestures — the way light moves across a refectory, the way silence holds a room together long after the bell has rung.",
+        stats: { critics: 93, audience: 89, runtime: "1h 47m", format: "DIGITAL 4K", country: "NIGERIA · SPAIN",     language: "ENGLISH · SPANISH", aspect: "1.85:1" },
+      },
+      {
+        id: "ember-and-ash",
+        badge: "venezia",
+        eyebrow: "VENICE · ORIZZONTI 2025",
+        category: "CHARACTER STUDY",
+        titleLines: ["EMBER &", "ASH"],
+        year: "2025",
+        director: "MILO HAVERSTEIN",
+        imageId: "1636766812350-c2842e8c6b76",
+        awards: [
+          { stars: 5, label: "BEST ACTRESS",    quote: "SHE BURNS THE FRAME" },
+          { stars: 5, label: "ORIZZONTI PRIZE", quote: "HAUNTING & PRECISE" },
+          { stars: 4, label: "BEST EDITING",    quote: "BURNS LONG AFTER" },
+        ],
+        description:
+          "A wildfire memoirist returns to the village she once burned down — to face the woman she was. Haverstein's chamber drama burns at one steady temperature, then explodes. A career-defining lead carries the entire frame on the slow inhale of a final cigarette.",
+        stats: { critics: 92, audience: 84, runtime: "1h 56m", format: "35MM",       country: "GERMANY · ITALY",     language: "GERMAN · ITALIAN", aspect: "2.39:1" },
+      },
+      {
+        id: "cavern",
+        badge: "rotterdam",
+        eyebrow: "TIGER COMPETITION · IFFR 2022",
+        category: "EXPERIMENTAL",
+        titleLines: ["CAVERN"],
+        year: "2022",
+        director: "SØREN HOLT",
+        imageId: "1665426520283-33b35e81bbc7",
+        awards: [
+          { stars: 5, label: "TIGER AWARD",     quote: "ARCHITECTURE OF FEELING" },
+          { stars: 4, label: "VPRO BIG SCREEN", quote: "OBSESSIVELY COMPOSED" },
+          { stars: 5, label: "FIPRESCI PRIZE",  quote: "A NEW LANGUAGE" },
+        ],
+        description:
+          "Eight composers, eight subterranean chambers, one resonant frequency. Holt's experimental documentary descends literally into the earth to record what stone remembers when struck. The result: a film you don't watch so much as feel from the diaphragm out.",
+        stats: { critics: 89, audience: 76, runtime: "1h 24m", format: "DIGITAL 4K", country: "DENMARK · NORWAY",    language: "DANISH",           aspect: "1.43:1" },
+      },
+      {
+        id: "where-light-breaks",
+        badge: "cannes",
+        eyebrow: "DIRECTORS' FORTNIGHT · CANNES 2024",
+        category: "LYRICAL DOCUMENTARY",
+        titleLines: ["WHERE LIGHT", "BREAKS"],
+        year: "2024",
+        director: "INGRID HALLE",
+        imageId: "1615374744335-dd8adbd9e3e9",
+        awards: [
+          { stars: 5, label: "ART CINEMA AWARD",   quote: "A PRAYER OF A FILM" },
+          { stars: 5, label: "BEST CINEMATOGRAPHY", quote: "LIGHT AS CHARACTER" },
+          { stars: 4, label: "PRIX CINÉMA",        quote: "TENDER AND TRUE" },
+        ],
+        description:
+          "Three generations of foresters, one mountain ridge, an unbroken century. Halle returns to her grandmother's valley with a camera that is older than she is and a question that is older than the trees. What we keep, what we lose, what the light decides.",
+        stats: { critics: 95, audience: 91, runtime: "1h 41m", format: "16MM",       country: "NORWAY · FINLAND",    language: "NORWEGIAN",        aspect: "1.66:1" },
+      },
+    ];
+
+    /* ─────────────────────────────────────────────────────────
+       § 7 — CONSTANTS
+       ───────────────────────────────────────────────────────── */
+    const SLIDE_VH    = 80;
+    const GAP_VH      = 5;
+    const PITCH_VH    = SLIDE_VH + GAP_VH;       // 85
+    const PAD_X_VH    = 7.5;
+    const MASK_VH     = 10;
+    const TOP_PAD_VH  = (100 - SLIDE_VH) / 2;    // 10
+
+    const WHEEL_PER_EVENT_CAP = 200;
+    const WHEEL_PAUSE_MS      = 100;
+    const DRAG_THRESHOLD_VH   = 14;
+
+    const EASE = 0.11;
+
+    const FADE_THRESHOLD  = 0.55;
+    const PARALLAX_FACTOR = 0.42;
+    const ENTRY_OFFSET_PX = 64;
+
+    const IMG_HEIGHT_RATIO = 1.2;
+
+    const LOOP_COPIES    = 7;
+    const N_SLIDES       = SLIDES.length;        // 6
+    const TOTAL_RENDERED = N_SLIDES * LOOP_COPIES; // 42
+    const INITIAL_IDX    = Math.floor(LOOP_COPIES / 2) * N_SLIDES; // 18
+
+    const AUTO_START_IDX  = INITIAL_IDX + 1;             // 19
+    const AUTO_END_IDX    = INITIAL_IDX + 3 * N_SLIDES;  // 36
+    const AUTO_SCROLL_MS  = 3000;
+    const AUTO_SCALE_FROM = 1;
+    const AUTO_FADE_MS    = 1000;
+
+    const CURSOR_SIZE = 104;
+    const BG = "#0a0908";
+
+    /* ─────────────────────────────────────────────────────────
+       § 5 — IMAGE BUCKETING
+       ───────────────────────────────────────────────────────── */
+    const IMG_BUCKET_PX = 50;
+    const IMG_MIN_W = 600;
+    const IMG_MIN_H = 500;
+    function computeImgDims() {
+      if (typeof window === "undefined") return { w: 2400, h: 1800 };
+      const w = Math.max(IMG_MIN_W, Math.round(window.innerWidth  / IMG_BUCKET_PX) * IMG_BUCKET_PX);
+      const h = Math.max(IMG_MIN_H, Math.round(window.innerHeight * IMG_HEIGHT_RATIO / IMG_BUCKET_PX) * IMG_BUCKET_PX);
+      return { w, h };
+    }
+    function imgUrl(id, w, h, q) {
+      return "https://images.unsplash.com/photo-" + id +
+        "?w=" + w + "&h=" + h + "&fit=crop&q=" + (q || 75) + "&auto=format";
+    }
+    let imgDims = computeImgDims();
+
+    function preloadImages() {
+      SLIDES.forEach(function (slide) {
+        const img = new Image();
+        img.src = imgUrl(slide.imageId, imgDims.w, imgDims.h, 75);
+      });
+    }
+    preloadImages();
+
+    /* ─────────────────────────────────────────────────────────
+       MARKUP HELPERS
+       ───────────────────────────────────────────────────────── */
+    function htmlEscape(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    // Eyebrow split — line-break at midpoint via JS as the spec requires.
+    function eyebrowHtml(eyebrow) {
+      const words = eyebrow.split(" ");
+      const breakAt = Math.floor(words.length / 2) - 1;
+      return words.map(function (word, i) {
+        const tail = i === breakAt ? "<br/>" : (i < words.length - 1 ? " " : "");
+        return "<span>" + htmlEscape(word) + tail + "</span>";
+      }).join("");
+    }
+
+    function starsRow(filled, sizePx, gapPx) {
+      let out = '<div class="flex items-center" style="gap:' + (gapPx || 2) + 'px;">';
+      for (let s = 0; s < 5; s++) {
+        const color = s < filled ? "#f1e7d2" : "rgba(255,255,255,0.18)";
+        out += '<span style="font-size:' + sizePx + 'px; color:' + color + '; line-height:1;">★</span>';
+      }
+      out += '</div>';
+      return out;
+    }
+
+    // SVG polygon stars for the laurel award badge (white at 65%)
+    function badgeStarsRow() {
+      let out = '<div class="flex" style="gap:2px;">';
+      for (let i = 0; i < 5; i++) {
+        out +=
+          '<svg width="9" height="9" viewBox="0 0 24 24" aria-hidden="true">' +
+            '<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="rgba(255,255,255,0.65)" />' +
+          '</svg>';
+      }
+      out += '</div>';
+      return out;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       § 21 — SLIDE CONTENT
+       ───────────────────────────────────────────────────────── */
+    function slideContentHtml(slide) {
+      const titleHtml = slide.titleLines
+        .map(function (l) { return '<span class="block">' + htmlEscape(l) + '</span>'; })
+        .join("");
+
+      const awardsHtml = slide.awards.map(function (a) {
+        return (
+          '<div class="flex flex-col items-end gap-1.5 text-right">' +
+            '<div class="flex items-center gap-1">' +
+              [0,1,2,3,4].map(function (s) {
+                const color = s < a.stars ? "#f1e7d2" : "rgba(255,255,255,0.18)";
+                return '<span class="text-[12px]" style="color:' + color + ';">★</span>';
+              }).join("") +
+            '</div>' +
+            '<div class="text-[9.5px] font-medium uppercase tracking-[0.32em] text-white/55">' + htmlEscape(a.label) + '</div>' +
+            '<div class="font-playfair text-[16px] leading-tight text-white/95" style="font-style:italic; max-width:16ch;">' +
+              "&ldquo;" + htmlEscape(a.quote) + "&rdquo;" +
+            '</div>' +
+          '</div>'
+        );
+      }).join("");
+
+      return (
+        '<div class="relative h-full w-full text-white" style="padding:5.5dvh 6dvh;">' +
+
+          // A — TOP-LEFT
+          '<div class="absolute left-[6dvh] top-[5.5dvh] flex flex-col gap-3 max-sm:left-[3dvh] max-sm:top-[3dvh] max-sm:gap-2" data-reveal>' +
+            '<div class="font-playfair text-[clamp(1.2rem,2.2dvh,2.4rem)] leading-none text-white/90" style="font-style:italic;">' +
+              htmlEscape(slide.year) +
+            '</div>' +
+            '<div class="text-[10px] max-sm:text-[8.5px] font-medium uppercase tracking-[0.32em] max-sm:tracking-[0.24em] text-white/65">' +
+              eyebrowHtml(slide.eyebrow) +
+            '</div>' +
+            '<div class="mt-3 inline-flex items-center gap-0 max-sm:hidden" style="color: rgba(255,255,255,0.85);">' +
+              '<svg class="shrink-0" width="28" height="44" style="margin-right:-10px; opacity:0.85;" aria-hidden="true"><use href="#laurel-left"/></svg>' +
+              '<div class="flex flex-col items-center gap-1">' +
+                '<span class="font-playfair text-[10px] font-bold tracking-wide text-white/85">Award-Winning Reel</span>' +
+                badgeStarsRow() +
+              '</div>' +
+              '<svg class="shrink-0" width="28" height="44" style="margin-left:-10px; opacity:0.85;" aria-hidden="true"><use href="#laurel-right"/></svg>' +
+            '</div>' +
+          '</div>' +
+
+          // B — CENTER-LEFT
+          '<div class="absolute left-[6dvh] flex flex-col gap-5 max-sm:left-[3dvh] max-sm:gap-3" style="bottom:9dvh;" data-reveal>' +
+            '<div class="text-[10px] max-sm:text-[8.5px] font-medium uppercase tracking-[0.4em] max-sm:tracking-[0.28em] text-white/55">' +
+              htmlEscape(slide.category) +
+            '</div>' +
+            '<h2 class="font-playfair font-semibold uppercase text-[clamp(2.2rem,8.5dvh,9rem)] max-sm:text-[clamp(1.5rem,5.5dvh,2.4rem)]" style="line-height:0.92; letter-spacing:-0.02em; color:#f6efe2;">' +
+              titleHtml +
+            '</h2>' +
+            '<div class="flex flex-col gap-1.5 text-[10px] max-sm:text-[8.5px] font-medium uppercase tracking-[0.32em] max-sm:tracking-[0.22em] text-white/70">' +
+              '<div class="flex items-baseline gap-3 max-sm:gap-2"><span class="text-white/45">DIRECTOR</span><span class="text-white/90">' + htmlEscape(slide.director) + '</span></div>' +
+              '<div class="flex items-baseline gap-3 max-sm:gap-2"><span class="text-white/45">CATEGORY</span><span class="text-white/90">' + htmlEscape(slide.category) + '</span></div>' +
+            '</div>' +
+          '</div>' +
+
+          // C — RIGHT awards stack (two-div nest: outer translateY-50%, inner reveal)
+          '<div class="absolute right-[6dvh] top-1/2 flex flex-col max-sm:hidden" style="transform: translateY(-50%);">' +
+            '<div class="flex flex-col gap-7" data-reveal>' + awardsHtml + '</div>' +
+          '</div>' +
+
+          // D — EXPLORE button
+          '<button type="button" data-no-drag data-explore data-cursor-pointer ' +
+                  'class="group absolute right-[6dvh] bottom-[5dvh] ' +
+                         'flex items-center gap-4 overflow-hidden rounded-full ' +
+                         'border border-white/35 bg-white/[0.04] ' +
+                         'px-8 py-4 text-[12px] font-medium uppercase tracking-[0.32em] text-white/95 ' +
+                         'backdrop-blur-md ' +
+                         'transition-[background-color,border-color,transform,box-shadow] duration-300 ease-out ' +
+                         'hover:scale-[1.04] hover:border-white/85 hover:bg-white/[0.14] ' +
+                         'hover:shadow-[0_10px_30px_rgba(0,0,0,0.45)] ' +
+                         'max-sm:right-[3dvh] max-sm:bottom-[3dvh] max-sm:gap-3 max-sm:px-5 max-sm:py-3 ' +
+                         'max-sm:text-[10.5px] max-sm:tracking-[0.24em]" ' +
+                  'style="cursor:pointer;" data-reveal>' +
+            '<span aria-hidden="true" class="pointer-events-none absolute inset-0 -translate-x-full rounded-full bg-gradient-to-r from-white/[0.02] via-white/10 to-white/[0.02] transition-transform duration-500 ease-out group-hover:translate-x-0"></span>' +
+            '<span class="relative">EXPLORE</span>' +
+            '<span aria-hidden="true" class="relative text-[15px] leading-none transition-transform duration-300 ease-out group-hover:translate-x-1.5 max-sm:text-[13px]">→</span>' +
+          '</button>' +
+
+        '</div>'
+      );
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       § 20 — SLIDE FRAME (per-slot wrapper)
+       ───────────────────────────────────────────────────────── */
+    function slideFrameHtml(slotIndex, slide, isFirst, autoScrolling) {
+      const initialTranslate = slotIndex * SLIDE_VH * (AUTO_SCALE_FROM - 1); // 0 at scale 1
+      const outerStyle = autoScrolling
+        ? "height:" + SLIDE_VH + "dvh; margin-bottom:" + GAP_VH + "dvh; perspective:2000px; " +
+          "transform: translate3d(0," + initialTranslate + "dvh,0) scale(" + AUTO_SCALE_FROM + "); " +
+          "transform-origin: 50% 50%; opacity: 0;"
+        : "height:" + SLIDE_VH + "dvh; margin-bottom:" + GAP_VH + "dvh; perspective:2000px;";
+
+      const url = imgUrl(slide.imageId, imgDims.w, imgDims.h, 75);
+      const fp  = isFirst ? "high" : "auto";
+
+      return (
+        '<div data-slot="' + slotIndex + '" class="relative w-full" style="' + outerStyle + '">' +
+          // INNER — rounded clip + door-tilt + drop-shadow
+          '<div data-slide-inner class="relative h-full w-full overflow-hidden" ' +
+               'style="border-radius:48px; transform-origin:0% 50%; transform-style:preserve-3d; ' +
+                      'transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 700ms cubic-bezier(0.22, 1, 0.36, 1);">' +
+
+            // Image wrapper
+            '<div data-slide-image style="position:absolute; top:50%; left:50%; width:100vw; ' +
+                                          'height:' + (IMG_HEIGHT_RATIO * 100) + 'dvh; ' +
+                                          'margin-top:' + (-IMG_HEIGHT_RATIO * 50) + 'dvh; ' +
+                                          'margin-left:-50vw; will-change: transform;">' +
+              '<img src="' + url + '" alt="" loading="eager" decoding="async" fetchpriority="' + fp + '" draggable="false" ' +
+                   'style="width:100%; height:100%; object-fit:cover; display:block;">' +
+              '<div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.06) 22%, rgba(0,0,0,0.04) 70%, rgba(0,0,0,0.55) 100%);"></div>' +
+              '<div class="absolute inset-0" style="background:radial-gradient(80% 70% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 100%);"></div>' +
+            '</div>' +
+
+            // Content layer
+            '<div data-slide-content class="absolute inset-0" style="opacity:0; filter:blur(16px); will-change:opacity, filter, transform;">' +
+              slideContentHtml(slide) +
+            '</div>' +
+
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       BUILD: render the 42-slot track
+       ───────────────────────────────────────────────────────── */
+    let autoScrolling   = true;
+    let openSlideKey    = null;
+
+    const trackEl       = document.getElementById("cinema-track");
+    const sectionEl     = document.getElementById("cinema");
+    const blurFilter    = document.getElementById("cinema-blur");
+    const scanlinesEl   = document.getElementById("cinema-scanlines");
+    const indicatorEl   = document.getElementById("cinema-indicator");
+    const indicatorPipsEl = document.getElementById("cinema-indicator-pips");
+    const indicatorCurrentEl = document.getElementById("cinema-indicator-current");
+    const indicatorTotalEl   = document.getElementById("cinema-indicator-total");
+    const backdropEl    = document.getElementById("cinema-backdrop");
+    const asideEl       = document.getElementById("cinema-aside");
+    const asideScrollEl = document.getElementById("cinema-aside-scroll");
+    const asideCloseEl  = document.getElementById("cinema-aside-close");
+    const cursorEl      = document.getElementById("cinema-cursor");
+    const cursorScrollEl= document.getElementById("cinema-cursor-scroll");
+    const cursorDragEl  = document.getElementById("cinema-cursor-drag");
+    const cursorUpEl    = document.getElementById("cinema-cursor-up");
+    const cursorDownEl  = document.getElementById("cinema-cursor-down");
+
+    function buildTrack() {
+      const parts = [];
+      for (let i = 0; i < TOTAL_RENDERED; i++) {
+        const slide = SLIDES[i % N_SLIDES];
+        const isFirst = (i === AUTO_END_IDX);
+        parts.push(slideFrameHtml(i, slide, isFirst, true));
+      }
+      trackEl.innerHTML = parts.join("");
+      // Track initial transform pinned in JSX → set here
+      const initialPitchVh = SLIDE_VH * AUTO_SCALE_FROM + GAP_VH;
+      trackEl.style.transform =
+        "translate3d(0," + (TOP_PAD_VH - AUTO_START_IDX * initialPitchVh) + "dvh,0)";
+    }
+    buildTrack();
+    indicatorTotalEl.textContent = String(N_SLIDES).padStart(2, "0");
+
+    // Build pips
+    function buildPips(activeMod) {
+      indicatorPipsEl.innerHTML = "";
+      for (let i = 0; i < N_SLIDES; i++) {
+        const active = i === activeMod;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.setAttribute("aria-label", "Go to slide " + (i + 1));
+        btn.className = "flex h-5 w-5 items-center justify-center";
+        btn.style.cursor = "pointer";
+        btn.setAttribute("data-cursor-pointer", "");
+        const dot = document.createElement("span");
+        dot.className = "rounded-full block";
+        dot.style.width  = (active ? 6 : 4) + "px";
+        dot.style.height = (active ? 6 : 4) + "px";
+        dot.style.background = active ? "rgba(241,231,210,0.95)" : "rgba(255,255,255,0.22)";
+        dot.style.transition = "all 320ms cubic-bezier(0.16, 1, 0.3, 1)";
+        btn.appendChild(dot);
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          navigateToMod(i);
+        });
+        indicatorPipsEl.appendChild(btn);
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       § 11 — LAYOUT SIZES
+       ───────────────────────────────────────────────────────── */
+    let viewportH  = window.innerHeight;
+    let pitch      = (viewportH * PITCH_VH)         / 100;
+    let slideH     = (viewportH * SLIDE_VH)         / 100;
+    let dragThresh = (viewportH * DRAG_THRESHOLD_VH)/ 100;
+    let topPad     = (viewportH * TOP_PAD_VH)       / 100;
+
+    function recomputeSizes() {
+      viewportH  = window.innerHeight;
+      pitch      = (viewportH * PITCH_VH) / 100;
+      slideH     = (viewportH * SLIDE_VH) / 100;
+      dragThresh = (viewportH * DRAG_THRESHOLD_VH) / 100;
+      topPad     = (viewportH * TOP_PAD_VH) / 100;
+      if (!autoScrollingRef) {
+        targetY = topPad - idx * pitch;
+        y = targetY;
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       § 10 — STATE / REFS
+       ───────────────────────────────────────────────────────── */
+    let idx        = AUTO_START_IDX;
+    let prevIdx    = AUTO_START_IDX;
+    let y          = 0;
+    let targetY    = 0;
+    let wheelLastTime = 0;
+    let autoScrollingRef = true;
+
+    let lastBlurP  = 0;
+    let lastBlurTs = 0;
+
+    const dragState = {
+      active: false,
+      startClientY: 0,
+      startTrackY: 0,
+      delta: 0,
+      pointerId: 0,
+    };
+    let onSection = false;
+    let downRef   = false;
+
+    const cursorPos    = { x: 0, y: 0 };
+    const cursorRender = { x: 0, y: 0, scale: 0, opacity: 0 };
+    let cursorInit = false;
+    let cursorOnUi = false;
+    let cursorZone = null; // "top" | "bottom" | null
+
+    // initial yRef using visual pitch at scale AUTO_SCALE_FROM
+    {
+      const initialVPitchVh = SLIDE_VH * AUTO_SCALE_FROM + GAP_VH;
+      y = ((TOP_PAD_VH - AUTO_START_IDX * initialVPitchVh) * window.innerHeight) / 100;
+      targetY = y;
+    }
+
+    const modN = function (i) { return ((i % N_SLIDES) + N_SLIDES) % N_SLIDES; };
+
+    // Initial pips (active = AUTO_START_IDX % N + N % N → "02")
+    let activeMod = modN(AUTO_START_IDX);
+    buildPips(activeMod);
+    indicatorCurrentEl.textContent = String(activeMod + 1).padStart(2, "0");
+
+    /* ─────────────────────────────────────────────────────────
+       § 18 — WRAP / setIndex / pip nav
+       ───────────────────────────────────────────────────────── */
+    function maybeWrap() {
+      while (idx < N_SLIDES) {
+        idx     += N_SLIDES;
+        prevIdx += N_SLIDES;
+        const shift = N_SLIDES * pitch;
+        y       -= shift;
+        targetY -= shift;
+        if (dragState.active) dragState.startTrackY -= shift;
+      }
+      while (idx >= (LOOP_COPIES - 1) * N_SLIDES) {
+        idx     -= N_SLIDES;
+        prevIdx -= N_SLIDES;
+        const shift = N_SLIDES * pitch;
+        y       += shift;
+        targetY += shift;
+        if (dragState.active) dragState.startTrackY += shift;
+      }
+    }
+
+    function updateIndicator() {
+      const m = modN(idx);
+      activeMod = m;
+      indicatorCurrentEl.textContent = String(m + 1).padStart(2, "0");
+      // Update pip styles in-place (no rebuild — keep transitions smooth)
+      const buttons = indicatorPipsEl.children;
+      for (let i = 0; i < buttons.length; i++) {
+        const dot = buttons[i].firstChild;
+        const active = i === m;
+        dot.style.width      = (active ? 6 : 4) + "px";
+        dot.style.height     = (active ? 6 : 4) + "px";
+        dot.style.background = active ? "rgba(241,231,210,0.95)" : "rgba(255,255,255,0.22)";
+      }
+    }
+
+    function setIndex(next) {
+      if (next === idx) return;
+      prevIdx = idx;
+      idx = next;
+      targetY = topPad - next * pitch;
+      updateIndicator();
+      maybeWrap();
+    }
+
+    function navigateToMod(targetMod) {
+      const currentMod = modN(idx);
+      let diff = targetMod - currentMod;
+      if      (diff >  N_SLIDES / 2) diff -= N_SLIDES;
+      else if (diff < -N_SLIDES / 2) diff += N_SLIDES;
+      if (diff === 0) return;
+      setIndex(idx + diff);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       § 23 — DETAILS PANEL
+       ───────────────────────────────────────────────────────── */
+    function statHtml(label, value, suffix) {
+      return (
+        '<div class="flex flex-col gap-1">' +
+          '<div class="text-[9.5px] font-medium uppercase tracking-[0.32em] text-white/45">' + htmlEscape(label) + '</div>' +
+          '<div class="font-playfair text-[20px] leading-none text-white/95">' +
+            htmlEscape(value) +
+            (suffix ? '<span class="ml-0.5 text-[11px] text-white/55">' + htmlEscape(suffix) + '</span>' : "") +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function detailsBodyHtml(slide) {
+      const heroUrl = imgUrl(slide.imageId, imgDims.w, Math.round(imgDims.h * 0.6), 80);
+      const titleHtml = slide.titleLines.map(function (l) { return '<span class="block">' + htmlEscape(l) + '</span>'; }).join("");
+
+      const awardsStrip = slide.awards.map(function (a) {
+        return (
+          '<div class="flex items-baseline gap-3">' +
+            '<div class="flex shrink-0 items-center" style="gap:2px;">' +
+              [0,1,2,3,4].map(function (s) {
+                const color = s < a.stars ? "#f1e7d2" : "rgba(255,255,255,0.18)";
+                return '<span class="text-[11px]" style="color:' + color + ';">★</span>';
+              }).join("") +
+            '</div>' +
+            '<div class="text-[10px] font-medium uppercase tracking-[0.32em] text-white/55 shrink-0">' + htmlEscape(a.label) + '</div>' +
+            '<div class="font-playfair flex-1 text-[13px] leading-tight text-white/90" style="font-style:italic;">&ldquo;' + htmlEscape(a.quote) + '&rdquo;</div>' +
+          '</div>'
+        );
+      }).join("");
+
+      return (
+        // Hero image
+        '<div class="relative w-full overflow-hidden" style="height:35dvh; flex-shrink:0;">' +
+          '<img src="' + heroUrl + '" alt="" draggable="false" class="absolute inset-0 h-full w-full" style="object-fit:cover;">' +
+          '<div class="absolute inset-x-0 bottom-0 h-1/2" style="background:linear-gradient(180deg, rgba(10,9,8,0) 0%, rgba(10,9,8,0.85) 80%, rgba(10,9,8,1) 100%);"></div>' +
+        '</div>' +
+
+        // Body
+        '<div class="px-[3.5dvh] pb-[4dvh] pt-[1dvh]">' +
+          '<div class="text-[10px] font-medium uppercase tracking-[0.36em] text-white/55">' + htmlEscape(slide.eyebrow) + '</div>' +
+          '<h2 class="font-playfair mt-3 font-semibold uppercase" style="font-size:clamp(2.2rem, 4.6dvh, 4rem); line-height:0.95; letter-spacing:-0.015em; color:#f6efe2;">' +
+            titleHtml +
+          '</h2>' +
+          '<div class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-[10.5px] font-medium uppercase tracking-[0.32em] text-white/75">' +
+            '<span><span class="text-white/45">DIR.</span> <span class="text-white/95">' + htmlEscape(slide.director) + '</span></span>' +
+            '<span class="text-white/30">·</span>' +
+            '<span class="text-white/95">' + htmlEscape(slide.year) + '</span>' +
+            '<span class="text-white/30">·</span>' +
+            '<span class="text-white/75">' + htmlEscape(slide.category) + '</span>' +
+          '</div>' +
+
+          '<div class="my-6 h-px w-full bg-white/10"></div>' +
+
+          '<p class="font-playfair text-[15.5px] leading-[1.65] text-white/85" style="font-style:italic;">' + htmlEscape(slide.description) + '</p>' +
+
+          '<div class="my-6 h-px w-full bg-white/10"></div>' +
+
+          '<div class="grid grid-cols-3 gap-x-5 gap-y-5">' +
+            statHtml("CRITICS",  String(slide.stats.critics),  "%") +
+            statHtml("AUDIENCE", String(slide.stats.audience), "%") +
+            statHtml("RUNTIME",  slide.stats.runtime, null) +
+            statHtml("FORMAT",   slide.stats.format,  null) +
+            statHtml("ASPECT",   slide.stats.aspect,  null) +
+            statHtml("LANGUAGE", slide.stats.language,null) +
+          '</div>' +
+          '<div class="mt-5 grid grid-cols-1">' +
+            statHtml("COUNTRY", slide.stats.country, null) +
+          '</div>' +
+
+          '<div class="my-6 h-px w-full bg-white/10"></div>' +
+
+          '<div class="flex flex-col gap-3">' + awardsStrip + '</div>' +
+        '</div>'
+      );
+    }
+
+    function findOpenSlideInner() {
+      const slot = trackEl.querySelector('[data-slot="' + idx + '"]');
+      if (!slot) return null;
+      return slot.querySelector('[data-slide-inner]');
+    }
+
+    function openDetails(slide) {
+      openSlideKey = slide.id;
+      asideScrollEl.innerHTML = detailsBodyHtml(slide);
+      asideScrollEl.scrollTop = 0;
+
+      // Aside — slide in
+      asideEl.style.transform = "translateX(0)";
+      asideEl.style.boxShadow = "-30px 0 80px -20px rgba(0,0,0,0.6)";
+      asideEl.setAttribute("aria-hidden", "false");
+      asideEl.classList.remove("pointer-events-none");
+
+      // Backdrop — fade in + blur
+      backdropEl.style.backgroundColor      = "rgba(10,9,8,0.35)";
+      backdropEl.style.backdropFilter       = "blur(14px) saturate(120%)";
+      backdropEl.style.webkitBackdropFilter = "blur(14px) saturate(120%)";
+      backdropEl.style.WebkitBackdropFilter = "blur(14px) saturate(120%)";
+      backdropEl.classList.remove("pointer-events-none");
+      backdropEl.classList.add("pointer-events-auto");
+      backdropEl.setAttribute("aria-hidden", "false");
+
+      // Door tilt the active slide
+      const inner = findOpenSlideInner();
+      if (inner) {
+        inner.style.transform = "rotateY(15deg)";
+        inner.style.boxShadow = "0 30px 80px -20px rgba(0,0,0,0.55), 0 8px 30px -10px rgba(0,0,0,0.35)";
+      }
+
+      // Hide indicator
+      indicatorEl.style.opacity = "0";
+      indicatorEl.classList.add("pointer-events-none");
+    }
+
+    function closeDetails() {
+      openSlideKey = null;
+
+      asideEl.style.transform = "translateX(calc(100% + var(--cinema-pad-x) + 2dvh))";
+      asideEl.style.boxShadow = "none";
+      asideEl.setAttribute("aria-hidden", "true");
+      asideEl.classList.add("pointer-events-none");
+
+      backdropEl.style.backgroundColor      = "rgba(10,9,8,0)";
+      backdropEl.style.backdropFilter       = "blur(0px)";
+      backdropEl.style.webkitBackdropFilter = "blur(0px)";
+      backdropEl.style.WebkitBackdropFilter = "blur(0px)";
+      backdropEl.classList.remove("pointer-events-auto");
+      backdropEl.classList.add("pointer-events-none");
+      backdropEl.setAttribute("aria-hidden", "true");
+
+      // Un-tilt every slide (in case idx wrapped while open)
+      const allInners = trackEl.querySelectorAll('[data-slide-inner]');
+      for (let i = 0; i < allInners.length; i++) {
+        allInners[i].style.transform = "";
+        allInners[i].style.boxShadow = "";
+      }
+
+      indicatorEl.style.opacity = "1";
+      indicatorEl.classList.remove("pointer-events-none");
+    }
+
+    backdropEl.addEventListener("click", closeDetails);
+    asideCloseEl.addEventListener("click", closeDetails);
+
+    // EXPLORE buttons (event-delegate from track)
+    trackEl.addEventListener("click", function (e) {
+      const btn = e.target && e.target.closest && e.target.closest("[data-explore]");
+      if (!btn) return;
+      e.stopPropagation();
+      const slot = btn.closest("[data-slot]");
+      if (!slot) return;
+      const slotIdx = parseInt(slot.getAttribute("data-slot"), 10);
+      const slide = SLIDES[slotIdx % N_SLIDES];
+      openDetails(slide);
+    });
+
+    /* ─────────────────────────────────────────────────────────
+       § 13 — ENTRANCE TIMELINE
+       ───────────────────────────────────────────────────────── */
+    const SCROLL_TOTAL_S = AUTO_SCROLL_MS / 1000;
+    const FADE_S         = AUTO_FADE_MS   / 1000;
+    const slideEls       = Array.prototype.slice.call(trackEl.querySelectorAll("[data-slot]"));
+    const vhToPx         = window.innerHeight / 100;
+
+    const tweenObj = { p: 0 };
+    let timelineCompletedOnce = false;
+
+    function onScrollUpdate() {
+      const p     = tweenObj.p;
+      const scale = AUTO_SCALE_FROM + (1 - AUTO_SCALE_FROM) * p; // 1
+      const idxF  = AUTO_START_IDX + (AUTO_END_IDX - AUTO_START_IDX) * p;
+      const vpVh  = SLIDE_VH * scale + GAP_VH;
+
+      y = (TOP_PAD_VH - idxF * vpVh) * vhToPx;
+      targetY = y;
+
+      const deltaVh       = SLIDE_VH * (scale - 1);
+      const visualPitchPx = vpVh * vhToPx;
+
+      for (let i = 0; i < slideEls.length; i++) {
+        const el = slideEls[i];
+        if (!el) continue;
+        el.style.transform =
+          "translate3d(0," + (i * deltaVh).toFixed(3) + "dvh,0) scale(" + scale.toFixed(4) + ")";
+
+        let wrap = el.__wrap;
+        if (wrap === undefined) {
+          wrap = el.querySelector("[data-slide-image]");
+          el.__wrap = wrap;
+        }
+        if (wrap) {
+          const visualDyPx = (i - idxF) * visualPitchPx;
+          const wrapY      = -visualDyPx / (IMG_HEIGHT_RATIO * scale);
+          wrap.style.transform = "translate3d(0," + wrapY.toFixed(2) + "px,0)";
+        }
+      }
+
+      // Velocity-driven motion blur + scanlines
+      const now = performance.now();
+      let norm = 1;
+      if (lastBlurTs > 0) {
+        const dt        = Math.max(now - lastBlurTs, 1);
+        const dp        = Math.abs(p - lastBlurP);
+        const idxRange  = AUTO_END_IDX - AUTO_START_IDX;
+        const idxSpeed  = (dp * idxRange) / dt;
+        const peakSpeed = (idxRange * 3) / (SCROLL_TOTAL_S * 1000);
+        norm = Math.min(idxSpeed / peakSpeed, 1);
+      }
+      lastBlurP  = p;
+      lastBlurTs = now;
+
+      if (blurFilter) {
+        blurFilter.setAttribute("stdDeviation", "0 " + (norm * 18).toFixed(2));
+      }
+      if (scanlinesEl) {
+        scanlinesEl.style.opacity = norm.toFixed(3);
+      }
+    }
+
+    // Set initial outer transform / opacity for the entrance
+    slideEls.forEach(function (el, i) {
+      const initialTranslate = i * SLIDE_VH * (AUTO_SCALE_FROM - 1);
+      el.style.transform = "translate3d(0," + initialTranslate + "dvh,0) scale(" + AUTO_SCALE_FROM + ")";
+      el.style.transformOrigin = "50% 50%";
+      el.style.opacity = "0";
+    });
+
+    const mainTween = gsap.timeline({
+      onUpdate: onScrollUpdate,
+      onComplete: function () {
+        if (timelineCompletedOnce) return;
+        timelineCompletedOnce = true;
+
+        for (let i = 0; i < slideEls.length; i++) {
+          if (slideEls[i]) slideEls[i].style.transform = "";
+        }
+        if (blurFilter) blurFilter.setAttribute("stdDeviation", "0 0");
+
+        autoScrollingRef = false;
+        autoScrolling    = false;
+
+        idx     = AUTO_END_IDX;
+        prevIdx = AUTO_END_IDX;
+        targetY = topPad - AUTO_END_IDX * pitch;
+        y       = targetY;
+
+        updateIndicator();
+        maybeWrap();
+
+        // Remove track filter (zero post-landing cost)
+        trackEl.style.filter = "";
+        // Unmount scanlines
+        if (scanlinesEl && scanlinesEl.parentNode) {
+          scanlinesEl.parentNode.removeChild(scanlinesEl);
+        }
+
+        // Reveal the LANDING slide content
+        const landing = trackEl.querySelector('[data-slot="' + idx + '"]');
+        if (landing) {
+          const reveals = landing.querySelectorAll("[data-reveal]");
+          if (reveals.length) {
+            gsap.fromTo(
+              reveals,
+              { autoAlpha: 0, y: 32, filter: "blur(10px)" },
+              { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "power4.out", stagger: 0.07 }
+            );
+          }
+        }
+      },
+    });
+
+    mainTween.to(slideEls, { autoAlpha: 1, duration: FADE_S, ease: "power2.out" }, 0);
+    mainTween.to(tweenObj, { p: 1,         duration: SCROLL_TOTAL_S, ease: "power3.out" }, 0);
+
+    /* ─────────────────────────────────────────────────────────
+       § 14 — rAF loop
+       ───────────────────────────────────────────────────────── */
+    let raf = 0;
+    function tick() {
+      const now = performance.now();
+      const isDragging      = dragState.active;
+      const wheelActive     = now - wheelLastTime < WHEEL_PAUSE_MS;
+      const isAutoScrolling = autoScrollingRef;
+
+      if (!isDragging && !wheelActive && !isAutoScrolling) {
+        const dy = targetY - y;
+        if (Math.abs(dy) < 0.5) y = targetY;
+        else                    y += dy * EASE;
+      }
+      trackEl.style.transform = "translate3d(0," + y + "px,0)";
+
+      const viewCenter = viewportH / 2;
+      for (let i = 0; i < TOTAL_RENDERED; i++) {
+        const ref = slideEls[i];
+        if (!ref) continue;
+
+        const effectiveTop = i * pitch + y;
+        const slideCenter  = effectiveTop + slideH / 2;
+        const dy           = slideCenter - viewCenter;
+        const dn           = Math.abs(dy) / slideH;
+
+        // Skip far-offscreen
+        if (dn > 2) {
+          const content = ref.querySelector("[data-slide-content]");
+          if (content && content.style.opacity !== "0") {
+            content.style.opacity = "0";
+            content.style.filter  = "blur(16px)";
+          }
+          continue;
+        }
+
+        let wrap = ref.__wrap;
+        if (wrap === undefined) {
+          wrap = ref.querySelector("[data-slide-image]");
+          ref.__wrap = wrap;
+        }
+        const content = ref.querySelector("[data-slide-content]");
+        if (!content) continue;
+
+        if (wrap && !isAutoScrolling) {
+          const imgY = -dy / IMG_HEIGHT_RATIO;
+          wrap.style.transform = "translate3d(0," + imgY.toFixed(2) + "px,0)";
+        }
+
+        if (isAutoScrolling) {
+          if (content.style.opacity !== "0") {
+            content.style.opacity = "0";
+            content.style.filter  = "blur(16px)";
+          }
+          continue;
+        }
+
+        const isActive  = i === idx;
+        const isLeaving = i === prevIdx && prevIdx !== idx;
+
+        let opacity = 0, blur = 16, cy = 0;
+
+        if (isActive) {
+          const t = Math.max(0, Math.min(1, 1 - dn / FADE_THRESHOLD));
+          opacity = t * t * (3 - 2 * t);
+          blur    = (1 - opacity) * 14;
+          cy      = (1 - opacity) * ENTRY_OFFSET_PX * Math.sign(dy || 1);
+        } else if (isLeaving) {
+          const fade = Math.max(0, 1 - Math.max(0, dn - 0.6) / 0.6);
+          opacity = fade;
+          blur    = (1 - fade) * 6;
+          cy      = -dy * PARALLAX_FACTOR;
+        }
+
+        content.style.transform = "translate3d(0," + cy.toFixed(2) + "px,0)";
+        content.style.opacity   = opacity.toFixed(3);
+        content.style.filter    = "blur(" + blur.toFixed(2) + "px)";
+      }
+
+      // ── Cursor follow ──
+      if (cursorEl) {
+        const px = cursorPos.x;
+        const py = cursorPos.y;
+        if (!cursorInit && (px !== 0 || py !== 0)) {
+          cursorRender.x = px;
+          cursorRender.y = py;
+          cursorInit = true;
+        }
+        cursorRender.x += (px - cursorRender.x) * 0.22;
+        cursorRender.y += (py - cursorRender.y) * 0.22;
+        const targetOpacity = onSection && cursorInit ? 1 : 0;
+        cursorRender.opacity += (targetOpacity - cursorRender.opacity) * 0.18;
+        const targetScale = downRef ? 1.18 : 1;
+        cursorRender.scale += (targetScale - cursorRender.scale) * 0.22;
+
+        cursorEl.style.transform =
+          "translate3d(" + cursorRender.x + "px," + cursorRender.y + "px,0) " +
+          "translate(-50%,-50%) " +
+          "scale(" + cursorRender.scale.toFixed(3) + ")";
+        cursorEl.style.opacity = cursorRender.opacity.toFixed(3);
+
+        const zone   = cursorZone;
+        const isDown = downRef;
+        const onUi   = cursorOnUi;
+        if (cursorScrollEl) cursorScrollEl.style.opacity = (zone === null && !isDown && !onUi) ? "1" : "0";
+        if (cursorDragEl)   cursorDragEl.style.opacity   = (isDown && zone === null) ? "1" : "0";
+        if (cursorUpEl)     cursorUpEl.style.opacity     = (zone === "top"    || (isDown && zone === null)) ? "1" : "0";
+        if (cursorDownEl)   cursorDownEl.style.opacity   = (zone === "bottom" || (isDown && zone === null)) ? "1" : "0";
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+
+    /* ─────────────────────────────────────────────────────────
+       § 15 — Wheel
+       ───────────────────────────────────────────────────────── */
+    function onWheel(e) {
+      if (!onSection) return;
+      const target = e.target;
+      if (target && target.closest && target.closest("[data-no-drag]")) return;
+
+      e.preventDefault();
+      const delta = Math.max(-WHEEL_PER_EVENT_CAP, Math.min(WHEEL_PER_EVENT_CAP, e.deltaY));
+      y -= delta;
+      wheelLastTime = performance.now();
+
+      const idealFloat = (topPad - y) / pitch;
+      const nearest    = Math.round(idealFloat);
+      if (nearest !== idx) setIndex(nearest);
+    }
+    sectionEl.addEventListener("wheel", onWheel, { passive: false });
+
+    /* ─────────────────────────────────────────────────────────
+       § 16 — Pointer drag
+       ───────────────────────────────────────────────────────── */
+    function onPointerDown(e) {
+      if (!onSection) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      const target = e.target;
+      if (target && target.closest && target.closest("[data-no-drag]")) return;
+      wheelLastTime = 0;
+      dragState.active        = true;
+      dragState.startClientY  = e.clientY;
+      dragState.startTrackY   = y;
+      dragState.delta         = 0;
+      dragState.pointerId     = e.pointerId;
+      downRef                 = true;
+      try { sectionEl.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+
+    function onPointerMove(e) {
+      cursorPos.x = e.clientX;
+      cursorPos.y = e.clientY;
+      const topThreshold    = (window.innerHeight * MASK_VH) / 100;
+      const bottomThreshold =  window.innerHeight - (window.innerHeight * MASK_VH) / 100;
+      if      (e.clientY < topThreshold)    cursorZone = "top";
+      else if (e.clientY > bottomThreshold) cursorZone = "bottom";
+      else                                  cursorZone = null;
+      cursorOnUi = !!(e.target && e.target.closest && e.target.closest("[data-no-drag]"));
+
+      if (!dragState.active) return;
+      const delta = e.clientY - dragState.startClientY;
+      dragState.delta = delta;
+      y = dragState.startTrackY + delta;
+    }
+
+    function endDrag(committed) {
+      const delta = dragState.delta;
+      const zone  = cursorZone;
+      dragState.active = false;
+      downRef          = false;
+      if (!committed) return;
+
+      if (zone && Math.abs(delta) < 8) {
+        const next = idx + (zone === "top" ? -1 : 1);
+        if (openSlideKey) closeDetails();
+        setIndex(next);
+        return;
+      }
+      if (Math.abs(delta) > dragThresh) {
+        const next = idx + (delta < 0 ? 1 : -1);
+        setIndex(next);
+      }
+    }
+
+    function onPointerUp(e) {
+      if (!dragState.active) return;
+      try { sectionEl.releasePointerCapture(dragState.pointerId); } catch (_) {}
+      endDrag(true);
+    }
+    function onPointerCancel() {
+      dragState.delta = 0;
+      y = dragState.startTrackY;
+      endDrag(false);
+    }
+
+    sectionEl.addEventListener("pointerdown",  onPointerDown);
+    sectionEl.addEventListener("pointermove",  onPointerMove);
+    sectionEl.addEventListener("pointerup",    onPointerUp);
+    sectionEl.addEventListener("pointercancel",onPointerCancel);
+
+    /* ─────────────────────────────────────────────────────────
+       § 17 — Enter/leave + key + resize
+       ───────────────────────────────────────────────────────── */
+    sectionEl.addEventListener("pointerenter", function () { onSection = true; });
+    sectionEl.addEventListener("pointerleave", function () {
+      onSection = false;
+      if (dragState.active) endDrag(true);
+    });
+
+    window.addEventListener("resize", function () {
+      recomputeSizes();
+      const next = computeImgDims();
+      if (next.w !== imgDims.w || next.h !== imgDims.h) {
+        imgDims = next;
+        preloadImages();
+      }
+    });
+
+    window.addEventListener("keydown", function (e) {
+      if (!onSection && !openSlideKey) return;
+      if (e.key === "Escape" && openSlideKey) {
+        e.preventDefault();
+        closeDetails();
+        return;
+      }
+      if (!onSection) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+        e.preventDefault();
+        setIndex(idx + 1);
+      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+        e.preventDefault();
+        setIndex(idx - 1);
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

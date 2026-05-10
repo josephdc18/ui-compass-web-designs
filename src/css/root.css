@@ -160,8 +160,8 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   #cs-footer-309 .cs-nav{width:auto}
 }
 @media only screen and (min-width:64rem){
-  #cs-footer-309 .cs-container{column-gap:5.25rem;flex-wrap:nowrap;justify-content:flex-end;max-width:80rem}
-  #cs-footer-309 .cs-logo-group{margin-right:auto;max-width:24.1875rem;width:30%}
+  #cs-footer-309 .cs-container{column-gap:3rem;flex-wrap:nowrap;justify-content:flex-end;max-width:80rem}
+  #cs-footer-309 .cs-logo-group{margin-right:auto;max-width:22rem;width:26%}
   #cs-footer-309 .cs-text{width:100%}
 }
 
@@ -539,4 +539,39 @@ footer {
   ::view-transition-new(*) {
     animation: none !important;
   }
+}
+
+/* On mobile + tablet, fix the right-side chrome cluster order so the
+   language switcher sits to the LEFT of the hamburger. critical.css ships
+   `#cs-navigation .cs-nav { order: 2 }` and `#dark-mode-toggle { position:
+   absolute; right: 5rem }` for the same breakpoint — both load AFTER this
+   inlined root.css, so we MUST out-specify them here. Chaining through
+   `.cs-container` raises the specificity to 0,1,2,0 (or 0,2,1,0 for the
+   dark-mode toggle) which beats critical.css's 0,1,1,0 / 0,1,0,0.
+   Final visual order at <64em: [logo][..gap..][lang][dark-mode][hamburger]. */
+@media only screen and (max-width: 63.96875rem) {
+  #cs-navigation .cs-container .language-switcher {
+    order: 2;
+    margin: 0 0.25rem;
+  }
+  #cs-navigation .cs-container #dark-mode-toggle {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    order: 3;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 0.25rem;
+    flex: none;
+  }
+  #cs-navigation .cs-container .cs-nav {
+    order: 4;
+  }
+}
+
+/* Blog page gutter token. .blog-container uses width:94%, leaving 3% gutter
+   on each side. Anything that needs to align with the blog content edges
+   (banner content, print button, future tools) reads from here. */
+:root {
+  --blog-side-gutter: 3vw;
 }

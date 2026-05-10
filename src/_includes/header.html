@@ -20,9 +20,7 @@
             </ul>
           </li>
           <li class="cs-li"><a href="/pricing/" class="cs-li-link {% if page.url == '/pricing/' %}cs-active{% endif %}">Pricing</a></li>
-          {# Hidden until blog content is ready — uncomment to restore.
           <li class="cs-li"><a href="/blog/" class="cs-li-link {% if page.url == '/blog/' %}cs-active{% endif %}">Blog</a></li>
-          #}
           <li class="cs-li"><a href="/about/" class="cs-li-link {% if page.url == '/about/' %}cs-active{% endif %}">About</a></li>
           <li class="cs-li"><a href="/contact/" class="cs-li-link {% if page.url == '/contact/' %}cs-active{% endif %}">Contact</a></li>
         </ul>
@@ -33,7 +31,7 @@
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
     </svg>
     <span id="cart-badge" class="cs-cart-badge" style="display:none">0</span>
-</button> -->{# {% include "language-switcher.html" %} #}
-    </nav><a href="/contact/" class="cs-button-solid cs-nav-button {% if page.url == '/contact/' %}cs-active{% endif %}">Get Started</a><button aria-label="dark mode toggle" id="dark-mode-toggle"><img alt="" decoding="async" height="15" src="/assets/images/5482ef6ba9ea.svg" width="15" aria-hidden="true" class="cs-moon"> <img alt="" decoding="async" height="15" src="/assets/images/76d1cd5c2194.svg" width="15" aria-hidden="true" class="cs-sun"></button>
+</button> -->
+    </nav>{% include "language-switcher.html" %}<a href="/contact/" class="cs-button-solid cs-nav-button {% if page.url == '/contact/' %}cs-active{% endif %}">Get Started</a><button aria-label="dark mode toggle" id="dark-mode-toggle"><img alt="" decoding="async" height="15" src="/assets/images/5482ef6ba9ea.svg" width="15" aria-hidden="true" class="cs-moon"> <img alt="" decoding="async" height="15" src="/assets/images/76d1cd5c2194.svg" width="15" aria-hidden="true" class="cs-sun"></button>
   </div>
 </header>

@@ -1,0 +1,1264 @@
+/* =====================================================================
+   blog-extras.css
+   Reading-experience layer for blog posts. Loaded only on pages where
+   `blog: true` is set in frontmatter. Maps the source dump's token names
+   onto the UI Compass green palette and uses inline SVG (no Font Awesome).
+   Add-on to blog.css; do not duplicate selectors that already live there.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   Token map — scoped block-level so we do not pollute root.css globals
+   --------------------------------------------------------------------- */
+.blog-article,
+.article-actions,
+.tldr-box,
+.faq-accordion,
+.tooltip-term,
+.copy-toast,
+.tts-mini-player,
+.print-header,
+.print-footer,
+.related-guides,
+.go-top-progress,
+.focus-exit-btn,
+body.focus-mode {
+  --be-primary:        var(--primary, #006940);
+  --be-primary-soft:   rgba(0, 105, 64, 0.08);
+  --be-primary-line:   rgba(0, 105, 64, 0.32);
+  --be-navy:           #1a1a1a;
+  --be-accent:         #d97706;
+  --be-accent-soft:    #fef3c7;
+  --be-accent-line:    #fcd34d;
+  --be-bg:             var(--bodyTextColorWhite, #ffffff);
+  --be-bg-soft:        #f7f7f7;
+  --be-bg-raised:      #f1f5f9;
+  --be-border:         #e5e7eb;
+  --be-text:           var(--headerColor, #1e293b);
+  --be-text-muted:     #64748b;
+  --be-text-faint:     #7a7889;
+  --be-success:        #16a34a;
+  --be-radius-sm:      8px;
+  --be-radius-md:      12px;
+  --be-radius-lg:      16px;
+  --be-shadow-sm:      0 1px 2px rgba(0,0,0,0.05);
+  --be-shadow-md:      0 4px 12px rgba(15,23,42,.08);
+  --be-shadow-lg:      0 10px 28px rgba(15,23,42,.16);
+}
+
+body.dark-mode .blog-article,
+body.dark-mode .article-actions,
+body.dark-mode .tldr-box,
+body.dark-mode .faq-accordion,
+body.dark-mode .copy-toast,
+body.dark-mode .tts-mini-player,
+body.dark-mode .related-guides,
+body.dark-mode .focus-exit-btn,
+body.dark-mode.focus-mode {
+  --be-bg:             var(--medium, #1f1f1f);
+  --be-bg-soft:        var(--dark, #121212);
+  --be-bg-raised:      rgba(255,255,255,0.06);
+  --be-border:         rgba(255,255,255,0.10);
+  --be-text:           var(--bodyTextColorWhite, #ffffff);
+  --be-text-muted:     rgba(255,255,255,0.72);
+  --be-text-faint:     rgba(255,255,255,0.5);
+  --be-shadow-md:      0 4px 12px rgba(0,0,0,0.4);
+  --be-shadow-lg:      0 12px 32px rgba(0,0,0,0.55);
+}
+
+/* ---------------------------------------------------------------------
+   0. BLOG POST BANNER FALLBACK + PRINT GUIDE BUTTON
+   The shared #banner-1106-14 expects a .cs-background <picture>. Posts
+   without an `image` frontmatter get a flat dark gradient so the white
+   headline stays readable. Same approach as the checklist banner.
+   --------------------------------------------------------------------- */
+#banner-1106-14:not(:has(.cs-background)) {
+  background: linear-gradient(135deg, #1d1b25 0%, #262421 60%, #0e3b25 100%);
+}
+body.dark-mode #banner-1106-14:not(:has(.cs-background)) {
+  background: linear-gradient(135deg, #0a0a0c 0%, #1a1a1a 60%, #003d23 100%);
+}
+
+/* On blog post pages, override the standard interior banner so the hero
+   takes up much less vertical space than other interior pages.
+   - Vertical padding is collapsed to a small clamped top + tight bottom.
+     padding-top must still clear the fixed nav (~120-150px) so the H1 isn't
+     hidden behind it on first load.
+   - Horizontal padding matches .blog-container's gutter (3vw) so the banner
+     content's left/right edges align with the post grid below.
+   The padding-top is exposed as `--blog-banner-pt` so the absolutely-
+   positioned Print Guide button can align its top edge with the H1 top. */
+body:has(.blog-with-toc) {
+  --blog-banner-pt: clamp(10rem, 10vw, 12rem);
+}
+body:has(.blog-with-toc) #banner-1106-14 {
+  padding: var(--blog-banner-pt) var(--blog-side-gutter) 3rem;
+}
+body:has(.blog-with-toc) #banner-1106-14 .cs-container {
+  width: 100%;
+  max-width: none;
+}
+
+/* Print Guide button anchored to the top-right of the blog post banner.
+   `top` matches the banner's padding-top so the button's top edge sits on
+   the same line as the H1's top. `right` matches the blog page gutter so
+   the button's right edge aligns with the featured-post sidebar's right
+   edge below. Fallback for pages where --blog-banner-pt isn't set. */
+.banner-print-btn {
+  position: absolute;
+  top: var(--blog-banner-pt, 8rem);
+  right: var(--blog-side-gutter);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.banner-print-btn:hover {
+  background: #fff;
+  color: var(--be-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
+.banner-print-btn:focus-visible {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 3px;
+}
+.banner-print-btn svg { width: 1rem; height: 1rem; flex: none; }
+@media (max-width: 47.99em) {
+  .banner-print-btn {
+    /* top + right inherit from the base rule; only resize on small screens. */
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 30em) {
+  .banner-print-btn span { display: none; }
+  .banner-print-btn { padding: 0.55rem 0.7rem; }
+}
+@media print {
+  .banner-print-btn { display: none !important; }
+}
+
+/* ---------------------------------------------------------------------
+   0a. POST AUTHOR + DATES META BLOCK
+   Sits at the top of the article body (below the banner). Avatar (optional)
+   + linked author name + "Updated on <date>" on one line. If `updated`
+   frontmatter is set, an italic "Originally published in <Month Year>"
+   line follows underneath.
+   --------------------------------------------------------------------- */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 1.25rem 0 2rem;
+}
+.post-meta-avatar {
+  flex: none;
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--be-border);
+  background: var(--be-bg-soft);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.post-meta-avatar:hover {
+  border-color: var(--be-primary);
+  transform: scale(1.04);
+}
+.post-meta-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.post-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: var(--be-text-muted);
+  line-height: 1.4;
+}
+.post-meta-author {
+  color: var(--be-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0, 0, 0, 0.25);
+  text-decoration-thickness: 1px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.post-meta-author--plain { text-decoration: none; }
+.post-meta-author:hover {
+  color: var(--be-primary);
+  text-decoration-color: currentColor;
+}
+.post-meta-dot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: var(--be-text-faint);
+  border-radius: 50%;
+  flex: none;
+}
+.post-meta-original {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--be-text-faint);
+}
+body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.3); }
+
+/* ---------------------------------------------------------------------
+   0b. FEATURED POST CARD (sidebar)
+   Big thumbnail card with optional topper, title, and date. Replaces the
+   old 60x60 thumbnail layout. Stack of cards in the right sidebar on
+   blog post pages.
+   --------------------------------------------------------------------- */
+.blog-sidebar .featured-card {
+  display: block;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: 0.875rem;
+  overflow: hidden;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.blog-sidebar .featured-card:last-child { margin-bottom: 0; }
+.blog-sidebar .featured-card:hover {
+  border-color: var(--be-primary);
+  box-shadow: var(--be-shadow-md);
+  transform: translateY(-2px);
+}
+.blog-sidebar .featured-card-image {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: var(--be-bg-soft);
+  margin: 0;
+  overflow: hidden;
+}
+.blog-sidebar .featured-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.blog-sidebar .featured-card:hover .featured-card-image img {
+  transform: scale(1.04);
+}
+.blog-sidebar .featured-card-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+.blog-sidebar .featured-card-topper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--be-text-muted);
+  margin-bottom: 0.5rem;
+}
+.blog-sidebar .featured-card-dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--be-accent);
+  border-radius: 50%;
+}
+.blog-sidebar .featured-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--be-text);
+  margin: 0 0 0.5rem;
+}
+.blog-sidebar .featured-card:hover .featured-card-title {
+  color: var(--be-primary);
+}
+.blog-sidebar .featured-card-date {
+  font-size: 0.85rem;
+  color: var(--be-text-muted);
+}
+body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
+
+/* ---------------------------------------------------------------------
+   1. ARTICLE ACTIONS BAR (Focus / Listen / Save / Share + reading time)
+   --------------------------------------------------------------------- */
+.article-actions {
+  background: var(--be-bg);
+  border-top: 1px solid var(--be-border);
+  border-bottom: 1px solid var(--be-border);
+  padding: 0.875rem 0;
+  /* No top margin — the bar sits flush against the banner above it. */
+  margin: 0 0 0.5rem;
+}
+@media only screen and (min-width: 64em) {
+  .article-actions { margin-bottom: -3.75rem; }
+}
+.article-actions .article-actions-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 94%;
+  max-width: 70rem;
+  margin: 0 auto;
+}
+/* Stretch the actions bar to match the wider 3-column post container so the
+   share/save buttons line up with the right featured-post sidebar. */
+@media only screen and (min-width: 64em) {
+  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 100rem; }
+}
+@media only screen and (min-width: 81.25em) {
+  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 110rem; }
+}
+@media only screen and (min-width: 100em) {
+  /* At 100em+ the container itself is uncapped (94% of viewport).
+     Match here so the bar tracks with it. */
+  body:has(.blog-with-toc) .article-actions .article-actions-inner {
+    max-width: none;
+    width: 94%;
+  }
+}
+.article-actions .actions-left,
+.article-actions .actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.article-actions .reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--be-text-muted);
+  font-weight: 500;
+}
+.article-actions .reading-time svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+.article-actions .action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-radius: 999px;
+  color: var(--be-text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.article-actions .action-btn:hover,
+.article-actions .action-btn.active {
+  background: var(--be-primary);
+  border-color: var(--be-primary);
+  color: #fff;
+}
+.article-actions .action-btn:focus-visible {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 2px;
+}
+.article-actions .action-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+.article-actions .action-label { display: none; }
+@media (min-width: 600px) {
+  .article-actions .action-label { display: inline; }
+}
+@media (max-width: 480px) {
+  .article-actions .article-actions-inner {
+    justify-content: center;
+  }
+  .article-actions .actions-left,
+  .article-actions .actions-right {
+    justify-content: center;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. SHARE DROPDOWN
+   --------------------------------------------------------------------- */
+.share-wrapper { position: relative; }
+.share-dropdown {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+  box-shadow: var(--be-shadow-lg);
+  min-width: 12rem;
+  padding: 0.4rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+  z-index: 1000;
+}
+.share-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.share-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: none;
+  border: none;
+  color: var(--be-text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.share-option:hover { background: var(--be-bg-soft); }
+.share-option svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--be-text-muted);
+  flex: none;
+}
+.share-option:hover svg { color: var(--be-primary); }
+.share-divider {
+  border: none;
+  border-top: 1px solid var(--be-border);
+  margin: 0.4rem 0;
+}
+
+/* ---------------------------------------------------------------------
+   3. FOCUS MODE (hides chrome, narrows article column)
+   --------------------------------------------------------------------- */
+body.focus-mode #cs-navigation,
+body.focus-mode #banner-1106-14,
+body.focus-mode .toc-sidebar,
+body.focus-mode .toc-mobile,
+body.focus-mode .article-actions,
+body.focus-mode #cs-footer-309,
+body.focus-mode #contact-1392,
+body.focus-mode .pb-go-top-progress,
+body.focus-mode [data-pwa-notify-toggle],
+body.focus-mode .audit-fab,
+body.focus-mode .blog-sidebar,
+body.focus-mode .article-share {
+  display: none !important;
+}
+body.focus-mode .blog-with-toc {
+  display: block !important;
+  max-width: 46rem !important;
+  margin: 0 auto !important;
+  padding-top: 4rem;
+}
+body.focus-mode .blog-article {
+  background: var(--be-bg);
+  border-radius: var(--be-radius-lg);
+  box-shadow: var(--be-shadow-lg);
+  padding: 2rem;
+}
+
+.focus-exit-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: 999px;
+  color: var(--be-text);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--be-shadow-md);
+  z-index: 10001;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.focus-exit-btn:hover {
+  background: var(--be-primary);
+  border-color: var(--be-primary);
+  color: #fff;
+}
+.focus-exit-btn svg { width: 0.95rem; height: 0.95rem; flex: none; }
+body.focus-mode .focus-exit-btn { display: inline-flex; }
+
+/* ---------------------------------------------------------------------
+   4. TL;DR BOX
+   --------------------------------------------------------------------- */
+.tldr-box {
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-left: 4px solid var(--be-primary);
+  border-radius: var(--be-radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.tldr-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+.tldr-badge {
+  background: var(--be-navy);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.tldr-title {
+  font-weight: 600;
+  color: var(--be-text);
+  font-size: 1rem;
+}
+.tldr-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tldr-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  color: var(--be-text-muted);
+  line-height: 1.5;
+}
+.tldr-points li:last-child { margin-bottom: 0; }
+.tldr-points li svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--be-primary);
+  flex: none;
+  margin-top: 0.25rem;
+}
+.tldr-points li strong { color: var(--be-text); }
+
+/* ---------------------------------------------------------------------
+   5. FAQ ACCORDION (native <details>)
+   --------------------------------------------------------------------- */
+.faq-section {
+  background: var(--be-bg);
+  border-radius: var(--be-radius-lg);
+  border: 1px solid var(--be-border);
+  box-shadow: var(--be-shadow-md);
+  overflow: hidden;
+  margin: 2rem 0;
+}
+.faq-section-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--be-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.faq-section-header svg { width: 1rem; height: 1rem; color: var(--be-accent); }
+.faq-section-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--be-text);
+}
+.faq-section-body { padding: 1rem 1.5rem 1.5rem; }
+.faq-accordion { margin: 0; }
+.faq-item {
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+.faq-item:last-child { margin-bottom: 0; }
+.faq-item summary {
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--be-text);
+  list-style: none;
+  transition: background 0.2s;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--be-primary);
+  transition: transform 0.2s;
+  margin-left: 0.75rem;
+}
+.faq-item[open] summary::after { content: '\2212'; }
+.faq-item summary:hover { background: var(--be-bg); }
+.faq-item[open] summary { border-bottom: 1px solid var(--be-border); }
+.faq-answer {
+  padding: 1rem 1.25rem;
+  background: var(--be-bg);
+  color: var(--be-text-muted);
+  line-height: 1.7;
+}
+.faq-answer p { margin-bottom: 0.75rem; }
+.faq-answer p:last-child { margin-bottom: 0; }
+.faq-answer a {
+  color: var(--be-primary);
+  font-weight: 500;
+}
+.faq-answer a:hover { text-decoration: underline; }
+
+/* ---------------------------------------------------------------------
+   6. JARGON TOOLTIPS
+   --------------------------------------------------------------------- */
+.tooltip-term {
+  border-bottom: 1px dotted var(--be-accent);
+  cursor: help;
+  position: relative;
+  color: var(--be-primary);
+  font-weight: 500;
+}
+.tooltip-term:hover { color: var(--be-accent); }
+.tooltip-term::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--be-navy);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  white-space: normal;
+  width: max-content;
+  max-width: 18rem;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 100;
+  box-shadow: var(--be-shadow-md);
+  line-height: 1.4;
+}
+.tooltip-term:hover::after,
+.tooltip-term:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+@media print {
+  .tooltip-term { border-bottom: none; color: inherit; }
+  .tooltip-term::after { display: none; }
+}
+
+/* ---------------------------------------------------------------------
+   7. COPY TOAST + RESUME-READING TOAST (shared)
+   --------------------------------------------------------------------- */
+.copy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translate(-50%, 6rem);
+  background: var(--be-navy);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  z-index: 2000;
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+  pointer-events: none;
+  box-shadow: var(--be-shadow-lg);
+}
+.copy-toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.copy-toast.toc-resume-toast {
+  bottom: auto;
+  top: 5.5rem;
+  transform: translate(-50%, -6rem);
+  background: var(--be-primary);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: calc(100vw - 2rem);
+  text-align: left;
+  line-height: 1.3;
+  pointer-events: auto;
+}
+.copy-toast.toc-resume-toast.show {
+  transform: translate(-50%, 0);
+}
+.copy-toast.toc-resume-toast strong {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 14rem;
+}
+.copy-toast.toc-resume-toast:hover { background: var(--be-navy); }
+.copy-toast.toc-resume-toast svg { width: 0.95rem; height: 0.95rem; flex: none; }
+
+/* ---------------------------------------------------------------------
+   8. LISTEN / TTS MINI PLAYER
+   --------------------------------------------------------------------- */
+.tts-active {
+  background: linear-gradient(120deg, rgba(217, 119, 6, 0.18), rgba(0, 105, 64, 0.12));
+  border-radius: 4px;
+  padding: 0 2px;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.20);
+  transition: background 0.1s;
+}
+.tts-mini-player {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translate(-50%, 6rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: 999px;
+  box-shadow: var(--be-shadow-lg);
+  z-index: 1500;
+  opacity: 0;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.tts-mini-player.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+.tts-mini-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--be-border);
+  color: var(--be-text);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.tts-mini-btn:hover {
+  background: var(--be-primary);
+  color: #fff;
+  border-color: var(--be-primary);
+}
+.tts-mini-btn svg { width: 0.95rem; height: 0.95rem; }
+.tts-mini-status {
+  font-size: 0.85rem;
+  color: var(--be-text-muted);
+  padding: 0 0.5rem;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+   9. SAVED / BOOKMARKS PAGE
+   --------------------------------------------------------------------- */
+.saved-page {
+  width: 94%;
+  max-width: 70rem;
+  margin: 4rem auto 6rem;
+}
+.saved-page h1 {
+  color: var(--be-text);
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  margin-bottom: 0.5rem;
+}
+.saved-page .saved-sub {
+  color: var(--be-text-muted);
+  margin-bottom: 2rem;
+}
+.saved-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+}
+.saved-toolbar input,
+.saved-toolbar select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-sm);
+  background: var(--be-bg);
+  color: var(--be-text);
+  font: inherit;
+  font-size: 0.9rem;
+}
+.saved-toolbar input { flex: 1; min-width: 12rem; }
+.saved-toolbar input:focus,
+.saved-toolbar select:focus {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 1px;
+  border-color: var(--be-primary);
+}
+.saved-empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--be-text-muted);
+  background: var(--be-bg-soft);
+  border: 1px dashed var(--be-border);
+  border-radius: var(--be-radius-md);
+}
+.saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.saved-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.saved-card:hover {
+  border-color: var(--be-primary);
+  box-shadow: var(--be-shadow-md);
+}
+.saved-card a {
+  color: var(--be-text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.saved-card a:hover { color: var(--be-primary); }
+.saved-card p {
+  color: var(--be-text-muted);
+  margin: 0.4rem 0 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+.saved-card .saved-meta {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.saved-card .saved-meta time {
+  font-size: 0.8rem;
+  color: var(--be-text-faint);
+}
+.saved-card .saved-remove {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--be-text-faint);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+.saved-card .saved-remove:hover { color: #dc2626; }
+
+/* ---------------------------------------------------------------------
+   10. RELATED GUIDES BLOCK (manual or auto)
+   --------------------------------------------------------------------- */
+.related-guides {
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-lg);
+  box-shadow: var(--be-shadow-md);
+  overflow: hidden;
+  margin: 2rem 0;
+}
+.related-guides-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--be-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.related-guides-header svg { width: 1rem; height: 1rem; color: var(--be-accent); }
+.related-guides-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--be-text);
+}
+.related-guides-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 600px) {
+  .related-guides-body { grid-template-columns: repeat(2, 1fr); }
+}
+.related-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--be-bg-soft);
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-sm);
+  color: var(--be-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.related-link:hover {
+  background: var(--be-bg);
+  border-color: var(--be-primary);
+  color: var(--be-primary);
+}
+.related-link svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: none;
+  color: var(--be-text-muted);
+}
+.related-link:hover svg { color: var(--be-primary); }
+
+/* ---------------------------------------------------------------------
+   11. PRINT EXTRAS (header + QR footer)
+   --------------------------------------------------------------------- */
+.print-header,
+.print-footer {
+  display: none;
+}
+@media print {
+  /* Page setup — generous margins, no header/footer junk from the browser
+     (browser usually adds its own URL/date headers; that's user-controlled). */
+  @page { margin: 0.6in 0.65in; }
+
+  /* ----- Hide everything that isn't the article ----- */
+  #cs-navigation,
+  #cs-footer-309,
+  #contact-1392,
+  .article-actions,
+  .toc-sidebar,
+  .toc-mobile,
+  .pb-go-top-progress,
+  .focus-exit-btn,
+  .audit-fab,
+  [data-audit-dialog],
+  [data-pwa-notify-toggle],
+  .pwa-notify-toggle,
+  .tts-mini-player,
+  .copy-toast,
+  .article-share,
+  .blog-sidebar,                   /* Featured Posts column */
+  .banner-print-btn,
+  #banner-1106-14 .cs-background,  /* Decorative hero photo behind the title */
+  #banner-1106-14 .cs-breadcrumbs, /* Redundant with print-header URL */
+  .blog-mainImage,                 /* Decorative hero image inside the article */
+  .post-meta-avatar,               /* Photos waste ink at print res */
+  .related-guides {                /* Internal navigation; QR + URL handle this */
+    display: none !important;
+  }
+
+  /* ----- Page basics ----- */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font: 11pt/1.55 Georgia, "Times New Roman", serif;
+  }
+
+  /* ----- Banner — collapse, light background, dark text ----- */
+  #banner-1106-14 {
+    background: #fff !important;
+    background-image: none !important;
+    padding: 0 0 0.2in !important;
+    margin: 0 0 0.2in !important;
+    border-bottom: 2pt solid #333 !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+  }
+  #banner-1106-14 .cs-container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+  #banner-1106-14 .cs-int-title {
+    color: #000 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 22pt !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    text-align: left !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* ----- Layout: single column, full width ----- */
+  .blog-container.blog-with-toc,
+  .blog-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .main-content {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .blog-article {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* ----- Author / dates strip ----- */
+  .post-meta {
+    margin: 0 0 0.2in !important;
+    padding: 0 0 0.1in !important;
+    border-bottom: 1pt solid #ccc !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  .post-meta-line {
+    font-size: 10pt !important;
+    color: #444 !important;
+    gap: 0.4em !important;
+  }
+  .post-meta-author {
+    color: #000 !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+  }
+  .post-meta-original {
+    font-size: 9pt !important;
+    color: #666 !important;
+  }
+  .post-meta-dot { background: #888 !important; }
+
+  /* ----- Body typography ----- */
+  .article-content,
+  #blog-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-top: none !important;
+  }
+  .article-content p,
+  #blog-content p,
+  .blog-article #blog-content p {
+    font-size: 11pt !important;
+    line-height: 1.55 !important;
+    color: #000 !important;
+    margin: 0 0 0.14in !important;
+    orphans: 3;
+    widows: 3;
+  }
+  .article-content h2,
+  #blog-content h2,
+  .blog-article #blog-content h2 {
+    font-size: 15pt !important;
+    line-height: 1.25 !important;
+    color: #000 !important;
+    margin: 0.3in 0 0.1in !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  .article-content h3,
+  #blog-content h3,
+  .blog-article #blog-content h3 {
+    font-size: 12.5pt !important;
+    line-height: 1.3 !important;
+    color: #000 !important;
+    margin: 0.2in 0 0.08in !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  .article-content ul,
+  .article-content ol,
+  #blog-content ul,
+  #blog-content ol,
+  .blog-article #blog-content ul,
+  .blog-article #blog-content ol {
+    padding-left: 0.3in !important;
+    margin: 0 0 0.14in !important;
+  }
+  .article-content li,
+  #blog-content li {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    margin: 0 0 0.04in !important;
+  }
+  .article-content a,
+  #blog-content a,
+  .blog-article #blog-content a,
+  .auto-link {
+    color: #000 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #999 !important;
+    text-underline-offset: 1pt !important;
+  }
+  /* No URL annotations after links — the QR footer covers "view online". */
+  a[href]::after,
+  a[href^="http"]::after,
+  a[href^="/"]::after,
+  a[href^="#"]::after { content: none !important; }
+
+  /* ----- TL;DR box ----- */
+  .tldr-box {
+    border: 1pt solid #999 !important;
+    background: #fafafa !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 0 0.25in !important;
+    padding: 0.14in !important;
+  }
+  .tldr-badge { background: #000 !important; color: #fff !important; }
+  .tldr-points li { color: #000 !important; line-height: 1.4 !important; }
+  .tldr-points li svg { display: none !important; }
+  .tldr-points li::before {
+    content: "•";
+    margin-right: 0.4em;
+    color: #000;
+  }
+
+  /* ----- FAQ accordion: force every item open and remove the +/- glyph ----- */
+  .faq-section {
+    border: 1pt solid #999 !important;
+    box-shadow: none !important;
+    margin: 0.25in 0 !important;
+    background: #fff !important;
+  }
+  .faq-section-header {
+    background: #f5f5f5 !important;
+    padding: 0.1in 0.15in !important;
+    border-bottom: 1pt solid #999 !important;
+  }
+  .faq-section-header h2 {
+    font-size: 13pt !important;
+    margin: 0 !important;
+  }
+  .faq-section-body { padding: 0.12in 0.15in !important; }
+  .faq-item {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 0 0.12in !important;
+    background: #fff !important;
+    border: 1pt solid #ccc !important;
+  }
+  .faq-item summary {
+    padding: 0.08in 0.12in !important;
+    background: #fafafa !important;
+    border-bottom: 1pt solid #ccc !important;
+  }
+  .faq-item summary::after,
+  .faq-item[open] summary::after { display: none !important; }
+  .faq-item .faq-answer {
+    display: block !important;
+    padding: 0.08in 0.12in !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  /* details elements need this hack to expand reliably in print preview */
+  .faq-item:not([open]) > .faq-answer { display: block !important; }
+
+  /* ----- Print header (injected by print-extras.js) ----- */
+  .print-header,
+  .print-footer { display: block !important; }
+  .print-header {
+    border-bottom: 1.5pt solid #333;
+    padding-bottom: 0.08in;
+    margin-bottom: 0.18in;
+    font-size: 9pt;
+    color: #555;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .print-header strong { color: #000; }
+  .print-footer {
+    border-top: 1.5pt solid #333;
+    padding-top: 0.18in;
+    margin-top: 0.3in;
+    text-align: center;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .print-qr { display: block; margin: 0 auto 0.08in; }
+  .print-qr-fallback {
+    display: none;
+    font-size: 8.5pt;
+    color: #666;
+    word-break: break-all;
+  }
+  .print-qr-label {
+    display: block;
+    font-size: 8.5pt;
+    color: #666;
+  }
+
+  /* ----- Global page-break safety net ----- */
+  p, li { orphans: 3; widows: 3; }
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  blockquote, pre, table, figure {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  img { max-width: 100% !important; height: auto !important; }
+}

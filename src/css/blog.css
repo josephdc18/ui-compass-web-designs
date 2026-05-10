@@ -500,6 +500,12 @@
     border-bottom: 1px solid #ebebeb;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    transition: padding-top 0.18s ease;
+  }
+  /* `is-stuck` is toggled in toc.js via a sentinel + IntersectionObserver.
+     Adds breathing room so the chips don't crowd whatever sits above them. */
+  .toc-mobile.is-stuck {
+    padding-top: 1.25rem;
   }
   .toc-mobile::-webkit-scrollbar {
     display: none;
@@ -555,10 +561,12 @@
     flex-shrink: 0;
     order: -1;
   }
-  .toc-sidebar:empty,
-  .toc-sidebar:has(.toc-list:empty) {
+  .toc-sidebar:empty {
     display: none;
   }
+  /* Don't hide based on `.toc-list:empty` — toc.js fills the list on
+     DOMContentLoaded, but :has(:empty) latches the hidden state in some
+     browsers and the sidebar never reappears without a refresh. */
   .toc-sidebar h3 {
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -598,15 +606,22 @@
   }
   .blog-with-toc {
     display: grid;
-    grid-template-columns: 220px 1fr 280px;
+    grid-template-columns: 220px minmax(0, 1fr) 260px;
     gap: 1.5rem;
     align-items: start;
   }
   .blog-with-toc .main-content {
     order: 0;
+    min-width: 0;
   }
   .blog-with-toc .blog-sidebar {
     order: 1;
+  }
+  /* Three-column blog posts use most of the viewport so the center column
+     dominates. Outside posts (listing page, no .blog-with-toc), the narrower
+     70em cap from above still applies. */
+  .blog-container.blog-with-toc {
+    max-width: 100rem;
   }
 }
 @media only screen and (min-width: 81.25em) {
@@ -614,8 +629,46 @@
     width: 240px;
   }
   .blog-with-toc {
-    grid-template-columns: 240px 1fr 320px;
+    grid-template-columns: 240px minmax(0, 1fr) 300px;
     gap: 2rem;
+  }
+  .blog-container.blog-with-toc {
+    max-width: 110rem;
+  }
+}
+@media only screen and (min-width: 100em) {
+  .toc-sidebar {
+    width: 260px;
+  }
+  .blog-with-toc {
+    grid-template-columns: 260px minmax(0, 1fr) 340px;
+    gap: 2.5rem;
+  }
+  /* At 100em+ stop capping the container — let .blog-container's width:94% take over
+     so the layout actually fills ultrawide screens. */
+  .blog-container.blog-with-toc {
+    max-width: none;
+  }
+}
+@media only screen and (min-width: 130em) {
+  .toc-sidebar { width: 280px; }
+  .blog-with-toc {
+    grid-template-columns: 280px minmax(0, 1fr) 380px;
+    gap: 3rem;
+  }
+}
+@media only screen and (min-width: 160em) {
+  .toc-sidebar { width: 320px; }
+  .blog-with-toc {
+    grid-template-columns: 320px minmax(0, 1fr) 440px;
+    gap: 3.5rem;
+  }
+}
+/* In the 3-column post layout, let the article fill the center column.
+   The narrower 49.6875em cap above is for the listing page's recent-articles. */
+@media only screen and (min-width: 64em) {
+  .blog-with-toc .blog-article {
+    max-width: none;
   }
 }
 /* Dark Mode TOC */

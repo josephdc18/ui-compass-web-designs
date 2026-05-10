@@ -8,7 +8,11 @@
 </head>
 
 <body>
+  <!-- Decap CMS bundle (UMD; exposes window.CMS, window.h, window.createClass) -->
   <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+
+  <!-- Live-preview templates. Must load AFTER the Decap bundle so window.CMS exists. -->
+  <script src="/admin/preview-templates.js"></script>
 </body>
 
 </html>

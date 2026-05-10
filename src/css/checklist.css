@@ -1,0 +1,176 @@
+/* ======================================
+   Banner background override
+   The shared #banner-1106-12 banner expects a .cs-background <picture>.
+   We are skipping the image to keep the page lean, so we paint a flat
+   dark background here instead — keeps the white headline readable.
+   ====================================== */
+@media only screen and (min-width:0rem){
+  #banner-1106-12{background:linear-gradient(135deg,#1d1b25 0%,#262421 60%,#0e3b25 100%)}
+  body.dark-mode #banner-1106-12{background:linear-gradient(135deg,#0a0a0c 0%,#1a1a1a 60%,#003d23 100%)}
+}
+
+/* ======================================
+   #checklist-tools-1100 — sticky toolbar with progress bar + actions
+   ====================================== */
+@media only screen and (min-width:0rem){
+  #checklist-tools-1100{background-color:var(--bodyTextColorWhite);border-bottom:1px solid #e5e7eb;padding:1.25rem 1rem;position:sticky;top:0;z-index:100}
+  #checklist-tools-1100 .cs-container{display:flex;flex-direction:column;gap:1rem;margin:auto;max-width:60rem;width:100%}
+  #checklist-tools-1100 .cs-progress-block{display:flex;flex-direction:column;gap:.5rem;width:100%}
+  #checklist-tools-1100 .cs-progress-row{align-items:center;display:flex;gap:1rem;justify-content:space-between}
+  #checklist-tools-1100 .cs-progress-label{color:var(--headerColor);font-size:.875rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  #checklist-tools-1100 .cs-progress-output{color:var(--bodyTextColor);font-size:.9375rem;font-weight:600;font-variant-numeric:tabular-nums}
+  #checklist-tools-1100 .cs-progress-bar{appearance:none;background:#eef0f2;border:none;border-radius:999px;display:block;height:.5rem;overflow:hidden;width:100%}
+  #checklist-tools-1100 .cs-progress-bar::-webkit-progress-bar{background:#eef0f2;border-radius:999px}
+  #checklist-tools-1100 .cs-progress-bar::-webkit-progress-value{background:var(--primary);border-radius:999px;transition:width .3s ease}
+  #checklist-tools-1100 .cs-progress-bar::-moz-progress-bar{background:var(--primary);border-radius:999px}
+  #checklist-tools-1100 .cs-button-row{display:flex;flex-wrap:wrap;gap:.625rem;justify-content:flex-start}
+  #checklist-tools-1100 .cs-tool-button{align-items:center;background:var(--primary);border:1px solid var(--primary);border-radius:.375rem;color:#fff;cursor:pointer;display:inline-flex;font-family:inherit;font-size:.9375rem;font-weight:600;gap:.5rem;line-height:1.2;padding:.625rem 1rem;transition:background .2s,border-color .2s,color .2s}
+  #checklist-tools-1100 .cs-tool-button:hover{background:#005233;border-color:#005233}
+  #checklist-tools-1100 .cs-tool-button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+  #checklist-tools-1100 .cs-tool-button-ghost{background:transparent;border-color:#cbd0d6;color:var(--headerColor)}
+  #checklist-tools-1100 .cs-tool-button-ghost:hover{background:#f7f7f7;border-color:var(--primary);color:var(--primary)}
+  #checklist-tools-1100 .cs-tool-icon{flex:none;height:1rem;width:1rem}
+  body.scroll #checklist-tools-1100{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+  body.dark-mode #checklist-tools-1100{background:var(--medium);border-bottom-color:rgba(255,255,255,.08)}
+  body.dark-mode #checklist-tools-1100 .cs-progress-label{color:var(--bodyTextColorWhite)}
+  body.dark-mode #checklist-tools-1100 .cs-progress-output{color:rgba(255,255,255,.8)}
+  body.dark-mode #checklist-tools-1100 .cs-progress-bar{background:rgba(255,255,255,.1)}
+  body.dark-mode #checklist-tools-1100 .cs-progress-bar::-webkit-progress-bar{background:rgba(255,255,255,.1)}
+  body.dark-mode #checklist-tools-1100 .cs-tool-button-ghost{border-color:rgba(255,255,255,.2);color:var(--bodyTextColorWhite)}
+  body.dark-mode #checklist-tools-1100 .cs-tool-button-ghost:hover{background:rgba(255,255,255,.06)}
+}
+@media only screen and (min-width:48rem){
+  #checklist-tools-1100{padding:1.25rem 2rem}
+  #checklist-tools-1100 .cs-container{flex-direction:row;align-items:center}
+  #checklist-tools-1100 .cs-progress-block{flex:1;min-width:0}
+  #checklist-tools-1100 .cs-button-row{flex:none;justify-content:flex-end}
+}
+
+/* ======================================
+   #checklist-list-1101 — accordion of categories with checkboxes
+   ====================================== */
+@media only screen and (min-width:0rem){
+  #checklist-list-1101{background-color:#f7f7f7;padding:var(--sectionPadding)}
+  #checklist-list-1101 .cs-container{display:flex;flex-direction:column;gap:1rem;margin:auto;max-width:60rem;width:100%}
+  #checklist-list-1101 .cs-category{background:var(--bodyTextColorWhite);border:1px solid #e5e7eb;border-radius:.625rem;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+  #checklist-list-1101 .cs-category:hover{border-color:#d0d4d9}
+  #checklist-list-1101 .cs-category[open]{box-shadow:0 4px 16px rgba(0,0,0,.04)}
+  #checklist-list-1101 .cs-category-summary{align-items:center;cursor:pointer;display:flex;gap:1rem;list-style:none;padding:1.125rem 1.25rem;user-select:none}
+  #checklist-list-1101 .cs-category-summary::-webkit-details-marker{display:none}
+  #checklist-list-1101 .cs-category-summary:focus-visible{outline:2px solid var(--primary);outline-offset:-2px}
+  #checklist-list-1101 .cs-category-title{color:var(--headerColor);flex:1;font-size:1.0625rem;font-weight:700;line-height:1.3;min-width:0}
+  #checklist-list-1101 .cs-category-count{color:var(--bodyTextColor);flex:none;font-size:.875rem;font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.02em}
+  #checklist-list-1101 .cs-category[data-cat-complete="true"] .cs-category-count{color:var(--primary)}
+  #checklist-list-1101 .cs-chevron{color:var(--bodyTextColor);flex:none;height:1.25rem;transition:transform .25s ease;width:1.25rem}
+  #checklist-list-1101 .cs-category[open] .cs-chevron{transform:rotate(180deg)}
+  #checklist-list-1101 .cs-items{border-top:1px solid #eef0f2;display:flex;flex-direction:column;gap:0;list-style:none;margin:0;padding:0}
+  #checklist-list-1101 .cs-item{border-bottom:1px solid #eef0f2}
+  #checklist-list-1101 .cs-item:last-child{border-bottom:none}
+  #checklist-list-1101 .cs-check{align-items:flex-start;cursor:pointer;display:flex;gap:.875rem;padding:.875rem 1.25rem;width:100%}
+  #checklist-list-1101 .cs-check:hover{background:#fafbfc}
+  #checklist-list-1101 .cs-check input[type="checkbox"]{clip:rect(0 0 0 0);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+  #checklist-list-1101 .cs-check-box{align-items:center;background:var(--bodyTextColorWhite);border:2px solid #cbd0d6;border-radius:.25rem;color:transparent;display:flex;flex:none;height:1.375rem;justify-content:center;margin-top:.125rem;transition:background .15s,border-color .15s,color .15s;width:1.375rem}
+  #checklist-list-1101 .cs-check-box::before{content:"";display:block;height:.625rem;transform:rotate(45deg) translate(-1px,-2px);transform-origin:center;width:.3125rem}
+  #checklist-list-1101 .cs-check input:checked + .cs-check-box{background:var(--primary);border-color:var(--primary);color:#fff}
+  #checklist-list-1101 .cs-check input:checked + .cs-check-box::before{border-bottom:2px solid currentColor;border-right:2px solid currentColor}
+  #checklist-list-1101 .cs-check input:focus-visible + .cs-check-box{box-shadow:0 0 0 3px rgba(0,105,64,.25)}
+  #checklist-list-1101 .cs-check-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5;transition:color .15s,text-decoration-color .15s}
+  #checklist-list-1101 .cs-check input:checked ~ .cs-check-text{color:var(--text-muted,#7a7889);text-decoration:line-through;text-decoration-color:rgba(0,105,64,.4)}
+  body.dark-mode #checklist-list-1101{background-color:var(--dark)}
+  body.dark-mode #checklist-list-1101 .cs-category{background:var(--medium);border-color:rgba(255,255,255,.08)}
+  body.dark-mode #checklist-list-1101 .cs-category:hover{border-color:rgba(255,255,255,.18)}
+  body.dark-mode #checklist-list-1101 .cs-category-title{color:var(--bodyTextColorWhite)}
+  body.dark-mode #checklist-list-1101 .cs-category-count{color:rgba(255,255,255,.7)}
+  body.dark-mode #checklist-list-1101 .cs-chevron{color:rgba(255,255,255,.6)}
+  body.dark-mode #checklist-list-1101 .cs-items{border-top-color:rgba(255,255,255,.08)}
+  body.dark-mode #checklist-list-1101 .cs-item{border-bottom-color:rgba(255,255,255,.08)}
+  body.dark-mode #checklist-list-1101 .cs-check:hover{background:rgba(255,255,255,.04)}
+  body.dark-mode #checklist-list-1101 .cs-check-box{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25)}
+  body.dark-mode #checklist-list-1101 .cs-check input:checked + .cs-check-box{background:var(--primary);border-color:var(--primary)}
+  body.dark-mode #checklist-list-1101 .cs-check-text{color:rgba(255,255,255,.85)}
+  body.dark-mode #checklist-list-1101 .cs-check input:checked ~ .cs-check-text{color:rgba(255,255,255,.45)}
+}
+@media only screen and (min-width:48rem){
+  #checklist-list-1101 .cs-category-summary{padding:1.25rem 1.75rem}
+  #checklist-list-1101 .cs-category-title{font-size:1.25rem}
+  #checklist-list-1101 .cs-check{padding:1rem 1.75rem}
+  #checklist-list-1101 .cs-check-text{font-size:1.0625rem}
+}
+
+/* ======================================
+   #checklist-why-1102 — three-up reassurance section
+   ====================================== */
+@media only screen and (min-width:0rem){
+  #checklist-why-1102{background-color:var(--bodyTextColorWhite);padding:var(--sectionPadding)}
+  #checklist-why-1102 .cs-container{display:flex;flex-direction:column;gap:clamp(2.5rem,5vw,3.5rem);margin:auto;max-width:80rem;width:100%}
+  #checklist-why-1102 .cs-content{align-items:flex-start;display:flex;flex-direction:column;gap:.5rem;text-align:left}
+  #checklist-why-1102 .cs-topper{color:var(--primary);font-size:.875rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  #checklist-why-1102 .cs-title{color:var(--headerColor);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:900;line-height:1.2;margin:0;max-width:25ch}
+  #checklist-why-1102 .cs-card-group{display:grid;gap:1.5rem;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
+  #checklist-why-1102 .cs-card{background:#f7f7f7;border-radius:.5rem;padding:1.75rem}
+  #checklist-why-1102 .cs-card-num{color:var(--primary);display:block;font-size:.875rem;font-weight:700;letter-spacing:.18em;margin-bottom:.5rem}
+  #checklist-why-1102 .cs-card-title{color:var(--headerColor);font-size:1.25rem;font-weight:700;line-height:1.3;margin:0 0 .625rem}
+  #checklist-why-1102 .cs-card-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5;margin:0}
+  body.dark-mode #checklist-why-1102{background-color:var(--medium)}
+  body.dark-mode #checklist-why-1102 .cs-title,body.dark-mode #checklist-why-1102 .cs-card-title{color:var(--bodyTextColorWhite)}
+  body.dark-mode #checklist-why-1102 .cs-card-text{color:rgba(255,255,255,.8)}
+  body.dark-mode #checklist-why-1102 .cs-card{background:var(--dark)}
+}
+@media only screen and (min-width:48rem){
+  #checklist-why-1102 .cs-card-group{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ======================================
+   #checklist-cta-1103 — bottom CTA
+   ====================================== */
+@media only screen and (min-width:0rem){
+  #checklist-cta-1103{background-color:#f7f7f7;padding:var(--sectionPadding)}
+  #checklist-cta-1103 .cs-container{margin:auto;max-width:60rem;text-align:center;width:100%}
+  #checklist-cta-1103 .cs-content{align-items:center;display:flex;flex-direction:column;gap:.75rem}
+  #checklist-cta-1103 .cs-topper{color:var(--primary);font-size:.875rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  #checklist-cta-1103 .cs-title{color:var(--headerColor);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:900;line-height:1.2;margin:0;max-width:25ch}
+  #checklist-cta-1103 .cs-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5;margin:0;max-width:50ch}
+  #checklist-cta-1103 .cs-button-solid{background-color:var(--primary);color:#fff;display:inline-block;font-size:1rem;font-weight:700;line-height:3.5rem;margin-top:1rem;padding:0 3rem;position:relative;text-decoration:none;transition:color .3s;z-index:1}
+  #checklist-cta-1103 .cs-button-solid:before{background:#1a1a1a;content:"";display:block;height:100%;left:0;position:absolute;top:0;transition:width .3s;width:0;z-index:-1}
+  #checklist-cta-1103 .cs-button-solid:hover{color:var(--primary)}
+  #checklist-cta-1103 .cs-button-solid:hover:before{width:100%}
+  body.dark-mode #checklist-cta-1103{background-color:var(--dark)}
+  body.dark-mode #checklist-cta-1103 .cs-title{color:var(--bodyTextColorWhite)}
+  body.dark-mode #checklist-cta-1103 .cs-text{color:rgba(255,255,255,.8)}
+}
+
+/* ======================================
+   Print stylesheet — clean PDF export
+   Hides chrome (nav, footer, FAB, toolbar), forces all categories open,
+   keeps every category from breaking across pages.
+   ====================================== */
+@media print {
+  #cs-navigation,
+  #cs-footer-309,
+  #checklist-tools-1100,
+  #checklist-cta-1103,
+  .audit-fab,
+  [data-audit-dialog],
+  .pb-go-top-progress,
+  .pwa-notify-toggle,
+  [data-pwa-notify-toggle]{display:none !important}
+  #banner-1106-12{background:#fff;padding:0 0 1rem;page-break-after:avoid}
+  #banner-1106-12 .cs-int-title{color:#000;font-size:1.75rem}
+  #banner-1106-12 .cs-breadcrumbs,
+  #banner-1106-12 .cs-link{color:#666}
+  #checklist-list-1101{background:#fff;padding:1rem 0}
+  #checklist-list-1101 .cs-category{background:#fff;border:1px solid #ccc;break-inside:avoid;box-shadow:none;margin-bottom:.75rem;page-break-inside:avoid}
+  #checklist-list-1101 .cs-category[open] .cs-chevron,
+  #checklist-list-1101 .cs-chevron{display:none}
+  #checklist-list-1101 .cs-category-summary{padding:.5rem .75rem}
+  #checklist-list-1101 .cs-category-title{color:#000;font-size:1rem}
+  #checklist-list-1101 .cs-category-count{color:#000}
+  #checklist-list-1101 .cs-check{padding:.375rem .75rem}
+  #checklist-list-1101 .cs-check-box{border-color:#000}
+  #checklist-list-1101 .cs-check-text{color:#000;font-size:.9375rem}
+  #checklist-list-1101 .cs-check input:checked ~ .cs-check-text{color:#666}
+  #checklist-why-1102{display:none}
+  body{background:#fff;color:#000}
+  /* Force every category open in print regardless of UI state. */
+  #checklist-list-1101 details:not([open]) .cs-items{display:flex !important}
+}

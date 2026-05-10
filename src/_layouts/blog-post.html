@@ -1,5 +1,6 @@
 ---
 layout: 'base.html'
+blog: true
 preloadCSS: '/css/blog.css'
 eleventyComputed:
     description: '{{ blogDescription }}'
@@ -8,36 +9,83 @@ eleventyComputed:
     preloadImg: '{{ image }}'
     permalink: '/blog/{{ pageName | slug }}/index.html'
 ---
-<!-- ============================================ -->
-<!--                    LANDING                   -->
-<!-- ============================================ -->
 
-<section id="int-hero">
-  <h1>{{ blogTitle }}</h1>
-</section>
+<!-- Build-time JSON-LD schema for the post. No runtime cost. -->
+{% if blogTitle %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ blogTitle | dump | safe }},
+  "description": {{ blogDescription | dump | safe }},
+  {% if image %}"image": "https://{{ client.domain }}{{ image }}",{% endif %}
+  "datePublished": "{{ date | dateIso }}",
+  "dateModified": "{{ date | dateIso }}",
+  "author": {
+    "@type": "Person",
+    "name": {{ author | default('UI Compass') | dump | safe }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "UI Compass Web Designs",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://{{ client.domain }}/assets/logo.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://{{ client.domain }}{{ page.url }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://{{ client.domain }}/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://{{ client.domain }}/blog/" },
+    { "@type": "ListItem", "position": 3, "name": {{ blogTitle | dump | safe }}, "item": "https://{{ client.domain }}{{ page.url }}" }
+  ]
+}
+</script>
+{% endif %}
 
-<!-- ============================================ -->
-<!--          Mobile Table of Contents            -->
-<!-- ============================================ -->
+<!-- Interior banner — matches the standard #banner-1106-XX pattern used by /pricing/, /web-design/, etc. -->
+<div id="banner-1106-14">
+  <div class="cs-container">
+    <h1 class="cs-int-title">{{ blogTitle }}</h1>
+    <div class="cs-breadcrumbs">
+      <a href="/" class="cs-link">Home</a>
+      <a href="/blog/" class="cs-link">Blog</a>
+      <a href="{{ page.url }}" class="cs-link cs-active">{{ blogTitle }}</a>
+    </div>
+  </div>
+  <button type="button" class="banner-print-btn" data-press onclick="window.print()" aria-label="Print this article">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><rect x="7" y="14" width="10" height="6"/></svg>
+    <span>Print Guide</span>
+  </button>
+  {% if image %}
+  <picture class="cs-background">
+    <img alt="{{ imageAlt | default('') }}" src="{{ image }}" decoding="async" width="1920" height="474" aria-hidden="true" loading="eager">
+  </picture>
+  {% endif %}
+</div>
 
-<nav class="toc-mobile" aria-label="Table of contents">
-  <!-- TOC chips populated by toc.js -->
-</nav>
+<!-- Article actions bar (Focus / Listen / Save / Share + reading time) -->
+{% include 'article-actions.html' %}
 
-<!-- ============================================ -->
-<!--              Main Blog Content               -->
-<!-- ============================================ -->
+<!-- Mobile TOC chip rail -->
+<nav class="toc-mobile" aria-label="Table of contents"></nav>
 
+<!-- Main blog content with desktop TOC sidebar -->
 <div class="blog-container main-content-wrapper blog-with-toc">
-  <!-- Desktop Table of Contents -->
   <aside class="toc-sidebar" aria-label="Table of contents">
     <h3>On This Page</h3>
-    <ul class="toc-list">
-      <!-- TOC items populated by toc.js -->
-    </ul>
+    <ul class="toc-list"></ul>
   </aside>
 
-  <!-- Main content -->
   <div class="main-content">
     <article class="blog-article">
       {% if image %}
@@ -47,37 +95,126 @@ eleventyComputed:
       {% endif %}
 
       <div class="article-group">
-        <h1 class="blog-h1">{{ blogTitle }}</h1>
-        <div class="blog-meta-row">
-          <div class="blog-authorGroup">
-            <span class="blog-author">{{ author }}</span>
-            <span aria-hidden="true" class="blog-dot"></span>
-            <span class="blog-date">{{ date | postDate }}</span>
-            <span aria-hidden="true" class="blog-dot"></span>
-            <span class="blog-reading-time" id="readingTimeText">3 min read</span>
+        <!-- H1 lives in the banner above. Author + dates live here. -->
+        <div class="post-meta">
+          {% if authorImage %}
+          <a href="{{ authorUrl | default('/about/') }}" class="post-meta-avatar" aria-label="About {{ author }}">
+            <img src="{{ authorImage }}" alt="{{ author }}" width="44" height="44" loading="lazy" decoding="async">
+          </a>
+          {% endif %}
+          <div class="post-meta-info">
+            <div class="post-meta-line">
+              {% if authorUrl %}
+              <a href="{{ authorUrl }}" class="post-meta-author">{{ author }}</a>
+              {% else %}
+              <span class="post-meta-author post-meta-author--plain">{{ author }}</span>
+              {% endif %}
+              <span class="post-meta-dot" aria-hidden="true"></span>
+              {% if updated %}
+              <span class="post-meta-date">Updated on {{ updated | postDate }}</span>
+              {% else %}
+              <span class="post-meta-date">{{ date | postDate }}</span>
+              {% endif %}
+            </div>
+            {% if updated %}
+            <div class="post-meta-original">Originally published in {{ date | monthYear }}.</div>
+            {% endif %}
           </div>
         </div>
       </div>
+
+      {% if tldr %}
+      <aside class="tldr-box" aria-label="TL;DR — what you need to know">
+        <div class="tldr-header">
+          <span class="tldr-badge">TL;DR</span>
+          <span class="tldr-title">{{ tldrTitle | default('What you need to know') }}</span>
+        </div>
+        <ul class="tldr-points">
+          {% for point in tldr %}
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+            <span>{{ point | safe }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </aside>
+      {% endif %}
+
+      <a class="anchor" id="top" tabindex="-1" aria-hidden="true"></a>
       <section id="blog-content" class="article-content">
         {{ content | safe }}
       </section>
 
-      <!-- Share Actions -->
-      <div class="article-share">
-        <div class="share-heading">
-          <span>Share this article</span>
+      {% if faq and faq.length > 0 %}
+      <section class="faq-section" data-toc-section aria-label="Frequently asked questions">
+        <header class="faq-section-header">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <h2>Frequently asked questions</h2>
+        </header>
+        <div class="faq-section-body">
+          <div class="faq-accordion">
+            {% for item in faq %}
+            <details class="faq-item">
+              <summary>{{ item.q }}</summary>
+              <div class="faq-answer">{{ item.a | safe }}</div>
+            </details>
+            {% endfor %}
+          </div>
         </div>
-        <div class="share-buttons">
-          <button class="share-btn share-twitter" onclick="shareTwitter()" aria-label="Share on X" title="Share on X">X</button>
-          <button class="share-btn share-facebook" onclick="shareFacebook()" aria-label="Share on Facebook" title="Share on Facebook">Facebook</button>
-          <button class="share-btn share-linkedin" onclick="shareLinkedIn()" aria-label="Share on LinkedIn" title="Share on LinkedIn">LinkedIn</button>
-          <button class="share-btn share-reddit" onclick="shareReddit()" aria-label="Share on Reddit" title="Share on Reddit">Reddit</button>
-          <button class="share-btn share-email" onclick="shareEmail()" aria-label="Share via Email" title="Share via Email">Email</button>
-          <button class="share-btn share-copy" onclick="copyLink()" aria-label="Copy link" title="Copy link">Copy Link</button>
+      </section>
+
+      <!-- Build-time FAQ schema -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {% for item in faq %}
+          {
+            "@type": "Question",
+            "name": {{ item.q | dump | safe }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ item.a | striptags | dump | safe }}
+            }
+          }{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ]
+      }
+      </script>
+      {% endif %}
+
+      {% if related and related.length > 0 %}
+      <section class="related-guides" data-toc-section aria-label="Related guides">
+        <header class="related-guides-header">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+          <h2>Related guides</h2>
+        </header>
+        <div class="related-guides-body">
+          {% for link in related %}
+          <a href="{{ link.url }}" class="related-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>{{ link.title }}</span>
+          </a>
+          {% endfor %}
         </div>
-      </div>
+      </section>
+      {% endif %}
+
     </article>
   </div>
 
   {% include 'featured-post.html' %}
 </div>
+
+<!-- Blog reading-experience scripts. All deferred. listen.js loads on demand.
+     article-actions.js + toc.js already load globally from base.html, so do
+     NOT re-add them here — duplicate IIFEs would register click listeners
+     twice and toggles would cancel themselves out. -->
+<link rel="preload" as="style" href="/css/blog-extras.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/blog-extras.css?v={{ build.hash }}"></noscript>
+
+<script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/tooltips.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/print-extras.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/hover-prefetch.js?v={{ build.hash }}"></script>

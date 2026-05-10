@@ -2,15 +2,21 @@
   <div class="blog-featured-group">
     <span class="blog-header">Featured Posts</span>
     {%- for post in collections.featured | reverse -%}
-    <a class="blog-feature" href="{{ post.url }}">
+    <a class="featured-card" href="{{ post.url }}">
       {% if post.data.image %}
-      <picture class="blog-featureImage">
-        <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt }}" width="60" height="60" decoding="async" />
+      <picture class="featured-card-image">
+        <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt | default(post.data.blogTitle) }}" width="600" height="360" decoding="async" loading="lazy" />
       </picture>
       {% endif %}
-      <div class="content-group">
-        <h3 class="feature-h3">{{ post.data.blogTitle }}</h3>
-        <span class="feature-date">{{ post.date | postDate }}</span>
+      <div class="featured-card-body">
+        {% if post.data.topper %}
+        <span class="featured-card-topper">
+          <span class="featured-card-dot" aria-hidden="true"></span>
+          {{ post.data.topper }}
+        </span>
+        {% endif %}
+        <h3 class="featured-card-title">{{ post.data.blogTitle }}</h3>
+        <span class="featured-card-date">{{ post.date | postDate }}</span>
       </div>
     </a>
     {%- endfor -%}

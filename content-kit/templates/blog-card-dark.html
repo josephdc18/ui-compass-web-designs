@@ -1,0 +1,124 @@
+<!doctype html>
+<!--
+  blog-card-dark.html  (1200×630)
+  Use for: punchy headline-only posts that need to stand out (the dark twin of
+  blog-card.html).
+  Tokens:
+    {{DATE}}      — pill text, e.g. "FEB 10, 2026"
+    {{HEADLINE}}  — wrap accent word in <span class="accent">…</span>
+    {{FOOTER}}    — small caps meta line
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — Dark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1411; --bg-2: #1a221d;
+    --cream: #e6d9c7; --primary: #006940; --primary-light: #00bd74;
+    --on-dark: #fafbfc; --on-dark-fade: rgba(255,255,255,0.66);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px; height: 630px; background: var(--bg);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--on-dark); overflow: hidden;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  .card {
+    position: relative; width: 1200px; height: 630px;
+    padding: 48px 64px;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(800px 600px at 100% 0%, rgba(0,189,116,0.10), transparent 60%),
+      radial-gradient(700px 500px at 0% 100%, rgba(0,105,64,0.14), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    overflow: hidden;
+  }
+
+  .date-pill {
+    align-self: flex-start;
+    padding: 10px 18px;
+    background: var(--cream);
+    border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #262421;
+  }
+
+  .headline {
+    margin-top: 36px;
+    font-weight: 900;
+    font-size: 116px;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--on-dark);
+    max-width: 1000px;
+  }
+  .headline.size-m  { font-size: 100px; }
+  .headline.size-s  { font-size: 84px;  }
+  .headline.size-xs { font-size: 72px;  }
+  .accent { position: relative; display: inline-block; color: var(--on-dark); }
+  .accent::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0.04em;
+    height: 14px; background: var(--primary-light);
+    z-index: -1; border-radius: 2px; opacity: 0.85;
+  }
+
+  .foot {
+    margin-top: auto;
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .foot-meta {
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--on-dark-fade);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 38px; height: 38px; flex: none; display: block; }
+  .brand .name { font-size: 18px; font-weight: 700; color: var(--on-dark); letter-spacing: -0.01em; }
+  .brand .name .dot { color: var(--primary-light); }
+  .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--on-dark-fade); }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+
+  .orbit {
+    position: absolute; right: 60px; top: 60px;
+    width: 200px; height: 200px; pointer-events: none;
+  }
+  .orbit svg { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <div class="date-pill">{{DATE}}</div>
+
+  <h1 class="headline">{{HEADLINE}}</h1>
+
+  <div class="orbit" aria-hidden="true">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="92" stroke="#fafbfc" stroke-width="1.4" opacity="0.30"/>
+      <circle cx="100" cy="100" r="64" stroke="#fafbfc" stroke-width="1.4" opacity="0.22"/>
+      <circle cx="100" cy="100" r="36" stroke="#fafbfc" stroke-width="1.4" opacity="0.18"/>
+      <circle cx="190" cy="96"  r="7" fill="#00bd74"/>
+      <circle cx="60"  cy="180" r="7" fill="#00bd74"/>
+      <circle cx="148" cy="156" r="5" fill="#fafbfc"/>
+    </svg>
+  </div>
+
+  <div class="foot">
+    <div class="foot-meta">{{FOOTER}}</div>
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <span class="sub">Web Designs</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

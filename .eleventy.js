@@ -35,25 +35,30 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
     throw new Error(`Missing \`alt\` on responsiveimage from: ${src}`);
   }
 
-  // create the metadata for an optimised image
-  let metadata = await Image(`${src}`, {
-    widths: [200, 400, 850, 1920, 2500],
-    formats: ['webp', 'jpeg'],
-    urlPath: '/images/',
-    outputDir: './public/images',
-    filenameFormat: function (id, src, width, format, options) {
-      const extension = path.extname(src);
-      const name = path.basename(src, extension);
-      return `${name}-${width}w.${format}`;
-    },
-  });
+  // Resolve site-absolute paths (e.g. "/assets/images/foo.png" from frontmatter)
+  // to the source file under ./src so eleventy-img can read them.
+  function resolveSrc(s) {
+    return typeof s === 'string' && s.startsWith('/') && !s.startsWith('//')
+      ? `./src${s}`
+      : s;
+  }
 
-  // get the smallest and biggest image for picture/image attributes
-  let lowsrc = metadata.jpeg[0];
-  let highsrc = metadata.jpeg[metadata.jpeg.length - 1];
-
-  // when {% image ... %} is used, this is what's returned
-  return `<picture class="${className}">
+  async function renderOne(srcPath, extraClass) {
+    const metadata = await Image(resolveSrc(srcPath), {
+      widths: [200, 400, 850, 1920, 2500],
+      formats: ['webp', 'jpeg'],
+      urlPath: '/images/',
+      outputDir: './public/images',
+      filenameFormat: function (id, src, width, format) {
+        const extension = path.extname(src);
+        const name = path.basename(src, extension);
+        return `${name}-${width}w-${id}.${format}`;
+      },
+    });
+    const lowsrc = metadata.jpeg[0];
+    const highsrc = metadata.jpeg[metadata.jpeg.length - 1];
+    const cls = [className, extraClass].filter(Boolean).join(' ');
+    return `<picture class="${cls}">
     ${Object.values(metadata)
       .map((imageFormat) => {
         return `  <source type="${imageFormat[0].sourceType}" srcset="${imageFormat
@@ -69,6 +74,24 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
         loading="${loading}"
         decoding="async">
     </picture>`;
+  }
+
+  // If a dark sibling exists at <slug>-dark-card.<ext>, render both pictures
+  // and let CSS toggle them via body.dark-mode. Otherwise render single image.
+  // Source filenames are <slug>-card.png / <slug>-dark-card.png.
+  const darkSrc = typeof src === 'string'
+    ? src.replace(/-card(\.[a-zA-Z0-9]+)$/, '-dark-card$1')
+    : src;
+  const hasDark = darkSrc !== src && fs.existsSync(resolveSrc(darkSrc));
+
+  if (!hasDark) {
+    return renderOne(src, null);
+  }
+  const [lightHtml, darkHtml] = await Promise.all([
+    renderOne(src, 'theme-light'),
+    renderOne(darkSrc, 'theme-dark'),
+  ]);
+  return lightHtml + '\n' + darkHtml;
 }
 
 module.exports = function (eleventyConfig) {
@@ -95,6 +118,7 @@ module.exports = function (eleventyConfig) {
 
   // allows the {% image %} shortcode to be used for optimised images (in webp if possible)
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
+  eleventyConfig.addLiquidShortcode('image', imageShortcode);
 
   // Per-category blog collections — populated by adding the matching tag
   // (lowercased) to a post's `tags` array, alongside `post`/`featured`.
@@ -103,6 +127,13 @@ module.exports = function (eleventyConfig) {
       api.getFilteredByTag(tag).reverse(),
     );
   });
+
+  // Blog index hero — picks posts with `hero: true` in frontmatter, sorted
+  // newest first. The blog.html template uses `collections.hero | first` so
+  // the hero is an explicit editorial choice, not a side effect of tagging.
+  eleventyConfig.addCollection('hero', (api) =>
+    api.getAll().filter((p) => p.data.hero).sort((a, b) => b.date - a.date),
+  );
 
   // date filter for blog posts
   eleventyConfig.addFilter('postDate', (dateObj) => {

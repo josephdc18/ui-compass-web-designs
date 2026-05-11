@@ -1,0 +1,40 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+{%- set posts = collections.post | reverse -%}
+{%- set latest = posts | first -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ client.name }} Blog</title>
+  <subtitle>{{ 'Practical guides on web design, performance, SEO, and growing a small business online — written by the ' + client.name + ' team.' }}</subtitle>
+  <link href="https://{{ client.domain }}/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="https://{{ client.domain }}/blog/" rel="alternate" type="text/html" />
+  <id>https://{{ client.domain }}/blog/</id>
+  {%- if latest %}
+  <updated>{{ latest.date | dateIso }}</updated>
+  {%- endif %}
+  <author>
+    <name>{{ client.owner | default(client.name) }}</name>
+    <uri>https://{{ client.domain }}/</uri>
+  </author>
+  <rights>© 2026 {{ client.name }}</rights>
+  {%- for post in posts -%}
+  {%- if loop.index0 < 20 %}
+  <entry>
+    <title>{{ post.data.blogTitle }}</title>
+    <link href="https://{{ client.domain }}{{ post.url }}" rel="alternate" type="text/html" />
+    <id>https://{{ client.domain }}{{ post.url }}</id>
+    <updated>{{ post.date | dateIso }}</updated>
+    <published>{{ post.date | dateIso }}</published>
+    <summary>{{ post.data.blogDescription }}</summary>
+    {%- if post.data.category %}
+    <category term="{{ post.data.category }}" />
+    {%- endif %}
+    <author>
+      <name>{{ post.data.author | default(client.owner) | default(client.name) }}</name>
+    </author>
+  </entry>
+  {%- endif -%}
+  {%- endfor %}
+</feed>

@@ -4,14 +4,14 @@ blogTitle: A 36KB PNG Becomes a 2KB SVG (Now Multiply That)
 titleTag: 36KB PNG Becomes a 2KB SVG
 blogDescription: Most small business sites are leaking weight on every icon and every image. The four-step image pipeline that turns a 2.3MB hero into a 37KB one and turns a 36KB PNG icon into a 2KB SVG. Same pixels. 90% less weight.
 author: "Joseph C."
-date: 2026-05-10T03:00:00.000Z
+date: 2025-11-29T16:00:00.000Z
 tags:
   - post
   - performance
 category: "Performance"
 readMins: 6
 topper: "Performance"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/a-36kb-png-becomes-a-2kb-svg-card.png
 imageAlt: A side-by-side comparison of a heavy PNG icon and a light SVG version of the same shape, with file sizes labeled
 tldrTitle: What you need to know
 tldr:

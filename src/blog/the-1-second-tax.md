@@ -4,14 +4,14 @@ blogTitle: The 7% Conversion Tax of a 1-Second Delay
 titleTag: The 1-Second Tax
 blogDescription: A one-second delay in load time costs you about 7% of your conversions. Multiply that by your monthly leads and you are looking at the real cost of a slow site. Where the delay actually comes from, and how to read your PageSpeed score without panicking.
 author: "Joseph C."
-date: 2026-05-10T09:00:00.000Z
+date: 2026-02-27T16:00:00.000Z
 tags:
   - post
   - performance
 category: "Performance"
 readMins: 5
 topper: "Performance"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/the-1-second-tax-card.png
 imageAlt: A speedometer overlaid on a laptop displaying a website with a slow loading indicator
 tldrTitle: What you need to know
 tldr:
@@ -75,7 +75,7 @@ That is most of the load-speed gap. Not magic. Not premium hosting. Just less wo
 
 ## How to read your PageSpeed score without panicking
 
-Run your homepage through Google's PageSpeed Insights and you get a score between 0 and 100, mobile and desktop scored separately. The score is a weighted combination of <span class="tooltip-term" data-tooltip="Three user-experience metrics Google uses to score real-world page performance: LCP, CLS, and INP.">Core Web Vitals</span> plus a handful of best-practice checks.
+Run your homepage through Google's [PageSpeed Insights](https://pagespeed.web.dev/) and you get a score between 0 and 100, mobile and desktop scored separately. The score is a weighted combination of <span class="tooltip-term" data-tooltip="Three user-experience metrics Google uses to score real-world page performance: LCP, CLS, and INP.">Core Web Vitals</span> plus a handful of best-practice checks.
 
 ### The four buckets to know
 
@@ -136,7 +136,7 @@ If your current site is scoring under 80 and you are running ads to it, you are 
 
 ## Run your number
 
-Open `pagespeed.web.dev` and paste your homepage URL. Wait the thirty seconds. Look at the mobile score and the LCP number underneath it.
+Open [pagespeed.web.dev](https://pagespeed.web.dev/) and paste your homepage URL. Wait the thirty seconds. Look at the mobile score and the LCP number underneath it.
 
 If your score is under 80, you are likely sitting on [more than one warning sign from the redesign scoreboard](/blog/redesign-or-optimize-warning-signs/) too.
 

@@ -1,0 +1,104 @@
+<!doctype html>
+<!--
+  blog-card-manifesto.html  (1200×630)
+  Landscape port of content-kit/templates/manifesto.html.
+  For opinion / position pieces. A single italic Playfair statement
+  framed by oversized quotation marks. Restrained, mostly negative space.
+
+  Tokens:
+    {{ISSUE}}    — top-right label, e.g. "UI Compass / Nº 34"
+    {{KICKER}}   — small caps section label, e.g. "OPINION — Accessibility"
+    {{QUOTE}}    — italic display statement. Use <em>…</em> for accent emphasis.
+    {{ATTR}}     — small caps attribution, e.g. "UI Compass · Field Notes"
+    {{FOOTER}}   — small caps meta, e.g. "Accessibility · 6 min read"
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — Manifesto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#faf7f4; --bg-2:#f3ede5;
+    --cream:#e6d9c7; --cream-deep:#d6c4a8;
+    --primary:#006940; --primary-light:#00bd74;
+    --header:#262421; --body:#4e4b66; --muted:#7a7889;
+    --line:rgba(38,36,33,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--bg); font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif; color: var(--header); overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .card { position: relative; width: 1200px; height: 630px; padding: 36px 64px; display: flex; flex-direction: column; background: radial-gradient(900px 700px at 85% -10%, rgba(0,105,64,0.07), transparent 60%), radial-gradient(700px 600px at -10% 110%, rgba(0,105,64,0.05), transparent 60%), linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); overflow: hidden; }
+
+  .topbar { display: flex; align-items: center; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .topbar .kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--primary); }
+  .topbar .rule { flex: 1; height: 1px; background: var(--line); }
+  .topbar .right { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 16px; color: var(--body); }
+
+  /* === Oversized opening quote === */
+  .quotemark {
+    position: absolute; left: 56px; top: 96px;
+    font-family: "Playfair Display", serif; font-style: italic;
+    font-weight: 700; font-size: 280px; line-height: 0.8;
+    color: var(--primary); opacity: 0.18;
+    pointer-events: none; user-select: none;
+  }
+
+  .stage { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 40px 0 60px; }
+
+  .quote {
+    font-family: "Playfair Display", "Times New Roman", serif;
+    font-style: italic; font-weight: 500;
+    font-size: 78px; line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--header); max-width: 980px;
+  }
+  .quote em { font-style: italic; color: var(--primary); font-weight: 600; }
+  .quote.size-s  { font-size: 68px; }
+  .quote.size-xs { font-size: 60px; }
+
+  .attr {
+    margin-top: 24px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .attr::before { content: ""; width: 32px; height: 1px; background: var(--primary); }
+
+  .foot { padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 32px; height: 32px; flex: none; display: block; }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub { margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+  .foot-meta { font-size: 12px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--body); }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="quotemark" aria-hidden="true">“</div>
+
+  <div class="topbar">
+    <span class="kicker">{{KICKER}}</span>
+    <span class="rule"></span>
+    <span class="right">{{ISSUE}}</span>
+  </div>
+
+  <div class="stage">
+    <h1 class="quote">{{QUOTE}}</h1>
+    <p class="attr">{{ATTR}}</p>
+  </div>
+
+  <div class="foot">
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark"><span class="name">UI Compass<span class="dot">.</span></span><span class="sub">Web Designs</span></div>
+    </div>
+    <div class="foot-meta">{{FOOTER}}</div>
+  </div>
+</main>
+</body>
+</html>

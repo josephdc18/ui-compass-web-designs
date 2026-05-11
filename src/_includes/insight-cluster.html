@@ -1,0 +1,44 @@
+{# Insight cluster — one category section on /blog/.
+   Expects the caller to set: id, topper, title (may include <em>),
+   posts (a collection), modifier ('default' | 'off-white'). #}
+{% if posts | length > 0 %}
+<section class="insight-cluster insight-cluster--{{ modifier }}" aria-labelledby="cluster-{{ id }}">
+  <div class="cs-container">
+    <header class="cs-header">
+      <div class="cs-header-text">
+        <span class="cs-topper">{{ topper }}</span>
+        <h2 id="cluster-{{ id }}" class="cs-title">{{ title | safe }}</h2>
+      </div>
+      <a href="#{{ id }}" class="cs-view-all">
+        <span>View all</span>
+        <svg class="cs-view-all-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </header>
+    <ul class="cs-card-group stagger-parent">
+      {% for post in posts %}{% if loop.index0 < 3 %}
+      <li class="cs-item stagger-item">
+        <a class="cs-link" href="{{ post.url }}">
+          <div class="cs-media">
+            <span class="cs-date">{{ post.date | postDate }}</span>
+            {% if post.data.image %}
+              {% image post.data.image, post.data.imageAlt or post.data.blogTitle, 'cs-image', 'lazy', '(max-width: 600px) 100vw, 400px' %}
+            {% endif %}
+          </div>
+          <div class="cs-body">
+            {% if post.data.category %}<span class="cs-category">{{ post.data.category }}</span>{% endif %}
+            <h3 class="cs-h3"><span class="cs-card-link">{{ post.data.blogTitle }}</span></h3>
+            <p class="cs-text">{{ post.data.blogDescription }}</p>
+            <footer class="cs-footer">
+              <span class="cs-meta">
+                {% if post.data.readMins %}{{ post.data.readMins }} MIN READ · {% endif %}{{ post.date | date('yyyy') }}
+              </span>
+              <span class="cs-read-more" aria-hidden="true">Read more <span class="cs-read-more-arrow">&#8599;</span></span>
+            </footer>
+          </div>
+        </a>
+      </li>
+      {% endif %}{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

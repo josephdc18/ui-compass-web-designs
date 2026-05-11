@@ -36,14 +36,14 @@ eleventyNavigation:
 <!-- ============================================ -->
 <!--                Featured hero                 -->
 <!-- ============================================ -->
-{% set featuredPost = (collections.featured | reverse | first) %}
+{% set featuredPost = (collections.hero | first) %}
 {% if featuredPost %}
 <section id="insight-featured" aria-labelledby="insight-featured-title">
   <div class="cs-container">
     <article class="cs-card">
       {% if featuredPost.data.image %}
       <a class="cs-media" href="{{ featuredPost.url }}" aria-hidden="true" tabindex="-1">
-        <img src="{{ featuredPost.data.image }}" alt="{{ featuredPost.data.imageAlt | default(featuredPost.data.blogTitle) }}" width="1200" height="720" loading="eager" decoding="async" class="cs-image">
+        {% image featuredPost.data.image, featuredPost.data.imageAlt or featuredPost.data.blogTitle, 'cs-image', 'eager', '(max-width: 900px) 100vw, 720px' %}
       </a>
       {% endif %}
       <div class="cs-body">
@@ -70,70 +70,44 @@ eleventyNavigation:
 <!-- ============================================ -->
 <!--               Insight clusters               -->
 <!-- ============================================ -->
-{% macro insightCluster(id, label, topper, title, posts, modifier='default') %}
-{% if posts | length > 0 %}
-<section class="insight-cluster insight-cluster--{{ modifier }}" aria-labelledby="cluster-{{ id }}">
-  <div class="cs-container">
-    <header class="cs-header">
-      <div class="cs-header-text">
-        <span class="cs-topper">{{ topper }}</span>
-        <h2 id="cluster-{{ id }}" class="cs-title">{{ title | safe }}</h2>
-      </div>
-      <a href="#insight-archive" class="cs-view-all" data-archive-tab="{{ id }}">
-        <span>View all</span>
-        <svg class="cs-view-all-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </header>
-    <ul class="cs-card-group stagger-parent">
-      {% for post in posts %}{% if loop.index0 < 3 %}
-      <li class="cs-item stagger-item">
-        <a class="cs-link" href="{{ post.url }}">
-          <div class="cs-media">
-            <span class="cs-date">{{ post.date | postDate }}</span>
-            {% if post.data.image %}
-            <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt | default(post.data.blogTitle) }}" width="600" height="360" loading="lazy" decoding="async" class="cs-image">
-            {% endif %}
-          </div>
-          <div class="cs-body">
-            {% if post.data.category %}<span class="cs-category">{{ post.data.category }}</span>{% endif %}
-            <h3 class="cs-h3"><span class="cs-card-link">{{ post.data.blogTitle }}</span></h3>
-            <p class="cs-text">{{ post.data.blogDescription }}</p>
-            <footer class="cs-footer">
-              <span class="cs-meta">
-                {% if post.data.readMins %}{{ post.data.readMins }} MIN READ · {% endif %}{{ post.date | date('yyyy') }}
-              </span>
-              <span class="cs-read-more" aria-hidden="true">Read more <span class="cs-read-more-arrow">&#8599;</span></span>
-            </footer>
-          </div>
-        </a>
-      </li>
-      {% endif %}{% endfor %}
-    </ul>
-  </div>
-</section>
-{% endif %}
-{% endmacro %}
-
-{{ insightCluster('strategy', 'Strategy', 'Strategy · Own your site', 'Decisions that <em>compound</em> for years', collections.strategy, 'default') }}
+{% set id = 'strategy' %}
+{% set topper = 'Strategy · Own your site' %}
+{% set title = 'Decisions that <em>compound</em> for years' %}
+{% set posts = collections.strategy %}
+{% set modifier = 'default' %}
+{% include "insight-cluster.html" %}
 
 <!-- ============================================ -->
 <!--             Pullquote interlude              -->
 <!-- ============================================ -->
-<div class="insight-pullquote-wrap">
+<section id="cta-697">
   <div class="cs-container">
-    <div class="insight-pullquote">
-      <div class="cs-rule" aria-hidden="true"></div>
-      <blockquote class="cs-quote">
-        <p class="cs-quote-text">A small business website is not a brochure. It is a salesperson that works while you sleep — and the difference between one that earns its keep and one that doesn't is decided long before launch day.</p>
-        <footer class="cs-attribution">UI Compass · Field notes</footer>
-      </blockquote>
+    <div class="cs-content">
+      <h2 class="cs-title">Let's build your website today!</h2><a href="/contact/" class="cs-button-solid">Get In Touch</a>
     </div>
-  </div>
-</div>
+  </div><img class="cs-background" src="/assets/images/0b65f54152e9.svg" alt="" aria-hidden="true" width="1920" height="318" loading="lazy" decoding="async">
+</section>
 
-{{ insightCluster('seo', 'SEO', 'SEO · Get found', 'Show up where the next customer is <em>already searching</em>', collections.seo, 'off-white') }}
-{{ insightCluster('performance', 'Performance', 'Performance · Earn the click', 'Speed, reliability, and the <em>2-second rule</em>', collections.performance, 'default') }}
-{{ insightCluster('design', 'Design', 'Design · Build trust', 'Layouts that turn <em>visitors into leads</em>', collections.design, 'off-white') }}
+{% set id = 'seo' %}
+{% set topper = 'SEO · Get found' %}
+{% set title = 'Show up where the next customer is <em>already searching</em>' %}
+{% set posts = collections.seo %}
+{% set modifier = 'off-white' %}
+{% include "insight-cluster.html" %}
+
+{% set id = 'performance' %}
+{% set topper = 'Performance · Earn the click' %}
+{% set title = 'Speed, reliability, and the <em>2-second rule</em>' %}
+{% set posts = collections.performance %}
+{% set modifier = 'default' %}
+{% include "insight-cluster.html" %}
+
+{% set id = 'design' %}
+{% set topper = 'Design · Build trust' %}
+{% set title = 'Layouts that turn <em>visitors into leads</em>' %}
+{% set posts = collections.design %}
+{% set modifier = 'off-white' %}
+{% include "insight-cluster.html" %}
 
 <!-- ============================================ -->
 <!--          Filterable archive (all posts)      -->
@@ -146,17 +120,15 @@ eleventyNavigation:
         <span class="cs-topper">Archive</span>
         <h2 id="insight-archive-title" class="cs-title">Browse every article</h2>
       </div>
-      <nav aria-label="Browse articles by category">
-        <div class="cs-tablist" role="tablist">
-          <button type="button" class="cs-tab" data-filter="all" aria-current="true">All</button>
-          <button type="button" class="cs-tab" data-filter="strategy">Strategy</button>
-          <button type="button" class="cs-tab" data-filter="seo">SEO</button>
-          <button type="button" class="cs-tab" data-filter="performance">Performance</button>
-          <button type="button" class="cs-tab" data-filter="design">Design</button>
-        </div>
-      </nav>
+      <div class="cs-tablist" role="group" aria-label="Filter articles by category">
+        <button type="button" class="cs-tab" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="cs-tab" data-filter="strategy" aria-pressed="false">Strategy</button>
+        <button type="button" class="cs-tab" data-filter="seo" aria-pressed="false">SEO</button>
+        <button type="button" class="cs-tab" data-filter="performance" aria-pressed="false">Performance</button>
+        <button type="button" class="cs-tab" data-filter="design" aria-pressed="false">Design</button>
+      </div>
     </header>
-    <ol class="cs-grid" id="archive-grid" role="list">
+    <ul class="cs-grid" id="archive-grid" role="list">
       {%- for post in collections.post | reverse -%}
       <li class="cs-row" data-category="{{ post.data.category | default('uncategorized') | lower }}">
         <a href="{{ post.url }}" class="cs-row-link">
@@ -169,7 +141,7 @@ eleventyNavigation:
         </a>
       </li>
       {%- endfor -%}
-    </ol>
+    </ul>
     <p class="cs-empty" id="archive-empty" hidden>No posts in this category yet.</p>
   </div>
 </section>

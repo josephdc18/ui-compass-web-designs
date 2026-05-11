@@ -12,45 +12,6 @@
     max-width: 70em;
     margin: auto;
   }
-  .blog-link {
-    font-size: 1rem;
-    line-height: clamp(2.875em, 5.5vw, 3.5em);
-    text-decoration: none;
-    font-weight: 700;
-    text-align: center;
-    margin: auto;
-    color: #fff;
-    min-width: 9.375rem;
-    padding: 0 1.5rem;
-    background-color: var(--bodyHeader);
-    border-radius: 0.25rem;
-    display: inline-block;
-    position: relative;
-    box-sizing: border-box;
-    z-index: 1;
-    transition: color .3s;
-  }
-  .blog-link:before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #fff;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    border-radius: 0.25rem;
-    transition: opacity .3s;
-    border: 1px solid var(--bodyHeader);
-    z-index: -1;
-  }
-  .blog-link:hover {
-    color: var(--bodyHeader);
-  }
-  .blog-link:hover:before {
-    opacity: 1;
-  }
 }
 /*-- -------------------------- -->
 <---   Interior Page Header     -->
@@ -132,111 +93,13 @@
     column-gap: 1.25em;
   }
 }
-/*-- -------------------------- -->
-<---    Recent Blog Articles    -->
-<--- -------------------------- -*/
+/* Dark Mode - Sidebar + article content */
 @media only screen and (min-width: 0rem) {
-  .recent-articles {
-    overflow: hidden;
-    max-width: 49.6875em;
-    flex: none;
-    width: 100%;
-  }
-  .recent-articles .blog-mainImage {
-    width: 100%;
-    height: clamp(200px, 30vw, 400px);
-    position: relative;
-    display: block;
-    border-radius: 0.5em 0.5em 0 0;
-    overflow: hidden;
-  }
-  .recent-articles .blog-mainImage img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .recent-articles .article-group {
-    padding: clamp(30px, 5vw, 50px);
-    border: 1px solid #ebebeb;
-    border-radius: 0 0 0.5em 0.5em;
-  }
-  .recent-articles .blog-author-img {
-    width: 2em;
-    height: 2em;
-    position: relative;
-    display: block;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .recent-articles .blog-author-img img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .recent-articles .blog-authorGroup {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .recent-articles .blog-author,
-  .recent-articles .blog-date {
-    font-size: 0.875rem;
-    color: var(--bodyText);
-    line-height: 1.5em;
-  }
-  .recent-articles .blog-dot {
-    width: 3px;
-    height: 3px;
-    background-color: var(--primary);
-    border-radius: 50%;
-    display: block;
-  }
-  .recent-articles .blog-h1 {
-    font-size: clamp(20px, 5vw, 32px);
-    line-height: 1.4em;
-    font-weight: 700;
-    margin: 1rem 0;
-    color: var(--bodyHeader);
-  }
-  .recent-articles .blog-desc {
-    font-size: 1rem;
-    line-height: 1.5em;
-    margin: 1rem 0 2rem;
-    color: var(--bodyText);
-  }
-}
-@media only screen and (min-width: 64rem) {
-  .recent-articles .blog-h1 {
-    max-width: 31.25rem;
-  }
-}
-/* Dark Mode - Recent Articles */
-@media only screen and (min-width: 0rem) {
-  body.dark-mode .recent-articles .blog-h1,
-  body.dark-mode .recent-articles .blog-desc,
-  body.dark-mode .recent-articles .blog-author,
-  body.dark-mode .recent-articles .blog-date {
-    color: #f7f7f7;
-  }
-  body.dark-mode .blog-sidebar .feature-h3,
-  body.dark-mode .blog-sidebar .feature-date,
   body.dark-mode .blog-sidebar .blog-header {
     color: #f7f7f7;
   }
   body.dark-mode .blog-sidebar .blog-header:after {
     background: var(--primary);
-  }
-  body.dark-mode .blog-article .blog-h1,
-  body.dark-mode .blog-article .blog-author,
-  body.dark-mode .blog-article .blog-date {
-    color: #f7f7f7;
   }
   body.dark-mode .blog-article #blog-content h2,
   body.dark-mode .blog-article #blog-content h3,
@@ -314,39 +177,6 @@
     padding-bottom: 0;
     border: none;
   }
-  .blog-sidebar .blog-featureImage {
-    display: block;
-    position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 3.75em;
-    height: 3.75em;
-    flex: none;
-  }
-  .blog-sidebar .blog-featureImage img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .blog-sidebar .feature-h3 {
-    font-size: 0.9375rem;
-    line-height: 1.5em;
-    color: var(--bodyHeader);
-    margin: 0;
-    margin-bottom: 0.25rem;
-    font-weight: 700;
-    display: block;
-    text-decoration: none;
-  }
-  .blog-sidebar .feature-date {
-    font-size: 0.875rem;
-    line-height: 1.5em;
-    color: var(--bodyText);
-    display: block;
-  }
 }
 @media only screen and (min-width: 64rem) {
   .blog-sidebar {
@@ -378,49 +208,6 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
-  }
-  .blog-article .blog-author-img {
-    width: 2em;
-    height: 2em;
-    position: relative;
-    display: block;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .blog-article .blog-author-img img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .blog-article .blog-authorGroup {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .blog-article .blog-author,
-  .blog-article .blog-date {
-    font-size: 0.875rem;
-    color: var(--bodyText);
-    line-height: 1.5em;
-  }
-  .blog-article .blog-dot {
-    width: 3px;
-    height: 3px;
-    background-color: var(--primary, #fe4f70);
-    border-radius: 50%;
-    display: block;
-  }
-  .blog-article .blog-h1 {
-    font-size: clamp(20px, 5vw, 39px);
-    line-height: 1.4em;
-    font-weight: 700;
-    margin: 1rem 0;
-    max-width: 34.375rem;
-    color: var(--bodyHeader);
   }
   .blog-article #blog-content {
     padding-top: 1.5625em;
@@ -712,7 +499,7 @@
   }
 }
 /* In the 3-column post layout, let the article fill the center column.
-   The narrower 49.6875em cap above is for the listing page's recent-articles. */
+   The narrower 49.6875em cap above is the single-post reading width. */
 @media only screen and (min-width: 64rem) {
   .blog-with-toc .blog-article {
     max-width: none;
@@ -761,92 +548,11 @@
   }
 }
 /*-- -------------------------- -->
-<---      Article Share Bar      -->
+<---  Copy-link toast (used by   -->
+<---  article-actions.js +       -->
+<---  bookmarks.js)              -->
 <--- -------------------------- -*/
 @media only screen and (min-width: 0rem) {
-  .blog-meta-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .blog-reading-time {
-    font-size: 0.875rem;
-    color: var(--bodyText, #737373);
-  }
-  .article-share {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid #ebebeb;
-  }
-  .share-heading {
-    margin-bottom: 1rem;
-  }
-  .share-heading span {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--bodyHeader, #1a1a1a);
-  }
-  .share-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .share-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    background: #fff;
-    color: var(--bodyText, #737373);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-  }
-  .share-btn:hover {
-    border-color: var(--primary, #FFBA19);
-    color: var(--bodyHeader, #1a1a1a);
-  }
-  .share-btn:focus-visible {
-    outline: 2px solid var(--primary, #FFBA19);
-    outline-offset: 2px;
-  }
-  .share-twitter:hover {
-    background: #000;
-    border-color: #000;
-    color: #fff;
-  }
-  .share-facebook:hover {
-    background: #1877f2;
-    border-color: #1877f2;
-    color: #fff;
-  }
-  .share-linkedin:hover {
-    background: #0a66c2;
-    border-color: #0a66c2;
-    color: #fff;
-  }
-  .share-reddit:hover {
-    background: #ff4500;
-    border-color: #ff4500;
-    color: #fff;
-  }
-  .share-email:hover {
-    background: var(--primary, #FFBA19);
-    border-color: var(--primary, #FFBA19);
-    color: var(--bodyHeader, #1a1a1a);
-  }
-  .share-copy:hover {
-    background: var(--bodyHeader, #1a1a1a);
-    border-color: var(--bodyHeader, #1a1a1a);
-    color: #fff;
-  }
   .copy-toast {
     position: fixed;
     bottom: 100px;
@@ -869,30 +575,9 @@
     visibility: visible;
     transform: translateX(-50%) translateY(0);
   }
-}
-/* Dark Mode Share */
-@media only screen and (min-width: 0rem) {
-  body.dark-mode .article-share {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  body.dark-mode .share-heading span {
-    color: #fff;
-  }
-  body.dark-mode .share-btn {
-    background: var(--medium, #1e293b);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.8);
-  }
-  body.dark-mode .share-btn:hover {
-    border-color: var(--primary, #FFBA19);
-    color: #fff;
-  }
   body.dark-mode .copy-toast {
     background: #fff;
     color: var(--bodyHeader, #1a1a1a);
-  }
-  body.dark-mode .blog-reading-time {
-    color: rgba(255, 255, 255, 0.7);
   }
 }
 
@@ -1297,7 +982,7 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
 }
 .blog-sidebar .featured-card-image {
   display: block;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 40 / 21;
   background: var(--be-bg-soft);
   margin: 0;
   overflow: hidden;
@@ -1394,10 +1079,9 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
 }
 
 /* ==============================================================
-   Blog index — featured + clusters + pullquote + archive
-   (Old .recent-articles / .blog-sidebar / .featured-card styles
-   above are still used by single-post sidebar + admin preview, so
-   they stay. These rules only style the rebuilt /blog/ index.)
+   Blog index — featured + clusters + pullquote + archive.
+   .blog-sidebar / .featured-card styles above are used by the
+   single-post related-posts sidebar and the admin preview.
    ============================================================== */
 @media only screen and (min-width: 0rem) {
   #insight-featured,
@@ -1428,7 +1112,7 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     overflow: hidden;
   }
   #insight-featured .cs-media {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 40 / 21;
     background-color: #e5e7eb;
     display: block;
     overflow: hidden;
@@ -1436,7 +1120,8 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     text-decoration: none;
     width: 100%;
   }
-  #insight-featured .cs-image {
+  #insight-featured .cs-image,
+  #insight-featured .cs-image img {
     height: 100%;
     left: 0;
     object-fit: cover;
@@ -1445,7 +1130,8 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     transition: transform 0.5s ease;
     width: 100%;
   }
-  #insight-featured .cs-card:hover .cs-image {
+  #insight-featured .cs-card:hover .cs-image,
+  #insight-featured .cs-card:hover .cs-image img {
     transform: scale(1.04);
   }
   #insight-featured .cs-body {
@@ -1606,7 +1292,7 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     text-decoration: none;
   }
   .insight-cluster .cs-media {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 40 / 21;
     background-color: #e5e7eb;
     overflow: hidden;
     position: relative;
@@ -1623,7 +1309,8 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     top: 0.75rem;
     z-index: 2;
   }
-  .insight-cluster .cs-image {
+  .insight-cluster .cs-image,
+  .insight-cluster .cs-image img {
     height: 100%;
     left: 0;
     object-fit: cover;
@@ -1632,7 +1319,8 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     transition: transform 0.6s ease;
     width: 100%;
   }
-  .insight-cluster .cs-link:hover .cs-image {
+  .insight-cluster .cs-link:hover .cs-image,
+  .insight-cluster .cs-link:hover .cs-image img {
     transform: scale(1.06);
   }
   .insight-cluster .cs-body {
@@ -1786,7 +1474,7 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     border-color: var(--primary);
     color: var(--primary);
   }
-  #insight-archive .cs-tab[aria-current="true"] {
+  #insight-archive .cs-tab[aria-pressed="true"] {
     background-color: var(--primary);
     border-color: var(--primary);
     color: var(--bodyTextColorWhite);
@@ -1877,9 +1565,9 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     flex-direction: row;
   }
   #insight-featured .cs-media {
-    aspect-ratio: auto;
+    aspect-ratio: 40 / 21;
     flex: 1 1 50%;
-    min-height: 22rem;
+    align-self: stretch;
   }
   #insight-featured .cs-body {
     flex: 1 1 50%;
@@ -1958,6 +1646,7 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
   }
   body.dark-mode #insight-featured .cs-lead,
   body.dark-mode .insight-cluster .cs-text,
+  body.dark-mode .insight-cluster .cs-meta,
   body.dark-mode .insight-pullquote .cs-attribution,
   body.dark-mode #insight-featured .cs-meta,
   body.dark-mode #insight-archive .cs-tab,
@@ -1998,7 +1687,7 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     border-color: var(--primaryLight);
     color: var(--primaryLight);
   }
-  body.dark-mode #insight-archive .cs-tab[aria-current="true"] {
+  body.dark-mode #insight-archive .cs-tab[aria-pressed="true"] {
     background-color: var(--primaryLight);
     border-color: var(--primaryLight);
     color: var(--dark);
@@ -2011,3 +1700,59 @@ body.dark-mode .blog-sidebar .featured-card { background: var(--be-bg); }
     color: var(--bodyTextColorWhite);
   }
 }
+
+/* === cta-697 — pre-pricing CTA. Brand-green band with the wave SVG anchored
+   to the bottom; mirrored from local.css so the blog page can use it. === */
+@media only screen and (min-width:0rem){
+  #cta-697{
+    padding:var(--sectionPadding);
+    background-color:var(--primary);
+    position:relative;
+    overflow:hidden;
+    z-index:1;
+  }
+  #cta-697 .cs-container{
+    width:100%;
+    max-width:80rem;
+    margin:auto;
+  }
+  #cta-697 .cs-content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:1.5rem;
+  }
+  #cta-697 .cs-title{
+    margin:0;
+    max-width:25ch;
+    color:var(--bodyTextColorWhite);
+  }
+  #cta-697 .cs-button-solid{
+    background-color:var(--bodyTextColorWhite);
+    color:var(--primary);
+  }
+  #cta-697 .cs-button-solid:hover{
+    color:var(--bodyTextColorWhite);
+  }
+  #cta-697 .cs-background{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:auto;
+    z-index:-1;
+    pointer-events:none;
+  }
+}
+body.dark-mode #cta-697{
+  background-color:var(--primary);
+}
+
+/* === Theme-aware card images: render both, toggle by body.dark-mode === */
+body:not(.dark-mode) .theme-dark { display: none; }
+body.dark-mode .theme-light { display: none; }
+
+/* Dark-mode contrast fix: cluster titles' non-em portion was using
+   --headerColor which goes dark-on-dark. */
+body.dark-mode .insight-cluster .cs-title { color: var(--bodyTextColorWhite); }

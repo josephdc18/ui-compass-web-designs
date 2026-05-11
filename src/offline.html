@@ -1,79 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Offline</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline · UI Compass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1:#f7f2ea; --bg-2:#efe7d8;
+    --cream:#e6d9c7;
+    --primary:#006940; --primary-l:#00bd74;
+    --header:#1f1c19; --body:#4e4b66; --muted:#8a8474;
+    --hairline:rgba(31,28,25,0.22);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-1:#0d1411; --bg-2:#1a221d;
+      --cream:#2a2e25;
+      --primary:#00bd74; --primary-l:#006940;
+      --header:#fafbfc; --body:rgba(250,251,252,0.75); --muted:rgba(250,251,252,0.45);
+      --hairline:rgba(250,251,252,0.20);
     }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100vh; background: var(--bg-1);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--header);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background:
+      radial-gradient(900px 700px at 92% 110%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 60%),
+      radial-gradient(700px 600px at -8% -10%, color-mix(in srgb, var(--cream) 55%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    padding: 24px clamp(20px, 5vw, 56px) 22px;
+  }
+  .strip {
+    display: flex; align-items: center; gap: 18px;
+    padding-bottom: 2px;
+  }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue {
+    font-family: "Playfair Display", serif; font-style: italic; font-weight: 500;
+    font-size: 17px; color: var(--header); letter-spacing: 0.005em;
+  }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+  .stage {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+    max-width: 720px; margin: 0 auto; width: 100%;
+    padding: 48px 0;
+  }
+  .compass {
+    width: 96px; height: 96px;
+    margin-bottom: 28px;
+    color: var(--primary);
+  }
+  .compass svg { width: 100%; height: 100%; display: block; }
+  .headline {
+    font-family: "Playfair Display", "Times New Roman", serif;
+    font-weight: 600;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98; letter-spacing: -0.025em;
+    color: var(--header);
+  }
+  .headline em { font-style: italic; font-weight: 500; color: var(--primary); }
+  .deck {
+    margin-top: 22px;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.45; color: var(--body);
+    max-width: 540px;
+  }
+  .deck em {
+    font-family: "Playfair Display", serif;
+    font-style: italic; font-weight: 500; color: var(--primary);
+  }
+  .actions {
+    margin-top: 36px;
+    display: flex; flex-wrap: wrap; gap: 12px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px;
+    background: var(--primary); color: var(--bg-1);
+    border: none; border-radius: 999px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,105,64,0.25); }
+  .btn:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent; color: var(--header);
+    border: 1px solid var(--hairline);
+  }
+  .btn-ghost:hover { background: var(--hairline); box-shadow: none; }
 
-    .container {
-      max-width: 400px;
-    }
-
-    .icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      opacity: 0.9;
-      margin-bottom: 1.5rem;
-    }
-
-    button {
-      background: white;
-      color: #667eea;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-  </style>
+  .foot {
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .brand .name {
+    font-family: "Playfair Display", serif;
+    font-style: italic; font-weight: 600; font-size: 19px;
+    color: var(--header);
+  }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub {
+    margin-top: 3px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .foot-meta {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--header);
+  }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="icon">📡</div>
-    <h1>You're Offline</h1>
-    <p>It looks like you've lost your internet connection. Please check your connection and try again.</p>
-    <button onclick="window.location.reload()">Try Again</button>
-  </div>
-</body>
 
+  <div class="strip">
+    <span class="rule"></span>
+    <span class="issue">Field Report · Connection lost</span>
+  </div>
+
+  <main class="stage">
+    <div class="compass" aria-hidden="true">
+      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="48" cy="48" r="44" stroke="currentColor" stroke-width="2" opacity="0.45"/>
+        <circle cx="48" cy="48" r="34" stroke="currentColor" stroke-width="1.5" opacity="0.30"/>
+        <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.55">
+          <line x1="48" y1="8"  x2="48" y2="16"/>
+          <line x1="88" y1="48" x2="80" y2="48"/>
+          <line x1="48" y1="88" x2="48" y2="80"/>
+          <line x1="8"  y1="48" x2="16" y2="48"/>
+        </g>
+        <!-- Needle, fixed N (no live signal — we're offline) -->
+        <polygon points="48,16 53,48 48,52 43,48" fill="currentColor"/>
+        <polygon points="48,80 53,48 48,44 43,48" fill="currentColor" opacity="0.30"/>
+        <circle cx="48" cy="48" r="4" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <h1 class="headline">You're <em>off the grid</em>.</h1>
+    <p class="deck">Looks like the network needle's <em>not pointing anywhere</em>. Check your connection and we'll pick the trail back up.</p>
+
+    <div class="actions">
+      <button class="btn" type="button" onclick="window.location.reload()">Try again</button>
+      <a class="btn btn-ghost" href="/">Back to home</a>
+    </div>
+  </main>
+
+  <div class="foot">
+    <div class="brand">
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <div class="sub">Web Designs</div>
+      </div>
+    </div>
+    <div class="foot-meta">Status<span class="dot">•</span>Offline</div>
+  </div>
+
+</body>
 </html>

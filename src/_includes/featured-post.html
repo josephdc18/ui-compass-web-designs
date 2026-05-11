@@ -4,9 +4,7 @@
     {%- for post in collections.featured | reverse -%}
     <a class="featured-card" href="{{ post.url }}">
       {% if post.data.image %}
-      <picture class="featured-card-image">
-        <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt | default(post.data.blogTitle) }}" width="600" height="360" decoding="async" loading="lazy" />
-      </picture>
+        {% image post.data.image, post.data.imageAlt or post.data.blogTitle, 'featured-card-image', 'lazy', '(max-width: 900px) 100vw, 320px' %}
       {% endif %}
       <div class="featured-card-body">
         {% if post.data.topper %}
@@ -40,9 +38,7 @@
       {%- endfor -%}
       <a class="featured-card" href="{{ link.url }}">
         {% if match and match.data.image %}
-        <picture class="featured-card-image">
-          <img src="{{ match.data.image }}" alt="{{ match.data.imageAlt | default(match.data.blogTitle) }}" width="600" height="360" decoding="async" loading="lazy" />
-        </picture>
+          {% image match.data.image, match.data.imageAlt or match.data.blogTitle, 'featured-card-image', 'lazy', '(max-width: 900px) 100vw, 320px' %}
         {% endif %}
         <div class="featured-card-body">
           {% if match and match.data.topper %}

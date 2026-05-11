@@ -4,14 +4,14 @@ blogTitle: 5 Google Reviews a Month Beats 30 in One Week
 titleTag: 5 Reviews a Month Beats 30 in a Week
 blogDescription: Review velocity is what wins the local map pack, not raw review count. A steady drip looks natural. A sudden spike looks like a campaign. Why Google's pattern-detection cares about cadence, the 40-review threshold most local businesses sit just under, and the six places your direct review link belongs.
 author: "Joseph C."
-date: 2026-05-10T02:00:00.000Z
+date: 2025-12-29T16:00:00.000Z
 tags:
   - post
   - seo
 category: "SEO"
 readMins: 6
 topper: "SEO"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/five-reviews-a-month-beats-thirty-in-a-week-card.png
 imageAlt: A line graph showing a steady upward trend of Google reviews over six months versus a sudden spike that triggers a flag
 tldrTitle: What you need to know
 tldr:

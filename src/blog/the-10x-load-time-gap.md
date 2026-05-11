@@ -4,14 +4,14 @@ blogTitle: The 10x Load-Time Gap Between Hand-Coded and Page Builder
 titleTag: The 10x Load-Time Gap
 blogDescription: Hand-coded sites load up to 10x faster than page-builder sites — and the gap is not configurable. The structural difference between "assemble on demand" and "ready to serve," what it costs you in conversion, and why the choice locks in the day you pick a platform.
 author: "Joseph C."
-date: 2026-05-10T01:00:00.000Z
+date: 2026-05-10T16:00:00.000Z
 tags:
   - post
   - strategy
 category: "Strategy"
 readMins: 7
 topper: "Strategy"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/the-10x-load-time-gap-card.png
 imageAlt: A split-screen graphic showing a hand-coded static site loading in 0.5 seconds versus a page-builder site loading in 5 seconds
 tldrTitle: What you need to know
 tldr:
@@ -142,7 +142,7 @@ The full case for our model versus the alternatives is in [our DFW comparison po
 
 ## Run your own number
 
-Open `pagespeed.web.dev`. Paste your URL. Wait the 30 seconds. Look at the mobile score and the Time to First Byte under the Core Web Vitals breakdown.
+Open [pagespeed.web.dev](https://pagespeed.web.dev/). Paste your URL. Wait the 30 seconds. Look at the mobile score and the Time to First Byte under the Core Web Vitals breakdown.
 
 If your mobile score is under 80 or your TTFB is over 1 second, the gap we are talking about is showing on your site right now.
 

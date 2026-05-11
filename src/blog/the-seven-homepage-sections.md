@@ -4,14 +4,14 @@ blogTitle: The Seven Sections Every Small Business Homepage Needs, In Order
 titleTag: The Seven Homepage Sections
 blogDescription: A small business homepage is not an art project. It is a salesperson with seven jobs. The sections that need to be there, the order they belong in, and what each one costs you when it is missing or misplaced.
 author: "Joseph C."
-date: 2026-05-10T07:00:00.000Z
+date: 2026-03-31T16:00:00.000Z
 tags:
   - post
   - design
 category: "Design"
 readMins: 7
 topper: "Design"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/the-seven-homepage-sections-card.png
 imageAlt: A wireframe of a small business homepage with seven sections labeled in order from top to bottom
 tldrTitle: What you need to know
 tldr:

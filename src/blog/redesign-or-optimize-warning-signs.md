@@ -4,7 +4,7 @@ blogTitle: Redesign or Optimize? The 7 Warning Signs That Decide
 titleTag: Redesign or Optimize? The 7 Warning Signs
 blogDescription: A diagnostic for small business owners. Count the warning signs your site is showing. Zero or one means optimize. Four or more means rebuild. The framework that decides what you actually need before you spend a dime.
 author: "Joseph C."
-date: 2026-05-10T12:00:00.000Z
+date: 2025-10-28T16:00:00.000Z
 tags:
   - post
   - featured
@@ -12,7 +12,8 @@ tags:
 category: "Strategy"
 readMins: 8
 topper: "Strategy"
-image: /assets/images/2990879accb1.jpg
+hero: true
+image: /assets/images/redesign-or-optimize-warning-signs-card.png
 imageAlt: A small business owner reviewing a printed website audit at a desk
 tldrTitle: What you need to know
 tldr:
@@ -60,7 +61,7 @@ If you can read the site, navigate it, and complete a primary action without zoo
 
 ### Sign 2: The site loads slower than three seconds
 
-Run your homepage through Google's PageSpeed Insights. Look at the <span class="tooltip-term" data-tooltip="Largest Contentful Paint — how long until the biggest visible thing on the page renders.">LCP</span> number on mobile. If it is over 2.5 seconds, you are past the threshold where Google starts counting it against you. If it is over 4 seconds, you are losing a measurable chunk of every visitor before they read a word.
+Run your homepage through Google's [PageSpeed Insights](https://pagespeed.web.dev/). Look at the <span class="tooltip-term" data-tooltip="Largest Contentful Paint — how long until the biggest visible thing on the page renders.">LCP</span> number on mobile. If it is over 2.5 seconds, you are past the threshold where Google starts counting it against you. If it is over 4 seconds, you are losing a measurable chunk of every visitor before they read a word.
 
 The full math on what each second costs you is in [The 7% Conversion Tax of a 1-Second Delay](/blog/the-1-second-tax/). If your homepage scores under 80 on mobile, this sign is showing.
 

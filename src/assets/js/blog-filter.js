@@ -1,6 +1,7 @@
-// Archive category filter — toggles cs-tab[aria-current] and the [hidden]
-// attribute on cs-row entries based on each row's data-category. Falls back
-// to a no-op if the archive section isn't on the page.
+// Archive category filter — toggles cs-tab[aria-pressed] and the [hidden]
+// attribute on cs-row entries based on each row's data-category. Filter state
+// is synced to location.hash so refresh + back-button + shareable URLs work.
+// Falls back to a no-op if the archive section isn't on the page.
 (function () {
   'use strict';
 
@@ -12,15 +13,19 @@
   var empty = document.getElementById('archive-empty');
   if (!tabs.length || !rows.length) return;
 
-  function setFilter(filter) {
+  var VALID = ['all', 'strategy', 'seo', 'performance', 'design'];
+
+  function normalize(value) {
+    var v = (value || '').replace(/^#/, '').toLowerCase();
+    return VALID.indexOf(v) !== -1 ? v : 'all';
+  }
+
+  function setFilter(filter, updateHash) {
+    filter = normalize(filter);
     var visibleCount = 0;
 
     tabs.forEach(function (t) {
-      if (t.dataset.filter === filter) {
-        t.setAttribute('aria-current', 'true');
-      } else {
-        t.removeAttribute('aria-current');
-      }
+      t.setAttribute('aria-pressed', t.dataset.filter === filter ? 'true' : 'false');
     });
 
     rows.forEach(function (r) {
@@ -31,22 +36,28 @@
     });
 
     if (empty) empty.hidden = visibleCount > 0;
+
+    if (updateHash) {
+      var newHash = filter === 'all' ? '' : '#' + filter;
+      if (newHash !== location.hash) {
+        history.replaceState(null, '', newHash || location.pathname + location.search);
+      }
+    }
   }
 
   tabs.forEach(function (t) {
     t.addEventListener('click', function (e) {
       e.preventDefault();
-      setFilter(t.dataset.filter || 'all');
+      setFilter(t.dataset.filter || 'all', true);
     });
   });
 
-  // "View all" links from each cluster header pre-set the archive filter
-  // and then scroll into view via the in-page anchor.
-  document.querySelectorAll('.cs-view-all[data-archive-tab]').forEach(function (link) {
-    link.addEventListener('click', function () {
-      setFilter(link.dataset.archiveTab);
-    });
+  // Cluster-header "View all" links use href="#strategy" etc; clicking one
+  // updates the hash, which our hashchange listener picks up. No extra wiring
+  // needed beyond standard browser behavior.
+  window.addEventListener('hashchange', function () {
+    setFilter(location.hash, false);
   });
 
-  setFilter('all');
+  setFilter(location.hash, false);
 })();

@@ -9,6 +9,7 @@
     "init": "node setup.js",
     "teardown": "node teardown.js",
     "build:content-kit": "node scripts/build-content-kit-bundle.mjs",
+    "blog-card": "node scripts/screenshot-blog-card.mjs",
     "prebuild": "node scripts/build-content-kit-bundle.mjs",
     "predeploy": "node scripts/build-content-kit-bundle.mjs"
   },

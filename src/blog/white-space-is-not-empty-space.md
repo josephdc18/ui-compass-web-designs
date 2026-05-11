@@ -4,14 +4,14 @@ blogTitle: White Space Is Not Empty Space
 titleTag: White Space Is Not Empty Space
 blogDescription: Most "ugly" small business websites do not have a color problem. They have a spacing problem. The four kinds of white space that decide whether a page reads as professional or as cramped, and the math behind every number.
 author: "Joseph C."
-date: 2026-05-10T06:00:00.000Z
+date: 2026-04-30T16:00:00.000Z
 tags:
   - post
   - design
 category: "Design"
 readMins: 6
 topper: "Design"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/white-space-is-not-empty-space-card.png
 imageAlt: A clean editorial layout with generous margins and a hand pointing to white space between paragraphs
 tldrTitle: What you need to know
 tldr:

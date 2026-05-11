@@ -3,8 +3,8 @@ pageName: comparing-local-dfw-web-design-companies
 blogTitle: Comparing Local DFW Web Design Companies, A Buyer's Framework
 titleTag: Comparing Local DFW Web Design Companies
 blogDescription: A practical framework for comparing local web design companies in the Dallas-Fort Worth metroplex. The five questions that actually matter, applied to Bless Web Designs, Arlington Web Studios, and UI Compass.
-author: UI Compass
-date: 2026-05-09T12:00:00.000Z
+author: "Joseph C."
+date: 2026-05-07T16:00:00.000Z
 tags:
   - post
   - featured
@@ -12,7 +12,7 @@ tags:
 category: "Strategy"
 readMins: 9
 topper: "Strategy"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/comparing-local-dfw-web-design-companies-card.png
 imageAlt: A small business owner reviewing a website design proposal at a desk
 ---
 
@@ -61,7 +61,7 @@ If a designer cannot tell you which of those three categories your site falls in
 
 ### 3. What PageSpeed score will you deliver, and on what device
 
-The relevant number is **mobile PageSpeed Insights**. Desktop scores are pretty for marketing screenshots. Mobile is where 60% of your traffic actually lands.
+The relevant number is **mobile [PageSpeed Insights](https://pagespeed.web.dev/)**. Desktop scores are pretty for marketing screenshots. Mobile is where 60% of your traffic actually lands.
 
 A site under a 90 mobile score in 2026 is leaving leads on the table. A site under 70 is bleeding. The shops that quote you a number, in writing, with a "minimum mobile score we will hand off" clause, are the shops that have actually optimized a site before. The shops that say "fast enough" have not.
 

@@ -1,0 +1,189 @@
+<!doctype html>
+<!--
+  blog-card.html
+  Use for: the social/OG card image attached to a blog post.
+  Output size: 1200 x 630 (standard OpenGraph).
+  Replace the four {{TOKENS}} below, then run scripts/screenshot-blog-card.mjs.
+
+  Tokens:
+    {{EYEBROW}}   — small caps tag line, e.g. "Performance · Fonts"
+    {{HEADLINE}}  — 3-7 word punchy hook. Wrap the accented word/phrase in
+                    <span class="accent">…</span> for the green underline.
+    {{FOOTER}}    — small caps meta line, e.g. "Performance · 6 min read"
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Pulled from src/css/root.css */
+    --bg-base:        #faf7f4;   /* secondaryLight */
+    --bg-base-2:      #f3ede5;
+    --cream:          #e6d9c7;   /* secondary */
+    --primary:        #006940;
+    --primary-light:  #00bd74;
+    --header:         #262421;   /* headerColor */
+    --body:           #4e4b66;   /* bodyTextColor */
+    --muted:          #7a7889;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1200px; height: 630px;
+    background: var(--bg-base);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--header);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .card {
+    position: relative;
+    width: 1200px; height: 630px;
+    padding: 56px 64px;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(900px 700px at 85% -10%, rgba(0, 105, 64, 0.08), transparent 60%),
+      radial-gradient(700px 600px at -10% 110%, rgba(0, 105, 64, 0.06), transparent 60%),
+      linear-gradient(180deg, var(--bg-base) 0%, var(--bg-base-2) 100%);
+    overflow: hidden;
+  }
+
+  /* === Subtle background arcs (mirrors content-kit aesthetic) === */
+  .arc { position: absolute; border-radius: 50%; pointer-events: none; }
+  .arc-tr-outer { top: -200px; right: -200px; width: 520px; height: 520px; border: 1px solid rgba(0, 105, 64, 0.16); }
+  .arc-tr-inner { top: -140px; right: -140px; width: 380px; height: 380px; border: 1px solid rgba(0, 105, 64, 0.10); }
+
+  /* === Eyebrow === */
+  .eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--primary);
+    position: relative; z-index: 2;
+  }
+  .eyebrow::before {
+    content: ""; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--primary);
+    flex: none;
+  }
+
+  /* === Headline === */
+  .headline {
+    margin-top: 36px;
+    font-weight: 900;
+    font-size: 116px;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--header);
+    max-width: 900px;
+    position: relative; z-index: 2;
+  }
+  .headline.size-m  { font-size: 100px; }
+  .headline.size-s  { font-size: 84px;  }
+  .headline.size-xs { font-size: 72px;  }
+
+  .accent {
+    position: relative;
+    display: inline-block;
+    color: var(--header);
+  }
+  .accent::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0.04em;
+    height: 14px;
+    background: var(--primary);
+    z-index: -1;
+    border-radius: 2px;
+    opacity: 0.85;
+  }
+
+  /* === Editorial stripe (matches content-kit) === */
+  .stripe {
+    margin-top: 30px;
+    display: flex; gap: 6px; width: 220px;
+    position: relative; z-index: 2;
+  }
+  .stripe span { flex: 1; height: 5px; border-radius: 3px; }
+  .stripe span:nth-child(1) { background: var(--primary); }
+  .stripe span:nth-child(2) { background: var(--cream); }
+  .stripe span:nth-child(3) { background: var(--primary-light); }
+
+  /* === Footer === */
+  .foot {
+    margin-top: auto;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    position: relative; z-index: 2;
+  }
+  .foot-meta {
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--body);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-mark { width: 44px; height: 44px; flex: none; display: block; }
+  .brand .name { font-size: 20px; font-weight: 700; color: var(--header); letter-spacing: -0.01em; }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub {
+    margin-top: 3px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+
+  /* === Orbital decoration (bottom-right) === */
+  .orbit {
+    position: absolute;
+    right: -90px; bottom: -90px;
+    width: 340px; height: 340px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .orbit svg { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <div class="arc arc-tr-outer"></div>
+  <div class="arc arc-tr-inner"></div>
+
+  <div class="eyebrow">{{EYEBROW}}</div>
+
+  <h1 class="headline">{{HEADLINE}}</h1>
+
+  <div class="stripe"><span></span><span></span><span></span></div>
+
+  <div class="foot">
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <span class="sub">Web Designs</span>
+      </div>
+    </div>
+    <div class="foot-meta">{{FOOTER}}</div>
+  </div>
+
+  <div class="orbit" aria-hidden="true">
+    <svg viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="170" cy="170" r="160" stroke="#006940" stroke-width="1.5" opacity="0.45"/>
+      <circle cx="170" cy="170" r="120" stroke="#006940" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="170" cy="170" r="80"  stroke="#006940" stroke-width="1.5" opacity="0.28"/>
+      <circle cx="328" cy="165" r="9"   fill="#006940"/>
+      <circle cx="112" cy="300" r="9"   fill="#006940"/>
+      <circle cx="248" cy="266" r="6"   fill="#00bd74"/>
+    </svg>
+  </div>
+
+</main>
+</body>
+</html>

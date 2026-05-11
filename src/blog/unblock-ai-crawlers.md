@@ -4,14 +4,14 @@ blogTitle: Your robots.txt Is Blocking the AI Crawlers
 titleTag: Your robots.txt Is Blocking the AI Crawlers
 blogDescription: Three lines in robots.txt decide whether ChatGPT, Perplexity, and Google AI Overviews can read your site at all. Most builder defaults block them. The 5-minute fix that puts you back in the AI citation pool.
 author: "Joseph C."
-date: 2026-05-10T11:00:00.000Z
+date: 2025-11-08T16:00:00.000Z
 tags:
   - post
   - seo
 category: "SEO"
 readMins: 6
 topper: "SEO"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/unblock-ai-crawlers-card.png
 imageAlt: A laptop screen showing a robots.txt configuration file with AI crawler user-agents
 tldrTitle: What you need to know
 tldr:
@@ -23,7 +23,7 @@ faq:
   - q: 'Will updating my robots.txt hurt my Google rankings?'
     a: 'No. Allowing OAI-SearchBot, PerplexityBot, and GoogleOther does not affect Googlebot or any blue-link ranking. The rules are crawler-specific. You are adding permission for new crawlers, not changing what the existing ones can see.'
   - q: 'How do I update robots.txt on Wix, Squarespace, or WordPress?'
-    a: 'On <strong>Wix</strong>: SEO Tools → Robots.txt Editor. On <strong>Squarespace</strong>: Settings → Advanced → robots.txt (limited override; contact support for bot-specific rules). On <strong>WordPress</strong>: Yoast or Rank Math both expose a robots.txt editor under their tools section. After saving, refresh <code>yoursite.com/robots.txt</code> in a private window to confirm the change is live.'
+    a: 'On <strong>Wix</strong>: SEO Tools → Robots.txt Editor. On <strong>Squarespace</strong>: Settings → Advanced → robots.txt (limited override; contact support for bot-specific rules). On <strong>WordPress</strong>: <a href="https://yoast.com/">Yoast</a> or <a href="https://rankmath.com/">Rank Math</a> both expose a robots.txt editor under their tools section. After saving, refresh <code>yoursite.com/robots.txt</code> in a private window to confirm the change is live.'
   - q: 'How do I check what bots are visiting my site?'
     a: 'Look at your server access logs (Cloudflare, Netlify, or your host''s analytics). Filter by user-agent for "GPTBot", "OAI-SearchBot", "PerplexityBot", "ClaudeBot", "Google-Extended", "GoogleOther". If you see hits from those names after the fix, the bots are reaching you. If you see them being denied, your hosting layer is overriding robots.txt — separate fix needed.'
   - q: 'Is GEO replacing SEO, or is this on top of it?'

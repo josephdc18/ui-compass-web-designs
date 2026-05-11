@@ -4,14 +4,14 @@ blogTitle: Designed on a 27-inch Monitor. Used on a 6-inch Phone.
 titleTag: Designed on a Monitor, Used on a Phone
 blogDescription: Sixty percent of your visitors are on a phone, but most small business sites are still designed desktop-first. The case for starting at 320 pixels, the five breakpoints we ship on every build, and what page builders get wrong about responsive.
 author: "Joseph C."
-date: 2026-05-10T08:00:00.000Z
+date: 2026-04-17T16:00:00.000Z
 tags:
   - post
   - performance
 category: "Performance"
 readMins: 5
 topper: "Performance"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/designed-on-a-monitor-used-on-a-phone-card.png
 imageAlt: A 27-inch monitor next to a small smartphone showing the same website rendered at very different sizes
 tldrTitle: What you need to know
 tldr:
@@ -25,7 +25,7 @@ faq:
   - q: 'Do I really need to design at 320 pixels? Nobody uses an iPhone 5SE anymore.'
     a: 'Older customers, overseas visitors, and accessibility users running 200% browser zoom all collapse to roughly 320-pixel viewports. The same layout that works at 320 also works on a tablet rotated to portrait with a sidebar open, which is more common than people think. Designing for 320 is the discipline. The actual visitors at 320 are a smaller bonus.'
   - q: 'How do I test on actual phones (not just browser dev tools)?'
-    a: 'Three options. <strong>Free</strong>: borrow phones from family or coworkers and load the site over their cellular data, not your office Wi-Fi. <strong>Cheap</strong>: BrowserStack or LambdaTest give you 100+ real devices on demand for $20–40/month. <strong>What we use on every build</strong>: a small device library (3 phones, 1 tablet) plus BrowserStack for edge cases. The <a href="/blog/the-1-second-tax/">PageSpeed scores</a> Google grades you on are run on a simulated mid-range Android, so testing on a flagship iPhone alone is misleading.'
+    a: 'Three options. <strong>Free</strong>: borrow phones from family or coworkers and load the site over their cellular data, not your office Wi-Fi. <strong>Cheap</strong>: <a href="https://www.browserstack.com/">BrowserStack</a> or <a href="https://www.lambdatest.com/">LambdaTest</a> give you 100+ real devices on demand for $20–40/month. <strong>What we use on every build</strong>: a small device library (3 phones, 1 tablet) plus BrowserStack for edge cases. The <a href="/blog/the-1-second-tax/">PageSpeed scores</a> Google grades you on are run on a simulated mid-range Android, so testing on a flagship iPhone alone is misleading.'
   - q: 'Are five breakpoints enough for every site?'
     a: 'For a small business site, yes. We have shipped well over a hundred sites on the same five breakpoints. The cases that need more are rare: complex web apps with dense data tables, e-commerce sites with very tight product grid requirements, or sites that need to support specific tablet form factors (kiosks, in-vehicle displays). For a homepage, services pages, blog, and contact form, five is plenty.'
   - q: 'What if my customers are mostly desktop users? Do I still need mobile-first?'

@@ -39,6 +39,7 @@
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicons/apple-touch-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-touch-icon-120x120.png">
   <link rel="manifest" href="/assets/favicons/site.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="{{ client.name }} Blog" href="/feed.xml">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <script defer src="/assets/pwa-splash.js?v={{ build.hash }}"></script>
@@ -57,17 +58,22 @@
   <link rel="preload" as="image" href="{{ preloadImg }}" fetchpriority="high" />
   {% endif %}
 
-  <!-- Loading in page specific CSS sheets from css block -->
-  <link rel="stylesheet" href="/css/critical.css?v={{ build.hash }}" />
+  <!-- Critical CSS inlined to avoid a render-blocking request. -->
+  <style>{{ "/css/critical.css" | cssInline | safe }}</style>
+
+  <!-- Page-specific CSS loaded async via the print-media swap trick so it
+       doesn't block the initial render. <noscript> fallback for no-JS. -->
   {% if page.url == '/' %}
-  <link rel="stylesheet" href="/css/local.css?v={{ build.hash }}" />
+  <link rel="preload" as="style" href="/css/local.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/css/local.css?v={{ build.hash }}"></noscript>
   {% endif %}
   {% if interior %}
-  <link rel="preload" as="style" href="/css/interior.css?v={{ build.hash }}">
-  <link rel="stylesheet" href="/css/interior.css?v={{ build.hash }}">
+  <link rel="preload" as="style" href="/css/interior.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/css/interior.css?v={{ build.hash }}"></noscript>
   {% endif %}
   {% if preloadCSS %}
-  <link rel="stylesheet" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}">
+  <link rel="preload" as="style" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}"></noscript>
   {% endif %}
 
   <!--Put analytics tag here at the bottom to prevent it from render blocking-->

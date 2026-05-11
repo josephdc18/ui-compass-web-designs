@@ -4,14 +4,14 @@ blogTitle: The 4 Dependencies to Delete From Your Small Business Site
 titleTag: 4 Dependencies to Delete From Your Site
 blogDescription: Four files most small business sites ship by default that they almost never need. jQuery, Font Awesome, the Google Fonts CDN link, and blocking JavaScript. Together they add roughly 200KB to every page load and buy you almost nothing.
 author: "Joseph C."
-date: 2026-05-10T04:00:00.000Z
+date: 2025-10-15T16:00:00.000Z
 tags:
   - post
   - performance
 category: "Performance"
 readMins: 6
 topper: "Performance"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/four-dependencies-to-delete-card.png
 imageAlt: A browser network panel showing four large dependency files dimmed and crossed out
 tldrTitle: What you need to know
 tldr:

@@ -4,14 +4,14 @@ blogTitle: FAQ Schema Turns One Blue Link Into 3x Screen Space
 titleTag: FAQ Schema Turns One Blue Link Into 3x Screen Space
 blogDescription: Schema does not move you up the rankings. It changes how your listing looks once you are there. The FAQ block that takes a single blue link and stretches it into roughly three times the vertical space, plus the five mistakes that get the whole thing thrown out.
 author: "Joseph C."
-date: 2026-05-10T10:00:00.000Z
+date: 2026-01-08T16:00:00.000Z
 tags:
   - post
   - seo
 category: "SEO"
 readMins: 5
 topper: "SEO"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/faq-schema-3x-screen-space-card.png
 imageAlt: A search results page showing an expanded FAQ schema result taking three times the vertical space of the result above it
 tldrTitle: What you need to know
 tldr:
@@ -140,7 +140,7 @@ Your business is "UI Compass" on the homepage, "UI Compass Web Designs" in the s
 
 Each piece of schema (LocalBusiness, Service, FAQPage) gets an `@id` URL, and related schemas reference each other through those IDs. Without the links, Google sees disconnected blobs of metadata instead of one coherent business profile. The same `@id` on your LocalBusiness should appear in the `provider` field of every Service block.
 
-If you are using Yoast or Rank Math on WordPress, most of these are handled automatically (with the exception of the FAQ schema, which still requires you to mark up the questions yourself). If you are <span class="tooltip-term" data-tooltip="Code written by hand in HTML, CSS, and JavaScript with no page builder or CMS abstraction layer in the way.">hand-coded</span>, the JSON is yours to write.
+If you are using [Yoast](https://yoast.com/) or [Rank Math](https://rankmath.com/) on WordPress, most of these are handled automatically (with the exception of the FAQ schema, which still requires you to mark up the questions yourself). If you are <span class="tooltip-term" data-tooltip="Code written by hand in HTML, CSS, and JavaScript with no page builder or CMS abstraction layer in the way.">hand-coded</span>, the JSON is yours to write.
 
 ## How long it takes
 

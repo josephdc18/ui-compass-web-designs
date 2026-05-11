@@ -3,15 +3,15 @@ pageName: the-bilingual-maturity-ladder
 blogTitle: The Bilingual Maturity Ladder, A Playbook for English/Spanish Sites
 titleTag: The Bilingual Maturity Ladder
 blogDescription: A practical playbook for DFW businesses serving both English- and Spanish-speaking customers. The four failure modes that quietly cost you the second market, the five stages of a mature bilingual site, and the six-part operational playbook to get there.
-author: UI Compass
-date: 2026-05-09T12:00:00.000Z
+author: "Joseph C."
+date: 2026-05-04T16:00:00.000Z
 tags:
   - post
   - seo
 category: "SEO"
 readMins: 14
 topper: "SEO"
-image: /assets/images/2990879accb1.jpg
+image: /assets/images/the-bilingual-maturity-ladder-card.png
 imageAlt: A bilingual web designer reviewing English and Spanish layouts side by side
 tldrTitle: What you need to know
 tldr:

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — WCAG 2.2 AA in 5 Minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1:#f7f2ea; --bg-2:#efe7d8;
+    --paper:#fdfaf3; --cream:#e6d9c7; --cream-deep:#d6c4a8;
+    --primary:#006940; --primary-l:#00bd74;
+    --header:#1f1c19; --body:#4e4b66; --muted:#8a8474;
+    --hairline:rgba(31,28,25,0.22);
+    --line-soft:rgba(31,28,25,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body {
+    width: 1200px; height: 630px; background: var(--bg-1);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--header); overflow: hidden;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  .card {
+    position: relative; width: 1200px; height: 630px;
+    padding: 24px 56px 22px;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(900px 700px at 92% 110%, rgba(0,105,64,0.10), transparent 60%),
+      radial-gradient(700px 600px at -8% -10%, rgba(230,217,199,0.55), transparent 60%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    overflow: hidden;
+  }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.18; z-index: 1; }
+
+  /* === Unified top strip === */
+  .strip {
+    position: relative; z-index: 3;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--header); }
+
+  /* === Body === */
+  .body {
+    position: relative; z-index: 3; flex: 1;
+    padding-top: 24px;
+    display: grid; grid-template-columns: 480px 1fr; gap: 36px;
+    align-items: center; min-height: 0;
+  }
+
+  .hero { display: flex; flex-direction: column; min-width: 0; }
+  .headline {
+    font-family: "Playfair Display", "Times New Roman", serif;
+    font-weight: 600;
+    font-size: 72px; line-height: 1.02; letter-spacing: -0.022em;
+    color: var(--header);
+  }
+  .headline em { font-style: italic; font-weight: 500; color: var(--primary); }
+  .subhead {
+    margin-top: 18px;
+    font-size: 21px; line-height: 1.4;
+    color: var(--body); max-width: 440px;
+  }
+  .stripe { margin-top: 24px; display: flex; gap: 6px; width: 180px; }
+  .stripe span { flex: 1; height: 5px; border-radius: 3px; }
+  .stripe span:nth-child(1) { background: var(--primary); }
+  .stripe span:nth-child(2) { background: var(--cream-deep); }
+  .stripe span:nth-child(3) { background: var(--primary-l); }
+
+  /* === Audit pad === */
+  .pad {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    padding: 22px 26px 20px;
+    box-shadow: 0 14px 28px rgba(31,28,25,0.10), 0 2px 6px rgba(31,28,25,0.05);
+    display: flex; flex-direction: column;
+    transform: rotate(0.6deg);
+  }
+  .pad-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .pad-head .kicker {
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--primary);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pad-head .kicker::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--primary);
+  }
+  .pad-head .stamp {
+    font-family: "Playfair Display", serif;
+    font-style: italic; font-weight: 600;
+    font-size: 14px; color: var(--muted);
+  }
+
+  .items { display: flex; flex-direction: column; }
+  .item {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    align-items: center; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .item:last-of-type { border-bottom: none; }
+  .check {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,105,64,0.25);
+  }
+  .check svg { width: 18px; height: 18px; display: block; }
+  .item .name { font-size: 22px; font-weight: 800; color: var(--header); letter-spacing: -0.01em; }
+  .item .time {
+    font-family: "Playfair Display", serif;
+    font-style: italic; font-weight: 500;
+    font-size: 17px; color: var(--muted);
+  }
+
+  .pad-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .pad-foot .label {
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--header);
+  }
+  .pad-foot .total {
+    font-family: "Playfair Display", serif;
+    font-style: italic; font-weight: 600;
+    font-size: 20px; color: var(--primary);
+  }
+
+  /* === Unified footer === */
+  .foot {
+    position: relative; z-index: 3;
+    padding-top: 12px; margin-top: 16px;
+    border-top: 1px solid var(--hairline);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+  .foot-meta { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--header); }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true">
+    <filter id="g">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0.13  0 0 0 0 0.11  0 0 0 0 0.09  0 0 0 0.55 0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+  </svg>
+
+  <div class="strip">
+    <span class="rule"></span>
+    <span class="issue">Issue Nº 12 · January 2026</span>
+  </div>
+
+  <section class="body">
+
+    <div class="hero">
+      <h1 class="headline">WCAG 2.2 AA, in <em>five minutes</em>.</h1>
+      <p class="subhead">The three tests anyone can run, before the next ADA letter arrives.</p>
+      <div class="stripe"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="pad" role="img" aria-label="Accessibility audit checklist with three checked items totaling five minutes">
+      <div class="pad-head">
+        <div class="kicker">Accessibility Audit</div>
+        <div class="stamp">Pass · WCAG 2.2 AA</div>
+      </div>
+
+      <div class="items">
+        <div class="item">
+          <div class="check">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 12.5 L10 17.5 L19 7.5" stroke="#faf7f4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="name">Contrast</div>
+          <div class="time">1 min</div>
+        </div>
+
+        <div class="item">
+          <div class="check">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 12.5 L10 17.5 L19 7.5" stroke="#faf7f4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="name">Keyboard</div>
+          <div class="time">2 min</div>
+        </div>
+
+        <div class="item">
+          <div class="check">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 12.5 L10 17.5 L19 7.5" stroke="#faf7f4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="name">Screen Reader</div>
+          <div class="time">2 min</div>
+        </div>
+      </div>
+
+      <div class="pad-foot">
+        <div class="label">Total</div>
+        <div class="total">5 minutes flat.</div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="foot">
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <span class="sub">Web Designs</span>
+      </div>
+    </div>
+    <div class="foot-meta">Accessibility<span class="dot">•</span>5 min read</div>
+  </div>
+
+</main>
+</body>
+</html>

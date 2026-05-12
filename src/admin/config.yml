@@ -12,6 +12,11 @@ backend:
   auth_endpoint: /api/auth                   # Points to Cloudflare Function OAuth proxy
   site_domain: uicompass.com                 # Helps Decap identify the production site during OAuth
 
+# Editorial workflow: clicking "Save" on an in-progress post commits to a
+# draft branch (Draft → In Review → Ready columns under the Workflow tab),
+# so half-finished edits survive closing the tab or switching devices.
+publish_mode: editorial_workflow
+
 # Enable local backend for development (run: npx decap-server)
 local_backend: true
 
@@ -68,7 +73,7 @@ collections:
       - { label: 'Hero Image Alt Text', name: 'imageAlt', widget: 'string', required: false }
 
       # ---- Status ----
-      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false, hint: 'Drafts are still published — wire up an Eleventy filter if you need them hidden in production.' }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false, hint: 'Toggle on to hide the post from production builds (blog index, collections, RSS, and rendered URL). Drafts still render in local dev so you can preview them.' }
       - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'], hint: "Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts." }
 
       # ---- Optional in-post components ----

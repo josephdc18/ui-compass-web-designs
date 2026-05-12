@@ -7,6 +7,28 @@ const path = require('path');
 
 const fs = require('fs');
 
+// eleventy-img output cache. CF Pages wipes ./public between deploys but
+// preserves node_modules/.cache when the project's "Build cache" toggle is on,
+// so stashing processed images here lets eleventy-img's exists-check skip
+// regenerating anything that hasn't changed.
+const IMAGE_OUTPUT_DIR = './public/images';
+const IMAGE_CACHE_DIR = './node_modules/.cache/eleventy-img-output';
+
+function syncDir(srcDir, destDir) {
+  if (!fs.existsSync(srcDir)) return;
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const f of fs.readdirSync(srcDir)) {
+    const from = path.join(srcDir, f);
+    const to = path.join(destDir, f);
+    if (fs.existsSync(to)) continue;
+    fs.copyFileSync(from, to);
+  }
+}
+
+// Prime ./public/images from the cache before any build runs. eleventy-img
+// then sees the files already exist and short-circuits processing.
+syncDir(IMAGE_CACHE_DIR, IMAGE_OUTPUT_DIR);
+
 // Inline markdown renderer — used for short strings in YAML frontmatter
 // (e.g. TLDR points) where we want **bold** / *italic* / `code` to render
 // as HTML without wrapping in a <p>.
@@ -48,7 +70,12 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
       widths: [200, 400, 850, 1920, 2500],
       formats: ['webp', 'jpeg'],
       urlPath: '/images/',
-      outputDir: './public/images',
+      outputDir: IMAGE_OUTPUT_DIR,
+      useCache: true,
+      cacheOptions: {
+        duration: '*',
+        directory: './node_modules/.cache/eleventy-img-fetch',
+      },
       filenameFormat: function (id, src, width, format) {
         const extension = path.extname(src);
         const name = path.basename(src, extension);
@@ -114,6 +141,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ './src/offline.html': 'offline.html' });
 
   eleventyConfig.on('eleventy.after', () => {
+    // Persist any newly-generated image variants back to the cache so the next
+    // CF Pages build can prime ./public/images from it.
+    syncDir(IMAGE_OUTPUT_DIR, IMAGE_CACHE_DIR);
     fs.rmSync('./public/assets/images/_sources.json', { force: true });
   });
 

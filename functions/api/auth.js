@@ -65,7 +65,8 @@ export async function onRequest(context) {
 
     // Exchange code for access token
     try {
-        const tokenResponse = await exchangeCodeForToken(code, env);
+        const redirectUri = getRedirectUri(env, url);
+        const tokenResponse = await exchangeCodeForToken(code, env, redirectUri);
 
         if (tokenResponse.error) {
             return new Response(
@@ -78,6 +79,16 @@ export async function onRequest(context) {
         }
 
         const accessToken = tokenResponse.access_token;
+
+        if (!accessToken) {
+            return new Response(
+                renderErrorPage(
+                    'Token Exchange Failed',
+                    'GitHub did not return an access token. Please check the OAuth app client secret and callback URL.'
+                ),
+                { status: 400, headers: { 'Content-Type': 'text/html' } }
+            );
+        }
 
         // Verify user is allowed (if allowlist is configured)
         if (env.CMS_ALLOWED_USERS) {
@@ -113,7 +124,7 @@ export async function onRequest(context) {
 function initiateOAuthFlow(env, url) {
     const params = new URLSearchParams({
         client_id: env.GITHUB_CLIENT_ID,
-        redirect_uri: `${url.origin}/api/auth`,
+        redirect_uri: getRedirectUri(env, url),
         scope: 'repo,user',
         state: generateState(),
     });
@@ -124,7 +135,7 @@ function initiateOAuthFlow(env, url) {
 /**
  * Exchange authorization code for access token
  */
-async function exchangeCodeForToken(code, env) {
+async function exchangeCodeForToken(code, env, redirectUri) {
     const response = await fetch(GITHUB_TOKEN_URL, {
         method: 'POST',
         headers: {
@@ -136,10 +147,19 @@ async function exchangeCodeForToken(code, env) {
             client_id: env.GITHUB_CLIENT_ID,
             client_secret: env.GITHUB_CLIENT_SECRET,
             code: code,
+            redirect_uri: redirectUri,
         }),
     });
 
     return response.json();
+}
+
+/**
+ * Return the canonical OAuth callback URL registered with GitHub.
+ */
+function getRedirectUri(env, url) {
+    const siteUrl = (env.SITE_URL || url.origin).replace(/\/+$/, '');
+    return `${siteUrl}/api/auth`;
 }
 
 /**
@@ -244,33 +264,38 @@ function renderSuccessPage(token) {
     </div>
     <script>
         (function() {
-            const token = ${JSON.stringify(token)};
-            const provider = 'github';
-            const successMessage = 'authorization:' + provider + ':success:' + JSON.stringify({ token, provider });
-            const handshakeMessage = 'authorizing:' + provider;
+            var token = ${JSON.stringify(token)};
+            var provider = 'github';
+            var successMessage = 'authorization:' + provider + ':success:' + JSON.stringify({ token: token });
+            var handshakeMessage = 'authorizing:' + provider;
+            var attempts = 0;
+            var intervalId;
 
             if (!window.opener) {
                 document.querySelector('p').textContent = 'Please close this window and return to the CMS.';
                 return;
             }
 
-            // Decap CMS handshake:
-            // 1. CMS opens this popup and repeatedly posts "authorizing:github" to it.
-            // 2. We listen for that message, then echo it back to acknowledge.
-            // 3. After the echo, the CMS is ready — send the access token.
+            function notifyOpener() {
+                attempts += 1;
+                window.opener.postMessage(successMessage, '*');
+                if (attempts >= 10) {
+                    clearInterval(intervalId);
+                    window.close();
+                }
+            }
+
             function receiveMessage(e) {
                 if (typeof e.data !== 'string' || e.data.indexOf('authorizing:' + provider) !== 0) {
                     return;
                 }
-                window.removeEventListener('message', receiveMessage, false);
-                // Echo handshake, then send credentials.
-                e.source.postMessage(successMessage, e.origin);
-                setTimeout(function() { window.close(); }, 1000);
+                notifyOpener();
             }
 
             window.addEventListener('message', receiveMessage, false);
-            // Nudge the opener in case it's already listening.
             window.opener.postMessage(handshakeMessage, '*');
+            intervalId = setInterval(notifyOpener, 300);
+            notifyOpener();
         })();
     </script>
 </body>

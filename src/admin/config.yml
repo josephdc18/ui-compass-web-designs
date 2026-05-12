@@ -10,6 +10,7 @@ backend:
   branch: main
   base_url: https://uicompass.com          # [CHANGE] Your production domain
   auth_endpoint: /api/auth                   # Points to Cloudflare Function OAuth proxy
+  site_domain: uicompass.com                 # Helps Decap identify the production site during OAuth
 
 # Enable local backend for development (run: npx decap-server)
 local_backend: true

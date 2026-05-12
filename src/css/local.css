@@ -171,7 +171,7 @@ html{
    stay identical so the FAQ band visually continues from cta-697 in either
    theme. */
 body.dark-mode #faq-1261{
-  background-color:#022818;
+  background-color:var(--primary);
 }
 body.dark-mode #faq-1261 .cs-topper{
   color:var(--headerColor);
@@ -271,6 +271,6 @@ body.dark-mode #services-1628 .cs-icon{
   }
 }
 body.dark-mode #cta-697{
-  background-color:#022818;
+  background-color:var(--primary);
 }
 

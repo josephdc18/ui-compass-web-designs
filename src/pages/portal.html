@@ -2404,7 +2404,7 @@ eleventyExcludeFromCollections: true
           'background:var(--primary,#ff6a3e);color:var(--bodyTextColorWhite,#fafbfc);';
         var align = isClient ? 'align-self:flex-end;' : '';
         var time = formatMessageTime(m.created_at);
-        var body = m.is_deleted ? '<i>[deleted]</i>' : (m.message_type === 'gif' && m.gif_url ? '<img src="' + esc(m.gif_url) + '" style="max-width:200px;border-radius:0.5rem;" />' : esc(m.body || ''));
+        var body = m.is_deleted ? '<i>[deleted]</i>' : (m.message_type === 'gif' && m.gif_url ? '<img src="' + esc(m.gif_url) + '" loading="lazy" decoding="async" style="max-width:200px;border-radius:0.5rem;" />' : esc(m.body || ''));
 
         var receipt = '';
         if (isClient && !m.is_deleted) {
@@ -3049,7 +3049,7 @@ eleventyExcludeFromCollections: true
           html += '<div class="mf-photo-grid">';
           col.files.forEach(function(f) {
             var thumb = f.thumbnail_base64 ?
-              '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" />' :
+              '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" loading="lazy" decoding="async" />' :
               '<span style="font-size:2rem;">&#128247;</span>';
             html += '<div class="mf-photo-card" data-file-id="' + esc(f.id) + '" title="' + esc(f.title || f.filename) + '">' + thumb + '</div>';
           });
@@ -3080,7 +3080,7 @@ eleventyExcludeFromCollections: true
           html += '<div class="mf-video-grid">';
           col.files.forEach(function(f) {
             var thumb = f.thumbnail_base64 ?
-              '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" />' :
+              '<img src="' + esc(f.thumbnail_base64) + '" alt="' + esc(f.title || f.filename) + '" loading="lazy" decoding="async" />' :
               '<span style="font-size:2rem;">&#127909;</span>';
             html += '<div class="mf-video-card">' +
               '<div class="mf-video-thumb" data-file-id="' + esc(f.id) + '" title="Play video">' +

@@ -68,7 +68,7 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
   async function renderOne(srcPath, extraClass) {
     const metadata = await Image(resolveSrc(srcPath), {
       widths: [200, 400, 850, 1920, 2500],
-      formats: ['webp', 'jpeg'],
+      formats: ['avif', 'webp', 'jpeg'],
       urlPath: '/images/',
       outputDir: IMAGE_OUTPUT_DIR,
       useCache: true,

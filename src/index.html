@@ -13,14 +13,14 @@ eleventyNavigation:
   <div class="cs-container">
     <div class="cs-content">
       <div class="cs-flex">
-        <span class="cs-topper"><svg class="cs-topper-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L14.94 8.97 22.5 9.5 16.75 14.4 18.5 21.5 12 17.6 5.5 21.5 7.25 14.4 1.5 9.5 9.06 8.97 Z" fill="currentColor"/></svg>Veteran Owned</span>
+        <span class="cs-topper">{% include "svgs/star-icon.html" %}Veteran Owned</span>
         <h1 class="cs-title">The Online Solution for Your Business</h1>
       </div>
       <div class="cs-flex-group">
         <p class="cs-text">We only do web design, web development, and website maintenance. <strong>And we do it really well, for only $150 per month.</strong></p>
         <div class="cs-hero-actions">
           <a href="/pricing/" class="cs-button-solid">Our Packages</a>
-          <a href="#portfolio" class="cs-hero-work-link">See Our Work <svg class="cs-hero-work-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7 L17 17 M17 17 L17 9 M17 17 L9 17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#portfolio" class="cs-hero-work-link">See Our Work {% include "svgs/arrow-diagonal.html" %}</a>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ eleventyNavigation:
       <div class="cs-flex"><span class="cs-topper">Why UI Compass</span>
         <h2 class="cs-title">Only <span class="pb-inline-color-accent">$150</span> Per Month, <span class="pb-inline-color-accent">Unlimited</span> Edits</h2>
       </div>
-      <p class="cs-text">At UI Compass, we hand-code fast, mobile-optimized websites for small businesses across the Dallas-Fort Worth metroplex. We handle updates, edits, and SEO so you can focus on growth. Our goal is to create long-term relationships with our clients and see them grow over time.</p>
+      <p class="cs-text">At UI Compass, we build fast, mobile-optimized websites for small businesses across the Dallas-Fort Worth metroplex. We handle updates, edits, and SEO so you can focus on growth. Our goal is to create long-term relationships with our clients and see them grow over time.</p>
     </div>
     <ul class="cs-card-group">
       <li class="cs-item"><a href="/web-design/" class="cs-link">
@@ -55,7 +55,7 @@ eleventyNavigation:
       <li class="cs-item"><a href="/web-development/" class="cs-link">
           <picture class="cs-picture"><img alt="" decoding="async" height="500" src="/assets/images/svg-custom-code.svg" width="600" aria-hidden="true" loading="lazy"></picture>
           <h3 class="cs-h3">Custom Code,<br>Built From Scratch.</h3>
-          <p class="cs-item-text"><span class="pb-inline-color-body">We don't use page builders or WordPress. Our websites are built exclusively by hand to be fast - consistently achieving scores of<span>&nbsp;</span></span><strong><span class="pb-inline-color-body">100 on Google's speed insights.</span></strong></p><span class="cs-fake-link">Web Development <img alt="" decoding="async" height="20" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E" width="20" aria-hidden="true" loading="lazy" class="cs-icon" data-orig-src="/assets/images/bd1a3abc99d2.svg" data-tinted="" style="-webkit-mask-image:url(&quot;/assets/images/bd1a3abc99d2.svg&quot;);mask-image:url(&quot;/assets/images/bd1a3abc99d2.svg&quot;);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--pb-icon-tint, var(--primary))"></span>
+          <p class="cs-item-text"><span class="pb-inline-color-body">We don't use page builders or WordPress. We build every site from scratch so it stays fast - consistently achieving scores of<span>&nbsp;</span></span><strong><span class="pb-inline-color-body">100 on Google's speed insights.</span></strong></p><span class="cs-fake-link">Web Development <img alt="" decoding="async" height="20" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E" width="20" aria-hidden="true" loading="lazy" class="cs-icon" data-orig-src="/assets/images/bd1a3abc99d2.svg" data-tinted="" style="-webkit-mask-image:url(&quot;/assets/images/bd1a3abc99d2.svg&quot;);mask-image:url(&quot;/assets/images/bd1a3abc99d2.svg&quot;);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--pb-icon-tint, var(--primary))"></span>
         </a></li>
         <li class="cs-item"><a href="/unlimited-edits-and-support/" class="cs-link">
           <picture class="cs-picture"><img alt="" decoding="async" height="500" src="/assets/images/svg-managed-developer.svg" width="600" aria-hidden="true" loading="lazy"></picture>
@@ -71,73 +71,53 @@ eleventyNavigation:
   </div>
 </section>
 
-<section id="faq-1261">
-  <div class="cs-container">
-    <div class="cs-content"> <span class="cs-topper">Need Answers?</span>
-      <h2 class="cs-title">Frequently Asked Questions</h2>
-    </div> <!--We made two lists so when you open an FAQ item, they behave properly and separate from each other, wrapped in a wrapper div for better flexboxxing -->
-    <div class="cs-wrapper">
-      <ul class="cs-faq-group"> <!-- LEFT SIDE -->
-        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
-              What does it mean to be custom-coded?
-            </span> </button>
-          <p class="cs-item-p">Custom-coding means that we write the code ourselves, from scratch, without using any website builders or templates. Website builders introduce unnecessary code bloat, which directly impacts performance, speed scores, and search engine optimization. By custom-building each website, we can guarantee that it is as fast, lightweight, and well-performing as possible.
-          </p>
-        </li>
-        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
-              What if I already have a website?
-            </span> </button>
-          <p class="cs-item-p">If you already have a website, we will request the information needed to transfer your domain to us. If you are unsure how to proceed, we can coordinate the transfer with your previous developer for an additional fee.
-          </p>
-        </li>
-      </ul> <!-- RIGHT SIDE -->
-      <ul class="cs-faq-group">
-        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
-              How fast can you build my website?
-            </span> </button>
-          <p class="cs-item-p">We work efficiently without cutting corners. Most projects are delivered within 1 to 2 weeks, depending on our current workload, whether brand identity assets are required, domain transfer needs, and similar factors. We will provide a clear timeline during the discovery process.
-          </p>
-        </li>
-        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
-              What is your contract cancellation policy?
-            </span> </button>
-          <p class="cs-item-p">All plans begin with a <strong>minimum contract length of 12 months</strong>. After the initial term, the agreement transitions to a cancel-anytime month-to-month basis. <strong>We do not offer refunds.</strong> If you choose to cancel before the contract term ends, you will be charged <strong>100% of the remaining contract value</strong>.
-          </p>
-        </li>
-      </ul>
-    </div>
-  </div> <!--SVG Waves-->
-  <picture class="cs-background"> <!--Mobile Image-->
-    <source media="(max-width: 600px)" srcset="/assets/images/dadaaaf9699d.svg"> <!--Tablet and above Image-->
-    <source media="(min-width: 601px)" srcset="/assets/images/5099e85449b6.svg"> <img aria-hidden="true" src="/assets/images/5099e85449b6.svg" loading="lazy" decoding="async" alt="moon" width="1920" height="647">
-  </picture>
-</section>
-
 <section id="portfolio">
   <div class="cs-container">
     <div class="cs-content">
-      <div class="cs-flex"><span class="cs-topper">Our Portfolio</span>
-        <h2 class="cs-title">We Create <span class="pb-inline-color-accent">Lead Generating</span> Websites</h2>
-      </div>
-      <p class="cs-text"><span class="pb-inline-color-body">We specialize in small business web design and development for clients anywhere in the US. Every line of code is written by hand to ensure the best performance.</span><span class="pb-inline-color-body">&nbsp;No matter what your business is, we can build a website that is fast, effective and tailored to your industry.</span></p>
+      <span class="cs-topper">Our Portfolio</span>
+      <h2 class="cs-title">Creating <span class="pb-inline-color-accent">Lead Generating</span> Websites</h2>
+      <p class="cs-text">We specialize in small business web design and development for clients anywhere in the US. We write every line of code ourselves to ensure the best performance, which helps bring in more customers and more revenue to your business.</p>
     </div>
-    <ul class="cs-card-group">
-      <li class="cs-item"><a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
-          <picture class="cs-picture">
-            <img alt="TC Visuals LLC website homepage preview" decoding="async" height="1680" src="/assets/images/tcvisuals-hero.png" width="2940" aria-hidden="true" loading="lazy">
-          </picture>
-          <h3 class="cs-h3">TC Visuals LLC</h3>
-          <p class="cs-item-text">Trevor Clutts is changing what videography looks like in Memphis. With a signature cinematic style, he’s quickly becoming a go-to name for video work in Bluff City.</p><span class="cs-button-solid">Visit Website</span>
-        </a></li>
-      <li class="cs-item"><a class="cs-link" href="https://veteransbenefitscenter.com" target="_blank" rel="noopener">
-          <picture class="cs-picture">
-            <img alt="Veterans Benefits Center website homepage preview" decoding="async" height="1600" src="/assets/images/vbc-hero.png" width="2940" aria-hidden="true" loading="lazy">
-          </picture>
-          <h3 class="cs-h3">Veterans Benefits Center</h3>
-          <p class="cs-item-text">This resource hub helps veterans navigate their benefits post-service. To prioritize ease of use, it has a clean design, focused on trust and accessibility.</p><span class="cs-button-solid">Visit Website</span>
-        </a></li>
+    <ul class="cs-image-group">
+      <li class="cs-item">
+        <a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
+          {% image "/assets/images/tcvisuals-hero.png", "TC Visuals LLC website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-item-text">
+            <div class="cs-flex">
+              <h3 class="cs-h3">TC Visuals LLC</h3>
+              <span class="cs-desc">Memphis videographer rebranded for a cinematic feel.</span>
+            </div>
+            <picture class="cs-icon-wrapper">
+              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
+            </picture>
+          </div>
+        </a>
+      </li>
+      <li class="cs-item">
+        <a class="cs-link" href="https://veteransbenefitscenter.com" target="_blank" rel="noopener">
+          {% image "/assets/images/vbc-hero.png", "Veterans Benefits Center website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-item-text">
+            <div class="cs-flex">
+              <h3 class="cs-h3">Veterans Benefits Center</h3>
+              <span class="cs-desc">Resource hub helping veterans navigate post-service benefits.</span>
+            </div>
+            <picture class="cs-icon-wrapper">
+              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
+            </picture>
+          </div>
+        </a>
+      </li>
     </ul>
   </div>
+  <div class="cs-bubbles" aria-hidden="true"></div>
+</section>
+
+<section id="cta-697">
+  <div class="cs-container">
+    <div class="cs-content">
+      <h2 class="cs-title">Let's build your website today!</h2><a href="/contact/" class="cs-button-solid">Get In Touch</a>
+    </div>
+  </div><img class="cs-background" src="/assets/images/0b65f54152e9.svg" alt="" aria-hidden="true" width="1920" height="318" loading="lazy" decoding="async">
 </section>
 
 <section id="sbs-2295">
@@ -170,23 +150,17 @@ eleventyNavigation:
         </picture><span class="cs-tag">After</span>
       </div><img alt="arrow" decoding="async" height="54" src="/assets/images/71e0221a7b9b.svg" width="148" loading="lazy" class="cs-arrow">
     </div>
-    <div class="cs-content"><span class="cs-topper">Performance</span>
+    <div class="cs-content"><span class="cs-topper">Unmatched Performance</span>
       <h2 class="cs-title">You Have <span class="pb-inline-color-accent">2 Seconds.</span> Use Them Wisely.</h2>
       <p class="cs-text">If your website has <a href="https://www.hobo-web.co.uk/your-website-design-should-load-in-4-seconds/#:~:text=A%202%2Dsecond%20delay%20in%20load%20time%20resulted%20in%20abandonment%20rates%20of%20up%20to%2087%25" target="_blank" rel="noopener noreferrer">a 2-second delay in its load time, you will see up to 87% of visitors leave</a>. That's right, you only have 2 seconds to make that first impression.</p>
-      <p class="cs-text">That is why we place speed and performance at the center of every site we build. Google's PageSpeed Insights tool gives every business a clear, objective measure of whether a website is fast, well-built, and competitive, or falling short.</p>
-      <p class="cs-text">Our PageSpeed Score Guarantee ensures your website achieves a score of 98 to 100 across all four Google PageSpeed metrics. The result is measurable improvements in bounce and conversion rates, return on ad spend, and search engine rankings. All from a faster website.</p>
-      <p class="cs-text">This level of performance is not achievable with bloated page builders or generic website platforms. It is the product of clean, hand-written code and dedicated hosting. That's exactly what we deliver to every client.</p>
-      <p class="cs-text">Want to see how your current site scores? Tap <button type="button" class="cs-audit-trigger" data-audit-trigger>Free Audit</button> to run a real PageSpeed Insights test, with your scores and biggest fixes emailed to you in seconds.</p><a href="/#portfolio" class="cs-button-solid">Our Portfolio</a>
+      <p class="cs-text">That is why we place speed and performance at the center of every site we build. <a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Google's PageSpeed Insights tool</a> gives every business a clear, objective measure of whether a website is fast, well-built, and competitive, or falling short.</p>
+      <p class="cs-text">Our UI Compass Guarantee ensures your website achieves a score of 98 to 100 across all four Google PageSpeed metrics. The result is measurable improvements in client retention rates, return on ad spend, and search engine rankings. All from a faster website.</p>
+      <p class="cs-text">This level of performance is not achievable with Wordpress, Wix, Squarespace, GoDaddy, Webflow or other generic website platforms. It is the product of clean, hand-written code and dedicated hosting. That's exactly what we deliver to every client.</p>
+      <p class="cs-text">Want to see how your current site scores? Tap <button type="button" class="cs-audit-trigger" data-audit-trigger>Free Audit</button> to run a real PageSpeed Insights test, with your scores and biggest fixes emailed to you in seconds.</p>
     </div>
   </div>
-</section>
-
-<section id="cta-697">
-  <div class="cs-container">
-    <div class="cs-content">
-      <h2 class="cs-title">Let's build your website today!</h2><a href="/contact/" class="cs-button-solid">Get In Touch</a>
-    </div>
-  </div><img class="cs-background" src="/assets/images/0b65f54152e9.svg" alt="" aria-hidden="true" width="1920" height="318" loading="lazy" decoding="async">
+  <a href="/contact/" class="cs-button-solid cs-section-cta">Get Started Today</a>
+  <div class="cs-bubbles" aria-hidden="true"></div>
 </section>
 
 <section id="pricing-1690">
@@ -224,6 +198,48 @@ eleventyNavigation:
       </li>
     </ul>
   </div>
+</section>
+
+<section id="faq-1261">
+  <div class="cs-container">
+    <div class="cs-content">
+      <h2 class="cs-title">Frequently Asked Questions</h2>
+    </div> <!--We made two lists so when you open an FAQ item, they behave properly and separate from each other, wrapped in a wrapper div for better flexboxxing -->
+    <div class="cs-wrapper">
+      <ul class="cs-faq-group"> <!-- LEFT SIDE -->
+        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
+              What does it mean to be custom-coded?
+            </span> </button>
+          <p class="cs-item-p">Custom-coding means that we write the code ourselves, from scratch, without using any website builders or templates. Website builders introduce unnecessary code bloat, which directly impacts performance, speed scores, and search engine optimization. By custom-building each website, we can guarantee that it is as fast, lightweight, and well-performing as possible.
+          </p>
+        </li>
+        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
+              What if I already have a website?
+            </span> </button>
+          <p class="cs-item-p">If you already have a website, we will request the information needed to transfer your domain to us. If you are unsure how to proceed, we can coordinate the transfer with your previous developer for an additional fee.
+          </p>
+        </li>
+      </ul> <!-- RIGHT SIDE -->
+      <ul class="cs-faq-group">
+        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
+              How fast can you build my website?
+            </span> </button>
+          <p class="cs-item-p">We work efficiently without cutting corners. Most projects are delivered within 1 to 2 weeks, depending on our current workload, whether brand identity assets are required, domain transfer needs, and similar factors. We will provide a clear timeline during the discovery process.
+          </p>
+        </li>
+        <li class="cs-faq-item"> <button class="cs-button"> <span class="cs-button-text">
+              What is your contract cancellation policy?
+            </span> </button>
+          <p class="cs-item-p">All plans begin with a <strong>minimum contract length of 12 months</strong>. After the initial term, the agreement transitions to a cancel-anytime month-to-month basis. <strong>We do not offer refunds.</strong> If you choose to cancel before the contract term ends, you will be charged <strong>100% of the remaining contract value</strong>.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div> <!--SVG Waves-->
+  <picture class="cs-background"> <!--Mobile Image-->
+    <source media="(max-width: 600px)" srcset="/assets/images/dadaaaf9699d.svg"> <!--Tablet and above Image-->
+    <source media="(min-width: 601px)" srcset="/assets/images/5099e85449b6.svg"> <img aria-hidden="true" src="/assets/images/5099e85449b6.svg" loading="lazy" decoding="async" alt="moon" width="1920" height="647">
+  </picture>
 </section>
 
 <section id="reviews-211">

@@ -27,7 +27,7 @@ eleventyNavigation:
     </div>
     <div class="cs-button-row">
       <button type="button" class="cs-tool-button" data-toggle-all aria-pressed="false">
-        <svg class="cs-tool-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-down.html" %}
         <span data-toggle-all-label>Collapse all</span>
       </button>
       <button type="button" class="cs-tool-button" data-print-checklist>
@@ -49,7 +49,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Pre-Launch Planning</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>5</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="pre-launch-planning-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Define site goals and the one action you want each visitor to take.</span></label></li>
@@ -64,7 +64,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Content Preparation</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>8</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="content-preparation-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Write your homepage hook, body, and CTA before any design work begins.</span></label></li>
@@ -82,7 +82,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Domain &amp; Hosting</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>5</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="domain-hosting-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Register your domain with auto-renew turned on.</span></label></li>
@@ -97,7 +97,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Security</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>7</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="security-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Install a valid SSL certificate. Confirm https loads cleanly with a green padlock.</span></label></li>
@@ -114,7 +114,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Performance</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>7</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="performance-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Aim for a 100 PageSpeed Insights score on mobile.</span></label></li>
@@ -131,7 +131,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">SEO</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>10</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="seo-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Write a unique title tag for every page (under 60 characters).</span></label></li>
@@ -151,7 +151,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Browser Testing</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>5</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="browser-testing-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Test in Chrome, Safari, Firefox, and Edge on desktop.</span></label></li>
@@ -166,7 +166,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Mobile Responsive</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>5</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="mobile-responsive-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Test on a real phone, not just the browser's responsive view.</span></label></li>
@@ -181,7 +181,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Functionality</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>6</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="functionality-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Click every link on the site. Fix every 404.</span></label></li>
@@ -197,7 +197,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Analytics</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>6</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="analytics-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Install Google Analytics 4 and confirm a real visit lands in Real-Time.</span></label></li>
@@ -213,7 +213,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Compliance</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>5</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="compliance-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Add a cookie consent banner if you use cookies for analytics or ads.</span></label></li>
@@ -228,7 +228,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Launch Day</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>8</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="launch-day-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Switch DNS to the live server in the morning, not the evening.</span></label></li>
@@ -246,7 +246,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Post-Launch</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>7</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="post-launch-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Check Search Console for crawl errors at 24 hours.</span></label></li>
@@ -263,7 +263,7 @@ eleventyNavigation:
       <summary class="cs-category-summary">
         <span class="cs-category-title">Marketing</span>
         <span class="cs-category-count" aria-hidden="true"><span data-cat-done>0</span>/<span data-cat-total>6</span></span>
-        <svg class="cs-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% include "svgs/chevron-accordion.html" %}
       </summary>
       <ul class="cs-items">
         <li class="cs-item"><label class="cs-check"><input type="checkbox" data-item-id="marketing-0"><span class="cs-check-box" aria-hidden="true"></span><span class="cs-check-text">Update Google Business Profile with the new URL and a fresh photo.</span></label></li>

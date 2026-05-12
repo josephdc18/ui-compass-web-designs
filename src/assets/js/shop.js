@@ -141,7 +141,7 @@
         drawerItems.innerHTML = items.map(function (item) {
             var k = esc(item.key);
             return '<div class="cs-cart-item" data-key="' + k + '">' +
-                (item.image_url ? '<img class="cs-cart-item-img" src="' + esc(item.image_url) + '" alt="" width="60" height="60">' : '') +
+                (item.image_url ? '<img class="cs-cart-item-img" src="' + esc(item.image_url) + '" alt="" width="60" height="60" loading="lazy" decoding="async">' : '') +
                 '<div class="cs-cart-item-info">' +
                     '<div class="cs-cart-item-name">' + esc(item.name) + '</div>' +
                     '<div class="cs-cart-item-price">$' + esc(item.price) + '</div>' +

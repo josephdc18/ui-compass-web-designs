@@ -14,14 +14,14 @@ eleventyNavigation:
   <div class="cs-container">
     <div class="cs-content">
       <div class="cs-flex">
-        <span class="cs-topper"><svg class="cs-topper-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L14.94 8.97 22.5 9.5 16.75 14.4 18.5 21.5 12 17.6 5.5 21.5 7.25 14.4 1.5 9.5 9.06 8.97 Z" fill="currentColor"/></svg>Empresa De Veteranos</span>
+        <span class="cs-topper">{% include "svgs/star-icon.html" %}Empresa De Veteranos</span>
         <h1 class="cs-title">La Solución En Línea Para Su Negocio</h1>
       </div>
       <div class="cs-flex-group">
         <p class="cs-text">Nos dedicamos exclusivamente al diseño web, desarrollo web y mantenimiento de sitios web. <strong>Y lo hacemos muy bien, por solo $150 al mes.</strong></p>
         <div class="cs-hero-actions">
           <a href="/es/pricing/" class="cs-button-solid">Nuestros Paquetes</a>
-          <a href="#portfolio" class="cs-hero-work-link">Vea Nuestro Trabajo <svg class="cs-hero-work-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7 L17 17 M17 17 L17 9 M17 17 L9 17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#portfolio" class="cs-hero-work-link">Vea Nuestro Trabajo {% include "svgs/arrow-diagonal.html" %}</a>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ eleventyNavigation:
 
 <section id="faq-1261">
   <div class="cs-container">
-    <div class="cs-content"> <span class="cs-topper">¿Necesita Respuestas?</span>
+    <div class="cs-content">
       <h2 class="cs-title">Preguntas Frecuentes</h2>
     </div> <!--We made two lists so when you open an FAQ item, they behave properly and separate from each other, wrapped in a wrapper div for better flexboxxing -->
     <div class="cs-wrapper">
@@ -117,28 +117,42 @@ eleventyNavigation:
 <section id="portfolio">
   <div class="cs-container">
     <div class="cs-content">
-      <div class="cs-flex"><span class="cs-topper">Nuestro Portafolio</span>
-        <h2 class="cs-title">Creamos Sitios Web Que <span class="pb-inline-color-accent">Generan Clientes</span></h2>
-      </div>
-      <p class="cs-text"><span class="pb-inline-color-body">Nos especializamos en diseño y desarrollo web para pequeñas empresas en cualquier parte de EE. UU. Cada línea de código se escribe a mano para garantizar el mejor rendimiento.</span><span class="pb-inline-color-body">&nbsp;Sin importar cuál sea su negocio, podemos construir un sitio web rápido, efectivo y adaptado a su industria.</span></p>
+      <span class="cs-topper">Nuestro Portafolio</span>
+      <h2 class="cs-title">Creamos Sitios Web Que <span class="pb-inline-color-accent">Generan Clientes</span></h2>
+      <p class="cs-text">Nos especializamos en diseño y desarrollo web para pequeñas empresas en cualquier parte de EE. UU. Cada línea de código se escribe a mano para garantizar el mejor rendimiento y atraer más clientes a su sitio.</p>
     </div>
-    <ul class="cs-card-group">
-      <li class="cs-item"><a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
-          <picture class="cs-picture">
-            <img alt="Vista previa del sitio web de TC Visuals LLC" decoding="async" height="1680" src="/assets/images/tcvisuals-hero.png" width="2940" aria-hidden="true" loading="lazy">
-          </picture>
-          <h3 class="cs-h3">TC Visuals LLC</h3>
-          <p class="cs-item-text">Trevor Clutts está cambiando lo que la videografía representa en Memphis. Con un estilo cinematográfico distintivo, se está convirtiendo rápidamente en un nombre de referencia para trabajos de video en Bluff City.</p><span class="cs-button-solid">Visitar Sitio</span>
-        </a></li>
-      <li class="cs-item"><a class="cs-link" href="https://veteransbenefitscenter.com" target="_blank" rel="noopener">
-          <picture class="cs-picture">
-            <img alt="Vista previa del sitio web de Veterans Benefits Center" decoding="async" height="1600" src="/assets/images/vbc-hero.png" width="2940" aria-hidden="true" loading="lazy">
-          </picture>
-          <h3 class="cs-h3">Veterans Benefits Center</h3>
-          <p class="cs-item-text">Este centro de recursos ayuda a los veteranos a navegar sus beneficios después del servicio. Para priorizar la facilidad de uso, tiene un diseño limpio, enfocado en la confianza y la accesibilidad.</p><span class="cs-button-solid">Visitar Sitio</span>
-        </a></li>
+    <ul class="cs-image-group">
+      <li class="cs-item">
+        <a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
+          {% image "/assets/images/tcvisuals-hero.png", "Vista previa del sitio web de TC Visuals LLC", "cs-picture", "lazy" %}
+          <div class="cs-item-text">
+            <div class="cs-flex">
+              <h3 class="cs-h3">TC Visuals LLC</h3>
+              <span class="cs-desc">Videógrafo de Memphis con un estilo cinematográfico.</span>
+            </div>
+            <picture class="cs-icon-wrapper">
+              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
+            </picture>
+          </div>
+        </a>
+      </li>
+      <li class="cs-item">
+        <a class="cs-link" href="https://veteransbenefitscenter.com" target="_blank" rel="noopener">
+          {% image "/assets/images/vbc-hero.png", "Vista previa del sitio web de Veterans Benefits Center", "cs-picture", "lazy" %}
+          <div class="cs-item-text">
+            <div class="cs-flex">
+              <h3 class="cs-h3">Veterans Benefits Center</h3>
+              <span class="cs-desc">Centro de recursos para veteranos y sus beneficios.</span>
+            </div>
+            <picture class="cs-icon-wrapper">
+              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
+            </picture>
+          </div>
+        </a>
+      </li>
     </ul>
   </div>
+  <div class="cs-bubbles" aria-hidden="true"></div>
 </section>
 
 <section id="sbs-2295">
@@ -174,12 +188,14 @@ eleventyNavigation:
     <div class="cs-content"><span class="cs-topper">Rendimiento</span>
       <h2 class="cs-title">Tiene <span class="pb-inline-color-accent">2 Segundos.</span> Úselos Sabiamente.</h2>
       <p class="cs-text">Si su sitio web tiene <a href="https://www.hobo-web.co.uk/your-website-design-should-load-in-4-seconds/#:~:text=A%202%2Dsecond%20delay%20in%20load%20time%20resulted%20in%20abandonment%20rates%20of%20up%20to%2087%25" target="_blank" rel="noopener noreferrer">un retraso de 2 segundos en el tiempo de carga, verá hasta el 87% de los visitantes abandonarlo</a>. Así es, solo tiene 2 segundos para causar esa primera impresión.</p>
-      <p class="cs-text">Por eso colocamos la velocidad y el rendimiento en el centro de cada sitio que construimos. La herramienta PageSpeed Insights de Google le da a cada negocio una medida clara y objetiva de si un sitio web es rápido, bien construido y competitivo, o si se queda corto.</p>
+      <p class="cs-text">Por eso colocamos la velocidad y el rendimiento en el centro de cada sitio que construimos. <a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">La herramienta PageSpeed Insights de Google</a> le da a cada negocio una medida clara y objetiva de si un sitio web es rápido, bien construido y competitivo, o si se queda corto.</p>
       <p class="cs-text">Nuestra Garantía de Puntaje PageSpeed asegura que su sitio web obtenga un puntaje de 98 a 100 en las cuatro métricas de Google PageSpeed. El resultado son mejoras medibles en las tasas de rebote y conversión, retorno de la inversión publicitaria y posiciones en los motores de búsqueda. Todo gracias a un sitio web más rápido.</p>
       <p class="cs-text">Este nivel de rendimiento no se logra con constructores de páginas pesados ni plataformas genéricas. Es el resultado de código limpio, escrito a mano, y hosting dedicado. Eso es exactamente lo que entregamos a cada cliente.</p>
-      <p class="cs-text">¿Quiere ver cómo puntúa su sitio actual? Toque <button type="button" class="cs-audit-trigger" data-audit-trigger>Auditoría Gratis</button> para realizar una prueba real de PageSpeed Insights, con sus puntajes y las mejoras más importantes enviadas a su correo en segundos.</p><a href="/es/#portfolio" class="cs-button-solid">Nuestro Portafolio</a>
+      <p class="cs-text">¿Quiere ver cómo puntúa su sitio actual? Toque <button type="button" class="cs-audit-trigger" data-audit-trigger>Auditoría Gratis</button> para realizar una prueba real de PageSpeed Insights, con sus puntajes y las mejoras más importantes enviadas a su correo en segundos.</p>
     </div>
   </div>
+  <a href="/es/contact/" class="cs-button-solid cs-section-cta">Comenzar Hoy</a>
+  <div class="cs-bubbles" aria-hidden="true"></div>
 </section>
 
 <section id="cta-697">

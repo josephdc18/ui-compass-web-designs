@@ -45,7 +45,7 @@
 @font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:700;src:url(/assets/fonts/roboto-v29-latin-700.woff2) format("woff2"),url(/assets/fonts/roboto-v29-latin-700.woff) format("woff")}
 @font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:900;src:url(/assets/fonts/roboto-v29-latin-900.woff2) format("woff2"),url(/assets/fonts/roboto-v29-latin-900.woff) format("woff")}
 
-body{font-family:"Roboto","Arial",sans-serif;margin:0;padding:0;transition:background-color .3s}
+body{font-family:"Roboto","Arial",sans-serif;margin:0;padding:0;transition:background-color .3s;overflow-x:clip}
 
 *,*:before,*:after{box-sizing:border-box}
 
@@ -145,20 +145,33 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
 /* Global footer (#cs-footer-309) — multi-column site map with logo + brand contact block. */
 @media only screen and (min-width:0rem){
   #cs-footer-309{
-    background-color:var(--bodyTextColorWhite);
-    color:var(--bodyTextColor);
+    background-color:var(--primary);
+    color:rgba(255,255,255,0.72);
     padding:clamp(2.5rem,5vw,4rem) 1rem clamp(1.25rem,2.5vw,1.75rem);
+    position:relative;
+    overflow:hidden;
+    z-index:1;
+  }
+  #cs-footer-309 .cs-bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-1;
+    pointer-events:none;
   }
   #cs-footer-309 .cs-container{
     margin:0 auto;
     max-width:80rem;
     width:100%;
+    position:relative;
   }
 
   /* Top tagline + work link */
   #cs-footer-309 .cs-top{
     align-items:flex-start;
-    border-bottom:1px solid rgba(38,36,33,0.10);
+    border-bottom:1px solid rgba(255,255,255,0.10);
     display:flex;
     flex-direction:column;
     gap:.5rem;
@@ -166,13 +179,13 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     padding-bottom:1.25rem;
   }
   #cs-footer-309 .cs-top-tagline{
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     font-size:.9375rem;
     line-height:1.5em;
     margin:0;
   }
   #cs-footer-309 .cs-top-link{
-    color:var(--primary);
+    color:var(--primaryLight);
     font-size:.9375rem;
     font-weight:700;
     line-height:1.5em;
@@ -181,7 +194,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     white-space:nowrap;
   }
   #cs-footer-309 .cs-top-link:hover{
-    color:var(--primaryLight);
+    color:var(--bodyTextColorWhite);
   }
   #cs-footer-309 .cs-top-link:hover span[aria-hidden]{
     display:inline-block;
@@ -196,7 +209,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     padding:2rem 0;
   }
   #cs-footer-309 .cs-col-header{
-    color:var(--headerColor);
+    color:var(--bodyTextColorWhite);
     display:block;
     font-size:1rem;
     font-weight:700;
@@ -215,7 +228,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     list-style:none;
   }
   #cs-footer-309 .cs-link{
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     display:inline-block;
     font-size:.9375rem;
     line-height:1.5em;
@@ -235,23 +248,23 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     width:0;
   }
   #cs-footer-309 .cs-link:hover{
-    color:var(--primary);
+    color:var(--primaryLight);
   }
   #cs-footer-309 .cs-link:hover:before{
     width:100%;
   }
   #cs-footer-309 .cs-link.cs-featured{
-    color:var(--headerColor);
+    color:var(--bodyTextColorWhite);
   }
   #cs-footer-309 .cs-link.cs-featured:hover{
-    color:var(--primary);
+    color:var(--primaryLight);
   }
   #cs-footer-309 .cs-subhead-li{
     list-style:none;
     margin-top:.5rem;
   }
   #cs-footer-309 .cs-subhead{
-    color:var(--primary);
+    color:var(--primaryLight);
     display:block;
     font-size:.75rem;
     font-weight:700;
@@ -262,7 +275,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   /* Logo + tagline + contact — 3-col grid at desktop */
   #cs-footer-309 .cs-contact-block{
     align-items:flex-start;
-    border-top:1px solid rgba(38,36,33,0.10);
+    border-top:1px solid rgba(255,255,255,0.10);
     display:grid;
     gap:1.5rem;
     grid-template-columns:1fr;
@@ -290,11 +303,14 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     height:auto;
     width:100%;
   }
+  #cs-footer-309 .cs-logo-img.light{
+    display:none !important;
+  }
   #cs-footer-309 .cs-logo-img.dark{
-    display:none;
+    display:block !important;
   }
   #cs-footer-309 .cs-tagline{
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     font-size:.9375rem;
     line-height:1.55em;
     margin:0;
@@ -313,7 +329,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   }
   #cs-footer-309 .cs-contact-link{
     align-items:center;
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     display:inline-flex;
     font-size:.9375rem;
     gap:.625rem;
@@ -322,10 +338,10 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     transition:color .3s;
   }
   #cs-footer-309 .cs-contact-link:hover{
-    color:var(--primary);
+    color:var(--primaryLight);
   }
   #cs-footer-309 .cs-icon{
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     flex:none;
     height:1.125rem;
     opacity:.7;
@@ -333,7 +349,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     width:1.125rem;
   }
   #cs-footer-309 .cs-contact-link:hover .cs-icon{
-    color:var(--primary);
+    color:var(--primaryLight);
     opacity:1;
   }
   #cs-footer-309 .cs-social{
@@ -343,9 +359,9 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   }
   #cs-footer-309 .cs-social-link{
     align-items:center;
-    border:1px solid rgba(38,36,33,0.18);
+    border:1px solid rgba(255,255,255,0.18);
     border-radius:50%;
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     display:inline-flex;
     height:2rem;
     justify-content:center;
@@ -354,9 +370,9 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     width:2rem;
   }
   #cs-footer-309 .cs-social-link:hover{
-    background-color:var(--primary);
-    border-color:var(--primary);
-    color:var(--bodyTextColorWhite);
+    background-color:var(--primaryLight);
+    border-color:var(--primaryLight);
+    color:#022818;
     transform:translateY(-.125rem);
   }
   #cs-footer-309 .cs-social-img{
@@ -367,7 +383,7 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
   /* Bottom credit row */
   #cs-footer-309 .cs-bottom{
     align-items:center;
-    border-top:1px solid rgba(38,36,33,0.10);
+    border-top:1px solid rgba(255,255,255,0.10);
     display:flex;
     flex-direction:column;
     gap:1rem;
@@ -375,22 +391,23 @@ body.dark-mode .pb-inline-color-accent{color:var(--primaryLight) !important}
     padding-top:1.25rem;
   }
   #cs-footer-309 .cs-copyright{
-    color:var(--bodyTextColor);
+    color:rgba(255,255,255,0.72);
     font-size:.875rem;
     line-height:1.5em;
     text-align:center;
   }
   #cs-footer-309 .cs-heart{
-    color:var(--primary);
+    color:var(--primaryLight);
   }
   #cs-footer-309 .cs-sep{
     margin:0 .25rem;
     opacity:.5;
   }
 
-  /* Dark mode */
+  /* Dark mode — footer keeps the same navy as light mode so the SVG waves
+     + brand band read identically in both themes. */
   body.dark-mode #cs-footer-309{
-    background-color:var(--medium);
+    background-color:#022818;
     color:rgba(255,255,255,0.72);
   }
   body.dark-mode #cs-footer-309 .cs-top,

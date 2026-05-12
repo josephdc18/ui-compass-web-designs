@@ -2691,7 +2691,7 @@ eleventyExcludeFromCollections: true
           var dh = '<div class="msg-bubble ' + cls + ' deleted">[deleted] <span class="msg-bubble-meta">' + time + '</span></div>';
           return isAdmin ? dh : wrapClient(dh);
         }
-        var body = m.message_type === 'gif' && m.gif_url ? '<img src="' + esc(m.gif_url) + '" alt="' + esc(m.gif_title || 'GIF') + '" style="max-width:200px;border-radius:0.5rem;" />' : esc(m.body || '');
+        var body = m.message_type === 'gif' && m.gif_url ? '<img src="' + esc(m.gif_url) + '" alt="' + esc(m.gif_title || 'GIF') + '" loading="lazy" decoding="async" style="max-width:200px;border-radius:0.5rem;" />' : esc(m.body || '');
         var edited = m.is_edited ? ' (edited)' : '';
         var receipt = '';
         if (isAdmin && !m.is_deleted) receipt = isReadByClient(m) ? svgDoubleCheck() : svgCheck();
@@ -2703,7 +2703,7 @@ eleventyExcludeFromCollections: true
         var initials = esc((clientName || '?').split(' ').map(function(w) {
           return w[0];
         }).join('').toUpperCase().slice(0, 2));
-        var av = clientAvatarBase64 ? '<img src="' + clientAvatarBase64 + '" alt="" />' : initials;
+        var av = clientAvatarBase64 ? '<img src="' + clientAvatarBase64 + '" alt="" loading="lazy" decoding="async" />' : initials;
         return '<div class="msg-client-row"><div class="msg-msg-avatar">' + av + '</div><div>' + html + '</div></div>';
       }
 
@@ -2738,7 +2738,7 @@ eleventyExcludeFromCollections: true
             var initials = (c.client_name || c.client_email || '?').split(' ').map(function(w) {
               return w[0];
             }).join('').toUpperCase().slice(0, 2);
-            var av = c.avatar_base64 ? '<img src="' + c.avatar_base64 + '" alt="" />' : esc(initials);
+            var av = c.avatar_base64 ? '<img src="' + c.avatar_base64 + '" alt="" loading="lazy" decoding="async" />' : esc(initials);
             return '<li class="msg-conv-item' + (c.id === activeConvId ? ' active' : '') + '" data-id="' + c.id + '">' +
               '<div class="msg-conv-avatar">' + av + '</div>' +
               '<div class="msg-conv-info"><div class="msg-conv-name">' + esc(c.client_name || c.client_email) + '</div>' +
@@ -3244,7 +3244,7 @@ eleventyExcludeFromCollections: true
         }
         grid.innerHTML = allFiles.map(function(f) {
           var isSel = selectedIds.indexOf(f.id) >= 0;
-          var th = f.thumbnail_base64 ? '<img src="' + esc(f.thumbnail_base64) + '" alt="" />' : (f.category === 'photo' ? '&#128247;' : f.category === 'video' ? '&#127909;' : '&#128196;');
+          var th = f.thumbnail_base64 ? '<img src="' + esc(f.thumbnail_base64) + '" alt="" loading="lazy" decoding="async" />' : (f.category === 'photo' ? '&#128247;' : f.category === 'video' ? '&#127909;' : '&#128196;');
           return '<div class="m-card' + (isSel ? ' selected' : '') + '" data-file-id="' + esc(f.id) + '">' +
             '<input type="checkbox" class="m-select-check" ' + (isSel ? 'checked' : '') + ' />' +
             '<div class="m-card-thumb">' + th + '</div>' +

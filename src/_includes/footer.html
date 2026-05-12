@@ -68,12 +68,13 @@
   </div>
 </section>
 <footer id="cs-footer-309">
+  <img class="cs-bg" src="/assets/svgs/waves.svg" alt="" aria-hidden="true" decoding="async" loading="lazy" width="1920" height="1021">
   <div class="cs-container">
 
     <!-- Top tagline + work link -->
     <div class="cs-top">
-      <p class="cs-top-tagline">{% if isEs %}Ubicados en {{ client.address.city }}, {{ client.address.county }}. Sitios codificados a mano para pequeñas empresas.{% else %}Based in {{ client.address.city }}, {{ client.address.county }}. Hand-coded sites for small businesses.{% endif %}</p>
-      <a class="cs-hero-work-link" href="{{ lp }}/#portfolio">{% if isEs %}Vea nuestro trabajo{% else %}See our work{% endif %} <svg class="cs-hero-work-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7 L17 17 M17 17 L17 9 M17 17 L9 17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <p class="cs-top-tagline">{% if isEs %}Ubicados en {{ client.address.city }}, {{ client.address.county }}. Sitios personalizados para pequeñas empresas.{% else %}Based in {{ client.address.city }}, {{ client.address.county }}. Custom sites for small businesses.{% endif %}</p>
+      <a class="cs-hero-work-link" href="{{ lp }}/#portfolio">{% if isEs %}Vea nuestro trabajo{% else %}See our work{% endif %} {% include "svgs/arrow-diagonal.html" %}</a>
     </div>
 
     <!-- Site map columns -->
@@ -173,7 +174,7 @@
         </div>
       </div>
 
-      <p class="cs-tagline">{% if isEs %}Estudio de diseño web en {{ client.address.city }}, {{ client.address.county }}. Codificamos a mano sitios web optimizados para móviles para pequeñas empresas, con ediciones ilimitadas, por una tarifa mensual fija.{% else %}Web design studio in {{ client.address.city }}, {{ client.address.county }}. We hand-code mobile-optimized websites for small businesses, with unlimited edits, for one flat monthly fee.{% endif %}</p>
+      <p class="cs-tagline">{% if isEs %}Estudio de diseño web en {{ client.address.city }}, {{ client.address.county }}. Construimos sitios web optimizados para móviles para pequeñas empresas, con ediciones ilimitadas, por una tarifa mensual fija.{% else %}Web design studio in {{ client.address.city }}, {{ client.address.county }}. We build mobile-optimized websites for small businesses, with unlimited edits, for one flat monthly fee.{% endif %}</p>
 
       <ul class="cs-contact-list">
         <li class="cs-contact-li">

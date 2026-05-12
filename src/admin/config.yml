@@ -6,9 +6,9 @@
 
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME  # [CHANGE] e.g., username/my-site
+  repo: josephdc18/ui-compass-web-designs  # [CHANGE] e.g., username/my-site
   branch: main
-  base_url: https://YOUR_DOMAIN.com          # [CHANGE] Your production domain
+  base_url: https://uicompass.com          # [CHANGE] Your production domain
   auth_endpoint: /api/auth                   # Points to Cloudflare Function OAuth proxy
 
 # Enable local backend for development (run: npx decap-server)

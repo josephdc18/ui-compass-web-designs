@@ -22,11 +22,13 @@
     // Top-level mobile dropdown submenus (e.g. Services, Locations).
     // Click anywhere on the .cs-dropdown EXCEPT a link/nested toggle bubbles up to here.
     csNav.querySelectorAll('.cs-li.cs-dropdown').forEach(function(dd) {
+        var ddBtn = dd.querySelector(':scope > .cs-dropdown-button');
         dd.addEventListener('click', function(e) {
             // Ignore clicks on real links (let them navigate) and on nested-dropdown buttons (handled below).
             if (e.target.closest('a.cs-drop-link')) return;
             if (e.target.closest('.cs-drop-li.cs-dropdown')) return;
-            dd.classList.toggle('cs-active');
+            var open = dd.classList.toggle('cs-active');
+            if (ddBtn) ddBtn.setAttribute('aria-expanded', String(open));
         });
     });
 

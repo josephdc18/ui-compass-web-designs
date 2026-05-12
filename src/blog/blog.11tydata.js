@@ -1,5 +1,5 @@
 // Directory data for English-language blog posts.
-// Mirrors src/es/blog/blog.11tydata.js for the Spanish set.
+// Mirrors src/ko/blog/blog.11tydata.js for the Korean set.
 //
 // Drafts (`draft: true` in frontmatter) render locally so authors can preview
 // them, but are excluded from production builds — no rendered URL, no listing

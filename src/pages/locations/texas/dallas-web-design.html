@@ -33,14 +33,7 @@ eleventyNavigation:
   <div class="cs-container">
     <div class="cs-image-group">
       <div class="cs-flex">
-        <picture class="cs-background">
-          <source media="(max-width: 1024px)" srcset="/assets/images/7cb10f3f9631.avif" type="image/avif">
-          <source media="(max-width: 1024px)" srcset="/assets/images/136073d3558f.webp" type="image/webp">
-          <source media="(max-width: 1024px)" srcset="/assets/images/d5e1a4397d57.jpg" type="image/jpeg">
-          <source media="(min-width: 1024px)" srcset="/assets/images/9e94a46ccce9.avif" type="image/avif">
-          <source media="(min-width: 1024px)" srcset="/assets/images/5af79ad72925.webp" type="image/webp">
-          <source media="(min-width: 1024px)" srcset="/assets/images/e53b7f6a1ea0.jpg" type="image/jpeg"><img alt="Downtown Dallas skyline at golden hour. UI Compass builds websites for Dallas small businesses." aria-hidden="true" decoding="async" height="1084" src="/assets/images/e53b7f6a1ea0.jpg" width="1084" loading="lazy">
-        </picture>
+        {% image "/assets/images/e53b7f6a1ea0.jpg", "Dallas, TX. UI Compass builds websites for Dallas small businesses.", "cs-background", "lazy" %}
       </div>
       <ul class="cs-card-group">
         <li class="cs-item"><span class="cs-h3">Hand-Coded, Not Templated</span>

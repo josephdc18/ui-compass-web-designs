@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "lang": "ko",
+    "dir": "ltr"
+  },
+  "nav": {
+    "home": "홈",
+    "about": "회사 소개",
+    "services": "서비스",
+    "blog": "블로그",
+    "contact": "문의",
+    "pricing": "요금제",
+    "resources": "자료실",
+    "solutions": "솔루션",
+    "skip_to_content": "본문으로 건너뛰기",
+    "menu": "메뉴",
+    "close": "닫기"
+  },
+  "common": {
+    "read_more": "더 보기",
+    "learn_more": "자세히 알아보기",
+    "view_all": "전체 보기",
+    "back": "뒤로",
+    "next": "다음",
+    "previous": "이전",
+    "search": "검색",
+    "loading": "불러오는 중...",
+    "error": "오류",
+    "success": "완료",
+    "submit": "보내기",
+    "cancel": "취소",
+    "close": "닫기",
+    "yes": "예",
+    "no": "아니오",
+    "or": "또는",
+    "and": "그리고"
+  },
+  "forms": {
+    "name": "이름",
+    "email": "이메일",
+    "phone": "전화번호",
+    "message": "메시지",
+    "subject": "제목",
+    "required": "필수",
+    "optional": "선택",
+    "submit": "보내기",
+    "sending": "전송 중...",
+    "success_message": "감사합니다! 메시지가 전송되었습니다.",
+    "error_message": "문제가 발생했습니다. 다시 시도해 주시기 바랍니다.",
+    "validation": {
+      "required": "필수 입력 항목입니다",
+      "email": "올바른 이메일 주소를 입력해 주시기 바랍니다",
+      "phone": "올바른 전화번호를 입력해 주시기 바랍니다",
+      "min_length": "최소 {min}자 이상이어야 합니다",
+      "max_length": "최대 {max}자를 초과할 수 없습니다"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} {company}. All rights reserved.",
+    "privacy": "개인정보 처리방침",
+    "terms": "서비스 약관",
+    "sitemap": "사이트맵",
+    "follow_us": "팔로우하기"
+  },
+  "404": {
+    "title": "페이지를 찾을 수 없습니다",
+    "message": "죄송합니다. 요청하신 페이지가 존재하지 않습니다.",
+    "back_home": "홈으로 돌아가기"
+  },
+  "accessibility": {
+    "toggle_theme": "라이트/다크 모드 전환",
+    "open_menu": "메뉴 열기",
+    "close_menu": "메뉴 닫기",
+    "language": "언어",
+    "current_language": "현재 언어",
+    "go_to_top": "맨 위로"
+  },
+  "blog": {
+    "tldr_default_title": "핵심 요약",
+    "tldr_aria": "TL;DR — 핵심 요약",
+    "faq_heading": "자주 묻는 질문",
+    "related_heading": "관련 가이드"
+  }
+}

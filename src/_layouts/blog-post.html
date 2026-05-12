@@ -67,12 +67,12 @@ eleventyComputed:
 
   <div class="main-content">
     <article class="blog-article">
-      {% set isEs = locale == 'es' %}
+      {% set isKo = locale == 'ko' %}
 
       <nav class="post-crumbs" aria-label="Breadcrumb">
-        <a href="{% if isEs %}/es/{% else %}/{% endif %}">{% if isEs %}Inicio{% else %}Home{% endif %}</a>
+        <a href="{% if isKo %}/ko/{% else %}/{% endif %}">{% if isKo %}홈{% else %}Home{% endif %}</a>
         <span class="post-crumbs-sep" aria-hidden="true">/</span>
-        <a href="{% if isEs %}/es/blog/{% else %}/blog/{% endif %}">Blog</a>
+        <a href="{% if isKo %}/ko/blog/{% else %}/blog/{% endif %}">{% if isKo %}블로그{% else %}Blog{% endif %}</a>
       </nav>
 
       {% if image %}

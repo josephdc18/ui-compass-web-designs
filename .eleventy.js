@@ -199,7 +199,7 @@ module.exports = function (eleventyConfig) {
 
   // Renders inline markdown (no surrounding <p>) so frontmatter strings can
   // use **bold**, *italic*, and `code`. Inline HTML in the source passes
-  // through unchanged (e.g. <code>/es/</code> in TLDR points). Used by the
+  // through unchanged (e.g. <code>/ko/</code> in TLDR points). Used by the
   // blog post TLDR loop in blog-post.html.
   eleventyConfig.addFilter('mdInline', (str) => {
     if (str === undefined || str === null) return '';
@@ -313,7 +313,7 @@ module.exports = function (eleventyConfig) {
     return i18nConfig.getLocale(localeCode || i18nConfig.defaultLocale);
   });
 
-  /** Localized URL: {{ page.url | localizedUrl("es") }} */
+  /** Localized URL: {{ page.url | localizedUrl("ko") }} */
   eleventyConfig.addFilter('localizedUrl', function (url, targetLocale) {
     const defaultLocale = i18nConfig.defaultLocale;
     let cleanUrl = url;
@@ -327,7 +327,7 @@ module.exports = function (eleventyConfig) {
     return '/' + targetLocale + cleanUrl;
   });
 
-  /** Check translation exists: {% if page.url | hasTranslation("es") %} */
+  /** Check translation exists: {% if page.url | hasTranslation("ko") %} */
   eleventyConfig.addFilter('hasTranslation', function (url, targetLocale) {
     return true;
   });

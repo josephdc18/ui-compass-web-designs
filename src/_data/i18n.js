@@ -19,14 +19,14 @@ module.exports = {
             dateFormat: 'MMMM d, yyyy',
             flag: '\u{1F1FA}\u{1F1F8}',
         },
-        es: {
-            code: 'es',
-            name: 'Spanish',
-            nativeName: 'Espa\u00f1ol',
+        ko: {
+            code: 'ko',
+            name: 'Korean',
+            nativeName: '\ud55c\uad6d\uc5b4',
             dir: 'ltr',
-            hreflang: 'es',
-            dateFormat: 'd de MMMM de yyyy',
-            flag: '\u{1F1EA}\u{1F1F8}',
+            hreflang: 'ko',
+            dateFormat: 'yyyy\ub144 M\uc6d4 d\uc77c',
+            flag: '\u{1F1F0}\u{1F1F7}',
         },
         // Add more languages as needed:
         // fr: { code: 'fr', name: 'French', nativeName: 'Fran\u00e7ais', dir: 'ltr', hreflang: 'fr', dateFormat: 'd MMMM yyyy', flag: '\u{1F1EB}\u{1F1F7}' },

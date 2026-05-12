@@ -63,7 +63,7 @@
 
   <!-- Page-specific CSS loaded async via the print-media swap trick so it
        doesn't block the initial render. <noscript> fallback for no-JS. -->
-  {% if page.url == '/' or page.url == '/es/' %}
+  {% if page.url == '/' or page.url == '/ko/' %}
   <link rel="preload" as="style" href="/css/local.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/css/local.css?v={{ build.hash }}"></noscript>
   {% endif %}

@@ -76,6 +76,13 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
     </picture>`;
   }
 
+  // Skip gracefully when the source PNG hasn't been generated yet (lets new
+  // posts ship without crashing the whole build before card screenshots run).
+  if (typeof src === 'string' && !fs.existsSync(resolveSrc(src))) {
+    console.warn(`[image] source missing, skipping: ${src}`);
+    return '';
+  }
+
   // If a dark sibling exists at <slug>-dark-card.<ext>, render both pictures
   // and let CSS toggle them via body.dark-mode. Otherwise render single image.
   // Source filenames are <slug>-card.png / <slug>-dark-card.png.

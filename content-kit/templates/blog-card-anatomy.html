@@ -1,22 +1,26 @@
 <!doctype html>
 <!--
-  blog-card-anatomy.html  (1200×630)
-  Landscape adaptation of content-kit/templates/anatomy.html for blog OG cards.
-  Hero (eyebrow + Playfair italic headline + stripe) on the LEFT.
-  Annotated phone diagram on the RIGHT — phone in the center of the diagram
-  panel, four numbered callouts in the corners, curved SVG connectors from
-  hotspots on the phone to each callout numeral.
+  blog-card-anatomy.html  (1200×630)  ──  Unified shell, anatomy template
 
-  Tokens:
-    {{HEADLINE}}     — Playfair italic display headline. Wrap any italic-green
-                       phrase in <em>…</em> (the original anatomy convention).
-    {{SUBHEAD}}      — single line under the headline.
-    {{ISSUE}}        — top-right label, e.g. "UI Compass / Nº 24".
-    {{L1}}…{{L4}}    — the four short callout labels (one line each, no desc).
-    {{FOOTER}}       — small caps meta line, e.g. "Strategy · 5 min read".
+  Use for: posts that dissect a UI element. Two-column body — Playfair italic
+  hero on the left (headline + subhead + stripe), an annotated phone diagram
+  on the right (phone center, 4 numbered callouts at the corners, curved
+  green SVG connectors).
 
-  The phone screen is built from SVG <rect>s — swap the inner content per post
-  to match the anatomy you're teaching (form, homepage, checkout, etc.).
+  Tokens to fill:
+    {{ISSUE}}                  — "Issue Nº XX · Month YYYY"
+    {{HEADLINE}}               — Playfair italic display. Wrap accent in <em>…</em>.
+    {{SUBHEAD}}                — Roboto 21px deck. Wrap one phrase in <em>…</em>
+                                 for the green italic Playfair accent.
+    {{L1}} {{L2}} {{L3}} {{L4}} — short callout labels (one line each, no desc).
+    {{FOOTER}}                 — "Section · X min read".
+
+  The phone screen SVG is intentionally generic (header, hero, CTA, image,
+  reviews, footer phone). Override for each anatomy post — see
+  the-contact-form-audit.html for a form, the-about-page-rewrite.html for
+  an About page, etc. Keep the four hotspot dots at roughly:
+    left-top, right-top, left-bottom, right-bottom
+  so they align with the connector path endpoints.
 -->
 <html lang="en">
 <head>
@@ -24,211 +28,62 @@
 <title>Blog Card — Anatomy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-base:        #faf7f4;
-    --bg-base-2:      #f3ede5;
-    --primary:        #006940;
-    --primary-light:  #00bd74;
-    --cream:          #e6d9c7;
-    --cream-deep:     #d6c4a8;
-    --text:           #262421;
-    --text-body:      #4e4b66;
-    --text-muted:     #7a7889;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1200px; height: 630px; background: var(--bg-base);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: var(--text); overflow: hidden;
-    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-  }
-  .card {
-    position: relative; width: 1200px; height: 630px;
-    padding: 32px 56px;
-    display: flex; flex-direction: column;
-    background:
-      radial-gradient(900px 700px at 85% -10%, rgba(0,105,64,0.08), transparent 60%),
-      radial-gradient(700px 600px at -10% 110%, rgba(0,105,64,0.06), transparent 60%),
-      linear-gradient(180deg, var(--bg-base) 0%, var(--bg-base-2) 100%);
-    overflow: hidden;
-  }
-
-  .arc { position: absolute; border-radius: 50%; pointer-events: none; }
-  .arc-tr-outer { top: -200px; right: -200px; width: 460px; height: 460px; border: 1px solid rgba(0,105,64,0.16); }
-  .arc-tr-inner { top: -140px; right: -140px; width: 340px; height: 340px; border: 1px solid rgba(0,105,64,0.10); }
-
-  /* === Top hairline strip === */
-  .topbar {
-    position: relative; z-index: 3;
-    display: flex; align-items: center; gap: 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(38,36,33,0.18);
-  }
-  .topbar .pill {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 8px 18px;
-    background: rgba(0,105,64,0.08);
-    border: 1px solid rgba(0,105,64,0.32);
-    border-radius: 999px;
-    color: var(--primary);
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0.32em; text-transform: uppercase;
-  }
-  .topbar .rule { flex: 1; height: 1px; background: rgba(38,36,33,0.18); }
-  .topbar .right {
-    font-family: 'Playfair Display', serif;
-    font-style: italic; font-weight: 500;
-    font-size: 16px; color: var(--text-body);
-    letter-spacing: 0.005em;
-  }
-
-  /* === Body grid: hero left · anatomy diagram right === */
-  .body {
-    position: relative; z-index: 3;
-    flex: 1;
-    display: grid;
-    grid-template-columns: 420px 1fr;
-    gap: 32px;
-    padding-top: 22px;
-    align-items: stretch;
-  }
-
-  /* Hero (left column) */
-  .hero { display: flex; flex-direction: column; padding-top: 14px; }
-  .headline {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-size: 56px; line-height: 1.02;
-    font-weight: 600; letter-spacing: -0.02em;
-    color: var(--text);
-  }
+  :root { --bg-1:#f7f2ea; --bg-2:#efe7d8; --cream:#e6d9c7; --cream-deep:#d6c4a8; --primary:#006940; --primary-l:#00bd74; --header:#1f1c19; --body:#4e4b66; --muted:#8a8474; --hairline:rgba(31,28,25,0.22); --line-soft:rgba(31,28,25,0.10); }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--bg-1); font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif; color: var(--header); overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .card { position: relative; width: 1200px; height: 630px; padding: 24px 56px 22px; display: flex; flex-direction: column; background: radial-gradient(900px 700px at 92% 110%, rgba(0,105,64,0.10), transparent 60%), radial-gradient(700px 600px at -8% -10%, rgba(230,217,199,0.55), transparent 60%), linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%); overflow: hidden; }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.18; z-index: 1; }
+  .strip { position: relative; z-index: 3; display: flex; align-items: center; gap: 18px; }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--header); }
+  .body { position: relative; z-index: 3; flex: 1; padding-top: 20px; display: grid; grid-template-columns: 500px 1fr; gap: 28px; align-items: stretch; min-height: 0; }
+  .hero { display: flex; flex-direction: column; padding-top: 8px; min-width: 0; }
+  .headline { font-family: "Playfair Display", "Times New Roman", serif; font-size: 76px; line-height: 1.0; font-weight: 600; letter-spacing: -0.02em; color: var(--header); }
   .headline em { font-style: italic; font-weight: 500; color: var(--primary); }
-  .headline.size-s  { font-size: 50px; }
-  .headline.size-xs { font-size: 44px; }
-
-  .subhead {
-    margin-top: 16px;
-    font-size: 17px; line-height: 1.45;
-    color: var(--text-body); max-width: 380px;
-  }
-  .subhead em {
-    font-family: 'Playfair Display', serif;
-    font-style: italic; color: var(--primary); font-weight: 500;
-  }
-  .stripe {
-    margin-top: 22px;
-    display: flex; gap: 6px; width: 180px;
-  }
+  .subhead { margin-top: 18px; font-size: 21px; line-height: 1.4; color: var(--body); max-width: 460px; }
+  .subhead em { font-family: "Playfair Display", serif; font-style: italic; color: var(--primary); font-weight: 500; }
+  .stripe { margin-top: 22px; display: flex; gap: 6px; width: 180px; }
   .stripe span { flex: 1; height: 5px; border-radius: 3px; }
   .stripe span:nth-child(1) { background: var(--primary); }
   .stripe span:nth-child(2) { background: var(--cream-deep); }
-  .stripe span:nth-child(3) { background: var(--primary-light); }
-
-  /* === Anatomy diagram (right column) === */
-  .anatomy {
-    position: relative;
-    width: 100%; height: 100%;
-  }
-  .anatomy::before {
-    content: "";
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 320px; height: 380px;
-    background: radial-gradient(closest-side, rgba(0,105,64,0.10), transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .phone-wrap {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 180px; height: 360px;
-    z-index: 2;
-    filter: drop-shadow(0 18px 36px rgba(38,36,33,0.18));
-  }
+  .stripe span:nth-child(3) { background: var(--primary-l); }
+  .anatomy { position: relative; width: 100%; height: 100%; min-height: 0; }
+  .anatomy::before { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px; height: 380px; background: radial-gradient(closest-side, rgba(0,105,64,0.10), transparent 70%); pointer-events: none; z-index: 0; }
+  .phone-wrap { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 360px; z-index: 2; filter: drop-shadow(0 18px 36px rgba(31,28,25,0.18)); }
   .phone-wrap svg { display: block; width: 100%; height: 100%; }
-
-  /* Connector overlay — sits between phone and callouts */
-  .connectors {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    pointer-events: none; z-index: 1;
-  }
-  .connectors path {
-    fill: none; stroke: var(--primary);
-    stroke-width: 1.6; stroke-linecap: round;
-    opacity: 0.55;
-  }
+  .connectors { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  .connectors path { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; opacity: 0.55; }
   .connectors circle { fill: var(--primary); opacity: 0.85; }
-
-  .callout {
-    position: absolute;
-    width: 220px;
-    display: flex; align-items: center; gap: 14px;
-    z-index: 3;
-  }
-  .callout .num {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-style: italic; font-weight: 600;
-    font-size: 56px; line-height: 0.9;
-    letter-spacing: -0.025em;
-    color: var(--primary); flex: none;
-    text-shadow: 0 3px 10px rgba(0,105,64,0.10);
-  }
-  .callout .label {
-    font-size: 15px; font-weight: 700;
-    color: var(--text); line-height: 1.2;
-    letter-spacing: -0.005em;
-  }
-
-  /* Left-side callouts: number on the right (closer to phone), label right-aligned */
+  .callout { position: absolute; width: 220px; display: flex; align-items: center; gap: 14px; z-index: 3; }
+  .callout .num { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 60px; line-height: 0.9; letter-spacing: -0.025em; color: var(--primary); flex: none; text-shadow: 0 3px 10px rgba(0,105,64,0.10); }
+  .callout .label { font-size: 15px; font-weight: 700; color: var(--header); line-height: 1.2; letter-spacing: -0.005em; }
   .callout.tl, .callout.bl { flex-direction: row-reverse; }
   .callout.tl .label, .callout.bl .label { text-align: right; }
   .callout.tr .label, .callout.br .label { text-align: left; }
-
   .callout.tl { top: 4px;   left: 0; }
   .callout.tr { top: 4px;   right: 0; }
   .callout.bl { bottom: 4px; left: 0; }
   .callout.br { bottom: 4px; right: 0; }
-
-  /* === Footer === */
-  .foot {
-    position: relative; z-index: 3;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(38,36,33,0.18);
-    display: flex; align-items: flex-end; justify-content: space-between;
-  }
+  .foot { position: relative; z-index: 3; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--hairline); display: flex; align-items: flex-end; justify-content: space-between; }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-mark { width: 32px; height: 32px; flex: none; display: block; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; }
   .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
-  .brand .name { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
   .brand .name .dot { color: var(--primary); }
-  .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-muted); }
-  .foot-meta {
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--text-body);
-  }
+  .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+  .foot-meta { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--header); }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
 </style>
 </head>
 <body>
 <main class="card">
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0.13  0 0 0 0 0.11  0 0 0 0 0.09  0 0 0 0.55 0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
 
-  <div class="arc arc-tr-outer"></div>
-  <div class="arc arc-tr-inner"></div>
-
-  <div class="topbar">
-    <span class="pill">Anatomy</span>
-    <span class="rule"></span>
-    <span class="right">{{ISSUE}}</span>
-  </div>
+  <div class="strip"><span class="rule"></span><span class="issue">{{ISSUE}}</span></div>
 
   <section class="body">
-
     <div class="hero">
       <h1 class="headline">{{HEADLINE}}</h1>
       <p class="subhead">{{SUBHEAD}}</p>
@@ -236,120 +91,65 @@
     </div>
 
     <div class="anatomy">
-
-      <!-- Connectors: phone-screen hotspots to corner callouts.
-           ViewBox aligned to the diagram panel: 720×476.
-           Phone center is roughly (360, 238) at 180×360. -->
       <svg class="connectors" viewBox="0 0 720 476" preserveAspectRatio="none" aria-hidden="true">
-        <!-- 01 (TL): from upper-left of phone screen out to TL callout -->
-        <path d="M 280 100 C 220 92, 180 78, 130 60"/>
-        <circle cx="130" cy="60" r="3"/>
-        <!-- 02 (TR): from upper-right of phone out to TR callout -->
-        <path d="M 440 145 C 510 130, 555 90, 595 60"/>
-        <circle cx="595" cy="60" r="3"/>
-        <!-- 03 (BL): from lower-left of phone out to BL callout -->
-        <path d="M 280 320 C 220 360, 180 400, 130 420"/>
-        <circle cx="130" cy="420" r="3"/>
-        <!-- 04 (BR): from lower-right of phone out to BR callout -->
-        <path d="M 440 350 C 510 380, 555 405, 595 420"/>
-        <circle cx="595" cy="420" r="3"/>
+        <path d="M 280 100 C 220 92, 180 78, 130 60"/><circle cx="130" cy="60" r="3"/>
+        <path d="M 440 145 C 510 130, 555 90, 595 60"/><circle cx="595" cy="60" r="3"/>
+        <path d="M 280 320 C 220 360, 180 400, 130 420"/><circle cx="130" cy="420" r="3"/>
+        <path d="M 440 350 C 510 380, 555 405, 595 420"/><circle cx="595" cy="420" r="3"/>
       </svg>
 
-      <!-- Phone (centered in the diagram panel) -->
       <div class="phone-wrap">
         <svg viewBox="0 0 180 360" aria-hidden="true">
-          <!-- Frame -->
-          <rect x="0" y="0" width="180" height="360" rx="26" fill="#262421"/>
+          <!-- Phone frame -->
+          <rect x="0" y="0" width="180" height="360" rx="26" fill="#1f1c19"/>
           <rect x="5" y="5" width="170" height="350" rx="22" fill="#0e0d0a"/>
-          <!-- Screen -->
           <rect x="9" y="9" width="162" height="342" rx="18" fill="#faf7f4"/>
-          <!-- Notch -->
-          <rect x="68" y="5" width="44" height="11" rx="5.5" fill="#262421"/>
+          <rect x="68" y="5" width="44" height="11" rx="5.5" fill="#1f1c19"/>
 
-          <!-- App header -->
+          <!-- Generic homepage content — swap for each anatomy post. -->
           <rect x="18" y="24" width="144" height="18" rx="4" fill="#e6d9c7" opacity="0.8"/>
           <circle cx="28" cy="33" r="3.5" fill="#006940"/>
-          <rect x="38" y="29" width="34" height="7" rx="2" fill="#262421" opacity="0.7"/>
+          <rect x="38" y="29" width="34" height="7" rx="2" fill="#1f1c19" opacity="0.7"/>
 
-          <!-- Hero headline block (HOTSPOT 01 area) -->
-          <rect x="18" y="56" width="120" height="11" rx="3" fill="#262421" opacity="0.92"/>
-          <rect x="18" y="71" width="90"  height="11" rx="3" fill="#262421" opacity="0.92"/>
+          <rect x="18" y="56" width="120" height="11" rx="3" fill="#1f1c19" opacity="0.92"/>
+          <rect x="18" y="71" width="90"  height="11" rx="3" fill="#1f1c19" opacity="0.92"/>
           <rect x="18" y="90" width="140" height="6" rx="2" fill="#4e4b66" opacity="0.55"/>
           <rect x="18" y="100" width="120" height="6" rx="2" fill="#4e4b66" opacity="0.55"/>
-          <!-- Hotspot 01 -->
-          <circle cx="18" cy="68" r="5" fill="#006940"/>
-          <circle cx="18" cy="68" r="8" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.5"/>
 
-          <!-- CTA button (HOTSPOT 02) -->
           <rect x="18" y="118" width="78" height="24" rx="12" fill="#006940"/>
           <rect x="34" y="126" width="46" height="7" rx="2" fill="#faf7f4"/>
-          <!-- Hotspot 02 -->
+
+          <rect x="18" y="154" width="144" height="70" rx="5" fill="#d6c4a8" opacity="0.5"/>
+
+          <rect x="18" y="234" width="144" height="48" rx="5" fill="#e6d9c7" opacity="0.4"/>
+
+          <rect x="18" y="294" width="144" height="26" rx="5" fill="#006940" opacity="0.14"/>
+
+          <rect x="68" y="338" width="44" height="3" rx="1.5" fill="#1f1c19" opacity="0.4"/>
+
+          <!-- Hotspots — positioned at the 4 corners of the screen. -->
+          <circle cx="18" cy="68" r="5" fill="#006940"/>
+          <circle cx="18" cy="68" r="8" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.5"/>
           <circle cx="162" cy="130" r="5" fill="#006940"/>
           <circle cx="162" cy="130" r="8" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.5"/>
-          <line x1="96" y1="130" x2="154" y2="130" stroke="#006940" stroke-width="1" stroke-dasharray="2 3" opacity="0.4"/>
-
-          <!-- Image / hero media -->
-          <rect x="18" y="154" width="144" height="70" rx="5" fill="#d6c4a8" opacity="0.5"/>
-          <circle cx="90" cy="189" r="11" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.6"/>
-          <path d="M 87 184 L 87 195 L 95 189 Z" fill="#006940" opacity="0.6"/>
-
-          <!-- Reviews / social proof (HOTSPOT 03) -->
-          <rect x="18" y="234" width="144" height="48" rx="5" fill="#e6d9c7" opacity="0.4"/>
-          <text x="26" y="251" font-family="Inter" font-size="8" font-weight="700" fill="#262421">★★★★★ 4.9</text>
-          <rect x="26" y="258" width="120" height="4" rx="1.5" fill="#4e4b66" opacity="0.45"/>
-          <rect x="26" y="266" width="100" height="4" rx="1.5" fill="#4e4b66" opacity="0.45"/>
-          <rect x="26" y="274" width="44"  height="3" rx="1" fill="#262421" opacity="0.6"/>
-          <!-- Hotspot 03 -->
           <circle cx="18" cy="258" r="5" fill="#006940"/>
           <circle cx="18" cy="258" r="8" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.5"/>
-
-          <!-- Footer phone link (HOTSPOT 04) -->
-          <rect x="18" y="294" width="144" height="26" rx="5" fill="#006940" opacity="0.14"/>
-          <circle cx="34" cy="307" r="6" fill="none" stroke="#006940" stroke-width="1.3"/>
-          <path d="M 31 304 Q 31 310, 36 310" fill="none" stroke="#006940" stroke-width="1.3" stroke-linecap="round"/>
-          <rect x="46" y="300" width="62" height="5" rx="1.5" fill="#006940" opacity="0.85"/>
-          <rect x="46" y="309" width="44" height="4" rx="1.5" fill="#006940" opacity="0.55"/>
-          <!-- Hotspot 04 -->
           <circle cx="162" cy="307" r="5" fill="#006940"/>
           <circle cx="162" cy="307" r="8" fill="none" stroke="#006940" stroke-width="1.3" opacity="0.5"/>
-
-          <!-- Bottom indicator -->
-          <rect x="68" y="338" width="44" height="3" rx="1.5" fill="#262421" opacity="0.4"/>
         </svg>
       </div>
 
-      <!-- 4 Callouts -->
-      <div class="callout tl">
-        <div class="num">01</div>
-        <div class="label">{{L1}}</div>
-      </div>
-      <div class="callout tr">
-        <div class="num">02</div>
-        <div class="label">{{L2}}</div>
-      </div>
-      <div class="callout bl">
-        <div class="num">03</div>
-        <div class="label">{{L3}}</div>
-      </div>
-      <div class="callout br">
-        <div class="num">04</div>
-        <div class="label">{{L4}}</div>
-      </div>
-
+      <div class="callout tl"><div class="num">01</div><div class="label">{{L1}}</div></div>
+      <div class="callout tr"><div class="num">02</div><div class="label">{{L2}}</div></div>
+      <div class="callout bl"><div class="num">03</div><div class="label">{{L3}}</div></div>
+      <div class="callout br"><div class="num">04</div><div class="label">{{L4}}</div></div>
     </div>
   </section>
 
   <div class="foot">
-    <div class="brand">
-      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
-      <div class="wordmark">
-        <span class="name">UI Compass<span class="dot">.</span></span>
-        <span class="sub">Web Designs</span>
-      </div>
-    </div>
+    <div class="brand"><img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo><div class="wordmark"><span class="name">UI Compass<span class="dot">.</span></span><span class="sub">Web Designs</span></div></div>
     <div class="foot-meta">{{FOOTER}}</div>
   </div>
-
 </main>
 </body>
 </html>

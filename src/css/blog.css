@@ -1756,3 +1756,18 @@ body.dark-mode .theme-light { display: none; }
 /* Dark-mode contrast fix: cluster titles' non-em portion was using
    --headerColor which goes dark-on-dark. */
 body.dark-mode .insight-cluster .cs-title { color: var(--bodyTextColorWhite); }
+
+/* Archive — 2-column grid at tablet+ */
+@media only screen and (min-width: 48rem) {
+  #insight-archive .cs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+  }
+  #insight-archive .cs-row:nth-child(2) {
+    border-top: 1px solid #e5e7eb;
+  }
+  body.dark-mode #insight-archive .cs-row:nth-child(2) {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+}

@@ -1,17 +1,23 @@
 <!doctype html>
 <!--
-  blog-card-comparison.html  (1200×630)
-  Landscape port of content-kit/templates/comparison.html.
-  Two side-by-side columns split by a VS divider. Left is the dim/wrong
-  option; right is the green/correct one. Hero headline above.
+  blog-card-comparison.html  (1200×630)  ──  Unified shell, comparison template
 
-  Tokens:
-    {{ISSUE}}                — top-right label, e.g. "UI Compass / Nº 31"
-    {{HEADLINE}}             — short hook; wrap accent word in <em>…</em>
-    {{L_LABEL}} {{R_LABEL}}  — small caps column labels (e.g. "Shared host" / "Edge")
-    {{L_BIG}}   {{R_BIG}}    — the big bold value/name (e.g. "$10/mo" / "$30/mo")
+  Use for: posts that frame an option vs. another. Left column = muted/wrong,
+  right column = green/✓ correct. A small italic "vs." sits between them.
+
+  Tokens to fill:
+    {{ISSUE}}                — "Issue Nº XX · Month YYYY"
+    {{HEADLINE}}             — Playfair italic display. Wrap one accent word
+                               in <em>…</em> for the green italic.
+    {{L_LABEL}} {{R_LABEL}}  — small-caps column labels ("Shared host" / "Edge")
+    {{L_BIG}}   {{R_BIG}}    — bold value/name ("$3K builds." / "Hand-coded.")
+                               Use <br> for line breaks.
     {{L_DESC}}  {{R_DESC}}   — one-line description under the big value
-    {{FOOTER}}               — small caps meta, e.g. "Performance · 5 min read"
+    {{FOOTER}}               — "Section · X min read"
+
+  Custom illustrations: replace the .big text in one or both columns with an
+  inline SVG when the post wants device mockups / charts. See
+  designed-on-a-monitor-used-on-a-phone.html for the device pattern.
 -->
 <html lang="en">
 <head>
@@ -22,76 +28,67 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#faf7f4; --bg-2:#f3ede5;
-    --cream:#e6d9c7; --cream-deep:#d6c4a8;
-    --primary:#006940; --primary-light:#00bd74;
-    --header:#262421; --body:#4e4b66; --muted:#7a7889;
-    --line:rgba(38,36,33,0.18);
+    --bg-1:#f7f2ea; --bg-2:#efe7d8;
+    --cream:#e6d9c7;
+    --primary:#006940; --primary-l:#00bd74;
+    --header:#1f1c19; --body:#4e4b66; --muted:#8a8474;
+    --hairline:rgba(31,28,25,0.22);
+    --line-soft:rgba(31,28,25,0.10);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1200px; height: 630px; background: var(--bg); font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif; color: var(--header); overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-  .card { position: relative; width: 1200px; height: 630px; padding: 32px 56px; display: flex; flex-direction: column; background: radial-gradient(900px 700px at 85% -10%, rgba(0,105,64,0.08), transparent 60%), linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); overflow: hidden; }
-
-  .topbar { display: flex; align-items: center; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-  .topbar .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; background: rgba(0,105,64,0.08); border: 1px solid rgba(0,105,64,0.32); border-radius: 999px; color: var(--primary); font-size: 12px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; }
-  .topbar .rule { flex: 1; height: 1px; background: var(--line); }
-  .topbar .right { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 16px; color: var(--body); }
-
-  .headline { margin-top: 22px; font-family: "Playfair Display", "Times New Roman", serif; font-size: 56px; line-height: 1.04; font-weight: 600; letter-spacing: -0.02em; color: var(--header); }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--bg-1); font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif; color: var(--header); overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .card { position: relative; width: 1200px; height: 630px; padding: 24px 56px 22px; display: flex; flex-direction: column; background: radial-gradient(900px 700px at 92% 110%, rgba(0,105,64,0.10), transparent 60%), radial-gradient(700px 600px at -8% -10%, rgba(230,217,199,0.55), transparent 60%), linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%); overflow: hidden; }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.18; z-index: 1; }
+  .strip { position: relative; z-index: 3; display: flex; align-items: center; gap: 18px; }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--header); }
+  .body { position: relative; z-index: 3; flex: 1; padding-top: 20px; display: flex; flex-direction: column; min-height: 0; }
+  .headline { font-family: "Playfair Display", "Times New Roman", serif; font-size: 54px; line-height: 1.04; font-weight: 600; letter-spacing: -0.02em; color: var(--header); }
   .headline em { font-style: italic; font-weight: 500; color: var(--primary); }
-
-  .cols { margin-top: 24px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: stretch; flex: 1; }
-  .col { padding: 22px 26px; border-radius: 8px; display: flex; flex-direction: column; gap: 10px; min-height: 240px; }
-  .col.l { background: rgba(38,36,33,0.04); border: 1px solid var(--line); }
-  .col.r { background: rgba(0,105,64,0.08); border: 1px solid rgba(0,105,64,0.32); position: relative; }
-  .col.r::after { content: "✓"; position: absolute; top: 12px; right: 16px; font-family: "Roboto", sans-serif; font-weight: 900; font-size: 22px; color: var(--primary); }
-  .col .label { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .cols { margin-top: 18px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 22px; align-items: stretch; flex: 1; min-height: 0; }
+  .col { padding: 18px 26px; border-radius: 8px; display: flex; flex-direction: column; gap: 10px; min-height: 0; position: relative; }
+  .col.l { background: rgba(31,28,25,0.04); border: 1px solid var(--line-soft); }
+  .col.r { background: rgba(0,105,64,0.07); border: 1px solid rgba(0,105,64,0.30); }
+  .col.r::after { content: "✓"; position: absolute; top: 10px; right: 14px; font-weight: 900; font-size: 20px; color: var(--primary); }
+  .col .label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
   .col.r .label { color: var(--primary); }
   .col .big { font-weight: 900; font-size: 54px; line-height: 1.0; letter-spacing: -0.03em; color: var(--header); }
   .col.r .big { color: var(--primary); }
   .col .desc { margin-top: auto; font-size: 16px; line-height: 1.4; color: var(--body); }
-
-  .vs { display: flex; align-items: center; justify-content: center; font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 32px; color: var(--muted); padding: 0 6px; }
-
-  .foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; }
+  .vs { display: flex; align-items: center; justify-content: center; font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 30px; color: var(--muted); padding: 0 4px; }
+  .foot { position: relative; z-index: 3; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--hairline); display: flex; align-items: flex-end; justify-content: space-between; }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-mark { width: 32px; height: 32px; flex: none; display: block; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; }
   .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
-  .brand .name { font-size: 17px; font-weight: 700; color: var(--header); letter-spacing: -0.01em; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
   .brand .name .dot { color: var(--primary); }
   .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
-  .foot-meta { font-size: 12px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--body); }
+  .foot-meta { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--header); }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
 </style>
 </head>
 <body>
 <main class="card">
-  <div class="topbar">
-    <span class="pill">Comparison</span>
-    <span class="rule"></span>
-    <span class="right">{{ISSUE}}</span>
-  </div>
-
-  <h1 class="headline">{{HEADLINE}}</h1>
-
-  <div class="cols">
-    <div class="col l">
-      <div class="label">{{L_LABEL}}</div>
-      <div class="big">{{L_BIG}}</div>
-      <div class="desc">{{L_DESC}}</div>
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0.13  0 0 0 0 0.11  0 0 0 0 0.09  0 0 0 0.55 0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
+  <div class="strip"><span class="rule"></span><span class="issue">{{ISSUE}}</span></div>
+  <section class="body">
+    <h1 class="headline">{{HEADLINE}}</h1>
+    <div class="cols">
+      <div class="col l">
+        <div class="label">{{L_LABEL}}</div>
+        <div class="big">{{L_BIG}}</div>
+        <div class="desc">{{L_DESC}}</div>
+      </div>
+      <div class="vs">vs.</div>
+      <div class="col r">
+        <div class="label">{{R_LABEL}}</div>
+        <div class="big">{{R_BIG}}</div>
+        <div class="desc">{{R_DESC}}</div>
+      </div>
     </div>
-    <div class="vs">vs.</div>
-    <div class="col r">
-      <div class="label">{{R_LABEL}}</div>
-      <div class="big">{{R_BIG}}</div>
-      <div class="desc">{{R_DESC}}</div>
-    </div>
-  </div>
-
+  </section>
   <div class="foot">
-    <div class="brand">
-      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
-      <div class="wordmark"><span class="name">UI Compass<span class="dot">.</span></span><span class="sub">Web Designs</span></div>
-    </div>
+    <div class="brand"><img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo><div class="wordmark"><span class="name">UI Compass<span class="dot">.</span></span><span class="sub">Web Designs</span></div></div>
     <div class="foot-meta">{{FOOTER}}</div>
   </div>
 </main>

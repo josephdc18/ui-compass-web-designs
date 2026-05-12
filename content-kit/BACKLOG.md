@@ -26,8 +26,8 @@ Mark a row `[claimed]` when picked for a given week. Move to POSTED.md after pub
 - A 36KB icon PNG becomes a 2KB SVG. Now multiply that by every icon on the page. (stat-hero) [src: sources/oakharbor-how-to-optimize-website.md]
 - 60% of your visitors are on a phone. Your site was designed on a 27-inch monitor. (stat-hero) [src: sources/oakharbor-mobile-first-from-scratch.md]
 - A 6 to 7 second Wix load time vs a sub-1 second hand-coded one. Same content, different platform. (scorecard) [src: sources/testvalley-custom-coded-best-for-small-business.md]
-- Hand-coded vs page builder: the 10x load-time gap, broken down by what is actually on the wire. (stat-hero) [src: sources/oakharbor-handcoded-vs-wordpress.md]
-- A 1-second delay drops conversions about 7%. Multiply that by your monthly leads to see the real bill. (stat-hero) [src: sources/testvalley-pagespeed-insights-importance.md]
+- Hand-coded vs page builder: the 10x load-time gap, broken down by what is actually on the wire. (stat-hero) [src: sources/oakharbor-handcoded-vs-wordpress.md] [posted 2026-05-15]
+- A 1-second delay drops conversions about 7%. Multiply that by your monthly leads to see the real bill. (stat-hero) [src: sources/testvalley-pagespeed-insights-importance.md] [posted 2026-05-11]
 - Running Google Ads to a 6-second site doubles your cost per click. Quality Score, in plain English. (reasons-list) [src: sources/testvalley-google-ads-when-to-use.md]
 - Why your hosting decides your PageSpeed ceiling: edge-served vs shared, and the score gap that shows up in the audit. (scorecard) [src: sources/testvalley-pagespeed-insights-importance.md]
 - Amazon found every 100ms of latency cost 1% in sales. The DFW-sized version of why your homepage cannot afford a 1.2-second wait. (stat-hero) [src: sources/redrock-what-is-a-cdn.md]
@@ -107,7 +107,7 @@ Mark a row `[claimed]` when picked for a given week. Move to POSTED.md after pub
 - Trust signals that move the needle. Reviews, certifications, photos of the actual team.
 - The "About" page rewrite. Stop writing about yourself. Start writing about them.
 - Hand-coded gives you control over every detail: button sizes on mobile, animation duration, scroll behavior. Page builders bake those decisions in. (reasons-list) [src: sources/2025-01-09-handcoded-vs-wordpress-joe.md]
-- The seven sections every small business homepage needs, in the order they belong in. (process-steps) [src: sources/oakharbor-how-to-design-website.md]
+- The seven sections every small business homepage needs, in the order they belong in. (process-steps) [src: sources/oakharbor-how-to-design-website.md] [posted 2026-05-14]
 - White space is not empty space. The spacing rules a hand-coder uses on every section. (reasons-list) [src: sources/oakharbor-how-to-design-website.md]
 - Type-scale math for non-designers: how big your headline should be vs your body copy. (reasons-list) [src: sources/oakharbor-how-to-design-website.md]
 - Trust signals for home-service businesses: photos of your actual crew beat any stock image. (reasons-list) [src: sources/testvalley-websites-for-plumbers.md]

@@ -1,0 +1,145 @@
+<!doctype html>
+<!--
+  blog-card-illustrated.html  (1200×630)  ──  Unified shell, illustration template
+
+  Use for: posts where a stylized SVG illustration on the left supports the
+  headline/stat on the right. Examples: checklist (50 steps), browser mock
+  (concept-to-launch), code editor (4 dependencies), etc.
+
+  Tokens to fill:
+    {{ISSUE}}        — "Issue Nº XX · Month YYYY"
+    {{HEADLINE}}     — Roboto-Black/Playfair-italic hybrid. Two voices in
+                       one line: wrap the green accent word in <em>…</em>.
+                       Example: "50 <em>steps</em>." or "Make it ADA <em>compliant</em>."
+    {{SUBHEAD}}      — optional smaller line below ("One launch.", "A practical
+                       guide for business owners.")
+    {{FOOTER}}       — "Section · X min read"
+
+  The .illustration block ships with a default checklist SVG. Swap the inner
+  SVG per post. Keep the viewBox 320×400 (or similar tall-ish ratio) and
+  use --header, --primary, --cream for fills/strokes so dark-mode inversion
+  via make-dark-cards.mjs continues to read correctly.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — Illustrated</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1:#f7f2ea; --bg-2:#efe7d8;
+    --cream:#e6d9c7;
+    --primary:#006940; --primary-l:#00bd74;
+    --header:#1f1c19; --body:#4e4b66; --muted:#8a8474;
+    --hairline:rgba(31,28,25,0.22);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--bg-1); font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif; color: var(--header); overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .card { position: relative; width: 1200px; height: 630px; padding: 24px 56px 22px; display: flex; flex-direction: column; background: radial-gradient(900px 700px at 92% 110%, rgba(0,105,64,0.10), transparent 60%), radial-gradient(700px 600px at -8% -10%, rgba(230,217,199,0.55), transparent 60%), linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%); overflow: hidden; }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.18; z-index: 1; }
+  .strip { position: relative; z-index: 3; display: flex; align-items: center; gap: 18px; }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--header); }
+  .body { position: relative; z-index: 3; flex: 1; padding-top: 8px; display: grid; grid-template-columns: 380px 1fr; gap: 56px; align-items: center; min-height: 0; }
+
+  /* Illustration panel — sits behind a soft concentric ring decoration */
+  .illustration { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .illustration::before { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 380px; height: 380px; background: radial-gradient(closest-side, rgba(0,105,64,0.08), transparent 70%); pointer-events: none; z-index: 0; }
+  .illustration .rings { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 360px; height: 360px; pointer-events: none; z-index: 0; }
+  .illustration .art { position: relative; z-index: 1; max-width: 280px; max-height: 380px; }
+  .illustration .art svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 12px 28px rgba(31,28,25,0.10)); }
+
+  /* Headline area */
+  .stage { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .headline { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 132px; line-height: 0.94; letter-spacing: -0.035em; color: var(--header); }
+  .headline em { font-style: normal; font-weight: 900; color: var(--primary); }
+  .headline.size-m { font-size: 108px; }
+  .headline.size-s { font-size: 88px; }
+  .headline.size-xs { font-size: 72px; }
+  .subhead { margin-top: 8px; font-size: 32px; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: var(--header); }
+
+  /* Unified footer */
+  .foot { position: relative; z-index: 3; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--hairline); display: flex; align-items: flex-end; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+  .foot-meta { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--header); }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
+</style>
+</head>
+<body>
+<main class="card">
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0.13  0 0 0 0 0.11  0 0 0 0 0.09  0 0 0 0.55 0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
+
+  <div class="strip"><span class="rule"></span><span class="issue">{{ISSUE}}</span></div>
+
+  <section class="body">
+
+    <div class="illustration">
+      <!-- Soft concentric rings behind the illustration -->
+      <svg class="rings" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="180" cy="180" r="160" stroke="#006940" stroke-width="1.2" opacity="0.30"/>
+        <circle cx="180" cy="180" r="120" stroke="#006940" stroke-width="1.2" opacity="0.22"/>
+        <circle cx="180" cy="180" r="80"  stroke="#006940" stroke-width="1.2" opacity="0.18"/>
+        <circle cx="338" cy="170" r="7" fill="#006940"/>
+        <circle cx="58"  cy="290" r="7" fill="#006940"/>
+        <circle cx="250" cy="320" r="5" fill="#00bd74"/>
+      </svg>
+
+      <!-- Default illustration: a checklist paper. Swap per post. -->
+      <div class="art">
+        <svg viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Paper -->
+          <rect x="20" y="20" width="240" height="320" rx="6" fill="#faf7f4" stroke="#1f1c19" stroke-width="3"/>
+          <!-- Rows: checkbox + line. First three filled green, rest empty. -->
+          <g>
+            <rect x="40"  y="58"  width="22" height="22" rx="3" fill="#006940"/>
+            <line x1="74" y1="69" x2="240" y2="69" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+          <g>
+            <rect x="40"  y="98"  width="22" height="22" rx="3" fill="#006940"/>
+            <line x1="74" y1="109" x2="240" y2="109" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+          <g>
+            <rect x="40"  y="138" width="22" height="22" rx="3" fill="#006940"/>
+            <line x1="74" y1="149" x2="220" y2="149" stroke="#006940" stroke-width="4"/>
+          </g>
+          <g>
+            <rect x="40"  y="178" width="22" height="22" rx="3" fill="none" stroke="#1f1c19" stroke-width="3"/>
+            <line x1="74" y1="189" x2="240" y2="189" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+          <g>
+            <rect x="40"  y="218" width="22" height="22" rx="3" fill="none" stroke="#1f1c19" stroke-width="3"/>
+            <line x1="74" y1="229" x2="240" y2="229" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+          <g>
+            <rect x="40"  y="258" width="22" height="22" rx="3" fill="none" stroke="#1f1c19" stroke-width="3"/>
+            <line x1="74" y1="269" x2="240" y2="269" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+          <g>
+            <rect x="40"  y="298" width="22" height="22" rx="3" fill="none" stroke="#1f1c19" stroke-width="3"/>
+            <line x1="74" y1="309" x2="240" y2="309" stroke="#1f1c19" stroke-width="3"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="stage">
+      <h1 class="headline">{{HEADLINE}}</h1>
+      <p class="subhead">{{SUBHEAD}}</p>
+    </div>
+
+  </section>
+
+  <div class="foot">
+    <div class="brand"><img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo><div class="wordmark"><span class="name">UI Compass<span class="dot">.</span></span><span class="sub">Web Designs</span></div></div>
+    <div class="foot-meta">{{FOOTER}}</div>
+  </div>
+</main>
+</body>
+</html>

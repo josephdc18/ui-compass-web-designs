@@ -2,14 +2,14 @@
 interior: true
 layout: base.html
 locale: 'es'
-tagTitle: "Locations"
-metaTitle: "Locations | Untitled"
+tagTitle: "Ubicaciones"
+metaTitle: "Ubicaciones | UI Compass"
 description: ""
 preloadImg: "/assets/images/650a93edffde.jpg"
 preloadCSS: "/css/locations.css"
 permalink: 'es/locations/'
 eleventyNavigation:
-  key: "Locations"
+  key: "Ubicaciones"
   order: 1000
 ---
 {% set cityLinks = [
@@ -30,8 +30,8 @@ eleventyNavigation:
 ] %}
 <div id="banner-1106-8">
   <div class="cs-container">
-    <h1 class="cs-int-title">Where We Work</h1>
-    <div class="cs-breadcrumbs"><a href="/" class="cs-link">Home</a> <a href="/locations/" class="cs-link cs-active">Locations</a></div>
+    <h1 class="cs-int-title">Dónde Trabajamos</h1>
+    <div class="cs-breadcrumbs"><a href="/es/" class="cs-link">Inicio</a> <a href="/es/locations/" class="cs-link cs-active">Ubicaciones</a></div>
   </div>
   <picture class="cs-background">
     <source media="(max-width: 600px)" srcset="/assets/images/c8d9a75a4014.avif" type="image/avif">
@@ -42,17 +42,17 @@ eleventyNavigation:
     <source media="(max-width: 1024px)" srcset="/assets/images/88ed390a60a7.jpg" type="image/jpeg">
     <source media="(min-width: 1024px)" srcset="/assets/images/c92c46d7fe76.avif" type="image/avif">
     <source media="(min-width: 1024px)" srcset="/assets/images/b74af3ed403e.webp" type="image/webp">
-    <source media="(min-width: 1024px)" srcset="/assets/images/650a93edffde.jpg" type="image/jpeg"><img alt="An array of laptops showing web development code" aria-hidden="true" decoding="async" height="474" src="/assets/images/650a93edffde.jpg" width="1920" fetchpriority="high" loading="eager">
+    <source media="(min-width: 1024px)" srcset="/assets/images/650a93edffde.jpg" type="image/jpeg"><img alt="Una serie de laptops mostrando código de desarrollo web" aria-hidden="true" decoding="async" height="474" src="/assets/images/650a93edffde.jpg" width="1920" fetchpriority="high" loading="eager">
   </picture>
 </div>
 
 <section id="content-page-1399-2">
   <div class="cs-container cs-container-listing">
     <div class="cs-content">
-      <h2 class="cs-title">I work 100% remote from home, allowing me to help businesses across various towns and cities in the US:</h2>
+      <h2 class="cs-title">Trabajo 100% de forma remota desde casa, lo que me permite ayudar a negocios en diversas ciudades y pueblos de Estados Unidos:</h2>
       <ul class="cs-ul-columns">
         {% for city in cityLinks %}
-        <li><a href="/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/">Web Design in {{ city.name }}</a></li>
+        <li><a href="/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/">Diseño Web en {{ city.name }}</a></li>
         {% endfor %}
       </ul>
     </div>

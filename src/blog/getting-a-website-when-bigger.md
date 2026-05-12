@@ -13,7 +13,7 @@ readMins: 5
 topper: "Strategy"
 image: /assets/images/getting-a-website-when-bigger-card.png
 imageAlt: A small seedling on the left, a tree on the right, with an arrow showing growth
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Around **half of prospects who Google a business and find nothing will not pursue it further**. The website is the vetting step. Without it, the customer never gets to "should I call."'
   - 'Growth does not precede the website. **The website precedes the growth.** It is the cause, not the result.'

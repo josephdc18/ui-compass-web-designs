@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/trust-signals-that-move-the-needle-card.png
 imageAlt: A small business owner reviewing a wall of customer testimonials with real photographs and named attributions
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A trust signal earns a lead only when it is **specific, current, and verifiable**. Generic, vague, or dateless trust signals quietly cost you leads.'
   - 'Four signals that move the needle: **real photos of your team and work**, **testimonials with full names and businesses**, **dated reviews** (the recency, not just the rating), and **certifications that match the service**.'

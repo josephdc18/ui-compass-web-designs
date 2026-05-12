@@ -13,7 +13,7 @@ readMins: 6
 topper: "Performance"
 image: /assets/images/four-dependencies-to-delete-card.png
 imageAlt: A browser network panel showing four large dependency files dimmed and crossed out
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Most small business sites ship roughly **200KB of dependencies they almost never use**: jQuery, Font Awesome, a Google Fonts link tag, and at least one blocking JavaScript file.'
   - 'Each one has a **lighter replacement**: vanilla JavaScript for jQuery, individual SVG icons for Font Awesome, self-hosted fonts for Google Fonts, and `defer`/`async` for blocking JS.'

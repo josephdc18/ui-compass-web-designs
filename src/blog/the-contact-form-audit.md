@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/the-contact-form-audit-card.png
 imageAlt: A small business owner staring at an empty email inbox while a website on a phone shows a contact form submission confirmation
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Roughly **1 in 4 small business contact forms** silently fails to deliver to the owner''s inbox. The form says "submitted." The lead never arrives.'
   - 'Four common failure modes: **misconfigured mail records** (SPF/DKIM/DMARC), **spam-filter quarantine**, **plugin or builder bug**, and **honeypot/reCAPTCHA over-filtering**.'

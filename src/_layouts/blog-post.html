@@ -52,30 +52,11 @@ eleventyComputed:
 </script>
 {% endif %}
 
-<!-- Interior banner — matches the standard #banner-1106-XX pattern used by /pricing/, /web-design/, etc. -->
-<div id="banner-1106-14">
-  <div class="cs-container">
-    <h1 class="cs-int-title">{{ blogTitle }}</h1>
-    <div class="cs-breadcrumbs">
-      <a href="/" class="cs-link">Home</a>
-      <a href="/blog/" class="cs-link">Blog</a>
-      <a href="{{ page.url }}" class="cs-link cs-active">{{ blogTitle }}</a>
-    </div>
-  </div>
-  <button type="button" class="banner-print-btn" data-press onclick="window.print()" aria-label="Print this article">
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><rect x="7" y="14" width="10" height="6"/></svg>
-    <span>Print Guide</span>
-  </button>
-</div>
-
-<!-- Article actions bar (Focus / Listen / Save / Share + reading time) -->
-{% include 'article-actions.html' %}
-
 <!-- Mobile-only TOC chip rail (h2s only). Hidden on >=64em, where the
      sticky sidebar TOC takes over. Populated by toc.js. -->
 <nav class="toc-mobile" aria-label="Table of contents (mobile)"></nav>
 
-<!-- Main blog content with TOC sidebar (nested h2 + h3, full-width on mobile, sticky on desktop) -->
+<!-- Two-column layout: TOC sidebar + article. No banner, no featured-posts column. -->
 <div class="blog-container main-content-wrapper blog-with-toc">
   <aside class="toc-sidebar" aria-label="Table of contents">
     <div class="cs-featured-group">
@@ -86,51 +67,138 @@ eleventyComputed:
 
   <div class="main-content">
     <article class="blog-article">
+      {% set isEs = locale == 'es' %}
+
+      <nav class="post-crumbs" aria-label="Breadcrumb">
+        <a href="{% if isEs %}/es/{% else %}/{% endif %}">{% if isEs %}Inicio{% else %}Home{% endif %}</a>
+        <span class="post-crumbs-sep" aria-hidden="true">/</span>
+        <a href="{% if isEs %}/es/blog/{% else %}/blog/{% endif %}">Blog</a>
+      </nav>
+
       {% if image %}
-        {% image image, imageAlt or '', 'blog-mainImage', 'lazy', '(max-width: 900px) 100vw, 795px' %}
+        {% image image, imageAlt or '', 'blog-mainImage', 'eager', '(max-width: 900px) 100vw, 900px' %}
       {% endif %}
 
-      <div class="article-group">
-        <!-- H1 lives in the banner above. Author + dates live here. -->
+      <header class="post-header">
+        {% if topper %}
+        <span class="post-topper">{{ topper }}</span>
+        {% endif %}
+
+        <h1 class="post-title">{{ blogTitle }}</h1>
+
         <div class="post-meta">
-          {% if authorImage %}
-          <a href="{{ authorUrl | default('/about/') }}" class="post-meta-avatar" aria-label="About {{ author }}">
-            <img src="{{ authorImage }}" alt="{{ author }}" width="44" height="44" loading="lazy" decoding="async">
-          </a>
-          {% endif %}
-          <div class="post-meta-info">
-            <div class="post-meta-line">
-              {% if authorUrl %}
-              <a href="{{ authorUrl }}" class="post-meta-author">{{ author }}</a>
-              {% else %}
-              <span class="post-meta-author post-meta-author--plain">{{ author }}</span>
-              {% endif %}
-              <span class="post-meta-dot" aria-hidden="true"></span>
+          <div class="post-meta-left">
+            {% if authorImage %}
+            <a href="{{ authorUrl | default('/about/') }}" class="post-meta-avatar" aria-label="About {{ author }}">
+              <img src="{{ authorImage }}" alt="{{ author }}" width="44" height="44" loading="lazy" decoding="async">
+            </a>
+            {% endif %}
+            <div class="post-meta-info">
+              <div class="post-meta-line">
+                {% if authorUrl %}
+                <a href="{{ authorUrl }}" class="post-meta-author">{{ author }}</a>
+                {% else %}
+                <span class="post-meta-author post-meta-author--plain">{{ author }}</span>
+                {% endif %}
+                <span class="post-meta-dot" aria-hidden="true"></span>
+                {% if updated %}
+                <span class="post-meta-date">Updated on {{ updated | postDate }}</span>
+                {% else %}
+                <span class="post-meta-date">{{ date | postDate }}</span>
+                {% endif %}
+              </div>
               {% if updated %}
-              <span class="post-meta-date">Updated on {{ updated | postDate }}</span>
-              {% else %}
-              <span class="post-meta-date">{{ date | postDate }}</span>
+              <div class="post-meta-original">Originally published in {{ date | monthYear }}.</div>
               {% endif %}
             </div>
-            {% if updated %}
-            <div class="post-meta-original">Originally published in {{ date | monthYear }}.</div>
-            {% endif %}
+          </div>
+
+          <div class="post-share share-wrapper">
+            <span class="post-share-label">Share</span>
+            <button type="button" class="post-share-btn" data-press data-share="copy" aria-label="Copy link" title="Copy link">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            </button>
+            <button type="button" class="post-share-btn" data-press data-share="email" aria-label="Email this article" title="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>
+            </button>
+            <button type="button" class="post-share-btn" id="shareBtn" data-press
+                    aria-label="More sharing options" title="More"
+                    aria-haspopup="menu" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </button>
+            <button type="button" class="post-share-btn" data-press data-share="print" aria-label="Print this article" title="Print">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><rect x="7" y="14" width="10" height="6"/></svg>
+            </button>
+
+            <!-- Save lives at the top of the dropdown; native + socials follow below. -->
+            <div class="share-dropdown" id="shareDropdown" role="menu">
+              <button type="button" class="share-option" id="bookmarkBtn" role="menuitem" data-press
+                      aria-label="Save for later" aria-pressed="false">
+                <svg class="bookmark-empty" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <svg class="bookmark-filled" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor" style="display:none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="action-label">Save for later</span>
+              </button>
+              <hr class="share-divider">
+              <button type="button" class="share-option" id="nativeShareBtn" role="menuitem" data-share="native">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="M6 9l6-6 6 6"/><rect x="3" y="17" width="18" height="4" rx="1"/></svg>
+                Share...
+              </button>
+              <button type="button" class="share-option" role="menuitem" data-share="twitter">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2H21.5l-7.51 8.587L23 22h-7.064l-5.524-7.226L4.07 22H.81l8.034-9.184L1 2h7.244l4.99 6.6L18.244 2zm-1.24 18h1.794L7.116 4H5.21l11.794 16z"/></svg>
+                X / Twitter
+              </button>
+              <button type="button" class="share-option" role="menuitem" data-share="facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.563 9.876v-6.99h-2.54V12h2.54V9.797c0-2.506 1.493-3.89 3.776-3.89 1.094 0 2.238.196 2.238.196v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.886h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+                Facebook
+              </button>
+              <button type="button" class="share-option" role="menuitem" data-share="linkedin">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M20.45 20.45h-3.555v-5.57c0-1.328-.027-3.04-1.852-3.04-1.853 0-2.137 1.448-2.137 2.944v5.667H9.35V9h3.414v1.561h.048c.476-.9 1.637-1.852 3.37-1.852 3.604 0 4.27 2.372 4.27 5.456v6.285zM5.337 7.433a2.062 2.062 0 0 1-2.062-2.063 2.062 2.062 0 1 1 2.062 2.063zm1.78 13.017H3.555V9h3.561v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.732v20.536C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.268V1.732C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </button>
+              <button type="button" class="share-option" role="menuitem" data-share="reddit">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.67 13.05c.027.18.04.36.04.547 0 2.79-3.247 5.05-7.25 5.05s-7.25-2.26-7.25-5.05c0-.187.013-.367.04-.547a1.85 1.85 0 1 1 2.05-3.013c1.27-.85 2.93-1.39 4.77-1.45l.91-4.27a.4.4 0 0 1 .47-.31l2.97.63a1.3 1.3 0 1 1-.13.6l-2.66-.57-.81 3.83c1.81.07 3.46.61 4.71 1.45a1.85 1.85 0 1 1 2.04 3.04zm-10.27.94c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm6.86 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm-3.4 2.34a4.43 4.43 0 0 1-2.97-1.05.4.4 0 0 1 .53-.6 3.65 3.65 0 0 0 4.88 0 .4.4 0 0 1 .53.6 4.43 4.43 0 0 1-2.97 1.05z"/></svg>
+                Reddit
+              </button>
+            </div>
           </div>
         </div>
+      </header>
+
+      <!-- Reading time + Focus / Listen pills on one row. -->
+      <div class="post-quick-actions">
+        <span class="post-readtime">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span id="readingTimeText">3 min read</span>
+        </span>
+        <button type="button" class="post-quick-btn" id="focusModeBtn" data-press
+                aria-label="Toggle focus mode" title="Focus mode">
+          <svg class="focus-icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="focus-icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10 10 0 0 1 12 19C5 19 1.5 12 1.5 12a17 17 0 0 1 4.06-4.94"/><path d="M9.9 4.24A10 10 0 0 1 12 4c7 0 10.5 7 10.5 7a17 17 0 0 1-3.07 4.06"/><path d="M9.88 9.88A3 3 0 0 0 14.12 14.12"/><path d="M1 1l22 22"/></svg>
+          <span data-focus-label>Focus</span>
+        </button>
+        <button type="button" class="post-quick-btn" id="listenBtn" data-press
+                aria-label="Listen to article" title="Listen">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 14v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2z"/><path d="M3 14v3a2 2 0 0 0 2 2h1v-7H5a2 2 0 0 0-2 2z"/></svg>
+          <span data-listen-label>Listen</span>
+        </button>
       </div>
+
+      <!-- Floating Exit Focus button (position: fixed; only visible in focus mode). -->
+      <button type="button" class="focus-exit-btn" data-focus-exit aria-label="Exit focus mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        Exit focus
+      </button>
+
+      {% if summary %}
+      <p class="post-summary">{{ summary | mdInline | safe }}</p>
+      {% endif %}
 
       {% if tldr %}
       <aside class="tldr-box" aria-label="{{ 'blog.tldr_aria' | t(locale) }}">
-        <div class="tldr-header">
-          <span class="tldr-badge">TL;DR</span>
-          <span class="tldr-title">{{ tldrTitle | default('blog.tldr_default_title' | t(locale)) }}</span>
-        </div>
+        <h2 class="tldr-title">{{ tldrTitle | default('blog.tldr_default_title' | t(locale)) }}</h2>
         <ul class="tldr-points">
           {% for point in tldr %}
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
-            <span>{{ point | mdInline | safe }}</span>
-          </li>
+          <li><span>{{ point | mdInline | safe }}</span></li>
           {% endfor %}
         </ul>
       </aside>
@@ -180,10 +248,42 @@ eleventyComputed:
       </script>
       {% endif %}
 
+      {#- Related Guides: inline at the bottom of the article. Each entry in
+          `related` frontmatter is { url, title }; we look the url up in
+          collections.post so the card can carry image/topper/date from the
+          actual post. Falls back to a minimal card on no match. -#}
+      {%- if related and related.length > 0 -%}
+      <section class="post-related" aria-label="Related guides">
+        <header class="post-related-header">
+          <h2>Related guides</h2>
+        </header>
+        <div class="post-related-grid">
+          {%- for link in related -%}
+            {%- set match = null -%}
+            {%- for post in collections.post -%}
+              {%- if post.url == link.url -%}{%- set match = post -%}{%- endif -%}
+            {%- endfor -%}
+            <a class="post-related-card" href="{{ link.url }}">
+              {% if match and match.data.image %}
+                {% image match.data.image, match.data.imageAlt or match.data.blogTitle, 'post-related-image', 'lazy', '(max-width: 700px) 50vw, 320px' %}
+              {% endif %}
+              <div class="post-related-body">
+                {% if match and match.data.topper %}
+                <span class="post-related-topper">{{ match.data.topper }}</span>
+                {% endif %}
+                <h3 class="post-related-title">{{ link.title | default(match.data.blogTitle) }}</h3>
+                {% if match %}
+                <span class="post-related-date">{{ match.date | postDate }}</span>
+                {% endif %}
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </section>
+      {%- endif -%}
+
     </article>
   </div>
-
-  {% include 'featured-post.html' %}
 </div>
 
 <!-- Blog reading-experience scripts. All deferred. listen.js loads on demand.

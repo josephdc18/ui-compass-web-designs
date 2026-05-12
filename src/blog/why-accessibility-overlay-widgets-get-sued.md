@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/why-accessibility-overlay-widgets-get-sued-card.png
 imageAlt: A laptop screen with an overlay widget icon on the corner of a website, crossed out with a red X
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Overlay widgets (AccessiBe, UserWay, EqualWeb, accessiBe) are **JavaScript that tries to "fix" your accessibility problems at runtime**. They do not work, and they do not satisfy the law.'
   - 'The **National Federation of the Blind has issued a formal statement against overlay widgets** since 2021. Businesses that install them have still been sued, in some cases citing the overlay itself as evidence of intent without follow-through.'

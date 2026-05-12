@@ -13,7 +13,7 @@ readMins: 14
 topper: "SEO"
 image: /assets/images/the-bilingual-maturity-ladder-card.png
 imageAlt: A bilingual web designer reviewing English and Spanish layouts side by side
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A mature bilingual site isn''t a translated one — it''s **localized**, **operationalized**, and **measured** separately per language.'
   - 'Four failure modes most sites hit: the **Two-Site Tax**, the **Toggle Trap**, the **Cultural Mismatch**, and the **Orphaned Market**.'

@@ -13,7 +13,7 @@ readMins: 7
 topper: "SEO"
 image: /assets/images/a-page-per-suburb-for-trades-card.png
 imageAlt: A spreadsheet matrix with service categories down the left and DFW suburbs across the top, with check marks in cells that have demand
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A trades site with **6 pages** does not rank for "plumber in Plano." A site with **60 pages** does — one page per service, per suburb, per real customer query.'
   - 'Build a **service-by-location matrix**: services down the rows, suburbs across the columns. Every cell with real demand becomes its own URL with its own H1.'

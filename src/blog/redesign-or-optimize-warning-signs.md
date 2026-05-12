@@ -15,7 +15,14 @@ topper: "Strategy"
 hero: true
 image: /assets/images/redesign-or-optimize-warning-signs-card.png
 imageAlt: A small business owner reviewing a printed website audit at a desk
-tldrTitle: What you need to know
+summary: >-
+  Half of "I need a redesign" calls are actually optimization jobs — and the
+  other half should have been rebuilt eighteen months ago. The difference is
+  not taste; it is how many of seven warning signs your site is currently
+  showing. This guide walks through the binary checks that decide whether to
+  reach for a [punch list](/unlimited-edits-and-support/), a targeted redesign,
+  or a full rebuild — plus the budget line items nobody quotes you on.
+tldrTitle: Key Takeaways
 tldr:
   - 'Most "I need a redesign" calls are actually optimization jobs. The fix is a **diagnostic**, not a credit card.'
   - 'Count the seven binary warning signs. **0–1 = optimize**, **2–3 = targeted redesign**, **4+ = rebuild from scratch**.'

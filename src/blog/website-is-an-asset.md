@@ -13,7 +13,7 @@ readMins: 5
 topper: "Strategy"
 image: /assets/images/website-is-an-asset-card.png
 imageAlt: A house with a brick foundation labeled "website" and stacks of papers labeled "tax credit"
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Website costs are **fully tax-deductible** as ordinary business expenses. The $1,800 a year you spend on a managed site reduces your taxable income dollar-for-dollar.'
   - 'Accessibility-related web spend qualifies for **IRS Form 8826** (Disabled Access Credit), covering up to **50% of eligible costs up to $5,000/yr**. <a href="/blog/ada-lawsuits-and-form-8826/">This is real, used, and underclaimed.</a>'

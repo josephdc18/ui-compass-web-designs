@@ -13,7 +13,7 @@ readMins: 7
 topper: "Strategy"
 image: /assets/images/hosting-decides-your-performance-ceiling-card.png
 imageAlt: A world map showing edge nodes versus a single origin server, with arrows representing visitor requests from different cities
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Hosting decides your **ceiling**. Site code decides your **floor**. You need both right to break 90 on mobile PageSpeed.'
   - 'A shared host serving from a single data center to a phone in another state can take **1.2 seconds just for TTFB**. An edge-served network delivers the first byte in **30 milliseconds**. That gap alone is the difference between a 60 and a 95.'

@@ -13,7 +13,7 @@ readMins: 6
 topper: "Performance"
 image: /assets/images/a-performance-budget-is-a-json-file-card.png
 imageAlt: A terminal window showing a build process failing with a performance budget violation, alongside a JSON config file
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Most sites that ship at **95 PageSpeed** drift back to **70 within six months**. Plugins update, images get uploaded oversized, third-party scripts get added. The site rots quietly.'
   - 'A **performance budget** is a small JSON file your build process reads. If any deploy exceeds the thresholds (image weight, script size, LCP, CLS), **the build fails before reaching production**.'

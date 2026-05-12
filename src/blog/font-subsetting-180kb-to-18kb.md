@@ -13,7 +13,7 @@ readMins: 6
 topper: "Performance"
 image: /assets/images/font-subsetting-180kb-to-18kb-card.png
 imageAlt: A side-by-side weight comparison showing a full 180KB font family on one side and an 18KB subset on the other
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A typical small business site ships **180KB of font data** when it actually uses **18KB worth of characters**. Subsetting and pruning unused weights closes the gap.'
   - 'Four steps cut fonts to size: **switch to WOFF2** (40% smaller than WOFF), **subset to Latin-only** (drops Cyrillic, Greek, Vietnamese ranges most US sites do not use), **limit to 3 to 4 weights** (regular, bold, italic, one optional), and **self-host** instead of pulling from the Google Fonts CDN.'

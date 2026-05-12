@@ -13,7 +13,7 @@ readMins: 5
 topper: "Performance"
 image: /assets/images/the-1-second-tax-card.png
 imageAlt: A speedometer overlaid on a laptop displaying a website with a slow loading indicator
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A one-second delay in load time costs roughly **7% of your conversions**. On a site that gets 30 leads a month, that is about **2 leads lost per second of delay**, every month.'
   - 'PageSpeed score buckets: **0–49 fails, 50–89 fixable, 90–100 acceptable**. Most builder sites land in the 50s on mobile, where most of your traffic actually is.'

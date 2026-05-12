@@ -13,7 +13,7 @@ readMins: 5
 topper: "SEO"
 image: /assets/images/faq-schema-3x-screen-space-card.png
 imageAlt: A search results page showing an expanded FAQ schema result taking three times the vertical space of the result above it
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Schema does not change **where** you rank. It changes **how your listing looks** once you are there. The win is click-through rate, not ranking.'
   - '**FAQ schema** turns one blue link into a stacked, click-to-expand result that occupies roughly **3x the vertical space** of a standard result. Same position, more screen.'

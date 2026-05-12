@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/white-space-is-not-empty-space-card.png
 imageAlt: A clean editorial layout with generous margins and a hand pointing to white space between paragraphs
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Most sites that read as **dated** or **cluttered** have a spacing problem, not a color problem. The fix is rarely a redesign. It is a margin, padding, and line-height pass.'
   - 'Four spaces matter: **section padding** (50px mobile / 75–100px desktop), **line-height** (1.4–1.5 for body), **paragraph spacing** (1em between blocks), and **button padding** (vertical 0.75em, horizontal 1.5em).'

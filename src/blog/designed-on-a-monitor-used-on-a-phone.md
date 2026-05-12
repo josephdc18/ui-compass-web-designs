@@ -13,7 +13,7 @@ readMins: 5
 topper: "Performance"
 image: /assets/images/designed-on-a-monitor-used-on-a-phone-card.png
 imageAlt: A 27-inch monitor next to a small smartphone showing the same website rendered at very different sizes
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Roughly **60% of small business traffic is on mobile**, but most builder sites are still designed at 27-inch monitor size and "shrunk" for phones.'
   - '**Mobile-first** means writing the 320-pixel layout first and adding desktop on top. The opposite (desktop-first with `max-width` queries) is what most builders ship and what most mobile bugs come from.'

@@ -76,8 +76,8 @@
     "go_to_top": "Ir arriba"
   },
   "blog": {
-    "tldr_default_title": "Lo esencial",
-    "tldr_aria": "TL;DR \u2014 lo esencial",
+    "tldr_default_title": "Conclusiones clave",
+    "tldr_aria": "Conclusiones clave",
     "faq_heading": "Preguntas frecuentes",
     "related_heading": "Gu\u00edas relacionadas"
   }

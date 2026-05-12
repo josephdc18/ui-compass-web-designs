@@ -68,7 +68,19 @@
 <--- -------------------------- -*/
 @media only screen and (min-width: 0rem) {
   .blog-container {
-    padding: clamp(60px, 7vw, 100px) 0;
+    /* Top padding clears the fixed nav (top-bar + main-bar ≈ 9rem expanded)
+       with a comfortable gap below it; bottom keeps prior breathing room. */
+    padding: clamp(170px, 13vw, 210px) 0 clamp(60px, 7vw, 100px);
+  }
+  /* Single-post wrapper matches the pricing page's section layout: full
+     viewport width, 1rem outer padding, capped at 80rem. Overrides the
+     base .blog-container { width: 94%; max-width: 70em; } rule above. */
+  .blog-container.blog-with-toc {
+    width: 100%;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
   }
   .main-content-wrapper {
     display: flex;
@@ -194,12 +206,16 @@
   }
   .blog-article .blog-mainImage {
     width: 100%;
-    height: clamp(200px, 30vw, 400px);
+    height: clamp(220px, 38vw, 480px);
     position: relative;
     display: block;
-    border-radius: 0.5em;
+    border-radius: 0.75em;
     overflow: hidden;
-    margin-bottom: 3.125em;
+    margin-bottom: 2em;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12), 0 4px 10px rgba(15, 23, 42, 0.06);
+  }
+  body.dark-mode .blog-article .blog-mainImage {
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.35);
   }
   .blog-article .blog-mainImage img {
     position: absolute;
@@ -210,9 +226,8 @@
     object-fit: cover;
   }
   .blog-article #blog-content {
-    padding-top: 1.5625em;
-    margin-top: 1em;
-    border-top: 1px solid #ebebeb;
+    padding-top: 0;
+    margin-top: 1.5em;
   }
   .blog-article #blog-content h2 {
     font-size: 1.75rem;
@@ -440,7 +455,7 @@
   }
   .blog-with-toc {
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr) 260px;
+    grid-template-columns: 220px minmax(0, 1fr);
     gap: 1.5rem;
     align-items: start;
   }
@@ -448,26 +463,16 @@
     order: 0;
     min-width: 0;
   }
-  .blog-with-toc .blog-sidebar {
-    order: 1;
-  }
-  /* Three-column blog posts use most of the viewport so the center column
-     dominates. Outside posts (listing page, no .blog-with-toc), the narrower
-     70em cap from above still applies. */
-  .blog-container.blog-with-toc {
-    max-width: 100rem;
-  }
+  /* No max-width bump here — the base rule in the 0rem block caps at 80rem
+     to match the pricing/listing page section width. */
 }
 @media only screen and (min-width: 81.25rem) {
   .toc-sidebar {
     width: 240px;
   }
   .blog-with-toc {
-    grid-template-columns: 240px minmax(0, 1fr) 300px;
+    grid-template-columns: 240px minmax(0, 1fr);
     gap: 2rem;
-  }
-  .blog-container.blog-with-toc {
-    max-width: 110rem;
   }
 }
 @media only screen and (min-width: 100rem) {
@@ -475,26 +480,21 @@
     width: 260px;
   }
   .blog-with-toc {
-    grid-template-columns: 260px minmax(0, 1fr) 340px;
+    grid-template-columns: 260px minmax(0, 1fr);
     gap: 2.5rem;
-  }
-  /* At 100em+ stop capping the container — let .blog-container's width:94% take over
-     so the layout actually fills ultrawide screens. */
-  .blog-container.blog-with-toc {
-    max-width: none;
   }
 }
 @media only screen and (min-width: 130rem) {
   .toc-sidebar { width: 280px; }
   .blog-with-toc {
-    grid-template-columns: 280px minmax(0, 1fr) 380px;
+    grid-template-columns: 280px minmax(0, 1fr);
     gap: 3rem;
   }
 }
 @media only screen and (min-width: 160rem) {
   .toc-sidebar { width: 320px; }
   .blog-with-toc {
-    grid-template-columns: 320px minmax(0, 1fr) 440px;
+    grid-template-columns: 320px minmax(0, 1fr);
     gap: 3.5rem;
   }
 }
@@ -590,9 +590,7 @@
    in blog-extras.css.
    ===================================================================== */
 .blog-article,
-.article-actions,
 .tldr-box,
-.banner-print-btn,
 .blog-sidebar {
   --be-primary:        var(--primary, #006940);
   --be-primary-soft:   rgba(0, 105, 64, 0.08);
@@ -618,7 +616,6 @@
 }
 
 body.dark-mode .blog-article,
-body.dark-mode .article-actions,
 body.dark-mode .tldr-box,
 body.dark-mode .blog-sidebar {
   --be-bg:             var(--medium, #1f1f1f);
@@ -633,102 +630,84 @@ body.dark-mode .blog-sidebar {
 }
 
 /* ---------------------------------------------------------------------
-   Blog post banner fallback + Print Guide button
-   The shared #banner-1106-14 expects a .cs-background <picture>. Posts
-   without an `image` frontmatter get a flat dark gradient so the white
-   headline stays readable. Same approach as the checklist banner.
+   Inline article header — sits BELOW the hero image. The breadcrumb is
+   pulled out of this block so it can lead the article above the image;
+   the header itself holds the topper, H1, and the author/share meta row.
    --------------------------------------------------------------------- */
-#banner-1106-14:not(:has(.cs-background)) {
-  background: linear-gradient(135deg, #1d1b25 0%, #262421 60%, #0e3b25 100%);
+.post-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0 0 1.5rem;
 }
-body.dark-mode #banner-1106-14:not(:has(.cs-background)) {
-  background: linear-gradient(135deg, #0a0a0c 0%, #1a1a1a 60%, #003d23 100%);
-}
-
-/* On blog post pages, override the standard interior banner so the hero
-   takes up much less vertical space than other interior pages.
-   - Vertical padding is collapsed to a small clamped top + tight bottom.
-     padding-top must still clear the fixed nav (~120-150px) so the H1 isn't
-     hidden behind it on first load.
-   - Horizontal padding matches .blog-container's gutter (3vw) so the banner
-     content's left/right edges align with the post grid below.
-   The padding-top is exposed as `--blog-banner-pt` so the absolutely-
-   positioned Print Guide button can align its top edge with the H1 top. */
-body:has(.blog-with-toc) {
-  --blog-banner-pt: clamp(10rem, 10vw, 12rem);
-}
-body:has(.blog-with-toc) #banner-1106-14 {
-  padding: var(--blog-banner-pt) var(--blog-side-gutter) 3rem;
-}
-body:has(.blog-with-toc) #banner-1106-14 .cs-container {
-  width: 100%;
-  max-width: none;
-}
-
-/* Print Guide button anchored to the top-right of the blog post banner.
-   `top` matches the banner's padding-top so the button's top edge sits on
-   the same line as the H1's top. `right` matches the blog page gutter so
-   the button's right edge aligns with the featured-post sidebar's right
-   edge below. Fallback for pages where --blog-banner-pt isn't set. */
-.banner-print-btn {
-  position: absolute;
-  top: var(--blog-banner-pt, 8rem);
-  right: var(--blog-side-gutter);
-  z-index: 10;
-  display: inline-flex;
+.post-crumbs {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  /* Smallest-phone defaults: hide the label, tighter padding, smaller font.
-     Wider screens upgrade in the breakpoints below. */
-  padding: 0.55rem 0.7rem;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 999px;
-  color: #1a1a1a;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  color: var(--be-text-faint);
+  letter-spacing: 0.01em;
+  margin: 0 0 1.25rem;
 }
-.banner-print-btn span { display: none; }
-.banner-print-btn:hover {
-  background: #fff;
+.post-crumbs a {
+  color: var(--be-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.post-crumbs a:hover,
+.post-crumbs a:focus-visible {
   color: var(--be-primary);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.banner-print-btn:focus-visible {
-  outline: 2px solid var(--be-primary);
-  outline-offset: 3px;
+.post-crumbs-sep {
+  color: var(--be-text-faint);
+  opacity: 0.6;
 }
-.banner-print-btn svg { width: 1rem; height: 1rem; flex: none; }
-@media only screen and (min-width: 30rem) {
-  .banner-print-btn { padding: 0.5rem 0.85rem; }
-  .banner-print-btn span { display: inline; }
+.post-topper {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--be-primary);
+  padding: 0;
+  margin: 0;
 }
-@media only screen and (min-width: 48rem) {
-  .banner-print-btn {
-    padding: 0.625rem 1.125rem;
-    font-size: 0.9rem;
-  }
+.post-title {
+  font-size: clamp(1.85rem, 4.2vw, 2.85rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--be-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
-@media print {
-  .banner-print-btn { display: none !important; }
-}
+body.dark-mode .post-title { color: var(--bodyTextColorWhite, #fff); }
+body.dark-mode .post-topper { color: var(--primaryLight, #00bd74); }
 
 /* ---------------------------------------------------------------------
-   Post author + dates meta block
-   Sits at the top of the article body (below the banner). Avatar (optional)
-   + linked author name + "Updated on <date>" on one line. If `updated`
-   frontmatter is set, an italic "Originally published in <Month Year>"
-   line follows underneath.
+   Post author + share meta row
+   Below the title. Left side: avatar + author name + date. Right side:
+   "Share" label + four circular icon buttons (copy / email / more / print).
+   Wraps to two rows on phones.
    --------------------------------------------------------------------- */
 .post-meta {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.875rem 1.25rem;
+  margin: 0.25rem 0 0;
+}
+.post-meta-left {
+  display: flex;
+  align-items: center;
   gap: 0.875rem;
-  margin: 1.25rem 0 2rem;
+  min-width: 0;
+  flex: 0 1 auto;
 }
 .post-meta-avatar {
   flex: none;
@@ -796,167 +775,194 @@ body:has(.blog-with-toc) #banner-1106-14 .cs-container {
 body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.3); }
 
 /* ---------------------------------------------------------------------
-   Article actions bar (Focus / Listen / Save / Share + reading time)
-   The share dropdown panel + focus-mode chrome stay in blog-extras.css —
-   they only show after a click, so a brief unstyled flash doesn't matter.
+   Share row — sits on the right side of .post-meta. "Share" label +
+   four circular icon buttons (copy / email / more-trigger / print).
+   The "more" button anchors the share-dropdown defined in blog-extras.css;
+   Save lives at the top of that dropdown.
    --------------------------------------------------------------------- */
-.article-actions {
-  background: var(--be-bg);
-  border-top: 1px solid var(--be-border);
-  border-bottom: 1px solid var(--be-border);
-  padding: 0.875rem 0;
-  /* No top margin — the bar sits flush against the banner above it. */
-  margin: 0 0 0.5rem;
-}
-@media only screen and (min-width: 64rem) {
-  .article-actions { margin-bottom: -3.75rem; }
-}
-.article-actions .article-actions-inner {
+.post-share {
   display: flex;
   align-items: center;
-  /* Centered on the smallest phones; spread to the edges from 30rem up. */
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  width: 94%;
-  max-width: 70rem;
-  margin: 0 auto;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
 }
-@media only screen and (min-width: 30rem) {
-  .article-actions .article-actions-inner { justify-content: space-between; }
-}
-/* Stretch the actions bar to match the wider 3-column post container so the
-   share/save buttons line up with the right featured-post sidebar. */
-@media only screen and (min-width: 64rem) {
-  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 100rem; }
-}
-@media only screen and (min-width: 81.25rem) {
-  body:has(.blog-with-toc) .article-actions .article-actions-inner { max-width: 110rem; }
-}
-@media only screen and (min-width: 100rem) {
-  /* At 100em+ the container itself is uncapped (94% of viewport).
-     Match here so the bar tracks with it. */
-  body:has(.blog-with-toc) .article-actions .article-actions-inner {
-    max-width: none;
-    width: 94%;
-  }
-}
-.article-actions .actions-left,
-.article-actions .actions-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  /* Cluster centered on smallest phones; reset at 30rem to flex's default. */
-  justify-content: center;
-}
-@media only screen and (min-width: 30rem) {
-  .article-actions .actions-left,
-  .article-actions .actions-right { justify-content: flex-start; }
-}
-.article-actions .reading-time {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.9rem;
+.post-share-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--be-text-muted);
-  font-weight: 500;
+  margin-right: 0.25rem;
 }
-.article-actions .reading-time svg {
-  width: 1rem;
-  height: 1rem;
-  flex: none;
-}
-.article-actions .action-btn {
+.post-share-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.95rem;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
   background: var(--be-bg-soft);
   border: 1px solid var(--be-border);
-  border-radius: 999px;
+  border-radius: 50%;
   color: var(--be-text);
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
 }
-.article-actions .action-btn:hover,
-.article-actions .action-btn.active {
+.post-share-btn:hover,
+.post-share-btn[aria-expanded="true"] {
   background: var(--be-primary);
   border-color: var(--be-primary);
   color: #fff;
 }
-.article-actions .action-btn:focus-visible {
+.post-share-btn:active { transform: scale(0.94); }
+.post-share-btn:focus-visible {
   outline: 2px solid var(--be-primary);
   outline-offset: 2px;
 }
-.article-actions .action-btn svg {
-  width: 1rem;
-  height: 1rem;
+.post-share-btn svg {
+  width: 0.95rem;
+  height: 0.95rem;
   flex: none;
-}
-/* Action button labels are hidden on phones; reveal at the tablet breakpoint. */
-.article-actions .action-label { display: none; }
-@media only screen and (min-width: 48rem) {
-  .article-actions .action-label { display: inline; }
 }
 
 /* ---------------------------------------------------------------------
-   TL;DR box
+   Reading time — plain inline label, sits in the same row as the
+   Focus/Listen pills (no pill chrome of its own).
    --------------------------------------------------------------------- */
-.tldr-box {
-  background: var(--be-bg-soft);
-  border: 1px solid var(--be-border);
-  border-left: 4px solid var(--be-primary);
-  border-radius: var(--be-radius-md);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 2rem;
-}
-.tldr-header {
-  display: flex;
+.post-readtime {
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.875rem;
-}
-.tldr-badge {
-  background: var(--be-navy);
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-}
-.tldr-title {
-  font-weight: 600;
-  color: var(--be-text);
-  font-size: 1rem;
-}
-.tldr-points {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.tldr-points li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  gap: 0.45rem;
   color: var(--be-text-muted);
-  line-height: 1.5;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
 }
-.tldr-points li:last-child { margin-bottom: 0; }
-.tldr-points li svg {
+.post-readtime svg {
   width: 1rem;
   height: 1rem;
-  color: var(--be-primary);
   flex: none;
-  margin-top: 0.25rem;
+  color: var(--be-primary);
 }
+
+/* ---------------------------------------------------------------------
+   Focus / Listen quick-action pills — small standalone buttons below the
+   reading-time strip. Pill outline, primary-fill on hover/active.
+   --------------------------------------------------------------------- */
+.post-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 0 1.75rem;
+}
+.post-quick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  background: var(--be-bg);
+  border: 1px solid var(--be-border);
+  border-radius: 999px;
+  color: var(--be-text);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.post-quick-btn:hover,
+.post-quick-btn.active {
+  background: var(--be-primary);
+  border-color: var(--be-primary);
+  color: #fff;
+}
+.post-quick-btn:active { transform: scale(0.97); }
+.post-quick-btn:focus-visible {
+  outline: 2px solid var(--be-primary);
+  outline-offset: 2px;
+}
+.post-quick-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------------
+   Summary lede — optional `summary` frontmatter field. Slightly larger
+   prose than the body, sits between the action pills and Key Takeaways.
+   --------------------------------------------------------------------- */
+.post-summary {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--be-text);
+  margin: 1rem 0 1.75rem;
+}
+.post-summary a {
+  color: var(--be-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+body.dark-mode .post-summary { color: var(--bodyTextColorWhite, #fff); opacity: 0.9; }
+body.dark-mode .post-summary a { color: var(--primaryLight, #00bd74); }
+
+/* ---------------------------------------------------------------------
+   Key Takeaways box — corner-bracket frame in primary green, no fill.
+   ::before draws the top-left L; ::after draws the bottom-right L.
+   --------------------------------------------------------------------- */
+.tldr-box {
+  position: relative;
+  padding: 1.5rem 1.75rem;
+  margin: 0 0 2rem;
+  background: transparent;
+}
+.tldr-box::before,
+.tldr-box::after {
+  content: "";
+  position: absolute;
+  width: 2.25rem;
+  height: 2.25rem;
+  pointer-events: none;
+}
+.tldr-box::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--be-primary);
+  border-left: 2px solid var(--be-primary);
+  border-top-left-radius: 4px;
+}
+.tldr-box::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--be-primary);
+  border-right: 2px solid var(--be-primary);
+  border-bottom-right-radius: 4px;
+}
+.tldr-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--be-text);
+  margin: 0 0 0.875rem;
+  line-height: 1.2;
+}
+.tldr-points {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.tldr-points li {
+  margin-bottom: 0.55rem;
+  color: var(--be-text-muted);
+  line-height: 1.55;
+}
+.tldr-points li:last-child { margin-bottom: 0; }
+.tldr-points li::marker { color: var(--be-text-muted); }
 .tldr-points li strong { color: var(--be-text); }
+body.dark-mode .tldr-box::before,
+body.dark-mode .tldr-box::after { border-color: var(--primaryLight, #00bd74); }
+body.dark-mode .tldr-title { color: var(--bodyTextColorWhite, #fff); }
 
 /* ---------------------------------------------------------------------
    Featured-post sidebar card
@@ -1770,4 +1776,100 @@ body.dark-mode .insight-cluster .cs-title { color: var(--bodyTextColorWhite); }
   body.dark-mode #insight-archive .cs-row:nth-child(2) {
     border-top-color: rgba(255, 255, 255, 0.08);
   }
+}
+
+/* ---------------------------------------------------------------------
+   Related Guides — inline block at the bottom of the article. Replaces
+   the old right-rail Featured Posts panel; reuses post frontmatter so each
+   card carries the same image/topper/date as elsewhere.
+   --------------------------------------------------------------------- */
+.post-related {
+  margin: 3.5rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--be-border);
+}
+.post-related-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+}
+.post-related-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--be-text);
+  letter-spacing: -0.01em;
+}
+body.dark-mode .post-related-header h2 { color: var(--bodyTextColorWhite, #fff); }
+.post-related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media only screen and (min-width: 40rem) {
+  .post-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+.post-related-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+  background: var(--be-bg);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.post-related-card:hover,
+.post-related-card:focus-visible {
+  border-color: var(--be-primary-line);
+  transform: translateY(-2px);
+  box-shadow: var(--be-shadow-md);
+  outline: none;
+}
+.post-related-image {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--be-radius-sm);
+  overflow: hidden;
+  background: var(--be-bg-soft);
+}
+.post-related-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.post-related-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.post-related-topper {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--be-primary);
+}
+body.dark-mode .post-related-topper { color: var(--primaryLight, #00bd74); }
+.post-related-title {
+  font-size: 1rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin: 0;
+  color: var(--be-text);
+}
+body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
+.post-related-date {
+  font-size: 0.8rem;
+  color: var(--be-text-faint);
+  margin-top: auto;
 }

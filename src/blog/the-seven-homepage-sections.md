@@ -13,7 +13,7 @@ readMins: 7
 topper: "Design"
 image: /assets/images/the-seven-homepage-sections-card.png
 imageAlt: A wireframe of a small business homepage with seven sections labeled in order from top to bottom
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A small business homepage runs the same conversation in every visitor''s head. **Seven sections, one job each, in order**: hero, proof strip, services, differentiator, work, trust block, closing CTA.'
   - 'Most "we need a redesign" calls are about **missing or out-of-order sections**, not styling. Most homepages we audit are missing at least one of the seven.'

@@ -13,7 +13,7 @@ readMins: 6
 topper: "Performance"
 image: /assets/images/a-36kb-png-becomes-a-2kb-svg-card.png
 imageAlt: A side-by-side comparison of a heavy PNG icon and a light SVG version of the same shape, with file sizes labeled
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A typical small business homepage carries **5 to 15 images and 4 to 12 icons**, and most of them are at least 50% heavier than they need to be. The savings is rarely visible to the eye and almost always visible to the load time.'
   - 'PNG icons should be **SVG icons**. A 36KB PNG often becomes a 2KB SVG carrying the same shape — a 94% reduction per icon, multiplied by every icon on the page.'

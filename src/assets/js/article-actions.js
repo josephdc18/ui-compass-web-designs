@@ -152,6 +152,7 @@
     var btn = document.getElementById('shareBtn');
     var dropdown = document.getElementById('shareDropdown');
     if (!btn || !dropdown) return;
+    var wrapper = btn.closest('.share-wrapper');
 
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
@@ -163,17 +164,22 @@
       }
     });
 
-    dropdown.addEventListener('click', function (e) {
-      var btn2 = e.target.closest('[data-share]');
-      if (!btn2) return;
-      doShare(btn2.dataset.share);
-      dropdown.classList.remove('open');
-      var sBtn = document.getElementById('shareBtn');
-      if (sBtn) sBtn.setAttribute('aria-expanded', 'false');
-    });
+    // Wrapper-level delegation covers the four circular icon buttons in
+    // the meta share row AND the items inside the dropdown. The toggle
+    // button (#shareBtn) stops propagation so it doesn't double-fire here.
+    if (wrapper) {
+      wrapper.addEventListener('click', function (e) {
+        var trigger = e.target.closest('[data-share]');
+        if (!trigger) return;
+        doShare(trigger.dataset.share);
+        if (dropdown.contains(trigger)) {
+          dropdown.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
 
     document.addEventListener('click', function (e) {
-      var wrapper = btn.closest('.share-wrapper');
       if (wrapper && !wrapper.contains(e.target)) {
         dropdown.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');

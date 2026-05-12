@@ -13,7 +13,7 @@ readMins: 6
 topper: "SEO"
 image: /assets/images/unblock-ai-crawlers-card.png
 imageAlt: A laptop screen showing a robots.txt configuration file with AI crawler user-agents
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Roughly **90% of pages cited in ChatGPT do not appear in Google''s top 20**. AI search picks from a different pool, and most builder sites are not in either.'
   - 'Three to four lines in your **robots.txt** decide whether ChatGPT, Perplexity, and Google AI Overviews can read your site at all. The fix is 5 minutes.'

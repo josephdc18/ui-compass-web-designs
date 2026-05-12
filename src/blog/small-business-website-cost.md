@@ -13,7 +13,7 @@ readMins: 7
 topper: "Strategy"
 image: /assets/images/small-business-website-cost-card.png
 imageAlt: A pricing table comparing four website-build tiers from cheap to premium
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'A small business website costs **between $200 and $50,000 a year**. The spread is real. The difference is what the site does, not how it looks.'
   - 'The four tiers: **DIY platform** ($200/yr), **freelance one-time build** ($500–$3K), **local agency project** ($5K–$15K once + $50–$200/mo hosting), **specialist managed** ($150–$500/mo).'

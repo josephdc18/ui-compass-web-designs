@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/the-about-page-rewrite-card.png
 imageAlt: A laptop screen showing an About page with the visitor's perspective highlighted instead of the company history
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'The About page is **second-most-visited** on most small business sites — right behind the homepage. Most owners write it third-person, lead with the founder''s biography, and never get to why the visitor should care.'
   - 'Visitors do not read the About page to learn about you. They read it to **figure out whether you will be good for them**. The page that answers their question converts. The page that answers your own does not.'

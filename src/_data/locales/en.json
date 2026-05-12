@@ -76,8 +76,8 @@
     "go_to_top": "Go to top"
   },
   "blog": {
-    "tldr_default_title": "What you need to know",
-    "tldr_aria": "TL;DR — what you need to know",
+    "tldr_default_title": "Key Takeaways",
+    "tldr_aria": "Key takeaways",
     "faq_heading": "Frequently asked questions",
     "related_heading": "Related guides"
   }

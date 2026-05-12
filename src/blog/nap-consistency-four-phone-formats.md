@@ -13,7 +13,7 @@ readMins: 6
 topper: "SEO"
 image: /assets/images/nap-consistency-four-phone-formats-card.png
 imageAlt: Four browser tabs side by side showing the same business with four different phone number formats across Google, Yelp, Facebook, and a website
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Google treats **"(901) 490-4750"** and **"901-490-4750"** as different facts about your business. The same logic applies to **address formats** and **business-name variants**.'
   - 'A typical small business has its **NAP** (Name, Address, Phone) written **4 to 8 different ways** across the web. Each variant dilutes the local-SEO signal that should be pointing at one listing.'

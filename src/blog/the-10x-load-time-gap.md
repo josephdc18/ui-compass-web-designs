@@ -13,7 +13,7 @@ readMins: 7
 topper: "Strategy"
 image: /assets/images/the-10x-load-time-gap-card.png
 imageAlt: A split-screen graphic showing a hand-coded static site loading in 0.5 seconds versus a page-builder site loading in 5 seconds
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Hand-coded sites load **up to 10x faster** than page-builder sites — and the gap is structural, not a tuning problem.'
   - 'The difference is **assemble-on-demand** (the builder''s database query, plus theme rendering, plus plugin chain) versus **ready-to-serve** (a pre-built HTML file the server hands the visitor unchanged).'

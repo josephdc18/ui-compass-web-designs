@@ -13,7 +13,7 @@ readMins: 6
 topper: "Strategy"
 image: /assets/images/social-media-vs-website-card.png
 imageAlt: A social media feed icon on the left, a website icon on the right, with a contract or deed between them
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Social media is rented audience. **You do not own the followers.** Instagram, TikTok, and Facebook decide who sees your posts, and they change that decision often.'
   - 'A website is owned audience. The domain is yours. The email list is yours. The analytics are yours. **None of that is recoverable from a platform suspension.**'

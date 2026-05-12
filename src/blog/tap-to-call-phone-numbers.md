@@ -13,7 +13,7 @@ readMins: 5
 topper: "Design"
 image: /assets/images/tap-to-call-phone-numbers-card.png
 imageAlt: A close-up of a smartphone screen showing a phone number that becomes a single-tap call link
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'On mobile, a phone number is either **a link the visitor can tap** or **a string they have to copy and paste**. The difference is one HTML attribute and a measurable share of your incoming calls.'
   - 'Wrap every phone number in a `<a href="tel:+1...">` link. Use the **E.164 format** (`+19014904750`) in the href; format the visible text however reads best.'

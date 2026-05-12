@@ -77,17 +77,22 @@ collections:
       - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'], hint: "Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts." }
 
       # ---- Optional in-post components ----
-      - label: 'TL;DR — Title'
+      - label: 'Summary'
+        name: 'summary'
+        widget: 'text'
+        required: false
+        hint: 'Short intro paragraph shown above the Key Takeaways block. Plain text or simple Markdown (links, bold).'
+      - label: 'Key Takeaways — Title'
         name: 'tldrTitle'
         widget: 'string'
         required: false
-        default: 'What you need to know'
-        hint: 'Heading text for the TL;DR box (only renders if you fill in the bullets below).'
-      - label: 'TL;DR — Bullets'
+        default: 'Key Takeaways'
+        hint: 'Heading text for the Key Takeaways block (only renders if you fill in the bullets below).'
+      - label: 'Key Takeaways — Bullets'
         name: 'tldr'
         widget: 'list'
         required: false
-        hint: '3-5 short summary bullets shown above the article body. Plain text or HTML.'
+        hint: '3-5 short bullets shown above the article body. Plain text or simple Markdown.'
         field: { label: 'Bullet', name: 'point', widget: 'string' }
 
       - label: 'FAQ'

@@ -10,7 +10,6 @@
    Token map — scoped block-level so we do not pollute root.css globals
    --------------------------------------------------------------------- */
 .blog-article,
-.article-actions,
 .tldr-box,
 .faq-accordion,
 .tooltip-term,
@@ -45,7 +44,6 @@ body.focus-mode {
 }
 
 body.dark-mode .blog-article,
-body.dark-mode .article-actions,
 body.dark-mode .tldr-box,
 body.dark-mode .faq-accordion,
 body.dark-mode .copy-toast,
@@ -71,8 +69,9 @@ body.dark-mode.focus-mode {
    page doesn't load this async stylesheet, so leaving them here was making
    the sidebar image overflow on /blog/. */
 
-/* The .article-actions bar itself lives in blog.css (FOUC-safe section).
-   The share dropdown below is hidden until clicked, so it stays here. */
+/* The post-meta share row + reading-time strip + Focus/Listen pills live in
+   blog.css (FOUC-safe section). The share dropdown is hidden until clicked,
+   so it stays here. */
 
 /* ---------------------------------------------------------------------
    2. SHARE DROPDOWN
@@ -135,14 +134,16 @@ body.focus-mode #cs-navigation,
 body.focus-mode #banner-1106-14,
 body.focus-mode .toc-sidebar,
 body.focus-mode .toc-mobile,
-body.focus-mode .article-actions,
+body.focus-mode .post-crumbs,
+body.focus-mode .post-share,
+body.focus-mode .post-readtime,
+body.focus-mode .post-quick-actions,
 body.focus-mode #cs-footer-309,
 body.focus-mode #contact-1392,
 body.focus-mode .pb-go-top-progress,
 body.focus-mode [data-pwa-notify-toggle],
 body.focus-mode .audit-fab,
-body.focus-mode .blog-sidebar,
-body.focus-mode .article-share {
+body.focus-mode .blog-sidebar {
   display: none !important;
 }
 body.focus-mode .blog-with-toc {
@@ -516,7 +517,9 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   #cs-navigation,
   #cs-footer-309,
   #contact-1392,
-  .article-actions,
+  .post-share,
+  .post-readtime,
+  .post-quick-actions,
   .toc-sidebar,
   .toc-mobile,
   .pb-go-top-progress,
@@ -527,7 +530,6 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   .pwa-notify-toggle,
   .tts-mini-player,
   .copy-toast,
-  .article-share,
   .blog-sidebar,                   /* Featured Posts column */
   .banner-print-btn,
   #banner-1106-14 .cs-background,  /* Decorative hero photo behind the title */

@@ -13,7 +13,7 @@ readMins: 6
 topper: "Strategy"
 image: /assets/images/ai-built-websites-card.png
 imageAlt: A robot icon on the left, a human icon on the right, with a website layout between them
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'AI tools are excellent at the **first 60 percent**: layout, copy drafts, image generation, basic responsive design. Use them.'
   - 'The other 40 percent is **accessibility, local SEO, real-world speed, security, and lead capture**. AI does not see these failures because the site looks fine in the preview.'

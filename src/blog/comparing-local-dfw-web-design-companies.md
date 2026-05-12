@@ -15,7 +15,7 @@ readMins: 14
 topper: "Strategy"
 image: /assets/images/comparing-local-dfw-web-design-companies-card.png
 imageAlt: An editorial directory of Dallas-Fort Worth web design companies arranged by tier and fit
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'The DFW web design market splits cleanly into **three buyer tiers**: small-business / boutique, growth / full-service, and premium / specialist. Picking the wrong tier is the most common, most expensive mistake we see.'
   - 'For **small businesses**, the strongest shortlist is **UI Compass**, **Icepick**, **Red Spot Design**, and **Big D Creative** — local, affordable, and lead-gen oriented.'

@@ -13,7 +13,7 @@ readMins: 6
 topper: "Strategy"
 image: /assets/images/ada-lawsuits-and-form-8826-card.png
 imageAlt: A desk with a printed demand letter on one side and an IRS Form 8826 worksheet on the other
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Over **5,000 ADA web lawsuits** were filed in 2025. Small businesses are disproportionately targeted because they **settle rather than fight**. Typical settlement: **$5,000 to $25,000** plus attorney fees on top.'
   - 'A free **WAVE scan** of your site tells you whether you are exposed before a demand letter does. Most small business sites fail basic checks.'

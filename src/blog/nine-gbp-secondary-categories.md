@@ -13,7 +13,7 @@ readMins: 6
 topper: "SEO"
 image: /assets/images/nine-gbp-secondary-categories-card.png
 imageAlt: A Google Business Profile dashboard showing the categories panel with multiple secondary slots filled in
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Google Business Profile lets you pick **9 secondary categories** alongside your primary. Most small business owners use **0 to 1** secondary slot, leaving **8 free ranking opportunities** untouched.'
   - 'Primary category carries the heaviest ranking weight. **Be specific**: "Italian Restaurant" beats "Restaurant"; "Web Design Agency" beats "Marketing Agency".'

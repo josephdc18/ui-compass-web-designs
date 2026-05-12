@@ -13,7 +13,7 @@ readMins: 6
 topper: "Design"
 image: /assets/images/wcag-2-2-aa-in-five-minutes-card.png
 imageAlt: A laptop screen showing a website accessibility audit report with three test categories highlighted
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Roughly **96% of the top one million websites** fail basic accessibility checks ([WebAIM Million](https://webaim.org/projects/million/)). Your Wix or Squarespace site is statistically in that pile.'
   - 'Three free tests catch most of the gap in **5 minutes**: **color contrast** on body text, **keyboard-only navigation** through the page, and a quick **alt-text audit** on every image.'

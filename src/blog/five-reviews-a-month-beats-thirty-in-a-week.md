@@ -13,7 +13,7 @@ readMins: 6
 topper: "SEO"
 image: /assets/images/five-reviews-a-month-beats-thirty-in-a-week-card.png
 imageAlt: A line graph showing a steady upward trend of Google reviews over six months versus a sudden spike that triggers a flag
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Review **velocity** wins the map pack. **5 reviews a month for 6 months** beats **30 reviews in 1 week** — the steady drip looks natural; the spike looks like a campaign and risks being filtered.'
   - 'About **70% of customers will leave a review if asked**. Most owners simply do not ask. The conversion is in the asking, not in the asking method.'

@@ -13,7 +13,7 @@ readMins: 6
 topper: "Strategy"
 image: /assets/images/drag-and-drop-vs-hiring-card.png
 imageAlt: A drag-and-drop interface on the left, a developer working at a desk on the right
-tldrTitle: What you need to know
+tldrTitle: Key Takeaways
 tldr:
   - 'Squarespace, Wix, and Shopify start around **$200 a year**. The platform fee is the obvious cost. **Your time is the hidden one.**'
   - 'Hiring a specialist is **$1,800 a year managed**. The fee is bigger on paper. The total cost of ownership is usually lower.'

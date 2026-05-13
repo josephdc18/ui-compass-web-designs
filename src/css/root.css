@@ -1003,6 +1003,9 @@ footer {
   }
   #cs-navigation .cs-container .cs-nav {
     order: 4;
+    /* Match the 0.25rem-each gap between language-switcher and the
+       dark-mode toggle so theme ↔ hamburger spacing is identical. */
+    margin-left: 0.25rem;
   }
 }
 

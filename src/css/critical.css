@@ -559,10 +559,6 @@ body.dark-mode #cs-navigation .cs-top-container{
 #cs-navigation .cs-logo{
   height:clamp(3rem, 9vw, 4rem) !important;
 }
-@media only screen and (min-width:64rem){
-  #cs-navigation .cs-logo{
-    height:4.75rem !important;
-    max-width:16rem !important;
-    width:auto !important;
-  }
-}
+/* Desktop logo intentionally untouched — original critical.css rules
+   (height:3.75rem; max-width:12.3125rem; width:18.4%) remain in force
+   above 64rem. */

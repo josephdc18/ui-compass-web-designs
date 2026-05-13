@@ -554,3 +554,15 @@ body.dark-mode #dark-mode-toggle .cs-moon{opacity:0;transform:translate(-50%,-15
 body.dark-mode #cs-navigation .cs-top-container{
   border-bottom-color:rgba(255,255,255,.08);
 }
+
+/* Bump navigation logo size everywhere */
+#cs-navigation .cs-logo{
+  height:clamp(3rem, 9vw, 4rem) !important;
+}
+@media only screen and (min-width:64rem){
+  #cs-navigation .cs-logo{
+    height:4.75rem !important;
+    max-width:16rem !important;
+    width:auto !important;
+  }
+}

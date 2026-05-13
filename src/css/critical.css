@@ -549,3 +549,8 @@ body.dark-mode #dark-mode-toggle .cs-moon{opacity:0;transform:translate(-50%,-15
     }
   }
 }
+
+/* Dark-mode: dim the hard-coded #e8e8e8 divider between top-bar and nav row */
+body.dark-mode #cs-navigation .cs-top-container{
+  border-bottom-color:rgba(255,255,255,.08);
+}

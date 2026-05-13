@@ -142,9 +142,6 @@ body.dark-mode .cs-button-solid:not(#cta-697 .cs-button-solid):not(#contact-1392
 body.dark-mode .cs-button-solid:not(#cta-697 .cs-button-solid):not(#contact-1392 .cs-button-solid):hover{
   color:var(--bodyTextColorWhite);
 }
-body.dark-mode .cs-button-solid:not(#cta-697 .cs-button-solid):not(#contact-1392 .cs-button-solid):before{
-  background-color:var(--primaryLight);
-}
 
 /* Global form styles — font-size/color on .cs-label intentionally omitted so the floating-label rules below win. */
 .cs-form{width:100%;max-width:39.375rem;padding:clamp(1.5rem,5.18vw,3rem) clamp(1rem,4vw,3rem);box-sizing:border-box;background-color:#fff;border:1px solid #e5e7eb;border-radius:1rem;box-shadow:0 8px 24px rgba(17,24,39,0.06);display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:0.75rem}

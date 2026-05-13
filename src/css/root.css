@@ -102,6 +102,7 @@ body.dark-mode #contact-1392{background-color:var(--medium)}
 body.dark-mode #contact-1392 .cs-h3{color:var(--bodyTextColorWhite)}
 body.dark-mode #contact-1392 .cs-header{color:var(--bodyTextColorWhite)}
 body.dark-mode #contact-1392 .cs-icon-wrapper{border-color:rgba(255,255,255,0.16)}
+body.dark-mode #contact-1392 .cs-icon{--pb-icon-tint:var(--primaryLight);background-color:var(--primaryLight) !important}
 body.dark-mode #contact-1392 .cs-link{color:rgba(255,255,255,0.72)}
 body.dark-mode #contact-1392 .cs-link:hover{color:var(--primaryLight)}
 

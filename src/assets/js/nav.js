@@ -36,6 +36,31 @@
         });
     });
 
+    // Close the mobile menu when tapping outside the nav (and not on the toggle).
+    // The new mobile design renders a backdrop dim, so anything outside #cs-navigation
+    // (which sits on top) should be treated as "tap-away to dismiss".
+    document.addEventListener('click', function(e) {
+        if (!csNav.classList.contains('cs-active')) return;
+        if (csNav.contains(e.target)) return;
+        csNav.classList.remove('cs-active');
+        document.body.classList.remove('cs-open');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        if (ul) ul.setAttribute('aria-expanded', 'false');
+    });
+
+    // Escape key closes the open menu and returns focus to the toggle.
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        if (!csNav.classList.contains('cs-active')) return;
+        csNav.classList.remove('cs-active');
+        document.body.classList.remove('cs-open');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.focus();
+        }
+        if (ul) ul.setAttribute('aria-expanded', 'false');
+    });
+
     // Nested mobile dropdown submenus (state → city under Locations).
     // The CSS opens `.cs-drop3` when its parent `.cs-drop-li.cs-dropdown` has `.cs-active`.
     // On mobile, we bind a click on the inner toggle button to flip that class

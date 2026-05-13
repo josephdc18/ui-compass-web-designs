@@ -37,9 +37,12 @@
     });
 
     // Close the mobile menu when tapping outside the nav (and not on the toggle).
-    // The new mobile design renders a backdrop dim, so anything outside #cs-navigation
-    // (which sits on top) should be treated as "tap-away to dismiss".
-    document.addEventListener('click', function(e) {
+    // Uses pointerdown rather than click because the accordion grid-template-rows
+    // transition can shift layout between mousedown and mouseup; click events
+    // then fire on the common ancestor of the two targets (often <html> or
+    // <body>), which fooled the older click-based handler into treating an
+    // inside accordion tap as an "outside" click and closing the whole menu.
+    document.addEventListener('pointerdown', function(e) {
         if (!csNav.classList.contains('cs-active')) return;
         if (csNav.contains(e.target)) return;
         csNav.classList.remove('cs-active');

@@ -1,0 +1,196 @@
+<!doctype html>
+<!--
+  social-post-more-trio.html  (1080×1350, 4:5)
+
+  Use for: punchy Instagram / Pinterest / blog-cover posts built around a
+  three-line MORE-style headline. Light card floats over a dark-green field
+  flanked by tall pill cutouts.
+
+  Tokens to fill:
+    {{EYEBROW}}   — small tracked label at top (default "UI COMPASS")
+    {{LINE_1A}}   — first half of line 1, black   (e.g. "MORE")
+    {{LINE_1B}}   — second half of line 1, green  (e.g. "PAGES.")
+    {{LINE_2A}} / {{LINE_2B}}   — line 2 pair
+    {{LINE_3A}} / {{LINE_3B}}   — line 3 pair
+    {{SUB}}       — italic supporting sentence (without the >> prefix)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Compass - SEO Strategies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,400;1,800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-green: #0a5f3a;
+            --card-gray: #e9e9e9;
+            --text-black: #000000;
+        }
+        body {
+            background-color: var(--bg-green);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbar from background pattern */
+        }
+
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* We'll use multiple radial gradients and linear gradients to approximate the swooping 'S' shape */
+            background-image: 
+                /* Top right curve */
+                radial-gradient(circle at 100% 20%, transparent 25%, #fff 25.5%, #fff 40%, transparent 40.5%),
+                /* Top horizontal line connecting left to center */
+                linear-gradient(to right, #fff 0%, #fff 30%, transparent 30%),
+                /* Middle left curve */
+                radial-gradient(circle at 0% 50%, transparent 25%, #fff 25.5%, #fff 40%, transparent 40.5%),
+                /* Bottom right curve */
+                radial-gradient(circle at 100% 80%, transparent 25%, #fff 25.5%, #fff 40%, transparent 40.5%),
+                /* Bottom horizontal line connecting center to right */
+                 linear-gradient(to left, #fff 0%, #fff 30%, transparent 30%);
+            
+            background-size: 100% 100%, 100% 120px, 100% 100%, 100% 100%, 100% 120px;
+            background-position: center, left 10%, center, center, right 90%;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+        }
+
+        .bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shape-path {
+            width: 120%; /* wider to go offscreen */
+            height: 100%;
+            position: absolute;
+            fill: none;
+            stroke: #e9e9e9;
+            stroke-width: 180; /* Thicker stroke for the shapes */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card {
+            background-color: var(--card-gray);
+            width: 85%;
+            max-width: 550px;
+            padding: 3rem 2.5rem;
+            box-shadow: -15px 15px 30px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 3.5rem;
+        }
+
+        .headline {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 4.8rem;
+            line-height: 0.95;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            transform: skewX(-12deg); /* Apply italic slant manually if font italic isn't exact */
+            margin-left: 10px; /* Adjust for skew */
+        }
+
+        /* Specific words in green */
+        .headline-green {
+            color: var(--bg-green);
+        }
+
+        .subheadline {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 1.6rem;
+            line-height: 1.4;
+            color: #111;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .headline {
+                font-size: 3.5rem;
+                margin-bottom: 2rem;
+            }
+            .subheadline {
+                font-size: 1.3rem;
+            }
+            .card {
+                padding: 2rem 1.5rem;
+                width: 90%;
+            }
+            .brand-text {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container">
+        <svg class="shape-path" viewBox="0 0 1000 1200" preserveAspectRatio="xMidYMid slice">
+            <!-- Path simulating the thick, winding white line on green background -->
+            <!-- Start top left, go right, curve down right, go left, curve down left, go right -->
+            <path d="M-100 150 
+                     L700 150 
+                     A 200 200 0 0 1 900 350
+                     A 200 200 0 0 1 700 550
+                     L300 550
+                     A 200 200 0 0 0 100 750
+                     A 200 200 0 0 0 300 950
+                     L1100 950" 
+                  stroke="#e9e9e9" 
+                  stroke-width="190" 
+                  fill="none" />
+        </svg>
+    </div>
+
+    <div class="card">
+        <div class="brand-text">UI Compass</div>
+        
+        <h1 class="headline">
+            MORE <span class="headline-green">PAGES.</span><br>
+            MORE <span class="headline-green">TRAFFIC.</span><br>
+            MORE <span class="headline-green">CLIENTS.</span>
+        </h1>
+        
+        <p class="subheadline">
+            >> 3 SEO strategies that will<br>
+            help your website get found<br>
+            on Google.
+        </p>
+    </div>
+
+</body>
+</html>

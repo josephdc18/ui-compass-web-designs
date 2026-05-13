@@ -215,7 +215,27 @@
 
   </script>
 
-  <script type="module" src="/assets/js/push.js?v={{ build.hash }}"></script>
+  <script>
+    (function() {
+      function isStandalonePWA() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+          window.navigator.standalone === true;
+      }
+
+      function loadPushModule() {
+        if (!isStandalonePWA()) return;
+        import('/assets/js/push.js?v={{ build.hash }}').catch(function(error) {
+          console.warn('[Push] Failed to load notification module:', error);
+        });
+      }
+
+      if (document.readyState === 'complete') {
+        loadPushModule();
+      } else {
+        window.addEventListener('load', loadPushModule, { once: true });
+      }
+    })();
+  </script>
   {% if serviceToc %}
   <!-- toc.js for service pages with #service-sidebar; blog posts include it via blog-post.html. -->
   <script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>

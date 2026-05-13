@@ -17,18 +17,6 @@
   --accent: #232d27;      /* level-2 surface (cards within sections) */
   --headerFontFamily: "Roboto","Arial",sans-serif;
   --bodyFontFamily: "Roboto","Arial",sans-serif;
-  /* Tokens consumed by the mobile nav (oui-nav). Mapped to the site palette:
-     gold-darker -> primary green, navy -> headerColor near-black. */
-  --gold-darker: var(--primary);
-  --navy: var(--headerColor);
-  --white: #fff;
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.3s ease;
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --radius-md: 6px;
 }
 
 .skip {

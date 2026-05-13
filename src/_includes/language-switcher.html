@@ -142,18 +142,40 @@
   }
 
   /* Dark mode */
+  body.dark-mode {
+    --mm-bg: var(--medium);
+    --mm-bg-hover: var(--accent);
+    --mm-border: rgba(255, 255, 255, 0.10);
+  }
+
   body.dark-mode .language-switcher-toggle {
     color: var(--bodyTextColorWhite);
     border-color: var(--mm-border);
   }
 
+  body.dark-mode .language-switcher-toggle:hover,
+  body.dark-mode .language-switcher-toggle[aria-expanded="true"] {
+    background: var(--mm-bg-hover);
+    border-color: var(--primaryLight);
+  }
+
   body.dark-mode .language-switcher-dropdown {
     background: var(--mm-bg);
     border-color: var(--mm-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   }
 
   body.dark-mode .language-option {
     color: var(--bodyTextColorWhite);
+  }
+
+  body.dark-mode .language-option:hover,
+  body.dark-mode .language-option.active {
+    background: var(--mm-bg-hover);
+  }
+
+  body.dark-mode .language-check {
+    color: var(--primaryLight);
   }
 
   /* RTL support */

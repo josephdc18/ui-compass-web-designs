@@ -562,3 +562,13 @@ body.dark-mode #cs-navigation .cs-top-container{
 /* Desktop logo intentionally untouched — original critical.css rules
    (height:3.75rem; max-width:12.3125rem; width:18.4%) remain in force
    above 64rem. */
+
+/* State accordion chevrons (Texas / Tennessee) inherit a grayscale + brightness
+   filter from the original mobile CSS that paints them white. Strip the filter
+   so they render with the SVG's native #006940 fill, matching the Services
+   chevron. */
+@media only screen and (max-width:63.96875rem){
+  #cs-navigation .cs-drop-link.cs-dropdown-button .cs-drop-icon{
+    filter:none;
+  }
+}

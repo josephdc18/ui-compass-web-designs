@@ -213,120 +213,19 @@
     color:var(--bodyTextColorWhite);
     opacity:.8;
   }
-}
 
-/* aboutstrip-328 — dark contact band (Phone / Address / Open Hours). Adapted
-   from oui.digital Codestitch template AboutStrip-328. Icons inlined as SVG
-   so they tint via currentColor and respect dark mode. */
-@media only screen and (min-width:0rem){
-  #aboutstrip-328{
-    background-color:#1a1a1a;
-    padding:var(--sectionPadding);
+  /* Match the homepage convention: every content section uses #f7f7f7 in light
+     and --medium in dark, with the dark contact-band (#aboutstrip-328) acting
+     as the accent break. Visual distinction between the two founder blocks
+     comes from the row-reverse layout, not from different background colors. */
+  :is(#aboutrpsbs-328, #aboutrpsbs-328-2){
+    background-color:#f7f7f7;
   }
-  #aboutstrip-328 .cs-stat-group{
-    align-items:center;
-    display:flex;
-    flex-direction:column;
-    gap:2.5rem;
-    justify-content:center;
-    margin:auto;
-    max-width:37.5rem;
-    padding:0;
-    width:100%;
-  }
-  #aboutstrip-328 .cs-item{
-    align-items:center;
-    display:flex;
-    justify-content:flex-start;
-    list-style:none;
-    margin:0;
-    padding:0;
-    width:18.125rem;
-  }
-  #aboutstrip-328 .cs-picture{
-    align-items:center;
-    border:1px solid var(--secondaryLight, #faf7f4);
-    border-radius:50%;
-    color:var(--primary);
-    display:flex;
-    flex:none;
-    height:5rem;
-    justify-content:center;
-    margin-right:clamp(.75rem,3vw,1.25rem);
-    transition:background-color .3s,box-shadow .3s,transform .6s;
-    width:5rem;
-  }
-  #aboutstrip-328 .cs-item:hover .cs-picture{
-    background-color:#fff;
-    box-shadow:0 8px 24px rgba(149,157,165,.20);
-    transform:scale(1.05);
-  }
-  #aboutstrip-328 .cs-icon{
-    height:auto;
-    width:2.0625rem;
-  }
-  #aboutstrip-328 .cs-flex-group{
-    align-items:flex-start;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  #aboutstrip-328 .cs-header{
-    color:var(--bodyTextColorWhite);
-    display:block;
-    font-size:1.25rem;
-    font-weight:900;
-    line-height:1.2em;
-    margin:0 0 .75rem;
-  }
-  #aboutstrip-328 .cs-link,
-  #aboutstrip-328 .cs-hours{
-    color:#828282;
-    display:block;
-    font-size:var(--bodyFontSize);
-    line-height:1.5em;
-    text-decoration:none;
-    transition:color .3s;
-  }
-  #aboutstrip-328 .cs-link:hover{
-    color:var(--primary);
-  }
-}
-@media only screen and (min-width:40.625rem){
-  #aboutstrip-328 .cs-stat-group{
-    column-gap:1.25rem;
-    flex-direction:row;
-    flex-wrap:wrap;
-    row-gap:2rem;
-  }
-}
-@media only screen and (min-width:64rem){
-  #aboutstrip-328 .cs-stat-group{
-    flex-wrap:nowrap;
-    justify-content:space-evenly;
-    max-width:80rem;
-  }
-}
-@media only screen and (min-width:0rem){
-  body.dark-mode #aboutstrip-328{
-    background-color:rgba(0,0,0,.5);
-  }
-  body.dark-mode #aboutstrip-328 .cs-header,
-  body.dark-mode #aboutstrip-328 .cs-link,
-  body.dark-mode #aboutstrip-328 .cs-hours{
-    color:var(--bodyTextColorWhite);
-  }
-  body.dark-mode #aboutstrip-328 .cs-link{
-    opacity:.8;
-  }
-  body.dark-mode #aboutstrip-328 .cs-link:hover{
-    color:var(--primaryLight);
-    opacity:1;
+  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2){
+    background-color:var(--medium);
   }
 }
 
-/* stats-1643 */
-@media only screen and (min-width:0rem){#stats-1643{background-color:#f7f7f7;padding:var(--sectionPadding)}#stats-1643 .cs-container{align-items:center;display:flex;flex-direction:column;gap:clamp(3rem,6vw,4rem);margin:auto;max-width:80rem;width:100%}#stats-1643 .cs-content{align-items:flex-start;display:flex;flex-direction:column;text-align:left;width:100%}#stats-1643 .cs-title{margin:0 0 clamp(1.75rem,7vw,4rem);max-width:20ch}#stats-1643 .cs-picture{display:block;height:95vw;max-height:25rem;position:relative;width:100%;z-index:1}#stats-1643 .cs-picture img{height:100%;left:0;-o-object-fit:cover;object-fit:cover;position:absolute;top:0;width:100%}#stats-1643 .cs-text{margin:0 0 clamp(1.5rem,3vw,2rem)}#stats-1643 .cs-stats-group{display:flex;flex-direction:column;width:100%}#stats-1643 .cs-card-group{align-items:center;display:grid;gap:1.5rem;margin:0;max-width:clamp(34.375rem,50vw,39.375rem);padding:0;width:100%}#stats-1643 .cs-item{align-items:flex-start;box-sizing:border-box;display:flex;flex-direction:column;gap:.5rem;list-style:none}#stats-1643 .wrapper{align-items:flex-start;display:flex;flex-direction:row;gap:.625rem;width:100%}#stats-1643 .cs-item-number{color:var(--primary)}#stats-1643 .cs-h3,#stats-1643 .cs-item-number{align-items:center;display:flex;font-size:1.25rem;font-weight:700;gap:.5rem;justify-content:flex-start;line-height:1.2em;margin:0}#stats-1643 .cs-h3{color:var(--headerColor)}#stats-1643 .cs-item-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5em;margin:0}#stats-1643 .cs-stats{display:grid;grid-template-columns:repeat(12,1fr);margin:clamp(2.5rem,6vw,4rem)0 0;max-width:39.375rem;padding:0;width:100%}#stats-1643 .cs-stat{align-items:center;align-self:stretch;display:flex;flex-direction:column;grid-column:span 6;list-style:none;margin:0;padding:0 .5rem clamp(1.75rem,3vw,2.5rem);text-align:center}#stats-1643 .cs-link{text-decoration:none}}@media only screen and (min-width:0rem){#stats-1643 .cs-link:focus .cs-desc,#stats-1643 .cs-link:focus-within .cs-desc,#stats-1643 .cs-link:hover .cs-desc{text-decoration:underline}#stats-1643 .stat1{border-right:1px solid #e8e8e8}#stats-1643 .stat1,#stats-1643 .stat2{border-bottom:1px solid #e8e8e8}#stats-1643 .stat3{border-right:1px solid #e8e8e8}#stats-1643 .stat3,#stats-1643 .stat4{padding:clamp(1.75rem,3vw,2.5rem) .5rem 0}#stats-1643 .cs-number{color:var(--headerColor);display:block;font-size:clamp(1.9375rem,3vw,2.4375rem);font-weight:700;line-height:1.2em;margin:0 0 .25rem;text-align:inherit}#stats-1643 .cs-desc{color:var(--bodyTextColor);font-size:1rem;font-weight:400;line-height:1.5em;margin:0;text-align:inherit}}@media only screen and (min-width:48rem){#stats-1643 .cs-container{align-items:stretch;flex-direction:row;justify-content:space-between}#stats-1643 .cs-content{justify-content:stretch}#stats-1643 .cs-picture{height:100%;max-height:100%}}@media only screen and (min-width:0rem){body.dark-mode #stats-1643{background-color:rgba(0,0,0,.6)}body.dark-mode #stats-1643 .cs-desc,body.dark-mode #stats-1643 .cs-h3,body.dark-mode #stats-1643 .cs-item-text,body.dark-mode #stats-1643 .cs-number,body.dark-mode #stats-1643 .cs-text,body.dark-mode #stats-1643 .cs-title{color:var(--bodyTextColorWhite)}body.dark-mode #stats-1643 .cs-desc,body.dark-mode #stats-1643 .cs-item-text,body.dark-mode #stats-1643 .cs-text{opacity:.8}}
 
 /* why-choose-1371 */
 @media only screen and (min-width:0rem){#why-choose-1371{overflow:hidden;padding:var(--sectionPadding);position:relative;z-index:1}#why-choose-1371 .cs-container{gap:clamp(3rem,6vw,4rem);margin:auto;max-width:80rem}#why-choose-1371 .cs-container,#why-choose-1371 .cs-content{align-items:center;display:flex;flex-direction:column;width:100%}#why-choose-1371 .cs-content{text-align:center}#why-choose-1371 .cs-title{max-width:23ch}#why-choose-1371 .cs-text{margin-bottom:1rem;max-width:52.5rem}#why-choose-1371 .cs-text strong{color:var(--headerColor)}#why-choose-1371 .cs-text:last-of-type{margin-bottom:0}#why-choose-1371 .cs-item-picture{grid-column:span 12;list-style:none;position:relative;width:100%}#why-choose-1371 .cs-picture{display:block;height:26.125rem;overflow:hidden;position:relative;width:100%;z-index:1}#why-choose-1371 .cs-picture img{height:100%;left:0;-o-object-fit:cover;object-fit:cover;position:absolute;top:0;width:100%}#why-choose-1371 .cs-card-group{align-items:stretch;display:grid;gap:clamp(1rem,2vw,1.25rem);grid-template-columns:repeat(12,1fr);margin:0;padding:0;width:100%}#why-choose-1371 .cs-item{align-items:flex-start;background-color:#f7f7f7;border:1px solid #e8e8e8;box-sizing:border-box;display:flex;flex-direction:column;gap:.75rem;grid-column:span 12;list-style:none;padding:clamp(1rem,3vw,1.5rem);transition:background-color .3s}#why-choose-1371 .cs-item:hover{background-color:var(--primary)}#why-choose-1371 .cs-item:hover .cs-h3,#why-choose-1371 .cs-item:hover .cs-item-text{color:var(--bodyTextColorWhite)}#why-choose-1371 .cs-item:hover .cs-item-text{opacity:.8}#why-choose-1371 .cs-item:hover .cs-h3-icon{filter:grayscale(1) brightness(1000%)}#why-choose-1371 .cs-h3{align-items:flex-start;color:var(--headerColor);display:flex;font-size:1.25rem;font-weight:700;gap:.5rem;justify-content:flex-start;line-height:1.2em;margin:0;transition:color .3s}#why-choose-1371 .cs-h3-icon{display:block;height:auto;margin-top:2px;width:1.5rem}#why-choose-1371 .cs-item-text{color:var(--bodyTextColor);font-size:.875rem;line-height:1.5em;margin:0;transition:color .3s,opacity .3s}}@media only screen and (min-width:48rem){#why-choose-1371 .cs-item{grid-column:span 6}}@media only screen and (min-width:64rem){#why-choose-1371 .cs-item-picture{grid-column:4/span 6;grid-row:1/span 4}#why-choose-1371 .cs-picture{height:100%}#why-choose-1371 .cs-item:first-of-type{grid-column:1/span 3;grid-row:1/span 1}#why-choose-1371 .cs-item:nth-of-type(2){grid-column:1/span 3;grid-row:2/span 1}#why-choose-1371 .cs-item:nth-of-type(3){grid-column:1/span 3;grid-row:3/span 1}#why-choose-1371 .cs-item:nth-of-type(4){grid-column:1/span 3;grid-row:4/span 1}#why-choose-1371 .cs-item:nth-of-type(6){grid-column:10/span 3;grid-row:1/span 1}#why-choose-1371 .cs-item:nth-of-type(7){grid-column:10/span 3;grid-row:2/span 1}#why-choose-1371 .cs-item:nth-of-type(8){grid-column:10/span 3;grid-row:3/span 1}#why-choose-1371 .cs-item:nth-of-type(9){grid-column:10/span 3;grid-row:4/span 1}}@media only screen and (min-width:0rem){body.dark-mode #why-choose-1371 .cs-item-text,body.dark-mode #why-choose-1371 .cs-text,body.dark-mode #why-choose-1371 .cs-text strong,body.dark-mode #why-choose-1371 .cs-title{color:var(--bodyTextColorWhite)}body.dark-mode #why-choose-1371 .cs-item-text,body.dark-mode #why-choose-1371 .cs-text{opacity:.8}body.dark-mode #why-choose-1371 .cs-item{background-color:rgba(0,0,0,.2);border-color:hsla(0,0%,100%,.2)}body.dark-mode #why-choose-1371 .cs-item:hover{background-color:var(--primary)}body.dark-mode #why-choose-1371 .cs-h3{color:var(--bodyTextColorWhite)}body.dark-mode #why-choose-1371 .cs-h3-icon{filter:brightness(0) saturate(100%) invert(45%) sepia(38%) saturate(2615%) hue-rotate(127deg) brightness(100%) contrast(102%)}}
@@ -336,3 +235,56 @@
 
 /* steps-585 */
 @media only screen and (min-width:0rem){#steps-585{background-color:#f7f7f7;padding:var(--sectionPadding)}#steps-585 .cs-container{align-items:center;display:flex;flex-direction:column;gap:clamp(3rem,6vw,4rem);margin:auto;max-width:34.375rem;width:100%}#steps-585 .cs-content{align-items:flex-start;display:flex;flex-direction:column;text-align:left;width:100%}#steps-585 .cs-card-group{display:grid;grid-template-columns:repeat(12,1fr);margin:0;padding:0;position:relative}#steps-585 .cs-item{align-items:flex-start;box-sizing:border-box;display:flex;flex-direction:column;grid-column:span 12;list-style:none;min-height:18.125rem;padding:clamp(1.25rem,5vw,2rem)}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(3),#steps-585 .cs-item:nth-of-type(4),#steps-585 .cs-item:nth-of-type(5){border-bottom:1px solid var(--headerColor)}#steps-585 .cs-h3{color:var(--primary);display:block;font-size:1.5rem;font-weight:500;line-height:1.2em;margin:0 0 .75rem;text-align:left}#steps-585 .cs-item-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5em;margin:0;text-align:left}#steps-585 .cs-number{color:var(--primary);display:block;font-size:3.8125rem;font-weight:900;line-height:1.2em;margin:auto 0 0}}@media only screen and (min-width:48rem){#steps-585 .cs-container{max-width:80rem}#steps-585 .cs-item{grid-column:span 6}#steps-585 .cs-item:nth-of-type(5){border-bottom:none}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(3),#steps-585 .cs-item:nth-of-type(5){border-right:1px solid var(--headerColor)}}@media only screen and (min-width:64rem){#steps-585 .cs-item{grid-column:span 4}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(4),#steps-585 .cs-item:nth-of-type(5){border-right:1px solid var(--headerColor)}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(3){border-bottom:1px solid var(--headerColor)}#steps-585 .cs-item:nth-of-type(3){border-right:none}#steps-585 .cs-item:nth-of-type(4){border-bottom:none}}@media only screen and (min-width:0rem){body.dark-mode #steps-585{background-color:rgba(0,0,0,.6)}body.dark-mode #steps-585 .cs-topper{color:var(--primaryLight)}body.dark-mode #steps-585 .cs-title{color:var(--bodyTextColorWhite)}body.dark-mode #steps-585 .cs-item{border-color:var(--bodyTextColorWhite)}body.dark-mode #steps-585 .cs-item-text{color:var(--bodyTextColorWhite);opacity:.8}body.dark-mode #steps-585 .cs-h3,body.dark-mode #steps-585 .cs-number{color:var(--primaryLight)}}
+
+/* about-story — single-column "Get to Know Us" text section. Topper + large
+   H1 + paragraphs (first and last sentences bolded as lead/close). Sits on
+   the same #f7f7f7 / --medium surface as the founder blocks for visual unity
+   with the rest of the about page. */
+@media only screen and (min-width:0rem){
+  #about-story{
+    background-color:#f7f7f7;
+    padding:var(--sectionPadding);
+  }
+  #about-story .cs-container{
+    margin:auto;
+    max-width:80rem;
+    width:100%;
+  }
+  #about-story .cs-content{
+    align-items:flex-start;
+    display:flex;
+    flex-direction:column;
+    margin:0 auto;
+    max-width:52.5rem;
+    text-align:left;
+    width:100%;
+  }
+  #about-story .cs-title{
+    font-size:clamp(2.25rem,5.5vw,3.75rem);
+    line-height:1.1em;
+    margin:0 0 2rem;
+    max-width:18ch;
+  }
+  #about-story .cs-text{
+    margin:0 0 1.25rem;
+    max-width:none;
+  }
+  #about-story .cs-text:last-of-type{
+    margin-bottom:0;
+  }
+  #about-story .cs-text strong{
+    color:var(--headerColor);
+  }
+}
+body.dark-mode #about-story{
+  background-color:var(--medium);
+}
+body.dark-mode #about-story .cs-title,
+body.dark-mode #about-story .cs-text,
+body.dark-mode #about-story .cs-text strong{
+  color:var(--bodyTextColorWhite);
+}
+body.dark-mode #about-story .cs-text:not(:has(strong)){
+  opacity:.85;
+}
+

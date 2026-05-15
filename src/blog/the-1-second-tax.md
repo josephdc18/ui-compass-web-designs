@@ -130,7 +130,7 @@ A 95 score on a confusing page is a fast trip to a bounce.
 
 ## Where we land
 
-We hand-code every site we ship and run PageSpeed Insights as part of every build. The score we hold against ourselves is 98 to 100 on mobile, on every page, every time. That number is not for marketing. It is what the site has to be to give you the floor on the conversion math at the top of this post.
+We hand-code every site we ship and run PageSpeed Insights as part of every build. The score we hold against ourselves is 95 to 100 on mobile, on every page, every time. That number is not for marketing. It is what the site has to be to give you the floor on the conversion math at the top of this post.
 
 If your current site is scoring under 80 and you are running ads to it, you are paying twice. Once to get the click, again in the bounce. The same case is in our pricing logic — see [our $150/month plan](/pricing/) for what continuous performance work looks like budgeted into a small business operating cost.
 

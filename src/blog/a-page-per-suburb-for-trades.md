@@ -107,7 +107,7 @@ category: SEO
 ---
 
 
-**How to get Google traffic to your site**
+## How to get Google traffic to your site
 
 A typical starter website has around 6 pages - Home, About, Services, Contact and maybe some Reviews or Portfolio galleries. However, that simple structure fails to direct local Google search traffic. Why?
 
@@ -117,13 +117,13 @@ The best way to optimize your website for Google traffic is to dedicate pages to
 
 This is what we call a “service-by-location matrix”. If you want to learn more about how to set up your website to best utilize the service-by-location matrix, check out our next blog post.
 
-**Understanding Search Intent for SEO Optimization**
+## Understanding Search Intent for SEO Optimization
 
 In SEO, search intent is the primary goal of the user - the “why” behind the search. When a homeowner wants to hire a company to paint their fence, they may search “fence painting XYZ city” or “residential painting XYZ city”. Though they look similar, these two searches have different intent, in the eyes of Google. 
 
 In order for your website to pull up before others for either of these prompts, you must have one page dedicated to “fence painting” and another for “residential painting”. A focused page enables better keyword optimization for specific intent, making it easier for AI to understand and rank the content.
 
-**Keep in Mind the Client’s Perspective**
+## Keep in Mind the Client’s Perspective
 
 The vocabulary mismatch between how businesses describe themselves and how customers describe their problems is the unsung reason most small business sites under-rank.
 

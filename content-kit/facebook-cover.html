@@ -1,0 +1,162 @@
+<!doctype html>
+<!--
+  facebook-cover.html  (1640×624)
+
+  UI Compass Web Designs — Facebook business page cover photo.
+  Screenshot the .stage element at 1640×624 (or open at that viewport).
+  Facebook displays cover photos at 851×315 (desktop) / 640×360 (mobile),
+  so the center safe-zone is the middle ~820px wide. Logo and headline are
+  both kept inside that zone so nothing critical gets cropped on mobile.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UI Compass — Facebook Cover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;1,900&family=Montserrat:ital,wght@0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-green:   #0a5f3a;
+    --accent:     #4fc66f;   /* bright green for headline accent words */
+    --cream:      #e9e9e6;   /* matches the post-template card */
+    --ink-light:  #ffffff;
+    --ink-mute:   #cfd9d2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1640px;
+    height: 624px;
+    background: var(--bg-green);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-light);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .stage {
+    position: relative;
+    width: 1640px;
+    height: 624px;
+    overflow: hidden;
+  }
+
+  /* Faint cream pill bleeding off the right edge — echoes the side-pill
+     motif from the social-post template without crowding the headline. */
+  .pill {
+    position: absolute;
+    top: 50%;
+    right: -240px;
+    transform: translateY(-50%);
+    width: 280px;
+    height: 880px;
+    background: var(--cream);
+    border-radius: 140px;
+    opacity: 0.10;
+  }
+
+  /* Hairline rule running between the logo lockup and the headline */
+  .rule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 320px;
+    background: rgba(255,255,255,0.18);
+  }
+
+  /* LEFT: brand lockup */
+  .lockup {
+    position: absolute;
+    top: 50%;
+    left: 410px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .lockup .mark {
+    width: 210px;
+    height: 210px;
+    display: block;
+    flex: none;
+  }
+  .lockup .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .lockup .name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    letter-spacing: -0.01em;
+    color: var(--ink-light);
+  }
+  .lockup .name .dot { color: var(--accent); }
+  .lockup .sub {
+    margin-top: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 19px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* RIGHT: italic headline + sub */
+  .copy {
+    position: absolute;
+    top: 50%;
+    right: 110px;
+    transform: translateY(-50%);
+    text-align: right;
+    max-width: 720px;
+  }
+  .headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 132px;
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .headline .row { display: block; white-space: nowrap; }
+  .headline .accent { color: var(--accent); }
+
+  .sub {
+    margin-top: 26px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--ink-mute);
+  }
+  .sub .chev { margin-right: 10px; color: var(--accent); font-style: normal; font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="stage">
+  <div class="pill" aria-hidden="true"></div>
+  <div class="rule" aria-hidden="true"></div>
+
+  <div class="lockup">
+    <img class="mark" src="../src/assets/logo-on-dark.svg" alt="UI Compass Web Designs">
+    <div class="wordmark">
+      <span class="name">UI Compass<span class="dot">.</span></span>
+      <span class="sub">Web Designs</span>
+    </div>
+  </div>
+
+  <div class="copy">
+    <h1 class="headline">
+      <span class="row">FASTER <span class="accent">SITES.</span></span>
+      <span class="row">MORE <span class="accent">CALLS.</span></span>
+    </h1>
+    <p class="sub"><span class="chev">&gt;&gt;</span>Hand-coded websites for DFW small businesses.</p>
+  </div>
+</main>
+</body>
+</html>

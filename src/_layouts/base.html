@@ -91,6 +91,10 @@
   <link rel="preload" as="style" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="{{ preloadCSS }}{% if '?' in preloadCSS %}&{% else %}?{% endif %}v={{ build.hash }}"></noscript>
   {% endif %}
+  {% if blog or serviceToc %}
+  <link rel="preload" as="style" href="/css/toc.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/css/toc.css?v={{ build.hash }}"></noscript>
+  {% endif %}
 
   <!--Put analytics tag here at the bottom to prevent it from render blocking-->
 

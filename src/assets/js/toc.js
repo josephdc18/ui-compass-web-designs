@@ -7,8 +7,9 @@
  *   page TOC (initServiceToc): the LAST heading whose top crosses the offset
  *   line is "current". This makes the border-left + color + padding transition
  *   in CSS animate smoothly as you scroll past each heading, including h3s.
- * - initServiceToc handles the existing service-page sidebar pattern (kept
- *   verbatim). Both code paths now share the same DOM contract:
+ * - initServiceToc uses the hand-authored service-page sidebar for desktop and
+ *   generates the same mobile chip rail pattern used by blog posts. Both code
+ *   paths now share the same DOM contract:
  *   <nav class="toc"> > <ol> > <li> > <a href="#id">…</a> [+ nested <ol>].
  */
 (function () {
@@ -24,6 +25,7 @@
   function bindScrollSpy(roots, options) {
     var headerOffset = (options && options.headerOffset) || HEADER_OFFSET;
     var onActiveChange = (options && options.onActiveChange) || function () {};
+    var onActiveUpdate = (options && options.onActiveUpdate) || function () {};
 
     // Accept either a single nav element or an array (e.g. [desktopNav, mobileChipRail]).
     // Both navs share active-state since they point at the same heading IDs.
@@ -69,7 +71,7 @@
 
     if (!items.length) return null;
 
-    var lastActiveId = null;
+    var lastActiveId;
 
     function setActiveLink(id) {
       links.forEach(function (link) {
@@ -79,6 +81,7 @@
         if (isActive) link.setAttribute('aria-current', 'true');
         else link.removeAttribute('aria-current');
       });
+      onActiveUpdate(id);
       if (id !== lastActiveId) {
         lastActiveId = id;
         onActiveChange(id);
@@ -89,8 +92,8 @@
 
     function updateActiveLink() {
       var scrollPosition = window.scrollY + headerOffset;
-      // null = above all headings. The blog's onActiveChange uses this to
-      // pin the "Overview" chip; the service-page TOC ignores it (no Overview).
+      // null = above all headings. Blog and service pages use this to pin the
+      // "Overview" chip because #top is intentionally not tracked as a heading.
       var activeItem = null;
       items.forEach(function (item) {
         var headingTop = item.heading.getBoundingClientRect().top + window.scrollY;
@@ -212,6 +215,7 @@
       // doesn't correspond to a heading element it tracks).
       overviewChip.addEventListener('click', function (e) {
         e.preventDefault();
+        setMobileChipActive(nav, mobileRail, null);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
@@ -223,13 +227,12 @@
     // mobile rail's Overview chip in that case since #top isn't tracked.
     bindScrollSpy([nav, mobileRail], {
       headerOffset: HEADER_OFFSET,
-      onActiveChange: function (id) {
-        // Pin Overview chip when no heading is past the offset line
+      onActiveUpdate: function (id) {
         if (mobileRail) {
-          var overview = mobileRail.querySelector('.toc-chip[href="#top"]');
-          if (overview) overview.classList.toggle('active', id === null);
+          setMobileChipActive(nav, mobileRail, id);
         }
-
+      },
+      onActiveChange: function () {
         // Auto-scroll desktop sidebar (vertical) to keep active link visible
         var activeLink = nav.querySelector('a.active');
         if (activeLink) {
@@ -286,14 +289,185 @@
   }
 
   // -------------------------------------------------------------------
-  // Service-page TOC: markup is hand-authored (already nested OLs),
-  // we just wire the scroll-spy.
+  // Service-page TOC: desktop markup is hand-authored, while the mobile
+  // chip rail is generated from the same h2 links so it mirrors blog posts.
   // -------------------------------------------------------------------
 
+  function getHashId(link) {
+    var href = link.getAttribute('href');
+    if (!href || href.charAt(0) !== '#' || href.length < 2) return '';
+    return href.slice(1);
+  }
+
+  function findMobileChipById(mobileRail, id) {
+    if (!mobileRail) return null;
+    var chips = Array.from(mobileRail.querySelectorAll('.toc-chip[href^="#"]'));
+    for (var i = 0; i < chips.length; i++) {
+      if (getHashId(chips[i]) === id) return chips[i];
+    }
+    return null;
+  }
+
+  function getDirectTocLink(listItem) {
+    if (!listItem) return null;
+    var child = listItem.firstElementChild;
+    while (child) {
+      if (child.tagName === 'A' && child.getAttribute('href')) return child;
+      child = child.nextElementSibling;
+    }
+    return null;
+  }
+
+  function resolveMobileChipId(nav, mobileRail, activeId) {
+    if (!mobileRail || activeId === null || activeId === 'top') return null;
+    if (findMobileChipById(mobileRail, activeId)) return activeId;
+
+    var navLinks = nav ? Array.from(nav.querySelectorAll('a[href^="#"]')) : [];
+    var activeLink = null;
+    navLinks.some(function (link) {
+      if (getHashId(link) !== activeId) return false;
+      activeLink = link;
+      return true;
+    });
+
+    var listItem = activeLink ? activeLink.closest('li') : null;
+    while (listItem) {
+      var parentList = listItem.parentElement;
+      var parentItem = parentList ? parentList.closest('li') : null;
+      if (!parentItem) break;
+
+      var parentLink = getDirectTocLink(parentItem);
+      var parentId = parentLink ? getHashId(parentLink) : '';
+      if (parentId && findMobileChipById(mobileRail, parentId)) return parentId;
+
+      listItem = parentItem;
+    }
+
+    var activeHeading = document.getElementById(activeId);
+    if (!activeHeading || !/^H[1-6]$/.test(activeHeading.tagName)) return null;
+
+    var activeTop = activeHeading.getBoundingClientRect().top + window.scrollY;
+    var fallbackId = null;
+    Array.from(mobileRail.querySelectorAll('.toc-chip[href^="#"]')).forEach(function (chip) {
+      var chipId = getHashId(chip);
+      if (chipId === 'top') return;
+      var chipHeading = document.getElementById(chipId);
+      if (!chipHeading) return;
+      var chipTop = chipHeading.getBoundingClientRect().top + window.scrollY;
+      if (chipTop <= activeTop) fallbackId = chipId;
+    });
+
+    return fallbackId;
+  }
+
+  function setMobileChipActive(nav, mobileRail, activeId) {
+    if (!mobileRail) return;
+    var chipId = resolveMobileChipId(nav, mobileRail, activeId);
+    Array.from(mobileRail.querySelectorAll('.toc-chip[href^="#"]')).forEach(function (chip) {
+      var id = getHashId(chip);
+      var isActive = chipId === null ? id === 'top' : id === chipId;
+      chip.classList.toggle('active', isActive);
+      if (isActive) chip.setAttribute('aria-current', 'true');
+      else chip.removeAttribute('aria-current');
+    });
+  }
+
+  function ensureServiceMobileRail(serviceSidebar) {
+    var existing = document.querySelector('.toc-mobile');
+    if (existing) return existing;
+
+    var mobileRail = document.createElement('nav');
+    mobileRail.className = 'toc-mobile';
+    mobileRail.setAttribute('aria-label', 'Table of contents (mobile)');
+
+    var serviceShell = serviceSidebar.parentElement;
+    if (serviceShell && serviceShell.parentNode) {
+      serviceShell.parentNode.insertBefore(mobileRail, serviceShell);
+    } else if (serviceSidebar.parentNode) {
+      serviceSidebar.parentNode.insertBefore(mobileRail, serviceSidebar);
+    }
+
+    return mobileRail;
+  }
+
+  function buildServiceMobileRail(serviceToc, mobileRail) {
+    var tocLinks = Array.from(serviceToc.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionLinks = tocLinks.filter(function (link) {
+      var target = document.getElementById(getHashId(link));
+      return target && target.tagName === 'H2';
+    });
+
+    if (!sectionLinks.length) sectionLinks = tocLinks;
+
+    mobileRail.innerHTML = '';
+
+    var overviewChip = document.createElement('a');
+    overviewChip.href = '#top';
+    overviewChip.className = 'toc-chip';
+    overviewChip.textContent = 'Overview';
+    mobileRail.appendChild(overviewChip);
+
+    sectionLinks.forEach(function (sourceLink) {
+      var chip = document.createElement('a');
+      chip.href = sourceLink.getAttribute('href');
+      chip.className = 'toc-chip';
+      chip.textContent = sourceLink.textContent.replace(/\s+/g, ' ').trim();
+      mobileRail.appendChild(chip);
+    });
+
+    overviewChip.addEventListener('click', function (e) {
+      e.preventDefault();
+      setMobileChipActive(serviceToc, mobileRail, null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   function initServiceToc() {
-    var serviceToc = document.querySelector('#service-sidebar .toc');
+    var serviceSidebar = document.querySelector('#service-sidebar');
+    if (!serviceSidebar) return;
+    var serviceToc = serviceSidebar.querySelector('.toc');
     if (!serviceToc) return;
-    bindScrollSpy([serviceToc], { headerOffset: HEADER_OFFSET });
+
+    var mobileRail = ensureServiceMobileRail(serviceSidebar);
+    buildServiceMobileRail(serviceToc, mobileRail);
+
+    bindScrollSpy([serviceToc, mobileRail], {
+      headerOffset: HEADER_OFFSET,
+      onActiveUpdate: function (id) {
+        if (mobileRail) {
+          setMobileChipActive(serviceToc, mobileRail, id);
+        }
+      },
+      onActiveChange: function () {
+        if (mobileRail) {
+
+          var activeChip = mobileRail.querySelector('.toc-chip.active');
+          if (activeChip) {
+            var cr = mobileRail.getBoundingClientRect();
+            var ch = activeChip.getBoundingClientRect();
+            var left = mobileRail.scrollLeft + (ch.left - cr.left) - cr.width / 2 + ch.width / 2;
+            mobileRail.scrollTo({ left: left, behavior: 'smooth' });
+          }
+        }
+
+        var activeLink = serviceToc.querySelector('a.active');
+        if (activeLink) {
+          var sb = serviceSidebar.getBoundingClientRect();
+          var lk = activeLink.getBoundingClientRect();
+          var linkTop = lk.top - sb.top + serviceSidebar.scrollTop;
+          if (linkTop < serviceSidebar.scrollTop || linkTop + lk.height > serviceSidebar.scrollTop + sb.height) {
+            serviceSidebar.scrollTo({
+              top: Math.max(0, linkTop - sb.height / 2 + lk.height / 2),
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
+    });
+
+    initTocMobileStuckDetection();
   }
 
   if (document.readyState === 'loading') {

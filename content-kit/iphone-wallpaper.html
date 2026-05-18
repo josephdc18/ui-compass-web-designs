@@ -1,0 +1,158 @@
+<!doctype html>
+<!--
+  iphone-wallpaper.html  (1290×2796)
+
+  UI Compass Web Designs — iPhone wallpaper. Native resolution for iPhone
+  15/16 Pro Max; macOS/iOS scale crisp to all smaller iPhone models.
+
+  Composition is vertical and centered: logo lockup stacked at top, a
+  thin hairline divider, then the italic headline and sub. Critical
+  content sits in the middle ~50% of the canvas so it falls between the
+  lock screen clock (top ~12%) and the home indicator + widgets (bottom
+  ~15%).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UI Compass — iPhone Wallpaper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;1,900&family=Montserrat:ital,wght@0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-green:   #0a5f3a;
+    --accent:     #4fc66f;
+    --cream:      #e9e9e6;
+    --ink-light:  #ffffff;
+    --ink-mute:   #cfd9d2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1290px;
+    height: 2796px;
+    background: var(--bg-green);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-light);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .stage {
+    position: relative;
+    width: 1290px;
+    height: 2796px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* Native-vertical UIC monogram as a full-height watermark behind
+     the composition. SVG is 200×600 (1:3 ratio). */
+  .bg-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 867px;
+    height: 2600px;
+    transform: translate(-50%, -50%);
+    opacity: 0.10;
+    pointer-events: none;
+  }
+
+  /* LOCKUP — logo + wordmark stacked */
+  .lockup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+  .lockup .mark {
+    width: 280px;
+    height: 280px;
+    display: block;
+  }
+  .lockup .name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 96px;
+    letter-spacing: -0.01em;
+    color: var(--ink-light);
+    line-height: 1;
+  }
+  .lockup .name .dot { color: var(--accent); }
+  .lockup .sub {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: -12px;
+  }
+
+  /* Horizontal hairline divider */
+  .rule {
+    position: relative;
+    width: 280px;
+    height: 2px;
+    background: rgba(255,255,255,0.20);
+    margin: 40px 0;
+  }
+
+  /* COPY — italic headline + sub */
+  .copy {
+    position: relative;
+    text-align: center;
+    max-width: 1100px;
+  }
+  .headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 220px;
+    line-height: 0.94;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .headline .row { display: block; white-space: nowrap; }
+  .headline .accent { color: var(--accent); }
+
+  .sub {
+    margin-top: 56px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 40px;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--ink-mute);
+  }
+  .sub .chev { margin-right: 14px; color: var(--accent); font-style: normal; font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="stage">
+  <img class="bg-logo" src="assets/uic-vertical.svg" alt="" aria-hidden="true">
+
+  <div class="lockup">
+    <span class="name">UI Compass<span class="dot">.</span></span>
+    <span class="sub">Web Designs</span>
+  </div>
+
+  <div class="rule" aria-hidden="true"></div>
+
+  <div class="copy">
+    <h1 class="headline">
+      <span class="row">FASTER <span class="accent">SITES.</span></span>
+      <span class="row">MORE <span class="accent">CALLS.</span></span>
+    </h1>
+    <p class="sub"><span class="chev">&gt;&gt;</span>Hand-coded websites for DFW small businesses.</p>
+  </div>
+</main>
+</body>
+</html>

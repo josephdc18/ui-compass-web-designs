@@ -1,0 +1,480 @@
+<!doctype html>
+<!--
+  salon-brochure.html  (1200×auto, digital brochure / service menu)
+
+  Single long-scroll digital service menu for a nail / spa salon.
+  Designed cream + rose-gold + charcoal — print-friendly if exported to PDF.
+  Replace SALON_NAME and contact placeholders before sending to client.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Service Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #faf6f1;
+    --accent:    #b89c7a;
+    --accent-d:  #8c7253;
+    --ink:       #2a2826;
+    --ink-soft:  #6a665e;
+    --rule:      #e3d9c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px;
+    background: var(--bg);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body { padding: 90px 100px 80px; }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cover .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 110px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .cover .sub {
+    margin-top: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+  .cover .ornament {
+    width: 80px; height: 1px; background: var(--accent);
+    margin: 36px auto 0;
+  }
+
+  /* SECTION */
+  .section { margin-top: 90px; }
+  .section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .section .section-sub {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .section-rule {
+    width: 50px; height: 1px; background: var(--accent);
+    margin: 28px 0 36px;
+  }
+
+  /* SERVICE ITEM */
+  .service {
+    padding: 26px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .service:last-child { border-bottom: none; }
+  .service .head {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .service .name {
+    flex: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: 0.005em;
+  }
+  .service .meta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--accent-d);
+    white-space: nowrap;
+  }
+  .service .desc {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 940px;
+  }
+  .service .features {
+    margin-top: 12px;
+    list-style: none;
+    max-width: 940px;
+  }
+  .service .features li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .service .features li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.65em;
+    width: 8px; height: 1px;
+    background: var(--accent);
+  }
+
+  /* TWO-COLUMN ADD-ONS GRID */
+  .addons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 60px;
+  }
+  .addon {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .addon .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 21px;
+    color: var(--ink);
+    flex: 1;
+  }
+  .addon .price {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--accent-d);
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 100px;
+    padding-top: 44px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer .mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .footer .meta {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<header class="cover">
+  <p class="eyebrow">Salon &nbsp;·&nbsp; Spa</p>
+  <h1>Service Menu</h1>
+  <p class="sub">Manicures &nbsp;·&nbsp; Pedicures &nbsp;·&nbsp; Lashes &nbsp;·&nbsp; Facials &nbsp;·&nbsp; Massage</p>
+  <div class="ornament" aria-hidden="true"></div>
+</header>
+
+<!-- ============ MANICURES ============ -->
+<section class="section">
+  <p class="section-sub">One</p>
+  <h2>Manicures</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Express Nail Polish Change</div>
+      <div class="meta">$18 &nbsp;·&nbsp; 20 min</div>
+    </div>
+    <p class="desc">Quick nail shaping and polish application only.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Manicure Basic</div>
+      <div class="meta">$27 &nbsp;·&nbsp; 25 min</div>
+    </div>
+    <p class="desc">An indulgent service that includes precise nail trimming and shaping, expert cuticle care, gentle nail buffing, a flawless polish application, nourishing collagen moisturizer, and a relaxing hand massage to leave your hands feeling soft, refreshed, and beautifully groomed.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Manicure Spa</div>
+      <div class="meta">$36 &nbsp;·&nbsp; 40 min</div>
+    </div>
+    <p class="desc">Precise nail trimming and shaping, expert cuticle care, and gentle nail buffing, followed by a revitalizing exfoliating scrub, a soothing warm towel treatment, deep hydration to perfectly moisturize and soften your hands, and a flawless polish application.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Manicure Deluxe</div>
+      <div class="meta">$50 &nbsp;·&nbsp; 50 min</div>
+    </div>
+    <p class="desc">Begins with precise nail trimming and shaping, expert cuticle care, gentle nail buffing, a revitalizing exfoliating scrub, and a soothing warm towel treatment. Continues with deep collagen hydration to moisturize and soften, followed by your choice of hot stone therapy or paraffin wax treatment, and a relaxing five-minute hand massage to fully absorb the nourishing collagen. Completed with a flawless polish application.</p>
+  </div>
+</section>
+
+<!-- ============ PEDICURES ============ -->
+<section class="section">
+  <p class="section-sub">Two</p>
+  <h2>Pedicures&nbsp;<i>for ladies &amp; gentlemen</i></h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Express Toe Nail Polish Change</div>
+      <div class="meta">$18 &nbsp;·&nbsp; 30 min</div>
+    </div>
+    <p class="desc">An express service that refreshes your toes with a quick tidy-up and flawless polish application.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Pedicure Spa</div>
+      <div class="meta">$32 &nbsp;·&nbsp; 35 min</div>
+    </div>
+    <p class="desc">Expert nail trimming and shaping, meticulous cuticle care, gentle exfoliation to refresh the skin, a relaxing five-minute foot massage to ease tension and improve circulation, and a flawless polish application for a beautifully finished look.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Pedicure Deluxe</div>
+      <div class="meta">$45 &nbsp;·&nbsp; 45 min</div>
+    </div>
+    <p class="desc">Begins with expert nail trimming and shaping, followed by meticulous cuticle care and professional callus removal to smooth and refine the feet. A gentle exfoliation refreshes the skin, then a nourishing mask is applied and wrapped in a soothing hot towel to deeply condition. Continues with a relaxing eight-minute foot and lower-leg massage to relieve tension and enhance circulation, and is completed with a flawless polish application.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Pedicure Deluxe Plus</div>
+      <div class="meta">$54 &nbsp;·&nbsp; 55 min</div>
+    </div>
+    <p class="desc">Expert nail trimming and shaping, meticulous cuticle care, and professional callus removal to smooth and refine the feet. Gentle exfoliation refreshes the skin, followed by a nourishing mask wrapped in a hot towel for deep conditioning. Enjoy your choice of hot stone therapy or paraffin wax treatment, then a relaxing ten-minute foot and lower-leg massage to relieve tension and enhance circulation. Completed with a flawless polish application.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Pedicure Gold Luxury</div>
+      <div class="meta">$70 &nbsp;·&nbsp; 1 hr 10 min</div>
+    </div>
+    <p class="desc">Your choice of volcano or jelly bath soak. Begins with expert nail trimming and shaping, meticulous cuticle care, and professional callus removal. Gentle exfoliation refreshes the skin, then a nourishing mask wrapped in a hot towel deeply conditions. Continues with warm paraffin wax or jelly bath collagen soak, a ten-minute foot and lower-leg massage, and a ten-minute arms and hands massage. Completed with a flawless polish application for a perfectly polished finish.</p>
+  </div>
+
+  <div class="service">
+    <div class="head">
+      <div class="name">Pedicure Dry</div>
+      <div class="meta">$65 &nbsp;·&nbsp; 1 hr</div>
+    </div>
+    <p class="desc">A modern, waterless pedicure that focuses on hygiene, precision, and long-lasting results. Performed entirely on dry skin so the technician can see the natural condition of the nails and cuticles more clearly — the treatment becomes more precise and effective. Includes nail trimming and shaping, gentle cuticle care, callus smoothing using professional electric files, and detailed cleaning around the nail plate. The natural nail stays stronger and polish or gel adheres better and lasts longer. Finished with nourishing oils, moisturizing creams, and a relaxing foot massage, leaving the feet smooth, clean, and beautifully polished.</p>
+  </div>
+</section>
+
+<!-- ============ KIDS ============ -->
+<section class="section">
+  <p class="section-sub">Three</p>
+  <h2>Kids&nbsp;<i>ten and under</i></h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="addons">
+    <div class="addon"><span class="name">Kids Manicure</span><span class="price">$15 · 20 min</span></div>
+    <div class="addon"><span class="name">Kids Manicure with Gel</span><span class="price">$24 · 30 min</span></div>
+    <div class="addon"><span class="name">Kids Pedicure</span><span class="price">$24 · 30 min</span></div>
+    <div class="addon"><span class="name">Kids Pedicure with Gel</span><span class="price">$30 · 30 min</span></div>
+    <div class="addon"><span class="name">Kids Pedicure (Boys)</span><span class="price">$12 · 30 min</span></div>
+    <div class="addon"><span class="name">Polish — Hands</span><span class="price">$7 · 30 min</span></div>
+    <div class="addon"><span class="name">Polish — Toes</span><span class="price">$9 · 30 min</span></div>
+  </div>
+</section>
+
+<!-- ============ NAIL ENHANCEMENT ============ -->
+<section class="section">
+  <p class="section-sub">Four</p>
+  <h2>Nail Enhancement</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="addons">
+    <div class="addon"><span class="name">Acrylic Set</span><span class="price">Price varies · 45 min+</span></div>
+    <div class="addon"><span class="name">Builder Gel</span><span class="price">Price varies · 1 hr+</span></div>
+    <div class="addon"><span class="name">Gel-X</span><span class="price">Price varies · 40 min+</span></div>
+    <div class="addon"><span class="name">Dip Powder</span><span class="price">Price varies · 30 min+</span></div>
+  </div>
+</section>
+
+<!-- ============ LASHES ============ -->
+<section class="section">
+  <p class="section-sub">Five</p>
+  <h2>Eyelash Extensions</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head"><div class="name">Lashes Classic Set</div><div class="meta">Price varies &nbsp;·&nbsp; 45 min+</div></div>
+  </div>
+  <div class="service">
+    <div class="head"><div class="name">Lashes Hybrid</div><div class="meta">Price varies &nbsp;·&nbsp; 1 hr 15 min+</div></div>
+  </div>
+  <div class="service">
+    <div class="head"><div class="name">Lash Volume Set</div><div class="meta">Price varies &nbsp;·&nbsp; 1 hr 15 min+</div></div>
+  </div>
+  <div class="service">
+    <div class="head"><div class="name">Lash Mini Fill</div><div class="meta">$45 &nbsp;·&nbsp; 35 min</div></div>
+  </div>
+  <div class="service">
+    <div class="head"><div class="name">Lash Lift + Tint</div><div class="meta">$80 &nbsp;·&nbsp; 50 min</div></div>
+    <p class="desc">A lash lift and tint enhances your natural lashes — longer-looking, fuller lashes without extensions or daily mascara. Results typically last six weeks with minimal maintenance.</p>
+  </div>
+</section>
+
+<!-- ============ WAXING ============ -->
+<section class="section">
+  <p class="section-sub">Six</p>
+  <h2>Waxing Services</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head"><div class="name">Waxing</div><div class="meta">Price varies &nbsp;·&nbsp; 10 min+</div></div>
+    <p class="desc">Available for a range of areas — please inquire for pricing by service.</p>
+  </div>
+</section>
+
+<!-- ============ FACIALS ============ -->
+<section class="section">
+  <p class="section-sub">Seven</p>
+  <h2>Facial Treatments</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head"><div class="name">Facial Express</div><div class="meta">$30 &nbsp;·&nbsp; 30 min</div></div>
+    <ul class="features">
+      <li>Cleansing — deep-cleans to remove impurities and build-up</li>
+      <li>Steam &amp; extractions — helps unclog pores and clear congestion</li>
+      <li>Exfoliation — smooths and renews skin by removing dead cells</li>
+      <li>Light massage &amp; moisturizing — relaxes while nourishing and hydrating</li>
+    </ul>
+  </div>
+
+  <div class="service">
+    <div class="head"><div class="name">Facial Deluxe</div><div class="meta">$60 &nbsp;·&nbsp; 55 min</div></div>
+    <ul class="features">
+      <li>Deep cleansing — removes impurities, oil, and buildup</li>
+      <li>Exfoliation — smooths and renews the skin</li>
+      <li>Steam &amp; extractions — unclogs pores and clears congestion</li>
+      <li>Facial massage — improves circulation and promotes relaxation</li>
+      <li>Customized mask — targeted to your skin needs (hydrating, calming, brightening)</li>
+      <li>Serum &amp; moisturizer — restores hydration and enhances skin health</li>
+      <li>SPF protection — protects and finishes the treatment</li>
+    </ul>
+  </div>
+
+  <div class="service">
+    <div class="head"><div class="name">Facial Deluxe Plus</div><div class="meta">$110 &nbsp;·&nbsp; 1 hr 15 min</div></div>
+    <ul class="features">
+      <li>Deep cleansing — removes impurities, oil, and buildup</li>
+      <li>Exfoliation — smooths and renews the skin</li>
+      <li>Steam &amp; extractions — clears pores and reduces congestion</li>
+      <li>Extended facial massage — boosts circulation and relieves tension</li>
+      <li>Advanced specialty mask — gold mask</li>
+      <li>Serum, moisturizer &amp; SPF — hydrates, protects, and seals in results</li>
+      <li>Neck, shoulder &amp; scalp massage — circulation boost for healthy hair growth</li>
+      <li>Eye treatment — added hydration and smoothing</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MASSAGE ============ -->
+<section class="section">
+  <p class="section-sub">Eight</p>
+  <h2>Massage</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="service">
+    <div class="head"><div class="name">Massage — Upright</div><div class="meta">Price varies &nbsp;·&nbsp; 10 min+</div></div>
+    <p class="desc">Focuses on relieving tension in the neck and shoulders.</p>
+  </div>
+
+  <div class="service">
+    <div class="head"><div class="name">Massage — Head &amp; Neck</div><div class="meta">Price varies &nbsp;·&nbsp; 15 min+</div></div>
+    <p class="desc">Relieves tension in the scalp, neck, and upper shoulders. Reduces stress, improves blood circulation to the scalp and neck, helps reduce headaches and eye strain, encourages healthy hair and scalp stimulation, and improves mental clarity and relaxation.</p>
+  </div>
+
+  <div class="service">
+    <div class="head"><div class="name">Massage — Feet</div><div class="meta">Price varies &nbsp;·&nbsp; 10 min+</div></div>
+    <p class="desc">A deeply relaxing treatment focused on relieving tension and fatigue in the feet and lower legs. Relieves foot pain and tension, improves blood circulation, reduces stress, decreases swelling and fatigue, and stimulates pressure points that support overall wellness.</p>
+  </div>
+
+  <div class="service">
+    <div class="head"><div class="name">Facial with Massage</div><div class="meta">Price varies &nbsp;·&nbsp; 30 min+</div></div>
+    <p class="desc">A deep cleansing treatment combined with a relaxing massage to purify the skin, relieve tension, and leave your face smooth, clear, and refreshed.</p>
+  </div>
+</section>
+
+<!-- ============ ADD-ONS ============ -->
+<section class="section">
+  <p class="section-sub">Nine</p>
+  <h2>Add-Ons</h2>
+  <div class="section-rule" aria-hidden="true"></div>
+
+  <div class="addons">
+    <div class="addon"><span class="name">Soak in Collagen</span><span class="price">$8 · 15 min</span></div>
+    <div class="addon"><span class="name">Jelly Spa Bath</span><span class="price">$10 · 30 min</span></div>
+    <div class="addon"><span class="name">Gel Add-On</span><span class="price">$15 · 30 min</span></div>
+    <div class="addon"><span class="name">Art French Tip Gel</span><span class="price">$20 · 30 min</span></div>
+    <div class="addon"><span class="name">Paraffin</span><span class="price">$7 · 15 min</span></div>
+    <div class="addon"><span class="name">Art (per nail)</span><span class="price">$5</span></div>
+    <div class="addon"><span class="name">Polish Change (Hands or Feet)</span><span class="price">$12</span></div>
+    <div class="addon"><span class="name">Nail Repair (per nail)</span><span class="price">$5</span></div>
+    <div class="addon"><span class="name">Length Cut / Shape Change</span><span class="price">$6</span></div>
+    <div class="addon"><span class="name">Soak-Off (Acrylic / Gel / Dip)</span><span class="price">$15</span></div>
+    <div class="addon"><span class="name">Art — Chrome / Cat Eye / Special</span><span class="price">$20</span></div>
+    <div class="addon"><span class="name">Art — Custom Design (per nail)</span><span class="price">$10</span></div>
+    <div class="addon"><span class="name">Gel Removal</span><span class="price">$5</span></div>
+    <div class="addon"><span class="name">Charms &amp; Accessories (per nail)</span><span class="price">$6</span></div>
+    <div class="addon"><span class="name">Hot Stones</span><span class="price">$5</span></div>
+    <div class="addon"><span class="name">Lash Removal Only</span><span class="price">$25</span></div>
+    <div class="addon"><span class="name">Callus Removal</span><span class="price">$7 · 10 min</span></div>
+    <div class="addon"><span class="name">Free Forms</span><span class="price">$20</span></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="mark">Thank you</div>
+  <div class="meta">By Appointment &nbsp;·&nbsp; Walk-Ins Welcome</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 600" width="200" height="600" role="img" aria-label="UIC vertical mark">
+  <!--
+    UI Compass — vertical UIC monogram for use as a watermark/background.
+    Stencil-cut blocky letterforms (gaps between strokes) echo the
+    primary logo's character without copying its exact paths.
+    Height 600, width 200. Fill stays a single color so opacity tints
+    cleanly when used as a low-opacity background.
+  -->
+  <g fill="#fafbfc">
+    <!-- U -->
+    <g transform="translate(35, 30)">
+      <rect x="0"   y="0"   width="22" height="115"/>
+      <rect x="108" y="0"   width="22" height="115"/>
+      <rect x="0"   y="118" width="130" height="22"/>
+    </g>
+
+    <!-- I -->
+    <g transform="translate(75, 220)">
+      <rect x="0"  y="0"   width="50" height="22"/>
+      <rect x="14" y="25"  width="22" height="90"/>
+      <rect x="0"  y="118" width="50" height="22"/>
+    </g>
+
+    <!-- C -->
+    <g transform="translate(35, 410)">
+      <rect x="0" y="0"   width="130" height="22"/>
+      <rect x="0" y="25"  width="22"  height="90"/>
+      <rect x="0" y="118" width="130" height="22"/>
+    </g>
+  </g>
+</svg>

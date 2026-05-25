@@ -34,31 +34,27 @@
 
   // -------------------------------------------------------------------
   // 2. Preview-only overrides
-  //    Two production rules use `body:has(.blog-with-toc)` selectors which
+  //    Two production rules use `body:has(.blog-with-toc)` selectors that
   //    won't match in Decap's preview iframe (its body isn't ours). We
-  //    re-declare the tokens at :root and target the banner directly. We
-  //    also hide JS-driven chrome that's inert in preview, force a single-
-  //    column flow, and stub the build-time Featured Posts sidebar.
+  //    re-declare the tokens at :root. We also hide JS-driven chrome that's
+  //    inert in preview, force a single-column flow, and stub the build-
+  //    time Featured Posts sidebar.
   // -------------------------------------------------------------------
   CMS.registerPreviewStyle(
     [
       ':root {',
       '  --blog-side-gutter: 1rem;',
-      '  --blog-banner-pt: 2rem;',
       '}',
       'body { background: #fff; padding: 0; margin: 0; }',
       // Inert in preview — these are JS-driven on the live site.
       // .toc-sidebar / .toc-mobile are populated by toc.js from rendered
       // headings at runtime; in preview they'd just be empty containers.
+      // .post-share, .post-quick-actions, .focus-exit-btn need JS to do
+      // anything meaningful, so they'd just dangle here.
       '.article-actions, .toc-sidebar, .toc-mobile,',
       '.banner-print-btn, .pb-go-top-progress, .audit-fab,',
+      '.post-share, .post-quick-actions, .focus-exit-btn,',
       '.blog-sidebar { display: none !important; }',
-      // Banner: collapse padding so it fits the small preview pane
-      '#banner-1106-14 {',
-      '  padding: var(--blog-banner-pt) var(--blog-side-gutter) 1.5rem !important;',
-      '  overflow: visible !important;',
-      '}',
-      '#banner-1106-14 .cs-container { width: 100% !important; max-width: none !important; }',
       // Single-column flow regardless of viewport
       '.blog-container.blog-with-toc { display: block !important; }',
       '.main-content, .blog-article { width: 100% !important; max-width: none !important; }',
@@ -142,51 +138,56 @@
       var updated = data.get('updated');
       var image = data.get('image');
       var imageAlt = data.get('imageAlt') || '';
+      var topper = data.get('topper');
+      var summary = data.get('summary');
       var tldrTitle = data.get('tldrTitle') || 'Key Takeaways';
       var tldr = data.get('tldr');
       var faq = data.get('faq');
-      var related = data.get('related');
 
       // Resolve uploaded-asset paths so unsaved images render live in preview
       var imageSrc = image ? getAsset(image).toString() : null;
       var avatarSrc = authorImage ? getAsset(authorImage).toString() : null;
 
-      // ---- Banner (matches #banner-1106-14 in blog-post.html) ----
-      var banner = h('div', { id: 'banner-1106-14' },
-        h('div', { className: 'cs-container' },
-          h('h1', { className: 'cs-int-title' }, blogTitle),
-          h('div', { className: 'cs-breadcrumbs' },
-            h('span', { className: 'cs-link' }, 'Home'),
-            h('span', { className: 'cs-link' }, 'Blog'),
-            h('span', { className: 'cs-link cs-active' }, blogTitle)
-          )
-        ),
-        imageSrc && h('picture', { className: 'cs-background', key: 'banner-bg' },
-          h('img', { src: imageSrc, alt: imageAlt, 'aria-hidden': true })
-        )
+      // ---- Breadcrumbs (matches .post-crumbs in blog-post.html) ----
+      var crumbs = h('nav', { className: 'post-crumbs', 'aria-label': 'Breadcrumb' },
+        h('a', { href: '/' }, 'Home'),
+        h('span', { className: 'post-crumbs-sep', 'aria-hidden': true }, '/'),
+        h('a', { href: '/blog/' }, 'Blog')
       );
 
-      // ---- Author / dates strip ----
+      // ---- Header (topper + title + post-meta) ----
       var authorNode = authorUrl
         ? h('a', { className: 'post-meta-author', href: authorUrl }, author)
         : h('span', { className: 'post-meta-author post-meta-author--plain' }, author);
 
-      var byline = h('div', { className: 'post-meta' },
-        avatarSrc && h('span', { className: 'post-meta-avatar', key: 'avatar' },
-          h('img', { src: avatarSrc, alt: author })
-        ),
-        h('div', { className: 'post-meta-info' },
-          h('div', { className: 'post-meta-line' },
-            authorNode,
-            h('span', { className: 'post-meta-dot', 'aria-hidden': true }),
-            h('span', { className: 'post-meta-date' },
-              updated ? ('Updated on ' + formatPostDate(updated)) : formatPostDate(date)
+      var avatarHref = authorUrl || '/about/';
+      var postHeader = h('header', { className: 'post-header' },
+        topper && h('span', { className: 'post-topper', key: 'topper' }, topper),
+        h('h1', { className: 'post-title' }, blogTitle),
+        h('div', { className: 'post-meta' },
+          h('div', { className: 'post-meta-left' },
+            avatarSrc && h('a', { className: 'post-meta-avatar', href: avatarHref, key: 'avatar' },
+              h('img', { src: avatarSrc, alt: author, width: 44, height: 44 })
+            ),
+            h('div', { className: 'post-meta-info' },
+              h('div', { className: 'post-meta-line' },
+                authorNode,
+                h('span', { className: 'post-meta-dot', 'aria-hidden': true }),
+                h('span', { className: 'post-meta-date' },
+                  updated ? ('Updated on ' + formatPostDate(updated)) : formatPostDate(date)
+                )
+              ),
+              updated && h('div', { className: 'post-meta-original', key: 'original' },
+                'Originally published in ' + formatMonthYear(date) + '.')
             )
-          ),
-          updated && h('div', { className: 'post-meta-original', key: 'original' },
-            'Originally published in ' + formatMonthYear(date) + '.')
+          )
         )
       );
+
+      // ---- Optional summary paragraph (matches {{ summary | mdInline | safe }}) ----
+      var summaryNode = summary
+        ? h('p', { className: 'post-summary', dangerouslySetInnerHTML: { __html: renderInlineMd(summary) } })
+        : null;
 
       // ---- TL;DR box ----
       // Mirrors blog-post.html: a single .tldr-title heading (CSS uppercases
@@ -248,12 +249,13 @@
       // frontmatter is still editable via the Decap form fields above.
 
       // ---- Compose full preview ----
-      return h('div', { className: 'blog-container blog-with-toc main-content-wrapper' },
-        banner,
+      return h('div', { className: 'blog-container main-content-wrapper blog-with-toc' },
         h('div', { className: 'main-content' },
           h('article', { className: 'blog-article' },
+            crumbs,
             heroImg,
-            h('div', { className: 'article-group' }, byline),
+            postHeader,
+            summaryNode,
             tldrBox,
             h('section', { className: 'article-content', id: 'blog-content' },
               widgetFor('body')
@@ -315,42 +317,93 @@
     url: '/blog/social-media-vs-website/'
   };
 
-  function fieldNameFor(el) {
-    // Decap renders <label for="..."> and the matching input has that id.
-    // The id pattern is implementation-detail-y, so look for the nearest
-    // ancestor with a data-field or aria-labelledby, then map back via
-    // the visible <label> text or the input's `id` parts. We can't trust
-    // a single selector — try a few in order of stability.
-    var id = el.id || '';
-    // Pattern: nc-root_..._<fieldName> or similar. Pull trailing token.
-    var m = id.match(/[_-]([a-zA-Z]+)$/);
-    if (m && PLACEHOLDERS[m[1]]) return m[1];
+  function normalizeLabel(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
 
-    // Fallback: find the nearest <label> sibling/ancestor and match its
-    // text to a known label. Use the label rename from config.yml here.
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function fieldNameFromAttributes(el) {
+    var haystack = [
+      el.id,
+      el.name,
+      el.getAttribute('name'),
+      el.getAttribute('aria-label'),
+      el.getAttribute('aria-labelledby')
+    ].join(' ').toLowerCase();
+
+    var names = Object.keys(PLACEHOLDERS).sort(function (a, b) {
+      return b.length - a.length;
+    });
+
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+      var pattern = new RegExp('(^|[^a-z0-9])' + escapeRegExp(name.toLowerCase()) + '($|[^a-z0-9])');
+      if (pattern.test(haystack)) return name;
+    }
+
+    return null;
+  }
+
+  function labelTextFor(el) {
+    if (el.id && document.querySelector) {
+      var safeId = window.CSS && CSS.escape ? CSS.escape(el.id) : el.id.replace(/["\\]/g, '\\$&');
+      var directLabel = document.querySelector('label[for="' + safeId + '"]');
+      if (directLabel && directLabel.textContent) return normalizeLabel(directLabel.textContent);
+    }
+
     var node = el;
     for (var i = 0; i < 6 && node; i++) {
-      var label = node.querySelector && node.querySelector('label');
-      if (label && label.textContent) {
-        var text = label.textContent.trim().toLowerCase();
-        if (text.indexOf('title') === 0 && !text.indexOf('browser')) return 'blogTitle';
-        if (text.indexOf('page address') === 0) return 'pageName';
-        if (text.indexOf('browser tab') === 0) return 'titleTag';
-        if (text.indexOf('google search summary') === 0) return 'blogDescription';
-        if (text === 'author name') return 'author';
-        if (text === 'author link') return 'authorUrl';
-        if (text === 'topper label') return 'topper';
-        if (text.indexOf('hero image description') === 0) return 'imageAlt';
-        if (text === 'summary') return 'summary';
-        if (text.indexOf('key takeaways — heading') === 0) return 'tldrTitle';
-        if (text === 'bullet') return 'point';
-        if (text === 'question') return 'q';
-        if (text === 'answer') return 'a';
-        if (text === 'title') return 'title';
-        if (text === 'url') return 'url';
+      if (node.querySelectorAll) {
+        var labels = node.querySelectorAll('label');
+        if (labels.length === 1 && labels[0].textContent) return normalizeLabel(labels[0].textContent);
       }
       node = node.parentElement;
     }
+
+    return '';
+  }
+
+  function hasNearbyLabel(el, expectedText) {
+    var expected = normalizeLabel(expectedText);
+    var node = el.parentElement;
+    for (var i = 0; i < 5 && node; i++) {
+      if (node.querySelectorAll) {
+        var labels = node.querySelectorAll('label');
+        for (var j = 0; j < labels.length; j++) {
+          if (normalizeLabel(labels[j].textContent) === expected) return true;
+        }
+      }
+      node = node.parentElement;
+    }
+    return false;
+  }
+
+  function fieldNameFor(el) {
+    var attrName = fieldNameFromAttributes(el);
+    if (attrName) return attrName;
+
+    // Fallback: find the nearest <label> sibling/ancestor and match its
+    // text to a known label. "Title" appears both as the post title and
+    // inside Related Guides, so use nearby list-item labels to disambiguate.
+    var text = labelTextFor(el);
+    if (text === 'title') return hasNearbyLabel(el, 'URL') ? 'title' : 'blogTitle';
+    if (text.indexOf('page address') === 0) return 'pageName';
+    if (text.indexOf('browser tab') === 0) return 'titleTag';
+    if (text.indexOf('google search summary') === 0) return 'blogDescription';
+    if (text === 'author name') return 'author';
+    if (text === 'author link') return 'authorUrl';
+    if (text === 'topper label') return 'topper';
+    if (text.indexOf('hero image description') === 0) return 'imageAlt';
+    if (text === 'summary') return 'summary';
+    if (text.indexOf('key takeaways — heading') === 0) return 'tldrTitle';
+    if (text === 'bullet') return 'point';
+    if (text === 'question') return 'q';
+    if (text === 'answer') return 'a';
+    if (text === 'url') return 'url';
+
     return null;
   }
 
@@ -373,13 +426,13 @@
   }
 
   function initPlaceholders() {
-    var started = Date.now();
     var observer = new MutationObserver(function () {
       var root = document.querySelector('[id^="nc-root"]') || document.body;
       if (!root) return;
       try { applyPlaceholders(root); } catch (e) { /* swallow */ }
     });
     observer.observe(document.body, { childList: true, subtree: true });
+    try { applyPlaceholders(document.querySelector('[id^="nc-root"]') || document.body); } catch (e) { /* swallow */ }
 
     // Bail if Decap never mounts (5s grace period). No spam, no errors.
     setTimeout(function () {

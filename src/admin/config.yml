@@ -44,13 +44,15 @@ collections:
     sortable_fields: ['date', 'updated', 'blogTitle']
     editor:
       preview: true
-    description: >
-      Welcome! To create a new post, click "New Blog Post" above. The Title, Page Address, Google Search Summary, and Body are the only fields you really need to fill — everything else has sensible defaults or is optional. Hitting Save puts your work-in-progress in the Workflow tab (Draft → In Review → Ready); nothing reaches the live site until you click Publish from there. Pictures: paste or drag them straight into the Body — they upload automatically. The live preview on the right updates as you type.
+    description: |
+      Welcome! To create a new post, click **New Blog Post** above. The Title, Page Address, Google Search Summary, and Body are the only fields you really need to fill — everything else has sensible defaults or is optional.
+
+      Hitting Save puts your work-in-progress in the **Workflow** tab (Draft → In Review → Ready); nothing reaches the live site until you click **Publish** from there. Pictures: paste or drag them straight into the Body — they upload automatically. The live preview on the right updates as you type.
     view_filters:
-      - label: 'Published'
+      - label: 'Shown When Published'
         field: draft
         pattern: false
-      - label: 'Drafts'
+      - label: 'Hidden From Live Site'
         field: draft
         pattern: true
       - label: 'Featured'

@@ -13,49 +13,17 @@ tldr:
   - Dedicate a page to each location that you will service.
   - Each location page must be unique. If not, Google will demote the site.
 ---
-
-
 **How to create a site-by-service Matrix**
 
 Step 1: List all your services. Make the list as comprehensive as possible. For this example, we’ll just list 5 services. Keep in mind, a typical trades business has 8 to 15 distinct services worth a dedicated page. 
 
-Services
-
-Drain cleaning
-
-Water heater repair
-
-Water heater installation
-
-Tankless water heater installation
-
-Slab leak detection
+![](/assets/images/uploads/1.jpg)
 
 Step 2: List your service areas across the columns. 
 
 This is a comprehensive list of every suburb you service or want to service. For a plumber based in the suburbs of Dallas-Fort Worth that may look like below. Again, to keep it simple I’ve just listed 5 cities. That brings the total grid to 25 potential URLs (5 x 5). However, not all of these city - service combo has real demand.
 
-Services
-
-Arlington
-
-Plano
-
-Frisco
-
-McKinney
-
-Mansfield
-
-Drain cleaning
-
-Water heater repair
-
-Water heater installation
-
-Tankless water heater installation
-
-Slab leak detection
+![](/assets/images/uploads/2.jpg)
 
 Step 3: Check the cells with real demand
 

@@ -406,9 +406,12 @@ body.dark-mode .blog-sidebar {
 .post-topper {
   display: inline-block;
   align-self: flex-start;
-  font-size: 0.75rem;
+  /* Match the home-page .cs-topper sizing (root.css --topperFontSize +
+     letter-spacing) so the topper reads identically on the post header. */
+  font-size: var(--topperFontSize);
+  line-height: 1.2em;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--be-primary);
   padding: 0;

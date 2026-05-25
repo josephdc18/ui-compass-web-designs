@@ -175,6 +175,17 @@ collections:
           3–5 short bullets, one big idea each. Wrap the most important phrase in **double asterisks** to make it bold. Example: Your competitor has one. **Even a mediocre site beats no site at all** because Google has nothing of yours to rank.
         field: { label: 'Bullet', name: 'point', widget: 'string' }
 
+      # ---- Body ----
+      # Body sits BEFORE FAQ and Related Guides so the editor reads in the same
+      # order as the published page: hero → meta → key takeaways → body → FAQ →
+      # related. Matches blog-post.html.
+      - label: 'Body'
+        name: 'body'
+        widget: 'markdown'
+        hint: >-
+          This is the article itself. Use the toolbar — bold, headings, bullet lists, links, images — like a Google Doc; you don't need to know markdown. Use Heading 2 for main sections and Heading 3 for sub-sections (Heading 1 is the post title, already set above). To add an image, click the image button or paste/drag one straight in — it uploads automatically. The live preview on the right shows exactly how it will look published.
+
+      # ---- Below-body components (mirror the published page order) ----
       - label: 'FAQ'
         name: 'faq'
         widget: 'list'
@@ -209,13 +220,6 @@ collections:
             widget: 'string'
             hint: >-
               Internal path only. Example: /blog/social-media-vs-website/. Always start with / and end with /.
-
-      # ---- Body ----
-      - label: 'Body'
-        name: 'body'
-        widget: 'markdown'
-        hint: >-
-          This is the article itself. Use the toolbar — bold, headings, bullet lists, links, images — like a Google Doc; you don't need to know markdown. Use Heading 2 for main sections and Heading 3 for sub-sections (Heading 1 is the post title, already set above). To add an image, click the image button or paste/drag one straight in — it uploads automatically. The live preview on the right shows exactly how it will look published.
 
   # ---------------------------------------------------------------------------
   # SITE SETTINGS

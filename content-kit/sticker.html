@@ -1,0 +1,96 @@
+<!doctype html>
+<!--
+  sticker.html  (1575×825 = 5.25" × 2.75" @ 300 DPI, with 0.125" bleed)
+
+  UI Compass Web Designs — UIC logotype die-cut sticker. The cut path
+  follows the silhouette of the UIC letterforms plus a "WEB DESIGNS"
+  banner across the bottom, wrapped in an accent-green halo that both
+  reads as the visible border and provides the bleed margin.
+
+  The build script (scripts/screenshot-sticker.mjs) inlines the logo
+  SVG paths in place of the LOGO_INLINE marker so the halo filter can
+  dilate the letterforms directly.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UI Compass — Sticker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1575px;
+    height: 825px;
+    background: transparent;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
+  .stage { position: relative; width: 1575px; height: 825px; }
+  .face { position: absolute; inset: 0; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<main class="stage">
+
+  <svg class="face" xmlns="http://www.w3.org/2000/svg"
+       viewBox="0 0 1575 825" preserveAspectRatio="none">
+    <defs>
+      <!--
+        Halo filter — dilates the source by 28px and floods accent green,
+        then merges the original on top. The result is an accent-green
+        border ~28px thick around the visible shape, doubling as the
+        bleed margin so the contour cut never reveals white paper.
+      -->
+      <filter id="halo" x="-8%" y="-8%" width="116%" height="116%">
+        <feMorphology in="SourceAlpha" operator="dilate" radius="28"
+                      result="dilated"/>
+        <feFlood flood-color="#4fc66f" result="flood"/>
+        <feComposite in="flood" in2="dilated" operator="in" result="halo"/>
+        <feMerge>
+          <feMergeNode in="halo"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <!--
+      Halo group: only the SOLID outer shapes go in here so feMorphology
+      dilates a clean silhouette. The cream highlight cuts in the UIC
+      letterforms are intentionally excluded — they get drawn on top in
+      the next group so the halo doesn't notch inward around them.
+    -->
+    <g filter="url(#halo)">
+      <svg x="37.5" y="56" width="1500" height="513"
+           viewBox="10 178 509 174"
+           preserveAspectRatio="xMidYMid meet">
+        <!-- GREEN_LOGO_INLINE -->
+      </svg>
+      <rect x="37.5" y="569" width="1500" height="200" fill="#0a5f3a"/>
+    </g>
+
+    <!--
+      Top layer: cream cutouts + WEB DESIGNS text. These render on top
+      of the halo group but contribute nothing to the halo silhouette,
+      so the accent-green border stays smooth around the outer UIC
+      outline regardless of what's inside the letters.
+    -->
+    <svg x="37.5" y="56" width="1500" height="513"
+         viewBox="10 178 509 174"
+         preserveAspectRatio="xMidYMid meet">
+      <!-- CREAM_LOGO_INLINE -->
+    </svg>
+    <text x="787.5" y="700"
+          font-family="Montserrat, sans-serif" font-weight="800"
+          font-size="98" fill="#efeee8"
+          text-anchor="middle" letter-spacing="22"
+          dx="0.22em">
+      WEB DESIGNS
+    </text>
+
+  </svg>
+
+</main>
+</body>
+</html>

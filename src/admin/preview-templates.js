@@ -100,14 +100,25 @@
   }
 
   // -------------------------------------------------------------------
-  // 4. Inline SVG icons matching the production layout
+  // 4. Inline markdown renderer for short frontmatter strings (TL;DR
+  //    bullets). Mirrors the production `mdInline` filter for the
+  //    patterns we actually author: **bold**, *italic*, `code`,
+  //    [text](url), and pass-through HTML (mdInline runs with html:true).
   // -------------------------------------------------------------------
-  function checkIconSvg() {
-    return h('svg', {
-      viewBox: '0 0 24 24', 'aria-hidden': true, focusable: 'false',
-      fill: 'none', stroke: 'currentColor', strokeWidth: 3,
-      strokeLinecap: 'round', strokeLinejoin: 'round'
-    }, h('polyline', { points: '4 12 10 18 20 6' }));
+  function renderInlineMd(value) {
+    if (value == null) return '';
+    var s = String(value);
+    // code spans first so their contents aren't re-processed
+    s = s.replace(/`([^`]+)`/g, function (_, c) { return '<code>' + c + '</code>'; });
+    // links
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, t, u) {
+      return '<a href="' + u + '">' + t + '</a>';
+    });
+    // bold (greedy across spaces, non-greedy across **)
+    s = s.replace(/\*\*([^*]+(?:\*(?!\*)[^*]+)*)\*\*/g, '<strong>$1</strong>');
+    // italic — single * not adjacent to another *
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+    return s;
   }
 
   // -------------------------------------------------------------------
@@ -131,7 +142,7 @@
       var updated = data.get('updated');
       var image = data.get('image');
       var imageAlt = data.get('imageAlt') || '';
-      var tldrTitle = data.get('tldrTitle') || 'What you need to know';
+      var tldrTitle = data.get('tldrTitle') || 'Key Takeaways';
       var tldr = data.get('tldr');
       var faq = data.get('faq');
       var related = data.get('related');
@@ -178,20 +189,21 @@
       );
 
       // ---- TL;DR box ----
-      // List items come back as Immutable Maps shaped like { point: "..." }.
-      // The previous project's preview rendered them as `[object Object]`
-      // because it tried to use the Map directly. Pull `.get('point')`.
+      // Mirrors blog-post.html: a single .tldr-title heading (CSS uppercases
+      // it) and disc-marker <li><span>…</span></li> rows. Each bullet is
+      // rendered through renderInlineMd so **bold** etc. match production's
+      // `point | mdInline | safe`. List items come back as Immutable Maps
+      // shaped like { point: "..." } — pull `.get('point')`.
       var tldrBox = null;
       if (tldr && typeof tldr.size !== 'undefined' && tldr.size > 0) {
         tldrBox = h('aside', { className: 'tldr-box' },
-          h('div', { className: 'tldr-header' },
-            h('span', { className: 'tldr-badge' }, 'TL;DR'),
-            h('span', { className: 'tldr-title' }, tldrTitle)
-          ),
+          h('h2', { className: 'tldr-title' }, tldrTitle),
           h('ul', { className: 'tldr-points' },
             tldr.map(function (item, i) {
               var text = (item && typeof item.get === 'function') ? item.get('point') : item;
-              return h('li', { key: i }, checkIconSvg(), h('span', {}, text || ''));
+              return h('li', { key: i },
+                h('span', { dangerouslySetInnerHTML: { __html: renderInlineMd(text) } })
+              );
             }).toArray()
           )
         );
@@ -272,4 +284,117 @@
   // If we add one later, scope it explicitly:
   //   if (entry.get('collection') === 'some-collection') { ... }
   // -------------------------------------------------------------------
+
+  // -------------------------------------------------------------------
+  // 7. Ghost-text placeholders for plain text inputs.
+  //    Decap has no native `placeholder:` schema key, so we DOM-inject
+  //    them after the editor mounts. This is cosmetic only — placeholders
+  //    vanish on focus and never reach saved YAML. Scope: <input type=
+  //    "text">, untyped <input>, and <textarea>. Explicitly skips the
+  //    Slate-based markdown body, date pickers, file/image widgets.
+  //
+  //    Failure mode: if Decap's DOM changes in a future release and we
+  //    can't find the editor root, we disconnect and log once at debug.
+  //    No author-visible breakage.
+  // -------------------------------------------------------------------
+  var PLACEHOLDERS = {
+    blogTitle: '5 Signs You Are Ready for a Website',
+    pageName: '5-signs-ready-for-a-website',
+    titleTag: 'Ready for a Website?',
+    blogDescription: 'Five signals that mean the time is now and two that mean wait.',
+    author: 'Joseph C.',
+    authorUrl: '/about/',
+    topper: 'Strategy',
+    imageAlt: 'A checklist with five items checked off in green on a desk next to a phone',
+    summary: 'A short paragraph teasing what this post answers.',
+    tldrTitle: 'Five signs you are ready',
+    point: 'Your competitor has one. **Even a mediocre site beats no site at all**.',
+    q: 'How small is too small for a website?',
+    a: 'Answer in 2–4 sentences. Use <p>…</p> for paragraph breaks.',
+    title: 'Your Instagram Handle Is Not Yours. A Website Is.',
+    url: '/blog/social-media-vs-website/'
+  };
+
+  function fieldNameFor(el) {
+    // Decap renders <label for="..."> and the matching input has that id.
+    // The id pattern is implementation-detail-y, so look for the nearest
+    // ancestor with a data-field or aria-labelledby, then map back via
+    // the visible <label> text or the input's `id` parts. We can't trust
+    // a single selector — try a few in order of stability.
+    var id = el.id || '';
+    // Pattern: nc-root_..._<fieldName> or similar. Pull trailing token.
+    var m = id.match(/[_-]([a-zA-Z]+)$/);
+    if (m && PLACEHOLDERS[m[1]]) return m[1];
+
+    // Fallback: find the nearest <label> sibling/ancestor and match its
+    // text to a known label. Use the label rename from config.yml here.
+    var node = el;
+    for (var i = 0; i < 6 && node; i++) {
+      var label = node.querySelector && node.querySelector('label');
+      if (label && label.textContent) {
+        var text = label.textContent.trim().toLowerCase();
+        if (text.indexOf('title') === 0 && !text.indexOf('browser')) return 'blogTitle';
+        if (text.indexOf('page address') === 0) return 'pageName';
+        if (text.indexOf('browser tab') === 0) return 'titleTag';
+        if (text.indexOf('google search summary') === 0) return 'blogDescription';
+        if (text === 'author name') return 'author';
+        if (text === 'author link') return 'authorUrl';
+        if (text === 'topper label') return 'topper';
+        if (text.indexOf('hero image description') === 0) return 'imageAlt';
+        if (text === 'summary') return 'summary';
+        if (text.indexOf('key takeaways — heading') === 0) return 'tldrTitle';
+        if (text === 'bullet') return 'point';
+        if (text === 'question') return 'q';
+        if (text === 'answer') return 'a';
+        if (text === 'title') return 'title';
+        if (text === 'url') return 'url';
+      }
+      node = node.parentElement;
+    }
+    return null;
+  }
+
+  function applyPlaceholders(root) {
+    var inputs = root.querySelectorAll('input[type="text"], input:not([type]), textarea');
+    for (var i = 0; i < inputs.length; i++) {
+      var el = inputs[i];
+      if (el.dataset.placeholderApplied) continue;
+      // Skip Slate markdown editor, file/image widgets, date pickers
+      if (el.closest && el.closest('[data-slate-editor], [data-slate-node], .nc-fileControl-imageUpload, .nc-fileControl-fileUpload')) continue;
+      var t = (el.getAttribute('type') || '').toLowerCase();
+      if (t === 'datetime-local' || t === 'date' || t === 'time' || t === 'file' || t === 'checkbox' || t === 'radio') continue;
+      var name = fieldNameFor(el);
+      if (!name) continue;
+      var ph = PLACEHOLDERS[name];
+      if (!ph) continue;
+      el.placeholder = ph;
+      el.dataset.placeholderApplied = '1';
+    }
+  }
+
+  function initPlaceholders() {
+    var started = Date.now();
+    var observer = new MutationObserver(function () {
+      var root = document.querySelector('[id^="nc-root"]') || document.body;
+      if (!root) return;
+      try { applyPlaceholders(root); } catch (e) { /* swallow */ }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Bail if Decap never mounts (5s grace period). No spam, no errors.
+    setTimeout(function () {
+      if (!document.querySelector('[id^="nc-root"]')) {
+        observer.disconnect();
+        if (window.console && console.debug) {
+          console.debug('[preview-templates] No Decap editor root found in 5s — placeholder injection disabled.');
+        }
+      }
+    }, 5000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPlaceholders);
+  } else {
+    initPlaceholders();
+  }
 })();

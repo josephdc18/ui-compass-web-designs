@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const HTML_PATH = resolve(ROOT, "content-kit/iphone-wallpaper.html");
 const OUT_PATH = resolve(ROOT, "content-kit/iphone-wallpaper.png");
-const LOGO_PATH = resolve(ROOT, "content-kit/assets/uic-vertical.svg");
+const LOGO_PATH = resolve(ROOT, "content-kit/assets/uic-logo-vertical.svg");
 
 const LOGO_DATA_URI = (() => {
   if (!existsSync(LOGO_PATH)) return null;
@@ -22,7 +22,7 @@ const LOGO_DATA_URI = (() => {
 function inlineLogo(html) {
   if (!LOGO_DATA_URI) return html;
   return html.replace(
-    /src=("[^"]*uic-vertical\.svg"|'[^']*uic-vertical\.svg')/g,
+    /src=("[^"]*uic-logo-vertical\.svg"|'[^']*uic-logo-vertical\.svg')/g,
     `src="${LOGO_DATA_URI}"`
   );
 }

@@ -42,6 +42,10 @@ collections:
     create: true
     slug: '{{fields.pageName}}'
     sortable_fields: ['date', 'updated', 'blogTitle']
+    editor:
+      preview: true
+    description: >
+      Welcome! To create a new post, click "New Blog Post" above. The Title, Page Address, Google Search Summary, and Body are the only fields you really need to fill — everything else has sensible defaults or is optional. Hitting Save puts your work-in-progress in the Workflow tab (Draft → In Review → Ready); nothing reaches the live site until you click Publish from there. Pictures: paste or drag them straight into the Body — they upload automatically. The live preview on the right updates as you type.
     view_filters:
       - label: 'Published'
         field: draft
@@ -53,68 +57,163 @@ collections:
         field: tags
         pattern: featured
     fields:
-      - { label: 'Title', name: 'blogTitle', widget: 'string', hint: 'Headline shown in the post banner and across previews.' }
-      - { label: 'URL Slug', name: 'pageName', widget: 'string', hint: 'Lowercase, dashes only. Becomes /blog/<slug>/.' }
-      - { label: 'Browser Tab Title', name: 'titleTag', widget: 'string', required: false, hint: 'Optional. Shown in the browser tab + Google results. Defaults to the post title if empty.' }
-      - { label: 'SEO Description', name: 'blogDescription', widget: 'text', hint: 'Meta description for search results. 150-160 characters.' }
+      - label: 'Title'
+        name: 'blogTitle'
+        widget: 'string'
+        hint: >-
+          The big headline at the top of the post. Example: 5 Signs You Are Ready for a Website. Keep it under about 65 characters so Google doesn't cut it off.
+
+      - label: 'Page Address'
+        name: 'pageName'
+        widget: 'string'
+        pattern: ['^[a-z0-9-]+$', "Use lowercase letters, numbers, and dashes only — no spaces. Example: my-first-post"]
+        hint: >-
+          The web address part. Lowercase, dashes instead of spaces. Example: 5-signs-ready-for-a-website becomes /blog/5-signs-ready-for-a-website/. Don't change this after publishing — old links will break.
+
+      - label: 'Browser Tab Title'
+        name: 'titleTag'
+        widget: 'string'
+        required: false
+        hint: >-
+          Optional. The shorter title that shows in the browser tab and in Google search results. If empty, the post title above is used. Example: Ready for a Website?
+
+      - label: 'Google Search Summary'
+        name: 'blogDescription'
+        widget: 'text'
+        hint: >-
+          The 1–2 sentence summary Google shows under the post in search results. Example: Five signals that mean the time is now and two that mean wait. Aim for 150–160 characters.
 
       # ---- Author ----
-      - { label: 'Author Name', name: 'author', widget: 'string', default: 'UI Compass' }
-      - { label: 'Author Avatar', name: 'authorImage', widget: 'image', required: false, hint: 'Optional circular photo shown next to the byline.' }
-      - { label: 'Author Profile URL', name: 'authorUrl', widget: 'string', required: false, hint: 'Optional. Makes the author name clickable. Example: /about/' }
+      - label: 'Author Name'
+        name: 'author'
+        widget: 'string'
+        default: 'UI Compass'
+        hint: >-
+          Who wrote the post. Defaults to UI Compass for company-voice posts. Use a real name for personal posts. Example: Joseph C.
+
+      - { label: 'Author Avatar', name: 'authorImage', widget: 'image', required: false, hint: 'Optional. Small circular photo next to the byline. A square image works best — it gets cropped to a circle.' }
+
+      - label: 'Author Link'
+        name: 'authorUrl'
+        widget: 'string'
+        required: false
+        hint: >-
+          Optional. Makes the author's name clickable. Use /about/ to link to your About page, or a full https://… link to an external profile.
 
       # ---- Dates ----
-      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
-      - { label: 'Last Updated', name: 'updated', widget: 'datetime', required: false, hint: 'Optional. When set, byline reads "Updated on …" with an italic "Originally published in <Month Year>" line below.' }
+      - label: 'Publish Date'
+        name: 'date'
+        widget: 'datetime'
+        default: '{{now}}'
+        hint: >-
+          When the post was first published. Defaults to right now. Don't change this after publishing — it controls the post's URL ordering and "recently published" lists.
+
+      - label: 'Last Updated'
+        name: 'updated'
+        widget: 'datetime'
+        required: false
+        hint: >-
+          Optional. Fill in only when you significantly revise a published post. The byline will change from "May 20, 2026" to "Updated on Aug 14, 2026" with a small note showing the original date.
 
       # ---- Listing / preview ----
-      - { label: 'Topper Label', name: 'topper', widget: 'string', required: false, hint: 'Optional uppercase category shown above the title in the featured-card preview. Example: "Strategy" or "Strategy · AI".' }
-      - { label: 'Hero Image', name: 'image', widget: 'image', required: false, hint: 'Used as the post banner background AND the thumbnail in the featured-card preview.' }
-      - { label: 'Hero Image Alt Text', name: 'imageAlt', widget: 'string', required: false }
+      - label: 'Topper Label'
+        name: 'topper'
+        widget: 'string'
+        required: false
+        hint: >-
+          Optional. Small uppercase label above the title in post previews. Example: Strategy or Performance · AI. Keep it under about 20 characters.
+
+      - { label: 'Hero Image', name: 'image', widget: 'image', required: false, hint: 'The big background image at the top of the post AND the thumbnail in post previews. PNG or JPG. Aim for ~1600×900 pixels. Paste or drag an image straight in.' }
+
+      - label: 'Hero Image Description'
+        name: 'imageAlt'
+        widget: 'string'
+        required: false
+        hint: >-
+          Describe what's in the hero image for screen readers and people with images turned off. Required if you set a Hero Image. Example: A checklist with five items checked off in green on a desk next to a phone.
 
       # ---- Status ----
-      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false, hint: 'Toggle on to hide the post from production builds (blog index, collections, RSS, and rendered URL). Drafts still render in local dev so you can preview them.' }
-      - { label: 'Tags', name: 'tags', widget: 'list', default: ['post'], hint: "Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts." }
+      - label: 'Hide From Live Site'
+        name: 'draft'
+        widget: 'boolean'
+        default: false
+        hint: >-
+          Toggle ON to hide this post from the live site (blog index, search, RSS). You can still preview it locally. Toggle OFF when you're ready for the world to see it. This is separate from the Workflow Draft column above — that's about saving work in progress, this is about whether the published site shows the post.
+
+      - label: 'Tags'
+        name: 'tags'
+        widget: 'list'
+        default: ['post']
+        hint: >-
+          Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts. Common categories used on this site: strategy, design, performance, seo, accessibility. Lowercase only, use dashes for spaces (e.g. service-by-location).
 
       # ---- Optional in-post components ----
       - label: 'Summary'
         name: 'summary'
         widget: 'text'
         required: false
-        hint: 'Short intro paragraph shown above the Key Takeaways block. Plain text or simple Markdown (links, bold).'
-      - label: 'Key Takeaways — Title'
+        hint: >-
+          Optional short paragraph shown above the Key Takeaways box. Like a TL;DR for the TL;DR. **Bold** and [links](/) work here.
+
+      - label: 'Key Takeaways — Heading'
         name: 'tldrTitle'
         widget: 'string'
         required: false
         default: 'Key Takeaways'
-        hint: 'Heading text for the Key Takeaways block (only renders if you fill in the bullets below).'
+        hint: >-
+          The heading above the Key Takeaways box. Defaults to "Key Takeaways". Other examples: Five signs you are ready, What you need to know.
+
       - label: 'Key Takeaways — Bullets'
         name: 'tldr'
         widget: 'list'
         required: false
-        hint: '3-5 short bullets shown above the article body. Plain text or simple Markdown.'
+        collapsed: true
+        summary: '{{fields.point}}'
+        hint: >-
+          3–5 short bullets, one big idea each. Wrap the most important phrase in **double asterisks** to make it bold. Example: Your competitor has one. **Even a mediocre site beats no site at all** because Google has nothing of yours to rank.
         field: { label: 'Bullet', name: 'point', widget: 'string' }
 
       - label: 'FAQ'
         name: 'faq'
         widget: 'list'
         required: false
-        hint: 'Optional Q/A list at the bottom of the post. Also auto-generates FAQPage JSON-LD for Google rich results.'
+        collapsed: true
+        summary: '{{fields.q}}'
+        hint: >-
+          Optional Q&A list at the bottom of the post. Also auto-generates the rich-snippet markup Google uses to show FAQ answers directly in search results. 3–6 questions is the sweet spot.
         fields:
-          - { label: 'Question', name: 'q', widget: 'string' }
-          - { label: 'Answer', name: 'a', widget: 'text', hint: 'Plain text or HTML. For paragraph breaks, wrap in <p>…</p>.' }
+          - label: 'Question'
+            name: 'q'
+            widget: 'string'
+            hint: 'Phrase it the way a customer would Google it. Example: How small is too small for a website?'
+          - label: 'Answer'
+            name: 'a'
+            widget: 'text'
+            hint: >-
+              Answer in 2–4 sentences. Plain text or HTML. For paragraph breaks, wrap each paragraph in <p>…</p>. For inline links, use <a href="/blog/other-post/">like this</a>.
 
       - label: 'Related Guides'
         name: 'related'
         widget: 'list'
         required: false
-        hint: 'Optional list of internal links shown at the bottom of the post.'
+        collapsed: true
+        summary: '{{fields.title}} → {{fields.url}}'
+        hint: >-
+          Optional. 2–4 internal links shown at the bottom of the post AND in the sidebar. Linking related posts together helps Google understand your site's topic clusters.
         fields:
-          - { label: 'Title', name: 'title', widget: 'string' }
-          - { label: 'URL', name: 'url', widget: 'string', hint: 'Internal path. Example: /web-design/' }
+          - { label: 'Title', name: 'title', widget: 'string', hint: 'How the link will read. Example: Your Instagram Handle Is Not Yours. A Website Is.' }
+          - label: 'URL'
+            name: 'url'
+            widget: 'string'
+            hint: >-
+              Internal path only. Example: /blog/social-media-vs-website/. Always start with / and end with /.
 
       # ---- Body ----
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - label: 'Body'
+        name: 'body'
+        widget: 'markdown'
+        hint: >-
+          This is the article itself. Use the toolbar — bold, headings, bullet lists, links, images — like a Google Doc; you don't need to know markdown. Use Heading 2 for main sections and Heading 3 for sub-sections (Heading 1 is the post title, already set above). To add an image, click the image button or paste/drag one straight in — it uploads automatically. The live preview on the right shows exactly how it will look published.
 
   # ---------------------------------------------------------------------------
   # SITE SETTINGS

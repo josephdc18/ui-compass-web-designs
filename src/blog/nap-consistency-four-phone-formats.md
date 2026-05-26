@@ -5,6 +5,7 @@ titleTag: NAP Consistency for Local SEO
 blogDescription: Google reads "(901) 490-4750", "901-490-4750", "901.490.4750", and "+1 901 490 4750" as four different businesses. The NAP consistency failure that quietly costs you map-pack rankings, the 30-minute audit, and the one fix that does not trigger a Google review.
 author: "Joseph C."
 date: 2025-12-09T16:00:00.000Z
+draft: true
 tags:
   - post
   - seo

@@ -5,6 +5,7 @@ titleTag: What Makes a Website Work
 blogDescription: A small business website that actually brings in leads has four properties. It is findable, believable, fast, and convertible. Drop any one and the site is decoration. Here is what each one means and the cost of missing it.
 author: "Joseph C."
 date: 2026-05-30T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

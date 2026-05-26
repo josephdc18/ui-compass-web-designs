@@ -5,6 +5,7 @@ titleTag: ADA Lawsuits and Form 8826
 blogDescription: Over 5,000 ADA web lawsuits filed in 2025 with settlements landing $5K to $25K. Most small business owners do not know there is an IRS tax credit that covers half of eligible accessibility spend up to $5,000 per year. The math on the threat, the math on the offset.
 author: "Joseph C."
 date: 2026-01-19T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

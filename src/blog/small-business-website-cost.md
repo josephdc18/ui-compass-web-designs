@@ -5,6 +5,7 @@ titleTag: Website Cost
 blogDescription: A small business website can cost $200 a year or $50,000. The price spread is real and the differences are real. Here is what you actually get at each tier, where the hidden costs are, and how to read a quote that does not lie to you.
 author: "Joseph C."
 date: 2026-05-23T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

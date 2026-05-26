@@ -5,6 +5,7 @@ titleTag: FAQ Schema Turns One Blue Link Into 3x Screen Space
 blogDescription: Schema does not move you up the rankings. It changes how your listing looks once you are there. The FAQ block that takes a single blue link and stretches it into roughly three times the vertical space, plus the five mistakes that get the whole thing thrown out.
 author: "Joseph C."
 date: 2026-01-08T16:00:00.000Z
+draft: true
 tags:
   - post
   - seo

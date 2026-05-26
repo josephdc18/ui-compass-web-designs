@@ -5,6 +5,7 @@ titleTag: 9 GBP Secondary Categories
 blogDescription: Google Business Profile lets you pick up to 9 secondary categories alongside your primary. Most small business owners pick one and leave eight ranking slots untouched. The strategic way to fill them, plus three other GBP features that quietly compound the same effect.
 author: "Joseph C."
 date: 2025-12-19T16:00:00.000Z
+draft: true
 tags:
   - post
   - seo

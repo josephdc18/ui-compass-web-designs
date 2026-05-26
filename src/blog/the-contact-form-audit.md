@@ -5,6 +5,7 @@ titleTag: The Contact Form Audit
 blogDescription: Roughly one in four small business contact forms silently fails to deliver to the owner's inbox. The four ways a form breaks without anyone noticing, the 60-second audit that catches it, and why this is the cheapest insurance a small business website can buy.
 author: "Joseph C."
 date: 2026-03-17T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

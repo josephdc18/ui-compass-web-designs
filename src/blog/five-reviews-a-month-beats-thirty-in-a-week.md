@@ -5,6 +5,7 @@ titleTag: 5 Reviews a Month Beats 30 in a Week
 blogDescription: Review velocity is what wins the local map pack, not raw review count. A steady drip looks natural. A sudden spike looks like a campaign. Why Google's pattern-detection cares about cadence, the 40-review threshold most local businesses sit just under, and the six places your direct review link belongs.
 author: "Joseph C."
 date: 2025-12-29T16:00:00.000Z
+draft: true
 tags:
   - post
   - seo

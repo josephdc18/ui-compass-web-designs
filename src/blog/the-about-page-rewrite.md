@@ -5,6 +5,7 @@ titleTag: The About Page Rewrite
 blogDescription: The About page is the second-most-visited page on most small business sites, and it is almost always wasted. Visitors do not read it to learn about you. They read it to figure out whether you will be good for them. The 3-block structure that converts, and the four sins that turn the page into a sales obstacle.
 author: "Joseph C."
 date: 2026-03-24T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

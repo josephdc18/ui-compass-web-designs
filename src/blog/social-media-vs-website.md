@@ -5,6 +5,7 @@ titleTag: Social Media vs Website
 blogDescription: Building your business on social media alone is renting. The algorithm decides who sees your posts. The platform decides whether your account stays up. A website is the only thing online that is actually yours, and the only address customers can find when the rest goes dark.
 author: "Joseph C."
 date: 2026-05-16T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

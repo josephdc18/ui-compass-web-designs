@@ -5,6 +5,7 @@ titleTag: The 10x Load-Time Gap
 blogDescription: Hand-coded sites load up to 10x faster than page-builder sites — and the gap is not configurable. The structural difference between "assemble on demand" and "ready to serve," what it costs you in conversion, and why the choice locks in the day you pick a platform.
 author: "Joseph C."
 date: 2026-05-10T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

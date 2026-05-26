@@ -5,6 +5,7 @@ titleTag: Managing a Website
 blogDescription: The most common reason small business owners delay getting a website is the fear of having to manage it. The fear is real for some setups and wrong for others. Here is what managing a website actually involves, who does which part, and how to keep it under an hour a month.
 author: "Joseph C."
 date: 2026-06-10T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

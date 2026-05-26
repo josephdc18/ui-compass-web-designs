@@ -5,6 +5,7 @@ titleTag: 36KB PNG Becomes a 2KB SVG
 blogDescription: Most small business sites are leaking weight on every icon and every image. The four-step image pipeline that turns a 2.3MB hero into a 37KB one and turns a 36KB PNG icon into a 2KB SVG. Same pixels. 90% less weight.
 author: "Joseph C."
 date: 2025-11-29T16:00:00.000Z
+draft: true
 tags:
   - post
   - performance

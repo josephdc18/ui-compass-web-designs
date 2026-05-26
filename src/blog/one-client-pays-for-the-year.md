@@ -5,6 +5,7 @@ titleTag: One Client Pays the Year
 blogDescription: At $150 a month, a managed website costs $1,800 a year. If one new client you would not have closed otherwise comes from the site, the year is paid for. Most service businesses clear that bar in the first quarter. Here is the math, with the assumptions out loud.
 author: "Joseph C."
 date: 2026-05-27T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

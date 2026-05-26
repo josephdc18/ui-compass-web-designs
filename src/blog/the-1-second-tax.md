@@ -5,6 +5,7 @@ titleTag: The 1-Second Tax
 blogDescription: A one-second delay in load time costs you about 7% of your conversions. Multiply that by your monthly leads and you are looking at the real cost of a slow site. Where the delay actually comes from, and how to read your PageSpeed score without panicking.
 author: "Joseph C."
 date: 2026-02-27T16:00:00.000Z
+draft: true
 tags:
   - post
   - performance

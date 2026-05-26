@@ -5,6 +5,7 @@ titleTag: Phone Numbers Should Be Tap-to-Call
 blogDescription: A plain-text phone number on a mobile site costs you the call. The `tel:` link is the single highest-impact mobile UX fix on most small business sites, and the four common ways the phone number gets ruined before the visitor can tap it.
 author: "Joseph C."
 date: 2026-03-08T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

@@ -5,6 +5,7 @@ titleTag: Your robots.txt Is Blocking the AI Crawlers
 blogDescription: Three lines in robots.txt decide whether ChatGPT, Perplexity, and Google AI Overviews can read your site at all. Most builder defaults block them. The 5-minute fix that puts you back in the AI citation pool.
 author: "Joseph C."
 date: 2025-11-08T16:00:00.000Z
+draft: true
 tags:
   - post
   - seo

@@ -5,6 +5,7 @@ titleTag: WCAG 2.2 AA in 5 Minutes
 blogDescription: Roughly 96% of the top million websites fail basic accessibility checks, and small businesses are the easiest targets for ADA web lawsuits. The three free tests every owner can run on their own site in 5 minutes, plus the four fixes most sites need.
 author: "Joseph C."
 date: 2026-01-29T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

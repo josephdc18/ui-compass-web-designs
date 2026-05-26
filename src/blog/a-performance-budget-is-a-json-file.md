@@ -5,6 +5,7 @@ titleTag: A Performance Budget Is a JSON File
 blogDescription: A site at 95 PageSpeed today is a site at 70 PageSpeed in six months. Plugins update. Images get uploaded oversized. Scripts get added. A performance budget is the small JSON file that fails the deploy when any of those things happen, so the regression never reaches production.
 author: "Joseph C."
 date: 2025-10-03T16:00:00.000Z
+draft: true
 tags:
   - post
   - performance

@@ -5,6 +5,7 @@ titleTag: DIY vs Hiring
 blogDescription: Drag-and-drop builders are a real option. Hiring a specialist is a different one. The price gap is real and the trade-offs are real. Here is what the extra spend actually buys, and where the DIY math quietly loses to the labor math.
 author: "Joseph C."
 date: 2026-06-06T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

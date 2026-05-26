@@ -5,6 +5,7 @@ titleTag: Redesign or Optimize? The 7 Warning Signs
 blogDescription: A diagnostic for small business owners. Count the warning signs your site is showing. Zero or one means optimize. Four or more means rebuild. The framework that decides what you actually need before you spend a dime.
 author: "Joseph C."
 date: 2025-10-28T16:00:00.000Z
+draft: true
 tags:
   - post
   - featured

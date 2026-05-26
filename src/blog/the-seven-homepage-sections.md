@@ -5,6 +5,7 @@ titleTag: The Seven Homepage Sections
 blogDescription: A small business homepage is not an art project. It is a salesperson with seven jobs. The sections that need to be there, the order they belong in, and what each one costs you when it is missing or misplaced.
 author: "Joseph C."
 date: 2026-03-31T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

@@ -5,6 +5,7 @@ titleTag: Hosting Decides Your Ceiling
 blogDescription: Hosting decides the ceiling. Site code decides the floor. The Time to First Byte difference between a shared host and an edge-served network is the gap between a 60 PageSpeed score and a 95, and no amount of optimization closes it from the wrong side.
 author: "Joseph C."
 date: 2026-02-18T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

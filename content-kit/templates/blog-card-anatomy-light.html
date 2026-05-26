@@ -1,0 +1,364 @@
+<!doctype html>
+<!--
+  blog-card-anatomy-light.html  (1200×630)  ──  Anatomy template — light field
+
+  Same wallpaper aesthetic family as blog-card-anatomy-dark.html (Barlow
+  Condensed italic 900 headline, Montserrat body, green accents, `>>`
+  chevron rule, decorative pill blooms) — flipped to a cool paper-white
+  field (faintly green-tinted, not cream) with deep-green ink. Use for
+  posts where the dark variant would feel too heavy and the original
+  serif cream template (Playfair + Roboto) is the wrong voice.
+
+  Tokens to fill (same interface as the cream + dark versions):
+    {{ISSUE}}                  — "Issue Nº XX · Month YYYY"
+    {{HEADLINE}}               — Barlow Condensed italic 900 display.
+                                 Wrap accent words in <em>…</em>.
+    {{SUBHEAD}}                — Montserrat italic deck, ~20px. Wrap one
+                                 phrase in <em>…</em> for the green accent.
+    {{L1}} {{L2}} {{L3}} {{L4}} — short callout labels (one line each).
+    {{FOOTER}}                 — "Section · X min read".
+
+  Hotspot positions on the phone screen are unchanged; the four connector
+  paths use the same 560×486 anatomy-space coordinates as the dark variant.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — Anatomy (Light)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;1,500;1,700;1,900&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-paper:    #f4f7f3;
+    --bg-paper-d:  #e3e9e2;
+    --bg-soft:     #f8faf7;
+    --surface:     #ffffff;
+    --surface-2:   #eaefe8;
+    --accent:      #0a5f3a;
+    --accent-l:    #4fc66f;
+    --accent-d:    #084e30;
+    --ink-dark:    #142019;
+    --ink-mid:     #3d4a42;
+    --ink-mute:    #6a7a70;
+    --ink-soft:    #8f9c92;
+    --hairline:    rgba(10,32,25,0.22);
+    --line-soft:   rgba(10,32,25,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body {
+    width: 1200px; height: 630px;
+    background: var(--bg-paper);
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--ink-dark);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .card {
+    position: relative; width: 1200px; height: 630px;
+    padding: 24px 56px 22px;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(900px 700px at 92% 110%, rgba(10,95,58,0.10), transparent 60%),
+      radial-gradient(700px 600px at -8% -10%, rgba(79,198,111,0.10), transparent 60%),
+      linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-paper-d) 100%);
+    overflow: hidden;
+  }
+  .grain {
+    position: absolute; inset: 0; pointer-events: none;
+    mix-blend-mode: multiply; opacity: 0.14; z-index: 1;
+  }
+
+  /* Decorative green pill blooms bleeding off the edges (wallpaper echo, inverted) */
+  .pill {
+    position: absolute;
+    background: var(--accent);
+    border-radius: 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .pill.left  { top: 50%; transform: translateY(-50%); left:  -240px; width: 320px; height: 560px; opacity: 0.06; }
+  .pill.right { top: 50%; transform: translateY(-50%); right: -240px; width: 320px; height: 560px; opacity: 0.05; }
+
+  /* Top strip — issue label */
+  .strip {
+    position: relative; z-index: 3;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+  }
+  .strip .issue .accent { color: var(--accent); margin: 0 6px; }
+  .strip .chev {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 14px;
+    letter-spacing: -0.05em;
+  }
+
+  /* Two-column body */
+  .body {
+    position: relative; z-index: 3;
+    flex: 1; padding-top: 20px;
+    display: grid; grid-template-columns: 500px 1fr; gap: 28px;
+    align-items: stretch; min-height: 0;
+  }
+  .hero { display: flex; flex-direction: column; padding-top: 8px; min-width: 0; }
+  .headline {
+    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 88px;
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ink-dark);
+  }
+  .headline em {
+    font-style: italic;
+    font-weight: 900;
+    color: var(--accent);
+  }
+  .subhead {
+    margin-top: 22px;
+    font-family: "Montserrat", sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-mid);
+    max-width: 460px;
+  }
+  .subhead em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* Brand stripe under hero — accent → soft sage → accent-light */
+  .stripe { margin-top: 22px; display: flex; gap: 6px; width: 180px; }
+  .stripe span { flex: 1; height: 5px; border-radius: 3px; }
+  .stripe span:nth-child(1) { background: var(--accent); }
+  .stripe span:nth-child(2) { background: var(--surface-2); }
+  .stripe span:nth-child(3) { background: var(--accent-l); }
+
+  /* Anatomy column — phone + connectors + callouts */
+  .anatomy { position: relative; width: 100%; height: 100%; min-height: 0; }
+  .anatomy::before {
+    content: ""; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 340px; height: 400px;
+    background: radial-gradient(closest-side, rgba(10,95,58,0.10), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .phone-wrap {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 180px; height: 360px;
+    z-index: 2;
+    filter: drop-shadow(0 18px 36px rgba(20, 32, 25, 0.22));
+  }
+  .phone-wrap svg { display: block; width: 100%; height: 100%; }
+
+  .connectors { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  .connectors path  { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; opacity: 0.6; }
+  .connectors circle { fill: var(--accent); opacity: 0.9; }
+
+  .callout {
+    position: absolute; width: 220px;
+    display: flex; align-items: center; gap: 14px;
+    z-index: 3;
+  }
+  .callout .num {
+    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 66px;
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+    flex: none;
+    text-shadow: 0 3px 12px rgba(10,95,58,0.18);
+  }
+  .callout .label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-dark);
+    line-height: 1.25;
+    letter-spacing: 0.005em;
+  }
+  .callout.tl, .callout.bl { flex-direction: row-reverse; }
+  .callout.tl .label, .callout.bl .label { text-align: right; }
+  .callout.tr .label, .callout.br .label { text-align: left; }
+  .callout.tl { top: 4px;    left: 0; }
+  .callout.tr { top: 4px;    right: 0; }
+  .callout.bl { bottom: 4px; left: 0; }
+  .callout.br { bottom: 4px; right: 0; }
+
+  /* Foot — brand lockup + meta */
+  .foot {
+    position: relative; z-index: 3;
+    padding-top: 12px; margin-top: 12px;
+    border-top: 1px solid var(--hairline);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .brand .name {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.005em;
+    color: var(--ink-dark);
+  }
+  .brand .name .dot { color: var(--accent); }
+  .brand .sub {
+    margin-top: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .foot-meta {
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dark);
+  }
+  .foot-meta .dot { color: var(--accent); margin: 0 8px; }
+</style>
+</head>
+<body>
+<main class="card">
+  <!-- Subtle paper grain -->
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true">
+    <filter id="g">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0.08  0 0 0 0 0.13  0 0 0 0 0.10  0 0 0 0.5 0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+  </svg>
+
+  <!-- Green pill blooms (wallpaper echo, inverted to match light field) -->
+  <div class="pill left"  aria-hidden="true"></div>
+  <div class="pill right" aria-hidden="true"></div>
+
+  <!-- Top strip -->
+  <div class="strip">
+    <span class="rule"></span>
+    <span class="chev">&gt;&gt;</span>
+    <span class="issue">{{ISSUE}}</span>
+  </div>
+
+  <section class="body">
+    <div class="hero">
+      <h1 class="headline">{{HEADLINE}}</h1>
+      <p class="subhead">{{SUBHEAD}}</p>
+      <div class="stripe"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="anatomy">
+      <!--
+        viewBox matches the actual rendered .anatomy box (560×486) so paths
+        align 1:1 with absolute pixel positions of the phone hotspots.
+        Phone (180×360) is centered in the box → its top-left corner sits at
+        (190, 63). Hotspot coords in anatomy space:
+          TL (208,131) · TR (352,193) · BL (208,321) · BR (352,370)
+        Terminus dots are placed near the four callout numerals.
+      -->
+      <svg class="connectors" viewBox="0 0 560 486" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M 208 131 C 188 92, 168 55, 140 28"/><circle cx="140" cy="28"  r="3"/>
+        <path d="M 352 193 C 372 135, 392 65, 420 28"/><circle cx="420" cy="28"  r="3"/>
+        <path d="M 208 321 C 188 365, 168 425, 140 458"/><circle cx="140" cy="458" r="3"/>
+        <path d="M 352 370 C 372 408, 392 435, 420 458"/><circle cx="420" cy="458" r="3"/>
+      </svg>
+
+      <div class="phone-wrap">
+        <svg viewBox="0 0 180 360" aria-hidden="true">
+          <!-- Phone frame — dark for contrast on cool paper field -->
+          <rect x="0" y="0"   width="180" height="360" rx="26" fill="#1a1f1c"/>
+          <rect x="5" y="5"   width="170" height="350" rx="22" fill="#0a0d0b"/>
+          <rect x="9" y="9"   width="162" height="342" rx="18" fill="#ffffff"/>
+          <rect x="68" y="5"  width="44"  height="11"  rx="5.5" fill="#1a1f1c"/>
+
+          <!-- Generic light-mode homepage content — swap for each post -->
+          <!-- Header bar -->
+          <rect x="18" y="24" width="144" height="18" rx="4" fill="#eaefe8" opacity="0.95"/>
+          <circle cx="28" cy="33" r="3.5" fill="#0a5f3a"/>
+          <rect x="38" y="29" width="34" height="7" rx="2" fill="#142019" opacity="0.7"/>
+
+          <!-- Headline lines -->
+          <rect x="18" y="56" width="120" height="11" rx="3" fill="#142019" opacity="0.92"/>
+          <rect x="18" y="71" width="90"  height="11" rx="3" fill="#142019" opacity="0.92"/>
+
+          <!-- Body lines -->
+          <rect x="18" y="90"  width="140" height="6" rx="2" fill="#3d4a42" opacity="0.55"/>
+          <rect x="18" y="100" width="120" height="6" rx="2" fill="#3d4a42" opacity="0.55"/>
+
+          <!-- CTA pill -->
+          <rect x="18" y="118" width="78" height="24" rx="12" fill="#0a5f3a"/>
+          <rect x="34" y="126" width="46" height="7"  rx="2"  fill="#ffffff"/>
+
+          <!-- Hero image block -->
+          <rect x="18" y="154" width="144" height="70" rx="5" fill="#eaefe8" opacity="0.85"/>
+          <rect x="22" y="158" width="136" height="62" rx="3" fill="#0a5f3a" opacity="0.18"/>
+
+          <!-- Reviews row -->
+          <rect x="18" y="234" width="144" height="48" rx="5" fill="#eaefe8" opacity="0.55"/>
+          <circle cx="30" cy="252" r="6" fill="#0a5f3a" opacity="0.45"/>
+          <rect x="42" y="246" width="46" height="5" rx="2" fill="#142019" opacity="0.7"/>
+          <rect x="42" y="254" width="78" height="4" rx="2" fill="#3d4a42" opacity="0.5"/>
+          <rect x="42" y="262" width="62" height="4" rx="2" fill="#3d4a42" opacity="0.5"/>
+
+          <!-- Secondary CTA bar -->
+          <rect x="18" y="294" width="144" height="26" rx="5" fill="#0a5f3a" opacity="0.16"/>
+
+          <!-- Home indicator -->
+          <rect x="68" y="338" width="44" height="3" rx="1.5" fill="#142019" opacity="0.45"/>
+
+          <!-- Hotspots — positioned at the 4 corners of the screen. -->
+          <circle cx="18"  cy="68"  r="5" fill="#0a5f3a"/>
+          <circle cx="18"  cy="68"  r="8" fill="none" stroke="#0a5f3a" stroke-width="1.3" opacity="0.55"/>
+          <circle cx="162" cy="130" r="5" fill="#0a5f3a"/>
+          <circle cx="162" cy="130" r="8" fill="none" stroke="#0a5f3a" stroke-width="1.3" opacity="0.55"/>
+          <circle cx="18"  cy="258" r="5" fill="#0a5f3a"/>
+          <circle cx="18"  cy="258" r="8" fill="none" stroke="#0a5f3a" stroke-width="1.3" opacity="0.55"/>
+          <circle cx="162" cy="307" r="5" fill="#0a5f3a"/>
+          <circle cx="162" cy="307" r="8" fill="none" stroke="#0a5f3a" stroke-width="1.3" opacity="0.55"/>
+        </svg>
+      </div>
+
+      <div class="callout tl"><div class="num">01</div><div class="label">{{L1}}</div></div>
+      <div class="callout tr"><div class="num">02</div><div class="label">{{L2}}</div></div>
+      <div class="callout bl"><div class="num">03</div><div class="label">{{L3}}</div></div>
+      <div class="callout br"><div class="num">04</div><div class="label">{{L4}}</div></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <span class="sub">Web Designs</span>
+      </div>
+    </div>
+    <div class="foot-meta">{{FOOTER}}</div>
+  </div>
+</main>
+</body>
+</html>

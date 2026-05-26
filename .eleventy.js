@@ -128,9 +128,36 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
   return lightHtml + '\n' + darkHtml;
 }
 
+// In prod, exclude blog posts whose frontmatter has `draft: true` from the
+// build entirely. We do this by reading frontmatter at config-load time and
+// calling `eleventyConfig.ignores.add()` below. Doing the exclusion in
+// directory data via `permalink: false` would still render the layout chain
+// with `page.url === false`, which crashes templates (header.html, etc.)
+// that treat page.url as a string.
+const IS_PROD = process.env.CF_PAGES === '1' || process.env.NODE_ENV === 'production';
+function collectDraftBlogPaths() {
+  if (!IS_PROD) return [];
+  const drafts = [];
+  for (const dir of ['./src/blog', './src/ko/blog']) {
+    if (!fs.existsSync(dir)) continue;
+    for (const name of fs.readdirSync(dir)) {
+      if (!name.endsWith('.md')) continue;
+      const full = path.join(dir, name);
+      const head = fs.readFileSync(full, 'utf8').split(/\n---\s*\n/, 1)[0];
+      if (/^draft:\s*true\s*$/m.test(head)) drafts.push(full);
+    }
+  }
+  return drafts;
+}
+
 module.exports = function (eleventyConfig) {
   // adds the navigation plugin for easy navs
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
+
+  // Exclude draft blog posts from prod builds (no URL, no feed, no listing).
+  for (const draftPath of collectDraftBlogPaths()) {
+    eleventyConfig.ignores.add(draftPath);
+  }
 
   // allows css, assets and config files to be passed into /public
   eleventyConfig.addPassthroughCopy('./src/css/**/*.css');
@@ -315,6 +342,10 @@ module.exports = function (eleventyConfig) {
 
   /** Localized URL: {{ page.url | localizedUrl("ko") }} */
   eleventyConfig.addFilter('localizedUrl', function (url, targetLocale) {
+    // Draft posts resolve permalink to `false`, which propagates to page.url.
+    // The page still renders its layout chain (which calls this filter) before
+    // being skipped at write time, so guard against non-string inputs.
+    if (typeof url !== 'string') return '';
     const defaultLocale = i18nConfig.defaultLocale;
     let cleanUrl = url;
     for (const loc of i18nConfig.localeList) {

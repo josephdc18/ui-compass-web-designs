@@ -5,6 +5,7 @@ titleTag: AI-Built Websites
 blogDescription: Yes, ChatGPT can build you a website. No, it cannot keep you out of court. Where AI tools genuinely help, where they silently fail, and how to use them without inheriting the failures.
 author: "Joseph C."
 date: 2026-06-03T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

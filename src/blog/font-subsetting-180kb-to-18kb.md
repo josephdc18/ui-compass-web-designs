@@ -5,6 +5,7 @@ titleTag: Font Subsetting — 180KB to 18KB
 blogDescription: Your fonts are probably 5 to 10x heavier than they need to be. Subsetting (loading only the characters you use), pruning unused weights, and serving WOFF2 turns a typical 180KB font family into roughly 18KB. The 4-step diet that closes a top-3 performance gap on most small business sites.
 author: "Joseph C."
 date: 2025-11-19T16:00:00.000Z
+draft: true
 tags:
   - post
   - performance

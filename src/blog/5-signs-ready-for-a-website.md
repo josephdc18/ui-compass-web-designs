@@ -5,6 +5,7 @@ titleTag: Ready for a Website?
 blogDescription: Not every business needs a website on day one. Here are the five signals that mean the time is now, the two signals that mean wait, and the math that makes the decision concrete instead of guilty.
 author: "Joseph C."
 date: 2026-05-20T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

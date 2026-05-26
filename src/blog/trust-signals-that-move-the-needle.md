@@ -5,6 +5,7 @@ titleTag: Trust Signals That Move the Needle
 blogDescription: Most trust signals on small business sites are doing the opposite of what they are meant to do. Real photos, named testimonials, dated reviews, and specific certifications. The four kinds that earn a lead, and the three kinds that quietly cost you one.
 author: "Joseph C."
 date: 2026-04-08T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

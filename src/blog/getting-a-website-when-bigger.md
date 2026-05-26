@@ -5,6 +5,7 @@ titleTag: When Bigger Is Backwards
 blogDescription: Most small business owners plan to get a website "once they are bigger." The phrase has the cause and effect reversed. The website is what gets the business bigger. Waiting until you are ready is waiting for the result to fund the cause.
 author: "Joseph C."
 date: 2026-06-17T16:00:00.000Z
+draft: true
 tags:
   - post
   - strategy

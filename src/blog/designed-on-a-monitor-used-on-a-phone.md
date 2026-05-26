@@ -5,6 +5,7 @@ titleTag: Mobile-First Web Design for Small Businesses
 blogDescription: Around 60% of your visitors are on a phone, but most small business websites are still designed desktop-first and "shrunk" for mobile. How mobile-first web design works, the 5 breakpoints we use on every build, and the 3-rule container pattern that fixes most layout bugs.
 author: "Joseph C."
 date: 2026-04-17T16:00:00.000Z
+draft: false
 tags:
   - post
   - performance

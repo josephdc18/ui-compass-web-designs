@@ -5,6 +5,7 @@ titleTag: Why Accessibility Overlays Get Sued
 blogDescription: The one-line JavaScript widget that promises to fix your accessibility problems does not satisfy the law, and the businesses that install it keep getting sued anyway. Why the National Federation of the Blind is against them, the four ways overlays actively make accessibility worse, and what real compliance looks like.
 author: "Joseph C."
 date: 2026-02-08T16:00:00.000Z
+draft: true
 tags:
   - post
   - design

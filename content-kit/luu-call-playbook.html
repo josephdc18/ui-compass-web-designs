@@ -1,0 +1,786 @@
+<!doctype html>
+<!--
+  luu-call-playbook.html  (1200×auto, internal sales playbook)
+
+  Discovery call playbook for the Bishop Arts Town Homes prospect (Luu).
+  Brand aesthetic matched to macbook-wallpaper.html — dark-green field,
+  cream pill blooms, Barlow Condensed italic headlines, Montserrat body,
+  green accent, `>>` chevron callouts. Long-scroll document layout.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Call Playbook — Luu / Bishop Arts Town Homes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;1,500;1,700;1,900&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-green:   #0a5f3a;
+    --bg-deep:    #084e30;
+    --accent:     #4fc66f;
+    --accent-d:   #2fa050;
+    --cream:      #e9e9e6;
+    --ink-light:  #ffffff;
+    --ink-mute:   #cfd9d2;
+    --ink-soft:   #9eb3a6;
+    --rule:       rgba(255,255,255,0.14);
+    --rule-soft:  rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px;
+    background: var(--bg-green);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-light);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    position: relative;
+    padding: 0 0 120px;
+    overflow-x: hidden;
+  }
+
+  /* Decorative cream pills bleeding off the edges (echo of wallpaper) */
+  .pill {
+    position: absolute;
+    width: 360px;
+    border-radius: 180px;
+    background: var(--cream);
+    pointer-events: none;
+  }
+  .pill.tl  { top:  -180px; left:  -240px; height: 1100px; opacity: 0.05; }
+  .pill.mr  { top:  1600px; right: -260px; height: 1400px; opacity: 0.05; }
+  .pill.bl  { top:  3400px; left:  -240px; height: 1200px; opacity: 0.05; }
+  .pill.br  { top:  5200px; right: -260px; height: 1100px; opacity: 0.04; }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  /* ============================================================ */
+  /* COVER — echoes wallpaper composition (lockup left, copy right) */
+  /* ============================================================ */
+  .cover {
+    position: relative;
+    padding: 110px 0 90px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cover .lockup {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 70px;
+  }
+  .cover .lockup .mark {
+    width: 64px;
+    height: 64px;
+    display: block;
+    flex: none;
+  }
+  .cover .lockup .name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    color: var(--ink-light);
+    line-height: 1;
+  }
+  .cover .lockup .name .dot { color: var(--accent); }
+  .cover .lockup .tag {
+    margin-top: 6px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .cover .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 30px;
+  }
+  .cover h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 132px;
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .cover h1 .accent { color: var(--accent); }
+  .cover .lede {
+    margin-top: 36px;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-mute);
+    max-width: 760px;
+  }
+  .cover .lede .chev {
+    margin-right: 14px;
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .meta {
+    display: flex;
+    gap: 60px;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .meta .item .label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .meta .item .val {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-light);
+  }
+
+  /* ============================================================ */
+  /* SECTION                                                       */
+  /* ============================================================ */
+  .section {
+    padding-top: 110px;
+  }
+  .section .step-row {
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+    margin-bottom: 18px;
+  }
+  .section .step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 110px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .section .step-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .section .step-meta {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-left: 14px;
+  }
+  .section h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 74px;
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 36px;
+  }
+  .section h2 .accent { color: var(--accent); }
+
+  .body p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-mute);
+    margin-bottom: 18px;
+  }
+  .body strong { color: var(--ink-light); font-weight: 600; }
+  .body em { color: var(--ink-light); font-weight: 500; }
+
+  /* Quote / line to say */
+  .say {
+    position: relative;
+    margin: 28px 0;
+    padding: 22px 28px 22px 36px;
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-light);
+  }
+  .say::before {
+    content: ">>";
+    position: absolute;
+    left: 10px;
+    top: 22px;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.05em;
+    font-size: 14px;
+  }
+  .say .note {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  /* Subsection mini-heading */
+  .mini {
+    margin: 32px 0 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Question lists */
+  ul.qs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+  }
+  ul.qs li {
+    position: relative;
+    padding: 12px 0 12px 32px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-light);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  ul.qs li:last-child { border-bottom: none; }
+  ul.qs li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  ul.qs li .why {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* Branch labels */
+  .branch-label {
+    display: inline-block;
+    margin: 28px 0 8px;
+    padding: 5px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bg-deep);
+    background: var(--accent);
+    border-radius: 3px;
+  }
+  .branch-label.warn { background: var(--cream); color: var(--bg-deep); }
+
+  /* Avoid list */
+  ul.avoid {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+  ul.avoid li {
+    position: relative;
+    padding: 10px 0 10px 38px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-mute);
+  }
+  ul.avoid li::before {
+    content: "✕";
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    color: #ff7676;
+    font-weight: 700;
+  }
+  ul.avoid li strong { color: var(--ink-light); }
+
+  /* Plain dot list */
+  ul.dots {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+  }
+  ul.dots li {
+    position: relative;
+    padding: 8px 0 8px 28px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  ul.dots li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 17px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* Sequence steps (1 → 2 → 3) */
+  .seq {
+    display: flex;
+    gap: 16px;
+    margin: 18px 0 8px;
+    flex-wrap: wrap;
+  }
+  .seq .step {
+    flex: 1 1 0;
+    min-width: 240px;
+    padding: 22px 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    border-top: 2px solid var(--accent);
+  }
+  .seq .step .n {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .seq .step .t {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+  .seq .step .d {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+
+  /* Callout boxes */
+  .callout {
+    margin: 28px 0;
+    padding: 24px 28px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .callout .head {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .callout p { margin-bottom: 0; color: var(--ink-light); }
+
+  /* Section divider */
+  .divider {
+    margin: 0 auto;
+    width: 100%;
+    height: 1px;
+    background: var(--rule);
+    margin-top: 90px;
+  }
+
+  /* TL;DR block */
+  .tldr {
+    margin-top: 110px;
+    padding: 56px 56px 60px;
+    background: var(--bg-deep);
+    border-radius: 12px;
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .tldr::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(79,198,111,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .tldr .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .tldr h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 64px;
+    line-height: 0.95;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 24px;
+  }
+  .tldr h3 .accent { color: var(--accent); }
+  .tldr p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-mute);
+  }
+  .tldr p strong { color: var(--ink-light); }
+
+  /* Footer */
+  .foot {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule-soft);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot .right .dot { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="pill tl" aria-hidden="true"></div>
+<div class="pill mr" aria-hidden="true"></div>
+<div class="pill bl" aria-hidden="true"></div>
+<div class="pill br" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <!-- ============================================================ -->
+  <!-- COVER                                                         -->
+  <!-- ============================================================ -->
+  <header class="cover">
+    <div class="lockup">
+      <img class="mark" src="../src/assets/logo-on-dark.svg" alt="UI Compass Web Designs">
+      <div>
+        <div class="name">UI Compass<span class="dot">.</span></div>
+        <div class="tag">Web Designs</div>
+      </div>
+    </div>
+
+    <div class="eyebrow">Discovery Call Playbook</div>
+    <h1>
+      Listen<span class="accent">.</span><br>
+      Then <span class="accent">recommend.</span>
+    </h1>
+    <p class="lede">
+      <span class="chev">&gt;&gt;</span>How the call with Luu should go — opener, discovery questions, the live recommendation, and the close. No quote on the call.
+    </p>
+
+    <div class="meta">
+      <div class="item">
+        <span class="label">Prospect</span>
+        <span class="val">Luu — Bishop Arts Town Homes</span>
+      </div>
+      <div class="item">
+        <span class="label">Referred By</span>
+        <span class="val">Hong (realtor)</span>
+      </div>
+      <div class="item">
+        <span class="label">Call Length</span>
+        <span class="val">30 min</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- STEP 1 — OPEN                                                 -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">01</div>
+      <div>
+        <span class="step-eyebrow">Open</span>
+        <span class="step-meta">~30 sec</span>
+      </div>
+    </div>
+    <h2>Warm, short<span class="accent">,</span><br>then shut up.</h2>
+
+    <div class="body">
+      <div class="say">
+        "Hey Luu, it's Joseph. I appreciate you taking the time. A little bit about myself, I'm former military, now I am an electrical engineering student at the UTA and I started my web design company, UI Compass, to build websites for small businesses. Before I throw ideas at you, I'd love to understand what you're building. Mind walking me through it?"
+        <span class="note">Then take notes. Don't pitch yet.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 2 — DISCOVERY                                            -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">02</div>
+      <div>
+        <span class="step-eyebrow">Discovery</span>
+        <span class="step-meta">~15–18 min</span>
+      </div>
+    </div>
+    <h2>Ask in <span class="accent">this</span> order.</h2>
+
+    <div class="body">
+      <div class="mini">About them &amp; the property</div>
+      <ul class="qs">
+        <li>Tell me about the town homes — how many units, are they all at Bishop Arts or multiple locations?</li>
+        <li>Are these short-term stays, mid-term (30+ days, corporate/relo), or long-term leases?</li>
+        <li>Are you on Airbnb / VRBO today, or starting from scratch with direct booking?</li>
+      </ul>
+
+      <div class="mini">About the goal</div>
+      <ul class="qs">
+        <li>When you say booking page — are guests selecting dates and paying online, or is it more of a request-to-book / inquiry form?</li>
+        <li>What's the main reason you want a direct-booking site? Save on Airbnb fees? Build a brand? Corporate clients?</li>
+        <li>Do you have branding, photos, existing copy — or starting blank?</li>
+        <li>
+          What does success look like 6 months after launch?
+          <span class="why">The answer tells you brochure vs. revenue engine.</span>
+        </li>
+      </ul>
+
+      <div class="mini">About scope, timeline &amp; budget</div>
+      <ul class="qs">
+        <li>Any deadline you're working toward — a launch date, a season you want to capture?</li>
+        <li>Have you talked to other developers or looked at platforms like Lodgify? Just trying to understand where your head's at.</li>
+        <li>
+          Do you have a budget range in mind, or want me to send a couple of options?
+          <span class="why">Seeds permission to quote later without surprise.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 3 — RECOMMENDATION                                       -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">03</div>
+      <div>
+        <span class="step-eyebrow">Recommendation</span>
+        <span class="step-meta">Live · No final quote</span>
+      </div>
+    </div>
+    <h2>Summarize<span class="accent">,</span><br>then point a direction.</h2>
+
+    <div class="body">
+      <p>At the end of discovery, summarize what you heard and deliver a directional recommendation. Pick the branch that matches what he said.</p>
+
+      <span class="branch-label">Branch A — Simple</span>
+      <div class="say">
+        "Based on this, I think we can keep the booking side pretty straightforward — likely a custom booking page with an embedded booking or inquiry system. I'll price that separately from the main website so it's clear."
+      </div>
+
+      <span class="branch-label">Branch B — Middle (most likely)</span>
+      <div class="say">
+        "Based on what you've told me, I don't think it makes sense to build the entire booking system from scratch right away. I'd recommend we build the website custom, then connect a professional booking engine so you get availability, payments, confirmations, and calendar syncing without reinventing all of that. I'll put together a quote with one or two options."
+      </div>
+
+      <span class="branch-label">Branch C — Complex custom</span>
+      <div class="say">
+        "This is more than just a website booking form. There's reservation logic, payments, availability, policies, and possibly channel syncing involved. I can quote a custom version, but I'll also include a more cost-effective option using a proven booking platform."
+      </div>
+
+      <div class="callout">
+        <span class="head">Then pause</span>
+        <p>Watch his reaction. Lean in → go deeper. Polite nod → wrap and send the quote. Don't keep selling past the close.</p>
+      </div>
+
+      <div class="mini">Conditional demo offer — Branch C only</div>
+      <div class="say">
+        "If you want, I can hop on a 15-min video call and screen-share a fully custom booking system I built for another client — videography business, similar reservation logic. Gives you a sense of what 'custom' actually looks like end-to-end. Up to you — happy to just send the proposal too."
+        <span class="note">Why conditional: showing a custom system to a simple-embed client anchors them to a $12K solution they don't need and makes you look like an upsell.</span>
+      </div>
+
+      <div class="mini">If he asks for a Lodgify example</div>
+      <div class="say">
+        "Sure, Lodgify has live demos on their site and there are hundreds of public examples — I'll drop 2–3 links in the proposal so you can compare."
+        <span class="note">Don't pre-build a mockup. You're the developer, not the Lodgify rep.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 4 — CLOSE                                                -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">04</div>
+      <div>
+        <span class="step-eyebrow">Close</span>
+        <span class="step-meta">~30 sec</span>
+      </div>
+    </div>
+    <h2>Clear next step<span class="accent">,</span><br>specific date.</h2>
+
+    <div class="body">
+      <ul class="dots">
+        <li>"I'll send over a proposal with 2–3 options by <em>Thursday</em>."</li>
+        <li>"Want to do a quick 15-min follow-up next week to walk through it?"</li>
+        <li>Get his <strong>email</strong> and <strong>best number</strong>.</li>
+        <li>Confirm decision-maker: <em>"Is it just you, or are there other partners weighing in?"</em></li>
+      </ul>
+
+      <div class="callout">
+        <span class="head">Calendar Tip</span>
+        <p>Send the follow-up invite as <strong>30 min, not an hour</strong>. Respects his time and forces focus.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ -->
+  <!-- INTAKE FORM SEQUENCE                                          -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">05</div>
+      <div>
+        <span class="step-eyebrow">Intake Form</span>
+        <span class="step-meta">After yes — not before</span>
+      </div>
+    </div>
+    <h2>Send the form <span class="accent">after</span> he signs.</h2>
+
+    <div class="body">
+      <p>Don't send the Website Content Strategy &amp; SEO Intake Form before the call or in place of discovery.</p>
+      <ul class="avoid">
+        <li>It signals you're not engaged enough to talk first.</li>
+        <li>It's a <strong>content/SEO intake</strong> built for a brochure site — half of it doesn't map to a booking-driven STR site.</li>
+      </ul>
+
+      <div class="mini">Right sequence</div>
+      <div class="seq">
+        <div class="step">
+          <span class="n">1</span>
+          <span class="t">Call</span>
+          <span class="d">Discovery questions cover scope, budget, timeline, intent.</span>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <span class="t">Proposal</span>
+          <span class="d">Quote based on what you heard. 2–3 options.</span>
+        </div>
+        <div class="step">
+          <span class="n">3</span>
+          <span class="t">They Say Yes</span>
+          <span class="d">Then send the intake form to gather production assets.</span>
+        </div>
+      </div>
+
+      <div class="mini">Booking Operations addendum — send with the intake</div>
+      <ul class="dots">
+        <li>Number of properties + addresses</li>
+        <li>Listed on which platforms today? (Airbnb / VRBO / Booking.com — with listing URLs for iCal sync)</li>
+        <li>Average nightly rate + seasonal variations</li>
+        <li>Min / max stay length</li>
+        <li>Check-in / check-out times</li>
+        <li>Cleaning fee, pet fee, extra guest fees</li>
+        <li>Deposit policy (full payment vs. deposit + balance)</li>
+        <li>Cancellation policy</li>
+        <li>Tax setup (Dallas hotel occupancy tax + state + local)</li>
+        <li>House rules / guest screening preferences</li>
+        <li>Existing photos per property (need pro shots or commissioning?)</li>
+      </ul>
+      <p><em>You don't need this to quote. You need it to build. Keep it out of the first touch.</em></p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ -->
+  <!-- THINGS TO AVOID                                               -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="step-row">
+      <div class="step-num">06</div>
+      <div>
+        <span class="step-eyebrow">Things to Avoid</span>
+      </div>
+    </div>
+    <h2>Don't <span class="accent">do</span> this.</h2>
+
+    <div class="body">
+      <ul class="avoid">
+        <li><strong>Don't quote a final number on the call</strong> — you'll under-price under pressure.</li>
+        <li><strong>Don't list features</strong> ("I can build X, Y, Z!") — let his needs pull the features out.</li>
+        <li><strong>Don't dump the 5-embed comparison on him.</strong> He doesn't care about Lodgify vs. OwnerRez yet.</li>
+        <li><strong>Don't apologize or hedge</strong> ("I'm not sure if I can…"). You can.</li>
+        <li><strong>Don't offer the brother demo</strong> unless he's in the complex-custom lane.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- TL;DR                                                          -->
+  <!-- ============================================================ -->
+  <section class="tldr">
+    <div class="eyebrow">TL;DR</div>
+    <h3>Open warm<span class="accent">.</span><br>Listen.<br>Recommend<span class="accent">.</span></h3>
+    <p>
+      Open warm → listen → ask the discovery questions → give a directional recommendation using one of the three scripts → conditionally offer the demo → close with a clear next step and date.
+      <strong>Send the intake form only after he says yes</strong>, with a booking-ops addendum.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <div class="foot">
+    <div class="left">UI Compass Web Designs · Internal Playbook</div>
+    <div class="right">Luu / Bishop Arts Town Homes <span class="dot">·</span> v1</div>
+  </div>
+
+</div>
+
+</body>
+</html>

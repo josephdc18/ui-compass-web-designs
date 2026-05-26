@@ -67,8 +67,8 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
 
   async function renderOne(srcPath, extraClass) {
     const metadata = await Image(resolveSrc(srcPath), {
-      widths: [200, 400, 850, 1920, 2500],
-      formats: ['avif', 'webp', 'jpeg'],
+      widths: [400, 850, 1920],
+      formats: ['webp', 'jpeg'],
       urlPath: '/images/',
       outputDir: IMAGE_OUTPUT_DIR,
       useCache: true,
@@ -158,6 +158,21 @@ module.exports = function (eleventyConfig) {
   for (const draftPath of collectDraftBlogPaths()) {
     eleventyConfig.ignores.add(draftPath);
   }
+
+  // After each build, copy any newly-generated eleventy-img outputs back into
+  // the cache dir so the next build can short-circuit re-encoding. CF Pages
+  // wipes ./public between deploys but preserves node_modules/.cache when
+  // "Build cache" is on, so this is what makes warm rebuilds fast.
+  eleventyConfig.on('eleventy.after', () => {
+    if (!fs.existsSync(IMAGE_OUTPUT_DIR)) return;
+    fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
+    for (const f of fs.readdirSync(IMAGE_OUTPUT_DIR)) {
+      const from = path.join(IMAGE_OUTPUT_DIR, f);
+      const to = path.join(IMAGE_CACHE_DIR, f);
+      if (fs.existsSync(to)) continue;
+      try { fs.copyFileSync(from, to); } catch {}
+    }
+  });
 
   // allows css, assets and config files to be passed into /public
   eleventyConfig.addPassthroughCopy('./src/css/**/*.css');

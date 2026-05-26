@@ -51,14 +51,23 @@
     if (label) label.textContent = on ? 'Saved' : 'Save';
   }
 
+  function bookmarkButtons() {
+    // Legacy #bookmarkBtn (inline meta share) + any data-share-bookmark
+    // duplicates (e.g. the vertical share rail). Both must stay in sync.
+    return document.querySelectorAll('#bookmarkBtn, [data-share-bookmark]');
+  }
+
+  function setAllButtonStates(on) {
+    bookmarkButtons().forEach(function (b) { setButtonState(b, on); });
+  }
+
   function toggleBookmark() {
     var url = window.location.pathname;
-    var btn = document.getElementById('bookmarkBtn');
     var bookmarks = getBookmarks();
     if (isBookmarked(url)) {
       bookmarks = bookmarks.filter(function (b) { return b.url !== url; });
       saveBookmarks(bookmarks);
-      setButtonState(btn, false);
+      setAllButtonStates(false);
       showToast('Bookmark removed');
     } else {
       var titleEl = document.querySelector('.blog-h1') || document.querySelector('h1');
@@ -70,16 +79,16 @@
         savedAt: new Date().toISOString()
       });
       saveBookmarks(bookmarks);
-      setButtonState(btn, true);
+      setAllButtonStates(true);
       showToast('Saved to bookmarks');
     }
   }
 
   function initButton() {
-    var btn = document.getElementById('bookmarkBtn');
-    if (!btn) return;
-    btn.addEventListener('click', toggleBookmark);
-    if (isBookmarked(window.location.pathname)) setButtonState(btn, true);
+    var btns = bookmarkButtons();
+    if (!btns.length) return;
+    btns.forEach(function (b) { b.addEventListener('click', toggleBookmark); });
+    if (isBookmarked(window.location.pathname)) setAllButtonStates(true);
   }
 
   // ---------- /saved page renderer ----------

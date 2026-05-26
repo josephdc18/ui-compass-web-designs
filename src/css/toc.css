@@ -193,21 +193,29 @@
     margin-right: auto;
   }
 
+  /* `.blog-with-toc` is the outer container; the hero (breadcrumb + header
+     + image) sits at full width, then `.blog-article-body` is the 3-column
+     grid (rail | body | sidebar) that starts right below the image. */
   .blog-with-toc {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 1.5rem;
-    align-items: start;
-  }
-
-  .blog-with-toc .main-content {
-    order: 0;
-    min-width: 0;
+    display: block;
   }
 
   .blog-with-toc .blog-article {
     max-width: none;
   }
+
+  .blog-article-body {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr) 220px;
+    grid-template-areas: "rail main sidebar";
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+
+  .blog-article-body > .post-share-rail { grid-area: rail; }
+  .blog-article-body > .main-content { grid-area: main; min-width: 0; }
+  .blog-article-body > .toc-sidebar { grid-area: sidebar; }
 }
 
 @media only screen and (min-width: 81.25rem) {
@@ -216,8 +224,8 @@
     width: 240px;
   }
 
-  .blog-with-toc {
-    grid-template-columns: 240px minmax(0, 1fr);
+  .blog-article-body {
+    grid-template-columns: 3.25rem minmax(0, 1fr) 240px;
     gap: 2rem;
   }
 }
@@ -228,8 +236,8 @@
     width: 260px;
   }
 
-  .blog-with-toc {
-    grid-template-columns: 260px minmax(0, 1fr);
+  .blog-article-body {
+    grid-template-columns: 3.5rem minmax(0, 1fr) 260px;
     gap: 2.5rem;
   }
 }
@@ -240,8 +248,8 @@
     width: 280px;
   }
 
-  .blog-with-toc {
-    grid-template-columns: 280px minmax(0, 1fr);
+  .blog-article-body {
+    grid-template-columns: 3.5rem minmax(0, 1fr) 280px;
     gap: 3rem;
   }
 }
@@ -252,8 +260,8 @@
     width: 320px;
   }
 
-  .blog-with-toc {
-    grid-template-columns: 320px minmax(0, 1fr);
+  .blog-article-body {
+    grid-template-columns: 4rem minmax(0, 1fr) 320px;
     gap: 3.5rem;
   }
 }

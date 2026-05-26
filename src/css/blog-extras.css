@@ -10,6 +10,7 @@
    Token map — scoped block-level so we do not pollute root.css globals
    --------------------------------------------------------------------- */
 .blog-article,
+.post-share-rail,
 .tldr-box,
 .faq-accordion,
 .tooltip-term,
@@ -44,6 +45,7 @@ body.focus-mode {
 }
 
 body.dark-mode .blog-article,
+body.dark-mode .post-share-rail,
 body.dark-mode .tldr-box,
 body.dark-mode .faq-accordion,
 body.dark-mode .copy-toast,
@@ -136,8 +138,7 @@ body.focus-mode .toc-sidebar,
 body.focus-mode .toc-mobile,
 body.focus-mode .post-crumbs,
 body.focus-mode .post-share,
-body.focus-mode .post-readtime,
-body.focus-mode .post-quick-actions,
+body.focus-mode .post-share-rail,
 body.focus-mode #cs-footer-309,
 body.focus-mode #contact-1392,
 body.focus-mode .pb-go-top-progress,
@@ -146,11 +147,21 @@ body.focus-mode .audit-fab,
 body.focus-mode .blog-sidebar {
   display: none !important;
 }
+/* In focus mode, keep the read-time + Listen on the right of the meta row
+   (Exit focus replaces the Focus button in the corner, so the Focus pill is
+   redundant here). */
+body.focus-mode #focusModeBtn { display: none !important; }
 body.focus-mode .blog-with-toc {
   display: block !important;
   max-width: 46rem !important;
   margin: 0 auto !important;
   padding-top: 4rem;
+}
+/* Collapse the 3-column body grid back to a single block in focus mode so
+   the article reads as one column inside the centered card. */
+body.focus-mode .blog-article-body {
+  display: block !important;
+  margin-top: 0 !important;
 }
 body.focus-mode .blog-article {
   background: var(--be-bg);
@@ -346,18 +357,19 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
 .tts-mini-player {
   position: fixed;
   left: 50%;
-  bottom: 1.5rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   transform: translate(-50%, 6rem);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  max-width: calc(100vw - 2rem);
   padding: 0.55rem 0.75rem;
   background: var(--be-primary);
   border: 1px solid var(--be-primary);
   border-radius: 999px;
   box-shadow: var(--be-shadow-lg);
   color: #fff;
-  z-index: 1500;
+  z-index: 10020;
   opacity: 0;
   transition: transform 0.25s, opacity 0.25s;
 }
@@ -389,6 +401,17 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   color: #fff;
   padding: 0 0.5rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 520px) {
+  .tts-mini-player {
+    width: calc(100vw - 1rem);
+    justify-content: center;
+    bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .tts-mini-status { flex: 1; text-align: center; }
 }
 
 /* ---------------------------------------------------------------------

@@ -167,7 +167,13 @@
         h('div', { className: 'post-meta' },
           h('div', { className: 'post-meta-left' },
             avatarSrc && h('a', { className: 'post-meta-avatar', href: avatarHref, key: 'avatar' },
-              h('img', { src: avatarSrc, alt: author, width: 44, height: 44 })
+              h('img', {
+                src: avatarSrc,
+                alt: author,
+                width: 44,
+                height: 44,
+                onError: function (event) { useDraftUploadFallback(event.currentTarget || event.target); }
+              })
             ),
             h('div', { className: 'post-meta-info' },
               h('div', { className: 'post-meta-line' },
@@ -213,7 +219,11 @@
       // ---- Hero image inside article ----
       var heroImg = imageSrc
         ? h('picture', { className: 'blog-mainImage' },
-            h('img', { src: imageSrc, alt: imageAlt }))
+            h('img', {
+              src: imageSrc,
+              alt: imageAlt,
+              onError: function (event) { useDraftUploadFallback(event.currentTarget || event.target); }
+            }))
         : null;
 
       // ---- FAQ ----
@@ -445,9 +455,114 @@
     }, 5000);
   }
 
+  // -------------------------------------------------------------------
+  // 8. Draft media thumbnail fallback.
+  //
+  // With editorial_workflow, newly uploaded media lives on the unpublished
+  // entry branch until publish. The saved field value is still the final
+  // public URL, e.g. /assets/images/uploads/joseph-face.png, so Decap's
+  // image control can show a broken thumbnail when the production site does
+  // not have that file yet. If the current editor is on a blog draft, retry
+  // failed upload thumbnails against the matching GitHub draft branch.
+  // -------------------------------------------------------------------
+  var REPO_FULL_NAME = 'josephdc18/ui-compass-web-designs';
+  var PUBLIC_UPLOAD_PREFIX = '/assets/images/uploads/';
+  var SOURCE_UPLOAD_PREFIX = 'src/assets/images/uploads/';
+
+  function encodePathPart(value) {
+    return String(value).split('/').map(encodeURIComponent).join('/');
+  }
+
+  function currentBlogSlug() {
+    var hash = decodeURIComponent(window.location.hash || '');
+    var patterns = [
+      /\/collections\/blog\/entries\/([^/?#]+)/,
+      /\/workflow\/(?:[^/]+\/)?blog\/([^/?#]+)/,
+      /\/workflow\/entry\/blog\/([^/?#]+)/
+    ];
+
+    for (var i = 0; i < patterns.length; i++) {
+      var match = hash.match(patterns[i]);
+      if (match && match[1]) return match[1];
+    }
+
+    var inputs = document.querySelectorAll('input[type="text"], input:not([type]), textarea');
+    for (var j = 0; j < inputs.length; j++) {
+      if (fieldNameFor(inputs[j]) === 'pageName' && inputs[j].value) {
+        return inputs[j].value;
+      }
+    }
+
+    return null;
+  }
+
+  function uploadPathFromSrc(src) {
+    if (!src) return null;
+    var url;
+    try {
+      url = new URL(src, window.location.origin);
+    } catch (e) {
+      return null;
+    }
+
+    if (url.origin !== window.location.origin) return null;
+    if (url.pathname.indexOf(PUBLIC_UPLOAD_PREFIX) !== 0) return null;
+    return decodeURIComponent(url.pathname.slice(PUBLIC_UPLOAD_PREFIX.length));
+  }
+
+  function draftUploadUrl(src) {
+    var filename = uploadPathFromSrc(src);
+    var slug = currentBlogSlug();
+    if (!filename || !slug) return null;
+
+    return [
+      'https://raw.githubusercontent.com',
+      REPO_FULL_NAME,
+      'cms/blog/' + encodePathPart(slug),
+      SOURCE_UPLOAD_PREFIX + encodePathPart(filename)
+    ].join('/');
+  }
+
+  function useDraftUploadFallback(img) {
+    if (!img || img.tagName !== 'IMG') return;
+    if (img.dataset.draftUploadFallbackTried) return;
+
+    var fallback = draftUploadUrl(img.getAttribute('src') || img.currentSrc || img.src);
+    if (!fallback) return;
+
+    img.dataset.draftUploadFallbackTried = '1';
+    img.src = fallback;
+  }
+
+  function scanBrokenUploadImages(root) {
+    var images = root.querySelectorAll ? root.querySelectorAll('img') : [];
+    for (var i = 0; i < images.length; i++) {
+      if (images[i].complete && images[i].naturalWidth === 0) {
+        useDraftUploadFallback(images[i]);
+      }
+    }
+  }
+
+  function initDraftMediaFallback() {
+    document.addEventListener('error', function (event) {
+      useDraftUploadFallback(event.target);
+    }, true);
+
+    var observer = new MutationObserver(function () {
+      scanBrokenUploadImages(document);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    scanBrokenUploadImages(document);
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPlaceholders);
+    document.addEventListener('DOMContentLoaded', function () {
+      initPlaceholders();
+      initDraftMediaFallback();
+    });
   } else {
     initPlaceholders();
+    initDraftMediaFallback();
   }
 })();

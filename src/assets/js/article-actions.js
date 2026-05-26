@@ -149,25 +149,33 @@
   }
 
   function initShare() {
-    var btn = document.getElementById('shareBtn');
-    var dropdown = document.getElementById('shareDropdown');
-    if (!btn || !dropdown) return;
-    var wrapper = btn.closest('.share-wrapper');
+    // There can be more than one .share-wrapper on the page (e.g. inline meta
+    // share + the desktop vertical rail). Each wraps its own toggle button
+    // and dropdown; bind them independently so they don't fight each other.
+    var wrappers = document.querySelectorAll('.share-wrapper');
+    if (!wrappers.length) return;
+    var allDropdowns = [];
 
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = dropdown.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-      if (open) {
-        var native = document.getElementById('nativeShareBtn');
-        if (native) native.style.display = navigator.share ? '' : 'none';
-      }
-    });
+    wrappers.forEach(function (wrapper) {
+      // Toggle anchor: legacy #shareBtn or the data-attribute variant in the rail.
+      var btn = wrapper.querySelector('[data-share-toggle], #shareBtn');
+      var dropdown = wrapper.querySelector('.share-dropdown');
+      if (!btn || !dropdown) return;
+      allDropdowns.push({ btn: btn, dropdown: dropdown });
 
-    // Wrapper-level delegation covers the four circular icon buttons in
-    // the meta share row AND the items inside the dropdown. The toggle
-    // button (#shareBtn) stops propagation so it doesn't double-fire here.
-    if (wrapper) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = dropdown.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+        if (open) {
+          // Hide the platform-native share option when Web Share API isn't available.
+          var native = dropdown.querySelector('[data-share-native], #nativeShareBtn');
+          if (native) native.style.display = navigator.share ? '' : 'none';
+        }
+      });
+
+      // Wrapper-scoped delegation: covers the icon row AND items inside the
+      // dropdown. The toggle button stops propagation so it doesn't double-fire.
       wrapper.addEventListener('click', function (e) {
         var trigger = e.target.closest('[data-share]');
         if (!trigger) return;
@@ -177,20 +185,21 @@
           btn.setAttribute('aria-expanded', 'false');
         }
       });
-    }
-
-    document.addEventListener('click', function (e) {
-      if (wrapper && !wrapper.contains(e.target)) {
-        dropdown.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
     });
 
+    // Click outside any wrapper closes every dropdown; Escape does the same.
+    function closeAll() {
+      allDropdowns.forEach(function (d) {
+        d.dropdown.classList.remove('open');
+        d.btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+    document.addEventListener('click', function (e) {
+      var inside = Array.prototype.some.call(wrappers, function (w) { return w.contains(e.target); });
+      if (!inside) closeAll();
+    });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        dropdown.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
+      if (e.key === 'Escape') closeAll();
     });
   }
 

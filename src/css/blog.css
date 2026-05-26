@@ -97,6 +97,14 @@
     row-gap: 3.125em;
     width: 100%;
   }
+  /* Inside the new body grid the main-content has many direct children
+     (tldr, content, faq, related). The 3.125em row-gap above was sized for
+     a single child and produces a yawning gap between blocks here; let each
+     block's own margin govern spacing instead. */
+  .blog-article-body > .main-content {
+    row-gap: 0;
+    align-items: stretch;
+  }
 }
 @media only screen and (min-width: 64rem) {
   .main-content-wrapper {
@@ -567,6 +575,79 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
 }
 
 /* ---------------------------------------------------------------------
+   Vertical share rail — desktop-only column to the left of the article.
+   Hidden below 64rem; the inline .post-share inside .post-meta carries
+   the mobile/tablet flow. Sticks alongside the article body as the reader
+   scrolls. .share-wrapper is the same selector used elsewhere so the
+   shared share-action JS (article-actions.js) binds without changes.
+   --------------------------------------------------------------------- */
+.post-share-rail { display: none; }
+
+@media only screen and (min-width: 64rem) {
+  .post-share-rail {
+    display: block;
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+
+  .post-share-rail-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .post-share-rail-inner .post-share-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.2em;
+    font-size: 0.65rem;
+  }
+
+  /* Square, brand-colored buttons (Ewha-style). Each platform gets its own
+     palette; the hover/focus brightens the same hue. */
+  .post-share-rail-inner .post-share-btn {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.4rem;
+    border: 0;
+    color: #ffffff;
+    transition: filter 0.15s, transform 0.15s;
+  }
+  .post-share-rail-inner .post-share-btn svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .post-share-rail-inner .post-share-btn:hover,
+  .post-share-rail-inner .post-share-btn[aria-expanded="true"] {
+    filter: brightness(1.08);
+    color: #ffffff;
+  }
+
+  .post-share-rail-inner .post-share-btn[data-share="facebook"]     { background: #1877F2; }
+  .post-share-rail-inner .post-share-btn[data-share="twitter"]      { background: #0f172a; }
+  .post-share-rail-inner .post-share-btn[data-share="copy"]         { background: #14b8a6; }
+  .post-share-rail-inner .post-share-btn[data-share="email"]        { background: #f97316; }
+  .post-share-rail-inner .post-share-btn[data-share-toggle]         { background: var(--be-primary, #006940); }
+
+  /* Dropdown opens to the right of its anchor button rather than below.
+     Solid background so text doesn't bleed through the page underneath. */
+  .post-share-rail-inner .share-dropdown {
+    left: calc(100% + 0.5rem);
+    top: 0;
+    right: auto;
+    background: var(--be-bg, #ffffff);
+    border: 1px solid var(--be-border, #e5e7eb);
+    box-shadow: var(--be-shadow-lg, 0 10px 28px rgba(15,23,42,.16));
+  }
+
+  /* Drop the duplicate inline share row on desktop — the rail replaces it. */
+  .post-header .post-meta .post-share { display: none; }
+}
+
+/* ---------------------------------------------------------------------
    Reading time — plain inline label, sits in the same row as the
    Focus/Listen pills (no pill chrome of its own).
    --------------------------------------------------------------------- */
@@ -595,8 +676,12 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin: 0 0 1.75rem;
+  margin: 0;
 }
+/* When the quick-actions sit inside .post-meta (the default), they ride the
+   right edge of the row with author/date on the left. Outside .post-meta the
+   block would carry its old standalone bottom margin. */
+.post-meta > .post-quick-actions { margin-left: auto; }
 .post-quick-btn {
   display: inline-flex;
   align-items: center;

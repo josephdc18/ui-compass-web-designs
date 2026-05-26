@@ -35,6 +35,9 @@
   var stopBtn = null;
   var listenBtn = null;
   var activeWordEl = null;
+  var userScrollPauseUntil = 0;
+  var lastProgrammaticScroll = 0;
+  var AUTO_FOLLOW_PAUSE_MS = 12000;
   // Built once per Listen session: a flat list of every word's exact DOM position
   // ({ node, start, end }) plus the global word index where each utterance chunk
   // begins. This lets us highlight the correct occurrence of repeated words like
@@ -140,15 +143,23 @@
   }
 
   // Smooth-scroll the active word into view if it has drifted outside the comfortable middle band.
-  function scrollIntoBand(el) {
+  function scrollIntoBand(el, force) {
     if (!el) return;
+    if (!force && Date.now() < userScrollPauseUntil) return;
     var rect = el.getBoundingClientRect();
     var winH = window.innerHeight || document.documentElement.clientHeight;
     var topBand = Math.min(120, winH * 0.20);
     var bottomBand = winH - Math.min(160, winH * 0.30);
     if (rect.top >= topBand && rect.bottom <= bottomBand) return;
     var target = window.scrollY + rect.top - (winH * 0.30);
+    lastProgrammaticScroll = Date.now();
     window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+  }
+
+  function pauseAutoFollowForUser() {
+    if (state !== 'playing') return;
+    if (Date.now() - lastProgrammaticScroll < 500) return;
+    userScrollPauseUntil = Date.now() + AUTO_FOLLOW_PAUSE_MS;
   }
 
   // Build the flat word index used by highlightAt(). Walks the article DOM once
@@ -182,7 +193,7 @@
     return matches ? matches.length - 1 : 0;
   }
 
-  function highlightAt(globalIdx) {
+  function highlightAt(globalIdx, forceFollow) {
     // Defensive: clear any prior span before placing a new one. Also sweep up
     // orphaned tts-active spans so a missed cleanup can't double-highlight.
     clearActiveWord();
@@ -206,8 +217,16 @@
       span.className = 'tts-active';
       range.surroundContents(span);
       activeWordEl = span;
-      scrollIntoBand(span);
+      scrollIntoBand(span, forceFollow);
     } catch (e) { /* range failed; skip */ }
+  }
+
+  function firstHighlightableWordIndex() {
+    for (var i = 0; i < articleWords.length; i++) {
+      var w = articleWords[i];
+      if (w && (w.end - w.start) >= 3) return i;
+    }
+    return -1;
   }
 
   function speakAt(idx) {
@@ -245,8 +264,11 @@
       return u;
     });
     state = 'playing';
+    userScrollPauseUntil = 0;
     setPlayIcon(false);
     setBtnLabel('Stop');
+    var firstIdx = firstHighlightableWordIndex();
+    if (firstIdx !== -1) highlightAt(firstIdx, true);
     speakAt(0);
   }
 
@@ -259,6 +281,7 @@
     } else if (state === 'paused') {
       synth.resume();
       state = 'playing';
+      userScrollPauseUntil = 0;
       setPlayIcon(false);
       setStatus('Reading ' + (currentIndex + 1) + ' / ' + utterances.length);
     }
@@ -275,6 +298,7 @@
     currentIndex = 0;
     articleWords = [];
     chunkStartWord = [];
+    userScrollPauseUntil = 0;
     clearActiveWord();
     if (player) {
       player.classList.remove('show');
@@ -318,4 +342,11 @@
   // Stop on navigation away.
   window.addEventListener('pagehide', stop);
   window.addEventListener('beforeunload', stop);
+  window.addEventListener('wheel', pauseAutoFollowForUser, { passive: true });
+  window.addEventListener('touchmove', pauseAutoFollowForUser, { passive: true });
+  document.addEventListener('keydown', function (e) {
+    var navKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+    if (state !== 'idle' && navKeys.indexOf(e.key) !== -1) pauseAutoFollowForUser();
+    if (state !== 'idle' && e.key === 'Escape') stop();
+  });
 })();

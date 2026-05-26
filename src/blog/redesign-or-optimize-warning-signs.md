@@ -13,7 +13,6 @@ tags:
 category: "Strategy"
 readMins: 8
 topper: "Strategy"
-hero: true
 image: /assets/images/redesign-or-optimize-warning-signs-card.png
 imageAlt: A small business owner reviewing a printed website audit at a desk
 summary: >-

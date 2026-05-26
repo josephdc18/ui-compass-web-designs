@@ -6,6 +6,7 @@ blogDescription: Around 60% of your visitors are on a phone, but most small busi
 author: "Joseph C."
 date: 2026-04-17T16:00:00.000Z
 draft: false
+hero: true
 tags:
   - post
   - performance

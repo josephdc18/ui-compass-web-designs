@@ -78,22 +78,28 @@ body.dark-mode.focus-mode {
 /* ---------------------------------------------------------------------
    2. SHARE DROPDOWN
    --------------------------------------------------------------------- */
-.share-wrapper { position: relative; }
+.share-wrapper {
+  position: relative;
+  z-index: 30;
+}
 .share-dropdown {
   position: absolute;
   top: calc(100% + 0.4rem);
   right: 0;
-  background: var(--be-bg);
+  background: var(--be-bg, #ffffff);
+  background-color: var(--be-bg, #ffffff);
   border: 1px solid var(--be-border);
   border-radius: var(--be-radius-md);
   box-shadow: var(--be-shadow-lg);
+  color: var(--be-text, #1e293b);
   min-width: 12rem;
   padding: 0.4rem 0;
   opacity: 0;
   visibility: hidden;
   transform: translateY(6px);
   transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
-  z-index: 1000;
+  z-index: 10030;
+  isolation: isolate;
 }
 .share-dropdown.open {
   opacity: 1;
@@ -127,6 +133,11 @@ body.dark-mode.focus-mode {
   border: none;
   border-top: 1px solid var(--be-border);
   margin: 0.4rem 0;
+}
+body.dark-mode .share-dropdown {
+  background: var(--be-bg, #1f1f1f);
+  background-color: var(--be-bg, #1f1f1f);
+  color: var(--be-text, #ffffff);
 }
 
 /* ---------------------------------------------------------------------

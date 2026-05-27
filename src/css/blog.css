@@ -589,6 +589,7 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
     position: sticky;
     top: 6rem;
     align-self: start;
+    z-index: 30;
   }
 
   .post-share-rail-inner {
@@ -596,6 +597,8 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    position: relative;
+    z-index: 30;
   }
 
   .post-share-rail-inner .post-share-label {
@@ -636,11 +639,15 @@ body.dark-mode .post-meta-author { text-decoration-color: rgba(255, 255, 255, 0.
      Solid background so text doesn't bleed through the page underneath. */
   .post-share-rail-inner .share-dropdown {
     left: calc(100% + 0.5rem);
-    top: 0;
+    top: auto;
     right: auto;
+    bottom: 0;
     background: var(--be-bg, #ffffff);
+    background-color: var(--be-bg, #ffffff);
     border: 1px solid var(--be-border, #e5e7eb);
     box-shadow: var(--be-shadow-lg, 0 10px 28px rgba(15,23,42,.16));
+    color: var(--be-text, #1e293b);
+    z-index: 10030;
   }
 
   /* Drop the duplicate inline share row on desktop — the rail replaces it. */

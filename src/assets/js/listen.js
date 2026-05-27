@@ -8,7 +8,8 @@
  * - Floating mini-player pill: Pause/Resume, Stop, status text.
  *
  * Bound entry point: window.uicListenStart() — invoked by article-actions.js after the
- * first click. Subsequent clicks on #listenBtn toggle pause/resume.
+ * first click. Subsequent clicks on #listenBtn stop playback; the mini-player handles
+ * pause/resume.
  *
  * Note: SpeechSynthesis is best-effort across browsers. We catch all errors and degrade
  * silently (Listen button reverts to inactive).
@@ -34,6 +35,8 @@
   var playBtn = null;
   var stopBtn = null;
   var listenBtn = null;
+  var articleEl = null;
+  var sessionChunks = [];
   var activeWordEl = null;
   var userScrollPauseUntil = 0;
   var lastProgrammaticScroll = 0;
@@ -58,14 +61,6 @@
       if (match) return match;
     }
     return en[0];
-  }
-
-  function expandAcronyms(text) {
-    // Force letter-by-letter pronunciation of plain ALL-CAPS acronyms (3-5 letters, surrounded by word boundaries).
-    return text.replace(/\b([A-Z]{2,5})\b/g, function (m, ac) {
-      // Skip likely common words: NASA-style names get expanded; "USA" → "U.S.A." reads more naturally.
-      return ac.split('').join('.') + '.';
-    });
   }
 
   function chunkText(text) {
@@ -106,8 +101,16 @@
     statusEl = player.querySelector('.tts-mini-status');
     playBtn = player.querySelector('[data-listen-toggle]');
     stopBtn = player.querySelector('[data-listen-stop]');
-    playBtn.addEventListener('click', togglePause);
-    stopBtn.addEventListener('click', stop);
+    playBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      togglePause();
+    });
+    stopBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      stop();
+    });
     requestAnimationFrame(function () { player.classList.add('show'); });
   }
 
@@ -129,17 +132,31 @@
     listenBtn.classList.toggle('active', state !== 'idle');
   }
 
-  // Unwrap any tts-active span back to text so we don't litter the DOM as we read.
+  function unwrapActiveSpan(span) {
+    var parent = span && span.parentNode;
+    if (!parent) return false;
+    while (span.firstChild) parent.insertBefore(span.firstChild, span);
+    parent.removeChild(span);
+    // Merge adjacent text nodes so future word offsets still map to real text nodes.
+    try { parent.normalize(); } catch (e) {}
+    return true;
+  }
+
+  // Unwrap any tts-active spans back to text so we don't litter the DOM as we read.
   function clearActiveWord() {
-    if (!activeWordEl) return;
-    var parent = activeWordEl.parentNode;
-    if (parent) {
-      while (activeWordEl.firstChild) parent.insertBefore(activeWordEl.firstChild, activeWordEl);
-      parent.removeChild(activeWordEl);
-      // Merge adjacent text nodes so future searches still find words across the seam.
-      try { parent.normalize(); } catch (e) {}
+    var changed = false;
+    if (activeWordEl) {
+      changed = unwrapActiveSpan(activeWordEl) || changed;
+      activeWordEl = null;
     }
-    activeWordEl = null;
+    var root = articleEl || document;
+    var stragglers = root.querySelectorAll ? root.querySelectorAll('.tts-active') : [];
+    for (var s = 0; s < stragglers.length; s++) {
+      changed = unwrapActiveSpan(stragglers[s]) || changed;
+    }
+    if (changed && state !== 'idle' && articleEl && sessionChunks.length) {
+      buildWordIndex(articleEl, sessionChunks);
+    }
   }
 
   // Smooth-scroll the active word into view if it has drifted outside the comfortable middle band.
@@ -194,21 +211,11 @@
   }
 
   function highlightAt(globalIdx, forceFollow) {
-    // Defensive: clear any prior span before placing a new one. Also sweep up
-    // orphaned tts-active spans so a missed cleanup can't double-highlight.
+    // Defensive: clear any prior span before placing a new one.
     clearActiveWord();
-    var stragglers = document.querySelectorAll('.tts-active');
-    for (var s = 0; s < stragglers.length; s++) {
-      var sp = stragglers[s], par = sp.parentNode;
-      if (!par) continue;
-      while (sp.firstChild) par.insertBefore(sp.firstChild, sp);
-      par.removeChild(sp);
-      try { par.normalize(); } catch (e) {}
-    }
     var w = articleWords[globalIdx];
     if (!w || !w.node || !w.node.parentNode) return;
     if (w.end > (w.node.nodeValue || '').length) return;
-    if (w.end - w.start < 3) return; // skip 1-2 char words to avoid flicker
     try {
       var range = document.createRange();
       range.setStart(w.node, w.start);
@@ -221,30 +228,26 @@
     } catch (e) { /* range failed; skip */ }
   }
 
-  function firstHighlightableWordIndex() {
-    for (var i = 0; i < articleWords.length; i++) {
-      var w = articleWords[i];
-      if (w && (w.end - w.start) >= 3) return i;
-    }
-    return -1;
-  }
-
   function speakAt(idx) {
     if (idx >= utterances.length) { stop(); return; }
     currentIndex = idx;
     var u = utterances[idx];
     setStatus('Reading ' + (idx + 1) + ' / ' + utterances.length);
+    highlightAt(chunkStartWord[idx] || 0, idx === 0);
     synth.speak(u);
   }
 
   function start() {
+    if (state !== 'idle') return;
     var article = document.querySelector('.article-content') || document.querySelector('.blog-article');
     if (!article) return;
+    articleEl = article;
     synth.cancel();
     var raw = (article.textContent || '').replace(/\s+/g, ' ').trim();
     if (!raw) return;
-    var chunks = chunkText(expandAcronyms(raw));
+    var chunks = chunkText(raw);
     if (!chunks.length) return;
+    sessionChunks = chunks;
     buildWordIndex(article, chunks);
     var voice = pickVoice();
     utterances = chunks.map(function (chunk, i) {
@@ -267,8 +270,6 @@
     userScrollPauseUntil = 0;
     setPlayIcon(false);
     setBtnLabel('Stop');
-    var firstIdx = firstHighlightableWordIndex();
-    if (firstIdx !== -1) highlightAt(firstIdx, true);
     speakAt(0);
   }
 
@@ -291,11 +292,16 @@
     // Set state BEFORE cancel(): cancel() fires the current utterance's onend synchronously,
     // and onend checks `state === 'playing'` to decide whether to queue the next chunk.
     state = 'idle';
-    try { synth.cancel(); } catch (e) {}
     // Drop any pending utterance handlers so a late event can't restart playback.
     utterances.forEach(function (u) { u.onend = null; u.onboundary = null; u.onerror = null; });
+    try {
+      if (synth.paused) synth.resume();
+      synth.cancel();
+    } catch (e) {}
     utterances = [];
     currentIndex = 0;
+    articleEl = null;
+    sessionChunks = [];
     articleWords = [];
     chunkStartWord = [];
     userScrollPauseUntil = 0;
@@ -309,19 +315,13 @@
     setBtnLabel('Listen');
   }
 
-  // The button click while running should pause/resume rather than re-start from the top.
+  // The main Listen button's active label is "Stop"; pause/resume lives in the mini-player.
   function onListenButton() {
     if (state === 'idle') {
       buildPlayer();
-      // Voices may load async on first use.
-      if ((synth.getVoices() || []).length === 0) {
-        synth.addEventListener('voiceschanged', start, { once: true });
-        setTimeout(start, 400); // belt + suspenders
-      } else {
-        start();
-      }
+      start();
     } else {
-      togglePause();
+      stop();
     }
   }
 

@@ -1,19 +1,18 @@
 
-/* aboutrpsbs-328 / aboutrpsbs-328-2 — paired founder blocks. Adapted from
-   oui.digital Codestitch template ABoutRPsbs-328 but rewritten to follow the
-   site's traditional codestitch patterns: max-width + aspect-ratio for the
-   image group instead of the template's font-size em-scaling lever, and
-   align-items: center on the desktop row so the columns balance vertically
-   even when the bio is shorter than the photo. The -2 variant reverses the
-   row direction so the eye walks across the page. */
+/* aboutrpsbs-328 — founder block. Adapted from oui.digital Codestitch template
+   ABoutRPsbs-328 but rewritten to follow the site's traditional codestitch
+   patterns: max-width + aspect-ratio for the image group instead of the
+   template's font-size em-scaling lever, and align-items: center on the
+   desktop row so the columns balance vertically even when the bio is shorter
+   than the photo. */
 @media only screen and (min-width:0rem){
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2){
+  #aboutrpsbs-328{
     padding:var(--sectionPadding);
     overflow:hidden;
     position:relative;
     z-index:1;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-container{
+  #aboutrpsbs-328 .cs-container{
     align-items:center;
     display:flex;
     flex-direction:column;
@@ -22,7 +21,7 @@
     max-width:80rem;
     width:100%;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-content{
+  #aboutrpsbs-328 .cs-content{
     align-items:flex-start;
     display:flex;
     flex-direction:column;
@@ -30,32 +29,32 @@
     text-align:left;
     width:100%;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-title{
+  #aboutrpsbs-328 .cs-title{
     margin-bottom:1rem;
     max-width:22ch;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-text{
+  #aboutrpsbs-328 .cs-text{
     margin-bottom:1rem;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-text:last-of-type{
+  #aboutrpsbs-328 .cs-text:last-of-type{
     margin-bottom:2rem;
   }
   /* Image group — wraps the photo (with floating stats overlay) plus the
      quote card stacked beneath. Constrained by max-width so it never dwarfs
      the bio column. */
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-image-group{
+  #aboutrpsbs-328 .cs-image-group{
     max-width:30rem;
     width:100%;
   }
   /* Photo wrapper — aspect-ratio sets the photo's height responsively without
      fixed em values. position:relative so cs-stats can absolute-position
      against its bottom edge. */
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-wrap{
+  #aboutrpsbs-328 .cs-wrap{
     aspect-ratio:5/6;
     position:relative;
     width:100%;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-picture{
+  #aboutrpsbs-328 .cs-picture{
     border-radius:1.5rem;
     display:block;
     height:100%;
@@ -64,14 +63,14 @@
     position:absolute;
     width:100%;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-picture img{
+  #aboutrpsbs-328 .cs-picture img{
     height:100%;
     object-fit:cover;
     object-position:50% 20%;
     width:100%;
   }
   /* Floating stats card overlapping the bottom of the photo. */
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stats{
+  #aboutrpsbs-328 .cs-stats{
     align-items:center;
     background-color:#fff;
     border:1px solid #e8e8e8;
@@ -90,7 +89,7 @@
     width:90%;
     z-index:10;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stat-item{
+  #aboutrpsbs-328 .cs-stat-item{
     display:flex;
     flex:1 1 0;
     flex-direction:column;
@@ -98,13 +97,13 @@
     min-width:0;
     text-align:center;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stat-number{
+  #aboutrpsbs-328 .cs-stat-number{
     color:var(--primary);
     font-size:clamp(1rem,2vw,1.5rem);
     font-weight:900;
     line-height:1.2em;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stat-label{
+  #aboutrpsbs-328 .cs-stat-label{
     color:var(--bodyTextColor);
     font-size:.6875rem;
     font-weight:600;
@@ -114,7 +113,7 @@
   }
   /* Quote card — sits below the photo with enough margin-top to clear the
      floating stats card (which extends 2rem below the photo). */
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote{
+  #aboutrpsbs-328 .cs-quote{
     background-color:#f7f7f7;
     border-radius:1rem;
     margin:4rem 0 0;
@@ -122,7 +121,7 @@
     position:relative;
     width:100%;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote-text{
+  #aboutrpsbs-328 .cs-quote-text{
     color:#767676;
     display:block;
     font-size:clamp(.875rem,1.5vw,1rem);
@@ -131,7 +130,7 @@
     position:relative;
     z-index:1;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-name{
+  #aboutrpsbs-328 .cs-name{
     color:var(--headerColor);
     display:block;
     font-size:1rem;
@@ -141,13 +140,13 @@
     margin:0 0 .25rem;
     text-transform:uppercase;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-job{
+  #aboutrpsbs-328 .cs-job{
     color:#767676;
     display:block;
     font-size:.875rem;
     line-height:1.5em;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote-icon{
+  #aboutrpsbs-328 .cs-quote-icon{
     bottom:.75rem;
     color:#e8e8e8;
     height:auto;
@@ -157,60 +156,64 @@
   }
 }
 @media only screen and (min-width:64rem){
+  #aboutrpsbs-328{
+    overflow:visible;
+    padding-bottom:clamp(12rem,15vw,15rem);
+  }
   #aboutrpsbs-328 .cs-container{
     align-items:center;
     flex-direction:row;
     gap:2.5rem;
     justify-content:space-between;
   }
-  /* Reverse for the second founder block — image group on the right. */
-  #aboutrpsbs-328-2 .cs-container{
-    align-items:center;
-    flex-direction:row-reverse;
-    gap:2.5rem;
-    justify-content:space-between;
-  }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-image-group{
+  #aboutrpsbs-328 .cs-image-group{
     flex:1 1 34rem;
     max-width:34rem;
+    position:relative;
   }
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-content{
+  #aboutrpsbs-328 .cs-quote{
+    left:0;
+    margin:0;
+    position:absolute;
+    top:calc(100% + 3rem);
+  }
+  #aboutrpsbs-328 .cs-content{
     flex:1 1 40rem;
     margin:0;
     max-width:40rem;
   }
 }
 @media only screen and (min-width:0rem){
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-topper{
+  body.dark-mode #aboutrpsbs-328 .cs-topper{
     color:var(--primaryLight);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-title,
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-text,
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote-text,
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-name{
+  body.dark-mode #aboutrpsbs-328 .cs-title,
+  body.dark-mode #aboutrpsbs-328 .cs-text,
+  body.dark-mode #aboutrpsbs-328 .cs-quote-text,
+  body.dark-mode #aboutrpsbs-328 .cs-name{
     color:var(--bodyTextColorWhite);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-text{
+  body.dark-mode #aboutrpsbs-328 .cs-text{
     opacity:.85;
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-job{
+  body.dark-mode #aboutrpsbs-328 .cs-job{
     color:var(--bodyTextColorWhite);
     opacity:.7;
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote{
+  body.dark-mode #aboutrpsbs-328 .cs-quote{
     background-color:var(--accent);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-quote-icon{
+  body.dark-mode #aboutrpsbs-328 .cs-quote-icon{
     color:rgba(255,255,255,.10);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stats{
+  body.dark-mode #aboutrpsbs-328 .cs-stats{
     background-color:rgba(0,0,0,.55);
     border-color:rgba(255,255,255,.10);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stat-number{
+  body.dark-mode #aboutrpsbs-328 .cs-stat-number{
     color:var(--primaryLight);
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2) .cs-stat-label{
+  body.dark-mode #aboutrpsbs-328 .cs-stat-label{
     color:var(--bodyTextColorWhite);
     opacity:.8;
   }
@@ -219,10 +222,10 @@
      and --medium in dark, with the dark contact-band (#aboutstrip-328) acting
      as the accent break. Visual distinction between the two founder blocks
      comes from the row-reverse layout, not from different background colors. */
-  :is(#aboutrpsbs-328, #aboutrpsbs-328-2){
+  #aboutrpsbs-328{
     background-color:#f7f7f7;
   }
-  body.dark-mode :is(#aboutrpsbs-328, #aboutrpsbs-328-2){
+  body.dark-mode #aboutrpsbs-328{
     background-color:var(--medium);
   }
 }
@@ -236,11 +239,3 @@
 
 /* steps-585 */
 @media only screen and (min-width:0rem){#steps-585{background-color:#f7f7f7;padding:var(--sectionPadding)}#steps-585 .cs-container{align-items:center;display:flex;flex-direction:column;gap:clamp(3rem,6vw,4rem);margin:auto;max-width:34.375rem;width:100%}#steps-585 .cs-content{align-items:flex-start;display:flex;flex-direction:column;text-align:left;width:100%}#steps-585 .cs-card-group{display:grid;grid-template-columns:repeat(12,1fr);margin:0;padding:0;position:relative}#steps-585 .cs-item{align-items:flex-start;box-sizing:border-box;display:flex;flex-direction:column;grid-column:span 12;list-style:none;min-height:18.125rem;padding:clamp(1.25rem,5vw,2rem)}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(3),#steps-585 .cs-item:nth-of-type(4),#steps-585 .cs-item:nth-of-type(5){border-bottom:1px solid var(--headerColor)}#steps-585 .cs-h3{color:var(--primary);display:block;font-size:1.5rem;font-weight:500;line-height:1.2em;margin:0 0 .75rem;text-align:left}#steps-585 .cs-item-text{color:var(--bodyTextColor);font-size:1rem;line-height:1.5em;margin:0;text-align:left}#steps-585 .cs-number{color:var(--primary);display:block;font-size:3.8125rem;font-weight:900;line-height:1.2em;margin:auto 0 0}}@media only screen and (min-width:48rem){#steps-585 .cs-container{max-width:80rem}#steps-585 .cs-item{grid-column:span 6}#steps-585 .cs-item:nth-of-type(5){border-bottom:none}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(3),#steps-585 .cs-item:nth-of-type(5){border-right:1px solid var(--headerColor)}}@media only screen and (min-width:64rem){#steps-585 .cs-item{grid-column:span 4}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(4),#steps-585 .cs-item:nth-of-type(5){border-right:1px solid var(--headerColor)}#steps-585 .cs-item:first-of-type,#steps-585 .cs-item:nth-of-type(2),#steps-585 .cs-item:nth-of-type(3){border-bottom:1px solid var(--headerColor)}#steps-585 .cs-item:nth-of-type(3){border-right:none}#steps-585 .cs-item:nth-of-type(4){border-bottom:none}}@media only screen and (min-width:0rem){body.dark-mode #steps-585{background-color:rgba(0,0,0,.6)}body.dark-mode #steps-585 .cs-topper{color:var(--primaryLight)}body.dark-mode #steps-585 .cs-title{color:var(--bodyTextColorWhite)}body.dark-mode #steps-585 .cs-item{border-color:var(--bodyTextColorWhite)}body.dark-mode #steps-585 .cs-item-text{color:var(--bodyTextColorWhite);opacity:.8}body.dark-mode #steps-585 .cs-h3,body.dark-mode #steps-585 .cs-number{color:var(--primaryLight)}}
-
-/* Joseph's and Young's founder sections share the same #f7f7f7 / --medium
-   background, so the doubled top + bottom sectionPadding between them reads
-   as one big empty gap. Collapse Young's top padding so Joseph's bottom
-   padding alone separates them. */
-#aboutrpsbs-328-2{
-  padding-top:0;
-}

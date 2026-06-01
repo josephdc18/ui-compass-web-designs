@@ -12,7 +12,7 @@ topper: Strategy
 image: /assets/images/uploads/website-diy-or-managed.png
 imageAlt: A drag-and-drop interface on the left, a developer working at a desk
   on the right
-draft: true
+draft: false
 tags:
   - post
   - strategy

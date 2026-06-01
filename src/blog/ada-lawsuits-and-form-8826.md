@@ -1,49 +1,121 @@
 ---
 pageName: ada-lawsuits-and-form-8826
-blogTitle: 5,000+ ADA Web Lawsuits in 2025. And the Tax Credit That Pays for the Fix.
+blogTitle: '5,000+ ADA Web Lawsuits in 2025. And the Tax Credit That Pays for the Fix.'
 titleTag: ADA Lawsuits and Form 8826
-blogDescription: Over 5,000 ADA web lawsuits filed in 2025 with settlements landing $5K to $25K. Most small business owners do not know there is an IRS tax credit that covers half of eligible accessibility spend up to $5,000 per year. The math on the threat, the math on the offset.
-author: "Joseph C."
+blogDescription: >-
+  Over 5,000 ADA web lawsuits filed in 2025 with settlements landing $5K to
+  $25K. Most small business owners do not know there is an IRS tax credit that
+  covers half of eligible accessibility spend up to $5,000 per year. The math on
+  the threat, the math on the offset.
+author: Joseph C.
 date: 2026-01-19T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 6
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/ada-lawsuits-and-form-8826-card.png
-imageAlt: A desk with a printed demand letter on one side and an IRS Form 8826 worksheet on the other
+imageAlt: >-
+  A desk with a printed demand letter on one side and an IRS Form 8826 worksheet
+  on the other
 tldrTitle: Key Takeaways
 tldr:
-  - 'Over **5,000 ADA web lawsuits** were filed in 2025. Small businesses are disproportionately targeted because they **settle rather than fight**. Typical settlement: **$5,000 to $25,000** plus attorney fees on top.'
-  - 'A free **WAVE scan** of your site tells you whether you are exposed before a demand letter does. Most small business sites fail basic checks.'
-  - 'The IRS **Disabled Access Credit (Form 8826)** covers **half of eligible accessibility expenses** for businesses with **under 30 employees or under $1M revenue**. Maximum credit: **$5,000/year** (against $10,250 in eligible spend, minus a $250 floor).'
-  - 'Net math: a $4,000 accessibility remediation can net to **$2,000 after the credit**. That is meaningfully cheaper than a single settlement, and the credit can be claimed every year you have qualifying expenses.'
+  - >-
+    Over **5,000 ADA web lawsuits** were filed in 2025. Small businesses are
+    disproportionately targeted because they **settle rather than fight**.
+    Typical settlement: **$5,000 to $25,000** plus attorney fees on top.
+  - >-
+    A free **WAVE scan** of your site tells you whether you are exposed before a
+    demand letter does. Most small business sites fail basic checks.
+  - >-
+    The IRS **Disabled Access Credit (Form 8826)** covers **half of eligible
+    accessibility expenses** for businesses with **under 30 employees or under
+    $1M revenue**. Maximum credit: **$5,000/year** (against $10,250 in eligible
+    spend, minus a $250 floor).
+  - >-
+    Net math: a $4,000 accessibility remediation can net to **$2,000 after the
+    credit**. That is meaningfully cheaper than a single settlement, and the
+    credit can be claimed every year you have qualifying expenses.
 faq:
-  - q: 'How does an ADA web lawsuit actually start?'
-    a: 'Almost always with a "demand letter" sent by a plaintiff''s attorney. The letter cites specific accessibility failures on your site, attaches a screenshot or audit report, and demands you fix the site, pay a settlement, and cover the attorney''s fees. Most small business owners receive their first letter with no warning — the plaintiff often has never been a customer. They scanned thousands of sites looking for ones with accessibility violations.'
-  - q: 'Can I just ignore the letter?'
-    a: 'You can, but the next step is a filed lawsuit, and at that point the cost compounds. Plaintiffs in this space are usually represented by firms that file at scale. Defending requires hiring a lawyer who specializes in ADA web cases (rare and expensive), and a typical defense costs more than the settlement would have. Most small businesses settle for that reason — the math forces it, even when the underlying claim is weak.'
-  - q: 'What is Form 8826?'
-    a: '<a href="https://www.irs.gov/forms-pubs/about-form-8826">IRS Form 8826</a> is the form used to claim the <strong>Disabled Access Credit</strong>, a tax credit (not a deduction) for eligible small businesses that spend money making their facilities or services accessible to people with disabilities. The credit covers <strong>50% of eligible expenses</strong> between $250 and $10,250 per year — maximum credit of $5,000 per year. Website remediation costs typically qualify when the work brings the site closer to ADA-compatible accessibility.'
-  - q: 'Who qualifies for the credit?'
-    a: 'Businesses that either employ **30 or fewer full-time employees** OR had **$1 million or less in gross receipts** in the prior tax year. You need to meet one of the two, not both. Most small business website work falls inside this bracket easily. <strong>Talk to your accountant before claiming</strong> — eligibility depends on your specific tax situation, and this post is not tax advice.'
-  - q: 'How is the credit different from a deduction?'
-    a: 'A deduction lowers your taxable income; a credit lowers your tax bill directly. A $4,000 accessibility expense deducted at a 25% effective rate saves you about $1,000 in tax. The same expense run through the Disabled Access Credit produces a $2,000 credit — twice the benefit. Both can sometimes be combined (per <a href="https://www.irs.gov/forms-pubs/about-form-8826">IRS rules</a>; ask your accountant), and the net effect is that accessibility work is one of the cheapest line items on your tax return.'
-  - q: 'Does an overlay widget count as eligible spend?'
-    a: 'Probably not, and you should not want it to. Overlay widgets do not provide the durable accessibility improvements the credit is designed to incentivize. They also do not stop lawsuits — see <a href="/blog/why-accessibility-overlay-widgets-get-sued/">our overlay-widget post</a>. Eligible spend is generally real remediation: code-level fixes, alt text, audit and consulting services, and ongoing maintenance. Talk to your accountant for the specifics of your filing.'
-  - q: 'What is a realistic fix cost for a small business site?'
-    a: 'A first-pass remediation of a typical 5-to-10-page small business site is about $1,500 to $4,000 of focused work depending on starting state. Audit and report, contrast fixes, focus indicators, alt text, semantic HTML, form labels, keyboard testing. After the credit (which can rebate up to half), the net cost lands at $750 to $2,000 — meaningfully less than a single settlement, and significantly less than the alternative of doing nothing and getting sued.'
-  - q: 'How does this connect to the WCAG audit?'
-    a: 'Directly. The audit (using <a href="/blog/wcag-2-2-aa-in-five-minutes/">the three free tests we walk through</a>) is what tells you whether you are exposed. Running the audit before a demand letter is the only way to scope the work in advance instead of under duress. We fold the audit into the discovery phase of every <a href="/web-design/">new build</a>, and into the quarterly review for clients on <a href="/unlimited-edits-and-support/">unlimited edits and support</a>.'
+  - q: How does an ADA web lawsuit actually start?
+    a: >-
+      Almost always with a "demand letter" sent by a plaintiff's attorney. The
+      letter cites specific accessibility failures on your site, attaches a
+      screenshot or audit report, and demands you fix the site, pay a
+      settlement, and cover the attorney's fees. Most small business owners
+      receive their first letter with no warning — the plaintiff often has never
+      been a customer. They scanned thousands of sites looking for ones with
+      accessibility violations.
+  - q: Can I just ignore the letter?
+    a: >-
+      You can, but the next step is a filed lawsuit, and at that point the cost
+      compounds. Plaintiffs in this space are usually represented by firms that
+      file at scale. Defending requires hiring a lawyer who specializes in ADA
+      web cases (rare and expensive), and a typical defense costs more than the
+      settlement would have. Most small businesses settle for that reason — the
+      math forces it, even when the underlying claim is weak.
+  - q: What is Form 8826?
+    a: >-
+      <a href="https://www.irs.gov/forms-pubs/about-form-8826">IRS Form 8826</a>
+      is the form used to claim the <strong>Disabled Access Credit</strong>, a
+      tax credit (not a deduction) for eligible small businesses that spend
+      money making their facilities or services accessible to people with
+      disabilities. The credit covers <strong>50% of eligible expenses</strong>
+      between $250 and $10,250 per year — maximum credit of $5,000 per year.
+      Website remediation costs typically qualify when the work brings the site
+      closer to ADA-compatible accessibility.
+  - q: Who qualifies for the credit?
+    a: >-
+      Businesses that either employ **30 or fewer full-time employees** OR had
+      **$1 million or less in gross receipts** in the prior tax year. You need
+      to meet one of the two, not both. Most small business website work falls
+      inside this bracket easily. <strong>Talk to your accountant before
+      claiming</strong> — eligibility depends on your specific tax situation,
+      and this post is not tax advice.
+  - q: How is the credit different from a deduction?
+    a: >-
+      A deduction lowers your taxable income; a credit lowers your tax bill
+      directly. A $4,000 accessibility expense deducted at a 25% effective rate
+      saves you about $1,000 in tax. The same expense run through the Disabled
+      Access Credit produces a $2,000 credit — twice the benefit. Both can
+      sometimes be combined (per <a
+      href="https://www.irs.gov/forms-pubs/about-form-8826">IRS rules</a>; ask
+      your accountant), and the net effect is that accessibility work is one of
+      the cheapest line items on your tax return.
+  - q: Does an overlay widget count as eligible spend?
+    a: >-
+      Probably not, and you should not want it to. Overlay widgets do not
+      provide the durable accessibility improvements the credit is designed to
+      incentivize. They also do not stop lawsuits — see <a
+      href="/blog/why-accessibility-overlay-widgets-get-sued/">our
+      overlay-widget post</a>. Eligible spend is generally real remediation:
+      code-level fixes, alt text, audit and consulting services, and ongoing
+      maintenance. Talk to your accountant for the specifics of your filing.
+  - q: What is a realistic fix cost for a small business site?
+    a: >-
+      A first-pass remediation of a typical 5-to-10-page small business site is
+      about $1,500 to $4,000 of focused work depending on starting state. Audit
+      and report, contrast fixes, focus indicators, alt text, semantic HTML,
+      form labels, keyboard testing. After the credit (which can rebate up to
+      half), the net cost lands at $750 to $2,000 — meaningfully less than a
+      single settlement, and significantly less than the alternative of doing
+      nothing and getting sued.
+  - q: How does this connect to the WCAG audit?
+    a: >-
+      Directly. The audit (using <a
+      href="/blog/wcag-2-2-aa-in-five-minutes/">the three free tests we walk
+      through</a>) is what tells you whether you are exposed. Running the audit
+      before a demand letter is the only way to scope the work in advance
+      instead of under duress. We fold the audit into the discovery phase of
+      every <a href="/web-design/">new build</a>, and into the quarterly review
+      for clients on <a href="/unlimited-edits-and-support/">unlimited edits and
+      support</a>.
 related:
-  - url: /blog/wcag-2-2-aa-in-five-minutes/
-    title: 'WCAG 2.2 AA in 5 Minutes. The 3 Tests Anyone Can Run.'
-  - url: /blog/why-accessibility-overlay-widgets-get-sued/
-    title: 'Why Accessibility Overlay Widgets Get Sued'
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
+  - wcag-2-2-aa-in-five-minutes
+  - why-accessibility-overlay-widgets-get-sued
+  - trust-signals-that-move-the-needle
 ---
 
 Over five thousand ADA web accessibility lawsuits were filed in 2025. Most of them were small businesses.

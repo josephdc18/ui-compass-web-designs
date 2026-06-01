@@ -2,46 +2,93 @@
 pageName: faq-schema-3x-screen-space
 blogTitle: FAQ Schema Turns One Blue Link Into 3x Screen Space
 titleTag: FAQ Schema Turns One Blue Link Into 3x Screen Space
-blogDescription: Schema does not move you up the rankings. It changes how your listing looks once you are there. The FAQ block that takes a single blue link and stretches it into roughly three times the vertical space, plus the five mistakes that get the whole thing thrown out.
-author: "Joseph C."
+blogDescription: >-
+  Schema does not move you up the rankings. It changes how your listing looks
+  once you are there. The FAQ block that takes a single blue link and stretches
+  it into roughly three times the vertical space, plus the five mistakes that
+  get the whole thing thrown out.
+author: Joseph C.
 date: 2026-01-08T16:00:00.000Z
 draft: true
 tags:
   - post
   - seo
-category: "SEO"
+category: SEO
 readMins: 5
-topper: "SEO"
+topper: SEO
 image: /assets/images/faq-schema-3x-screen-space-card.png
-imageAlt: A search results page showing an expanded FAQ schema result taking three times the vertical space of the result above it
+imageAlt: >-
+  A search results page showing an expanded FAQ schema result taking three times
+  the vertical space of the result above it
 tldrTitle: Key Takeaways
 tldr:
-  - 'Schema does not change **where** you rank. It changes **how your listing looks** once you are there. The win is click-through rate, not ranking.'
-  - '**FAQ schema** turns one blue link into a stacked, click-to-expand result that occupies roughly **3x the vertical space** of a standard result. Same position, more screen.'
-  - 'Six schemas worth bothering with: **LocalBusiness, FAQPage, Service, Review/AggregateRating, Article, BreadcrumbList**. Skip the rest.'
-  - 'Five mistakes get your schema silently dropped: **contradicting the visible page, generic types, stale info, mismatched names, missing @id links**.'
+  - >-
+    Schema does not change **where** you rank. It changes **how your listing
+    looks** once you are there. The win is click-through rate, not ranking.
+  - >-
+    **FAQ schema** turns one blue link into a stacked, click-to-expand result
+    that occupies roughly **3x the vertical space** of a standard result. Same
+    position, more screen.
+  - >-
+    Six schemas worth bothering with: **LocalBusiness, FAQPage, Service,
+    Review/AggregateRating, Article, BreadcrumbList**. Skip the rest.
+  - >-
+    Five mistakes get your schema silently dropped: **contradicting the visible
+    page, generic types, stale info, mismatched names, missing @id links**.
 faq:
-  - q: 'Will adding schema slow my page down?'
-    a: 'No. JSON-LD schema is a small block of text inside a script tag. Even on a verbose schema-heavy page, the total weight is under 5KB. The <a href="/blog/the-1-second-tax/">PageSpeed numbers we hit</a> include schema on every page.'
-  - q: 'Should I put the same FAQ on every service page?'
-    a: 'No. Each service page should have its own FAQ — questions specific to that service. Duplicate FAQ blocks across the site signal "boilerplate" to Google and reduce the chance of any of them being picked up as a rich result. Three to five questions per page, written for that page''s reader.'
-  - q: 'How often should I update my schema?'
-    a: 'Whenever the visible page changes. Hours, prices, addresses, phone numbers, service descriptions. Stale schema is one of the five mistakes that get a rich result silently dropped. Add "audit schema" to your <a href="/unlimited-edits-and-support/">monthly maintenance</a> checklist.'
-  - q: 'What is the difference between FAQ schema and just having FAQ content?'
-    a: 'FAQ content (a Q&A section visible on the page) helps your readers and serves as long-tail SEO. FAQ schema is the structured-data version of the same content that tells Google "this block is a question, this block is its answer." Without the schema, the FAQ helps the human visitor. With the schema, it also gets you the rich result.'
-  - q: 'Does Google still show FAQ rich results in 2026?'
-    a: 'Selectively. In late 2023 Google narrowed FAQ rich results to government and well-known authoritative sites for most queries. Brand-name and product-specific queries still trigger them. The rich result is no longer guaranteed, but the schema is still worth shipping because it feeds <a href="/blog/unblock-ai-crawlers/">AI search engines</a> and Bing, which still reward FAQ markup heavily.'
-  - q: 'How do I test my schema before publishing?'
-    a: 'Google''s <a href="https://search.google.com/test/rich-results">Rich Results Test</a> at <code>search.google.com/test/rich-results</code>. Paste your URL, wait 30 seconds. The validator catches every mistake in this post and tells you the line number to fix. Re-test after every change.'
-  - q: 'Can I use a plugin instead of writing JSON-LD by hand?'
-    a: 'On WordPress, Yoast and Rank Math both generate the basic schema types automatically. They are good for LocalBusiness, Article, and BreadcrumbList. They tend to mis-pick the business type (defaulting to the parent "LocalBusiness" instead of "WebDesignAgency" or "Plumber") and they do not handle FAQ schema unless you mark up the questions yourself. Hand-written or plugin-with-overrides is the right answer for most small business sites.'
+  - q: Will adding schema slow my page down?
+    a: >-
+      No. JSON-LD schema is a small block of text inside a script tag. Even on a
+      verbose schema-heavy page, the total weight is under 5KB. The <a
+      href="/blog/the-1-second-tax/">PageSpeed numbers we hit</a> include schema
+      on every page.
+  - q: Should I put the same FAQ on every service page?
+    a: >-
+      No. Each service page should have its own FAQ — questions specific to that
+      service. Duplicate FAQ blocks across the site signal "boilerplate" to
+      Google and reduce the chance of any of them being picked up as a rich
+      result. Three to five questions per page, written for that page's reader.
+  - q: How often should I update my schema?
+    a: >-
+      Whenever the visible page changes. Hours, prices, addresses, phone
+      numbers, service descriptions. Stale schema is one of the five mistakes
+      that get a rich result silently dropped. Add "audit schema" to your <a
+      href="/unlimited-edits-and-support/">monthly maintenance</a> checklist.
+  - q: What is the difference between FAQ schema and just having FAQ content?
+    a: >-
+      FAQ content (a Q&A section visible on the page) helps your readers and
+      serves as long-tail SEO. FAQ schema is the structured-data version of the
+      same content that tells Google "this block is a question, this block is
+      its answer." Without the schema, the FAQ helps the human visitor. With the
+      schema, it also gets you the rich result.
+  - q: Does Google still show FAQ rich results in 2026?
+    a: >-
+      Selectively. In late 2023 Google narrowed FAQ rich results to government
+      and well-known authoritative sites for most queries. Brand-name and
+      product-specific queries still trigger them. The rich result is no longer
+      guaranteed, but the schema is still worth shipping because it feeds <a
+      href="/blog/unblock-ai-crawlers/">AI search engines</a> and Bing, which
+      still reward FAQ markup heavily.
+  - q: How do I test my schema before publishing?
+    a: >-
+      Google's <a href="https://search.google.com/test/rich-results">Rich
+      Results Test</a> at <code>search.google.com/test/rich-results</code>.
+      Paste your URL, wait 30 seconds. The validator catches every mistake in
+      this post and tells you the line number to fix. Re-test after every
+      change.
+  - q: Can I use a plugin instead of writing JSON-LD by hand?
+    a: >-
+      On WordPress, Yoast and Rank Math both generate the basic schema types
+      automatically. They are good for LocalBusiness, Article, and
+      BreadcrumbList. They tend to mis-pick the business type (defaulting to the
+      parent "LocalBusiness" instead of "WebDesignAgency" or "Plumber") and they
+      do not handle FAQ schema unless you mark up the questions yourself.
+      Hand-written or plugin-with-overrides is the right answer for most small
+      business sites.
 related:
-  - url: /blog/unblock-ai-crawlers/
-    title: 'Your robots.txt Is Blocking the AI Crawlers'
-  - url: /blog/the-bilingual-maturity-ladder/
-    title: 'The Bilingual Maturity Ladder, A Playbook for English/Spanish Sites'
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
+  - unblock-ai-crawlers
+  - the-bilingual-maturity-ladder
+  - the-seven-homepage-sections
 ---
 
 Two listings on the same Google results page. Same rank. One takes ten lines of vertical space. The other takes three.

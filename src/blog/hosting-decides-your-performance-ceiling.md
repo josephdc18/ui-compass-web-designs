@@ -2,48 +2,115 @@
 pageName: hosting-decides-your-performance-ceiling
 blogTitle: Your Hosting Decides Your Performance Ceiling
 titleTag: Hosting Decides Your Ceiling
-blogDescription: Hosting decides the ceiling. Site code decides the floor. The Time to First Byte difference between a shared host and an edge-served network is the gap between a 60 PageSpeed score and a 95, and no amount of optimization closes it from the wrong side.
-author: "Joseph C."
+blogDescription: >-
+  Hosting decides the ceiling. Site code decides the floor. The Time to First
+  Byte difference between a shared host and an edge-served network is the gap
+  between a 60 PageSpeed score and a 95, and no amount of optimization closes it
+  from the wrong side.
+author: Joseph C.
 date: 2026-02-18T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 7
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/hosting-decides-your-performance-ceiling-card.png
-imageAlt: A world map showing edge nodes versus a single origin server, with arrows representing visitor requests from different cities
+imageAlt: >-
+  A world map showing edge nodes versus a single origin server, with arrows
+  representing visitor requests from different cities
 tldrTitle: Key Takeaways
 tldr:
-  - 'Hosting decides your **ceiling**. Site code decides your **floor**. You need both right to break 90 on mobile PageSpeed.'
-  - 'A shared host serving from a single data center to a phone in another state can take **1.2 seconds just for TTFB**. An edge-served network delivers the first byte in **30 milliseconds**. That gap alone is the difference between a 60 and a 95.'
-  - 'Three tiers in 2026: **shared hosting** (~$3–15/month, slow), **managed hosting** (~$20–80/month, fast for the platform), **edge-served static** (~$0–20/month for low-traffic sites, fastest by structure).'
-  - '"Premium hosting" on shared infrastructure is mostly marketing. Faster CPUs do not fix the round-trip time from a single origin to a phone three states away. **Geographic distribution** is the lever.'
+  - >-
+    Hosting decides your **ceiling**. Site code decides your **floor**. You need
+    both right to break 90 on mobile PageSpeed.
+  - >-
+    A shared host serving from a single data center to a phone in another state
+    can take **1.2 seconds just for TTFB**. An edge-served network delivers the
+    first byte in **30 milliseconds**. That gap alone is the difference between
+    a 60 and a 95.
+  - >-
+    Three tiers in 2026: **shared hosting** (~$3–15/month, slow), **managed
+    hosting** (~$20–80/month, fast for the platform), **edge-served static**
+    (~$0–20/month for low-traffic sites, fastest by structure).
+  - >-
+    "Premium hosting" on shared infrastructure is mostly marketing. Faster CPUs
+    do not fix the round-trip time from a single origin to a phone three states
+    away. **Geographic distribution** is the lever.
 faq:
-  - q: 'What is Time to First Byte (TTFB)?'
-    a: 'TTFB measures the time between the visitor''s browser sending a request and the first byte of the response arriving back. It is everything before the page even begins rendering: DNS, TLS handshake, server response, network latency. Below 100ms is fast. 100–500ms is acceptable. Above 1.2 seconds is broken. TTFB is the single metric your hosting directly controls.'
+  - q: What is Time to First Byte (TTFB)?
+    a: >-
+      TTFB measures the time between the visitor's browser sending a request and
+      the first byte of the response arriving back. It is everything before the
+      page even begins rendering: DNS, TLS handshake, server response, network
+      latency. Below 100ms is fast. 100–500ms is acceptable. Above 1.2 seconds
+      is broken. TTFB is the single metric your hosting directly controls.
   - q: 'What is the difference between shared, managed, and edge hosting?'
-    a: '<strong>Shared</strong>: hundreds of sites on the same server, single physical location. Cheap, slow, vulnerable to noisy neighbors. <strong>Managed</strong>: optimized infrastructure for one platform (WP Engine for WordPress, Kinsta, Flywheel). Faster but still single or few-location. <strong>Edge-served</strong>: your site is replicated to dozens or hundreds of locations near visitors (Cloudflare, Netlify, Vercel, Bunny.net). Fastest by structure because the visitor is geographically close to a copy of your site.'
-  - q: 'Can I get edge hosting on WordPress?'
-    a: 'Partially. Edge-cached WordPress (via Cloudflare Enterprise, Kinsta Edge Cache, or WP Engine GE) gets the static portions of your site (most pages) served from edge nodes. The dynamic portions (checkout, logged-in views, search results) still hit the origin and pay full latency. For a typical small business marketing site, the cache covers 95%+ of pages and works well. For e-commerce with frequent logged-in interactions, the gain is smaller.'
-  - q: 'My hosting says "fast SSDs and 99.99% uptime." Does that mean it is fast?'
-    a: 'No. SSDs make disk reads fast, but disk reads are not what slows TTFB on most sites — network round-trip and database assembly are. Uptime is a separate metric (reliability) that has nothing to do with speed. "Premium hardware on shared infrastructure" is the bait-and-switch — the hardware is fine, the structure is the problem. Test the actual TTFB; do not rely on the host''s marketing.'
-  - q: 'How does this connect to the 10x load-time gap between hand-coded and page builder?'
-    a: 'Directly. The <a href="/blog/the-10x-load-time-gap/">10x gap</a> is roughly half site-code (the database-assembly tax) and half hosting (where the response originates). A hand-coded static site on shared hosting is faster than a page-builder site on the same hosting, but slower than the same hand-coded site on edge. Both levers compound — fastest is hand-coded + edge.'
-  - q: 'My TTFB is 800ms. What is the biggest single change I can make?'
-    a: 'Switch hosting tier, not configuration. 800ms on shared hosting will not move below 400ms even with the best caching plugins because the bottleneck is the single origin in (probably) Virginia or Arizona serving a visitor anywhere else. Move to managed hosting and it usually drops to 300ms. Move to edge and it drops to under 100ms.'
-  - q: 'Will switching hosts hurt my SEO?'
-    a: 'Not if done carefully. Use a 24-hour DNS migration window. Test the new host on a staging URL first. Migrate during a low-traffic period. Keep the old host live for 48 hours after the DNS change in case of issues. The SEO risk comes from broken redirects, missing pages, or extended downtime — none of which the host itself causes. We migrate clients to <a href="/hosting-and-domains/">our hosting</a> regularly with zero ranking impact when the migration is run properly.'
-  - q: 'How does hosting affect AI search?'
-    a: 'Same way it affects regular search. <a href="/blog/unblock-ai-crawlers/">AI crawlers</a> hit timeouts faster than Googlebot does. A site with 1.5-second TTFB sometimes fails AI indexing entirely because the crawler gives up before the page finishes loading. Edge hosting + server-rendered HTML is the combination that makes a site readable to every crawler — Google, Bing, ChatGPT, Perplexity.'
+    a: >-
+      <strong>Shared</strong>: hundreds of sites on the same server, single
+      physical location. Cheap, slow, vulnerable to noisy neighbors.
+      <strong>Managed</strong>: optimized infrastructure for one platform (WP
+      Engine for WordPress, Kinsta, Flywheel). Faster but still single or
+      few-location. <strong>Edge-served</strong>: your site is replicated to
+      dozens or hundreds of locations near visitors (Cloudflare, Netlify,
+      Vercel, Bunny.net). Fastest by structure because the visitor is
+      geographically close to a copy of your site.
+  - q: Can I get edge hosting on WordPress?
+    a: >-
+      Partially. Edge-cached WordPress (via Cloudflare Enterprise, Kinsta Edge
+      Cache, or WP Engine GE) gets the static portions of your site (most pages)
+      served from edge nodes. The dynamic portions (checkout, logged-in views,
+      search results) still hit the origin and pay full latency. For a typical
+      small business marketing site, the cache covers 95%+ of pages and works
+      well. For e-commerce with frequent logged-in interactions, the gain is
+      smaller.
+  - q: My hosting says "fast SSDs and 99.99% uptime." Does that mean it is fast?
+    a: >-
+      No. SSDs make disk reads fast, but disk reads are not what slows TTFB on
+      most sites — network round-trip and database assembly are. Uptime is a
+      separate metric (reliability) that has nothing to do with speed. "Premium
+      hardware on shared infrastructure" is the bait-and-switch — the hardware
+      is fine, the structure is the problem. Test the actual TTFB; do not rely
+      on the host's marketing.
+  - q: >-
+      How does this connect to the 10x load-time gap between hand-coded and page
+      builder?
+    a: >-
+      Directly. The <a href="/blog/the-10x-load-time-gap/">10x gap</a> is
+      roughly half site-code (the database-assembly tax) and half hosting (where
+      the response originates). A hand-coded static site on shared hosting is
+      faster than a page-builder site on the same hosting, but slower than the
+      same hand-coded site on edge. Both levers compound — fastest is hand-coded
+      + edge.
+  - q: My TTFB is 800ms. What is the biggest single change I can make?
+    a: >-
+      Switch hosting tier, not configuration. 800ms on shared hosting will not
+      move below 400ms even with the best caching plugins because the bottleneck
+      is the single origin in (probably) Virginia or Arizona serving a visitor
+      anywhere else. Move to managed hosting and it usually drops to 300ms. Move
+      to edge and it drops to under 100ms.
+  - q: Will switching hosts hurt my SEO?
+    a: >-
+      Not if done carefully. Use a 24-hour DNS migration window. Test the new
+      host on a staging URL first. Migrate during a low-traffic period. Keep the
+      old host live for 48 hours after the DNS change in case of issues. The SEO
+      risk comes from broken redirects, missing pages, or extended downtime —
+      none of which the host itself causes. We migrate clients to <a
+      href="/hosting-and-domains/">our hosting</a> regularly with zero ranking
+      impact when the migration is run properly.
+  - q: How does hosting affect AI search?
+    a: >-
+      Same way it affects regular search. <a
+      href="/blog/unblock-ai-crawlers/">AI crawlers</a> hit timeouts faster than
+      Googlebot does. A site with 1.5-second TTFB sometimes fails AI indexing
+      entirely because the crawler gives up before the page finishes loading.
+      Edge hosting + server-rendered HTML is the combination that makes a site
+      readable to every crawler — Google, Bing, ChatGPT, Perplexity.
 related:
-  - url: /blog/the-10x-load-time-gap/
-    title: 'The 10x Load-Time Gap Between Hand-Coded and Page Builder'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/four-dependencies-to-delete/
-    title: 'The 4 Dependencies to Delete From Your Small Business Site'
+  - the-10x-load-time-gap
+  - the-1-second-tax
+  - four-dependencies-to-delete
 ---
 
 Hosting decides your ceiling. Site code decides your floor. You need both right to break 90 on mobile PageSpeed.

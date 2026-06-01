@@ -2,46 +2,103 @@
 pageName: trust-signals-that-move-the-needle
 blogTitle: Trust Signals That Actually Move the Needle
 titleTag: Trust Signals That Move the Needle
-blogDescription: Most trust signals on small business sites are doing the opposite of what they are meant to do. Real photos, named testimonials, dated reviews, and specific certifications. The four kinds that earn a lead, and the three kinds that quietly cost you one.
-author: "Joseph C."
+blogDescription: >-
+  Most trust signals on small business sites are doing the opposite of what they
+  are meant to do. Real photos, named testimonials, dated reviews, and specific
+  certifications. The four kinds that earn a lead, and the three kinds that
+  quietly cost you one.
+author: Joseph C.
 date: 2026-04-08T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 6
-topper: "Design"
+topper: Design
 image: /assets/images/trust-signals-that-move-the-needle-card.png
-imageAlt: A small business owner reviewing a wall of customer testimonials with real photographs and named attributions
+imageAlt: >-
+  A small business owner reviewing a wall of customer testimonials with real
+  photographs and named attributions
 tldrTitle: Key Takeaways
 tldr:
-  - 'A trust signal earns a lead only when it is **specific, current, and verifiable**. Generic, vague, or dateless trust signals quietly cost you leads.'
-  - 'Four signals that move the needle: **real photos of your team and work**, **testimonials with full names and businesses**, **dated reviews** (the recency, not just the rating), and **certifications that match the service**.'
-  - 'Three signals that backfire: **stock photos of "professionals"**, **"satisfied customer" attributions**, and **vague claims** like "industry-leading."'
-  - 'For in-home and local service businesses, **photos of your actual crew** outperform every other trust signal you can ship. Stock photography is worse than none at all.'
+  - >-
+    A trust signal earns a lead only when it is **specific, current, and
+    verifiable**. Generic, vague, or dateless trust signals quietly cost you
+    leads.
+  - >-
+    Four signals that move the needle: **real photos of your team and work**,
+    **testimonials with full names and businesses**, **dated reviews** (the
+    recency, not just the rating), and **certifications that match the
+    service**.
+  - >-
+    Three signals that backfire: **stock photos of "professionals"**,
+    **"satisfied customer" attributions**, and **vague claims** like
+    "industry-leading."
+  - >-
+    For in-home and local service businesses, **photos of your actual crew**
+    outperform every other trust signal you can ship. Stock photography is worse
+    than none at all.
 faq:
-  - q: 'Where should the trust block live on the homepage?'
-    a: 'Section six of seven, after the work/portfolio section. By that point, the visitor knows what you do, why you, and has seen the work. The trust block confirms the decision the visitor is already leaning toward. Putting trust signals first (before any reason to trust them) reads as defensive and rarely lands. The full pattern is in <a href="/blog/the-seven-homepage-sections/">our seven-section homepage layout</a>.'
-  - q: 'How many testimonials is enough?'
-    a: 'Four to six on the homepage. Pull-quote one of them at larger size for visual weight. Leave the rest as cards. Two testimonials is too few — looks like that is all you have. Eight or more is too many — looks like padding. If you have more than six strong ones, put the overflow on a dedicated reviews page and link to it from the trust block.'
-  - q: 'Can I use stock photos for "trust" if I do not have real photography yet?'
-    a: 'No. Stock photos of generic professionals shaking hands or pointing at a screen are recognizable within seconds and undermine every other claim on the page. If you do not have real photos, use a typographic trust block — pull-quote a testimonial, or show a row of certification badges. No image at all beats a fake image.'
-  - q: 'Should reviews show dates? Some look better without.'
-    a: 'Yes, every time. A dateless five-star review reads as fabricated. A dated review (even a year old) reads as real. Recency also signals an active business. If your most recent visible review is from 2022, that says more than the star count does. Use <a href="/blog/faq-schema-3x-screen-space/">Review schema</a> to surface dates in your search listing too.'
-  - q: 'My business is new and has no reviews yet. What should I show instead?'
-    a: 'Three substitutes that work. (1) Specific certifications relevant to the service (licenses, manufacturer authorizations, insurance documentation). (2) "Founded by" attribution that names a real person with their credentials. (3) Process detail — "every project starts with a 30-minute scoping call" beats "we care about quality." Specifics build trust before reviews exist.'
-  - q: 'How does this differ for service businesses vs. product businesses?'
-    a: 'Service businesses lean on testimonials, certifications, and team photos — the visitor is hiring a person. Product businesses lean on reviews (with photos), demonstration videos, and return policies. Same pattern (specific, current, verifiable), different content. Local service businesses fall closer to the service-business pattern even if they sell products too.'
-  - q: 'Will adding more trust signals slow the page down?'
-    a: 'Not if the photos are right-sized. Six testimonial avatars at correct dimensions add maybe 60KB total — invisible to <a href="/blog/the-1-second-tax/">PageSpeed scores</a>. The slowdown happens when sites embed the live Google Maps reviews widget or load full-size testimonial photos. Right-size every image and the trust block costs nothing on load time.'
+  - q: Where should the trust block live on the homepage?
+    a: >-
+      Section six of seven, after the work/portfolio section. By that point, the
+      visitor knows what you do, why you, and has seen the work. The trust block
+      confirms the decision the visitor is already leaning toward. Putting trust
+      signals first (before any reason to trust them) reads as defensive and
+      rarely lands. The full pattern is in <a
+      href="/blog/the-seven-homepage-sections/">our seven-section homepage
+      layout</a>.
+  - q: How many testimonials is enough?
+    a: >-
+      Four to six on the homepage. Pull-quote one of them at larger size for
+      visual weight. Leave the rest as cards. Two testimonials is too few —
+      looks like that is all you have. Eight or more is too many — looks like
+      padding. If you have more than six strong ones, put the overflow on a
+      dedicated reviews page and link to it from the trust block.
+  - q: Can I use stock photos for "trust" if I do not have real photography yet?
+    a: >-
+      No. Stock photos of generic professionals shaking hands or pointing at a
+      screen are recognizable within seconds and undermine every other claim on
+      the page. If you do not have real photos, use a typographic trust block —
+      pull-quote a testimonial, or show a row of certification badges. No image
+      at all beats a fake image.
+  - q: Should reviews show dates? Some look better without.
+    a: >-
+      Yes, every time. A dateless five-star review reads as fabricated. A dated
+      review (even a year old) reads as real. Recency also signals an active
+      business. If your most recent visible review is from 2022, that says more
+      than the star count does. Use <a
+      href="/blog/faq-schema-3x-screen-space/">Review schema</a> to surface
+      dates in your search listing too.
+  - q: My business is new and has no reviews yet. What should I show instead?
+    a: >-
+      Three substitutes that work. (1) Specific certifications relevant to the
+      service (licenses, manufacturer authorizations, insurance documentation).
+      (2) "Founded by" attribution that names a real person with their
+      credentials. (3) Process detail — "every project starts with a 30-minute
+      scoping call" beats "we care about quality." Specifics build trust before
+      reviews exist.
+  - q: How does this differ for service businesses vs. product businesses?
+    a: >-
+      Service businesses lean on testimonials, certifications, and team photos —
+      the visitor is hiring a person. Product businesses lean on reviews (with
+      photos), demonstration videos, and return policies. Same pattern
+      (specific, current, verifiable), different content. Local service
+      businesses fall closer to the service-business pattern even if they sell
+      products too.
+  - q: Will adding more trust signals slow the page down?
+    a: >-
+      Not if the photos are right-sized. Six testimonial avatars at correct
+      dimensions add maybe 60KB total — invisible to <a
+      href="/blog/the-1-second-tax/">PageSpeed scores</a>. The slowdown happens
+      when sites embed the live Google Maps reviews widget or load full-size
+      testimonial photos. Right-size every image and the trust block costs
+      nothing on load time.
 related:
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/white-space-is-not-empty-space/
-    title: 'White Space Is Not Empty Space'
-  - url: /blog/faq-schema-3x-screen-space/
-    title: 'FAQ Schema Turns One Blue Link Into 3x Screen Space'
+  - the-seven-homepage-sections
+  - white-space-is-not-empty-space
+  - faq-schema-3x-screen-space
 ---
 
 Most trust signals on small business websites are doing the opposite of what they are meant to do.

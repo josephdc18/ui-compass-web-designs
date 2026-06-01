@@ -2,44 +2,90 @@
 pageName: ai-built-websites
 blogTitle: AI-Built Websites Get You 60% of the Way There. The Other 40% Gets You Sued.
 titleTag: AI-Built Websites
-blogDescription: Yes, ChatGPT can build you a website. No, it cannot keep you out of court. Where AI tools genuinely help, where they silently fail, and how to use them without inheriting the failures.
-author: "Joseph C."
+blogDescription: >-
+  Yes, ChatGPT can build you a website. No, it cannot keep you out of court.
+  Where AI tools genuinely help, where they silently fail, and how to use them
+  without inheriting the failures.
+author: Joseph C.
 date: 2026-06-03T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 6
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/ai-built-websites-card.png
-imageAlt: A robot icon on the left, a human icon on the right, with a website layout between them
+imageAlt: >-
+  A robot icon on the left, a human icon on the right, with a website layout
+  between them
 tldrTitle: Key Takeaways
 tldr:
-  - 'AI tools are excellent at the **first 60 percent**: layout, copy drafts, image generation, basic responsive design. Use them.'
-  - 'The other 40 percent is **accessibility, local SEO, real-world speed, security, and lead capture**. AI does not see these failures because the site looks fine in the preview.'
-  - 'The biggest specific risk is **ADA compliance**. <a href="/blog/wcag-2-2-aa-in-five-minutes/">96 percent of the top million sites fail basic accessibility checks</a>. AI-built sites fail it by default.'
-  - 'The right use is **hybrid**. Let AI draft the layout and copy. Let a human ship the production version.'
+  - >-
+    AI tools are excellent at the **first 60 percent**: layout, copy drafts,
+    image generation, basic responsive design. Use them.
+  - >-
+    The other 40 percent is **accessibility, local SEO, real-world speed,
+    security, and lead capture**. AI does not see these failures because the
+    site looks fine in the preview.
+  - >-
+    The biggest specific risk is **ADA compliance**. <a
+    href="/blog/wcag-2-2-aa-in-five-minutes/">96 percent of the top million
+    sites fail basic accessibility checks</a>. AI-built sites fail it by
+    default.
+  - >-
+    The right use is **hybrid**. Let AI draft the layout and copy. Let a human
+    ship the production version.
 faq:
-  - q: 'Which AI website builders are worth trying?'
-    a: 'For drafting: Wix AI, Squarespace AI, Bolt, Lovable, v0.dev. All of them produce a passable layout in 15 minutes. For ChatGPT-style assistance during a hand-coded build: Claude and ChatGPT both work. None of them produce a production-ready site you can ship without review.'
+  - q: Which AI website builders are worth trying?
+    a: >-
+      For drafting: Wix AI, Squarespace AI, Bolt, Lovable, v0.dev. All of them
+      produce a passable layout in 15 minutes. For ChatGPT-style assistance
+      during a hand-coded build: Claude and ChatGPT both work. None of them
+      produce a production-ready site you can ship without review.
   - q: 'Specifically, what does AI get wrong?'
-    a: 'Six common failures. Image alt text (defaults to "image" or skips it, fails accessibility). Color contrast (picks pretty palettes that fail 4.5:1 minimum). Form labels (visual labels without programmatic association). Page load (ships every dependency the framework knows about, not the ones you need). Mobile tap targets (buttons smaller than 44px). Local SEO (no schema, no NAP consistency, no service-area mapping). Each one is small. Together they are the difference between a site that ranks and one that does not.'
-  - q: 'Will the AI tools fix these things in the next year?'
-    a: 'Some yes, some no. Accessibility is fixable and the tools are improving. Local SEO is a strategy problem more than a code problem and AI is bad at strategy specific to your business. Speed is a hosting problem and most AI builders default to slow shared hosting. Security is a discipline problem (patching, monitoring) that AI does not address. Plan for those four to stay human problems for a while.'
+    a: >-
+      Six common failures. Image alt text (defaults to "image" or skips it,
+      fails accessibility). Color contrast (picks pretty palettes that fail
+      4.5:1 minimum). Form labels (visual labels without programmatic
+      association). Page load (ships every dependency the framework knows about,
+      not the ones you need). Mobile tap targets (buttons smaller than 44px).
+      Local SEO (no schema, no NAP consistency, no service-area mapping). Each
+      one is small. Together they are the difference between a site that ranks
+      and one that does not.
+  - q: Will the AI tools fix these things in the next year?
+    a: >-
+      Some yes, some no. Accessibility is fixable and the tools are improving.
+      Local SEO is a strategy problem more than a code problem and AI is bad at
+      strategy specific to your business. Speed is a hosting problem and most AI
+      builders default to slow shared hosting. Security is a discipline problem
+      (patching, monitoring) that AI does not address. Plan for those four to
+      stay human problems for a while.
   - q: 'If I am going to use AI anyway, what is the smart workflow?'
-    a: 'Three steps. First, use AI to produce a draft layout and the first pass of every page of copy. Second, have a human review for accessibility, mobile tap targets, image optimization, and form structure. Third, host on infrastructure built for speed, not on the AI tool itself. The AI is the first draft. The human is the editor. The hosting is the foundation.'
-  - q: 'Can I just have ChatGPT review my AI-built site?'
-    a: 'For some things yes. ChatGPT can spot missing alt text, suggest meta descriptions, flag low-contrast color pairs, and write better headlines. It cannot, however, run the site through a real-world load test, audit it on a real device, or simulate what your customers actually see. Two tools are not better than one if they have the same blind spots.'
-  - q: 'What is the cost difference between AI-only and AI-plus-human?'
-    a: 'AI-only: $0 to $30 a month for the platform, plus your time. AI-plus-human: about $1,800 a year for a managed hand-coded site that uses AI in the workflow but ships production-quality output. The math: <a href="/blog/one-client-pays-for-the-year/">one client recovers the year on the hybrid path</a>. AI-only is cheaper on paper, expensive in lost leads.'
+    a: >-
+      Three steps. First, use AI to produce a draft layout and the first pass of
+      every page of copy. Second, have a human review for accessibility, mobile
+      tap targets, image optimization, and form structure. Third, host on
+      infrastructure built for speed, not on the AI tool itself. The AI is the
+      first draft. The human is the editor. The hosting is the foundation.
+  - q: Can I just have ChatGPT review my AI-built site?
+    a: >-
+      For some things yes. ChatGPT can spot missing alt text, suggest meta
+      descriptions, flag low-contrast color pairs, and write better headlines.
+      It cannot, however, run the site through a real-world load test, audit it
+      on a real device, or simulate what your customers actually see. Two tools
+      are not better than one if they have the same blind spots.
+  - q: What is the cost difference between AI-only and AI-plus-human?
+    a: >-
+      AI-only: $0 to $30 a month for the platform, plus your time.
+      AI-plus-human: about $1,800 a year for a managed hand-coded site that uses
+      AI in the workflow but ships production-quality output. The math: <a
+      href="/blog/one-client-pays-for-the-year/">one client recovers the year on
+      the hybrid path</a>. AI-only is cheaper on paper, expensive in lost leads.
 related:
-  - url: /blog/drag-and-drop-vs-hiring/
-    title: 'Drag-and-Drop vs Hiring Someone: What You Actually Get'
-  - url: /blog/wcag-2-2-aa-in-five-minutes/
-    title: 'WCAG 2.2 AA in 5 Minutes. The 3 Tests Anyone Can Run.'
-  - url: /blog/what-makes-a-website-work/
-    title: 'A Pretty Website That Nobody Finds Is an Expensive Business Card'
+  - drag-and-drop-vs-hiring
+  - wcag-2-2-aa-in-five-minutes
+  - what-makes-a-website-work
 ---
 
 Yes, ChatGPT can build you a website.

@@ -2,46 +2,107 @@
 pageName: tap-to-call-phone-numbers
 blogTitle: Your Phone Number Should Be a Link. Most Are Not.
 titleTag: Phone Numbers Should Be Tap-to-Call
-blogDescription: A plain-text phone number on a mobile site costs you the call. The `tel:` link is the single highest-impact mobile UX fix on most small business sites, and the four common ways the phone number gets ruined before the visitor can tap it.
-author: "Joseph C."
+blogDescription: >-
+  A plain-text phone number on a mobile site costs you the call. The `tel:` link
+  is the single highest-impact mobile UX fix on most small business sites, and
+  the four common ways the phone number gets ruined before the visitor can tap
+  it.
+author: Joseph C.
 date: 2026-03-08T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 5
-topper: "Design"
+topper: Design
 image: /assets/images/tap-to-call-phone-numbers-card.png
-imageAlt: A close-up of a smartphone screen showing a phone number that becomes a single-tap call link
+imageAlt: >-
+  A close-up of a smartphone screen showing a phone number that becomes a
+  single-tap call link
 tldrTitle: Key Takeaways
 tldr:
-  - 'On mobile, a phone number is either **a link the visitor can tap** or **a string they have to copy and paste**. The difference is one HTML attribute and a measurable share of your incoming calls.'
-  - 'Wrap every phone number in a `<a href="tel:+1...">` link. Use the **E.164 format** (`+19014904750`) in the href; format the visible text however reads best.'
-  - 'Four common ways the phone number gets ruined: **plain text** (not a link), **image of a phone number** (not selectable, not callable), **decorative formatting** that breaks the `tel:` parser, and **inconsistent format** across the site (NAP failure).'
-  - 'Add `aria-label="Call us at..."` for screen readers, and consider a small "tap to call" microcopy hint on the first instance for users who do not realize it is interactive.'
+  - >-
+    On mobile, a phone number is either **a link the visitor can tap** or **a
+    string they have to copy and paste**. The difference is one HTML attribute
+    and a measurable share of your incoming calls.
+  - >-
+    Wrap every phone number in a `<a href="tel:+1...">` link. Use the **E.164
+    format** (`+19014904750`) in the href; format the visible text however reads
+    best.
+  - >-
+    Four common ways the phone number gets ruined: **plain text** (not a link),
+    **image of a phone number** (not selectable, not callable), **decorative
+    formatting** that breaks the `tel:` parser, and **inconsistent format**
+    across the site (NAP failure).
+  - >-
+    Add `aria-label="Call us at..."` for screen readers, and consider a small
+    "tap to call" microcopy hint on the first instance for users who do not
+    realize it is interactive.
 faq:
   - q: 'Does the `tel:` link work on desktop?'
-    a: 'Yes. On macOS it triggers FaceTime, on Windows it triggers Skype or whichever default handler is set, on iOS/Android it triggers the phone dialer. A handful of older desktop browsers do nothing, but the link is not harmful — visitors who cannot dial directly can still see the number and call manually. The cost of adding `tel:` is zero; the benefit on mobile is substantial.'
-  - q: 'Why does the format inside the `href` matter so much?'
-    a: 'Phone dialers parse the `href` value, not the visible text. <code>+19014904750</code> (the E.164 international format) parses on every device. <code>(901) 490-4750</code> parses on most devices but trips on a small percentage of older Android dialers. <code>901-490-4750</code> parses unreliably across SIP clients. The rule: put E.164 in the href, format however you like in the visible text.'
-  - q: 'Should I show the phone number as text or as a button?'
-    a: 'Both, in different places. In the hero and in the header, show it as a recognizable phone number with a phone icon — readers scanning the page expect to see digits, and the icon doubles as a tap target. In a closing CTA section, a "Call us" button alongside the contact form button is a useful bypass for visitors who do not want to fill out a form. Same `tel:` link underneath both treatments.'
-  - q: 'My phone number is part of a logo image. Is that a problem?'
-    a: 'Yes, multiple ways. Image text is not selectable, not callable, not indexable, and not adjustable for screen readers. It also breaks <a href="/blog/nap-consistency-four-phone-formats/">NAP consistency</a> if the image format differs from how the number appears elsewhere. Move the number out of the image and into actual text. Use the image only for the logo mark.'
-  - q: 'How do I track which calls came from the website?'
-    a: 'Three options, ordered by accuracy. (1) <strong>UTM-style "call extension"</strong>: use a unique tracking number on the website only (services like <a href="https://www.callrail.com/">CallRail</a> or <a href="https://www.calltrackingmetrics.com/">CallTrackingMetrics</a>) and the source is unambiguous. (2) <strong>Google Analytics event</strong>: trigger a "click" event on every `tel:` link tap, and segment in GA4. Captures intent, not actual call completion. (3) <strong>Ask "how did you hear about us?"</strong> on the call. Cheap and useful, but unreliable.'
-  - q: 'Does the tap-to-call link affect SEO?'
-    a: 'Indirectly. The number itself is indexable text (good for local SEO). Google can read it as part of your <a href="/blog/faq-schema-3x-screen-space/">LocalBusiness schema</a>, which feeds your map-pack listing. If the number is a `tel:` link, that signal is unchanged from a plain-text version, but the user experience is dramatically better on mobile — and mobile bounce rate is a ranking factor of its own.'
-  - q: 'How does this connect to the homepage hero CTA?'
-    a: 'A small business hero has one or two CTAs above the fold (per <a href="/blog/the-seven-homepage-sections/">the seven-section homepage layout</a>). The phone number is one of the strongest candidates for the secondary CTA on a service business site. Same screen, two options: "Get a quote" form button and "Call now" tap-to-call link. Visitors pick whichever matches the moment they''re in.'
+    a: >-
+      Yes. On macOS it triggers FaceTime, on Windows it triggers Skype or
+      whichever default handler is set, on iOS/Android it triggers the phone
+      dialer. A handful of older desktop browsers do nothing, but the link is
+      not harmful — visitors who cannot dial directly can still see the number
+      and call manually. The cost of adding `tel:` is zero; the benefit on
+      mobile is substantial.
+  - q: Why does the format inside the `href` matter so much?
+    a: >-
+      Phone dialers parse the `href` value, not the visible text.
+      <code>+19014904750</code> (the E.164 international format) parses on every
+      device. <code>(901) 490-4750</code> parses on most devices but trips on a
+      small percentage of older Android dialers. <code>901-490-4750</code>
+      parses unreliably across SIP clients. The rule: put E.164 in the href,
+      format however you like in the visible text.
+  - q: Should I show the phone number as text or as a button?
+    a: >-
+      Both, in different places. In the hero and in the header, show it as a
+      recognizable phone number with a phone icon — readers scanning the page
+      expect to see digits, and the icon doubles as a tap target. In a closing
+      CTA section, a "Call us" button alongside the contact form button is a
+      useful bypass for visitors who do not want to fill out a form. Same `tel:`
+      link underneath both treatments.
+  - q: My phone number is part of a logo image. Is that a problem?
+    a: >-
+      Yes, multiple ways. Image text is not selectable, not callable, not
+      indexable, and not adjustable for screen readers. It also breaks <a
+      href="/blog/nap-consistency-four-phone-formats/">NAP consistency</a> if
+      the image format differs from how the number appears elsewhere. Move the
+      number out of the image and into actual text. Use the image only for the
+      logo mark.
+  - q: How do I track which calls came from the website?
+    a: >-
+      Three options, ordered by accuracy. (1) <strong>UTM-style "call
+      extension"</strong>: use a unique tracking number on the website only
+      (services like <a href="https://www.callrail.com/">CallRail</a> or <a
+      href="https://www.calltrackingmetrics.com/">CallTrackingMetrics</a>) and
+      the source is unambiguous. (2) <strong>Google Analytics event</strong>:
+      trigger a "click" event on every `tel:` link tap, and segment in GA4.
+      Captures intent, not actual call completion. (3) <strong>Ask "how did you
+      hear about us?"</strong> on the call. Cheap and useful, but unreliable.
+  - q: Does the tap-to-call link affect SEO?
+    a: >-
+      Indirectly. The number itself is indexable text (good for local SEO).
+      Google can read it as part of your <a
+      href="/blog/faq-schema-3x-screen-space/">LocalBusiness schema</a>, which
+      feeds your map-pack listing. If the number is a `tel:` link, that signal
+      is unchanged from a plain-text version, but the user experience is
+      dramatically better on mobile — and mobile bounce rate is a ranking factor
+      of its own.
+  - q: How does this connect to the homepage hero CTA?
+    a: >-
+      A small business hero has one or two CTAs above the fold (per <a
+      href="/blog/the-seven-homepage-sections/">the seven-section homepage
+      layout</a>). The phone number is one of the strongest candidates for the
+      secondary CTA on a service business site. Same screen, two options: "Get a
+      quote" form button and "Call now" tap-to-call link. Visitors pick
+      whichever matches the moment they're in.
 related:
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
-  - url: /blog/the-contact-form-audit/
-    title: '1 in 4 Contact Forms Do Not Actually Deliver Email'
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
+  - designed-on-a-monitor-used-on-a-phone
+  - the-contact-form-audit
+  - the-seven-homepage-sections
 ---
 
 A plain-text phone number on a mobile site costs you the call.

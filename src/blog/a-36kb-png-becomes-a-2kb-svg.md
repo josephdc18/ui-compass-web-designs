@@ -2,46 +2,99 @@
 pageName: a-36kb-png-becomes-a-2kb-svg
 blogTitle: A 36KB PNG Becomes a 2KB SVG (Now Multiply That)
 titleTag: 36KB PNG Becomes a 2KB SVG
-blogDescription: Most small business sites are leaking weight on every icon and every image. The four-step image pipeline that turns a 2.3MB hero into a 37KB one and turns a 36KB PNG icon into a 2KB SVG. Same pixels. 90% less weight.
-author: "Joseph C."
+blogDescription: >-
+  Most small business sites are leaking weight on every icon and every image.
+  The four-step image pipeline that turns a 2.3MB hero into a 37KB one and turns
+  a 36KB PNG icon into a 2KB SVG. Same pixels. 90% less weight.
+author: Joseph C.
 date: 2025-11-29T16:00:00.000Z
 draft: true
 tags:
   - post
   - performance
-category: "Performance"
+category: Performance
 readMins: 6
-topper: "Performance"
+topper: Performance
 image: /assets/images/a-36kb-png-becomes-a-2kb-svg-card.png
-imageAlt: A side-by-side comparison of a heavy PNG icon and a light SVG version of the same shape, with file sizes labeled
+imageAlt: >-
+  A side-by-side comparison of a heavy PNG icon and a light SVG version of the
+  same shape, with file sizes labeled
 tldrTitle: Key Takeaways
 tldr:
-  - 'A typical small business homepage carries **5 to 15 images and 4 to 12 icons**, and most of them are at least 50% heavier than they need to be. The savings is rarely visible to the eye and almost always visible to the load time.'
-  - 'PNG icons should be **SVG icons**. A 36KB PNG often becomes a 2KB SVG carrying the same shape — a 94% reduction per icon, multiplied by every icon on the page.'
-  - 'A 4-step pipeline gets every photo right: **crop**, **compress**, **convert** (to WebP or AVIF), **serve** at the dimensions actually rendered. A 2.3MB phone-camera hero shrinks to roughly **37KB** without visible quality loss.'
-  - 'Right-sizing images alone moves a typical mobile PageSpeed score **20–30 points** without any other change.'
+  - >-
+    A typical small business homepage carries **5 to 15 images and 4 to 12
+    icons**, and most of them are at least 50% heavier than they need to be. The
+    savings is rarely visible to the eye and almost always visible to the load
+    time.
+  - >-
+    PNG icons should be **SVG icons**. A 36KB PNG often becomes a 2KB SVG
+    carrying the same shape — a 94% reduction per icon, multiplied by every icon
+    on the page.
+  - >-
+    A 4-step pipeline gets every photo right: **crop**, **compress**,
+    **convert** (to WebP or AVIF), **serve** at the dimensions actually
+    rendered. A 2.3MB phone-camera hero shrinks to roughly **37KB** without
+    visible quality loss.
+  - >-
+    Right-sizing images alone moves a typical mobile PageSpeed score **20–30
+    points** without any other change.
 faq:
-  - q: 'How can I tell which images on my site are too big?'
-    a: 'Open the page in Chrome, right-click, "Inspect," click the Network tab, then reload. Sort by Size. Anything over 200KB on a small business homepage deserves a look. Hero images over 500KB are almost always over-sized for the screen they render on.'
-  - q: 'What is the difference between WebP and AVIF — should I use both?'
-    a: 'WebP is supported in every browser since 2020. AVIF is newer (2022) and roughly 20% smaller for the same visible quality, but support is slightly behind. The right answer is to ship both, fall back to JPEG, and let the browser pick. The HTML <code>&lt;picture&gt;</code> element handles the negotiation automatically.'
-  - q: 'Can I just turn on a "lazy loading" plugin and call it done?'
-    a: 'Lazy loading helps below-the-fold images, but it is not the fix you think it is. Marking your hero image lazy actually hurts you — the browser delays the most important image on the page, which is the <a href="/blog/the-1-second-tax/">LCP element on your PageSpeed score</a>. The fix is right-sizing first, lazy loading second, and only on images below the fold.'
-  - q: 'My designer sent me 4MB hero photos. What should I tell them?'
-    a: 'The conversation is "the file you sent me will not be the file the visitor downloads." A photo studio works at print resolution because that is what their other clients need. For web, the photo gets resized to the dimensions it will actually render at, then compressed. A 4MB original is fine as the source. The 4MB original on a homepage is the bug.'
-  - q: 'Why are my icons rendering blurry on retina displays?'
-    a: 'Because they are <span class="tooltip-term" data-tooltip="Image format that stores pixels. PNG, JPEG, WebP, AVIF are all raster. Resolution is fixed at the dimensions of the file.">raster</span> formats (PNG, JPEG) being scaled up by the browser. <span class="tooltip-term" data-tooltip="Image format that stores shapes as math instead of pixels. Scales infinitely without quality loss.">SVG</span> icons render crisp at any size because the browser draws the shape from math, not from pixels. Switching every icon to SVG fixes the blur and shrinks the file at the same time.'
-  - q: 'Can I use SVG for photos?'
-    a: 'No. SVG is for shapes (icons, logos, illustrations with flat color). Photos with millions of color values per pixel cannot be expressed efficiently as math. Use SVG for icons and logos, JPEG/WebP/AVIF for photos.'
-  - q: 'How does this connect to the dependencies-to-delete list?'
-    a: 'Directly. Font Awesome ships 1,500 icons as a single 75KB+ webfont. Replacing it with the 6 SVG icons your site actually uses is the same conversation as this post — same icon shapes, 90% less weight. The full list is in <a href="/blog/four-dependencies-to-delete/">our four-dependencies-to-delete post</a>.'
+  - q: How can I tell which images on my site are too big?
+    a: >-
+      Open the page in Chrome, right-click, "Inspect," click the Network tab,
+      then reload. Sort by Size. Anything over 200KB on a small business
+      homepage deserves a look. Hero images over 500KB are almost always
+      over-sized for the screen they render on.
+  - q: What is the difference between WebP and AVIF — should I use both?
+    a: >-
+      WebP is supported in every browser since 2020. AVIF is newer (2022) and
+      roughly 20% smaller for the same visible quality, but support is slightly
+      behind. The right answer is to ship both, fall back to JPEG, and let the
+      browser pick. The HTML <code>&lt;picture&gt;</code> element handles the
+      negotiation automatically.
+  - q: Can I just turn on a "lazy loading" plugin and call it done?
+    a: >-
+      Lazy loading helps below-the-fold images, but it is not the fix you think
+      it is. Marking your hero image lazy actually hurts you — the browser
+      delays the most important image on the page, which is the <a
+      href="/blog/the-1-second-tax/">LCP element on your PageSpeed score</a>.
+      The fix is right-sizing first, lazy loading second, and only on images
+      below the fold.
+  - q: My designer sent me 4MB hero photos. What should I tell them?
+    a: >-
+      The conversation is "the file you sent me will not be the file the visitor
+      downloads." A photo studio works at print resolution because that is what
+      their other clients need. For web, the photo gets resized to the
+      dimensions it will actually render at, then compressed. A 4MB original is
+      fine as the source. The 4MB original on a homepage is the bug.
+  - q: Why are my icons rendering blurry on retina displays?
+    a: >-
+      Because they are <span class="tooltip-term" data-tooltip="Image format
+      that stores pixels. PNG, JPEG, WebP, AVIF are all raster. Resolution is
+      fixed at the dimensions of the file.">raster</span> formats (PNG, JPEG)
+      being scaled up by the browser. <span class="tooltip-term"
+      data-tooltip="Image format that stores shapes as math instead of pixels.
+      Scales infinitely without quality loss.">SVG</span> icons render crisp at
+      any size because the browser draws the shape from math, not from pixels.
+      Switching every icon to SVG fixes the blur and shrinks the file at the
+      same time.
+  - q: Can I use SVG for photos?
+    a: >-
+      No. SVG is for shapes (icons, logos, illustrations with flat color).
+      Photos with millions of color values per pixel cannot be expressed
+      efficiently as math. Use SVG for icons and logos, JPEG/WebP/AVIF for
+      photos.
+  - q: How does this connect to the dependencies-to-delete list?
+    a: >-
+      Directly. Font Awesome ships 1,500 icons as a single 75KB+ webfont.
+      Replacing it with the 6 SVG icons your site actually uses is the same
+      conversation as this post — same icon shapes, 90% less weight. The full
+      list is in <a href="/blog/four-dependencies-to-delete/">our
+      four-dependencies-to-delete post</a>.
 related:
-  - url: /blog/four-dependencies-to-delete/
-    title: 'The 4 Dependencies to Delete From Your Small Business Site'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
+  - four-dependencies-to-delete
+  - the-1-second-tax
+  - designed-on-a-monitor-used-on-a-phone
 ---
 
 A 36KB PNG icon on your homepage is usually a 2KB SVG that has not been swapped out yet.

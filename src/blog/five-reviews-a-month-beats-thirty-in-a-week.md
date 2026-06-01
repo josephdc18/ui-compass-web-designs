@@ -2,48 +2,108 @@
 pageName: five-reviews-a-month-beats-thirty-in-a-week
 blogTitle: 5 Google Reviews a Month Beats 30 in One Week
 titleTag: 5 Reviews a Month Beats 30 in a Week
-blogDescription: Review velocity is what wins the local map pack, not raw review count. A steady drip looks natural. A sudden spike looks like a campaign. Why Google's pattern-detection cares about cadence, the 40-review threshold most local businesses sit just under, and the six places your direct review link belongs.
-author: "Joseph C."
+blogDescription: >-
+  Review velocity is what wins the local map pack, not raw review count. A
+  steady drip looks natural. A sudden spike looks like a campaign. Why Google's
+  pattern-detection cares about cadence, the 40-review threshold most local
+  businesses sit just under, and the six places your direct review link belongs.
+author: Joseph C.
 date: 2025-12-29T16:00:00.000Z
 draft: true
 tags:
   - post
   - seo
-category: "SEO"
+category: SEO
 readMins: 6
-topper: "SEO"
+topper: SEO
 image: /assets/images/five-reviews-a-month-beats-thirty-in-a-week-card.png
-imageAlt: A line graph showing a steady upward trend of Google reviews over six months versus a sudden spike that triggers a flag
+imageAlt: >-
+  A line graph showing a steady upward trend of Google reviews over six months
+  versus a sudden spike that triggers a flag
 tldrTitle: Key Takeaways
 tldr:
-  - 'Review **velocity** wins the map pack. **5 reviews a month for 6 months** beats **30 reviews in 1 week** — the steady drip looks natural; the spike looks like a campaign and risks being filtered.'
-  - 'About **70% of customers will leave a review if asked**. Most owners simply do not ask. The conversion is in the asking, not in the asking method.'
-  - 'The volume threshold that matters: **40+ reviews unlocks roughly 3x map clicks** vs. listings under 5. Most local businesses sit just under it.'
-  - 'Four collection tactics get your listing **penalized**: discounts for reviews, contest entries, review gating, and self-reviews from staff. Google catches all four.'
+  - >-
+    Review **velocity** wins the map pack. **5 reviews a month for 6 months**
+    beats **30 reviews in 1 week** — the steady drip looks natural; the spike
+    looks like a campaign and risks being filtered.
+  - >-
+    About **70% of customers will leave a review if asked**. Most owners simply
+    do not ask. The conversion is in the asking, not in the asking method.
+  - >-
+    The volume threshold that matters: **40+ reviews unlocks roughly 3x map
+    clicks** vs. listings under 5. Most local businesses sit just under it.
+  - >-
+    Four collection tactics get your listing **penalized**: discounts for
+    reviews, contest entries, review gating, and self-reviews from staff. Google
+    catches all four.
 faq:
-  - q: 'How much of a "spike" is too much before Google flags my reviews?'
-    a: 'There is no public threshold, but the pattern Google looks for is volume out of proportion with your historical baseline. A business that averages 1 review a quarter and suddenly receives 25 in a week will trigger filtering. A business already at 5 reviews a month going to 8 in a single week is fine. The rule is "stay within 2 to 3x your normal pace."'
-  - q: 'Can I ask multiple customers in the same week without triggering anything?'
-    a: 'Yes. The flag is triggered by reviews appearing on Google, not by asks happening. If you serve 30 customers in a busy week and they all leave reviews over the next 4 weeks at a natural pace, that is fine. If you ask 30 customers and all 30 review on the same Tuesday, that is the spike that gets filtered.'
-  - q: 'What is "review gating" and why does Google penalize it?'
-    a: 'Review gating is screening customers (often through an internal feedback form) and only directing the happy ones to leave public Google reviews. Google''s policy explicitly bans this — it inflates the public rating by hiding negative feedback. The penalty can include review filtering and, in repeat cases, removal of the listing''s star rating altogether. Ask everyone or ask no one — those are the only safe modes.'
-  - q: 'Is offering a discount for a review really that bad?'
-    a: 'Yes, and Google has gotten more aggressive about it since 2023. Discount-for-review and contest-for-review schemes both inflate the rating in ways the policy considers manipulation. The reviews themselves often get filtered. The listing can also receive a "deceptive content" penalty in repeat cases. The risk is real and the upside is small.'
-  - q: 'Where should the review link actually live to maximize asks?'
-    a: 'Six places. (1) Email signature on every team member''s outbound emails. (2) The footer of every invoice or receipt. (3) A QR code on the counter or service vehicle. (4) The back of every business card. (5) The site footer. (6) The thank-you page after every contact-form submission. Each placement reaches a different moment in the customer journey, and each catches the asks the others miss.'
-  - q: 'What is the highest-converting follow-up window after service?'
-    a: 'Within 24 hours of the positive interaction. A two-sentence text or email with a direct review link converts 3 to 5x better than the same message sent a week later. The customer''s memory of the experience is freshest in the first day. After 72 hours, the effort-to-respond ratio collapses, and you are mostly leaving voicemail at that point.'
-  - q: 'Should I respond to reviews? Does that affect SEO?'
-    a: 'Yes, every time, and yes — both directly and indirectly. Direct: Google Business Profile gives a small visibility boost to listings with high response rates. Indirect: 88% of consumers prefer businesses that respond to reviews, which moves click-through rate even when ranking does not change. The full pattern lives in <a href="/blog/trust-signals-that-move-the-needle/">our trust-signals post</a>.'
-  - q: 'How does this connect to schema and AI search?'
-    a: 'Reviews surface in two more places once you mark them up properly. Adding <a href="/blog/faq-schema-3x-screen-space/">Review schema</a> makes them render under your search listing as star ratings. Surfacing the same reviews on your own site (with full names and businesses, per <a href="/blog/trust-signals-that-move-the-needle/">our trust-signals rules</a>) gives <a href="/blog/unblock-ai-crawlers/">AI search engines</a> citable content that does not depend on Google not deleting your reviews someday.'
+  - q: How much of a "spike" is too much before Google flags my reviews?
+    a: >-
+      There is no public threshold, but the pattern Google looks for is volume
+      out of proportion with your historical baseline. A business that averages
+      1 review a quarter and suddenly receives 25 in a week will trigger
+      filtering. A business already at 5 reviews a month going to 8 in a single
+      week is fine. The rule is "stay within 2 to 3x your normal pace."
+  - q: Can I ask multiple customers in the same week without triggering anything?
+    a: >-
+      Yes. The flag is triggered by reviews appearing on Google, not by asks
+      happening. If you serve 30 customers in a busy week and they all leave
+      reviews over the next 4 weeks at a natural pace, that is fine. If you ask
+      30 customers and all 30 review on the same Tuesday, that is the spike that
+      gets filtered.
+  - q: What is "review gating" and why does Google penalize it?
+    a: >-
+      Review gating is screening customers (often through an internal feedback
+      form) and only directing the happy ones to leave public Google reviews.
+      Google's policy explicitly bans this — it inflates the public rating by
+      hiding negative feedback. The penalty can include review filtering and, in
+      repeat cases, removal of the listing's star rating altogether. Ask
+      everyone or ask no one — those are the only safe modes.
+  - q: Is offering a discount for a review really that bad?
+    a: >-
+      Yes, and Google has gotten more aggressive about it since 2023.
+      Discount-for-review and contest-for-review schemes both inflate the rating
+      in ways the policy considers manipulation. The reviews themselves often
+      get filtered. The listing can also receive a "deceptive content" penalty
+      in repeat cases. The risk is real and the upside is small.
+  - q: Where should the review link actually live to maximize asks?
+    a: >-
+      Six places. (1) Email signature on every team member's outbound emails.
+      (2) The footer of every invoice or receipt. (3) A QR code on the counter
+      or service vehicle. (4) The back of every business card. (5) The site
+      footer. (6) The thank-you page after every contact-form submission. Each
+      placement reaches a different moment in the customer journey, and each
+      catches the asks the others miss.
+  - q: What is the highest-converting follow-up window after service?
+    a: >-
+      Within 24 hours of the positive interaction. A two-sentence text or email
+      with a direct review link converts 3 to 5x better than the same message
+      sent a week later. The customer's memory of the experience is freshest in
+      the first day. After 72 hours, the effort-to-respond ratio collapses, and
+      you are mostly leaving voicemail at that point.
+  - q: Should I respond to reviews? Does that affect SEO?
+    a: >-
+      Yes, every time, and yes — both directly and indirectly. Direct: Google
+      Business Profile gives a small visibility boost to listings with high
+      response rates. Indirect: 88% of consumers prefer businesses that respond
+      to reviews, which moves click-through rate even when ranking does not
+      change. The full pattern lives in <a
+      href="/blog/trust-signals-that-move-the-needle/">our trust-signals
+      post</a>.
+  - q: How does this connect to schema and AI search?
+    a: >-
+      Reviews surface in two more places once you mark them up properly. Adding
+      <a href="/blog/faq-schema-3x-screen-space/">Review schema</a> makes them
+      render under your search listing as star ratings. Surfacing the same
+      reviews on your own site (with full names and businesses, per <a
+      href="/blog/trust-signals-that-move-the-needle/">our trust-signals
+      rules</a>) gives <a href="/blog/unblock-ai-crawlers/">AI search
+      engines</a> citable content that does not depend on Google not deleting
+      your reviews someday.
 related:
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
-  - url: /blog/faq-schema-3x-screen-space/
-    title: 'FAQ Schema Turns One Blue Link Into 3x Screen Space'
-  - url: /blog/unblock-ai-crawlers/
-    title: 'Your robots.txt Is Blocking the AI Crawlers'
+  - trust-signals-that-move-the-needle
+  - faq-schema-3x-screen-space
+  - unblock-ai-crawlers
 ---
 
 Five Google reviews a month for six months beats thirty Google reviews in one week.

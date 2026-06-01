@@ -2,46 +2,94 @@
 pageName: small-business-website-cost
 blogTitle: What Does a Small Business Website Actually Cost?
 titleTag: Website Cost
-blogDescription: A small business website can cost $200 a year or $50,000. The price spread is real and the differences are real. Here is what you actually get at each tier, where the hidden costs are, and how to read a quote that does not lie to you.
-author: "Joseph C."
+blogDescription: >-
+  A small business website can cost $200 a year or $50,000. The price spread is
+  real and the differences are real. Here is what you actually get at each tier,
+  where the hidden costs are, and how to read a quote that does not lie to you.
+author: Joseph C.
 date: 2026-05-23T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 7
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/small-business-website-cost-card.png
 imageAlt: A pricing table comparing four website-build tiers from cheap to premium
 tldrTitle: Key Takeaways
 tldr:
-  - 'A small business website costs **between $200 and $50,000 a year**. The spread is real. The difference is what the site does, not how it looks.'
-  - 'The four tiers: **DIY platform** ($200/yr), **freelance one-time build** ($500–$3K), **local agency project** ($5K–$15K once + $50–$200/mo hosting), **specialist managed** ($150–$500/mo).'
-  - 'The hidden costs are **your time**, **post-launch updates**, and **the cost of the site being slow or invisible**. The cheapest tier usually has the most expensive hidden cost.'
-  - 'A managed monthly service at **around $150 a month** matches the math for most small businesses. One closed lead per quarter pays for the year.'
+  - >-
+    A small business website costs **between $200 and $50,000 a year**. The
+    spread is real. The difference is what the site does, not how it looks.
+  - >-
+    The four tiers: **DIY platform** ($200/yr), **freelance one-time build**
+    ($500–$3K), **local agency project** ($5K–$15K once + $50–$200/mo hosting),
+    **specialist managed** ($150–$500/mo).
+  - >-
+    The hidden costs are **your time**, **post-launch updates**, and **the cost
+    of the site being slow or invisible**. The cheapest tier usually has the
+    most expensive hidden cost.
+  - >-
+    A managed monthly service at **around $150 a month** matches the math for
+    most small businesses. One closed lead per quarter pays for the year.
 faq:
-  - q: 'Is $150 a month a fair price for a small business website?'
-    a: 'For a hand-coded site with unlimited edits, hosting included, and ongoing maintenance: yes. For a Squarespace template you maintain yourself: too expensive. The number on the invoice is not the question. The question is what the number includes and what the alternative would actually cost you in time and lost leads.'
+  - q: Is $150 a month a fair price for a small business website?
+    a: >-
+      For a hand-coded site with unlimited edits, hosting included, and ongoing
+      maintenance: yes. For a Squarespace template you maintain yourself: too
+      expensive. The number on the invoice is not the question. The question is
+      what the number includes and what the alternative would actually cost you
+      in time and lost leads.
   - q: 'Why are some websites $500 and some are $15,000?'
-    a: 'Five things drive the spread. The hours the builder spent, the quality of the code, ongoing support, hosting tier, and whether the site is custom or a template. A $500 Fiverr build is a template, four hours of labor, and you on your own after launch. A $15,000 agency build is a custom design, fifty to a hundred hours of labor, and three months of post-launch support. Both can produce a working site. They do not produce the same site.'
-  - q: 'Why does monthly cost so much over time?'
-    a: 'Because most months you do not see the work. The work is the security patches that did not let your site get hacked, the page-speed audit that caught a regression before your visitors did, the content swap you asked for last Tuesday, the broken-link cleanup, and the analytics review. A one-time build does none of those. The site degrades on its own, silently, starting the day it ships.'
-  - q: 'What about Wix or Squarespace for $20 a month?'
-    a: 'Cheap on the invoice. Expensive on speed and on your time. Page-builder sites typically score 50–70 on mobile PageSpeed where most of your traffic actually is. <a href="/blog/the-10x-load-time-gap/">Hand-coded sites load up to 10× faster</a>, and the gap is structural. The $20 buys you the platform. It does not buy you fast.'
-  - q: 'Can I build it myself with AI?'
-    a: 'You can build a draft. <a href="/blog/ai-built-websites/">AI gets you about 60 percent of the way there.</a> The last 40 percent is accessibility, local SEO, image optimization, mobile fit, security, and lead capture. None of those are visible until something breaks. By the time you spot the breakage, you have spent more time than the managed price would have cost.'
-  - q: 'Is the free redesign every three years real?'
-    a: 'Yes. Sites built in 2026 will look dated by 2029. The web moves. Browsers add features, accessibility rules update, mobile screens change, design language shifts. The free redesign keeps clients on the current standard without writing another five-figure check. It is built into the monthly.'
-  - q: 'What is the cheapest acceptable option?'
-    a: 'Domain ($10/yr) plus a single landing page on a free static host ($0). About $10 a year. Two pages of content, contact form, your phone number, your address, your hours. It will not rank well, it will not capture email, and it will look basic. But it exists, which beats not existing. Most owners outgrow it in the first quarter.'
+    a: >-
+      Five things drive the spread. The hours the builder spent, the quality of
+      the code, ongoing support, hosting tier, and whether the site is custom or
+      a template. A $500 Fiverr build is a template, four hours of labor, and
+      you on your own after launch. A $15,000 agency build is a custom design,
+      fifty to a hundred hours of labor, and three months of post-launch
+      support. Both can produce a working site. They do not produce the same
+      site.
+  - q: Why does monthly cost so much over time?
+    a: >-
+      Because most months you do not see the work. The work is the security
+      patches that did not let your site get hacked, the page-speed audit that
+      caught a regression before your visitors did, the content swap you asked
+      for last Tuesday, the broken-link cleanup, and the analytics review. A
+      one-time build does none of those. The site degrades on its own, silently,
+      starting the day it ships.
+  - q: What about Wix or Squarespace for $20 a month?
+    a: >-
+      Cheap on the invoice. Expensive on speed and on your time. Page-builder
+      sites typically score 50–70 on mobile PageSpeed where most of your traffic
+      actually is. <a href="/blog/the-10x-load-time-gap/">Hand-coded sites load
+      up to 10× faster</a>, and the gap is structural. The $20 buys you the
+      platform. It does not buy you fast.
+  - q: Can I build it myself with AI?
+    a: >-
+      You can build a draft. <a href="/blog/ai-built-websites/">AI gets you
+      about 60 percent of the way there.</a> The last 40 percent is
+      accessibility, local SEO, image optimization, mobile fit, security, and
+      lead capture. None of those are visible until something breaks. By the
+      time you spot the breakage, you have spent more time than the managed
+      price would have cost.
+  - q: Is the free redesign every three years real?
+    a: >-
+      Yes. Sites built in 2026 will look dated by 2029. The web moves. Browsers
+      add features, accessibility rules update, mobile screens change, design
+      language shifts. The free redesign keeps clients on the current standard
+      without writing another five-figure check. It is built into the monthly.
+  - q: What is the cheapest acceptable option?
+    a: >-
+      Domain ($10/yr) plus a single landing page on a free static host ($0).
+      About $10 a year. Two pages of content, contact form, your phone number,
+      your address, your hours. It will not rank well, it will not capture
+      email, and it will look basic. But it exists, which beats not existing.
+      Most owners outgrow it in the first quarter.
 related:
-  - url: /blog/drag-and-drop-vs-hiring/
-    title: 'Drag-and-Drop vs Hiring Someone: What You Actually Get'
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
-  - url: /blog/managing-a-website/
-    title: 'What Managing a Website Really Means'
+  - drag-and-drop-vs-hiring
+  - one-client-pays-for-the-year
+  - managing-a-website
 ---
 
 A small business website costs between $200 a year and $50,000.

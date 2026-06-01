@@ -45,20 +45,28 @@ collections:
     editor:
       preview: true
     description: |
-      Welcome! To create a new post, click **New Blog Post** above. The Title, Page Address, Google Search Summary, and Body are the only fields you really need to fill — everything else has sensible defaults or is optional.
+      Welcome! To create a new post, click **New Blog Post** above — or open an existing post, click the **⋮ menu** in the top right, and choose **Duplicate** to start from a copy of a post that's close to what you want. The Title, Page Address, Google Search Summary, and Body are the only fields you really need to fill — everything else has sensible defaults or is optional.
 
       Hitting Save puts your work-in-progress in the **Workflow** tab (Draft → In Review → Ready); nothing reaches the live site until you click **Publish** from there. Pictures: paste or drag them straight into the Body — they upload automatically. The live preview on the right updates as you type.
     view_filters:
-      - label: 'Shown When Published'
+      - label: 'Live on site'
         field: draft
         pattern: false
-      - label: 'Hidden From Live Site'
+      - label: 'Hidden from site'
         field: draft
         pattern: true
       - label: 'Featured'
         field: tags
         pattern: featured
     fields:
+      # ---- Visibility (placed first so authors see it before they start writing) ----
+      - label: 'Hide From Live Site'
+        name: 'draft'
+        widget: 'boolean'
+        default: false
+        hint: >-
+          Leave OFF for normal publishing — the post will appear on the live site once you publish it from the Workflow tab. Turn ON to keep this post hidden from the live blog index, search, and RSS even after publish (you'll still see it locally and in the CMS). Useful for archived posts and seasonal content.
+
       - label: 'Title'
         name: 'blogTitle'
         widget: 'string'
@@ -120,10 +128,10 @@ collections:
       # ---- Listing / preview ----
       - label: 'Topper Label'
         name: 'topper'
-        widget: 'string'
+        widget: 'topper'
         required: false
         hint: >-
-          Optional. Small uppercase label above the title in post previews. Example: Strategy or Performance · AI. Keep it under about 20 characters.
+          Optional. Small uppercase label above the title in post previews. Start typing to pick an existing label (Strategy / Design / Performance / SEO) or type a new one to create it. Keep it under about 20 characters.
 
       - { label: 'Hero Image', name: 'image', widget: 'image', required: false, hint: 'The big background image at the top of the post AND the thumbnail in post previews. PNG or JPG. Aim for ~1600×900 pixels. Paste or drag an image straight in.' }
 
@@ -134,20 +142,12 @@ collections:
         hint: >-
           Describe what's in the hero image for screen readers and people with images turned off. Required if you set a Hero Image. Example: A checklist with five items checked off in green on a desk next to a phone.
 
-      # ---- Status ----
-      - label: 'Hide From Live Site'
-        name: 'draft'
-        widget: 'boolean'
-        default: false
-        hint: >-
-          Toggle ON to hide this post from the live site (blog index, search, RSS). You can still preview it locally. Toggle OFF when you're ready for the world to see it. This is separate from the Workflow Draft column above — that's about saving work in progress, this is about whether the published site shows the post.
-
       - label: 'Tags'
         name: 'tags'
-        widget: 'list'
+        widget: 'tagPicker'
         default: ['post']
         hint: >-
-          Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts. Common categories used on this site: strategy, design, performance, seo, accessibility. Lowercase only, use dashes for spaces (e.g. service-by-location).
+          Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts. The four "category" tags (strategy, design, performance, seo) drive the per-category collection pages. Click a chip's × to remove. Type to filter existing tags, press Enter to create a new one. Lowercase only — use dashes for spaces (e.g. service-by-location).
 
       # ---- Optional in-post components ----
       - label: 'Summary'
@@ -201,25 +201,28 @@ collections:
             hint: 'Phrase it the way a customer would Google it. Example: How small is too small for a website?'
           - label: 'Answer'
             name: 'a'
-            widget: 'text'
+            widget: 'markdown'
+            buttons: ['bold', 'italic', 'link']
+            editor_components: []
             hint: >-
-              Answer in 2–4 sentences. Plain text or HTML. For paragraph breaks, wrap each paragraph in <p>…</p>. For inline links, use <a href="/blog/other-post/">like this</a>.
+              Answer in 2–4 sentences. Use the toolbar for bold, italics, and links. Paragraph breaks happen automatically when you press Enter twice.
 
       - label: 'Related Guides'
         name: 'related'
-        widget: 'list'
+        widget: 'relation'
+        collection: 'blog'
+        value_field: 'pageName'
+        search_fields: ['blogTitle', 'pageName']
+        display_fields: ['blogTitle']
+        multiple: true
+        min: 0
+        max: 4
         required: false
-        collapsed: true
-        summary: '{{fields.title}} → {{fields.url}}'
+        filters:
+          - field: draft
+            values: [false]
         hint: >-
-          Optional. 2–4 internal links shown at the bottom of the post AND in the sidebar. Linking related posts together helps Google understand your site's topic clusters.
-        fields:
-          - { label: 'Title', name: 'title', widget: 'string', hint: 'How the link will read. Example: Your Instagram Handle Is Not Yours. A Website Is.' }
-          - label: 'URL'
-            name: 'url'
-            widget: 'string'
-            hint: >-
-              Internal path only. Example: /blog/social-media-vs-website/. Always start with / and end with /.
+          Pick 2–4 related posts. Type to search by title. Only live posts are shown — hidden posts can't be linked. The post's title and URL are auto-resolved at build time, so they always stay in sync with the target post even if it gets renamed. Linking related posts helps Google understand your site's topic clusters.
 
   # ---------------------------------------------------------------------------
   # SITE SETTINGS

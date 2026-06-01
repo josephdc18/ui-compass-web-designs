@@ -2,44 +2,88 @@
 pageName: one-client-pays-for-the-year
 blogTitle: One New Client a Year. That's All the Website Has to Bring You.
 titleTag: One Client Pays the Year
-blogDescription: At $150 a month, a managed website costs $1,800 a year. If one new client you would not have closed otherwise comes from the site, the year is paid for. Most service businesses clear that bar in the first quarter. Here is the math, with the assumptions out loud.
-author: "Joseph C."
+blogDescription: >-
+  At $150 a month, a managed website costs $1,800 a year. If one new client you
+  would not have closed otherwise comes from the site, the year is paid for.
+  Most service businesses clear that bar in the first quarter. Here is the math,
+  with the assumptions out loud.
+author: Joseph C.
 date: 2026-05-27T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 5
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/one-client-pays-for-the-year-card.png
 imageAlt: A calculator on a desk showing a single client equals one year of website cost
-tldrTitle: The math, out loud
+tldrTitle: 'The math, out loud'
 tldr:
-  - 'A managed website at $150 a month costs **$1,800 a year**. Cheaper than the average phone bill, cheaper than a single tradeshow booth.'
-  - 'For most small businesses, **one new client clears it**. If your average customer is worth $500 over a year, the site needs to bring you four. If they are worth $2,000, the site needs to bring you one.'
-  - 'The site usually clears that bar in the first quarter. **Google indexes you in a week, ranks you in a month, and starts producing form fills in 60–90 days** on average. We have measured.'
-  - 'Beyond breakeven, every client is pure margin. **The site does not get more expensive as it works harder.** It is the only sales channel with that property.'
+  - >-
+    A managed website at $150 a month costs **$1,800 a year**. Cheaper than the
+    average phone bill, cheaper than a single tradeshow booth.
+  - >-
+    For most small businesses, **one new client clears it**. If your average
+    customer is worth $500 over a year, the site needs to bring you four. If
+    they are worth $2,000, the site needs to bring you one.
+  - >-
+    The site usually clears that bar in the first quarter. **Google indexes you
+    in a week, ranks you in a month, and starts producing form fills in 60–90
+    days** on average. We have measured.
+  - >-
+    Beyond breakeven, every client is pure margin. **The site does not get more
+    expensive as it works harder.** It is the only sales channel with that
+    property.
 faq:
-  - q: 'How long until the site starts producing leads?'
-    a: 'For a hand-coded site on premium hosting, Google indexes in about a week. First-page rankings for your service plus city come in 30 to 60 days for most small businesses without existing competition. Contact form submissions follow about a week behind the rankings. We track this on every build. 60 to 90 days for the first measured lead is the typical curve.'
-  - q: 'What if my customer is worth more than $500?'
-    a: 'Then the math gets faster. A landscaper whose average install is $4,500 only needs the site to bring them one job to clear the year, with $2,700 left over. A wedding photographer at $3,500 per booking is in the same place. A roofer at $12,000 a roof clears the year on a fraction of a closed job.'
-  - q: 'What if it does not bring me a client?'
-    a: 'After six months with zero leads, the site is doing something wrong and we fix it on the monthly. Most of the time the cause is one of three things: the site is not actually ranking (we fix the SEO), the site is ranking but bouncing (we fix the conversion), or the offer is not clear (we rewrite the headline). The monthly model lets us keep iterating until it works. A one-time build does not.'
-  - q: 'How does this compare to running ads?'
-    a: 'Different math. Ads are a faucet. You pay $1 in and get $X out, every dollar, every month, forever. Stop paying and the leads stop. A website is an investment. The same content keeps producing leads month after month with no per-lead cost. Both work. A site is the cheaper compounding option once you have crossed the initial 60-to-90-day ramp.'
-  - q: 'Is the math the same for ecommerce?'
-    a: 'Different. Ecommerce calculates against revenue, not lifetime value, and the breakeven is higher because product margins are usually thinner. For a typical small ecommerce store, the site pays for itself if it brings in $300 to $500 of incremental revenue a month, depending on the product.'
-  - q: 'What if I already have a Google Business Profile bringing me leads?'
-    a: 'Good. The site amplifies it. GBP and a website work together: <a href="/blog/social-media-vs-website/">GBP is the listing, the site is the destination</a>. The site lets you rank for service-plus-city searches outside the map pack and capture email from people who do not call. Together they roughly double the lead volume of either alone, on the data we have.'
+  - q: How long until the site starts producing leads?
+    a: >-
+      For a hand-coded site on premium hosting, Google indexes in about a week.
+      First-page rankings for your service plus city come in 30 to 60 days for
+      most small businesses without existing competition. Contact form
+      submissions follow about a week behind the rankings. We track this on
+      every build. 60 to 90 days for the first measured lead is the typical
+      curve.
+  - q: What if my customer is worth more than $500?
+    a: >-
+      Then the math gets faster. A landscaper whose average install is $4,500
+      only needs the site to bring them one job to clear the year, with $2,700
+      left over. A wedding photographer at $3,500 per booking is in the same
+      place. A roofer at $12,000 a roof clears the year on a fraction of a
+      closed job.
+  - q: What if it does not bring me a client?
+    a: >-
+      After six months with zero leads, the site is doing something wrong and we
+      fix it on the monthly. Most of the time the cause is one of three things:
+      the site is not actually ranking (we fix the SEO), the site is ranking but
+      bouncing (we fix the conversion), or the offer is not clear (we rewrite
+      the headline). The monthly model lets us keep iterating until it works. A
+      one-time build does not.
+  - q: How does this compare to running ads?
+    a: >-
+      Different math. Ads are a faucet. You pay $1 in and get $X out, every
+      dollar, every month, forever. Stop paying and the leads stop. A website is
+      an investment. The same content keeps producing leads month after month
+      with no per-lead cost. Both work. A site is the cheaper compounding option
+      once you have crossed the initial 60-to-90-day ramp.
+  - q: Is the math the same for ecommerce?
+    a: >-
+      Different. Ecommerce calculates against revenue, not lifetime value, and
+      the breakeven is higher because product margins are usually thinner. For a
+      typical small ecommerce store, the site pays for itself if it brings in
+      $300 to $500 of incremental revenue a month, depending on the product.
+  - q: What if I already have a Google Business Profile bringing me leads?
+    a: >-
+      Good. The site amplifies it. GBP and a website work together: <a
+      href="/blog/social-media-vs-website/">GBP is the listing, the site is the
+      destination</a>. The site lets you rank for service-plus-city searches
+      outside the map pack and capture email from people who do not call.
+      Together they roughly double the lead volume of either alone, on the data
+      we have.
 related:
-  - url: /blog/small-business-website-cost/
-    title: 'What Does a Small Business Website Actually Cost?'
-  - url: /blog/website-is-an-asset/
-    title: 'A Website Is an Asset, Not an Expense'
-  - url: /blog/getting-a-website-when-bigger/
-    title: 'I Will Get a Website When I Am Bigger Is Backwards'
+  - small-business-website-cost
+  - website-is-an-asset
+  - getting-a-website-when-bigger
 ---
 
 A managed website costs $1,800 a year.

@@ -1,49 +1,112 @@
 ---
 pageName: the-seven-homepage-sections
-blogTitle: The Seven Sections Every Small Business Homepage Needs, In Order
+blogTitle: 'The Seven Sections Every Small Business Homepage Needs, In Order'
 titleTag: The Seven Homepage Sections
-blogDescription: A small business homepage is not an art project. It is a salesperson with seven jobs. The sections that need to be there, the order they belong in, and what each one costs you when it is missing or misplaced.
-author: "Joseph C."
+blogDescription: >-
+  A small business homepage is not an art project. It is a salesperson with
+  seven jobs. The sections that need to be there, the order they belong in, and
+  what each one costs you when it is missing or misplaced.
+author: Joseph C.
 date: 2026-03-31T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 7
-topper: "Design"
+topper: Design
 image: /assets/images/the-seven-homepage-sections-card.png
-imageAlt: A wireframe of a small business homepage with seven sections labeled in order from top to bottom
+imageAlt: >-
+  A wireframe of a small business homepage with seven sections labeled in order
+  from top to bottom
 tldrTitle: Key Takeaways
 tldr:
-  - 'A small business homepage runs the same conversation in every visitor''s head. **Seven sections, one job each, in order**: hero, proof strip, services, differentiator, work, trust block, closing CTA.'
-  - 'Most "we need a redesign" calls are about **missing or out-of-order sections**, not styling. Most homepages we audit are missing at least one of the seven.'
-  - 'The hero''s only three jobs: **state who the site is for, name the outcome, give one obvious next step**. If the headline needs a paragraph to explain what the business does, the headline is wrong.'
-  - 'Section padding around **50px on mobile, 75–100px on desktop**. Body line-height **1.4 to 1.5**. Headings at least **1.5x the body font size**. White space is doing structural work, not decorative work.'
+  - >-
+    A small business homepage runs the same conversation in every visitor's
+    head. **Seven sections, one job each, in order**: hero, proof strip,
+    services, differentiator, work, trust block, closing CTA.
+  - >-
+    Most "we need a redesign" calls are about **missing or out-of-order
+    sections**, not styling. Most homepages we audit are missing at least one of
+    the seven.
+  - >-
+    The hero's only three jobs: **state who the site is for, name the outcome,
+    give one obvious next step**. If the headline needs a paragraph to explain
+    what the business does, the headline is wrong.
+  - >-
+    Section padding around **50px on mobile, 75–100px on desktop**. Body
+    line-height **1.4 to 1.5**. Headings at least **1.5x the body font size**.
+    White space is doing structural work, not decorative work.
 faq:
-  - q: 'Why is there no "About" section in the seven?'
-    a: 'Most "About" sections on small business homepages are written in the third person, lead with the founder''s biography, and never quite get to the point of why the visitor should care. If your founder story sells the business, it goes in the differentiator section as a sub-point. The full story belongs on a dedicated About page, linked from the navigation. Local service businesses where the visitor is hiring a person can replace the trust block with a "meet the team" strip — that is the only exception.'
-  - q: 'Should I always have a hero image?'
-    a: 'Not always, but usually. The hero image does two jobs: it establishes the visual tone in the first half-second, and it gives the headline somewhere to live. Photographers, restaurants, and tradespeople almost always need one. Service businesses, agencies, and consultancies can get away with a typographic hero (big headline, simple geometric background, no photo). The discipline either way is that the hero must not be loading slowly — see <a href="/blog/the-1-second-tax/">how the hero image becomes the LCP element</a>.'
-  - q: 'What if my business has more than four services?'
-    a: 'Pick the four that bring in 80% of the revenue and put the rest behind a "see all services" link. The homepage is the map, not the inventory. The full list belongs on a dedicated services page that all four homepage cards eventually link toward. If your business has 15+ services, your homepage cards should be category-shaped (e.g. "Web Design" instead of "Five-Page Website Build"), with each card linking to a category page that breaks down further.'
-  - q: 'Is one CTA enough on a long homepage?'
-    a: 'No. A long homepage needs at least three CTAs spread across the page: one in the hero, one in the middle (usually after the differentiator or work section), and one in the closing CTA section. Visitors decide to act at different points in the scroll, and you want a button waiting wherever they land. All three should point at the same action — usually the contact form.'
-  - q: 'How long should the homepage actually be?'
-    a: 'Long enough to do all seven jobs, short enough that the closing CTA is reachable in under 30 seconds of scrolling. For most small business sites, that is roughly 6 to 10 screen-heights on mobile. Less than that and you are skipping a section. More than that and you are repeating yourself.'
-  - q: 'Can I use stock photos for the proof strip?'
-    a: 'For logos and certifications, yes — those are real assets. For testimonials, never. Stock photos of "happy customers" are obvious within seconds and undermine every other piece of credibility on the page. If you do not have testimonial photos yet, use a quote with a real name and business attached, on a clean text-only card. Real words beat fake faces every time.'
-  - q: 'How does this connect to mobile-first design?'
-    a: 'The seven-section pattern works at every width because each section is a self-contained block. The mobile layout stacks them. The desktop layout uses the same blocks in the same order with multi-column layouts within each. The architecture in <a href="/blog/designed-on-a-monitor-used-on-a-phone/">our mobile-first post</a> assumes this section model.'
-  - q: 'Should I add FAQ schema to my homepage?'
-    a: 'Usually no, unless the homepage already contains an FAQ section visible to readers. The schema must match the visible page (one of the five rules in <a href="/blog/faq-schema-3x-screen-space/">our FAQ schema post</a>). Most service pages are better candidates for FAQ schema than the homepage itself.'
+  - q: Why is there no "About" section in the seven?
+    a: >-
+      Most "About" sections on small business homepages are written in the third
+      person, lead with the founder's biography, and never quite get to the
+      point of why the visitor should care. If your founder story sells the
+      business, it goes in the differentiator section as a sub-point. The full
+      story belongs on a dedicated About page, linked from the navigation. Local
+      service businesses where the visitor is hiring a person can replace the
+      trust block with a "meet the team" strip — that is the only exception.
+  - q: Should I always have a hero image?
+    a: >-
+      Not always, but usually. The hero image does two jobs: it establishes the
+      visual tone in the first half-second, and it gives the headline somewhere
+      to live. Photographers, restaurants, and tradespeople almost always need
+      one. Service businesses, agencies, and consultancies can get away with a
+      typographic hero (big headline, simple geometric background, no photo).
+      The discipline either way is that the hero must not be loading slowly —
+      see <a href="/blog/the-1-second-tax/">how the hero image becomes the LCP
+      element</a>.
+  - q: What if my business has more than four services?
+    a: >-
+      Pick the four that bring in 80% of the revenue and put the rest behind a
+      "see all services" link. The homepage is the map, not the inventory. The
+      full list belongs on a dedicated services page that all four homepage
+      cards eventually link toward. If your business has 15+ services, your
+      homepage cards should be category-shaped (e.g. "Web Design" instead of
+      "Five-Page Website Build"), with each card linking to a category page that
+      breaks down further.
+  - q: Is one CTA enough on a long homepage?
+    a: >-
+      No. A long homepage needs at least three CTAs spread across the page: one
+      in the hero, one in the middle (usually after the differentiator or work
+      section), and one in the closing CTA section. Visitors decide to act at
+      different points in the scroll, and you want a button waiting wherever
+      they land. All three should point at the same action — usually the contact
+      form.
+  - q: How long should the homepage actually be?
+    a: >-
+      Long enough to do all seven jobs, short enough that the closing CTA is
+      reachable in under 30 seconds of scrolling. For most small business sites,
+      that is roughly 6 to 10 screen-heights on mobile. Less than that and you
+      are skipping a section. More than that and you are repeating yourself.
+  - q: Can I use stock photos for the proof strip?
+    a: >-
+      For logos and certifications, yes — those are real assets. For
+      testimonials, never. Stock photos of "happy customers" are obvious within
+      seconds and undermine every other piece of credibility on the page. If you
+      do not have testimonial photos yet, use a quote with a real name and
+      business attached, on a clean text-only card. Real words beat fake faces
+      every time.
+  - q: How does this connect to mobile-first design?
+    a: >-
+      The seven-section pattern works at every width because each section is a
+      self-contained block. The mobile layout stacks them. The desktop layout
+      uses the same blocks in the same order with multi-column layouts within
+      each. The architecture in <a
+      href="/blog/designed-on-a-monitor-used-on-a-phone/">our mobile-first
+      post</a> assumes this section model.
+  - q: Should I add FAQ schema to my homepage?
+    a: >-
+      Usually no, unless the homepage already contains an FAQ section visible to
+      readers. The schema must match the visible page (one of the five rules in
+      <a href="/blog/faq-schema-3x-screen-space/">our FAQ schema post</a>). Most
+      service pages are better candidates for FAQ schema than the homepage
+      itself.
 related:
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - designed-on-a-monitor-used-on-a-phone
+  - the-1-second-tax
+  - redesign-or-optimize-warning-signs
 ---
 
 A small business homepage is not an art project. It is a salesperson with seven jobs.

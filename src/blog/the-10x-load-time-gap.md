@@ -2,48 +2,112 @@
 pageName: the-10x-load-time-gap
 blogTitle: The 10x Load-Time Gap Between Hand-Coded and Page Builder
 titleTag: The 10x Load-Time Gap
-blogDescription: Hand-coded sites load up to 10x faster than page-builder sites — and the gap is not configurable. The structural difference between "assemble on demand" and "ready to serve," what it costs you in conversion, and why the choice locks in the day you pick a platform.
-author: "Joseph C."
+blogDescription: >-
+  Hand-coded sites load up to 10x faster than page-builder sites — and the gap
+  is not configurable. The structural difference between "assemble on demand"
+  and "ready to serve," what it costs you in conversion, and why the choice
+  locks in the day you pick a platform.
+author: Joseph C.
 date: 2026-05-10T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 7
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/the-10x-load-time-gap-card.png
-imageAlt: A split-screen graphic showing a hand-coded static site loading in 0.5 seconds versus a page-builder site loading in 5 seconds
+imageAlt: >-
+  A split-screen graphic showing a hand-coded static site loading in 0.5 seconds
+  versus a page-builder site loading in 5 seconds
 tldrTitle: Key Takeaways
 tldr:
-  - 'Hand-coded sites load **up to 10x faster** than page-builder sites — and the gap is structural, not a tuning problem.'
-  - 'The difference is **assemble-on-demand** (the builder''s database query, plus theme rendering, plus plugin chain) versus **ready-to-serve** (a pre-built HTML file the server hands the visitor unchanged).'
-  - 'Static hand-coded sites routinely clear **under 0.5 seconds**. Page-builder sites typically land at **3 to 5 seconds** on mobile, and visitors abandon at the 3-second mark.'
-  - 'Cost framing: a one-time **lump-sum build (~$2,500+)** with annual fees, or a **monthly subscription (~$150–175/month)** that includes maintenance. Both lock in the platform choice for years.'
+  - >-
+    Hand-coded sites load **up to 10x faster** than page-builder sites — and the
+    gap is structural, not a tuning problem.
+  - >-
+    The difference is **assemble-on-demand** (the builder's database query, plus
+    theme rendering, plus plugin chain) versus **ready-to-serve** (a pre-built
+    HTML file the server hands the visitor unchanged).
+  - >-
+    Static hand-coded sites routinely clear **under 0.5 seconds**. Page-builder
+    sites typically land at **3 to 5 seconds** on mobile, and visitors abandon
+    at the 3-second mark.
+  - >-
+    Cost framing: a one-time **lump-sum build (~$2,500+)** with annual fees, or
+    a **monthly subscription (~$150–175/month)** that includes maintenance. Both
+    lock in the platform choice for years.
 faq:
   - q: 'Is "10x faster" really realistic, or is that a marketing number?'
-    a: 'It is real on the gap between worst-case page builder and best-case hand-coded. A WordPress site with 12 plugins on shared hosting can land at 5+ seconds Time to First Byte. A static hand-coded site on edge hosting clears 200ms TTFB and renders in under 0.5 seconds total. That is a 10x ratio. The "average" gap is closer to 4–6x, but 10x is what we see in audits regularly.'
+    a: >-
+      It is real on the gap between worst-case page builder and best-case
+      hand-coded. A WordPress site with 12 plugins on shared hosting can land at
+      5+ seconds Time to First Byte. A static hand-coded site on edge hosting
+      clears 200ms TTFB and renders in under 0.5 seconds total. That is a 10x
+      ratio. The "average" gap is closer to 4–6x, but 10x is what we see in
+      audits regularly.
   - q: 'My WordPress site loads fine, so does this even apply to me?'
-    a: 'Test it on the device your visitors actually use, on a typical 4G connection, not your office Wi-Fi on a laptop. Run <a href="https://pagespeed.web.dev/">PageSpeed Insights</a> and look at the mobile score. If it is under 80, the gap is showing whether you feel it or not. The full math on what each second costs you is in <a href="/blog/the-1-second-tax/">our 1-second-tax post</a>.'
-  - q: 'Can I get a WordPress site to load as fast as a hand-coded one?'
-    a: 'Sometimes, with caching plugins, edge-served caching layers, and aggressive plugin discipline. The technical answer is yes, the practical answer is rarely. Every plugin update can re-introduce the bloat the cache was hiding, and the cache layer adds its own complexity. The hand-coded site does not need any of that to be fast — it is fast by default.'
+    a: >-
+      Test it on the device your visitors actually use, on a typical 4G
+      connection, not your office Wi-Fi on a laptop. Run <a
+      href="https://pagespeed.web.dev/">PageSpeed Insights</a> and look at the
+      mobile score. If it is under 80, the gap is showing whether you feel it or
+      not. The full math on what each second costs you is in <a
+      href="/blog/the-1-second-tax/">our 1-second-tax post</a>.
+  - q: Can I get a WordPress site to load as fast as a hand-coded one?
+    a: >-
+      Sometimes, with caching plugins, edge-served caching layers, and
+      aggressive plugin discipline. The technical answer is yes, the practical
+      answer is rarely. Every plugin update can re-introduce the bloat the cache
+      was hiding, and the cache layer adds its own complexity. The hand-coded
+      site does not need any of that to be fast — it is fast by default.
   - q: 'What about Webflow, Wix, or Squarespace specifically?'
-    a: 'Same structural pattern. Webflow generates static-ish output but ships a heavy JavaScript runtime for animations, which kills mobile scores. Wix and Squarespace are JS-rendered shells with the assemble step happening in the browser instead of on the server — even slower for the visitor than WordPress in many cases. The platform name matters less than the structural answer to "does the visitor download HTML or do they download a JavaScript program that builds HTML."'
-  - q: 'I already have a WordPress site. Should I migrate?'
-    a: 'Depends on the warning sign count from <a href="/blog/redesign-or-optimize-warning-signs/">our scoreboard</a>. If you are at 0–1 warning signs and your PageSpeed score is acceptable, optimize the existing site. If you are at 4+ warning signs, the 10x gap is one of them, and a hand-coded rebuild is the cheaper long-term choice. Most sites we audit fall in the 2–3 range, where a targeted rebuild of the homepage and core service pages closes most of the gap.'
-  - q: 'What is the actual cost difference?'
-    a: 'Two common shapes. <strong>Lump sum</strong>: $2,500 to $8,000 for a small business build, plus $50–300/month in hosting and maintenance, plus an unpredictable annual replatform fee when the builder changes versions. <strong>Subscription</strong>: $150–175/month flat for the build, hosting, edits, and updates. Same total cost over 3 years on most projects; the subscription model trades up-front pain for predictability. <a href="/pricing/">Our pricing</a> uses the subscription model.'
-  - q: 'How does this connect to AI search and SEO?'
-    a: 'Directly. <a href="/blog/unblock-ai-crawlers/">AI crawlers do not reliably execute JavaScript</a>. A page-builder site that renders client-side ships as an empty shell to ChatGPT and Perplexity. A hand-coded site ships server-rendered HTML that every crawler — Google, Bing, ChatGPT, Perplexity — can read. The 10x speed gap and the "is the bot reading my content" gap are the same gap, viewed from different angles.'
+    a: >-
+      Same structural pattern. Webflow generates static-ish output but ships a
+      heavy JavaScript runtime for animations, which kills mobile scores. Wix
+      and Squarespace are JS-rendered shells with the assemble step happening in
+      the browser instead of on the server — even slower for the visitor than
+      WordPress in many cases. The platform name matters less than the
+      structural answer to "does the visitor download HTML or do they download a
+      JavaScript program that builds HTML."
+  - q: I already have a WordPress site. Should I migrate?
+    a: >-
+      Depends on the warning sign count from <a
+      href="/blog/redesign-or-optimize-warning-signs/">our scoreboard</a>. If
+      you are at 0–1 warning signs and your PageSpeed score is acceptable,
+      optimize the existing site. If you are at 4+ warning signs, the 10x gap is
+      one of them, and a hand-coded rebuild is the cheaper long-term choice.
+      Most sites we audit fall in the 2–3 range, where a targeted rebuild of the
+      homepage and core service pages closes most of the gap.
+  - q: What is the actual cost difference?
+    a: >-
+      Two common shapes. <strong>Lump sum</strong>: $2,500 to $8,000 for a small
+      business build, plus $50–300/month in hosting and maintenance, plus an
+      unpredictable annual replatform fee when the builder changes versions.
+      <strong>Subscription</strong>: $150–175/month flat for the build, hosting,
+      edits, and updates. Same total cost over 3 years on most projects; the
+      subscription model trades up-front pain for predictability. <a
+      href="/pricing/">Our pricing</a> uses the subscription model.
+  - q: How does this connect to AI search and SEO?
+    a: >-
+      Directly. <a href="/blog/unblock-ai-crawlers/">AI crawlers do not reliably
+      execute JavaScript</a>. A page-builder site that renders client-side ships
+      as an empty shell to ChatGPT and Perplexity. A hand-coded site ships
+      server-rendered HTML that every crawler — Google, Bing, ChatGPT,
+      Perplexity — can read. The 10x speed gap and the "is the bot reading my
+      content" gap are the same gap, viewed from different angles.
   - q: 'Is this only relevant for new builds, or does it matter for redesigns too?'
-    a: 'Especially for redesigns. The platform choice is the most expensive decision in a redesign because it locks in everything else for the next 3–5 years. Picking a builder for a redesign because "we already use it" is the same trap as keeping a slow site because "we are used to it." See <a href="/blog/redesign-or-optimize-warning-signs/">our redesign-or-optimize scoreboard</a> for the diagnostic.'
+    a: >-
+      Especially for redesigns. The platform choice is the most expensive
+      decision in a redesign because it locks in everything else for the next
+      3–5 years. Picking a builder for a redesign because "we already use it" is
+      the same trap as keeping a slow site because "we are used to it." See <a
+      href="/blog/redesign-or-optimize-warning-signs/">our redesign-or-optimize
+      scoreboard</a> for the diagnostic.
 related:
-  - url: /blog/comparing-local-dfw-web-design-companies/
-    title: 'Comparing Local DFW Web Design Companies, A Buyer''s Framework'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - comparing-local-dfw-web-design-companies
+  - the-1-second-tax
+  - redesign-or-optimize-warning-signs
 ---
 
 A hand-coded website loads up to ten times faster than a page-builder website. The number is not marketing. It is what you measure when you put both in the same audit tool on the same network.

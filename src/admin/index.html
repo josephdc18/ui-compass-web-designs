@@ -8,8 +8,11 @@
 </head>
 
 <body>
-  <!-- Decap CMS bundle (UMD; exposes window.CMS, window.h, window.createClass) -->
-  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+  <!-- Decap CMS bundle (UMD; exposes window.CMS, window.h, window.createClass).
+       Pinned to an exact version. Bumping requires re-running the CMS smoke
+       test: every custom widget, event listener, and DOM-injection selector
+       in preview-templates.js can break with any Decap release. -->
+  <script src="https://unpkg.com/decap-cms@3.13.0/dist/decap-cms.js"></script>
 
   <!-- Live-preview templates. Must load AFTER the Decap bundle so window.CMS exists. -->
   <script src="/admin/preview-templates.js"></script>

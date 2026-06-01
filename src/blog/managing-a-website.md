@@ -2,44 +2,86 @@
 pageName: managing-a-website
 blogTitle: Most Owners Think a Website Is a Thing to Babysit. The Right One Isn't.
 titleTag: Managing a Website
-blogDescription: The most common reason small business owners delay getting a website is the fear of having to manage it. The fear is real for some setups and wrong for others. Here is what managing a website actually involves, who does which part, and how to keep it under an hour a month.
-author: "Joseph C."
+blogDescription: >-
+  The most common reason small business owners delay getting a website is the
+  fear of having to manage it. The fear is real for some setups and wrong for
+  others. Here is what managing a website actually involves, who does which
+  part, and how to keep it under an hour a month.
+author: Joseph C.
 date: 2026-06-10T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 5
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/managing-a-website-card.png
-imageAlt: A simple checklist showing minimal owner tasks versus everything handled by the team
+imageAlt: >-
+  A simple checklist showing minimal owner tasks versus everything handled by
+  the team
 tldrTitle: What you actually have to do
 tldr:
-  - 'A managed website costs you **less than one hour a month** of attention. Forwarding a review, asking for a page edit, approving a content piece.'
-  - 'A self-managed website (Squarespace, WordPress, Wix) costs you **2–4 hours a month minimum**, plus a weekend a quarter for updates. **The cost compounds in year two.**'
-  - 'The work most owners worry about (security patches, hosting renewals, broken-link cleanup, mobile QA) **only exists at all because the site needs it**. On a managed site, all of it is invisible.'
-  - 'The trade-off is the fee. **$150/mo to make the work disappear.** Compare to the hourly equivalent of doing it yourself.'
+  - >-
+    A managed website costs you **less than one hour a month** of attention.
+    Forwarding a review, asking for a page edit, approving a content piece.
+  - >-
+    A self-managed website (Squarespace, WordPress, Wix) costs you **2–4 hours a
+    month minimum**, plus a weekend a quarter for updates. **The cost compounds
+    in year two.**
+  - >-
+    The work most owners worry about (security patches, hosting renewals,
+    broken-link cleanup, mobile QA) **only exists at all because the site needs
+    it**. On a managed site, all of it is invisible.
+  - >-
+    The trade-off is the fee. **$150/mo to make the work disappear.** Compare to
+    the hourly equivalent of doing it yourself.
 faq:
-  - q: 'What do I actually do month to month on a managed site?'
-    a: 'Three things, usually. Forward a review when a customer sends a good one. Ask us to add a new service page or update a price. Approve a blog draft once a month if we are writing content. Total: 30 to 60 minutes. Everything else happens silently.'
+  - q: What do I actually do month to month on a managed site?
+    a: >-
+      Three things, usually. Forward a review when a customer sends a good one.
+      Ask us to add a new service page or update a price. Approve a blog draft
+      once a month if we are writing content. Total: 30 to 60 minutes.
+      Everything else happens silently.
   - q: 'What about Squarespace? It is "easy" to manage, right?'
-    a: 'Easy to use is not the same as easy to maintain. Squarespace is easy enough that owners do not realize how much time they are spending. Plan for: 1–2 hours/month for content edits, an hour every quarter for template updates that broke a layout, a half-day a year for the platform migration that suddenly requires action. None of it is hard. All of it is your time.'
-  - q: 'What can break on a website that does not get maintained?'
-    a: 'Six common failures. Plugins update and conflict. Images stop displaying after a path change. SSL certificates expire. The contact form quietly stops delivering (<a href="/blog/the-contact-form-audit/">1 in 4 forms have this issue</a>). The site drops in Google rankings because something changed and nobody noticed. The site gets hacked and serves spam. Each one is fixable. None of them is glamorous.'
-  - q: 'How often does maintenance actually need to happen?'
-    a: 'Background work: continuous. Security patches monthly, uptime monitoring every 5 minutes, performance check weekly. Visible work: a couple of times a month at most for the average small business. A managed model bundles all of it into the monthly fee.'
-  - q: 'I am technical. Should I just manage it myself?'
-    a: 'You can. The question is whether you should. If your hourly billable rate is $50 or more, the math favors hiring it out. If you have a particular interest in web work, manage it yourself for the joy of it. We have clients in both camps. The wrong move is doing it because you assume hiring it out is unaffordable. <a href="/blog/one-client-pays-for-the-year/">It rarely is.</a>'
-  - q: 'How fast do edits actually happen on a managed site?'
-    a: 'Most edits in the same business day. Bigger changes (a new page, a redesign of a section) typically inside 48 hours. Emergency work (the homepage broke, a wrong phone number) inside an hour. The whole point of the model is that the work is fast and predictable.'
+    a: >-
+      Easy to use is not the same as easy to maintain. Squarespace is easy
+      enough that owners do not realize how much time they are spending. Plan
+      for: 1–2 hours/month for content edits, an hour every quarter for template
+      updates that broke a layout, a half-day a year for the platform migration
+      that suddenly requires action. None of it is hard. All of it is your time.
+  - q: What can break on a website that does not get maintained?
+    a: >-
+      Six common failures. Plugins update and conflict. Images stop displaying
+      after a path change. SSL certificates expire. The contact form quietly
+      stops delivering (<a href="/blog/the-contact-form-audit/">1 in 4 forms
+      have this issue</a>). The site drops in Google rankings because something
+      changed and nobody noticed. The site gets hacked and serves spam. Each one
+      is fixable. None of them is glamorous.
+  - q: How often does maintenance actually need to happen?
+    a: >-
+      Background work: continuous. Security patches monthly, uptime monitoring
+      every 5 minutes, performance check weekly. Visible work: a couple of times
+      a month at most for the average small business. A managed model bundles
+      all of it into the monthly fee.
+  - q: I am technical. Should I just manage it myself?
+    a: >-
+      You can. The question is whether you should. If your hourly billable rate
+      is $50 or more, the math favors hiring it out. If you have a particular
+      interest in web work, manage it yourself for the joy of it. We have
+      clients in both camps. The wrong move is doing it because you assume
+      hiring it out is unaffordable. <a
+      href="/blog/one-client-pays-for-the-year/">It rarely is.</a>
+  - q: How fast do edits actually happen on a managed site?
+    a: >-
+      Most edits in the same business day. Bigger changes (a new page, a
+      redesign of a section) typically inside 48 hours. Emergency work (the
+      homepage broke, a wrong phone number) inside an hour. The whole point of
+      the model is that the work is fast and predictable.
 related:
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
-  - url: /blog/drag-and-drop-vs-hiring/
-    title: 'Drag-and-Drop vs Hiring Someone: What You Actually Get'
-  - url: /blog/website-is-an-asset/
-    title: 'A Website Is an Asset, Not an Expense'
+  - one-client-pays-for-the-year
+  - drag-and-drop-vs-hiring
+  - website-is-an-asset
 ---
 
 The most common reason small business owners delay getting a website is not the cost.

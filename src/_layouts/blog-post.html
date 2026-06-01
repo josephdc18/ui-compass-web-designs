@@ -267,7 +267,7 @@ eleventyComputed:
             {% for item in faq %}
             <details class="faq-item">
               <summary>{{ item.q }}</summary>
-              <div class="faq-answer">{{ item.a | safe }}</div>
+              <div class="faq-answer">{{ item.a | mdBlock | safe }}</div>
             </details>
             {% endfor %}
           </div>
@@ -286,7 +286,7 @@ eleventyComputed:
             "name": {{ item.q | dump | safe }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": {{ item.a | striptags | dump | safe }}
+              "text": {{ item.a | mdBlock | striptags | dump | safe }}
             }
           }{% if not loop.last %},{% endif %}
           {% endfor %}
@@ -296,32 +296,27 @@ eleventyComputed:
       {% endif %}
 
       {#- Related Guides: inline at the bottom of the article. Each entry in
-          `related` frontmatter is { url, title }; we look the url up in
-          collections.post so the card can carry image/topper/date from the
-          actual post. Falls back to a minimal card on no match. -#}
-      {%- if related and related.length > 0 -%}
+          `related` is a pageName slug pointing at another post; we look it
+          up in collections.post and carry image/topper/title/date from the
+          live post data. Orphan slugs (post deleted) silently drop out. -#}
+      {%- set relatedPosts = related | resolveRelatedPosts(collections.post) -%}
+      {%- if relatedPosts.length > 0 -%}
       <section class="post-related" aria-label="Related guides">
         <header class="post-related-header">
           <h2>Related guides</h2>
         </header>
         <div class="post-related-grid">
-          {%- for link in related -%}
-            {%- set match = null -%}
-            {%- for post in collections.post -%}
-              {%- if post.url == link.url -%}{%- set match = post -%}{%- endif -%}
-            {%- endfor -%}
-            <a class="post-related-card" href="{{ link.url }}">
-              {% if match and match.data.image %}
+          {%- for match in relatedPosts -%}
+            <a class="post-related-card" href="{{ match.url }}">
+              {% if match.data.image %}
                 {% image match.data.image, match.data.imageAlt or match.data.blogTitle, 'post-related-image', 'lazy', '(max-width: 700px) 50vw, 320px' %}
               {% endif %}
               <div class="post-related-body">
-                {% if match and match.data.topper %}
+                {% if match.data.topper %}
                 <span class="post-related-topper">{{ match.data.topper }}</span>
                 {% endif %}
-                <h3 class="post-related-title">{{ link.title | default(match.data.blogTitle) }}</h3>
-                {% if match %}
+                <h3 class="post-related-title">{{ match.data.blogTitle }}</h3>
                 <span class="post-related-date">{{ match.date | postDate }}</span>
-                {% endif %}
               </div>
             </a>
           {%- endfor -%}

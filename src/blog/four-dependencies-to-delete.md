@@ -2,46 +2,100 @@
 pageName: four-dependencies-to-delete
 blogTitle: The 4 Dependencies to Delete From Your Small Business Site
 titleTag: 4 Dependencies to Delete From Your Site
-blogDescription: Four files most small business sites ship by default that they almost never need. jQuery, Font Awesome, the Google Fonts CDN link, and blocking JavaScript. Together they add roughly 200KB to every page load and buy you almost nothing.
-author: "Joseph C."
+blogDescription: >-
+  Four files most small business sites ship by default that they almost never
+  need. jQuery, Font Awesome, the Google Fonts CDN link, and blocking
+  JavaScript. Together they add roughly 200KB to every page load and buy you
+  almost nothing.
+author: Joseph C.
 date: 2025-10-15T16:00:00.000Z
 draft: true
 tags:
   - post
   - performance
-category: "Performance"
+category: Performance
 readMins: 6
-topper: "Performance"
+topper: Performance
 image: /assets/images/four-dependencies-to-delete-card.png
-imageAlt: A browser network panel showing four large dependency files dimmed and crossed out
+imageAlt: >-
+  A browser network panel showing four large dependency files dimmed and crossed
+  out
 tldrTitle: Key Takeaways
 tldr:
-  - 'Most small business sites ship roughly **200KB of dependencies they almost never use**: jQuery, Font Awesome, a Google Fonts link tag, and at least one blocking JavaScript file.'
-  - 'Each one has a **lighter replacement**: vanilla JavaScript for jQuery, individual SVG icons for Font Awesome, self-hosted fonts for Google Fonts, and `defer`/`async` for blocking JS.'
-  - 'Removing all four typically moves a **mobile PageSpeed score up by 15 to 25 points** without touching the design or content.'
-  - 'These are punch-list items, not redesigns. Most builds can land all four fixes in a **single afternoon**.'
+  - >-
+    Most small business sites ship roughly **200KB of dependencies they almost
+    never use**: jQuery, Font Awesome, a Google Fonts link tag, and at least one
+    blocking JavaScript file.
+  - >-
+    Each one has a **lighter replacement**: vanilla JavaScript for jQuery,
+    individual SVG icons for Font Awesome, self-hosted fonts for Google Fonts,
+    and `defer`/`async` for blocking JS.
+  - >-
+    Removing all four typically moves a **mobile PageSpeed score up by 15 to 25
+    points** without touching the design or content.
+  - >-
+    These are punch-list items, not redesigns. Most builds can land all four
+    fixes in a **single afternoon**.
 faq:
-  - q: 'Why is jQuery still on so many sites if it is unnecessary?'
-    a: 'Two reasons. First, jQuery was the right answer in 2010, and a lot of templates and plugins from that era still depend on it. Second, page builders include it by default because their internal scripts assume it is available. The fix on a builder is usually a setting or a plugin to dequeue jQuery on the front end. The fix on a hand-coded site is to never include it in the first place.'
-  - q: 'Will my site break if I remove jQuery?'
-    a: 'It can. Anything on the page that calls a jQuery function (e.g. <code>$(...).slideDown()</code>) will throw an error after jQuery is removed. The replacement is vanilla JavaScript (<code>element.classList.add(...)</code>, <code>element.addEventListener(...)</code>). Modern browsers do everything jQuery used to do, with no library required. The migration is usually 15 to 30 minutes per page worth of jQuery code.'
-  - q: 'Why not just use the Font Awesome CDN — is it not free and fast?'
-    a: 'It is free, but it is not free in load time. The default Font Awesome bundle is roughly 75KB (or larger if you include all icon styles). Most sites use 4 to 8 icons. Loading 1,500 icons to use 6 is a 99% waste. Individual SVGs are 1 to 2KB each, total weight under 12KB for the same 6 icons.'
-  - q: 'How do I self-host fonts properly without breaking my CMS?'
-    a: 'Three steps. (1) Download the font files (<code>.woff2</code> format) from Google Fonts. (2) Upload them to your assets folder. (3) Define <code>@font-face</code> rules in your stylesheet pointing to the local files, then remove the Google Fonts <code>&lt;link&gt;</code> tag from your <code>&lt;head&gt;</code>. The CSS is identical for the rest of your styles. Roughly an hour on most builder sites.'
-  - q: 'What is the difference between <code>async</code> and <code>defer</code>?'
-    a: 'Both prevent the browser from blocking on the script. <code>async</code> runs the script as soon as it downloads, in any order. <code>defer</code> runs the script after the HTML is fully parsed, in order. For analytics and third-party scripts, <code>async</code> is fine. For your own scripts that depend on the DOM existing, <code>defer</code> is the right choice. Almost no script on a small business site needs to be blocking.'
-  - q: 'How do I find out which dependencies my site is shipping?'
-    a: 'Open your site in Chrome. Right-click anywhere and pick "Inspect." Click the Network tab. Reload the page. Sort the rows by Size, descending. Anything over 30KB that you did not knowingly add is a dependency you should evaluate. The same view shows you which files are render-blocking (red bars in the timeline at the top of the panel).'
-  - q: 'Will removing these dependencies actually move my PageSpeed score?'
-    a: 'Yes, and the bigger your score gap, the bigger the move. A site at 60 mobile typically jumps to 78–85 after this single pass. A site already at 90+ might gain 3–5 points. Either way, the dependency cleanup is one of the highest-leverage hours of work you can do on a small business site, and it pays back forever. The full math on what each second of speed buys you is in <a href="/blog/the-1-second-tax/">our 1-second-tax post</a>.'
+  - q: Why is jQuery still on so many sites if it is unnecessary?
+    a: >-
+      Two reasons. First, jQuery was the right answer in 2010, and a lot of
+      templates and plugins from that era still depend on it. Second, page
+      builders include it by default because their internal scripts assume it is
+      available. The fix on a builder is usually a setting or a plugin to
+      dequeue jQuery on the front end. The fix on a hand-coded site is to never
+      include it in the first place.
+  - q: Will my site break if I remove jQuery?
+    a: >-
+      It can. Anything on the page that calls a jQuery function (e.g.
+      <code>$(...).slideDown()</code>) will throw an error after jQuery is
+      removed. The replacement is vanilla JavaScript
+      (<code>element.classList.add(...)</code>,
+      <code>element.addEventListener(...)</code>). Modern browsers do everything
+      jQuery used to do, with no library required. The migration is usually 15
+      to 30 minutes per page worth of jQuery code.
+  - q: Why not just use the Font Awesome CDN — is it not free and fast?
+    a: >-
+      It is free, but it is not free in load time. The default Font Awesome
+      bundle is roughly 75KB (or larger if you include all icon styles). Most
+      sites use 4 to 8 icons. Loading 1,500 icons to use 6 is a 99% waste.
+      Individual SVGs are 1 to 2KB each, total weight under 12KB for the same 6
+      icons.
+  - q: How do I self-host fonts properly without breaking my CMS?
+    a: >-
+      Three steps. (1) Download the font files (<code>.woff2</code> format) from
+      Google Fonts. (2) Upload them to your assets folder. (3) Define
+      <code>@font-face</code> rules in your stylesheet pointing to the local
+      files, then remove the Google Fonts <code>&lt;link&gt;</code> tag from
+      your <code>&lt;head&gt;</code>. The CSS is identical for the rest of your
+      styles. Roughly an hour on most builder sites.
+  - q: What is the difference between <code>async</code> and <code>defer</code>?
+    a: >-
+      Both prevent the browser from blocking on the script. <code>async</code>
+      runs the script as soon as it downloads, in any order. <code>defer</code>
+      runs the script after the HTML is fully parsed, in order. For analytics
+      and third-party scripts, <code>async</code> is fine. For your own scripts
+      that depend on the DOM existing, <code>defer</code> is the right choice.
+      Almost no script on a small business site needs to be blocking.
+  - q: How do I find out which dependencies my site is shipping?
+    a: >-
+      Open your site in Chrome. Right-click anywhere and pick "Inspect." Click
+      the Network tab. Reload the page. Sort the rows by Size, descending.
+      Anything over 30KB that you did not knowingly add is a dependency you
+      should evaluate. The same view shows you which files are render-blocking
+      (red bars in the timeline at the top of the panel).
+  - q: Will removing these dependencies actually move my PageSpeed score?
+    a: >-
+      Yes, and the bigger your score gap, the bigger the move. A site at 60
+      mobile typically jumps to 78–85 after this single pass. A site already at
+      90+ might gain 3–5 points. Either way, the dependency cleanup is one of
+      the highest-leverage hours of work you can do on a small business site,
+      and it pays back forever. The full math on what each second of speed buys
+      you is in <a href="/blog/the-1-second-tax/">our 1-second-tax post</a>.
 related:
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - the-1-second-tax
+  - designed-on-a-monitor-used-on-a-phone
+  - redesign-or-optimize-warning-signs
 ---
 
 Most small business websites ship roughly two hundred kilobytes of code they do not use.

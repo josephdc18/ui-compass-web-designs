@@ -2,44 +2,80 @@
 pageName: what-makes-a-website-work
 blogTitle: A Pretty Website That Nobody Finds Is an Expensive Business Card
 titleTag: What Makes a Website Work
-blogDescription: A small business website that actually brings in leads has four properties. It is findable, believable, fast, and convertible. Drop any one and the site is decoration. Here is what each one means and the cost of missing it.
-author: "Joseph C."
+blogDescription: >-
+  A small business website that actually brings in leads has four properties. It
+  is findable, believable, fast, and convertible. Drop any one and the site is
+  decoration. Here is what each one means and the cost of missing it.
+author: Joseph C.
 date: 2026-05-30T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 6
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/what-makes-a-website-work-card.png
 imageAlt: A phone showing a business website with four checkmark icons around it
-tldrTitle: Four properties, all required
+tldrTitle: 'Four properties, all required'
 tldr:
-  - 'Findable. **The site has to rank for what people search.** Without this, the rest does not matter because nobody arrives.'
-  - 'Believable. **The site has to look like a real business in the first 0.05 seconds.** Real photos, real reviews, real address.'
-  - 'Fast. **Under one second on mobile.** Past 3 seconds, you lose 53% of mobile visitors before the page finishes loading.'
-  - 'Convertible. **One visible action on every page.** Phone, form, or book. Not three. The site has to make the next step obvious.'
+  - >-
+    Findable. **The site has to rank for what people search.** Without this, the
+    rest does not matter because nobody arrives.
+  - >-
+    Believable. **The site has to look like a real business in the first 0.05
+    seconds.** Real photos, real reviews, real address.
+  - >-
+    Fast. **Under one second on mobile.** Past 3 seconds, you lose 53% of mobile
+    visitors before the page finishes loading.
+  - >-
+    Convertible. **One visible action on every page.** Phone, form, or book. Not
+    three. The site has to make the next step obvious.
 faq:
   - q: 'If I had to pick one of the four to fix first, which is it?'
-    a: 'Findable. A perfect site nobody arrives at is worth zero. A mediocre site that ranks for your service plus your city brings in leads. Start with SEO foundations: a real domain name, your business address in the page footer, your service-plus-city as the main headline, and three pages of substantive content. Then move to the other three.'
-  - q: 'How fast is fast enough?'
-    a: 'Under one second on mobile. Most builder sites land between 4 and 8 seconds, which kills more than half of mobile visitors before the page renders. <a href="/blog/the-1-second-tax/">A one-second delay drops conversions about 7 percent.</a> The fix is hosting and code quality, not adding "loading" animations.'
-  - q: 'How many calls-to-action should be on a page?'
-    a: 'One. Visible. Above the fold on mobile. The brain gives you one decision per screen. Three CTAs at the top is a confused page. The "Call Now" button or the "Get a Quote" form is the one. Everything else is secondary.'
-  - q: 'What does "believable" actually mean?'
-    a: 'In the first 0.05 seconds, a visitor decides whether the site looks like a real business. They are looking at four things: your photo, your address, your reviews, and the basic competence of the design. Stock photos and "trusted by industry leaders" fail this test instantly. <a href="/blog/trust-signals-that-move-the-needle/">Real photos, named testimonials, dated reviews, and specific certifications</a> pass it.'
-  - q: 'What about design? Where does pretty matter?'
-    a: 'Pretty is the floor, not the ceiling. The site has to not look broken. Past that, design earns the second visit and the referral. It does not, by itself, generate leads. A beautifully designed site that fails the four properties above brings in fewer leads than an ugly site that hits them.'
-  - q: 'How do I know if my current site is working?'
-    a: 'Three numbers tell you. Monthly Google Search Console impressions (findable). Mobile PageSpeed score (fast). Contact form submissions per month (convertible). If impressions are under 1,000, PageSpeed is under 70, or submissions are zero, the site is failing at least one of the four. Reply with your URL and we will tell you which.'
+    a: >-
+      Findable. A perfect site nobody arrives at is worth zero. A mediocre site
+      that ranks for your service plus your city brings in leads. Start with SEO
+      foundations: a real domain name, your business address in the page footer,
+      your service-plus-city as the main headline, and three pages of
+      substantive content. Then move to the other three.
+  - q: How fast is fast enough?
+    a: >-
+      Under one second on mobile. Most builder sites land between 4 and 8
+      seconds, which kills more than half of mobile visitors before the page
+      renders. <a href="/blog/the-1-second-tax/">A one-second delay drops
+      conversions about 7 percent.</a> The fix is hosting and code quality, not
+      adding "loading" animations.
+  - q: How many calls-to-action should be on a page?
+    a: >-
+      One. Visible. Above the fold on mobile. The brain gives you one decision
+      per screen. Three CTAs at the top is a confused page. The "Call Now"
+      button or the "Get a Quote" form is the one. Everything else is secondary.
+  - q: What does "believable" actually mean?
+    a: >-
+      In the first 0.05 seconds, a visitor decides whether the site looks like a
+      real business. They are looking at four things: your photo, your address,
+      your reviews, and the basic competence of the design. Stock photos and
+      "trusted by industry leaders" fail this test instantly. <a
+      href="/blog/trust-signals-that-move-the-needle/">Real photos, named
+      testimonials, dated reviews, and specific certifications</a> pass it.
+  - q: What about design? Where does pretty matter?
+    a: >-
+      Pretty is the floor, not the ceiling. The site has to not look broken.
+      Past that, design earns the second visit and the referral. It does not, by
+      itself, generate leads. A beautifully designed site that fails the four
+      properties above brings in fewer leads than an ugly site that hits them.
+  - q: How do I know if my current site is working?
+    a: >-
+      Three numbers tell you. Monthly Google Search Console impressions
+      (findable). Mobile PageSpeed score (fast). Contact form submissions per
+      month (convertible). If impressions are under 1,000, PageSpeed is under
+      70, or submissions are zero, the site is failing at least one of the four.
+      Reply with your URL and we will tell you which.
 related:
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
+  - the-seven-homepage-sections
+  - trust-signals-that-move-the-needle
+  - the-1-second-tax
 ---
 
 A pretty website that nobody finds is an expensive business card.

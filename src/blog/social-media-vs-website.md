@@ -2,44 +2,92 @@
 pageName: social-media-vs-website
 blogTitle: Your Instagram Handle Is Not Yours. A Website Is.
 titleTag: Social Media vs Website
-blogDescription: Building your business on social media alone is renting. The algorithm decides who sees your posts. The platform decides whether your account stays up. A website is the only thing online that is actually yours, and the only address customers can find when the rest goes dark.
-author: "Joseph C."
+blogDescription: >-
+  Building your business on social media alone is renting. The algorithm decides
+  who sees your posts. The platform decides whether your account stays up. A
+  website is the only thing online that is actually yours, and the only address
+  customers can find when the rest goes dark.
+author: Joseph C.
 date: 2026-05-16T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 6
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/social-media-vs-website-card.png
-imageAlt: A social media feed icon on the left, a website icon on the right, with a contract or deed between them
+imageAlt: >-
+  A social media feed icon on the left, a website icon on the right, with a
+  contract or deed between them
 tldrTitle: Key Takeaways
 tldr:
-  - 'Social media is rented audience. **You do not own the followers.** Instagram, TikTok, and Facebook decide who sees your posts, and they change that decision often.'
-  - 'A website is owned audience. The domain is yours. The email list is yours. The analytics are yours. **None of that is recoverable from a platform suspension.**'
-  - 'Customers Google a business before they call it. **Around half of prospects will not contact you if the only result is a social profile.** They want a real address, real hours, real reviews on a real site.'
-  - 'Social and website are not opposites. **The right setup uses social as the front porch and the website as the house.** Posts drive traffic. The site does the selling.'
+  - >-
+    Social media is rented audience. **You do not own the followers.**
+    Instagram, TikTok, and Facebook decide who sees your posts, and they change
+    that decision often.
+  - >-
+    A website is owned audience. The domain is yours. The email list is yours.
+    The analytics are yours. **None of that is recoverable from a platform
+    suspension.**
+  - >-
+    Customers Google a business before they call it. **Around half of prospects
+    will not contact you if the only result is a social profile.** They want a
+    real address, real hours, real reviews on a real site.
+  - >-
+    Social and website are not opposites. **The right setup uses social as the
+    front porch and the website as the house.** Posts drive traffic. The site
+    does the selling.
 faq:
-  - q: 'I have a Facebook page with thousands of followers. Why do I need a website?'
-    a: 'Your followers are leased from Facebook. They show you the page to a small fraction of those followers, decided by an algorithm you do not control. If you get suspended, the followers do not transfer. A website is independent of that. You own the domain, you own the email list, and your customers can find you whether or not Facebook decides to surface your posts.'
-  - q: 'Has anyone actually lost their business from a social media suspension?'
-    a: 'Regularly. We have heard from owners whose Instagram accounts were locked after a hack and never recovered, owners whose Facebook pages were taken down for ambiguous community-standards violations and waited eighteen months for review, and owners whose TikTok shop accounts were closed without explanation. In each case, business kept running because there was a website to send people to.'
-  - q: 'Can I just use Linktree or a Beacons page instead of a website?'
-    a: 'Linktree is a list of links. It does not rank in Google search results, it does not capture leads on its own, and it lives on another company you do not control. If a single page is all you need, building it on your own domain costs the same as Linktree and gives you ownership, search visibility, and analytics.'
-  - q: 'Does Google rank social profiles?'
-    a: 'For brand-name searches, yes. For service searches ("plumber in Plano," "wedding photographer Fort Worth"), Google strongly prefers websites with structured information, real reviews, and local SEO signals. A social profile alone rarely ranks for those terms in the DFW metroplex.'
-  - q: 'How long does it take to build the owned audience?'
-    a: 'Faster than people think. A website with a contact form and a free guide can collect emails within the first month. Even without a list, a hand-coded site at <a href="/blog/hosting-decides-your-performance-ceiling/">premium hosting</a> hits Google index in a week and starts showing up for local searches inside a month.'
-  - q: 'Should I still post on social media?'
-    a: 'Yes. Social is excellent for top-of-funnel reach. Use posts to attract attention, then send people to a page on your site that captures the email or books the call. The website is the salesperson. Social is the flyer in the mailbox.'
+  - q: >-
+      I have a Facebook page with thousands of followers. Why do I need a
+      website?
+    a: >-
+      Your followers are leased from Facebook. They show you the page to a small
+      fraction of those followers, decided by an algorithm you do not control.
+      If you get suspended, the followers do not transfer. A website is
+      independent of that. You own the domain, you own the email list, and your
+      customers can find you whether or not Facebook decides to surface your
+      posts.
+  - q: Has anyone actually lost their business from a social media suspension?
+    a: >-
+      Regularly. We have heard from owners whose Instagram accounts were locked
+      after a hack and never recovered, owners whose Facebook pages were taken
+      down for ambiguous community-standards violations and waited eighteen
+      months for review, and owners whose TikTok shop accounts were closed
+      without explanation. In each case, business kept running because there was
+      a website to send people to.
+  - q: Can I just use Linktree or a Beacons page instead of a website?
+    a: >-
+      Linktree is a list of links. It does not rank in Google search results, it
+      does not capture leads on its own, and it lives on another company you do
+      not control. If a single page is all you need, building it on your own
+      domain costs the same as Linktree and gives you ownership, search
+      visibility, and analytics.
+  - q: Does Google rank social profiles?
+    a: >-
+      For brand-name searches, yes. For service searches ("plumber in Plano,"
+      "wedding photographer Fort Worth"), Google strongly prefers websites with
+      structured information, real reviews, and local SEO signals. A social
+      profile alone rarely ranks for those terms in the DFW metroplex.
+  - q: How long does it take to build the owned audience?
+    a: >-
+      Faster than people think. A website with a contact form and a free guide
+      can collect emails within the first month. Even without a list, a
+      hand-coded site at <a
+      href="/blog/hosting-decides-your-performance-ceiling/">premium hosting</a>
+      hits Google index in a week and starts showing up for local searches
+      inside a month.
+  - q: Should I still post on social media?
+    a: >-
+      Yes. Social is excellent for top-of-funnel reach. Use posts to attract
+      attention, then send people to a page on your site that captures the email
+      or books the call. The website is the salesperson. Social is the flyer in
+      the mailbox.
 related:
-  - url: /blog/what-makes-a-website-work/
-    title: 'What Makes a Small Business Website Actually Work'
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
-  - url: /blog/website-is-an-asset/
-    title: 'A Website Is an Asset, Not an Expense'
+  - what-makes-a-website-work
+  - one-client-pays-for-the-year
+  - website-is-an-asset
 ---
 
 Your Instagram handle is not yours.

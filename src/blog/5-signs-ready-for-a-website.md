@@ -2,45 +2,83 @@
 pageName: 5-signs-ready-for-a-website
 blogTitle: 5 Signs You're Ready for a Website (And 2 Signs You Are Not)
 titleTag: Ready for a Website?
-blogDescription: Not every business needs a website on day one. Here are the five signals that mean the time is now, the two signals that mean wait, and the math that makes the decision concrete instead of guilty.
-author: "Joseph C."
+blogDescription: >-
+  Not every business needs a website on day one. Here are the five signals that
+  mean the time is now, the two signals that mean wait, and the math that makes
+  the decision concrete instead of guilty.
+author: Joseph C.
 date: 2026-05-20T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 5
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/5-signs-ready-for-a-website-card.png
-imageAlt: A checklist with five items checked off in green and two crossed out, on a desk next to a phone
+imageAlt: >-
+  A checklist with five items checked off in green and two crossed out, on a
+  desk next to a phone
 tldrTitle: Five signs you are ready
 tldr:
-  - 'Customers keep asking for one. **If you cannot point a prospect at a URL, you lose them at the first handoff.**'
-  - 'You are paying for ads or referrals. **Without a website you are sending those leads to a phone that may not be answered.** A landing page closes more of them.'
-  - 'Your competitor has one. **Even a mediocre site beats no site at all** because Google has nothing of yours to rank.'
-  - 'You can describe your service in one sentence. **If you cannot, the website is not the problem. The offer is.** Fix that first.'
-  - 'You have one consistent piece of credibility. **A review, a credential, a customer photo.** Without one, the site cannot do its job.'
+  - >-
+    Customers keep asking for one. **If you cannot point a prospect at a URL,
+    you lose them at the first handoff.**
+  - >-
+    You are paying for ads or referrals. **Without a website you are sending
+    those leads to a phone that may not be answered.** A landing page closes
+    more of them.
+  - >-
+    Your competitor has one. **Even a mediocre site beats no site at all**
+    because Google has nothing of yours to rank.
+  - >-
+    You can describe your service in one sentence. **If you cannot, the website
+    is not the problem. The offer is.** Fix that first.
+  - >-
+    You have one consistent piece of credibility. **A review, a credential, a
+    customer photo.** Without one, the site cannot do its job.
 faq:
-  - q: 'I am brand new. Should I get a website before I have customers?'
-    a: 'Probably not, but get the domain. Domains cost about ten dollars a year and good ones get taken. Register yourbusiness.com today even if the site comes later. Build the actual site when you have one paying customer and a clear sentence describing what you do. Both are usually visible by month two or three.'
-  - q: 'My business is mostly word of mouth. Do I still need a site?'
-    a: 'Yes, more than most. Word-of-mouth referrals end with the friend saying "Look them up." If there is nothing to look up, half of those referrals never call. The website turns warm referrals into closed appointments because it answers their next five questions before they have to ask.'
-  - q: 'How small is too small for a website?'
-    a: 'One person, zero employees, no customers yet: probably too small. Two paying customers, a phone number you answer, and one sentence describing what you do: ready. The bar is lower than people think.'
-  - q: 'I have a Google Business Profile. Is that enough?'
-    a: 'For a fully booked local business in one zip code, sometimes. For everyone else, no. <a href="/blog/social-media-vs-website/">A Google Business listing is rented space</a>, with no email capture, no portfolio, and no SEO ownership. It is a tool, not a foundation.'
-  - q: 'Two signs I am NOT ready?'
-    a: 'First: you cannot describe your service in one sentence. A website cannot fix a fuzzy offer. Fix the offer first or the site will be a $1,800-a-year ad for confusion. Second: you have no credibility yet. No reviews, no portfolio, no credential, no customer photos. The website will read as empty. Spend three months getting that first real review or testimonial, then build.'
-  - q: 'What is the cost of waiting?'
-    a: 'About half the prospects who Google your business and find nothing will not pursue you. The cost of waiting is the leads you never see. We do not bill those.'
+  - q: I am brand new. Should I get a website before I have customers?
+    a: >-
+      Probably not, but get the domain. Domains cost about ten dollars a year
+      and good ones get taken. Register yourbusiness.com today even if the site
+      comes later. Build the actual site when you have one paying customer and a
+      clear sentence describing what you do. Both are usually visible by month
+      two or three.
+  - q: My business is mostly word of mouth. Do I still need a site?
+    a: >-
+      Yes, more than most. Word-of-mouth referrals end with the friend saying
+      "Look them up." If there is nothing to look up, half of those referrals
+      never call. The website turns warm referrals into closed appointments
+      because it answers their next five questions before they have to ask.
+  - q: How small is too small for a website?
+    a: >-
+      One person, zero employees, no customers yet: probably too small. Two
+      paying customers, a phone number you answer, and one sentence describing
+      what you do: ready. The bar is lower than people think.
+  - q: I have a Google Business Profile. Is that enough?
+    a: >-
+      For a fully booked local business in one zip code, sometimes. For everyone
+      else, no. <a href="/blog/social-media-vs-website/">A Google Business
+      listing is rented space</a>, with no email capture, no portfolio, and no
+      SEO ownership. It is a tool, not a foundation.
+  - q: Two signs I am NOT ready?
+    a: >-
+      First: you cannot describe your service in one sentence. A website cannot
+      fix a fuzzy offer. Fix the offer first or the site will be a $1,800-a-year
+      ad for confusion. Second: you have no credibility yet. No reviews, no
+      portfolio, no credential, no customer photos. The website will read as
+      empty. Spend three months getting that first real review or testimonial,
+      then build.
+  - q: What is the cost of waiting?
+    a: >-
+      About half the prospects who Google your business and find nothing will
+      not pursue you. The cost of waiting is the leads you never see. We do not
+      bill those.
 related:
-  - url: /blog/social-media-vs-website/
-    title: 'Your Instagram Handle Is Not Yours. A Website Is.'
-  - url: /blog/small-business-website-cost/
-    title: 'What Does a Small Business Website Actually Cost?'
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
+  - social-media-vs-website
+  - small-business-website-cost
+  - one-client-pays-for-the-year
 ---
 
 Not every business needs a website on day one.

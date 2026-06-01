@@ -2,48 +2,119 @@
 pageName: a-performance-budget-is-a-json-file
 blogTitle: A Performance Budget Is a JSON File Your Build Fails On
 titleTag: A Performance Budget Is a JSON File
-blogDescription: A site at 95 PageSpeed today is a site at 70 PageSpeed in six months. Plugins update. Images get uploaded oversized. Scripts get added. A performance budget is the small JSON file that fails the deploy when any of those things happen, so the regression never reaches production.
-author: "Joseph C."
+blogDescription: >-
+  A site at 95 PageSpeed today is a site at 70 PageSpeed in six months. Plugins
+  update. Images get uploaded oversized. Scripts get added. A performance budget
+  is the small JSON file that fails the deploy when any of those things happen,
+  so the regression never reaches production.
+author: Joseph C.
 date: 2025-10-03T16:00:00.000Z
 draft: true
 tags:
   - post
   - performance
-category: "Performance"
+category: Performance
 readMins: 6
-topper: "Performance"
+topper: Performance
 image: /assets/images/a-performance-budget-is-a-json-file-card.png
-imageAlt: A terminal window showing a build process failing with a performance budget violation, alongside a JSON config file
+imageAlt: >-
+  A terminal window showing a build process failing with a performance budget
+  violation, alongside a JSON config file
 tldrTitle: Key Takeaways
 tldr:
-  - 'Most sites that ship at **95 PageSpeed** drift back to **70 within six months**. Plugins update, images get uploaded oversized, third-party scripts get added. The site rots quietly.'
-  - 'A **performance budget** is a small JSON file your build process reads. If any deploy exceeds the thresholds (image weight, script size, LCP, CLS), **the build fails before reaching production**.'
-  - 'Five thresholds worth budgeting: **total page weight** (under 1MB), **JavaScript bundle** (under 200KB), **CSS** (under 80KB), **largest image** (under 200KB), **LCP** (under 2.5s).'
-  - 'Setup is roughly **30 minutes** once. After that, performance is enforced automatically. The team that uploads the 4MB hero photo gets a red error in CI instead of a silent score drop on production.'
+  - >-
+    Most sites that ship at **95 PageSpeed** drift back to **70 within six
+    months**. Plugins update, images get uploaded oversized, third-party scripts
+    get added. The site rots quietly.
+  - >-
+    A **performance budget** is a small JSON file your build process reads. If
+    any deploy exceeds the thresholds (image weight, script size, LCP, CLS),
+    **the build fails before reaching production**.
+  - >-
+    Five thresholds worth budgeting: **total page weight** (under 1MB),
+    **JavaScript bundle** (under 200KB), **CSS** (under 80KB), **largest image**
+    (under 200KB), **LCP** (under 2.5s).
+  - >-
+    Setup is roughly **30 minutes** once. After that, performance is enforced
+    automatically. The team that uploads the 4MB hero photo gets a red error in
+    CI instead of a silent score drop on production.
 faq:
-  - q: 'What is a performance budget exactly?'
-    a: 'A small configuration file (typically JSON) that lists threshold values for performance metrics: maximum page weight, maximum JavaScript size, maximum LCP time, etc. The values are enforced by a build tool that runs as part of your deploy pipeline. When a change violates one or more thresholds, the build fails and the change does not reach production. The pattern is borrowed from financial budgeting — you decide the limits in advance, and the spending gets caught at the line item, not at year-end.'
-  - q: 'Which tool actually enforces the budget?'
-    a: 'Several options. <strong><a href="https://github.com/GoogleChrome/lighthouse-ci">Lighthouse CI</a></strong> is the most popular and runs the same Lighthouse audit as <a href="/blog/the-1-second-tax/">PageSpeed Insights</a> against your built site. <strong>bundlesize</strong> is a smaller tool that just checks JavaScript and CSS file sizes. <strong>SpeedCurve</strong> and <strong>Calibre</strong> are paid commercial options with more sophisticated dashboards. For most small business sites, Lighthouse CI in the open-source version (free) is enough.'
-  - q: 'Will this work on WordPress?'
-    a: 'Yes, but with caveats. Lighthouse CI runs against a deployed URL, so the workflow is "deploy to staging, run audit, if it passes, promote to production." That works on managed hosting (WP Engine, Kinsta) that have a staging environment. Shared hosting without a staging URL is harder. Plugin updates that drop your score still get caught — they just get caught after they reach staging instead of before.'
-  - q: 'What thresholds should a small business site actually set?'
-    a: 'Conservative defaults that we recommend: total page weight under 1MB, JavaScript under 200KB, CSS under 80KB, single largest image under 200KB, <a href="/blog/the-1-second-tax/">LCP under 2.5 seconds</a>, CLS under 0.1, INP under 200ms. Start there. If the site is heavier than these (most builder-template sites are 2-4MB), set the initial budget at "current weight" and tighten it month by month as you ship optimizations.'
-  - q: 'What happens when a deploy violates the budget?'
-    a: 'The build process fails. Lighthouse CI (or whichever tool you use) returns a non-zero exit code, the CI/CD pipeline sees the failure, and the deploy is blocked. The developer or content editor sees the error message immediately: "Page weight exceeds budget (1.4MB > 1.0MB)." They fix the issue (usually by resizing the image they just uploaded) and retry. Production never sees the regression.'
-  - q: 'Is this overkill for a small business site?'
-    a: 'No, but it does require a build process to begin with. Hand-coded static sites (Eleventy, Astro, Hugo) have one by default. WordPress sites with managed hosting often have one or can have one added. Wix and Squarespace generally do not. If your site is on a builder without a build step, the performance budget conversation is actually a <a href="/blog/the-10x-load-time-gap/">platform conversation</a> — the budget is the symptom, the platform is the cause.'
-  - q: 'How does this connect to the four-dependencies-to-delete and font-subsetting posts?'
-    a: 'A performance budget is the structural enforcement layer for everything those posts describe. <a href="/blog/four-dependencies-to-delete/">Remove the 4 dependencies</a>, <a href="/blog/a-36kb-png-becomes-a-2kb-svg/">cut image weight</a>, <a href="/blog/font-subsetting-180kb-to-18kb/">subset your fonts</a> — then the budget locks the gains in place so they cannot quietly come back. Without the budget, every cleanup pass has a 6-month half-life.'
-  - q: 'What is the most common budget violation in practice?'
-    a: 'An image uploaded straight from a phone camera or stock library, at the original resolution (3000–5000 pixels wide, 2–6MB). The image looks fine in the editor and on the staging preview. The performance budget catches it on the next build because the page weight crossed the threshold. Without the budget, the 4MB image ships to production and the mobile PageSpeed score drops 15 points overnight with nobody knowing why.'
+  - q: What is a performance budget exactly?
+    a: >-
+      A small configuration file (typically JSON) that lists threshold values
+      for performance metrics: maximum page weight, maximum JavaScript size,
+      maximum LCP time, etc. The values are enforced by a build tool that runs
+      as part of your deploy pipeline. When a change violates one or more
+      thresholds, the build fails and the change does not reach production. The
+      pattern is borrowed from financial budgeting — you decide the limits in
+      advance, and the spending gets caught at the line item, not at year-end.
+  - q: Which tool actually enforces the budget?
+    a: >-
+      Several options. <strong><a
+      href="https://github.com/GoogleChrome/lighthouse-ci">Lighthouse
+      CI</a></strong> is the most popular and runs the same Lighthouse audit as
+      <a href="/blog/the-1-second-tax/">PageSpeed Insights</a> against your
+      built site. <strong>bundlesize</strong> is a smaller tool that just checks
+      JavaScript and CSS file sizes. <strong>SpeedCurve</strong> and
+      <strong>Calibre</strong> are paid commercial options with more
+      sophisticated dashboards. For most small business sites, Lighthouse CI in
+      the open-source version (free) is enough.
+  - q: Will this work on WordPress?
+    a: >-
+      Yes, but with caveats. Lighthouse CI runs against a deployed URL, so the
+      workflow is "deploy to staging, run audit, if it passes, promote to
+      production." That works on managed hosting (WP Engine, Kinsta) that have a
+      staging environment. Shared hosting without a staging URL is harder.
+      Plugin updates that drop your score still get caught — they just get
+      caught after they reach staging instead of before.
+  - q: What thresholds should a small business site actually set?
+    a: >-
+      Conservative defaults that we recommend: total page weight under 1MB,
+      JavaScript under 200KB, CSS under 80KB, single largest image under 200KB,
+      <a href="/blog/the-1-second-tax/">LCP under 2.5 seconds</a>, CLS under
+      0.1, INP under 200ms. Start there. If the site is heavier than these (most
+      builder-template sites are 2-4MB), set the initial budget at "current
+      weight" and tighten it month by month as you ship optimizations.
+  - q: What happens when a deploy violates the budget?
+    a: >-
+      The build process fails. Lighthouse CI (or whichever tool you use) returns
+      a non-zero exit code, the CI/CD pipeline sees the failure, and the deploy
+      is blocked. The developer or content editor sees the error message
+      immediately: "Page weight exceeds budget (1.4MB > 1.0MB)." They fix the
+      issue (usually by resizing the image they just uploaded) and retry.
+      Production never sees the regression.
+  - q: Is this overkill for a small business site?
+    a: >-
+      No, but it does require a build process to begin with. Hand-coded static
+      sites (Eleventy, Astro, Hugo) have one by default. WordPress sites with
+      managed hosting often have one or can have one added. Wix and Squarespace
+      generally do not. If your site is on a builder without a build step, the
+      performance budget conversation is actually a <a
+      href="/blog/the-10x-load-time-gap/">platform conversation</a> — the budget
+      is the symptom, the platform is the cause.
+  - q: >-
+      How does this connect to the four-dependencies-to-delete and
+      font-subsetting posts?
+    a: >-
+      A performance budget is the structural enforcement layer for everything
+      those posts describe. <a href="/blog/four-dependencies-to-delete/">Remove
+      the 4 dependencies</a>, <a href="/blog/a-36kb-png-becomes-a-2kb-svg/">cut
+      image weight</a>, <a href="/blog/font-subsetting-180kb-to-18kb/">subset
+      your fonts</a> — then the budget locks the gains in place so they cannot
+      quietly come back. Without the budget, every cleanup pass has a 6-month
+      half-life.
+  - q: What is the most common budget violation in practice?
+    a: >-
+      An image uploaded straight from a phone camera or stock library, at the
+      original resolution (3000–5000 pixels wide, 2–6MB). The image looks fine
+      in the editor and on the staging preview. The performance budget catches
+      it on the next build because the page weight crossed the threshold.
+      Without the budget, the 4MB image ships to production and the mobile
+      PageSpeed score drops 15 points overnight with nobody knowing why.
 related:
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/four-dependencies-to-delete/
-    title: 'The 4 Dependencies to Delete From Your Small Business Site'
-  - url: /blog/hosting-decides-your-performance-ceiling/
-    title: 'Your Hosting Decides Your Performance Ceiling'
+  - the-1-second-tax
+  - four-dependencies-to-delete
+  - hosting-decides-your-performance-ceiling
 ---
 
 A site that ships at 95 PageSpeed today is, statistically, a site at 70 PageSpeed in six months.

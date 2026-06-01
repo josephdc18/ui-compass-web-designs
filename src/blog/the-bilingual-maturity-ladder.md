@@ -1,45 +1,101 @@
 ---
 pageName: the-bilingual-maturity-ladder
-blogTitle: The Bilingual Maturity Ladder, A Playbook for English/Spanish Sites
+blogTitle: 'The Bilingual Maturity Ladder, A Playbook for English/Spanish Sites'
 titleTag: The Bilingual Maturity Ladder
-blogDescription: A practical playbook for DFW businesses serving both English- and Spanish-speaking customers. The four failure modes that quietly cost you the second market, the five stages of a mature bilingual site, and the six-part operational playbook to get there.
-author: "Joseph C."
+blogDescription: >-
+  A practical playbook for DFW businesses serving both English- and
+  Spanish-speaking customers. The four failure modes that quietly cost you the
+  second market, the five stages of a mature bilingual site, and the six-part
+  operational playbook to get there.
+author: Joseph C.
 date: 2026-05-04T16:00:00.000Z
 draft: true
 tags:
   - post
   - seo
-category: "SEO"
+category: SEO
 readMins: 14
-topper: "SEO"
+topper: SEO
 image: /assets/images/the-bilingual-maturity-ladder-card.png
 imageAlt: A bilingual web designer reviewing English and Spanish layouts side by side
 tldrTitle: Key Takeaways
 tldr:
-  - 'A mature bilingual site isn''t a translated one — it''s **localized**, **operationalized**, and **measured** separately per language.'
-  - 'Four failure modes most sites hit: the **Two-Site Tax**, the **Toggle Trap**, the **Cultural Mismatch**, and the **Orphaned Market**.'
-  - 'URL structure should be a subdirectory (<code>/es/</code>), not a subdomain. Bidirectional <code>hreflang</code>. Per-language canonicals.'
-  - 'Each language needs a **named owner**, its own content calendar, and its own conversion metrics.'
+  - >-
+    A mature bilingual site isn't a translated one — it's **localized**,
+    **operationalized**, and **measured** separately per language.
+  - >-
+    Four failure modes most sites hit: the **Two-Site Tax**, the **Toggle
+    Trap**, the **Cultural Mismatch**, and the **Orphaned Market**.
+  - >-
+    URL structure should be a subdirectory (<code>/es/</code>), not a subdomain.
+    Bidirectional <code>hreflang</code>. Per-language canonicals.
+  - >-
+    Each language needs a **named owner**, its own content calendar, and its own
+    conversion metrics.
 faq:
-  - q: 'Should I run one bilingual site or two separate sites?'
-    a: 'For almost every DFW business under $50M in revenue, one site with proper subdirectory structure (<code>/es/</code>) is the right answer. Two sites split your SEO authority, double your operating cost, and almost always lead to one side falling behind. Two sites only make sense when you''re running two fundamentally different businesses that happen to share a brand.'
-  - q: 'Will Google penalize me for duplicate content if I publish the same article in two languages?'
-    a: 'No. This is one of the most persistent myths in bilingual SEO. Translated content is not duplicate content in Google''s eyes — as long as your <code>hreflang</code> tags are configured correctly and each language version has a self-referencing canonical, you''re fine.'
-  - q: 'Subdomain (<code>es.mysite.com</code>) or subdirectory (<code>mysite.com/es/</code>)?'
-    a: 'Subdirectory, almost always. It inherits domain authority, simplifies analytics, and <code>hreflang</code> works without fighting the indexer. Subdomains split authority. Country-code domains only make sense if you''re running a fundamentally separate operation in another country.'
-  - q: 'Can I just use Google Translate or AI for the whole Spanish side?'
-    a: 'For drafts, sure. For publishing, no. A native Spanish speaker spots a mechanical translation in five seconds — and that destroys trust before they read your value proposition. Use AI for first drafts, then have a human writer rewrite for cultural fit.'
-  - q: 'Should I have a language switcher in my navigation?'
-    a: 'Yes — but the switcher is not the language layer. A discreet EN/ES switcher in your header is the right affordance for visitors who land on the wrong version. If clicking it takes the visitor to a real, separate URL with its own canonical, hreflang, and natively-authored content, you''re fine. If it just swaps text on a single URL, you have a Toggle Trap.'
-  - q: 'How do I measure whether the Spanish side is working?'
-    a: 'Segment GA4 by <code>pagePath</code> starting with <code>/es/</code>. Track conversion rate, pages per session, and form completions — compared against the English side, not in the absolute. Spanish bounce rates and time-on-page will differ from English. Don''t normalize them. Track each market against its own baseline.'
-  - q: 'My Spanish side feels dead. Is it worth reviving or should I just shut it down?'
-    a: 'Depends on whether anyone owns it going forward. If you can name a person who will be responsible for the Spanish side a year from now, revive it. If you can''t, formally retire it instead of letting it rot in public. The middle ground — leaving a dead version live — is worse for your brand than not offering it at all.'
-  - q: 'How is this different from just hiring a translator?'
-    a: 'A translator moves words between languages. A bilingual site needs more than that: someone deciding which sections exist on each side, which proof points to lead with, how the conversion paths differ, how each market''s analytics is read, and how the operation keeps both sides alive over time. A translator is one input. The Playbook is the framework for the rest.'
+  - q: Should I run one bilingual site or two separate sites?
+    a: >-
+      For almost every DFW business under $50M in revenue, one site with proper
+      subdirectory structure (<code>/es/</code>) is the right answer. Two sites
+      split your SEO authority, double your operating cost, and almost always
+      lead to one side falling behind. Two sites only make sense when you're
+      running two fundamentally different businesses that happen to share a
+      brand.
+  - q: >-
+      Will Google penalize me for duplicate content if I publish the same
+      article in two languages?
+    a: >-
+      No. This is one of the most persistent myths in bilingual SEO. Translated
+      content is not duplicate content in Google's eyes — as long as your
+      <code>hreflang</code> tags are configured correctly and each language
+      version has a self-referencing canonical, you're fine.
+  - q: >-
+      Subdomain (<code>es.mysite.com</code>) or subdirectory
+      (<code>mysite.com/es/</code>)?
+    a: >-
+      Subdirectory, almost always. It inherits domain authority, simplifies
+      analytics, and <code>hreflang</code> works without fighting the indexer.
+      Subdomains split authority. Country-code domains only make sense if you're
+      running a fundamentally separate operation in another country.
+  - q: Can I just use Google Translate or AI for the whole Spanish side?
+    a: >-
+      For drafts, sure. For publishing, no. A native Spanish speaker spots a
+      mechanical translation in five seconds — and that destroys trust before
+      they read your value proposition. Use AI for first drafts, then have a
+      human writer rewrite for cultural fit.
+  - q: Should I have a language switcher in my navigation?
+    a: >-
+      Yes — but the switcher is not the language layer. A discreet EN/ES
+      switcher in your header is the right affordance for visitors who land on
+      the wrong version. If clicking it takes the visitor to a real, separate
+      URL with its own canonical, hreflang, and natively-authored content,
+      you're fine. If it just swaps text on a single URL, you have a Toggle
+      Trap.
+  - q: How do I measure whether the Spanish side is working?
+    a: >-
+      Segment GA4 by <code>pagePath</code> starting with <code>/es/</code>.
+      Track conversion rate, pages per session, and form completions — compared
+      against the English side, not in the absolute. Spanish bounce rates and
+      time-on-page will differ from English. Don't normalize them. Track each
+      market against its own baseline.
+  - q: >-
+      My Spanish side feels dead. Is it worth reviving or should I just shut it
+      down?
+    a: >-
+      Depends on whether anyone owns it going forward. If you can name a person
+      who will be responsible for the Spanish side a year from now, revive it.
+      If you can't, formally retire it instead of letting it rot in public. The
+      middle ground — leaving a dead version live — is worse for your brand than
+      not offering it at all.
+  - q: How is this different from just hiring a translator?
+    a: >-
+      A translator moves words between languages. A bilingual site needs more
+      than that: someone deciding which sections exist on each side, which proof
+      points to lead with, how the conversion paths differ, how each market's
+      analytics is read, and how the operation keeps both sides alive over time.
+      A translator is one input. The Playbook is the framework for the rest.
 related:
-  - url: /blog/comparing-local-dfw-web-design-companies/
-    title: Comparing Local DFW Web Design Companies
+  - comparing-local-dfw-web-design-companies
 ---
 
 A practical playbook for DFW businesses serving both English- and Spanish-speaking customers, written by a studio that has been doing this for a decade. The Hispanic market in North Texas is not a translation problem. Treating it as one is the most expensive mistake we see, and the four failure modes below are the receipts.

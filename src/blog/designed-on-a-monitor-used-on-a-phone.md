@@ -2,17 +2,19 @@
 blogTitle: Designed on a 27-inch Monitor. Used on a 6-inch Phone.
 pageName: designed-on-a-monitor-used-on-a-phone
 titleTag: Mobile-First Web Design for Small Businesses
-blogDescription: Around 60% of your visitors are on a phone, but most small
-  business websites are still designed desktop-first and "shrunk" for mobile.
-  How mobile-first web design works, the 5 breakpoints we use on every build,
-  and the 3-rule container pattern that fixes most layout bugs.
+blogDescription: >-
+  Around 60% of your visitors are on a phone, but most small business websites
+  are still designed desktop-first and "shrunk" for mobile. How mobile-first web
+  design works, the 5 breakpoints we use on every build, and the 3-rule
+  container pattern that fixes most layout bugs.
 author: Joseph C.
 authorImage: /assets/images/uploads/joseph-face.png
 date: 2026-04-17T16:00:00.000Z
 topper: Performance
 image: /assets/images/designed-on-a-monitor-used-on-a-phone-card.png
-imageAlt: A 27-inch monitor next to a small smartphone showing the same website
-  rendered at very different sizes
+imageAlt: >-
+  A 27-inch monitor next to a small smartphone showing the same website rendered
+  at very different sizes
 draft: false
 tags:
   - post
@@ -20,33 +22,42 @@ tags:
   - design
 tldrTitle: Key Takeaways
 tldr:
-  - Around **60% of small business traffic is on mobile**. Most builder sites
+  - >-
+    Around **60% of small business traffic is on mobile**. Most builder sites
     are still designed at 27-inch monitor size and "shrunk" for phones.
-  - "**Mobile-first web design** means writing the 320-pixel phone layout first,
+  - >-
+    **Mobile-first web design** means writing the 320-pixel phone layout first,
     then adding desktop on top. The reverse is what most builders ship and where
-    most phone-layout bugs come from."
-  - "Five breakpoints cover every screen worth designing for: **400, 568, 768,
+    most phone-layout bugs come from.
+  - >-
+    Five breakpoints cover every screen worth designing for: **400, 568, 768,
     1024, and 1300 pixels**. Anything more is micro-tuning for devices nobody
-    uses."
-  - Most phone-layout problems are **container problems**. One CSS rule per
+    uses.
+  - >-
+    Most phone-layout problems are **container problems**. One CSS rule per
     section fixes most of them.
 faq:
   - q: What is wrong with designing a website desktop-first?
-    a: Each desktop-first breakpoint is a decision about what to take away. Three
+    a: >-
+      Each desktop-first breakpoint is a decision about what to take away. Three
       columns at 1280 pixels need to become two at 1024, one at 768, and a
       different one at 400. Every removal is a chance to introduce a bug.
       Mobile-first goes the other direction. Decisions get added rather than
       removed, so the mobile layout is never broken because you never broke it.
-  - q: Do I really need to design at 320 pixels? Nobody uses an iPhone 5SE anymore.
-    a: Older customers, overseas visitors, and accessibility users running 200%
+  - q: >-
+      Do I really need to design at 320 pixels? Nobody uses an iPhone 5SE
+      anymore.
+    a: >-
+      Older customers, overseas visitors, and accessibility users running 200%
       browser zoom all collapse to roughly 320 pixel viewports. The same layout
       that works at 320 also works on a tablet rotated to portrait with a
       sidebar open, which is more common than people think. Designing for 320 is
       the discipline. The actual visitors at 320 are a smaller bonus.
-  - q: How do I test on actual phones, not just browser dev tools?
-    a: 'Three options. <strong>Free</strong>: borrow phones from family or coworkers
-      and load the site over their cellular data, not your office Wi-Fi.
-      <strong>Cheap</strong>: <a
+  - q: 'How do I test on actual phones, not just browser dev tools?'
+    a: >-
+      Three options. <strong>Free</strong>: borrow phones from family or
+      coworkers and load the site over their cellular data, not your office
+      Wi-Fi. <strong>Cheap</strong>: <a
       href="https://www.browserstack.com/">BrowserStack</a> or <a
       href="https://www.lambdatest.com/">LambdaTest</a> give you 100+ real
       devices on demand for $20–40/month. <strong>What we use on every
@@ -54,42 +65,47 @@ faq:
       BrowserStack for edge cases. The <a
       href="/blog/the-1-second-tax/">PageSpeed scores</a> Google grades you on
       are run on a simulated mid-range Android, so testing on a flagship iPhone
-      alone is misleading.'
+      alone is misleading.
   - q: Are five breakpoints enough for every small business website?
-    a: For a small business site, yes. We have shipped well over a hundred sites on
-      the same five breakpoints. The cases that need more are rare. Complex web
-      apps with dense data tables. E-commerce sites with very tight product grid
-      requirements. Sites that need to support specific tablet form factors like
-      kiosks or in-vehicle displays. For a homepage, services pages, blog, and
-      contact form, five is plenty.
-  - q: What if my customers are mostly desktop users? Do I still need mobile-first?
-    a: Yes, for two reasons. First, "mostly desktop" usually means 70/30, not 95/5.
-      The 30% is still real money. Second, Google indexes your site mobile-first
-      regardless of who visits. A site that fails on mobile fails in <a
-      href="/search-engine-optimisation/">SEO</a> too, even if no actual
+    a: >-
+      For a small business site, yes. We have shipped well over a hundred sites
+      on the same five breakpoints. The cases that need more are rare. Complex
+      web apps with dense data tables. E-commerce sites with very tight product
+      grid requirements. Sites that need to support specific tablet form factors
+      like kiosks or in-vehicle displays. For a homepage, services pages, blog,
+      and contact form, five is plenty.
+  - q: >-
+      What if my customers are mostly desktop users? Do I still need
+      mobile-first?
+    a: >-
+      Yes, for two reasons. First, "mostly desktop" usually means 70/30, not
+      95/5. The 30% is still real money. Second, Google indexes your site
+      mobile-first regardless of who visits. A site that fails on mobile fails
+      in <a href="/search-engine-optimisation/">SEO</a> too, even if no actual
       customer ever loads it on a phone.
   - q: Can I fix mobile-first on my existing page builder site?
-    a: Partially. You can usually customize the mobile layout, override default
+    a: >-
+      Partially. You can usually customize the mobile layout, override default
       breakpoints, and resize images for phones. What you cannot do is change
       the underlying CSS architecture — the builder generates desktop-first
       stylesheets, and your overrides fight that on every page. If your mobile
       experience has more than two of the warning signs in <a
       href="/blog/redesign-or-optimize-warning-signs/">our redesign
       scoreboard</a>, the right answer is usually a rebuild.
-  - q: Why does my mobile layout break between phone and tablet (around 600–768
+  - q: >-
+      Why does my mobile layout break between phone and tablet (around 600–768
       pixels)?
-    a: That range is where most "responsive" templates collapse. Mobile rules apply,
-      desktop rules apply, but neither was written for the in-between. Page
-      builders often jam an "iPad portrait" view in there as an afterthought.
-      Hand-coded sites with the five breakpoints we use treat 568 and 768 as
-      named transition points, so the layout is intentional at every width.
+    a: >-
+      That range is where most "responsive" templates collapse. Mobile rules
+      apply, desktop rules apply, but neither was written for the in-between.
+      Page builders often jam an "iPad portrait" view in there as an
+      afterthought. Hand-coded sites with the five breakpoints we use treat 568
+      and 768 as named transition points, so the layout is intentional at every
+      width.
 related:
-  - url: /blog/the-1-second-tax/
-    title: The 7% Conversion Tax of a 1-Second Delay
-  - url: /blog/the-seven-homepage-sections/
-    title: The Seven Sections Every Small Business Homepage Needs, In Order
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: Redesign or Optimize? The 7 Warning Signs That Decide
+  - the-1-second-tax
+  - the-seven-homepage-sections
+  - redesign-or-optimize-warning-signs
 readMins: 5
 hero: true
 category: Performance

@@ -2,46 +2,95 @@
 pageName: the-1-second-tax
 blogTitle: The 7% Conversion Tax of a 1-Second Delay
 titleTag: The 1-Second Tax
-blogDescription: A one-second delay in load time costs you about 7% of your conversions. Multiply that by your monthly leads and you are looking at the real cost of a slow site. Where the delay actually comes from, and how to read your PageSpeed score without panicking.
-author: "Joseph C."
+blogDescription: >-
+  A one-second delay in load time costs you about 7% of your conversions.
+  Multiply that by your monthly leads and you are looking at the real cost of a
+  slow site. Where the delay actually comes from, and how to read your PageSpeed
+  score without panicking.
+author: Joseph C.
 date: 2026-02-27T16:00:00.000Z
 draft: true
 tags:
   - post
   - performance
-category: "Performance"
+category: Performance
 readMins: 5
-topper: "Performance"
+topper: Performance
 image: /assets/images/the-1-second-tax-card.png
-imageAlt: A speedometer overlaid on a laptop displaying a website with a slow loading indicator
+imageAlt: >-
+  A speedometer overlaid on a laptop displaying a website with a slow loading
+  indicator
 tldrTitle: Key Takeaways
 tldr:
-  - 'A one-second delay in load time costs roughly **7% of your conversions**. On a site that gets 30 leads a month, that is about **2 leads lost per second of delay**, every month.'
-  - 'PageSpeed score buckets: **0–49 fails, 50–89 fixable, 90–100 acceptable**. Most builder sites land in the 50s on mobile, where most of your traffic actually is.'
-  - 'Three Core Web Vitals do most of the work: **LCP under 2.5s, CLS under 0.1, INP under 200ms**. INP replaced FID in March 2024.'
-  - 'Hosting decides your **ceiling**. Site code decides your **floor**. You need both right to break 90.'
+  - >-
+    A one-second delay in load time costs roughly **7% of your conversions**. On
+    a site that gets 30 leads a month, that is about **2 leads lost per second
+    of delay**, every month.
+  - >-
+    PageSpeed score buckets: **0–49 fails, 50–89 fixable, 90–100 acceptable**.
+    Most builder sites land in the 50s on mobile, where most of your traffic
+    actually is.
+  - >-
+    Three Core Web Vitals do most of the work: **LCP under 2.5s, CLS under 0.1,
+    INP under 200ms**. INP replaced FID in March 2024.
+  - >-
+    Hosting decides your **ceiling**. Site code decides your **floor**. You need
+    both right to break 90.
 faq:
-  - q: 'Is a 90 score good enough?'
-    a: 'For most small business sites, yes. Above 90, Google does not penalize you in rankings, and the user-experience curve flattens out. Going from 90 to 100 is real polish but rarely a revenue win. Going from 60 to 90 usually is. Spend your time on the bigger gap first.'
-  - q: 'Why does my desktop score look fine but mobile fails?'
-    a: 'Mobile is the harder test because the network is slower (4G/5G with packet loss vs. office fiber) and the device is weaker (smartphone CPU vs. laptop). The same JavaScript bundle that finishes parsing in 200ms on desktop takes 800ms on a mid-range phone. Mobile is also where roughly half your traffic is, so it is the score that matters for revenue.'
-  - q: 'Can I just buy faster hosting and call it done?'
-    a: 'Faster hosting raises your ceiling but does not lower the work the page is doing. A 5MB WordPress page on premium hosting still has to ship 5MB. Hosting changes Time to First Byte. Site code changes everything after that. <a href="/blog/redesign-or-optimize-warning-signs/">The redesign-or-optimize scoreboard</a> helps decide whether to fix the code or rebuild on a better foundation.'
-  - q: 'What is the easiest single fix that moves the score most?'
-    a: 'Image optimization. A typical builder site has uncompressed photos delivered at desktop dimensions to phones. Resizing the hero image to actual phone resolution and compressing it (WebP or AVIF format) often moves a 60 score to a 78. The second-easiest is removing unused JavaScript. Both are punch-list work, not redesigns.'
-  - q: 'How often should I re-test my PageSpeed score?'
-    a: 'Monthly is enough for most small business sites. After any significant change (new images, new plugins, theme updates, content swaps), re-test the affected pages within a week. Plugin updates on WordPress are the most common silent regressor — a plugin you installed two years ago can ship a new bundle that drops your score 15 points overnight.'
-  - q: 'What is the fastest way to drop my score by 20 points without realizing it?'
-    a: 'Three: install a chat widget that loads on every page, embed a third-party video player above the fold, or upload a 4MB hero image straight from a phone camera. Any of those alone can move you from 90 to 70 on mobile. We see all three regularly during audits.'
-  - q: 'My site scores 95 but is not getting leads. What gives?'
-    a: 'Speed is necessary, not sufficient. A fast page that confuses the visitor still bounces. The pattern we audit for next is the homepage architecture — see <a href="/blog/the-seven-homepage-sections/">the seven sections every small business homepage needs</a> for what should actually be on the page once it is fast.'
+  - q: Is a 90 score good enough?
+    a: >-
+      For most small business sites, yes. Above 90, Google does not penalize you
+      in rankings, and the user-experience curve flattens out. Going from 90 to
+      100 is real polish but rarely a revenue win. Going from 60 to 90 usually
+      is. Spend your time on the bigger gap first.
+  - q: Why does my desktop score look fine but mobile fails?
+    a: >-
+      Mobile is the harder test because the network is slower (4G/5G with packet
+      loss vs. office fiber) and the device is weaker (smartphone CPU vs.
+      laptop). The same JavaScript bundle that finishes parsing in 200ms on
+      desktop takes 800ms on a mid-range phone. Mobile is also where roughly
+      half your traffic is, so it is the score that matters for revenue.
+  - q: Can I just buy faster hosting and call it done?
+    a: >-
+      Faster hosting raises your ceiling but does not lower the work the page is
+      doing. A 5MB WordPress page on premium hosting still has to ship 5MB.
+      Hosting changes Time to First Byte. Site code changes everything after
+      that. <a href="/blog/redesign-or-optimize-warning-signs/">The
+      redesign-or-optimize scoreboard</a> helps decide whether to fix the code
+      or rebuild on a better foundation.
+  - q: What is the easiest single fix that moves the score most?
+    a: >-
+      Image optimization. A typical builder site has uncompressed photos
+      delivered at desktop dimensions to phones. Resizing the hero image to
+      actual phone resolution and compressing it (WebP or AVIF format) often
+      moves a 60 score to a 78. The second-easiest is removing unused
+      JavaScript. Both are punch-list work, not redesigns.
+  - q: How often should I re-test my PageSpeed score?
+    a: >-
+      Monthly is enough for most small business sites. After any significant
+      change (new images, new plugins, theme updates, content swaps), re-test
+      the affected pages within a week. Plugin updates on WordPress are the most
+      common silent regressor — a plugin you installed two years ago can ship a
+      new bundle that drops your score 15 points overnight.
+  - q: >-
+      What is the fastest way to drop my score by 20 points without realizing
+      it?
+    a: >-
+      Three: install a chat widget that loads on every page, embed a third-party
+      video player above the fold, or upload a 4MB hero image straight from a
+      phone camera. Any of those alone can move you from 90 to 70 on mobile. We
+      see all three regularly during audits.
+  - q: My site scores 95 but is not getting leads. What gives?
+    a: >-
+      Speed is necessary, not sufficient. A fast page that confuses the visitor
+      still bounces. The pattern we audit for next is the homepage architecture
+      — see <a href="/blog/the-seven-homepage-sections/">the seven sections
+      every small business homepage needs</a> for what should actually be on the
+      page once it is fast.
 related:
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
+  - designed-on-a-monitor-used-on-a-phone
+  - redesign-or-optimize-warning-signs
+  - the-seven-homepage-sections
 ---
 
 A one-second delay in your homepage load time costs you about 7% of your conversions.

@@ -2,44 +2,90 @@
 pageName: getting-a-website-when-bigger
 blogTitle: '"I''ll Get a Website When I''m Bigger" Is Backwards'
 titleTag: When Bigger Is Backwards
-blogDescription: Most small business owners plan to get a website "once they are bigger." The phrase has the cause and effect reversed. The website is what gets the business bigger. Waiting until you are ready is waiting for the result to fund the cause.
-author: "Joseph C."
+blogDescription: >-
+  Most small business owners plan to get a website "once they are bigger." The
+  phrase has the cause and effect reversed. The website is what gets the
+  business bigger. Waiting until you are ready is waiting for the result to fund
+  the cause.
+author: Joseph C.
 date: 2026-06-17T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 5
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/getting-a-website-when-bigger-card.png
-imageAlt: A small seedling on the left, a tree on the right, with an arrow showing growth
+imageAlt: >-
+  A small seedling on the left, a tree on the right, with an arrow showing
+  growth
 tldrTitle: Key Takeaways
 tldr:
-  - 'Around **half of prospects who Google a business and find nothing will not pursue it further**. The website is the vetting step. Without it, the customer never gets to "should I call."'
-  - 'Growth does not precede the website. **The website precedes the growth.** It is the cause, not the result.'
-  - 'Waiting until you are "ready" usually means waiting until you have enough revenue from other channels. **Those channels are slower, more expensive, and less compounding** than the website would have been.'
-  - 'The first 90 days of a new site are when **Google indexes, rankings appear, and the first leads arrive**. Every month of waiting is one less month of compounding in year one.'
+  - >-
+    Around **half of prospects who Google a business and find nothing will not
+    pursue it further**. The website is the vetting step. Without it, the
+    customer never gets to "should I call."
+  - >-
+    Growth does not precede the website. **The website precedes the growth.** It
+    is the cause, not the result.
+  - >-
+    Waiting until you are "ready" usually means waiting until you have enough
+    revenue from other channels. **Those channels are slower, more expensive,
+    and less compounding** than the website would have been.
+  - >-
+    The first 90 days of a new site are when **Google indexes, rankings appear,
+    and the first leads arrive**. Every month of waiting is one less month of
+    compounding in year one.
 faq:
-  - q: 'What does "ready" actually mean for most owners who are waiting?'
-    a: 'Three usually-stated reasons. "I do not have enough revenue yet." "I am still figuring out what I sell." "I want it to be perfect before launching." The first is the cause-and-effect inversion. The second is the legitimate one (a fuzzy offer makes a bad site; <a href="/blog/5-signs-ready-for-a-website/">fix the offer first</a>). The third is perfection paralysis and never resolves on its own.'
-  - q: 'How is the website "the cause" of growth?'
-    a: 'Three mechanisms. It captures the searches that are already happening (people Googling your service plus your city). It captures the referrals that are already happening (friend-of-friend who Googled your name). It captures the brand interest that other marketing creates (anyone who heard you on a podcast, saw your truck, got your card). Without the site, all three streams hit a dead end.'
-  - q: 'I am pre-revenue. Should I still build now?'
-    a: 'Yes, register the domain at minimum (about $10/year). Build a single page if budget is tight. The cost of a $10 domain is trivial. The cost of a competitor taking your business name as a domain when you finally want it is permanent. Once you have one paying customer and a clear sentence for what you sell, build the real site.'
-  - q: 'My business runs entirely on word-of-mouth. Why do I need a website?'
-    a: 'Word-of-mouth referrals end with the friend saying "look them up." If there is nothing to look up, half of those warm referrals never call. <a href="/blog/social-media-vs-website/">A Google profile alone is rented space.</a> The website is what catches the warm lead in the moment between the recommendation and the phone call.'
-  - q: 'How long until the website starts producing growth?'
-    a: 'For a hand-coded site on premium hosting, Google indexes in about a week. First-page local rankings appear in 30–60 days. First measurable contact-form leads come in 60–90 days. By month four, the site is producing leads on autopilot. By month twelve, it has paid for itself many times over for most service businesses.'
-  - q: 'What if I get bigger first and then the website is even better?'
-    a: 'The website you build at twice the size is roughly the same site, with better reviews and more case studies. The leads you missed in the intervening twelve to twenty-four months do not come back. The cost of waiting is one full year of compounding traffic and one full year of ranking equity that you never get to recover.'
+  - q: What does "ready" actually mean for most owners who are waiting?
+    a: >-
+      Three usually-stated reasons. "I do not have enough revenue yet." "I am
+      still figuring out what I sell." "I want it to be perfect before
+      launching." The first is the cause-and-effect inversion. The second is the
+      legitimate one (a fuzzy offer makes a bad site; <a
+      href="/blog/5-signs-ready-for-a-website/">fix the offer first</a>). The
+      third is perfection paralysis and never resolves on its own.
+  - q: How is the website "the cause" of growth?
+    a: >-
+      Three mechanisms. It captures the searches that are already happening
+      (people Googling your service plus your city). It captures the referrals
+      that are already happening (friend-of-friend who Googled your name). It
+      captures the brand interest that other marketing creates (anyone who heard
+      you on a podcast, saw your truck, got your card). Without the site, all
+      three streams hit a dead end.
+  - q: I am pre-revenue. Should I still build now?
+    a: >-
+      Yes, register the domain at minimum (about $10/year). Build a single page
+      if budget is tight. The cost of a $10 domain is trivial. The cost of a
+      competitor taking your business name as a domain when you finally want it
+      is permanent. Once you have one paying customer and a clear sentence for
+      what you sell, build the real site.
+  - q: My business runs entirely on word-of-mouth. Why do I need a website?
+    a: >-
+      Word-of-mouth referrals end with the friend saying "look them up." If
+      there is nothing to look up, half of those warm referrals never call. <a
+      href="/blog/social-media-vs-website/">A Google profile alone is rented
+      space.</a> The website is what catches the warm lead in the moment between
+      the recommendation and the phone call.
+  - q: How long until the website starts producing growth?
+    a: >-
+      For a hand-coded site on premium hosting, Google indexes in about a week.
+      First-page local rankings appear in 30–60 days. First measurable
+      contact-form leads come in 60–90 days. By month four, the site is
+      producing leads on autopilot. By month twelve, it has paid for itself many
+      times over for most service businesses.
+  - q: What if I get bigger first and then the website is even better?
+    a: >-
+      The website you build at twice the size is roughly the same site, with
+      better reviews and more case studies. The leads you missed in the
+      intervening twelve to twenty-four months do not come back. The cost of
+      waiting is one full year of compounding traffic and one full year of
+      ranking equity that you never get to recover.
 related:
-  - url: /blog/5-signs-ready-for-a-website/
-    title: '5 Signs You Are Ready for a Website'
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
-  - url: /blog/social-media-vs-website/
-    title: 'Your Instagram Handle Is Not Yours. A Website Is.'
+  - 5-signs-ready-for-a-website
+  - one-client-pays-for-the-year
+  - social-media-vs-website
 ---
 
 Most small business owners plan to get a website "once they are bigger."

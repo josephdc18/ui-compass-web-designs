@@ -2,48 +2,113 @@
 pageName: wcag-2-2-aa-in-five-minutes
 blogTitle: WCAG 2.2 AA in 5 Minutes. The 3 Tests Anyone Can Run.
 titleTag: WCAG 2.2 AA in 5 Minutes
-blogDescription: Roughly 96% of the top million websites fail basic accessibility checks, and small businesses are the easiest targets for ADA web lawsuits. The three free tests every owner can run on their own site in 5 minutes, plus the four fixes most sites need.
-author: "Joseph C."
+blogDescription: >-
+  Roughly 96% of the top million websites fail basic accessibility checks, and
+  small businesses are the easiest targets for ADA web lawsuits. The three free
+  tests every owner can run on their own site in 5 minutes, plus the four fixes
+  most sites need.
+author: Joseph C.
 date: 2026-01-29T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 6
-topper: "Design"
+topper: Design
 image: /assets/images/wcag-2-2-aa-in-five-minutes-card.png
-imageAlt: A laptop screen showing a website accessibility audit report with three test categories highlighted
+imageAlt: >-
+  A laptop screen showing a website accessibility audit report with three test
+  categories highlighted
 tldrTitle: Key Takeaways
 tldr:
-  - 'Roughly **96% of the top one million websites** fail basic accessibility checks ([WebAIM Million](https://webaim.org/projects/million/)). Your Wix or Squarespace site is statistically in that pile.'
-  - 'Three free tests catch most of the gap in **5 minutes**: **color contrast** on body text, **keyboard-only navigation** through the page, and a quick **alt-text audit** on every image.'
-  - 'WCAG 2.2 **AA** is the courtroom benchmark, not A or AAA. Most plaintiffs cite AA. Pass AA and you have done what reasonably required.'
-  - 'Accessibility work doubles as SEO. Both reward **semantic HTML**, real heading hierarchy, **alt text** that describes the image, and descriptive link text.'
+  - >-
+    Roughly **96% of the top one million websites** fail basic accessibility
+    checks ([WebAIM Million](https://webaim.org/projects/million/)). Your Wix or
+    Squarespace site is statistically in that pile.
+  - >-
+    Three free tests catch most of the gap in **5 minutes**: **color contrast**
+    on body text, **keyboard-only navigation** through the page, and a quick
+    **alt-text audit** on every image.
+  - >-
+    WCAG 2.2 **AA** is the courtroom benchmark, not A or AAA. Most plaintiffs
+    cite AA. Pass AA and you have done what reasonably required.
+  - >-
+    Accessibility work doubles as SEO. Both reward **semantic HTML**, real
+    heading hierarchy, **alt text** that describes the image, and descriptive
+    link text.
 faq:
-  - q: 'What is WCAG and what does "AA" mean?'
-    a: '<strong>WCAG</strong> is the Web Content Accessibility Guidelines, maintained by the W3C. Three conformance levels: <strong>A</strong> (must-have basics), <strong>AA</strong> (the practical bar everyone is expected to meet), <strong>AAA</strong> (ideal but often impractical for content-heavy sites). When a lawsuit references WCAG, it almost always means 2.1 AA or 2.2 AA. AA is the bar to aim for and the bar courts use.'
-  - q: 'What is the easiest contrast test I can run right now?'
-    a: 'Install the free WAVE browser extension (wave.webaim.org). Open your homepage. Click the extension icon. WAVE marks every accessibility issue inline on the page, including contrast failures. Total time: 60 seconds. Contrast failures are usually the most common and the easiest to fix — change a hex code or two and a dozen warnings disappear.'
-  - q: 'How do I test keyboard-only navigation?'
-    a: 'Put your mouse down. Open your homepage. Press <code>Tab</code> repeatedly. Watch the page. Can you reach every link, every button, and every form field? When you reach an element, can you see which one is focused (visible outline)? If you press <code>Enter</code> on a link, does it activate? If any of those fails, that is a real keyboard-accessibility bug — and screen-reader users navigate the same way.'
-  - q: 'What does "alt text" actually need to say?'
-    a: 'Describe the image in the context of the page. A photo of a plumber working on a faucet should be alt="A plumber repairing a kitchen sink faucet" — not alt="image" and not alt="plumber.jpg". Decorative images that add nothing to the content should have <code>alt=""</code> (empty, but present) so screen readers skip them cleanly. Logo images: alt="UI Compass logo" — the company name plus "logo."'
-  - q: 'Will accessibility hurt my design?'
-    a: 'Almost never. The constraints — readable contrast, visible focus indicators, sufficient text size, tap targets at least 44 pixels — overlap with what makes a site feel professional. Designs that "look great" but fail accessibility usually look great only on the designer''s 5K monitor in perfect lighting. Accessibility-passing designs read well for every visitor on every device. The same logic governs <a href="/blog/white-space-is-not-empty-space/">our spacing rules</a>.'
-  - q: 'How does this connect to SEO?'
-    a: 'Tightly. Semantic HTML (one H1, proper heading order, real list elements) helps both screen readers and search engines parse your page. Alt text gets indexed and surfaces in image search. Descriptive link text ("Read our pricing" beats "click here") gives both screen readers and Google more signal. We rarely improve accessibility on a client site without simultaneously lifting <a href="/blog/the-1-second-tax/">their PageSpeed and SEO scores</a> too.'
-  - q: 'What about overlay widgets like AccessiBe or UserWay?'
-    a: 'Skip them. They do not satisfy the law (the National Federation of the Blind has been on record against them since 2021), they introduce their own accessibility problems, and they have not stopped lawsuits — multiple businesses with overlay widgets installed have still been sued. The full breakdown is in <a href="/blog/why-accessibility-overlay-widgets-get-sued/">our overlay-widget post</a>. Fix the underlying site instead.'
-  - q: 'How does this connect to the redesign-or-optimize scoreboard?'
-    a: 'A site failing WCAG AA is rarely failing only WCAG AA. It is usually also failing the <a href="/blog/the-1-second-tax/">PageSpeed score</a>, the <a href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile experience</a>, and one or two of the seven signs in <a href="/blog/redesign-or-optimize-warning-signs/">our scoreboard</a>. The same root cause — a builder template optimized for screenshots, not visitors — produces all of them.'
+  - q: What is WCAG and what does "AA" mean?
+    a: >-
+      <strong>WCAG</strong> is the Web Content Accessibility Guidelines,
+      maintained by the W3C. Three conformance levels: <strong>A</strong>
+      (must-have basics), <strong>AA</strong> (the practical bar everyone is
+      expected to meet), <strong>AAA</strong> (ideal but often impractical for
+      content-heavy sites). When a lawsuit references WCAG, it almost always
+      means 2.1 AA or 2.2 AA. AA is the bar to aim for and the bar courts use.
+  - q: What is the easiest contrast test I can run right now?
+    a: >-
+      Install the free WAVE browser extension (wave.webaim.org). Open your
+      homepage. Click the extension icon. WAVE marks every accessibility issue
+      inline on the page, including contrast failures. Total time: 60 seconds.
+      Contrast failures are usually the most common and the easiest to fix —
+      change a hex code or two and a dozen warnings disappear.
+  - q: How do I test keyboard-only navigation?
+    a: >-
+      Put your mouse down. Open your homepage. Press <code>Tab</code>
+      repeatedly. Watch the page. Can you reach every link, every button, and
+      every form field? When you reach an element, can you see which one is
+      focused (visible outline)? If you press <code>Enter</code> on a link, does
+      it activate? If any of those fails, that is a real keyboard-accessibility
+      bug — and screen-reader users navigate the same way.
+  - q: What does "alt text" actually need to say?
+    a: >-
+      Describe the image in the context of the page. A photo of a plumber
+      working on a faucet should be alt="A plumber repairing a kitchen sink
+      faucet" — not alt="image" and not alt="plumber.jpg". Decorative images
+      that add nothing to the content should have <code>alt=""</code> (empty,
+      but present) so screen readers skip them cleanly. Logo images: alt="UI
+      Compass logo" — the company name plus "logo."
+  - q: Will accessibility hurt my design?
+    a: >-
+      Almost never. The constraints — readable contrast, visible focus
+      indicators, sufficient text size, tap targets at least 44 pixels — overlap
+      with what makes a site feel professional. Designs that "look great" but
+      fail accessibility usually look great only on the designer's 5K monitor in
+      perfect lighting. Accessibility-passing designs read well for every
+      visitor on every device. The same logic governs <a
+      href="/blog/white-space-is-not-empty-space/">our spacing rules</a>.
+  - q: How does this connect to SEO?
+    a: >-
+      Tightly. Semantic HTML (one H1, proper heading order, real list elements)
+      helps both screen readers and search engines parse your page. Alt text
+      gets indexed and surfaces in image search. Descriptive link text ("Read
+      our pricing" beats "click here") gives both screen readers and Google more
+      signal. We rarely improve accessibility on a client site without
+      simultaneously lifting <a href="/blog/the-1-second-tax/">their PageSpeed
+      and SEO scores</a> too.
+  - q: What about overlay widgets like AccessiBe or UserWay?
+    a: >-
+      Skip them. They do not satisfy the law (the National Federation of the
+      Blind has been on record against them since 2021), they introduce their
+      own accessibility problems, and they have not stopped lawsuits — multiple
+      businesses with overlay widgets installed have still been sued. The full
+      breakdown is in <a
+      href="/blog/why-accessibility-overlay-widgets-get-sued/">our
+      overlay-widget post</a>. Fix the underlying site instead.
+  - q: How does this connect to the redesign-or-optimize scoreboard?
+    a: >-
+      A site failing WCAG AA is rarely failing only WCAG AA. It is usually also
+      failing the <a href="/blog/the-1-second-tax/">PageSpeed score</a>, the <a
+      href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile experience</a>,
+      and one or two of the seven signs in <a
+      href="/blog/redesign-or-optimize-warning-signs/">our scoreboard</a>. The
+      same root cause — a builder template optimized for screenshots, not
+      visitors — produces all of them.
 related:
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - trust-signals-that-move-the-needle
+  - the-seven-homepage-sections
+  - redesign-or-optimize-warning-signs
 ---
 
 Roughly 96 percent of the top one million websites fail basic accessibility checks.

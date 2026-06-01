@@ -2,48 +2,116 @@
 pageName: font-subsetting-180kb-to-18kb
 blogTitle: Font Subsetting Cuts a 180KB Typeface to 18KB
 titleTag: Font Subsetting — 180KB to 18KB
-blogDescription: Your fonts are probably 5 to 10x heavier than they need to be. Subsetting (loading only the characters you use), pruning unused weights, and serving WOFF2 turns a typical 180KB font family into roughly 18KB. The 4-step diet that closes a top-3 performance gap on most small business sites.
-author: "Joseph C."
+blogDescription: >-
+  Your fonts are probably 5 to 10x heavier than they need to be. Subsetting
+  (loading only the characters you use), pruning unused weights, and serving
+  WOFF2 turns a typical 180KB font family into roughly 18KB. The 4-step diet
+  that closes a top-3 performance gap on most small business sites.
+author: Joseph C.
 date: 2025-11-19T16:00:00.000Z
 draft: true
 tags:
   - post
   - performance
-category: "Performance"
+category: Performance
 readMins: 6
-topper: "Performance"
+topper: Performance
 image: /assets/images/font-subsetting-180kb-to-18kb-card.png
-imageAlt: A side-by-side weight comparison showing a full 180KB font family on one side and an 18KB subset on the other
+imageAlt: >-
+  A side-by-side weight comparison showing a full 180KB font family on one side
+  and an 18KB subset on the other
 tldrTitle: Key Takeaways
 tldr:
-  - 'A typical small business site ships **180KB of font data** when it actually uses **18KB worth of characters**. Subsetting and pruning unused weights closes the gap.'
-  - 'Four steps cut fonts to size: **switch to WOFF2** (40% smaller than WOFF), **subset to Latin-only** (drops Cyrillic, Greek, Vietnamese ranges most US sites do not use), **limit to 3 to 4 weights** (regular, bold, italic, one optional), and **self-host** instead of pulling from the Google Fonts CDN.'
-  - 'Fonts cause **layout shift** when they load late and the fallback re-flows. The fix is `font-display: swap` plus a matched fallback metric — keeps the page rendering immediately while the web font catches up cleanly.'
-  - 'Preload **one critical font weight** (the one in your hero headline). Lazy-load the rest. Pages typically gain **5 to 8 PageSpeed points** from this single change.'
+  - >-
+    A typical small business site ships **180KB of font data** when it actually
+    uses **18KB worth of characters**. Subsetting and pruning unused weights
+    closes the gap.
+  - >-
+    Four steps cut fonts to size: **switch to WOFF2** (40% smaller than WOFF),
+    **subset to Latin-only** (drops Cyrillic, Greek, Vietnamese ranges most US
+    sites do not use), **limit to 3 to 4 weights** (regular, bold, italic, one
+    optional), and **self-host** instead of pulling from the Google Fonts CDN.
+  - >-
+    Fonts cause **layout shift** when they load late and the fallback re-flows.
+    The fix is `font-display: swap` plus a matched fallback metric — keeps the
+    page rendering immediately while the web font catches up cleanly.
+  - >-
+    Preload **one critical font weight** (the one in your hero headline).
+    Lazy-load the rest. Pages typically gain **5 to 8 PageSpeed points** from
+    this single change.
 faq:
-  - q: 'What is font subsetting?'
-    a: 'A subset is a smaller version of a font file containing only the characters you actually need. A full font family includes Latin, Cyrillic, Greek, Vietnamese, sometimes math symbols and arrows — most US small business sites use only the basic Latin range. Subsetting to Latin-only drops the file size by 50–80% with no visible difference on the page.'
-  - q: 'What is the difference between WOFF and WOFF2?'
-    a: 'Both are web font formats. WOFF (Web Open Font Format) shipped in 2009 and is supported everywhere. WOFF2 shipped in 2014 with better compression — roughly 40% smaller for the same font, with the same browser support today (every browser back to IE11 supported it or has been retired). Ship WOFF2 only and skip the WOFF fallback. The bytes you save are real.'
-  - q: 'How many font weights do I actually need?'
-    a: 'Three to four. Regular (400) for body text, Bold (700) for headlines and emphasis, an Italic style for inline emphasis or pull quotes, and one optional extra (often a Black/900 weight for the hero headline or a Light/300 for editorial design). Five or more weights is almost always over-design. Most builder templates ship 7 to 9 weights you never use, and each one is a separate 25–50KB file.'
+  - q: What is font subsetting?
+    a: >-
+      A subset is a smaller version of a font file containing only the
+      characters you actually need. A full font family includes Latin, Cyrillic,
+      Greek, Vietnamese, sometimes math symbols and arrows — most US small
+      business sites use only the basic Latin range. Subsetting to Latin-only
+      drops the file size by 50–80% with no visible difference on the page.
+  - q: What is the difference between WOFF and WOFF2?
+    a: >-
+      Both are web font formats. WOFF (Web Open Font Format) shipped in 2009 and
+      is supported everywhere. WOFF2 shipped in 2014 with better compression —
+      roughly 40% smaller for the same font, with the same browser support today
+      (every browser back to IE11 supported it or has been retired). Ship WOFF2
+      only and skip the WOFF fallback. The bytes you save are real.
+  - q: How many font weights do I actually need?
+    a: >-
+      Three to four. Regular (400) for body text, Bold (700) for headlines and
+      emphasis, an Italic style for inline emphasis or pull quotes, and one
+      optional extra (often a Black/900 weight for the hero headline or a
+      Light/300 for editorial design). Five or more weights is almost always
+      over-design. Most builder templates ship 7 to 9 weights you never use, and
+      each one is a separate 25–50KB file.
   - q: 'What does `font-display: swap` actually do?'
-    a: 'It tells the browser to render text immediately in the fallback font, then swap to the web font when it arrives. The opposite is the default (`font-display: auto`, which often means "block rendering for up to 3 seconds, then swap"). Without `swap`, your visitor sees a blank page until the font downloads. With `swap`, they see content immediately and the font upgrades in place.'
-  - q: 'What is the "FOUT" or "FOIT" problem?'
-    a: 'FOIT = Flash of Invisible Text. The browser hides the text while waiting for the web font. Bad. FOUT = Flash of Unstyled Text. The browser shows the fallback font first, then swaps. Better. The remaining issue with FOUT is layout shift when the fonts have different metrics. The fix is matching the fallback font''s metrics to the web font using <code>size-adjust</code> and <code>ascent-override</code> in your <code>@font-face</code> declaration — invisible swap, no CLS.'
-  - q: 'Should I use Google Fonts or self-host?'
-    a: '<a href="/blog/four-dependencies-to-delete/">Self-host</a>. The Google Fonts CDN was the fastest option in 2015. Today it costs you two DNS lookups, a TLS handshake, and a render-blocking CSS request, all to fetch fonts you could serve from your own domain in the same response as your HTML. Tools like <a href="https://gwfh.mranftl.com/fonts">google-webfonts-helper</a> let you download the subsetted WOFF2 files with one click, plus the matching <code>@font-face</code> CSS to paste into your stylesheet.'
-  - q: 'How does this connect to the other performance posts?'
-    a: 'Font weight is the third-largest performance lever on a typical small business site, after image weight and JavaScript bundles. The same audit pass that catches <a href="/blog/four-dependencies-to-delete/">the four dependencies to delete</a> and <a href="/blog/a-36kb-png-becomes-a-2kb-svg/">over-sized images</a> usually catches a font diet opportunity too. Fix all three in one afternoon and a site at 70 PageSpeed often lands at 92–95.'
-  - q: 'Will my designer notice the difference between full font and subset?'
-    a: 'No. Subsetting removes character ranges your site does not use (Cyrillic, Greek, etc.) — the Latin characters you actually display look identical. The only way to see the difference is to attempt to type a Cyrillic character on the page; with the subset, the fallback font renders it. For a US small business site, that is fine. For a multilingual site (including a <a href="/blog/the-bilingual-maturity-ladder/">bilingual English/Spanish site</a>), check that your character set covers Spanish accents — usually the Latin-1 subset is enough.'
+    a: >-
+      It tells the browser to render text immediately in the fallback font, then
+      swap to the web font when it arrives. The opposite is the default
+      (`font-display: auto`, which often means "block rendering for up to 3
+      seconds, then swap"). Without `swap`, your visitor sees a blank page until
+      the font downloads. With `swap`, they see content immediately and the font
+      upgrades in place.
+  - q: What is the "FOUT" or "FOIT" problem?
+    a: >-
+      FOIT = Flash of Invisible Text. The browser hides the text while waiting
+      for the web font. Bad. FOUT = Flash of Unstyled Text. The browser shows
+      the fallback font first, then swaps. Better. The remaining issue with FOUT
+      is layout shift when the fonts have different metrics. The fix is matching
+      the fallback font's metrics to the web font using <code>size-adjust</code>
+      and <code>ascent-override</code> in your <code>@font-face</code>
+      declaration — invisible swap, no CLS.
+  - q: Should I use Google Fonts or self-host?
+    a: >-
+      <a href="/blog/four-dependencies-to-delete/">Self-host</a>. The Google
+      Fonts CDN was the fastest option in 2015. Today it costs you two DNS
+      lookups, a TLS handshake, and a render-blocking CSS request, all to fetch
+      fonts you could serve from your own domain in the same response as your
+      HTML. Tools like <a
+      href="https://gwfh.mranftl.com/fonts">google-webfonts-helper</a> let you
+      download the subsetted WOFF2 files with one click, plus the matching
+      <code>@font-face</code> CSS to paste into your stylesheet.
+  - q: How does this connect to the other performance posts?
+    a: >-
+      Font weight is the third-largest performance lever on a typical small
+      business site, after image weight and JavaScript bundles. The same audit
+      pass that catches <a href="/blog/four-dependencies-to-delete/">the four
+      dependencies to delete</a> and <a
+      href="/blog/a-36kb-png-becomes-a-2kb-svg/">over-sized images</a> usually
+      catches a font diet opportunity too. Fix all three in one afternoon and a
+      site at 70 PageSpeed often lands at 92–95.
+  - q: Will my designer notice the difference between full font and subset?
+    a: >-
+      No. Subsetting removes character ranges your site does not use (Cyrillic,
+      Greek, etc.) — the Latin characters you actually display look identical.
+      The only way to see the difference is to attempt to type a Cyrillic
+      character on the page; with the subset, the fallback font renders it. For
+      a US small business site, that is fine. For a multilingual site (including
+      a <a href="/blog/the-bilingual-maturity-ladder/">bilingual English/Spanish
+      site</a>), check that your character set covers Spanish accents — usually
+      the Latin-1 subset is enough.
 related:
-  - url: /blog/four-dependencies-to-delete/
-    title: 'The 4 Dependencies to Delete From Your Small Business Site'
-  - url: /blog/a-36kb-png-becomes-a-2kb-svg/
-    title: 'A 36KB PNG Becomes a 2KB SVG (Now Multiply That)'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
+  - four-dependencies-to-delete
+  - a-36kb-png-becomes-a-2kb-svg
+  - the-1-second-tax
 ---
 
 A typical small business site ships around 180 kilobytes of font data and uses about 18 kilobytes' worth of characters.

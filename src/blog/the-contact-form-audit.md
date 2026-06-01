@@ -2,48 +2,113 @@
 pageName: the-contact-form-audit
 blogTitle: 1 in 4 Contact Forms Do Not Actually Deliver Email
 titleTag: The Contact Form Audit
-blogDescription: Roughly one in four small business contact forms silently fails to deliver to the owner's inbox. The four ways a form breaks without anyone noticing, the 60-second audit that catches it, and why this is the cheapest insurance a small business website can buy.
-author: "Joseph C."
+blogDescription: >-
+  Roughly one in four small business contact forms silently fails to deliver to
+  the owner's inbox. The four ways a form breaks without anyone noticing, the
+  60-second audit that catches it, and why this is the cheapest insurance a
+  small business website can buy.
+author: Joseph C.
 date: 2026-03-17T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 6
-topper: "Design"
+topper: Design
 image: /assets/images/the-contact-form-audit-card.png
-imageAlt: A small business owner staring at an empty email inbox while a website on a phone shows a contact form submission confirmation
+imageAlt: >-
+  A small business owner staring at an empty email inbox while a website on a
+  phone shows a contact form submission confirmation
 tldrTitle: Key Takeaways
 tldr:
-  - 'Roughly **1 in 4 small business contact forms** silently fails to deliver to the owner''s inbox. The form says "submitted." The lead never arrives.'
-  - 'Four common failure modes: **misconfigured mail records** (SPF/DKIM/DMARC), **spam-filter quarantine**, **plugin or builder bug**, and **honeypot/reCAPTCHA over-filtering**.'
-  - 'The fix starts with a **quarterly test submission** from a real address you do not control. 60 seconds. Catches almost every failure mode before a paying lead does.'
-  - 'A site can score 100 on PageSpeed and still drop every lead. Form delivery is not something Google grades you on.'
+  - >-
+    Roughly **1 in 4 small business contact forms** silently fails to deliver to
+    the owner's inbox. The form says "submitted." The lead never arrives.
+  - >-
+    Four common failure modes: **misconfigured mail records** (SPF/DKIM/DMARC),
+    **spam-filter quarantine**, **plugin or builder bug**, and
+    **honeypot/reCAPTCHA over-filtering**.
+  - >-
+    The fix starts with a **quarterly test submission** from a real address you
+    do not control. 60 seconds. Catches almost every failure mode before a
+    paying lead does.
+  - >-
+    A site can score 100 on PageSpeed and still drop every lead. Form delivery
+    is not something Google grades you on.
 faq:
-  - q: 'How can a form say "submitted" but the email never arrive?'
-    a: 'Three places it can fail silently. (1) The website sends the email, but the receiving mail server rejects it because the sender domain is unauthorized — SPF, DKIM, or DMARC records are missing or wrong. (2) The mail server accepts it, but the email lands in spam or quarantine without any inbox notification. (3) A plugin update or theme update broke the form handler, and it now returns a fake success message while doing nothing. All three look identical to the visitor.'
-  - q: 'What is the test I should run right now?'
-    a: 'Open your contact form in a private browser window. Use a Gmail or Outlook address you do not normally check for business email — a personal address or a coworker''s. Fill out the form realistically. Submit. Then open the test inbox in another tab. The email should arrive within 5 minutes (usually within 30 seconds). If it does not arrive, you have a problem. Check spam in the inbox you were expecting it on, too.'
-  - q: 'I tested it once when we launched. Is that enough?'
-    a: 'No. The most common form-failure pattern is "worked at launch, broken six months later." Plugin updates, hosting changes, DNS adjustments, spam filter policy changes — any of these can break form delivery without any visible warning. Run the test every quarter. We fold it into <a href="/unlimited-edits-and-support/">monthly maintenance</a> for every site we host.'
-  - q: 'What is SPF/DKIM/DMARC and why do I need them?'
-    a: '<strong>SPF</strong> tells receiving mail servers which IP addresses are allowed to send mail from your domain. <strong>DKIM</strong> is a cryptographic signature that proves the mail was not tampered with. <strong>DMARC</strong> tells receiving servers what to do when SPF or DKIM fails (allow / quarantine / reject). Without all three set up correctly, your contact-form emails increasingly land in spam — especially since Google and Yahoo tightened sender requirements in 2024.'
-  - q: 'My form uses <a href="https://formspree.io/">Formspree</a> / <a href="https://www.netlify.com/products/forms/">Netlify Forms</a> / <a href="https://www.wufoo.com/">Wufoo</a> — am I safe?'
-    a: 'Mostly. Third-party form services handle the SPF/DKIM/DMARC side correctly. The failure modes left are (1) the service is sending email from their domain, and your spam filter is catching it as not-from-you; (2) the service''s plan ran out of submissions and silently stopped delivering; (3) the integration on your end (form ID, endpoint URL) broke during a redesign and nobody noticed. The test still applies — run it every quarter.'
-  - q: 'What about reCAPTCHA? Does it cause false-positive blocks?'
-    a: 'Yes, more than people realize. reCAPTCHA v3 scores every submission silently and blocks low-scoring ones with no notification. Mobile-Safari users on cellular connections frequently score low through no fault of their own. If your form had reCAPTCHA added in the last year and submissions dropped right after, that is the most likely cause. A honeypot field (hidden from real visitors but visible to bots) usually catches the same bots with zero false positives.'
-  - q: 'How does this connect to the homepage CTA pattern?'
-    a: 'Every closing CTA in <a href="/blog/the-seven-homepage-sections/">our seven-section homepage layout</a> points at the contact form. A broken form makes every CTA across the site a dead end. The cheapest possible disaster on a small business site is a working layout pointing at a silent form. Test the form first; ship the layout improvements second.'
-  - q: 'My form auto-responds to the visitor. Doesn''t that prove it works?'
-    a: 'It proves the visitor receives an auto-response. It does not prove you receive the submission. These are two different emails sent through (often) two different paths. The auto-response can work perfectly while the notification to your inbox silently fails. Test both directions.'
+  - q: How can a form say "submitted" but the email never arrive?
+    a: >-
+      Three places it can fail silently. (1) The website sends the email, but
+      the receiving mail server rejects it because the sender domain is
+      unauthorized — SPF, DKIM, or DMARC records are missing or wrong. (2) The
+      mail server accepts it, but the email lands in spam or quarantine without
+      any inbox notification. (3) A plugin update or theme update broke the form
+      handler, and it now returns a fake success message while doing nothing.
+      All three look identical to the visitor.
+  - q: What is the test I should run right now?
+    a: >-
+      Open your contact form in a private browser window. Use a Gmail or Outlook
+      address you do not normally check for business email — a personal address
+      or a coworker's. Fill out the form realistically. Submit. Then open the
+      test inbox in another tab. The email should arrive within 5 minutes
+      (usually within 30 seconds). If it does not arrive, you have a problem.
+      Check spam in the inbox you were expecting it on, too.
+  - q: I tested it once when we launched. Is that enough?
+    a: >-
+      No. The most common form-failure pattern is "worked at launch, broken six
+      months later." Plugin updates, hosting changes, DNS adjustments, spam
+      filter policy changes — any of these can break form delivery without any
+      visible warning. Run the test every quarter. We fold it into <a
+      href="/unlimited-edits-and-support/">monthly maintenance</a> for every
+      site we host.
+  - q: What is SPF/DKIM/DMARC and why do I need them?
+    a: >-
+      <strong>SPF</strong> tells receiving mail servers which IP addresses are
+      allowed to send mail from your domain. <strong>DKIM</strong> is a
+      cryptographic signature that proves the mail was not tampered with.
+      <strong>DMARC</strong> tells receiving servers what to do when SPF or DKIM
+      fails (allow / quarantine / reject). Without all three set up correctly,
+      your contact-form emails increasingly land in spam — especially since
+      Google and Yahoo tightened sender requirements in 2024.
+  - q: >-
+      My form uses <a href="https://formspree.io/">Formspree</a> / <a
+      href="https://www.netlify.com/products/forms/">Netlify Forms</a> / <a
+      href="https://www.wufoo.com/">Wufoo</a> — am I safe?
+    a: >-
+      Mostly. Third-party form services handle the SPF/DKIM/DMARC side
+      correctly. The failure modes left are (1) the service is sending email
+      from their domain, and your spam filter is catching it as not-from-you;
+      (2) the service's plan ran out of submissions and silently stopped
+      delivering; (3) the integration on your end (form ID, endpoint URL) broke
+      during a redesign and nobody noticed. The test still applies — run it
+      every quarter.
+  - q: What about reCAPTCHA? Does it cause false-positive blocks?
+    a: >-
+      Yes, more than people realize. reCAPTCHA v3 scores every submission
+      silently and blocks low-scoring ones with no notification. Mobile-Safari
+      users on cellular connections frequently score low through no fault of
+      their own. If your form had reCAPTCHA added in the last year and
+      submissions dropped right after, that is the most likely cause. A honeypot
+      field (hidden from real visitors but visible to bots) usually catches the
+      same bots with zero false positives.
+  - q: How does this connect to the homepage CTA pattern?
+    a: >-
+      Every closing CTA in <a href="/blog/the-seven-homepage-sections/">our
+      seven-section homepage layout</a> points at the contact form. A broken
+      form makes every CTA across the site a dead end. The cheapest possible
+      disaster on a small business site is a working layout pointing at a silent
+      form. Test the form first; ship the layout improvements second.
+  - q: My form auto-responds to the visitor. Doesn't that prove it works?
+    a: >-
+      It proves the visitor receives an auto-response. It does not prove you
+      receive the submission. These are two different emails sent through
+      (often) two different paths. The auto-response can work perfectly while
+      the notification to your inbox silently fails. Test both directions.
 related:
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - the-seven-homepage-sections
+  - trust-signals-that-move-the-needle
+  - redesign-or-optimize-warning-signs
 ---
 
 Roughly one in four small business contact forms does not actually deliver to the owner's inbox.

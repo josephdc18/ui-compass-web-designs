@@ -2,48 +2,115 @@
 pageName: nine-gbp-secondary-categories
 blogTitle: 9 GBP Secondary Categories. Most Owners Use One.
 titleTag: 9 GBP Secondary Categories
-blogDescription: Google Business Profile lets you pick up to 9 secondary categories alongside your primary. Most small business owners pick one and leave eight ranking slots untouched. The strategic way to fill them, plus three other GBP features that quietly compound the same effect.
-author: "Joseph C."
+blogDescription: >-
+  Google Business Profile lets you pick up to 9 secondary categories alongside
+  your primary. Most small business owners pick one and leave eight ranking
+  slots untouched. The strategic way to fill them, plus three other GBP features
+  that quietly compound the same effect.
+author: Joseph C.
 date: 2025-12-19T16:00:00.000Z
 draft: true
 tags:
   - post
   - seo
-category: "SEO"
+category: SEO
 readMins: 6
-topper: "SEO"
+topper: SEO
 image: /assets/images/nine-gbp-secondary-categories-card.png
-imageAlt: A Google Business Profile dashboard showing the categories panel with multiple secondary slots filled in
+imageAlt: >-
+  A Google Business Profile dashboard showing the categories panel with multiple
+  secondary slots filled in
 tldrTitle: Key Takeaways
 tldr:
-  - 'Google Business Profile lets you pick **9 secondary categories** alongside your primary. Most small business owners use **0 to 1** secondary slot, leaving **8 free ranking opportunities** untouched.'
-  - 'Primary category carries the heaviest ranking weight. **Be specific**: "Italian Restaurant" beats "Restaurant"; "Web Design Agency" beats "Marketing Agency".'
-  - 'Secondary categories let you appear in **adjacent searches** without diluting the primary. A bakery that adds "Wedding Cake Shop" and "Birthday Cake Shop" as secondaries gets surfaced for both query types.'
-  - 'Three more underused GBP features compound the effect: the **750-character description** (most owners write 200), the **Q&A pre-load** (you can answer your own future questions), and the **weekly Posts cadence** (Posts expire after 6 months).'
+  - >-
+    Google Business Profile lets you pick **9 secondary categories** alongside
+    your primary. Most small business owners use **0 to 1** secondary slot,
+    leaving **8 free ranking opportunities** untouched.
+  - >-
+    Primary category carries the heaviest ranking weight. **Be specific**:
+    "Italian Restaurant" beats "Restaurant"; "Web Design Agency" beats
+    "Marketing Agency".
+  - >-
+    Secondary categories let you appear in **adjacent searches** without
+    diluting the primary. A bakery that adds "Wedding Cake Shop" and "Birthday
+    Cake Shop" as secondaries gets surfaced for both query types.
+  - >-
+    Three more underused GBP features compound the effect: the **750-character
+    description** (most owners write 200), the **Q&A pre-load** (you can answer
+    your own future questions), and the **weekly Posts cadence** (Posts expire
+    after 6 months).
 faq:
-  - q: 'Where do I find the 9 secondary category slots?'
-    a: 'Open your Google Business Profile dashboard. Click "Edit profile" → "Business information" → "Category." The first field is your primary. Below it is "Additional categories" — that field accepts up to 9 secondary categories. Each one is a separate dropdown selection. The interface does not make the limit obvious, which is part of why most owners miss it.'
-  - q: 'Will adding secondary categories hurt my primary ranking?'
-    a: 'No. Google''s algorithm weights the primary category heavily and treats secondaries as additional surface area, not as competing signals. The risk is irrelevance — if you add "Pizza Restaurant" as a secondary on a sushi spot, the engine will not rank you for pizza, and the bad signal can subtly hurt the overall profile. Pick secondaries that are genuinely adjacent to what you do.'
-  - q: 'What is the difference between primary and secondary categories?'
-    a: 'Primary category is the single most-important descriptor. It drives the heaviest ranking weight, and it determines which features Google enables on your listing (a "Restaurant" primary unlocks the menu field; a "Plumber" primary unlocks the service-area field). Secondaries are additional descriptors that broaden the queries you can show up for, but they do not unlock features and they do not carry the primary''s ranking weight.'
-  - q: 'How specific should my primary category be?'
-    a: 'As specific as the available options allow. "Web Design Agency" beats "Marketing Agency." "Italian Restaurant" beats "Restaurant." "Family Lawyer" beats "Lawyer." The trade-off is reach vs. relevance — a less-specific category surfaces in more queries but ranks lower in each. For small businesses competing in a defined market, the specific category wins every time because it lifts you out of the bigger competitor pool.'
-  - q: 'How often does Google update the available category list?'
-    a: 'Roughly quarterly, without notice. Sometimes new categories appear (the "Web Design Agency" category itself was added in late 2022). Sometimes categories get split or merged. The cleanest practice is to re-check your category selections once a quarter — the same cadence as the <a href="/blog/the-contact-form-audit/">contact form audit</a>. If a more-specific category for your business has appeared, switch.'
-  - q: 'What about the description field — does it affect ranking?'
-    a: 'Indirectly. The description text is indexed by Google and used to match your listing against queries, but the ranking weight is much lower than category, NAP, reviews, and Posts. The bigger value is conversion. A well-written description (with specifics, location, and a clear value proposition) turns a search-result viewer into a phone-call or a click. <a href="/blog/trust-signals-that-move-the-needle/">Trust-signal rules</a> apply — specific beats vague.'
-  - q: 'Why do Google Posts expire after 6 months?'
-    a: 'Google designed Posts to surface current events, promotions, and updates — not to be evergreen content. The 6-month expiration forces the listing to stay fresh. The practical implication: if you posted once at launch and never again, your GBP went silent within half a year. The fix is a weekly posting cadence with whatever is real — new project, recent review, seasonal promotion. Even one Post a week reads as an active business.'
-  - q: 'How does this connect to NAP consistency and review velocity?'
-    a: 'GBP optimization is one of three local-SEO foundations. <a href="/blog/nap-consistency-four-phone-formats/">NAP consistency</a> makes Google confident the listing is correct. <a href="/blog/five-reviews-a-month-beats-thirty-in-a-week/">Review velocity</a> proves the business is active. Category and description optimization tells Google what queries you should rank for. All three compound. Each one alone gets you partway; all three together is what produces a top-3 map-pack position.'
+  - q: Where do I find the 9 secondary category slots?
+    a: >-
+      Open your Google Business Profile dashboard. Click "Edit profile" →
+      "Business information" → "Category." The first field is your primary.
+      Below it is "Additional categories" — that field accepts up to 9 secondary
+      categories. Each one is a separate dropdown selection. The interface does
+      not make the limit obvious, which is part of why most owners miss it.
+  - q: Will adding secondary categories hurt my primary ranking?
+    a: >-
+      No. Google's algorithm weights the primary category heavily and treats
+      secondaries as additional surface area, not as competing signals. The risk
+      is irrelevance — if you add "Pizza Restaurant" as a secondary on a sushi
+      spot, the engine will not rank you for pizza, and the bad signal can
+      subtly hurt the overall profile. Pick secondaries that are genuinely
+      adjacent to what you do.
+  - q: What is the difference between primary and secondary categories?
+    a: >-
+      Primary category is the single most-important descriptor. It drives the
+      heaviest ranking weight, and it determines which features Google enables
+      on your listing (a "Restaurant" primary unlocks the menu field; a
+      "Plumber" primary unlocks the service-area field). Secondaries are
+      additional descriptors that broaden the queries you can show up for, but
+      they do not unlock features and they do not carry the primary's ranking
+      weight.
+  - q: How specific should my primary category be?
+    a: >-
+      As specific as the available options allow. "Web Design Agency" beats
+      "Marketing Agency." "Italian Restaurant" beats "Restaurant." "Family
+      Lawyer" beats "Lawyer." The trade-off is reach vs. relevance — a
+      less-specific category surfaces in more queries but ranks lower in each.
+      For small businesses competing in a defined market, the specific category
+      wins every time because it lifts you out of the bigger competitor pool.
+  - q: How often does Google update the available category list?
+    a: >-
+      Roughly quarterly, without notice. Sometimes new categories appear (the
+      "Web Design Agency" category itself was added in late 2022). Sometimes
+      categories get split or merged. The cleanest practice is to re-check your
+      category selections once a quarter — the same cadence as the <a
+      href="/blog/the-contact-form-audit/">contact form audit</a>. If a
+      more-specific category for your business has appeared, switch.
+  - q: What about the description field — does it affect ranking?
+    a: >-
+      Indirectly. The description text is indexed by Google and used to match
+      your listing against queries, but the ranking weight is much lower than
+      category, NAP, reviews, and Posts. The bigger value is conversion. A
+      well-written description (with specifics, location, and a clear value
+      proposition) turns a search-result viewer into a phone-call or a click. <a
+      href="/blog/trust-signals-that-move-the-needle/">Trust-signal rules</a>
+      apply — specific beats vague.
+  - q: Why do Google Posts expire after 6 months?
+    a: >-
+      Google designed Posts to surface current events, promotions, and updates —
+      not to be evergreen content. The 6-month expiration forces the listing to
+      stay fresh. The practical implication: if you posted once at launch and
+      never again, your GBP went silent within half a year. The fix is a weekly
+      posting cadence with whatever is real — new project, recent review,
+      seasonal promotion. Even one Post a week reads as an active business.
+  - q: How does this connect to NAP consistency and review velocity?
+    a: >-
+      GBP optimization is one of three local-SEO foundations. <a
+      href="/blog/nap-consistency-four-phone-formats/">NAP consistency</a> makes
+      Google confident the listing is correct. <a
+      href="/blog/five-reviews-a-month-beats-thirty-in-a-week/">Review
+      velocity</a> proves the business is active. Category and description
+      optimization tells Google what queries you should rank for. All three
+      compound. Each one alone gets you partway; all three together is what
+      produces a top-3 map-pack position.
 related:
-  - url: /blog/nap-consistency-four-phone-formats/
-    title: 'Your Phone Number Is Four Different Businesses to Google'
-  - url: /blog/five-reviews-a-month-beats-thirty-in-a-week/
-    title: '5 Google Reviews a Month Beats 30 in One Week'
-  - url: /blog/faq-schema-3x-screen-space/
-    title: 'FAQ Schema Turns One Blue Link Into 3x Screen Space'
+  - nap-consistency-four-phone-formats
+  - five-reviews-a-month-beats-thirty-in-a-week
+  - faq-schema-3x-screen-space
 ---
 
 Google Business Profile lets you pick up to nine secondary categories alongside your primary. Most small business owners pick one (or zero) and leave eight ranking slots on the table.

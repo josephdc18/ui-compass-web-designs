@@ -2,46 +2,96 @@
 pageName: white-space-is-not-empty-space
 blogTitle: White Space Is Not Empty Space
 titleTag: White Space Is Not Empty Space
-blogDescription: Most "ugly" small business websites do not have a color problem. They have a spacing problem. The four kinds of white space that decide whether a page reads as professional or as cramped, and the math behind every number.
-author: "Joseph C."
+blogDescription: >-
+  Most "ugly" small business websites do not have a color problem. They have a
+  spacing problem. The four kinds of white space that decide whether a page
+  reads as professional or as cramped, and the math behind every number.
+author: Joseph C.
 date: 2026-04-30T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 6
-topper: "Design"
+topper: Design
 image: /assets/images/white-space-is-not-empty-space-card.png
-imageAlt: A clean editorial layout with generous margins and a hand pointing to white space between paragraphs
+imageAlt: >-
+  A clean editorial layout with generous margins and a hand pointing to white
+  space between paragraphs
 tldrTitle: Key Takeaways
 tldr:
-  - 'Most sites that read as **dated** or **cluttered** have a spacing problem, not a color problem. The fix is rarely a redesign. It is a margin, padding, and line-height pass.'
-  - 'Four spaces matter: **section padding** (50px mobile / 75–100px desktop), **line-height** (1.4–1.5 for body), **paragraph spacing** (1em between blocks), and **button padding** (vertical 0.75em, horizontal 1.5em).'
-  - 'Page builders ship **tight defaults** to fit more on a screenshot. Tight defaults read as professional in screenshots and as overwhelming on a phone.'
-  - 'White space is doing **structural work** — separating sections, signaling hierarchy, and giving the eye a place to land. Treat it as content, not as wasted space.'
+  - >-
+    Most sites that read as **dated** or **cluttered** have a spacing problem,
+    not a color problem. The fix is rarely a redesign. It is a margin, padding,
+    and line-height pass.
+  - >-
+    Four spaces matter: **section padding** (50px mobile / 75–100px desktop),
+    **line-height** (1.4–1.5 for body), **paragraph spacing** (1em between
+    blocks), and **button padding** (vertical 0.75em, horizontal 1.5em).
+  - >-
+    Page builders ship **tight defaults** to fit more on a screenshot. Tight
+    defaults read as professional in screenshots and as overwhelming on a phone.
+  - >-
+    White space is doing **structural work** — separating sections, signaling
+    hierarchy, and giving the eye a place to land. Treat it as content, not as
+    wasted space.
 faq:
-  - q: 'How do I know if my section padding is too tight?'
-    a: 'Open your homepage on the phone you carry. Scroll slowly. If you cannot tell where one section ends and the next begins without reading the headline, the padding is too tight. If your hero collides with your services grid visually, you need at least 50px more vertical space at that seam.'
-  - q: 'Are these spacing rules different for mobile vs desktop?'
-    a: 'Yes. Mobile gets less padding because the screen is smaller — roughly 50px section padding instead of 75–100. Body line-height and paragraph spacing stay the same on both. The pattern fits the <a href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile-first layout architecture</a> that we ship on every build.'
-  - q: 'Can I just copy the spacing rules from a site I like?'
-    a: 'Partially. The numbers usually translate (line-height 1.5 reads well at most font sizes), but section padding scales with the section''s purpose. A hero needs more padding than a footer. A pricing card needs less than a service description. Copy the ratios, not the absolute numbers.'
-  - q: 'My designer said the site needs to look "premium." Is more white space the answer?'
-    a: 'Usually yes, with a caveat. Generous padding and line-height read as premium. Tight, jammed layouts read as discount. But "premium" is also about photography quality, type pairing, and color discipline — white space alone does not save a site that has all three of those wrong.'
-  - q: 'Does white space slow down my page?'
-    a: 'No. Whitespace is rendered by the browser as nothing — there is no asset to download. The only spacing-related performance hit is when web fonts shift things as they load, which is the <a href="/blog/the-1-second-tax/">CLS metric in Core Web Vitals</a>. Pre-loading the font fixes that.'
-  - q: 'My homepage is already crowded. Where do I cut to make room for more white space?'
-    a: 'Three places, in order. (1) Below-the-fold copy that nobody reads. (2) Repetitive testimonials — three strong ones beat eight weak ones. (3) Service descriptions on the homepage — those belong on the service pages, not the home. The space you free up is what every other section needs to breathe.'
-  - q: 'How does this connect to the seven-section homepage pattern?'
-    a: 'White space is what makes the seven-section pattern actually work. Without enough padding between sections, the visitor cannot tell they are separate jobs. Without enough line-height inside each section, the reader bounces. The <a href="/blog/the-seven-homepage-sections/">section pattern is the structure</a>; spacing is what makes the structure legible.'
+  - q: How do I know if my section padding is too tight?
+    a: >-
+      Open your homepage on the phone you carry. Scroll slowly. If you cannot
+      tell where one section ends and the next begins without reading the
+      headline, the padding is too tight. If your hero collides with your
+      services grid visually, you need at least 50px more vertical space at that
+      seam.
+  - q: Are these spacing rules different for mobile vs desktop?
+    a: >-
+      Yes. Mobile gets less padding because the screen is smaller — roughly 50px
+      section padding instead of 75–100. Body line-height and paragraph spacing
+      stay the same on both. The pattern fits the <a
+      href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile-first layout
+      architecture</a> that we ship on every build.
+  - q: Can I just copy the spacing rules from a site I like?
+    a: >-
+      Partially. The numbers usually translate (line-height 1.5 reads well at
+      most font sizes), but section padding scales with the section's purpose. A
+      hero needs more padding than a footer. A pricing card needs less than a
+      service description. Copy the ratios, not the absolute numbers.
+  - q: >-
+      My designer said the site needs to look "premium." Is more white space the
+      answer?
+    a: >-
+      Usually yes, with a caveat. Generous padding and line-height read as
+      premium. Tight, jammed layouts read as discount. But "premium" is also
+      about photography quality, type pairing, and color discipline — white
+      space alone does not save a site that has all three of those wrong.
+  - q: Does white space slow down my page?
+    a: >-
+      No. Whitespace is rendered by the browser as nothing — there is no asset
+      to download. The only spacing-related performance hit is when web fonts
+      shift things as they load, which is the <a
+      href="/blog/the-1-second-tax/">CLS metric in Core Web Vitals</a>.
+      Pre-loading the font fixes that.
+  - q: >-
+      My homepage is already crowded. Where do I cut to make room for more white
+      space?
+    a: >-
+      Three places, in order. (1) Below-the-fold copy that nobody reads. (2)
+      Repetitive testimonials — three strong ones beat eight weak ones. (3)
+      Service descriptions on the homepage — those belong on the service pages,
+      not the home. The space you free up is what every other section needs to
+      breathe.
+  - q: How does this connect to the seven-section homepage pattern?
+    a: >-
+      White space is what makes the seven-section pattern actually work. Without
+      enough padding between sections, the visitor cannot tell they are separate
+      jobs. Without enough line-height inside each section, the reader bounces.
+      The <a href="/blog/the-seven-homepage-sections/">section pattern is the
+      structure</a>; spacing is what makes the structure legible.
 related:
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/designed-on-a-monitor-used-on-a-phone/
-    title: 'Designed on a 27-inch Monitor. Used on a 6-inch Phone.'
-  - url: /blog/redesign-or-optimize-warning-signs/
-    title: 'Redesign or Optimize? The 7 Warning Signs That Decide'
+  - the-seven-homepage-sections
+  - designed-on-a-monitor-used-on-a-phone
+  - redesign-or-optimize-warning-signs
 ---
 
 Most "ugly" small business websites do not have a color problem. They have a spacing problem.

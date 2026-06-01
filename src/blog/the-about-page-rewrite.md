@@ -2,48 +2,116 @@
 pageName: the-about-page-rewrite
 blogTitle: The About Page Rewrite. Stop Writing About Yourself.
 titleTag: The About Page Rewrite
-blogDescription: The About page is the second-most-visited page on most small business sites, and it is almost always wasted. Visitors do not read it to learn about you. They read it to figure out whether you will be good for them. The 3-block structure that converts, and the four sins that turn the page into a sales obstacle.
-author: "Joseph C."
+blogDescription: >-
+  The About page is the second-most-visited page on most small business sites,
+  and it is almost always wasted. Visitors do not read it to learn about you.
+  They read it to figure out whether you will be good for them. The 3-block
+  structure that converts, and the four sins that turn the page into a sales
+  obstacle.
+author: Joseph C.
 date: 2026-03-24T16:00:00.000Z
 draft: true
 tags:
   - post
   - design
-category: "Design"
+category: Design
 readMins: 6
-topper: "Design"
+topper: Design
 image: /assets/images/the-about-page-rewrite-card.png
-imageAlt: A laptop screen showing an About page with the visitor's perspective highlighted instead of the company history
+imageAlt: >-
+  A laptop screen showing an About page with the visitor's perspective
+  highlighted instead of the company history
 tldrTitle: Key Takeaways
 tldr:
-  - 'The About page is **second-most-visited** on most small business sites — right behind the homepage. Most owners write it third-person, lead with the founder''s biography, and never get to why the visitor should care.'
-  - 'Visitors do not read the About page to learn about you. They read it to **figure out whether you will be good for them**. The page that answers their question converts. The page that answers your own does not.'
-  - 'Three-block structure that works: **(1) The promise**, restating who you serve and what they get; **(2) The proof**, real photos, real names, real numbers; **(3) The story**, your founder origin filtered through what it means for the customer.'
-  - 'Four sins to remove: **third-person voice**, **founder-bio-first ordering**, **stock photos of generic professionals**, and **vague claims** like "passion for excellence."'
+  - >-
+    The About page is **second-most-visited** on most small business sites —
+    right behind the homepage. Most owners write it third-person, lead with the
+    founder's biography, and never get to why the visitor should care.
+  - >-
+    Visitors do not read the About page to learn about you. They read it to
+    **figure out whether you will be good for them**. The page that answers
+    their question converts. The page that answers your own does not.
+  - >-
+    Three-block structure that works: **(1) The promise**, restating who you
+    serve and what they get; **(2) The proof**, real photos, real names, real
+    numbers; **(3) The story**, your founder origin filtered through what it
+    means for the customer.
+  - >-
+    Four sins to remove: **third-person voice**, **founder-bio-first ordering**,
+    **stock photos of generic professionals**, and **vague claims** like
+    "passion for excellence."
 faq:
-  - q: 'Why is the About page second-most-visited?'
-    a: 'Three drivers. (1) Visitors who land on the homepage and want to know more before contacting click "About" almost reflexively. (2) Customers who have been referred by a friend look up the business and check the About page before calling. (3) Anyone doing diligence on a quote or a contract looks up who actually runs the business. Analytics across the small business sites we audit show About at 15–25% of homepage traffic, every time.'
-  - q: 'Should the About page have a hero image?'
-    a: 'Yes, and it should be a real photo of the team or the founder, not a stock image. The hero is the visitor''s first read on whether you are a real local business or a templated brochure. <a href="/blog/trust-signals-that-move-the-needle/">Stock photos undermine trust</a> in the same paragraph as any other claim on the page.'
-  - q: 'How long should the About page actually be?'
-    a: 'Short enough to read in under two minutes. Roughly 500 to 900 words across three blocks. Less than that and the page feels thin. More than that and the visitor scrolls past most of it — including the proof block where the actual conversion work happens. The same length math governs <a href="/blog/the-seven-homepage-sections/">our seven-section homepage layout</a>.'
-  - q: 'What is wrong with third-person ("Joe Smith founded UI Compass in 2020")?'
-    a: 'Third-person voice creates distance. The visitor reads it as marketing copy, not as a real human introducing themselves. First-person on a small business About page reads as honest and direct: "I founded UI Compass in 2020 because..." The same content, in first person, converts noticeably better. The exception is businesses with multiple co-founders or no single principal — there, third-person can work if it stays warm.'
-  - q: 'Should I include the company history with dates and milestones?'
-    a: 'Usually no. The visitor does not care that you bought your first office in 2019 and hired your second employee in 2022. They care about the present-tense answer to "will this business be good for me?" A short story about why you started — one or two sentences — is enough. The dates-and-milestones format is for press kits and acquisition pitches, not for the page that converts a visitor into a lead.'
-  - q: 'What about awards and certifications?'
-    a: 'Include them in the proof block, not the founder bio. A row of three to five real, verifiable certifications (with logos) reads as specific trust. A list of every award you have ever received, told as a story, reads as bragging. The <a href="/blog/trust-signals-that-move-the-needle/">specific-current-verifiable</a> rules apply on About just like they apply on the homepage.'
-  - q: 'How does this connect to the homepage?'
-    a: 'The homepage and the About page do different jobs. The homepage runs the seven-section sales conversation in roughly 90 seconds of scrolling (per <a href="/blog/the-seven-homepage-sections/">our seven-section layout</a>). The About page handles the diligence step — the visitor who has decided you are interesting and now wants to confirm you are real. Both jobs need to happen. Most small business sites do the homepage well and the About page poorly, leaving conversion on the table at the second step.'
-  - q: 'Can I just point visitors to a LinkedIn page instead of writing an About page?'
-    a: 'No. LinkedIn is on someone else''s domain, opens a competitor for the visitor''s attention, and does not let you control the trust signals. The About page is the home-court version of the same diligence — same answer, on your domain, with your other CTAs around it. Link out to LinkedIn from the About page if it adds proof, but the page itself has to exist on your site.'
+  - q: Why is the About page second-most-visited?
+    a: >-
+      Three drivers. (1) Visitors who land on the homepage and want to know more
+      before contacting click "About" almost reflexively. (2) Customers who have
+      been referred by a friend look up the business and check the About page
+      before calling. (3) Anyone doing diligence on a quote or a contract looks
+      up who actually runs the business. Analytics across the small business
+      sites we audit show About at 15–25% of homepage traffic, every time.
+  - q: Should the About page have a hero image?
+    a: >-
+      Yes, and it should be a real photo of the team or the founder, not a stock
+      image. The hero is the visitor's first read on whether you are a real
+      local business or a templated brochure. <a
+      href="/blog/trust-signals-that-move-the-needle/">Stock photos undermine
+      trust</a> in the same paragraph as any other claim on the page.
+  - q: How long should the About page actually be?
+    a: >-
+      Short enough to read in under two minutes. Roughly 500 to 900 words across
+      three blocks. Less than that and the page feels thin. More than that and
+      the visitor scrolls past most of it — including the proof block where the
+      actual conversion work happens. The same length math governs <a
+      href="/blog/the-seven-homepage-sections/">our seven-section homepage
+      layout</a>.
+  - q: What is wrong with third-person ("Joe Smith founded UI Compass in 2020")?
+    a: >-
+      Third-person voice creates distance. The visitor reads it as marketing
+      copy, not as a real human introducing themselves. First-person on a small
+      business About page reads as honest and direct: "I founded UI Compass in
+      2020 because..." The same content, in first person, converts noticeably
+      better. The exception is businesses with multiple co-founders or no single
+      principal — there, third-person can work if it stays warm.
+  - q: Should I include the company history with dates and milestones?
+    a: >-
+      Usually no. The visitor does not care that you bought your first office in
+      2019 and hired your second employee in 2022. They care about the
+      present-tense answer to "will this business be good for me?" A short story
+      about why you started — one or two sentences — is enough. The
+      dates-and-milestones format is for press kits and acquisition pitches, not
+      for the page that converts a visitor into a lead.
+  - q: What about awards and certifications?
+    a: >-
+      Include them in the proof block, not the founder bio. A row of three to
+      five real, verifiable certifications (with logos) reads as specific trust.
+      A list of every award you have ever received, told as a story, reads as
+      bragging. The <a
+      href="/blog/trust-signals-that-move-the-needle/">specific-current-verifiable</a>
+      rules apply on About just like they apply on the homepage.
+  - q: How does this connect to the homepage?
+    a: >-
+      The homepage and the About page do different jobs. The homepage runs the
+      seven-section sales conversation in roughly 90 seconds of scrolling (per
+      <a href="/blog/the-seven-homepage-sections/">our seven-section
+      layout</a>). The About page handles the diligence step — the visitor who
+      has decided you are interesting and now wants to confirm you are real.
+      Both jobs need to happen. Most small business sites do the homepage well
+      and the About page poorly, leaving conversion on the table at the second
+      step.
+  - q: >-
+      Can I just point visitors to a LinkedIn page instead of writing an About
+      page?
+    a: >-
+      No. LinkedIn is on someone else's domain, opens a competitor for the
+      visitor's attention, and does not let you control the trust signals. The
+      About page is the home-court version of the same diligence — same answer,
+      on your domain, with your other CTAs around it. Link out to LinkedIn from
+      the About page if it adds proof, but the page itself has to exist on your
+      site.
 related:
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
-  - url: /blog/trust-signals-that-move-the-needle/
-    title: 'Trust Signals That Actually Move the Needle'
-  - url: /blog/white-space-is-not-empty-space/
-    title: 'White Space Is Not Empty Space'
+  - the-seven-homepage-sections
+  - trust-signals-that-move-the-needle
+  - white-space-is-not-empty-space
 ---
 
 The About page is the second-most-visited page on most small business websites. It is also the page most often written for the wrong reader.

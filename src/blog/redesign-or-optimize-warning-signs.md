@@ -2,52 +2,93 @@
 pageName: redesign-or-optimize-warning-signs
 blogTitle: Redesign or Optimize? The 7 Warning Signs That Decide
 titleTag: Redesign or Optimize? The 7 Warning Signs
-blogDescription: A diagnostic for small business owners. Count the warning signs your site is showing. Zero or one means optimize. Four or more means rebuild. The framework that decides what you actually need before you spend a dime.
-author: "Joseph C."
+blogDescription: >-
+  A diagnostic for small business owners. Count the warning signs your site is
+  showing. Zero or one means optimize. Four or more means rebuild. The framework
+  that decides what you actually need before you spend a dime.
+author: Joseph C.
 date: 2025-10-28T16:00:00.000Z
 draft: true
 tags:
   - post
   - featured
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 8
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/redesign-or-optimize-warning-signs-card.png
 imageAlt: A small business owner reviewing a printed website audit at a desk
 summary: >-
   Half of "I need a redesign" calls are actually optimization jobs — and the
-  other half should have been rebuilt eighteen months ago. The difference is
-  not taste; it is how many of seven warning signs your site is currently
-  showing. This guide walks through the binary checks that decide whether to
-  reach for a [punch list](/unlimited-edits-and-support/), a targeted redesign,
-  or a full rebuild — plus the budget line items nobody quotes you on.
+  other half should have been rebuilt eighteen months ago. The difference is not
+  taste; it is how many of seven warning signs your site is currently showing.
+  This guide walks through the binary checks that decide whether to reach for a
+  [punch list](/unlimited-edits-and-support/), a targeted redesign, or a full
+  rebuild — plus the budget line items nobody quotes you on.
 tldrTitle: Key Takeaways
 tldr:
-  - 'Most "I need a redesign" calls are actually optimization jobs. The fix is a **diagnostic**, not a credit card.'
-  - 'Count the seven binary warning signs. **0–1 = optimize**, **2–3 = targeted redesign**, **4+ = rebuild from scratch**.'
-  - 'Cadence rule: major redesign every **3 to 5 years**, minor refresh every **6 to 12 months**. Sites that follow it almost never accumulate four signs at once.'
-  - 'Hidden costs that wreck budgets: **content writing**, **photography**, and **monthly maintenance** — none of which appear on a design quote.'
+  - >-
+    Most "I need a redesign" calls are actually optimization jobs. The fix is a
+    **diagnostic**, not a credit card.
+  - >-
+    Count the seven binary warning signs. **0–1 = optimize**, **2–3 = targeted
+    redesign**, **4+ = rebuild from scratch**.
+  - >-
+    Cadence rule: major redesign every **3 to 5 years**, minor refresh every **6
+    to 12 months**. Sites that follow it almost never accumulate four signs at
+    once.
+  - >-
+    Hidden costs that wreck budgets: **content writing**, **photography**, and
+    **monthly maintenance** — none of which appear on a design quote.
 faq:
-  - q: 'What is a "punch list" optimization, and how is it different from a redesign?'
-    a: 'A punch list is a focused four-to-eight-hour pass on an existing site. Image compression, removing unused JavaScript, fixing broken forms, tightening line heights, hooking up <a href="/blog/faq-schema-3x-screen-space/">FAQ schema</a>. The deliverable is a faster, cleaner version of the site you already have. A redesign rebuilds the layout, copy, or both. Different tool, different price, different timeline.'
-  - q: 'How do I know if my site looks "dated"?'
-    a: 'Set your homepage next to three of your top competitors in browser tabs and switch through them quickly. If your site reads as the older one, the gap is real. If it reads as the modern one, this sign is not showing. The same test in 30 seconds tells you what a focus group would tell you in two weeks.'
+  - q: >-
+      What is a "punch list" optimization, and how is it different from a
+      redesign?
+    a: >-
+      A punch list is a focused four-to-eight-hour pass on an existing site.
+      Image compression, removing unused JavaScript, fixing broken forms,
+      tightening line heights, hooking up <a
+      href="/blog/faq-schema-3x-screen-space/">FAQ schema</a>. The deliverable
+      is a faster, cleaner version of the site you already have. A redesign
+      rebuilds the layout, copy, or both. Different tool, different price,
+      different timeline.
+  - q: How do I know if my site looks "dated"?
+    a: >-
+      Set your homepage next to three of your top competitors in browser tabs
+      and switch through them quickly. If your site reads as the older one, the
+      gap is real. If it reads as the modern one, this sign is not showing. The
+      same test in 30 seconds tells you what a focus group would tell you in two
+      weeks.
   - q: 'Should I weight the seven signs equally, or do some matter more?'
-    a: 'Weight them equally for the count. The scoreboard rule (0–1, 2–3, 4+) only works if every sign counts the same. That said, sign #6 (something is technically broken) and sign #7 (customers are complaining) are the two that should make you act faster regardless of the total.'
-  - q: 'What is the cheapest first move I can make if I score a 1 or 2?'
-    a: 'Run your homepage through <a href="/blog/the-1-second-tax/">PageSpeed Insights</a> and fix the top three issues it flags. If you also have <a href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile layout problems</a>, address those next. Together, that is usually a 4-hour pass that closes 60% of the gap most "I need a redesign" calls are actually about.'
-  - q: 'How long does it take to audit a site against the scoreboard?'
-    a: 'About 15 minutes if you walk through it yourself with a notepad. We run a more thorough version in roughly 60 minutes that includes the PageSpeed numbers, a console error scan, and a competitor comparison. Either way, the audit is not the expensive part. The decision is.'
-  - q: 'Do you do audits without a redesign commitment?'
-    a: 'Yes. Most of our audits do not turn into redesigns — they turn into punch lists or two-week targeted fixes, depending on the count. We tell you the number we read, then you decide. <a href="/contact/">Send us your URL</a> if you want a second pair of eyes on the count.'
+    a: >-
+      Weight them equally for the count. The scoreboard rule (0–1, 2–3, 4+) only
+      works if every sign counts the same. That said, sign #6 (something is
+      technically broken) and sign #7 (customers are complaining) are the two
+      that should make you act faster regardless of the total.
+  - q: What is the cheapest first move I can make if I score a 1 or 2?
+    a: >-
+      Run your homepage through <a href="/blog/the-1-second-tax/">PageSpeed
+      Insights</a> and fix the top three issues it flags. If you also have <a
+      href="/blog/designed-on-a-monitor-used-on-a-phone/">mobile layout
+      problems</a>, address those next. Together, that is usually a 4-hour pass
+      that closes 60% of the gap most "I need a redesign" calls are actually
+      about.
+  - q: How long does it take to audit a site against the scoreboard?
+    a: >-
+      About 15 minutes if you walk through it yourself with a notepad. We run a
+      more thorough version in roughly 60 minutes that includes the PageSpeed
+      numbers, a console error scan, and a competitor comparison. Either way,
+      the audit is not the expensive part. The decision is.
+  - q: Do you do audits without a redesign commitment?
+    a: >-
+      Yes. Most of our audits do not turn into redesigns — they turn into punch
+      lists or two-week targeted fixes, depending on the count. We tell you the
+      number we read, then you decide. <a href="/contact/">Send us your URL</a>
+      if you want a second pair of eyes on the count.
 related:
-  - url: /blog/comparing-local-dfw-web-design-companies/
-    title: 'Comparing Local DFW Web Design Companies, A Buyer''s Framework'
-  - url: /blog/the-1-second-tax/
-    title: 'The 7% Conversion Tax of a 1-Second Delay'
-  - url: /blog/the-seven-homepage-sections/
-    title: 'The Seven Sections Every Small Business Homepage Needs, In Order'
+  - comparing-local-dfw-web-design-companies
+  - the-1-second-tax
+  - the-seven-homepage-sections
 ---
 
 You don't need a redesign. You need a diagnostic.

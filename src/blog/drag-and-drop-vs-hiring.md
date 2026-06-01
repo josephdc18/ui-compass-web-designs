@@ -16,6 +16,8 @@ draft: false
 tags:
   - post
   - strategy
+category: Strategy
+readMins: 6
 tldrTitle: Key Takeaways
 tldr:
   - Squarespace, Wix, and Shopify start around **$200 a year**. The platform fee
@@ -67,14 +69,9 @@ faq:
       small businesses without that, the managed model still wins on
       time-to-launch and ongoing maintenance.
 related:
-  - url: /blog/small-business-website-cost/
-    title: What Does a Small Business Website Actually Cost?
-  - url: /blog/ai-built-websites/'
-    title: "AI-Built Websites: Where They Help, Where They Fail"
-  - url: /blog/managing-a-website/
-    title: What Managing a Website Really Means
-readMins: 6
-category: Strategy
+  - small-business-website-cost
+  - ai-built-websites
+  - managing-a-website
 ---
 Squarespace is $200 a year. Wix is similar. Shopify is more.
 

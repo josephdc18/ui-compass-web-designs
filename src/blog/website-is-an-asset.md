@@ -2,44 +2,95 @@
 pageName: website-is-an-asset
 blogTitle: On Your Tax Return It's a Deductible. On Your Balance Sheet It's Equity.
 titleTag: Website Is an Asset
-blogDescription: A website is not a subscription. It is a business asset. It has a tax treatment, an equity value, and a useful life. Treating it like a recurring expense is the most expensive accounting mistake small business owners make.
-author: "Joseph C."
+blogDescription: >-
+  A website is not a subscription. It is a business asset. It has a tax
+  treatment, an equity value, and a useful life. Treating it like a recurring
+  expense is the most expensive accounting mistake small business owners make.
+author: Joseph C.
 date: 2026-06-13T16:00:00.000Z
 draft: true
 tags:
   - post
   - strategy
-category: "Strategy"
+category: Strategy
 readMins: 5
-topper: "Strategy"
+topper: Strategy
 image: /assets/images/website-is-an-asset-card.png
-imageAlt: A house with a brick foundation labeled "website" and stacks of papers labeled "tax credit"
+imageAlt: >-
+  A house with a brick foundation labeled "website" and stacks of papers labeled
+  "tax credit"
 tldrTitle: Key Takeaways
 tldr:
-  - 'Website costs are **fully tax-deductible** as ordinary business expenses. The $1,800 a year you spend on a managed site reduces your taxable income dollar-for-dollar.'
-  - 'Accessibility-related web spend qualifies for **IRS Form 8826** (Disabled Access Credit), covering up to **50% of eligible costs up to $5,000/yr**. <a href="/blog/ada-lawsuits-and-form-8826/">This is real, used, and underclaimed.</a>'
-  - 'A website **builds equity over time**. The traffic, the search rankings, the email list, the brand recognition all compound. None of that is true of social media or rented ad space.'
-  - 'The mistake is **comparing the monthly fee to other monthly fees** (phone, software, cleaning). Compare it to inventory, equipment, or insurance. Those are the right categories.'
+  - >-
+    Website costs are **fully tax-deductible** as ordinary business expenses.
+    The $1,800 a year you spend on a managed site reduces your taxable income
+    dollar-for-dollar.
+  - >-
+    Accessibility-related web spend qualifies for **IRS Form 8826** (Disabled
+    Access Credit), covering up to **50% of eligible costs up to $5,000/yr**. <a
+    href="/blog/ada-lawsuits-and-form-8826/">This is real, used, and
+    underclaimed.</a>
+  - >-
+    A website **builds equity over time**. The traffic, the search rankings, the
+    email list, the brand recognition all compound. None of that is true of
+    social media or rented ad space.
+  - >-
+    The mistake is **comparing the monthly fee to other monthly fees** (phone,
+    software, cleaning). Compare it to inventory, equipment, or insurance. Those
+    are the right categories.
 faq:
-  - q: 'How do I deduct a website on my taxes?'
-    a: 'Same way you deduct any ordinary business expense. The managed fee shows up on your P&L under "advertising," "marketing," or "professional services." Your accountant handles it. There is no special form for the monthly. For one-time builds over $2,500 you may need to capitalize and depreciate; ask your accountant. The $150/mo managed model is straightforward.'
-  - q: 'What is the IRS Form 8826 angle?'
-    a: 'The Disabled Access Credit. If your web spend includes making the site ADA-compliant (which it should, given the lawsuit risk), you can claim up to 50% of eligible costs as a tax credit, up to $5,000/yr. Credit, not deduction: that is dollar-for-dollar against the tax owed. Most small businesses qualify (under $1M in revenue or fewer than 30 full-time employees). Most do not know about it. Ask your accountant.'
-  - q: 'Why is comparing the monthly to other monthly fees a mistake?'
-    a: 'Because the mental category "subscription" suggests something disposable: the gym membership you cancel, the streaming service you forgot. A website is structurally different. It compounds. The traffic you build in year one keeps producing in year two without re-spending. Inventory, equipment, and insurance are the right comparisons. None of those get cancelled because they "feel expensive this month."'
-  - q: 'Is the site worth anything if I sell my business?'
-    a: 'Yes, more than most owners realize. Buyers value businesses on revenue, cash flow, and asset quality. A website that ranks on Google, has measurable traffic, and converts visitors is a transferable asset with auditable performance. Two businesses with identical revenue can be worth 20–30% different multiples based on whether the website is "their lead engine" or "an old WordPress install they never update."'
-  - q: 'What about the "investment" framing? Is that just sales talk?'
-    a: 'It is a real distinction. An expense is consumed when you pay it (electricity, payroll, supplies). An investment produces value over time (a website, a marketing campaign, training). The same $1,800 spent on Facebook ads gets you 30 days of traffic. The same $1,800 spent on a managed website produces traffic for the next 12 months and into year 2. Same dollar, different value curve.'
+  - q: How do I deduct a website on my taxes?
+    a: >-
+      Same way you deduct any ordinary business expense. The managed fee shows
+      up on your P&L under "advertising," "marketing," or "professional
+      services." Your accountant handles it. There is no special form for the
+      monthly. For one-time builds over $2,500 you may need to capitalize and
+      depreciate; ask your accountant. The $150/mo managed model is
+      straightforward.
+  - q: What is the IRS Form 8826 angle?
+    a: >-
+      The Disabled Access Credit. If your web spend includes making the site
+      ADA-compliant (which it should, given the lawsuit risk), you can claim up
+      to 50% of eligible costs as a tax credit, up to $5,000/yr. Credit, not
+      deduction: that is dollar-for-dollar against the tax owed. Most small
+      businesses qualify (under $1M in revenue or fewer than 30 full-time
+      employees). Most do not know about it. Ask your accountant.
+  - q: Why is comparing the monthly to other monthly fees a mistake?
+    a: >-
+      Because the mental category "subscription" suggests something disposable:
+      the gym membership you cancel, the streaming service you forgot. A website
+      is structurally different. It compounds. The traffic you build in year one
+      keeps producing in year two without re-spending. Inventory, equipment, and
+      insurance are the right comparisons. None of those get cancelled because
+      they "feel expensive this month."
+  - q: Is the site worth anything if I sell my business?
+    a: >-
+      Yes, more than most owners realize. Buyers value businesses on revenue,
+      cash flow, and asset quality. A website that ranks on Google, has
+      measurable traffic, and converts visitors is a transferable asset with
+      auditable performance. Two businesses with identical revenue can be worth
+      20–30% different multiples based on whether the website is "their lead
+      engine" or "an old WordPress install they never update."
+  - q: What about the "investment" framing? Is that just sales talk?
+    a: >-
+      It is a real distinction. An expense is consumed when you pay it
+      (electricity, payroll, supplies). An investment produces value over time
+      (a website, a marketing campaign, training). The same $1,800 spent on
+      Facebook ads gets you 30 days of traffic. The same $1,800 spent on a
+      managed website produces traffic for the next 12 months and into year 2.
+      Same dollar, different value curve.
   - q: 'If a website is an asset, why is it $150/mo and not a one-time purchase?'
-    a: 'Because the asset requires ongoing care to retain its value. A house is an asset and you pay property tax and maintenance. A car is an asset and you pay registration and repairs. A website that is not maintained loses value continuously: rankings drop, security degrades, design dates. <a href="/blog/managing-a-website/">The monthly is the upkeep that preserves the asset.</a>'
+    a: >-
+      Because the asset requires ongoing care to retain its value. A house is an
+      asset and you pay property tax and maintenance. A car is an asset and you
+      pay registration and repairs. A website that is not maintained loses value
+      continuously: rankings drop, security degrades, design dates. <a
+      href="/blog/managing-a-website/">The monthly is the upkeep that preserves
+      the asset.</a>
 related:
-  - url: /blog/one-client-pays-for-the-year/
-    title: 'One New Client Covers the Year. The Math.'
-  - url: /blog/managing-a-website/
-    title: 'What Managing a Website Really Means'
-  - url: /blog/ada-lawsuits-and-form-8826/
-    title: 'ADA Lawsuits and Form 8826'
+  - one-client-pays-for-the-year
+  - managing-a-website
+  - ada-lawsuits-and-form-8826
 ---
 
 A website is not a subscription.

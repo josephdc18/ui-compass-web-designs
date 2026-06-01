@@ -154,6 +154,11 @@ module.exports = function (eleventyConfig) {
   // adds the navigation plugin for easy navs
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
+  let eleventyOutputDir = './public';
+  eleventyConfig.on('eleventy.directories', (dirs) => {
+    if (dirs && dirs.output) eleventyOutputDir = dirs.output;
+  });
+
   // Exclude draft blog posts from prod builds (no URL, no feed, no listing).
   for (const draftPath of collectDraftBlogPaths()) {
     eleventyConfig.ignores.add(draftPath);
@@ -186,7 +191,26 @@ module.exports = function (eleventyConfig) {
     // Persist any newly-generated image variants back to the cache so the next
     // CF Pages build can prime ./public/images from it.
     syncDir(IMAGE_OUTPUT_DIR, IMAGE_CACHE_DIR);
-    fs.rmSync('./public/assets/images/_sources.json', { force: true });
+    fs.rmSync(path.join(eleventyOutputDir, 'assets/images/_sources.json'), { force: true });
+
+    // Expose blog-frontmatter-derived option lists to the Decap CMS custom
+    // widgets (topper combobox, tags multi-select). mkdirSync is required
+    // because the output admin dir doesn't exist on a clean checkout before the
+    // first build that triggers the passthrough-copy of src/admin/.
+    const adminOutputDir = path.join(eleventyOutputDir, 'admin');
+    fs.mkdirSync(adminOutputDir, { recursive: true });
+    try {
+      const toppers = require('./src/_data/blogToppers.js')();
+      fs.writeFileSync(path.join(adminOutputDir, 'toppers.json'), JSON.stringify(toppers));
+    } catch (e) {
+      console.warn('[blogToppers] write failed:', e.message);
+    }
+    try {
+      const tags = require('./src/_data/blogTags.js')();
+      fs.writeFileSync(path.join(adminOutputDir, 'tags.json'), JSON.stringify(tags));
+    } catch (e) {
+      console.warn('[blogTags] write failed:', e.message);
+    }
   });
 
   // open on npm start and watch CSS files for changes - doesn't trigger 11ty rebuild
@@ -246,6 +270,26 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('mdInline', (str) => {
     if (str === undefined || str === null) return '';
     return mdInline.renderInline(String(str));
+  });
+
+  // Block-level markdown renderer, sibling to mdInline above. Reuses the
+  // same MarkdownIt instance (html:true so legacy HTML-tagged FAQ answers
+  // like `<p>…</p>` pass through unchanged) but calls .render() so block
+  // elements (paragraphs, lists) are emitted. Powers the FAQ markdown
+  // widget in the Decap CMS.
+  eleventyConfig.addFilter('mdBlock', (str) => {
+    if (str === undefined || str === null) return '';
+    return mdInline.render(String(str));
+  });
+
+  eleventyConfig.addFilter('resolveRelatedPosts', (related, posts) => {
+    if (!Array.isArray(related) || !Array.isArray(posts)) return [];
+    const byPageName = new Map();
+    for (const post of posts) {
+      const pageName = post && post.data && post.data.pageName;
+      if (pageName) byPageName.set(pageName, post);
+    }
+    return related.map((slug) => byPageName.get(slug)).filter(Boolean);
   });
 
   // =========================================================================

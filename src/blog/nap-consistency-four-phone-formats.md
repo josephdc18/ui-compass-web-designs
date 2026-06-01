@@ -2,48 +2,116 @@
 pageName: nap-consistency-four-phone-formats
 blogTitle: Your Phone Number Is Four Different Businesses to Google
 titleTag: NAP Consistency for Local SEO
-blogDescription: Google reads "(901) 490-4750", "901-490-4750", "901.490.4750", and "+1 901 490 4750" as four different businesses. The NAP consistency failure that quietly costs you map-pack rankings, the 30-minute audit, and the one fix that does not trigger a Google review.
-author: "Joseph C."
+blogDescription: >-
+  Google reads "(901) 490-4750", "901-490-4750", "901.490.4750", and "+1 901 490
+  4750" as four different businesses. The NAP consistency failure that quietly
+  costs you map-pack rankings, the 30-minute audit, and the one fix that does
+  not trigger a Google review.
+author: Joseph C.
 date: 2025-12-09T16:00:00.000Z
 draft: true
 tags:
   - post
   - seo
-category: "SEO"
+category: SEO
 readMins: 6
-topper: "SEO"
+topper: SEO
 image: /assets/images/nap-consistency-four-phone-formats-card.png
-imageAlt: Four browser tabs side by side showing the same business with four different phone number formats across Google, Yelp, Facebook, and a website
+imageAlt: >-
+  Four browser tabs side by side showing the same business with four different
+  phone number formats across Google, Yelp, Facebook, and a website
 tldrTitle: Key Takeaways
 tldr:
-  - 'Google treats **"(901) 490-4750"** and **"901-490-4750"** as different facts about your business. The same logic applies to **address formats** and **business-name variants**.'
-  - 'A typical small business has its **NAP** (Name, Address, Phone) written **4 to 8 different ways** across the web. Each variant dilutes the local-SEO signal that should be pointing at one listing.'
-  - 'Top-3 map-pack businesses share one trait almost universally: **NAP that matches across every directory** they appear on. Reviews and content matter, but NAP is the foundation.'
-  - 'The audit is 30 minutes. The fix is mostly an hour of copy-paste across 8 to 12 listings. The result usually starts showing up in map-pack ranking within **4 to 8 weeks**.'
+  - >-
+    Google treats **"(901) 490-4750"** and **"901-490-4750"** as different facts
+    about your business. The same logic applies to **address formats** and
+    **business-name variants**.
+  - >-
+    A typical small business has its **NAP** (Name, Address, Phone) written **4
+    to 8 different ways** across the web. Each variant dilutes the local-SEO
+    signal that should be pointing at one listing.
+  - >-
+    Top-3 map-pack businesses share one trait almost universally: **NAP that
+    matches across every directory** they appear on. Reviews and content matter,
+    but NAP is the foundation.
+  - >-
+    The audit is 30 minutes. The fix is mostly an hour of copy-paste across 8 to
+    12 listings. The result usually starts showing up in map-pack ranking within
+    **4 to 8 weeks**.
 faq:
-  - q: 'What is NAP and why does Google care about consistency?'
-    a: 'NAP stands for Name, Address, Phone — the three core fields Google uses to identify a business. Google''s local algorithm tries to merge every mention of your business across the web (your site, GBP, Yelp, Facebook, the chamber of commerce listing, the BBB) into one canonical entity. When those mentions disagree on phone format, address format, or business name, the algorithm has to guess which is correct, and the confidence score on your listing drops. Lower confidence = lower map-pack ranking.'
-  - q: 'How strict is "consistency" — do hyphens vs. dots actually matter?'
-    a: 'Less than they used to, more than zero. Google has gotten better at recognizing "(901) 490-4750" and "901-490-4750" as the same number, but the recognition is a probability, not a guarantee. Every variant adds a small amount of uncertainty. The safest move is to pick one format and use it everywhere. Hyphenated US format ("901-490-4750") is the most widely recognized.'
-  - q: 'What about my business name? Is "UI Compass" different from "UI Compass Web Designs"?'
-    a: 'Yes, to Google. The algorithm treats those as two name variants. The fix is to pick one canonical name (whatever is on your GBP listing) and use it everywhere — site, footer, schema, every directory. The exception is the legal name on your business license, which can differ from the trading name without confusing Google as long as the trading name is consistent in public-facing places.'
-  - q: 'I changed my phone number last year. How do I update without losing rankings?'
-    a: 'Update GBP first and wait for Google to confirm the change (usually 24–72 hours, sometimes a manual review). Then update your website, then every directory listing. The reason for the order: GBP is the canonical source Google trusts most. Updating other places before GBP can trigger a "data conflict" flag that delays the change. Note the change date and watch your map-pack ranking for 4–8 weeks — small dips are normal.'
+  - q: What is NAP and why does Google care about consistency?
+    a: >-
+      NAP stands for Name, Address, Phone — the three core fields Google uses to
+      identify a business. Google's local algorithm tries to merge every mention
+      of your business across the web (your site, GBP, Yelp, Facebook, the
+      chamber of commerce listing, the BBB) into one canonical entity. When
+      those mentions disagree on phone format, address format, or business name,
+      the algorithm has to guess which is correct, and the confidence score on
+      your listing drops. Lower confidence = lower map-pack ranking.
+  - q: How strict is "consistency" — do hyphens vs. dots actually matter?
+    a: >-
+      Less than they used to, more than zero. Google has gotten better at
+      recognizing "(901) 490-4750" and "901-490-4750" as the same number, but
+      the recognition is a probability, not a guarantee. Every variant adds a
+      small amount of uncertainty. The safest move is to pick one format and use
+      it everywhere. Hyphenated US format ("901-490-4750") is the most widely
+      recognized.
+  - q: >-
+      What about my business name? Is "UI Compass" different from "UI Compass
+      Web Designs"?
+    a: >-
+      Yes, to Google. The algorithm treats those as two name variants. The fix
+      is to pick one canonical name (whatever is on your GBP listing) and use it
+      everywhere — site, footer, schema, every directory. The exception is the
+      legal name on your business license, which can differ from the trading
+      name without confusing Google as long as the trading name is consistent in
+      public-facing places.
+  - q: >-
+      I changed my phone number last year. How do I update without losing
+      rankings?
+    a: >-
+      Update GBP first and wait for Google to confirm the change (usually 24–72
+      hours, sometimes a manual review). Then update your website, then every
+      directory listing. The reason for the order: GBP is the canonical source
+      Google trusts most. Updating other places before GBP can trigger a "data
+      conflict" flag that delays the change. Note the change date and watch your
+      map-pack ranking for 4–8 weeks — small dips are normal.
   - q: 'What about my name on Facebook, Yelp, and the chamber of commerce site?'
-    a: 'All of them. The "big 4" public directories Google watches most: Google Business Profile, Yelp, Facebook, and Apple Maps. After those, industry-specific directories (Houzz for home services, Avvo for legal, Healthgrades for medical). After that, broad-coverage directories like BBB and Yellow Pages. You do not need to be on every directory, but the ones you are on should all match.'
-  - q: 'How long does it take to see a ranking change after fixing NAP?'
-    a: 'Usually 4 to 8 weeks for the first signs. The full benefit shows up over 3 to 6 months as Google re-confirms each listing, the same realistic timeline as <a href="/blog/five-reviews-a-month-beats-thirty-in-a-week/">other local-SEO foundation work</a>. The work compounds — once your NAP is clean, every new directory listing and review adds straight signal instead of muddying the picture.'
-  - q: 'Does this connect to schema markup?'
-    a: 'Yes. <a href="/blog/faq-schema-3x-screen-space/">LocalBusiness schema</a> on your site should use the exact same NAP values as your GBP listing. Schema is the canonical declaration of who you are to Google; mismatched schema vs. visible page is one of the five mistakes that gets a rich result dropped. The schema, the visible footer, and the GBP listing all have to match.'
-  - q: 'My address is a suite number. Should I include it or not?'
-    a: 'Include it, consistently. "123 Main St Suite 4" and "123 Main St, Ste 4" and "123 Main St #4" are three different addresses to Google. Pick one format (we recommend "123 Main St Ste 4" — no comma, no pound sign, "Ste" abbreviation) and use it everywhere. The US Postal Service standard formats are documented in their PUB 28 if you want the source.'
+    a: >-
+      All of them. The "big 4" public directories Google watches most: Google
+      Business Profile, Yelp, Facebook, and Apple Maps. After those,
+      industry-specific directories (Houzz for home services, Avvo for legal,
+      Healthgrades for medical). After that, broad-coverage directories like BBB
+      and Yellow Pages. You do not need to be on every directory, but the ones
+      you are on should all match.
+  - q: How long does it take to see a ranking change after fixing NAP?
+    a: >-
+      Usually 4 to 8 weeks for the first signs. The full benefit shows up over 3
+      to 6 months as Google re-confirms each listing, the same realistic
+      timeline as <a
+      href="/blog/five-reviews-a-month-beats-thirty-in-a-week/">other local-SEO
+      foundation work</a>. The work compounds — once your NAP is clean, every
+      new directory listing and review adds straight signal instead of muddying
+      the picture.
+  - q: Does this connect to schema markup?
+    a: >-
+      Yes. <a href="/blog/faq-schema-3x-screen-space/">LocalBusiness schema</a>
+      on your site should use the exact same NAP values as your GBP listing.
+      Schema is the canonical declaration of who you are to Google; mismatched
+      schema vs. visible page is one of the five mistakes that gets a rich
+      result dropped. The schema, the visible footer, and the GBP listing all
+      have to match.
+  - q: My address is a suite number. Should I include it or not?
+    a: >-
+      Include it, consistently. "123 Main St Suite 4" and "123 Main St, Ste 4"
+      and "123 Main St #4" are three different addresses to Google. Pick one
+      format (we recommend "123 Main St Ste 4" — no comma, no pound sign, "Ste"
+      abbreviation) and use it everywhere. The US Postal Service standard
+      formats are documented in their PUB 28 if you want the source.
 related:
-  - url: /blog/five-reviews-a-month-beats-thirty-in-a-week/
-    title: '5 Google Reviews a Month Beats 30 in One Week'
-  - url: /blog/faq-schema-3x-screen-space/
-    title: 'FAQ Schema Turns One Blue Link Into 3x Screen Space'
-  - url: /blog/tap-to-call-phone-numbers/
-    title: 'Your Phone Number Should Be a Link. Most Are Not.'
+  - five-reviews-a-month-beats-thirty-in-a-week
+  - faq-schema-3x-screen-space
+  - tap-to-call-phone-numbers
 ---
 
 Open a Google search for your business. Look at the phone numbers on every result.

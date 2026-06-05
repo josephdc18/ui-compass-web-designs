@@ -464,12 +464,18 @@
       if (!clean) return;
       var cur = this.currentTags();
       if (cur.indexOf(clean) >= 0) { this.setState({ query: '' }); return; }
+      var isNew = this.state.options.indexOf(clean) < 0;
+      var newTags = Object.assign({}, this.state.newTags || {});
+      if (isNew) newTags[clean] = true;
       cur.push(clean);
       this.emit(cur);
-      this.setState({ query: '' });
+      this.setState({ query: '', newTags: newTags });
     },
     removeTag: function (tag) {
+      var newTags = Object.assign({}, this.state.newTags || {});
+      delete newTags[tag];
       this.emit(this.currentTags().filter(function (t) { return t !== tag; }));
+      this.setState({ newTags: newTags });
     },
     handleKeyDown: function (e) {
       if (e.key === 'Enter') {
@@ -499,6 +505,7 @@
       };
       var catChip = Object.assign({}, chipBase, { background: '#e7f0ff', color: '#1a4d8f' });
       var badge = { fontSize: '10px', padding: '0 4px', borderRadius: '6px', background: '#1a4d8f', color: '#fff', marginLeft: '2px' };
+      var newBadge = { fontSize: '10px', padding: '0 4px', borderRadius: '6px', background: '#2f7d46', color: '#fff', marginLeft: '2px' };
       var removeBtn = { border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '14px', lineHeight: '1', padding: '0 2px' };
       var inputStyle = { flex: '1', minWidth: '120px', border: 'none', outline: 'none', fontSize: '14px', background: 'transparent' };
       var listStyle = {
@@ -513,9 +520,11 @@
         h('div', { style: chipsRow },
           selected.map(function (t, i) {
             var isCat = CATEGORY_TAGS[t];
+            var isNew = self.state.newTags && self.state.newTags[t];
             return h('span', { key: t + i, style: isCat ? catChip : chipBase },
               t,
               isCat ? h('span', { style: badge }, 'category') : null,
+              isNew ? h('span', { style: newBadge }, 'new') : null,
               h('button', {
                 type: 'button',
                 style: removeBtn,
@@ -915,6 +924,21 @@
     el.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
+  function ensureSlugLockWarning(pageEl) {
+    if (!pageEl || pageEl.dataset.slugLockWarningApplied) return;
+    var note = document.createElement('div');
+    note.className = 'cms-slug-lock-warning';
+    note.textContent = 'Locked after publish — changing this breaks existing links.';
+    note.style.marginTop = '4px';
+    note.style.fontSize = '0.75rem';
+    note.style.lineHeight = '1.35';
+    note.style.color = '#8a4b00';
+    note.style.fontWeight = '600';
+    note.setAttribute('role', 'note');
+    if (pageEl.parentNode) pageEl.parentNode.insertBefore(note, pageEl.nextSibling);
+    pageEl.dataset.slugLockWarningApplied = '1';
+  }
+
   function applySlugAutofill(root) {
     var titleEl = null;
     var pageEl = null;
@@ -935,6 +959,7 @@
       pageEl.style.opacity = '0.6';
       pageEl.style.cursor = 'not-allowed';
     }
+    if (isPublishedEntry()) ensureSlugLockWarning(pageEl);
 
     if (!titleEl || titleEl.dataset.slugAutofillApplied) return;
     titleEl.dataset.slugAutofillApplied = '1';
@@ -1087,5 +1112,17 @@
     initSlugAutofill();
     initCharCounters();
     ensureCompactListStyles();
+  }
+
+  // -------------------------------------------------------------------
+  // Final step — initialize Decap *after* every custom widget above is
+  // registered. Paired with `window.CMS_MANUAL_INIT = true` in
+  // src/admin/index.html. Without manual init Decap auto-boots on
+  // bundle eval, which sometimes wins the race against this script and
+  // surfaces "No control for widget 'topper' / 'tagPicker'" in the
+  // editor pane.
+  // -------------------------------------------------------------------
+  if (typeof CMS.init === 'function') {
+    CMS.init();
   }
 })();

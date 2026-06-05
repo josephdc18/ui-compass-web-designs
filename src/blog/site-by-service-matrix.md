@@ -13,6 +13,10 @@ tldr:
   - For better SEO optimization, set up one service per web page.
   - Dedicate a page to each location that you will service.
   - Each location page must be unique. If not, Google will demote the site.
+related:
+  - a-page-per-suburb-for-trades
+  - drag-and-drop-vs-hiring
+  - designed-on-a-monitor-used-on-a-phone
 ---
 ## How to create a site-by-service Matrix
 

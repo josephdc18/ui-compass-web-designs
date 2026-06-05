@@ -69,9 +69,9 @@ faq:
       small businesses without that, the managed model still wins on
       time-to-launch and ongoing maintenance.
 related:
-  - small-business-website-cost
-  - ai-built-websites
-  - managing-a-website
+  - designed-on-a-monitor-used-on-a-phone
+  - a-page-per-suburb-for-trades
+  - site-by-service-matrix
 ---
 Squarespace is $200 a year. Wix is similar. Shopify is more.
 

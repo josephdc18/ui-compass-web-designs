@@ -103,9 +103,9 @@ faq:
       and 768 as named transition points, so the layout is intentional at every
       width.
 related:
-  - the-1-second-tax
-  - the-seven-homepage-sections
-  - redesign-or-optimize-warning-signs
+  - a-page-per-suburb-for-trades
+  - drag-and-drop-vs-hiring
+  - site-by-service-matrix
 readMins: 5
 hero: true
 category: Performance

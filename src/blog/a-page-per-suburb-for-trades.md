@@ -110,9 +110,9 @@ faq:
       ranking around week 6. Pages that fail one of the three can take 3–6
       months to settle, or never make it to page 1.
 related:
-  - nine-gbp-secondary-categories
-  - nap-consistency-four-phone-formats
-  - five-reviews-a-month-beats-thirty-in-a-week
+  - site-by-service-matrix
+  - designed-on-a-monitor-used-on-a-phone
+  - drag-and-drop-vs-hiring
 readMins: 7
 category: SEO
 ---

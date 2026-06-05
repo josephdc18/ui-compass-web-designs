@@ -25,17 +25,7 @@ eleventyNavigation:
       </div>
     </div>
   </div>
-  <picture class="cs-background">
-    <source media="(max-width: 600px)" srcset="/assets/images/371ae357e324.avif" type="image/avif">
-    <source media="(max-width: 600px)" srcset="/assets/images/cb1b4571c137.webp" type="image/webp">
-    <source media="(max-width: 600px)" srcset="/assets/images/d648c04c44f0.jpg" type="image/jpeg">
-    <source media="(max-width: 1024px)" srcset="/assets/images/cc4812bc1b59.avif" type="image/avif">
-    <source media="(max-width: 1024px)" srcset="/assets/images/0cc8d4ef8311.webp" type="image/webp">
-    <source media="(max-width: 1024px)" srcset="/assets/images/9ad2728812df.jpg" type="image/jpeg">
-    <source media="(min-width: 1024px)" srcset="/assets/images/46d2520ddb1e.avif" type="image/avif">
-    <source media="(min-width: 1024px)" srcset="/assets/images/ef76d3f7eb47.webp" type="image/webp">
-    <source media="(min-width: 1024px)" srcset="/assets/images/d539fa37b2b6.jpg" type="image/jpeg"><img alt="a warm, welcoming web development studio" decoding="async" fetchpriority="high" height="764" src="/assets/images/d539fa37b2b6.jpg" width="1920" aria-hidden="true" loading="eager">
-  </picture>
+  {% image "/assets/images/hero-coding.jpg", "Hands at a laptop with code on screen and a coffee bottle on a wood desk in warm, cafe-style light", "cs-background", "eager" %}
 </section>
 
 <section id="services-1628">
@@ -80,12 +70,26 @@ eleventyNavigation:
     </div>
     <ul class="cs-image-group">
       <li class="cs-item">
-        <a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
-          {% image "/assets/images/tcvisuals-hero.png", "TC Visuals LLC website homepage preview", "cs-picture", "lazy" %}
+        <a class="cs-link" href="https://mosaicbishoparts.com" target="_blank" rel="noopener">
+          {% image "/assets/images/mosaic-suites-hero.png", "Mosaic Suites website homepage preview", "cs-picture", "lazy" %}
           <div class="cs-item-text">
             <div class="cs-flex">
-              <h3 class="cs-h3">TC Visuals LLC</h3>
-              <span class="cs-desc">Trevor Clutts is changing what videography looks like in Memphis. With a signature cinematic style, he’s quickly becoming a go-to name for video work in Bluff City.</span>
+              <h3 class="cs-h3">Mosaic Suites</h3>
+              <span class="cs-desc">A curated short-term and furnished mid-term rental brand in Bishop Arts, Dallas. The site is built around a polished, lifestyle-forward feel that turns browsers into bookers.</span>
+            </div>
+            <picture class="cs-icon-wrapper">
+              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
+            </picture>
+          </div>
+        </a>
+      </li>
+      <li class="cs-item">
+        <a class="cs-link" href="https://casablancabarbershoptx.com" target="_blank" rel="noopener">
+          {% image "/assets/images/casablanca-barber-hero.png", "Casablanca Barber Shop website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-item-text">
+            <div class="cs-flex">
+              <h3 class="cs-h3">Casablanca Barber Shop</h3>
+              <span class="cs-desc">A North Arlington barber shop where expert precision meets a warm, family-friendly atmosphere. Built to put haircuts, beard work, and hot towel shaves a single tap from booking.</span>
             </div>
             <picture class="cs-icon-wrapper">
               <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
@@ -108,26 +112,12 @@ eleventyNavigation:
         </a>
       </li>
       <li class="cs-item">
-        <a class="cs-link" href="https://mosaicbishoparts.com" target="_blank" rel="noopener">
-          {% image "/assets/images/mosaic-suites-hero.png", "Mosaic Suites website homepage preview", "cs-picture", "lazy" %}
+        <a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
+          {% image "/assets/images/tcvisuals-hero.png", "TC Visuals LLC website homepage preview", "cs-picture", "lazy" %}
           <div class="cs-item-text">
             <div class="cs-flex">
-              <h3 class="cs-h3">Mosaic Suites</h3>
-              <span class="cs-desc">A curated short-term and furnished mid-term rental brand in Bishop Arts, Dallas. The site is built around a polished, lifestyle-forward feel that turns browsers into bookers.</span>
-            </div>
-            <picture class="cs-icon-wrapper">
-              <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">
-            </picture>
-          </div>
-        </a>
-      </li>
-      <li class="cs-item">
-        <a class="cs-link" href="https://casablancabarbershoptx.com" target="_blank" rel="noopener">
-          {% image "/assets/images/casablanca-barber-hero.png", "Casablanca Barber Shop website homepage preview", "cs-picture", "lazy" %}
-          <div class="cs-item-text">
-            <div class="cs-flex">
-              <h3 class="cs-h3">Casablanca Barber Shop</h3>
-              <span class="cs-desc">A North Arlington barber shop where expert precision meets a warm, family-friendly atmosphere. Built to put haircuts, beard work, and hot towel shaves a single tap from booking.</span>
+              <h3 class="cs-h3">TC Visuals LLC</h3>
+              <span class="cs-desc">Trevor Clutts is changing what videography looks like in Memphis. With a signature cinematic style, he’s quickly becoming a go-to name for video work in Bluff City.</span>
             </div>
             <picture class="cs-icon-wrapper">
               <img class="cs-icon" decoding="async" loading="lazy" src="/assets/svgs/arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true">

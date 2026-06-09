@@ -11,7 +11,6 @@
   <link rel="canonical" href="https://{{ client.domain }}{{ page.url }}">
 
   <meta name="description" content="{{ description }}">
-  <meta name="keywords" content="">
 
   <!--Social Media Display-->
   {% if page.url == '/' %}
@@ -28,6 +27,49 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://{{ client.domain }}/assets/social-media/og-preview.png" />
+
+  <!-- Structured data: one LocalBusiness/Organization node for the whole site,
+       rendered on the homepages only. `sameAs` ties this entity to our
+       verified Google/Facebook/Instagram/LinkedIn profiles for citation trust. -->
+  {% if page.url == '/' or page.url == '/ko/' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://{{ client.domain }}/#business",
+    "name": "{{ client.name }}",
+    "url": "https://{{ client.domain }}/",
+    "logo": "https://{{ client.domain }}/assets/logo.svg",
+    "image": "https://{{ client.domain }}/assets/social-media/og-preview.png",
+    "description": "Custom-coded websites for small businesses — no WordPress or page builders. $0 down, $150/month including design, hosting, and unlimited updates.",
+    "telephone": "+1{{ client.phone }}",
+    "email": "{{ client.email }}",
+    "priceRange": "$$",
+    "foundingDate": "2025",
+    "founder": { "@type": "Person", "name": "{{ client.owner }}" },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "{{ client.address.city }}",
+      "addressRegion": "{{ client.address.county }}",
+      "postalCode": "{{ client.address.postcode }}",
+      "addressCountry": "US"
+    },
+    "areaServed": [
+      { "@type": "State", "name": "Texas" },
+      { "@type": "State", "name": "Tennessee" },
+      { "@type": "Country", "name": "United States" }
+    ],
+    "sameAs": [
+      "{{ client.social.facebook }}",
+      "{{ client.social.instagram }}",
+      "{{ client.social.linkedin }}"
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {# Breadcrumb structured data for interior pages (services, locations, etc.) #}
+  {% if interior %}{% include "breadcrumb-schema.html" %}{% endif %}
 
   <!--Favicons-->
   <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico">
@@ -96,7 +138,8 @@
   <noscript><link rel="stylesheet" href="/css/toc.css?v={{ build.hash }}"></noscript>
   {% endif %}
 
-  <!--Put analytics tag here at the bottom to prevent it from render blocking-->
+  <!-- Analytics: Umami (privacy-friendly, cookieless). `defer` keeps it off the critical render path. -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="39245a35-e08a-4be3-b01e-3ea0a84d390e"></script>
 
   <!-- For home page, use full title, including location for SEO. Other pages should just include the page name -->
   <title>

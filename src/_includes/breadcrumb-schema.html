@@ -1,0 +1,24 @@
+{# ==========================================================================
+   BreadcrumbList JSON-LD for interior pages.
+
+   Auto-derives the trail from the URL — no per-page front matter needed:
+     • Location detail pages:  Home > Locations > {{ tagTitle }}
+     • Every other interior:   Home > {{ tagTitle }}
+
+   Included from base.html whenever `interior` is set. Mirrors the visible
+   breadcrumb markup so search engines can render a breadcrumb trail.
+   ========================================================================== #}
+{% if tagTitle %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://{{ client.domain }}/" }{% if '/locations/' in page.url and page.url != '/locations/' %},
+    { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://{{ client.domain }}/locations/" },
+    { "@type": "ListItem", "position": 3, "name": {{ tagTitle | dump | safe }}, "item": "https://{{ client.domain }}{{ page.url }}" }{% else %},
+    { "@type": "ListItem", "position": 2, "name": {{ tagTitle | dump | safe }}, "item": "https://{{ client.domain }}{{ page.url }}" }{% endif %}
+  ]
+}
+</script>
+{% endif %}

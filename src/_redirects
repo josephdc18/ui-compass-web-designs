@@ -1,3 +1,7 @@
+# Retired Spanish locale — 301 any stale /es/* URL to its English equivalent
+# so Google de-indexes the duplicates and consolidates ranking signals.
+/es/* /:splat 301
+
 /shop-admin /crm/ 301
 /shop-admin/* /crm/ 301
 /clients-admin /crm/ 301

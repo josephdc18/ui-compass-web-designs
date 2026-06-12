@@ -43,8 +43,6 @@
   /* containers get no width hairline; labels treat only leaves as solid */
   const NO_HAIR = new Set(['section', 'navbar', 'topbar']);
   const LEAF_IDS = ['topper', 'title', 'text', 'button', 'worklink', 'logo', 'navcta', 'navul'];
-  /* mobile shows the hero story only — header annotations need room to breathe */
-  const MOBILE_IDS = ['section', 'topper', 'title', 'text', 'button', 'worklink'];
   /* ── State ─────────────────────────────────────────────────────── */
   let X = 0, lastX = NaN;
   let holding = false, pinned = false;
@@ -365,8 +363,10 @@
           type: typeBits(el),
         };
       })
-      .filter((sp) => (sp.id === 'section' || (sp.rect.w > 8 && sp.rect.h > 8))
-        && (!isMobile() || MOBILE_IDS.includes(sp.id)));
+      /* the size gate alone decides what mobile annotates: the hamburger-
+         hidden nav list and CTA collapse to zero-rects and drop out, while
+         the visible header (navbar, logo, top bar) keeps its redlines */
+      .filter((sp) => sp.id === 'section' || (sp.rect.w > 8 && sp.rect.h > 8));
 
     const mobile = isMobile();
     for (const s of specs) {

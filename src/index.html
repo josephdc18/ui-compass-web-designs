@@ -11,13 +11,15 @@ eleventyNavigation:
 ---
 <script>
   /* hero entrance: boot as a blueprint before first paint — once per tab
-     session, skipped for reduced-motion. hero-anatomy.js runs the glide and
-     removes the class; the timeout is a failsafe so the hero can never stay
-     dissolved if that script fails to load. */
+     session, desktop only (the boot hides the LCP text, which mobile
+     PageSpeed punishes hard), skipped for reduced-motion. hero-anatomy.js
+     runs the glide and removes the class; the timeout is a failsafe so the
+     hero can never stay dissolved if that script fails to load. */
   (function () {
     try {
       if (sessionStorage.getItem('ha-booted')) return;
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!matchMedia('(min-width: 768px)').matches) return;   // same breakpoint as isMobile() in hero-anatomy.js
       document.documentElement.classList.add('ha-booting');
       setTimeout(function () {
         document.documentElement.classList.remove('ha-booting');

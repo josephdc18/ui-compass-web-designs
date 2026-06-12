@@ -572,3 +572,15 @@ body.dark-mode #cs-navigation .cs-top-container{
     filter:none;
   }
 }
+
+/* hero anatomy — first-paint baseline. Full styles live in local.css
+   (async); this inlined block keeps the anatomy overlays out of flow and
+   invisible until it arrives, and holds the entrance pre-state set by the
+   inline html.ha-booting script so the hero is born as a blueprint with no
+   flash of the finished page. Same architecture as the .audit-fab baseline
+   in root.css. */
+#hero-1950 .ha-placeholder,#hero-1950 .ha-chrome,#hero-1950 .ha-mobile-hint{display:none}
+.ha-cursor-hint{position:fixed;top:0;left:0;opacity:0;pointer-events:none}
+html.ha-booting #hero-1950 :is(.cs-topper,.cs-title){opacity:0;transform:translateY(28px);filter:blur(10px)}
+html.ha-booting #hero-1950 :is(.cs-text,.cs-hero-actions){opacity:0;transform:translateY(18px)}
+@media (prefers-reduced-motion:reduce){html.ha-booting #hero-1950 :is(.cs-topper,.cs-title,.cs-text,.cs-hero-actions){opacity:1;transform:none;filter:none}}

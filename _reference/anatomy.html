@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI Compass — Hero &amp; Nav, opened.</title>
+<script>
+  /* the demo always boots as a blueprint (reduced-motion visitors skip it);
+     the timeout is a failsafe so the page can never stay dissolved */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('ha-booting');
+    setTimeout(function () { document.documentElement.classList.remove('ha-booting'); }, 5000);
+  }
+</script>
+<!-- the real site's critical.css, verbatim — nav, hero first-paint, dark mode -->
+<link rel="stylesheet" href="../src/css/critical.css">
+<style>
+/* ── Brand tokens (verbatim from src/css/root.css) ───────────────── */
+:root {
+  --primary: #006940;
+  --primaryLight: #00bd74;
+  --secondary: #e6d9c7;
+  --secondaryLight: #faf7f4;
+  --headerColor: #262421;
+  --bodyTextColor: #4e4b66;
+  --bodyTextColorWhite: #fafbfc;
+  --topperFontSize: clamp(0.8125rem,1.6vw,1rem);
+  --headerFontSize: clamp(1.9375rem,3.9vw,3.0625rem);
+  --bodyFontSize: 1rem;
+  --dark: #0d1411;
+  --medium: #1a221d;
+  --accent: #232d27;
+  --headerFontFamily: "Roboto","Arial",sans-serif;
+  --bodyFontFamily: "Roboto","Arial",sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(../public/assets/fonts/roboto-v29-latin-regular.woff2) format("woff2"),url(../public/assets/fonts/roboto-v29-latin-regular.woff) format("woff")}
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:700;src:url(../public/assets/fonts/roboto-v29-latin-700.woff2) format("woff2"),url(../public/assets/fonts/roboto-v29-latin-700.woff) format("woff")}
+@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:900;src:url(../public/assets/fonts/roboto-v29-latin-900.woff2) format("woff2"),url(../public/assets/fonts/roboto-v29-latin-900.woff) format("woff")}
+
+/* ── The driver — registered, typed, inherited ───────────────────── */
+@property --xray { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+/* ── Reset ───────────────────────────────────────────────────────── */
+*, *:before, *:after { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  background: var(--bodyTextColorWhite);
+  font-family: "Roboto", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a:hover { cursor: pointer; }
+img { -webkit-user-drag: none; user-select: none; }
+
+/* ── Site base classes (verbatim from root.css) ──────────────────── */
+.cs-topper{font-size:var(--topperFontSize);line-height:1.2em;text-transform:uppercase;text-align:inherit;letter-spacing:.1em;font-weight:700;color:var(--primary);margin-bottom:0.25rem;display:block}
+.cs-title{font-size:var(--headerFontSize);font-weight:900;line-height:1.2em;text-align:inherit;max-width:43.75rem;margin:0 0 1rem 0;color:var(--headerColor);position:relative}
+.cs-text{font-size:var(--bodyFontSize);line-height:1.5em;text-align:inherit;width:100%;max-width:40.625rem;margin:0;color:var(--bodyTextColor)}
+.cs-button-solid{background-color:var(--primary);border:none;color:var(--bodyTextColorWhite);display:inline-block;font-size:1rem;font-weight:700;line-height:3.125em;padding:0 1.875rem;position:relative;text-align:center;text-decoration:none;transition:color .3s;transition-delay:.1s;width:auto;z-index:1;box-sizing:border-box}
+.cs-button-solid:hover{color:var(--bodyTextColorWhite)}
+.cs-button-solid:before{background-color:#000;content:"";display:block;height:100%;left:0;opacity:1;position:absolute;top:0;transition:width .3s;width:0;z-index:-1}
+.cs-button-solid:hover:before{width:100%}
+
+/* "See our work" link (verbatim from root.css) */
+.cs-hero-work-link{position:relative;display:inline-flex;align-items:center;gap:.5rem;color:var(--bodyTextColorWhite);font-size:1rem;font-weight:700;line-height:1.4em;text-decoration:none;transition:color .3s ease}
+.cs-hero-work-link::after{content:"";position:absolute;left:0;right:0;bottom:-.15rem;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left center;transition:transform .35s ease}
+.cs-hero-work-link:hover,.cs-hero-work-link:focus-visible{color:var(--primaryLight)}
+.cs-hero-work-link:hover::after,.cs-hero-work-link:focus-visible::after{transform:scaleX(1)}
+.cs-hero-work-link:focus-visible{outline:none}
+.cs-hero-work-arrow{display:block;width:1rem;height:1rem;flex:none;transition:transform .3s ease}
+.cs-hero-work-link:hover .cs-hero-work-arrow,.cs-hero-work-link:focus-visible .cs-hero-work-arrow{transform:translate(2px,2px)}
+
+/* ── hero-1950 (verbatim from src/css/local.css) ─────────────────── */
+@media only screen and (min-width:0rem){
+  #hero-1950{align-items:flex-end;display:flex;min-height:100svh;padding:clamp(12.5rem,12vw,18.75rem) 1rem clamp(3.75rem,8vw,6.25rem);position:relative;z-index:1}
+  #hero-1950 .cs-container{align-items:flex-end;display:flex;flex-direction:column;gap:clamp(3.75rem,13vw,11.25rem);justify-content:flex-end;margin:0 auto;max-width:80rem;width:100%}
+  #hero-1950 .cs-content{align-items:flex-start;display:flex;flex-direction:column;text-align:left;width:100%}
+  #hero-1950 .cs-title{color:var(--bodyTextColorWhite);font-size:clamp(3rem,6.4vw,4.25rem);margin-bottom:1.75rem}
+  #hero-1950 .cs-text{color:var(--bodyTextColorWhite);font-size:clamp(1.125rem,2vw,1.25rem);line-height:1.55em;margin-bottom:1.25rem;opacity:.92}
+  #hero-1950 .cs-flex-group{max-width:32.8125rem}
+  #hero-1950 .cs-background{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:-2}
+  #hero-1950 .cs-background img{height:100%;left:0;-o-object-fit:cover;object-fit:cover;position:absolute;top:0;width:100%}
+  #hero-1950 .cs-background:before{background-color:rgba(26,26,26,.6);content:"";display:block;height:100%;left:0;pointer-events:none;position:absolute;top:0;width:100%;z-index:1}
+  #hero-1950 .cs-flex{display:flex;flex-direction:column;align-items:flex-start;width:100%}
+  #hero-1950 .cs-topper{align-items:center;background-color:var(--primary);border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.25);color:var(--bodyTextColorWhite);display:inline-flex;font-size:.875rem;gap:.5rem;letter-spacing:.14em;margin-bottom:1.25rem;padding:.45rem .9rem .45rem .7rem}
+  #hero-1950 .cs-topper-icon{flex-shrink:0;height:1em;width:1em}
+  #hero-1950 .cs-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:1rem 1.75rem}
+}
+@media only screen and (min-width:48rem){
+  #hero-1950 .cs-content{align-items:flex-end;flex-direction:row;gap:2rem;justify-content:space-between;text-align:left}
+  #hero-1950 .cs-title{flex:none;margin-bottom:0;max-width:none;width:100%}
+  #hero-1950 .cs-background:before{background:linear-gradient(180deg,rgba(26,26,26,.86) 10.79%,rgba(26,26,26,0) 48.32%,rgba(26,26,26,.86) 82.84%)}
+  #hero-1950 .cs-flex{flex:none;max-width:39.375rem;width:55%;transform:translateY(-.75rem)}
+  #hero-1950 .cs-topper{font-size:1rem}
+}
+
+/* ══ ANATOMY LAYER — production local.css, rescoped to #ha-root ═══ */
+/* ══════════════════════════════════════════════════════════════════
+   hero anatomy — press & hold the hero to dissect it.
+   A single JS-driven custom property (--xray, 0→1) feeds four staged
+   ramps; everything below renders from those ramps. No layout shift:
+   every anatomy element is an absolutely-positioned overlay, and at
+   --xray:0 (the default) all of it is invisible and inert.
+   ════════════════════════════════════════════════════════════════ */
+@property --xray { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+#ha-root{
+  position: relative;
+  --xray: 0;
+  /* staged ramps — each clamps a window of the master driver to [0,1] */
+  --ha-g: clamp(0, calc((var(--xray, 0) - 0.00) / 0.35), 1);   /* grids    */
+  --ha-d: clamp(0, calc((var(--xray, 0) - 0.15) / 0.45), 1);   /* dissolve */
+  --ha-m: clamp(0, calc((var(--xray, 0) - 0.30) / 0.55), 1);   /* measure  */
+  --ha-l: clamp(0, calc((var(--xray, 0) - 0.55) / 0.45), 1);   /* labels   */
+  --ha-hair:  rgba(250, 251, 252, 0.40);
+  --ha-label: rgba(250, 251, 252, 0.82);
+  --ha-muted: rgba(250, 251, 252, 0.55);
+  --ha-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  overflow: clip;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* the specimen dims under glass so annotations pop */
+#hero-1950 .cs-container{
+  position: relative;
+  z-index: 2;
+  opacity: calc(1 - var(--ha-l, 0) * 0.3);
+}
+
+/* photo x-ray — a translucent scrim + construction cross overlays the
+   real <picture>; the image stays visible underneath throughout */
+#ha-root .ha-placeholder{
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  opacity: var(--ha-d, 0);
+  background: rgba(13, 20, 17, 0.45);
+  display: flex; align-items: center; justify-content: center;
+}
+#ha-root .ha-cross{
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+}
+#ha-root .ha-cross-line{
+  stroke: var(--ha-hair); stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-d, 0)) * 100);
+}
+#ha-root .ha-stamp{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--ha-label);
+  background: var(--dark); border: 1px solid var(--ha-hair);
+  padding: 4px 10px;
+}
+
+/* grid overlays — aligned to the real 80rem container */
+#ha-root .ha-grid-baseline{
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 7px,
+    rgba(250, 251, 252, 0.05) 7px 8px);
+  opacity: var(--ha-g, 0);
+}
+#ha-root .ha-grid-cols{
+  position: absolute; top: 0; bottom: 0;
+  left:  max(1rem, calc((100% - 80rem) / 2));
+  right: max(1rem, calc((100% - 80rem) / 2));
+  z-index: 1; pointer-events: none;
+  --ha-gut: 2rem;
+  --ha-colw: calc((100% - 11 * var(--ha-gut)) / 12);
+  background: repeating-linear-gradient(
+    to right,
+    rgba(250, 251, 252, 0.04) 0 var(--ha-colw),
+    transparent var(--ha-colw) calc(var(--ha-colw) + var(--ha-gut)));
+  opacity: calc(var(--ha-g, 0) * 0.8);
+}
+
+/* spec chrome — readout + SPEC toggle in the hero's bottom padding zone */
+#ha-root .ha-chrome{
+  position: absolute; bottom: 0;
+  left:  max(1rem, calc((100% - 80rem) / 2));
+  right: max(1rem, calc((100% - 80rem) / 2));
+  height: 3rem; z-index: 30;
+  display: flex; align-items: center; justify-content: flex-end;
+  pointer-events: none;
+}
+#ha-root .ha-toggle{
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; pointer-events: auto;
+}
+.ha-sr-only{
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+#ha-root .ha-pill{
+  width: 32px; height: 18px; border-radius: 999px; position: relative;
+  border: 1px solid var(--ha-hair);
+}
+#ha-root .ha-pill::after{
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bodyTextColorWhite); opacity: 0.55;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+#ha-root .ha-toggle input:checked ~ .ha-pill::after{
+  transform: translateX(14px); opacity: 1; background: var(--primaryLight);
+}
+#ha-root .ha-toggle input:focus-visible ~ .ha-pill{
+  outline: 2px solid var(--primaryLight); outline-offset: 4px;
+}
+#ha-root .ha-lbl{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.22em; color: var(--ha-label);
+}
+#ha-root .ha-mobile-hint{
+  display: none;
+  font-family: var(--ha-mono); font-size: 9px;
+  letter-spacing: 0.2em; color: var(--ha-muted); margin: 16px 0 0;
+}
+
+/* the dissection layer — measurements built once by hero-anatomy.js */
+#ha-root .ha-dissect{ position: absolute; inset: 0; z-index: 40; pointer-events: none; overflow: clip; }
+
+#ha-root .ha-measure{ position: absolute; overflow: visible; }
+#ha-root .ha-measure .ha-hairline{
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * var(--len));
+}
+#ha-root .ha-measure .ha-arrow{ stroke: var(--ha-hair); stroke-width: 1; fill: none; opacity: var(--ha-m, 0); }
+#ha-root .ha-measure .ha-dash-box{
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: 1.2 1.2;            /* pathLength=100 → uniform pattern on every box */
+}
+/* the mask rect that draws each dashed box on around its perimeter */
+#ha-root .ha-measure .ha-draw{
+  fill: none; stroke: #fff; stroke-width: 4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * 100);
+}
+#ha-root .ha-measure text{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; fill: var(--ha-label);
+  opacity: var(--ha-l, 0);
+}
+
+#ha-root .ha-redline{
+  position: absolute; white-space: nowrap;
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--ha-label);
+  opacity: var(--ha-l, 0);
+  transform: translateY(calc((1 - var(--ha-l, 0)) * 6px));
+}
+
+/* cursor hint — lerped follower, desktop only */
+.ha-cursor-hint{
+  position: fixed; top: 0; left: 0; z-index: 60; pointer-events: none;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  color: rgba(250, 251, 252, 0.55);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.ha-cursor-hint.ha-on{ opacity: 1; }
+
+/* mobile (<48rem — the site's own breakpoint) */
+@media only screen and (max-width: 47.9375rem){
+  #ha-root .ha-mobile-hint{ display: block; }
+  #ha-root .ha-stamp{ display: none; }
+  .ha-cursor-hint{ display: none; }
+  #ha-root .ha-grid-cols{
+    left: 1rem; right: 1rem;
+    --ha-gut: 1rem;
+    --ha-colw: calc((100% - 3 * var(--ha-gut)) / 4);   /* the honest mobile grid */
+  }
+  #ha-root .ha-measure text{ font-size: 9px; }
+}
+
+/* reduced motion — measurements appear without the draw-on */
+@media (prefers-reduced-motion: reduce){
+  #ha-root .ha-measure .ha-hairline{ stroke-dashoffset: 0; opacity: var(--ha-m, 0); }
+  #ha-root .ha-measure .ha-draw{ stroke-dashoffset: 0; }
+  #ha-root .ha-measure .ha-dash-box{ opacity: var(--ha-m, 0); }
+  #ha-root .ha-cross-line{ stroke-dashoffset: 0; opacity: var(--ha-d, 0); }
+  .ha-cursor-hint{ transition: none; }
+}
+
+
+/* ── hero entrance — born as a blueprint ─────────────────────────────
+   An inline script in index.html sets html.ha-booting before first paint
+   (once per tab session, never for reduced-motion). The pre-state below
+   holds the hero at full x-ray with its content lowered and blurred;
+   hero-anatomy.js removes the class and glides --xray 1→0, and the
+   .ha-reveal transitions carry each piece up into place. */
+html.ha-booting #ha-root{ --xray: 1; }
+html.ha-booting #hero-1950 :is(.cs-topper, .cs-title){
+  opacity: 0; transform: translateY(28px); filter: blur(10px);
+}
+html.ha-booting #hero-1950 :is(.cs-text, .cs-hero-actions, .ha-mobile-hint){
+  opacity: 0; transform: translateY(18px);
+}
+html.ha-booting #ha-root .ha-chrome > *{
+  opacity: 0; transform: translateY(10px);
+}
+
+/* destination transitions live on .ha-reveal (added only when the entrance
+   actually runs) so repeat visits carry zero transition baggage. None of
+   these touch a ramp-fed property. */
+html:not(.ha-booting) #ha-root.ha-reveal :is(.cs-topper, .cs-title){
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) #ha-root.ha-reveal .cs-topper{ transition-delay: 0.60s; }
+html:not(.ha-booting) #ha-root.ha-reveal .cs-title{ transition-delay: 0.72s; }
+html:not(.ha-booting) #ha-root.ha-reveal :is(.cs-text, .cs-hero-actions, .ha-mobile-hint){
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) #ha-root.ha-reveal .cs-text{ transition-delay: 1.10s; }
+html:not(.ha-booting) #ha-root.ha-reveal .cs-hero-actions{ transition-delay: 1.18s; }
+html:not(.ha-booting) #ha-root.ha-reveal .ha-mobile-hint{ transition-delay: 1.26s; }
+html:not(.ha-booting) #ha-root.ha-reveal .ha-chrome > *{
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) #ha-root.ha-reveal .ha-chrome > :nth-child(1){ transition-delay: 1.40s; }
+html:not(.ha-booting) #ha-root.ha-reveal .ha-chrome > :nth-child(2){ transition-delay: 1.48s; }
+
+/* belt-and-braces: the inline script already skips the boot for
+   reduced-motion, but if the class lands anyway, neutralize it */
+@media (prefers-reduced-motion: reduce){
+  html.ha-booting #hero-1950{ --xray: 0; }
+  html.ha-booting #hero-1950 :is(.cs-topper, .cs-title, .cs-text, .cs-hero-actions, .ha-mobile-hint),
+  html.ha-booting #ha-root .ha-chrome > *{
+    opacity: 1; transform: none; filter: none;
+  }
+  html:not(.ha-booting) #ha-root.ha-reveal :is(.cs-topper, .cs-title, .cs-text, .cs-hero-actions, .ha-mobile-hint),
+  html:not(.ha-booting) #ha-root.ha-reveal .ha-chrome > *{
+    transition: none !important;
+  }
+}
+
+
+/* ── Standalone extras — header dissection + demo chrome ─────────── */
+body{ margin: 0; }
+/* the real header is position:fixed; the demo pins it absolute so its
+   cached annotation rects stay truthful if the page ever scrolls */
+#ha-root #cs-navigation{ position: absolute; top: 0; left: 0; right: 0; }
+/* the dissection renders above the nav (z-index 10000 on the real site) */
+#ha-root .ha-dissect{ z-index: 10050; }
+/* x-ray scrim over the header — same treatment as the hero photo, so the
+   white hairlines and labels stay legible on the white nav bar. The huge
+   z-index keeps it above every child inside the header's stacking context;
+   the dissect layer (10050 > 10000) still draws above it. */
+#ha-root #cs-navigation::after{
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: rgba(13, 20, 17, 0.55);
+  opacity: var(--ha-d, 0);
+  z-index: 99999;
+}
+#ha-root .ha-chrome{ z-index: 10060; }
+.ha-cursor-hint{ z-index: 10070; }
+
+/* dark mode globals (subset of root.css) so the moon toggle works */
+body.dark-mode{ --primary: #022818; background-color: var(--dark); color: var(--bodyTextColorWhite); }
+body.dark-mode h1, body.dark-mode h2, body.dark-mode p, body.dark-mode li{ color: var(--bodyTextColorWhite); }
+.dark{ display: none !important; }
+body.dark-mode .light{ display: none !important; }
+body.dark-mode .dark{ display: block !important; }
+body.dark-mode .cs-button-solid{ background-color: var(--bodyTextColorWhite); color: var(--headerColor); }
+body.dark-mode .cs-button-solid:hover{ color: var(--bodyTextColorWhite); }
+body.dark-mode #hero-1950 .cs-topper{ background-color: #006940; }
+body.dark-mode #hero-1950 .cs-text{ opacity: 0.8; }
+
+</style>
+</head>
+<body>
+
+<div id="ha-root">
+  <div class="ha-grid-baseline" aria-hidden="true"></div>
+  <div class="ha-grid-cols" aria-hidden="true"></div>
+
+<header id="cs-navigation" data-spec data-spec-id="navbar">
+  <div class="cs-top-bar" data-spec data-spec-id="topbar">
+    <div class="cs-top-container">
+      <div class="cs-top-social"><a href="https://www.facebook.com/profile.php?id=61585444250132" class="cs-social-link" target="_blank" rel="noopener" aria-label="visit our facebook page"><img alt="" decoding="async" height="12" src="../public/assets/images/6056356c7e43.svg" width="12" aria-hidden="true" loading="eager" class="cs-social-icon"> </a><a href="https://www.instagram.com/ui_compass/" class="cs-social-link" target="_blank" rel="noopener" aria-label="visit our instagram page"><img alt="" decoding="async" height="12" src="../public/assets/images/fde9261cb8d4.svg" width="12" aria-hidden="true" loading="eager" class="cs-social-icon"> </a><a href="https://www.linkedin.com/company/ui-compass/" class="cs-social-link" target="_blank" rel="noopener" aria-label="visit our linkedin page"><img alt="" decoding="async" height="12" src="../public/assets/images/aa813ac14cc2.svg" width="12" aria-hidden="true" loading="eager" class="cs-social-icon"></a></div>
+      <div class="cs-top-contact"><a href="https://maps.app.goo.gl/vswQ1fxijTJnYCrP7" class="cs-top-link cs-remove-flex" target="_blank" rel="noopener"><img alt="" decoding="async" height="16" src="../public/assets/images/fb117d25caf7.svg" width="16" aria-hidden="true" loading="eager" class="cs-link-icon"> Based in Arlington, TX. Serving any business, anywhere. </a><a href="tel:+19014904750" class="cs-top-link"><img alt="" decoding="async" height="16" src="../public/assets/images/e587cc233f9a.svg" width="16" aria-hidden="true" loading="eager" class="cs-link-icon"> (901) 490-4750 </a><!--email_off--><a href="mailto:contact@uicompass.com" class="cs-top-link"><img alt="" decoding="async" height="20" src="../public/assets/images/d3b487b8fe00.svg" width="20" aria-hidden="true" loading="eager" class="cs-link-icon"> contact@uicompass.com</a><!--/email_off--></div>
+    </div>
+  </div>
+  <div class="cs-container"><a href="/" class="cs-logo cs-active" aria-label="back to home" data-spec data-spec-id="logo" data-logo-hover="none"><span class="logo-slot" style="--pb-logo-tx:0;--pb-logo-ty:0;--pb-logo-tx-pct:0%;--pb-logo-ty-pct:0%;--pb-logo-scale:1;--pb-logo-aspect-ratio:509 / 174;"><img alt="UI Compass logo" decoding="async" height="174" src="../public/assets/logo.svg" width="509" aria-hidden="true" loading="eager" class="light"><img alt="UI Compass logo" decoding="async" height="174" src="../public/assets/logo.svg" width="509" aria-hidden="true" loading="eager" class="dark"></span> </a>
+    <nav class="cs-nav"><button class="cs-toggle" aria-controls="cs-expanded" aria-expanded="false" aria-label="mobile menu toggle" id="mobile-menu-toggle"><span class="cs-box" aria-hidden="true"><span class="cs-line cs-line1" aria-hidden="true"></span> <span class="cs-line cs-line2" aria-hidden="true"></span> <span class="cs-line cs-line3" aria-hidden="true"></span></span></button>
+      <div class="cs-ul-wrapper">
+        <ul class="cs-ul" id="cs-expanded" data-spec data-spec-id="navul">
+          <li class="cs-li"><a href="/" class="cs-li-link cs-active" aria-current="page">Home</a></li>
+          <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button " aria-controls="dropdown-Services" aria-expanded="false" aria-label="dropdown-Services">Services <img alt="" decoding="async" height="15" src="../public/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" loading="eager" class="cs-drop-icon"></button>
+            <div class="cs-drop-wrapper"><ul class="cs-drop-ul" id="dropdown-Services">
+              <li class="cs-drop-li"><a href="/web-design/" class="cs-li-link cs-drop-link ">Web Design</a></li>
+              <li class="cs-drop-li"><a href="/web-development/" class="cs-li-link cs-drop-link ">Web Development</a></li>
+              <li class="cs-drop-li"><a href="/hosting-and-domains/" class="cs-li-link cs-drop-link ">Hosting and Domains</a></li>
+              <li class="cs-drop-li"><a href="/unlimited-edits-and-support/" class="cs-li-link cs-drop-link ">Unlimited Edits and Support</a></li>
+              <li class="cs-drop-li"><a href="/search-engine-optimisation/" class="cs-li-link cs-drop-link ">Search Engine Optimisation</a></li>
+              <li class="cs-drop-li"><a href="/ecommerce/" class="cs-li-link cs-drop-link ">eCommerce</a></li>
+            </ul></div>
+          </li>
+          <li class="cs-li"><a href="/pricing/" class="cs-li-link ">Pricing</a></li>
+          <li class="cs-li"><a href="/blog/" class="cs-li-link ">Blog</a></li>
+          <li class="cs-li"><a href="/about/" class="cs-li-link ">About</a></li>
+          <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button " aria-controls="dropdown-Locations" aria-expanded="false" aria-label="dropdown-Locations">Locations <img alt="" decoding="async" height="15" src="../public/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" loading="eager" class="cs-drop-icon"></button>
+            <div class="cs-drop-wrapper"><ul class="cs-drop-ul" id="dropdown-Locations">
+              <li class="cs-drop-li"><a href="/locations/" class="cs-li-link cs-drop-link ">All Locations</a></li>
+              <li class="cs-drop-li cs-dropdown"><button class="cs-li-link cs-drop-link cs-dropdown-button " aria-controls="dropdown-Locations-Texas" aria-expanded="false" aria-label="dropdown-Locations-Texas">Texas <img alt="" decoding="async" height="15" src="../public/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" loading="eager" class="cs-drop-icon"></button>
+                <div class="cs-drop-wrapper"><ul class="cs-drop3" id="dropdown-Locations-Texas">
+                  <li class="cs-drop-li3"><a href="/locations/texas/dallas-web-design/" class="cs-li-link cs-drop-link ">Dallas</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/fort-worth-web-design/" class="cs-li-link cs-drop-link ">Fort Worth</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/arlington-web-design/" class="cs-li-link cs-drop-link ">Arlington</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/houston-web-design/" class="cs-li-link cs-drop-link ">Houston</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/austin-web-design/" class="cs-li-link cs-drop-link ">Austin</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/san-antonio-web-design/" class="cs-li-link cs-drop-link ">San Antonio</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/frisco-web-design/" class="cs-li-link cs-drop-link ">Frisco</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/irving-web-design/" class="cs-li-link cs-drop-link ">Irving</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/grand-prairie-web-design/" class="cs-li-link cs-drop-link ">Grand Prairie</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/texas/mansfield-web-design/" class="cs-li-link cs-drop-link ">Mansfield</a></li>
+                </ul></div>
+              </li>
+              <li class="cs-drop-li cs-dropdown"><button class="cs-li-link cs-drop-link cs-dropdown-button " aria-controls="dropdown-Locations-Tennessee" aria-expanded="false" aria-label="dropdown-Locations-Tennessee">Tennessee <img alt="" decoding="async" height="15" src="../public/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" loading="eager" class="cs-drop-icon"></button>
+                <div class="cs-drop-wrapper"><ul class="cs-drop3" id="dropdown-Locations-Tennessee">
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/nashville-web-design/" class="cs-li-link cs-drop-link ">Nashville</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/memphis-web-design/" class="cs-li-link cs-drop-link ">Memphis</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/knoxville-web-design/" class="cs-li-link cs-drop-link ">Knoxville</a></li>
+                  <li class="cs-drop-li3"><a href="/locations/tennessee/chattanooga-web-design/" class="cs-li-link cs-drop-link ">Chattanooga</a></li>
+                </ul></div>
+              </li>
+            </ul></div>
+          </li>
+          <li class="cs-li"><a href="/contact/" class="cs-li-link ">Contact</a></li>
+        </ul>
+      </div><!-- <button data-open-cart="" aria-label="Open cart" class="cs-cart-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span id="cart-badge" class="cs-cart-badge" style="display:none">0</span>
+</button> -->
+    </nav>
+
+
+
+
+
+<div class="language-switcher" data-language-switcher>
+  <button type="button" class="language-switcher-toggle" aria-expanded="false" aria-haspopup="listbox" aria-label="Language: English">
+    <span class="language-flag" aria-hidden="true">🇺🇸</span>
+    <span class="language-code">EN</span>
+    <svg class="language-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+  </button>
+
+  <ul class="language-switcher-dropdown" role="listbox" aria-label="Language">
+    
+    <li role="option" aria-selected="true" >
+      <a href="/" class="language-option active" lang="en" hreflang="en">
+        <span class="language-flag" aria-hidden="true">🇺🇸</span>
+        <span class="language-name">English</span>
+        
+        <svg class="language-check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+        
+      </a>
+    </li>
+    
+    <li role="option" >
+      <a href="/ko/" class="language-option" lang="ko" hreflang="ko">
+        <span class="language-flag" aria-hidden="true">🇰🇷</span>
+        <span class="language-name">한국어</span>
+        
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+<style>
+  /* Language Switcher Styles */
+  .language-switcher {
+    position: relative;
+    display: inline-block;
+  }
+
+  .language-switcher-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    background: transparent;
+    border: 1px solid var(--mm-border, #e5e7eb);
+    border-radius: 0.375rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bodyTextColor);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .language-switcher-toggle:hover {
+    background: var(--mm-bg-hover, #f8f9fa);
+    border-color: var(--primary);
+  }
+
+  .language-flag {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .language-code {
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  .language-chevron {
+    width: 0.75rem;
+    height: 0.75rem;
+    opacity: 0.6;
+    transition: transform 0.2s;
+  }
+
+  .language-switcher[data-open="true"] .language-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown */
+  .language-switcher-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.25rem;
+    min-width: 160px;
+    background: var(--mm-bg, #ffffff);
+    border: 1px solid var(--mm-border, #e5e7eb);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0.25rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+    z-index: 1000;
+  }
+
+  .language-switcher[data-open="true"] .language-switcher-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .language-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--bodyTextColor);
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+
+  .language-option:hover {
+    background: var(--mm-bg-hover, #f8f9fa);
+  }
+
+  .language-option.active {
+    background: var(--mm-bg-hover, #f8f9fa);
+    font-weight: 600;
+  }
+
+  .language-name {
+    flex: 1;
+    font-size: 0.9rem;
+  }
+
+  .language-check {
+    width: 1rem;
+    height: 1rem;
+    color: var(--primary);
+  }
+
+  /* Dark mode */
+  body.dark-mode {
+    --mm-bg: var(--medium);
+    --mm-bg-hover: var(--accent);
+    --mm-border: rgba(255, 255, 255, 0.10);
+  }
+
+  body.dark-mode .language-switcher-toggle {
+    color: var(--bodyTextColorWhite);
+    border-color: var(--mm-border);
+  }
+
+  body.dark-mode .language-switcher-toggle:hover,
+  body.dark-mode .language-switcher-toggle[aria-expanded="true"] {
+    background: var(--mm-bg-hover);
+    border-color: var(--primaryLight);
+  }
+
+  body.dark-mode .language-switcher-dropdown {
+    background: var(--mm-bg);
+    border-color: var(--mm-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  body.dark-mode .language-option {
+    color: var(--bodyTextColorWhite);
+  }
+
+  body.dark-mode .language-option:hover,
+  body.dark-mode .language-option.active {
+    background: var(--mm-bg-hover);
+  }
+
+  body.dark-mode .language-check {
+    color: var(--primaryLight);
+  }
+
+  /* RTL support */
+  [dir="rtl"] .language-switcher-dropdown {
+    right: auto;
+    left: 0;
+  }
+
+  /* Group with right-side cluster (Get Started + dark mode toggle) on desktop */
+  @media (min-width: 64rem) {
+    #cs-navigation .language-switcher {
+      margin-left: auto;
+    }
+    #cs-navigation .cs-nav-button {
+      margin-left: 0;
+    }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 1023px) {
+    .language-code {
+      display: none;
+    }
+
+    .language-switcher-toggle {
+      height: 2.25rem;
+      padding: 0 0.5rem;
+      border: none;
+      background: transparent;
+    }
+
+    .language-flag {
+      font-size: 1.25rem;
+    }
+
+    .language-chevron {
+      display: none;
+    }
+  }
+
+</style>
+
+<script>
+  // Language Switcher Interaction
+  (function() {
+    const switchers = document.querySelectorAll('[data-language-switcher]');
+
+    switchers.forEach(switcher => {
+      const toggle = switcher.querySelector('.language-switcher-toggle');
+      const dropdown = switcher.querySelector('.language-switcher-dropdown');
+
+      // Toggle dropdown
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = switcher.dataset.open === 'true';
+        switcher.dataset.open = !isOpen;
+        toggle.setAttribute('aria-expanded', !isOpen);
+      });
+
+      // Close on click outside
+      document.addEventListener('click', (e) => {
+        if (!switcher.contains(e.target)) {
+          switcher.dataset.open = 'false';
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Close on Escape
+      switcher.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          switcher.dataset.open = 'false';
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.focus();
+        }
+      });
+
+      // Keyboard navigation in dropdown
+      dropdown.addEventListener('keydown', (e) => {
+        const options = dropdown.querySelectorAll('.language-option');
+        const currentIndex = Array.from(options).indexOf(document.activeElement);
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+          options[nextIndex].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+          options[prevIndex].focus();
+        }
+      });
+    });
+  })();
+
+</script>
+<a href="/contact/" class="cs-button-solid cs-nav-button " data-spec data-spec-id="navcta">Get Started</a><button aria-label="dark mode toggle" id="dark-mode-toggle"><img alt="" decoding="async" height="15" src="../public/assets/images/5482ef6ba9ea.svg" width="15" aria-hidden="true" loading="eager" class="cs-moon"> <img alt="" decoding="async" height="15" src="../public/assets/images/76d1cd5c2194.svg" width="15" aria-hidden="true" loading="eager" class="cs-sun"></button>
+  </div>
+</header>
+
+<section id="hero-1950" data-spec data-spec-id="section">
+  <div class="cs-container">
+    <div class="cs-content">
+      <div class="cs-flex">
+        <span class="cs-topper" data-spec data-spec-id="topper"><svg class="cs-topper-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L14.94 8.97 22.5 9.5 16.75 14.4 18.5 21.5 12 17.6 5.5 21.5 7.25 14.4 1.5 9.5 9.06 8.97 Z" fill="currentColor"/></svg>Veteran Owned</span>
+        <h1 class="cs-title" data-spec data-spec-id="title">The Online Solution for Your Business</h1>
+      </div>
+      <div class="cs-flex-group">
+        <p class="cs-text" data-spec data-spec-id="text">We only do web design, web development, and website maintenance. <strong>And we do it really well, for only $150 per month.</strong></p>
+        <div class="cs-hero-actions">
+          <a href="/pricing/" class="cs-button-solid" data-spec data-spec-id="button">Our Packages</a>
+          <a href="#portfolio" class="cs-hero-work-link" data-spec data-spec-id="worklink">See Our Work <svg class="cs-hero-work-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7 L17 17 M17 17 L17 9 M17 17 L9 17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <p class="ha-mobile-hint" aria-hidden="true">PRESS &amp; HOLD — OR TAP SPEC</p>
+      </div>
+    </div>
+  </div>
+  <picture class="cs-background">
+      <source type="image/webp" srcset="../public/images/hero-coding-400w-BURxrQVRzU.webp 400w, ../public/images/hero-coding-850w-BURxrQVRzU.webp 850w, ../public/images/hero-coding-1920w-BURxrQVRzU.webp 1920w" sizes="(max-width: 600px) 400px, 850px">
+  <source type="image/jpeg" srcset="../public/images/hero-coding-400w-BURxrQVRzU.jpeg 400w, ../public/images/hero-coding-850w-BURxrQVRzU.jpeg 850w, ../public/images/hero-coding-1920w-BURxrQVRzU.jpeg 1920w" sizes="(max-width: 600px) 400px, 850px">
+      <img
+        src="../public/images/hero-coding-400w-BURxrQVRzU.jpeg"
+        width="1920"
+        height="1080"
+        alt="A MacBook on a desk showing code in an editor, a stack of notebooks beside it, and soft afternoon light catching the wall behind"
+        loading="eager"
+        decoding="async">
+    </picture>
+  <!-- hero anatomy: translucent scrim + construction cross over the photo -->
+  <div class="ha-placeholder" aria-hidden="true">
+    <svg class="ha-cross" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <line class="ha-cross-line" x1="0" y1="0" x2="100" y2="100" pathLength="100" vector-effect="non-scaling-stroke"/>
+      <line class="ha-cross-line" x1="0" y1="100" x2="100" y2="0" pathLength="100" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <span class="ha-stamp">hero-coding.jpg · OBJECT-COVER</span>
+  </div>
+  <div class="ha-cursor-hint" aria-hidden="true">HOLD TO DISSECT</div>
+  <div class="ha-chrome">
+    <label class="ha-toggle">
+      <input type="checkbox" class="ha-sr-only" id="ha-spec-toggle">
+      <span class="ha-pill" aria-hidden="true"></span>
+      <span class="ha-lbl">SPEC</span>
+    </label>
+  </div>
+  <span class="ha-sr-only" aria-live="polite" id="ha-spec-live"></span>
+</section>
+
+  <!-- the spec layer spans header + hero -->
+  <div class="ha-dissect" aria-hidden="true"></div>
+</div>
+
+<script>
+/* hero-anatomy.js — press & hold the homepage hero to dissect it.
+   A spring-driven master value (--xray, 0→1) is the ONLY style JS writes
+   per frame; local.css derives staged ramps (grids → dissolve → measure →
+   labels) from it. Every annotation is read from getComputedStyle and
+   getBoundingClientRect at build time, so the redlines cannot lie.
+   The rAF loop only runs while something is moving — it parks itself
+   the moment the spring settles and no hint needs following. */
+(() => {
+  'use strict';
+
+  const section = document.getElementById('ha-root');
+  if (!section) return;
+  const dissect = section.querySelector('.ha-dissect');
+  const hint = section.querySelector('.ha-cursor-hint');
+  const toggle = document.getElementById('ha-spec-toggle');
+  const live = document.getElementById('ha-spec-live');
+  const img = section.querySelector('.cs-background img');
+  const stamp = section.querySelector('.ha-stamp');
+  if (!dissect || !toggle || !img) return;
+
+  /* ── Tuning constants ──────────────────────────────────────────── */
+  const SPRING_IN = 0.085;
+  const SPRING_OUT = 0.07;
+  const SNAP_EPS = 0.0005;
+  const HOLD_DELAY = 120;
+  const MEASURE_OFF = 12;
+  const ARROW = 5;
+  const TOGGLE_GLIDE = 800;
+  const MOVE_CANCEL = 10;
+  const ENTRANCE = 2200;
+  const ENTRANCE_HOLD = 450;
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = () => innerWidth < 768;
+
+  /* containers get no width hairline; labels treat only leaves as solid */
+  const NO_HAIR = new Set(['section', 'navbar', 'topbar']);
+  const LEAF_IDS = ['topper', 'title', 'text', 'button', 'worklink', 'logo', 'navcta', 'navul'];
+  /* mobile shows the hero story only — header annotations need room to breathe */
+  const MOBILE_IDS = ['section', 'topper', 'title', 'text', 'button', 'worklink'];
+
+  /* ── State ─────────────────────────────────────────────────────── */
+  let X = 0, lastX = NaN;
+  let holding = false, pinned = false;
+  let owner = 'physics';            // "physics" | "tween"
+  let tween = null;
+  let heldOnce = false;
+  let armTimer = 0, armX = 0, armY = 0;
+  let px = innerWidth / 2, py = innerHeight / 2, hx = px, hy = py;
+  let over = false;
+  let built = false;
+  let specs = [];                   // [{ id, el, rect, type }] — cached at build
+  let secPageLeft = 0, secPageTop = 0;
+  let rafId = 0;
+
+  const linear = (t) => t;
+  const power3InOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  /* ── Owner protocol — one owner for X, ever ────────────────────── */
+  function startTween(to, dur, ease) {
+    owner = 'tween';
+    tween = { from: X, to, start: performance.now(), dur, ease };
+    ensureLoop();
+  }
+  function killTween() { tween = null; owner = 'physics'; }
+
+  /* ── The driver — one write per frame, loop parks when idle ────── */
+  function step(now) {
+    if (owner === 'tween' && tween) {
+      const t = Math.min(1, (now - tween.start) / tween.dur);
+      X = tween.from + (tween.to - tween.from) * tween.ease(t);
+      if (t >= 1) { tween = null; owner = 'physics'; }
+    } else if (owner === 'physics' && !reduced) {
+      const target = holding || pinned ? 1 : 0;
+      const k = target === 1 ? SPRING_IN : SPRING_OUT;
+      X += (target - X) * k;
+      if (Math.abs(target - X) < SNAP_EPS) X = target;   // settle & stop writing
+    }
+
+    if (X !== lastX) {
+      lastX = X;
+      section.style.setProperty('--xray', X.toFixed(4));   // THE write
+      if (X >= 0.9 && holding && !heldOnce) heldOnce = true;   // hint graduates
+    }
+
+    /* cursor hint — lerped follower */
+    if (hint && !isMobile()) {
+      hx += (px - hx) * 0.1;
+      hy += (py - hy) * 0.1;
+      hint.style.transform = `translate(${(hx + 18).toFixed(1)}px, ${(hy + 22).toFixed(1)}px)`;
+      const show = over && !holding && !pinned && !heldOnce && X < 0.1;
+      hint.classList.toggle('ha-on', show);
+    }
+
+    /* park the loop when nothing moves and nothing follows the cursor */
+    const settled = !tween && !holding && !pinned && X === 0;
+    const following = over && !heldOnce && !isMobile();
+    if (settled && !following) { rafId = 0; return; }
+    rafId = requestAnimationFrame(step);
+  }
+  function ensureLoop() {
+    if (!rafId) rafId = requestAnimationFrame(step);
+  }
+
+  /* ── Token resolution — the card says --primary, never rgb() ───── */
+  const TOKENS = ['--primary', '--primaryLight', '--secondary', '--headerColor',
+    '--bodyTextColor', '--bodyTextColorWhite', '--dark', '--medium'];
+  let tokenColors = [];
+  function parseRGB(s) {
+    const m = s.match(/-?[\d.]+(?:e-?\d+)?/g);
+    if (!m) return [0, 0, 0];
+    let [r, g, b] = m.map(Number);
+    if (s.startsWith('color(')) { r *= 255; g *= 255; b *= 255; }  /* color(srgb r g b) is 0–1 */
+    return [r, g, b];
+  }
+  function alphaOf(s) {
+    const m = s.match(/-?[\d.]+(?:e-?\d+)?/g);
+    return m && m.length >= 4 ? +m[3] : 1;
+  }
+  function resolveTokens() {
+    const probe = document.createElement('span');
+    probe.style.display = 'none';
+    document.body.appendChild(probe);
+    tokenColors = TOKENS.map((name) => {
+      probe.style.color = `var(${name})`;
+      return { name, rgb: parseRGB(getComputedStyle(probe).color) };
+    });
+    probe.remove();
+  }
+  function tokenName(color) {
+    const c = parseRGB(color);
+    let best = null, bestD = Infinity;
+    for (const t of tokenColors) {
+      const d = (c[0] - t.rgb[0]) ** 2 + (c[1] - t.rgb[1]) ** 2 + (c[2] - t.rgb[2]) ** 2;
+      if (d < bestD) { bestD = d; best = t.name; }
+    }
+    return best || '--bodyTextColorWhite';
+  }
+
+  /* ── Computed-style readers — annotations that cannot lie ──────── */
+  function famName(fontFamily) {
+    const f = fontFamily.split(',')[0].replace(/['"]/g, '').trim().toUpperCase();
+    return f || 'SYSTEM';
+  }
+  function trackPct(cs) {
+    const fs = parseFloat(cs.fontSize);
+    const ls = cs.letterSpacing === 'normal' ? 0 : parseFloat(cs.letterSpacing);
+    const pct = (ls / fs) * 100;
+    const s = (Math.round(pct * 10) / 10).toString();
+    return pct > 0 ? `+${s}` : s;
+  }
+  function typeBits(el) {
+    const cs = getComputedStyle(el);
+    const fs = Math.round(parseFloat(cs.fontSize));
+    const lhRaw = parseFloat(cs.lineHeight);
+    return {
+      fam: famName(cs.fontFamily),
+      fs,
+      lh: Number.isFinite(lhRaw) ? Math.round(lhRaw) : Math.round(fs * 1.2),
+      wght: cs.fontWeight,
+      track: trackPct(cs),
+      color: tokenName(cs.color),
+      bg: alphaOf(cs.backgroundColor) > 0 ? tokenName(cs.backgroundColor) : '—',
+      opacity: (Math.round(parseFloat(cs.opacity) * 100) / 100).toString(),
+      radius: Math.round(parseFloat(cs.borderTopLeftRadius)) || 0,
+      margin: ['marginTop', 'marginRight', 'marginBottom', 'marginLeft']
+        .map((p) => Math.round(parseFloat(cs[p]))).join(' '),
+      pad: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft']
+        .map((p) => Math.round(parseFloat(cs[p]))).join(' '),
+      gap: Math.round(parseFloat(cs.columnGap)) || 0,
+      z: cs.zIndex,
+    };
+  }
+  function imgBasename() {
+    try {
+      const src = img.currentSrc || img.src;
+      return decodeURIComponent(src.split('/').pop().split('?')[0]) || 'hero-coding.jpg';
+    } catch (_) { return 'hero-coding.jpg'; }
+  }
+  function redlineText(id, t) {
+    switch (id) {
+      case 'title': return `${t.fam} · ${t.fs}/${t.lh} · WGHT ${t.wght} · ${t.track}%`;
+      case 'text': return `${t.fam} · ${t.fs}/${t.lh} · ${t.color} · OPACITY ${t.opacity}`;
+      case 'topper': return `BG ${t.bg} · TRACK ${t.track}% · RADIUS ${t.radius}`;
+      case 'button': return `BG ${t.bg} · ${t.fam} ${t.fs}/${t.lh} · WGHT ${t.wght}`;
+      case 'worklink': return `${t.fam} · ${t.fs}/${t.lh} · WGHT ${t.wght} · HOVER --primaryLight`;
+      case 'navbar': return `BG ${t.bg} · Z ${t.z} · W 100%`;
+      case 'logo': return `LOGO.SVG · OBJECT-CONTAIN · AR 509:174`;
+      case 'navul': return `${t.fam} · ${t.fs}/${t.lh} · GAP ${t.gap}`;
+      case 'navcta': return `BG ${t.bg} · ${t.fam} ${t.fs}/${t.lh} · WGHT ${t.wght}`;
+      default: return `${t.fam} · ${t.fs}/${t.lh} · ${t.track}%`;
+    }
+  }
+
+
+  /* ── Measurement overlays — built once, never in the hold path ─── */
+  const SVG = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs) {
+    const n = document.createElementNS(SVG, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  let maskSeq = 0;
+  function buildMeasure(spec) {
+    const { rect, id } = spec;
+    const PAD = 24, w = rect.w, h = rect.h;
+    const svg = svgEl('svg', {
+      class: 'ha-measure',
+      width: w + PAD * 2, height: h + PAD * 2,
+    });
+    svg.style.left = `${rect.x - PAD}px`;
+    svg.style.top = `${rect.y - PAD}px`;
+
+    /* the dashed box draws on around its perimeter: a solid mask rect
+       sweeps the same path (same dash technique as the hairlines) and
+       progressively reveals the dashed stroke beneath it */
+    const mid = `ha-bm-${maskSeq++}`;
+    const boxAttrs = {
+      x: PAD + 0.5, y: PAD + 0.5, width: Math.max(1, w - 1), height: Math.max(1, h - 1),
+      pathLength: 100,
+    };
+    const defs = svgEl('defs', {});
+    const mask = svgEl('mask', { id: mid, maskUnits: 'userSpaceOnUse',
+      x: 0, y: 0, width: w + PAD * 2, height: h + PAD * 2 });
+    mask.appendChild(svgEl('rect', { ...boxAttrs, class: 'ha-draw' }));
+    defs.appendChild(mask);
+    svg.appendChild(defs);
+    svg.appendChild(svgEl('rect', { ...boxAttrs, class: 'ha-dash-box', mask: `url(#${mid})` }));
+
+    if (!NO_HAIR.has(id)) {
+      const y = PAD - MEASURE_OFF;
+      const hair = svgEl('line', { x1: PAD, y1: y, x2: PAD + w, y2: y, class: 'ha-hairline' });
+      hair.style.setProperty('--len', w.toFixed(1));
+      svg.appendChild(hair);
+      svg.appendChild(svgEl('path', {
+        d: `M ${PAD + ARROW} ${y - 3} L ${PAD} ${y} L ${PAD + ARROW} ${y + 3}`, class: 'ha-arrow' }));
+      svg.appendChild(svgEl('path', {
+        d: `M ${PAD + w - ARROW} ${y - 3} L ${PAD + w} ${y} L ${PAD + w - ARROW} ${y + 3}`, class: 'ha-arrow' }));
+    }
+    return svg;
+  }
+  function buildGap(a, b) {
+    const gap = b.rect.y - (a.rect.y + a.rect.h);
+    const x = Math.max(a.rect.x, b.rect.x) + 16;
+    const top = a.rect.y + a.rect.h;
+    const svg = svgEl('svg', { class: 'ha-measure', width: 90, height: gap });
+    svg.style.left = `${x - 20}px`;
+    svg.style.top = `${top}px`;
+    const hair = svgEl('line', { x1: 20, y1: 0, x2: 20, y2: gap, class: 'ha-hairline' });
+    hair.style.setProperty('--len', gap.toFixed(1));
+    svg.appendChild(hair);
+    svg.appendChild(svgEl('path', { d: `M 17 ${ARROW} L 20 0 L 23 ${ARROW}`, class: 'ha-arrow' }));
+    svg.appendChild(svgEl('path', { d: `M 17 ${gap - ARROW} L 20 ${gap} L 23 ${gap - ARROW}`, class: 'ha-arrow' }));
+    const label = svgEl('text', { x: 28, y: gap / 2 + 3 });
+    label.textContent = `↕ ${Math.round(gap)}`;
+    svg.appendChild(label);
+    return { svg, label, left: x - 20, top };
+  }
+  /* ── Label layout — measured widths, candidate positions, no text
+     ever lands on other text or on a neighbouring element ──────────── */
+  function placeLabels(secW, gapSvgs) {
+    const items = specs.filter((s) => s.id !== 'section');
+    const obstacles = specs.filter((s) => LEAF_IDS.includes(s.id)).map((s) => s.rect);
+    const placed = [];
+    const inter = (a, b, pad) =>
+      a.x < b.x + b.w + pad && a.x + a.w + pad > b.x &&
+      a.y < b.y + b.h + pad && a.y + a.h + pad > b.y;
+    const blocked = (r, self) =>
+      placed.some((p) => inter(r, p, 6)) ||
+      obstacles.some((o) => o !== self && inter(r, o, 2));
+
+    const jobs = [];
+    const mk = (txt) => {
+      const el = document.createElement('div');
+      el.className = 'ha-redline';
+      el.textContent = txt;
+      dissect.appendChild(el);
+      return el;
+    };
+    for (const sp of items) {
+      jobs.push({ sp, el: mk(`${Math.round(sp.rect.w)} × ${Math.round(sp.rect.h)}`), dims: true });
+      /* the long type redlines need horizontal room mobile doesn't have */
+      if (!isMobile()) jobs.push({ sp, el: mk(redlineText(sp.id, sp.type)), dims: false });
+    }
+    for (const j of jobs) { j.w = j.el.offsetWidth; j.h = j.el.offsetHeight || 13; }   // one reflow
+
+    for (const j of jobs) {
+      const r = j.sp.rect;
+      const cands = j.dims ? [
+        { x: r.x + r.w - j.w, y: r.y - 28 },                 // above, right-aligned
+        { x: r.x + r.w + 10, y: r.y + r.h / 2 - j.h / 2 },   // beside, right
+        { x: r.x + r.w - j.w, y: r.y + r.h + 8 },            // below, right-aligned
+      ] : [
+        { x: r.x, y: r.y - 28 },                             // above, left-aligned
+        { x: r.x, y: r.y + r.h + 8 },                        // below, left-aligned
+        { x: r.x + r.w + 12, y: r.y + r.h / 2 - j.h / 2 },   // beside, right
+        { x: r.x + 6, y: r.y + 6 },                          // inside, last resort
+      ];
+      let pos = null;
+      for (const c of cands) {
+        if (c.y < 4) continue;   // never force a label above the canvas
+        const cc = { x: Math.max(8, Math.min(c.x, secW - j.w - 8)), y: Math.max(4, c.y), w: j.w, h: j.h };
+        if (!blocked(cc, r)) { pos = cc; break; }
+      }
+      if (!pos) {
+        const c = cands[cands.length - 1];
+        pos = { x: Math.max(8, Math.min(c.x, secW - j.w - 8)), y: Math.max(4, c.y), w: j.w, h: j.h };
+      }
+      j.el.style.left = `${pos.x}px`;
+      j.el.style.top = `${pos.y}px`;
+      placed.push(pos);
+    }
+
+    /* gap labels — nudge right until clear; hopeless ones keep only the hairline */
+    for (const g of gapSvgs) {
+      let bb;
+      try { bb = g.label.getBBox(); } catch (_) { continue; }
+      const r = { x: g.left + bb.x, y: g.top + bb.y, w: bb.width, h: bb.height };
+      const startX = r.x;
+      let tries = 0;
+      while (blocked(r, null) && tries++ < 8) r.x += 24;
+      if (tries > 8) { g.label.remove(); continue; }
+      if (r.x !== startX) g.label.setAttribute('x', +g.label.getAttribute('x') + (r.x - startX));
+      placed.push(r);
+    }
+  }
+
+  let buildRetries = 0;
+  function buildAll() {
+    /* local.css loads async — never build raw SVG against missing styles */
+    if (getComputedStyle(dissect).position !== 'absolute') {
+      if (buildRetries++ < 20) setTimeout(buildAll, 250);
+      return;
+    }
+    /* measure with the entrance pre-state lifted so rects aren't read
+       mid-transform — sync remove/add never reaches the screen */
+    const wasBooting = document.documentElement.classList.contains('ha-booting');
+    if (wasBooting) document.documentElement.classList.remove('ha-booting');
+
+    built = true;
+    dissect.textContent = '';
+
+    resolveTokens();
+    const secRect = section.getBoundingClientRect();
+    secPageLeft = secRect.left + scrollX;
+    secPageTop = secRect.top + scrollY;
+
+    specs = [...section.querySelectorAll('[data-spec]')]
+      .map((el) => {
+        const id = el.dataset.specId;
+        const r = el.getBoundingClientRect();
+        return {
+          id, el,
+          rect: { x: r.left - secRect.left, y: r.top - secRect.top, w: r.width, h: r.height },
+          type: typeBits(el),
+        };
+      })
+      .filter((sp) => (sp.id === 'section' || (sp.rect.w > 8 && sp.rect.h > 8))
+        && (!isMobile() || MOBILE_IDS.includes(sp.id)));
+
+    const mobile = isMobile();
+    for (const s of specs) {
+      if (s.id !== 'section' || !mobile) dissect.appendChild(buildMeasure(s));
+    }
+
+    /* gap hairlines to the nearest annotated neighbour below */
+    const gapSvgs = [];
+    const annotated = specs.filter((s) => s.id !== 'section');
+    for (const a of annotated) {
+      let best = null, bestGap = Infinity;
+      for (const b of annotated) {
+        if (b === a) continue;
+        const gap = b.rect.y - (a.rect.y + a.rect.h);
+        const overlap = Math.min(a.rect.x + a.rect.w, b.rect.x + b.rect.w) - Math.max(a.rect.x, b.rect.x);
+        if (gap > 6 && gap < 220 && overlap > 24 && gap < bestGap) { bestGap = gap; best = b; }
+      }
+      if (best) {
+        const g = buildGap(a, best);
+        dissect.appendChild(g.svg);
+        gapSvgs.push(g);
+      }
+    }
+
+    placeLabels(secRect.width, gapSvgs);
+
+    if (wasBooting) document.documentElement.classList.add('ha-booting');
+  }
+  function ensureBuilt() { if (!built) buildAll(); }
+
+
+  /* ── Input ─────────────────────────────────────────────────────── */
+  function beginHold() {
+    armTimer = 0;
+    holding = true;
+    if (reduced) startTween(1, 250, linear);
+    else killTween();   // physics claims X from wherever it stands
+    ensureLoop();
+  }
+  section.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('a, button, label, input')) return;
+    if (owner === 'tween' && !reduced) killTween();   // a press kills the entrance
+    ensureBuilt();
+    armX = e.clientX; armY = e.clientY;
+    clearTimeout(armTimer);
+    armTimer = setTimeout(beginHold, HOLD_DELAY);
+  });
+  section.addEventListener('pointerenter', () => {
+    over = true;
+    ensureBuilt();
+    ensureLoop();
+  });
+  section.addEventListener('pointerleave', () => { over = false; });
+  section.addEventListener('pointermove', (e) => {
+    px = e.clientX; py = e.clientY; over = true;
+    ensureLoop();
+    if (armTimer && Math.hypot(e.clientX - armX, e.clientY - armY) > MOVE_CANCEL) {
+      clearTimeout(armTimer); armTimer = 0;   // scroll-intent guard
+    }
+  });
+  function endHold() {
+    clearTimeout(armTimer); armTimer = 0;
+    if (!holding) return;
+    holding = false;
+    if (reduced && !pinned) startTween(0, 250, linear);
+  }
+  section.addEventListener('pointerup', endHold);
+  section.addEventListener('pointercancel', endHold);
+  section.addEventListener('contextmenu', (e) => { if (holding || armTimer) e.preventDefault(); });
+
+  toggle.addEventListener('change', () => {
+    ensureBuilt();
+    pinned = toggle.checked;
+    section.toggleAttribute('data-pinned', pinned);
+    if (live) live.textContent = pinned ? 'Spec view on' : 'Spec view off';
+    if (reduced) startTween(pinned ? 1 : 0, 250, linear);
+    else startTween(pinned ? 1 : 0, TOGGLE_GLIDE, power3InOut);
+  });
+
+
+  /* ── Re-measure outside the hold path ──────────────────────────── */
+  let resizeT = 0;
+  addEventListener('resize', () => {
+    if (!built) return;
+    clearTimeout(resizeT);
+    resizeT = setTimeout(buildAll, 150);
+  });
+
+  /* theme flips swap every token — rebuild so the cards keep telling
+     the truth (site-effects.js toggles body.dark-mode) */
+  let themeT = 0;
+  new MutationObserver(() => {
+    if (!built) return;
+    clearTimeout(themeT);
+    themeT = setTimeout(buildAll, 350);   // wait out the theme wipe transition
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  /* ── Placeholder stamp — written from the actual response ──────── */
+  function stampReal() {
+    if (!stamp) return;
+    try {
+      const dims = img.naturalWidth ? ` · ${img.naturalWidth}×${img.naturalHeight}` : '';
+      const entry = performance.getEntriesByName(img.currentSrc)[0];
+      const kb = entry && entry.transferSize > 0
+        ? ` · ${Math.round(entry.transferSize / 1024)} KB` : '';
+      stamp.textContent = `${imgBasename()}${dims}${kb} · OBJECT-COVER`;
+    } catch (_) { /* keep the literal */ }
+  }
+  if (img.complete && img.naturalWidth) stampReal();
+  else img.addEventListener('load', stampReal);
+
+  /* ── Entrance — born as a blueprint ────────────────────────────── */
+  /* The inline script in index.html set html.ha-booting before first
+     paint (once per session, never for reduced-motion), so the page is
+     currently holding the full-x-ray pre-state. Measure the clean layout
+     without ever painting it, restore the boot, then release. */
+  const html = document.documentElement;
+  const booting = html.classList.contains('ha-booting');
+  if (booting) {
+    X = 1;
+    owner = 'tween';                 // parks physics until the glide begins
+    section.style.setProperty('--xray', '1');
+    const begin = () => {
+      buildAll();                    // measures with the boot state lifted
+      section.classList.add('ha-reveal');
+      /* release once styles have applied (so the reveal transitions exist),
+         with a frame cap so a stalled stylesheet can't hold the page hostage */
+      const release = (tries) => {
+        if (tries < 60 && getComputedStyle(dissect).position !== 'absolute') {
+          requestAnimationFrame(() => release(tries + 1));
+          return;
+        }
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          html.classList.remove('ha-booting');
+        }));
+      };
+      release(0);
+      setTimeout(() => {
+        if (owner === 'tween' && !tween) startTween(0, ENTRANCE, power3InOut);
+      }, ENTRANCE_HOLD);
+    };
+    /* measure AFTER webfonts land — otherwise the boxes are drawn against
+       the fallback-font layout and sit visibly off until the re-measure */
+    const fontsReady = document.fonts && document.fonts.ready
+      ? document.fonts.ready : Promise.resolve();
+    Promise.race([
+      fontsReady,
+      new Promise((res) => setTimeout(res, 1500)),
+    ]).then(begin);
+    ensureLoop();
+  }
+
+  /* ── Mount — everything heavy waits for idle or first touch ────── */
+  function idleBuild() { if (!built) buildAll(); }
+  if ('requestIdleCallback' in window) requestIdleCallback(idleBuild, { timeout: 4000 });
+  else setTimeout(idleBuild, 2500);
+
+  if (document.fonts && document.fonts.ready) {
+    /* re-measure once webfonts land — metrics shift, redlines must not lie.
+       After an entrance, wait it out so rects aren't read mid-transform. */
+    document.fonts.ready.then(() => {
+      setTimeout(() => { if (built) buildAll(); }, booting ? 2600 : 100);
+    });
+  }
+})();
+
+</script>
+<script>
+//
+//    Toggle Mobile Navigation (CodeStitch pattern)
+//
+(function() {
+    // Find nav by prefix — exported IDs vary (cs-navigation, cs-navigation-758, etc.)
+    var csNav = document.querySelector('header[id^="cs-navigation"]')
+        || document.querySelector('[id^="cs-navigation"]');
+    if (!csNav) return;
+
+    var toggle = csNav.querySelector('.cs-toggle');
+    var ul = csNav.querySelector('[id^="cs-expanded"]') || csNav.querySelector('.cs-ul');
+
+    // Stagger index — drives the cascading reveal in the open state.
+    if (ul) {
+        var topItems = ul.querySelectorAll(':scope > .cs-li');
+        topItems.forEach(function(li, i) { li.style.setProperty('--i', i); });
+    }
+    if (toggle && ul) {
+        toggle.addEventListener('click', function() {
+            var nextExpanded = ul.getAttribute('aria-expanded') !== 'true';
+            csNav.classList.toggle('cs-active', nextExpanded);
+            toggle.setAttribute('aria-expanded', String(nextExpanded));
+            ul.setAttribute('aria-expanded', String(nextExpanded));
+            document.body.classList.toggle('cs-open', nextExpanded);
+        });
+    }
+
+    // Top-level mobile dropdown submenus (e.g. Services, Locations).
+    // Click anywhere on the .cs-dropdown EXCEPT a link/nested toggle bubbles up to here.
+    csNav.querySelectorAll('.cs-li.cs-dropdown').forEach(function(dd) {
+        dd.addEventListener('click', function(e) {
+            // Ignore clicks on real links (let them navigate) and on nested-dropdown buttons (handled below).
+            if (e.target.closest('a.cs-drop-link')) return;
+            if (e.target.closest('.cs-drop-li.cs-dropdown')) return;
+            dd.classList.toggle('cs-active');
+        });
+    });
+
+    // Close the mobile menu when tapping outside the nav (and not on the toggle).
+    // Uses pointerdown rather than click because the accordion grid-template-rows
+    // transition can shift layout between mousedown and mouseup; click events
+    // then fire on the common ancestor of the two targets (often <html> or
+    // <body>), which fooled the older click-based handler into treating an
+    // inside accordion tap as an "outside" click and closing the whole menu.
+    document.addEventListener('pointerdown', function(e) {
+        if (!csNav.classList.contains('cs-active')) return;
+        if (csNav.contains(e.target)) return;
+        csNav.classList.remove('cs-active');
+        document.body.classList.remove('cs-open');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        if (ul) ul.setAttribute('aria-expanded', 'false');
+    });
+
+    // Escape key closes the open menu and returns focus to the toggle.
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        if (!csNav.classList.contains('cs-active')) return;
+        csNav.classList.remove('cs-active');
+        document.body.classList.remove('cs-open');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.focus();
+        }
+        if (ul) ul.setAttribute('aria-expanded', 'false');
+    });
+
+    // Nested mobile dropdown submenus (state → city under Locations).
+    // The CSS opens `.cs-drop3` when its parent `.cs-drop-li.cs-dropdown` has `.cs-active`.
+    // On mobile, we bind a click on the inner toggle button to flip that class
+    // without bubbling up to close the parent dropdown.
+    csNav.querySelectorAll('.cs-drop-li.cs-dropdown > .cs-dropdown-button').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var li = btn.parentElement;
+            if (!li) return;
+            var nextOpen = !li.classList.contains('cs-active');
+            li.classList.toggle('cs-active', nextOpen);
+            btn.setAttribute('aria-expanded', String(nextOpen));
+        });
+    });
+})();
+
+</script>
+<script>
+  /* demo dark-mode toggle — the anatomy MutationObserver re-reads every
+     token on flip, so the annotations stay truthful in both themes */
+  (function () {
+    var t = document.getElementById('dark-mode-toggle');
+    if (t) t.addEventListener('click', function () {
+      document.body.classList.toggle('dark-mode');
+    });
+  })();
+</script>
+</body>
+</html>

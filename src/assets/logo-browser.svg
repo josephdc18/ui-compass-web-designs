@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="509" height="174" viewBox="0 0 509 174" role="img" aria-label="UI Compass Web Designs">
+  <defs>
+    <linearGradient id="uic-letters" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#00bd74"/>
+      <stop offset="1" stop-color="#41925b"/>
+    </linearGradient>
+    <radialGradient id="uic-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#00bd74" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#00bd74" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="uic-card">
+      <rect x="3" y="3" width="503" height="168" rx="20"/>
+    </clipPath>
+  </defs>
+
+  <!-- browser card -->
+  <rect x="3" y="3" width="503" height="168" rx="20" fill="#0d1411"/>
+
+  <g clip-path="url(#uic-card)">
+    <!-- top chrome bar -->
+    <rect x="3" y="3" width="503" height="38" fill="#1a221d"/>
+    <!-- brand color stripe under the bar -->
+    <rect x="3"   y="41" width="201" height="3" fill="#006940"/>
+    <rect x="204" y="41" width="100" height="3" fill="#e6d9c7"/>
+    <rect x="304" y="41" width="202" height="3" fill="#00bd74"/>
+
+    <!-- traffic lights -->
+    <circle cx="26" cy="22" r="5.5" fill="#ff5f57"/>
+    <circle cx="44" cy="22" r="5.5" fill="#febc2e"/>
+    <circle cx="62" cy="22" r="5.5" fill="#28c840"/>
+
+    <!-- address pill with secure-lock dot and url placeholder -->
+    <rect x="82" y="14.5" width="403" height="15" rx="7.5" fill="#232d27"/>
+    <circle cx="94" cy="22" r="3" fill="#00bd74"/>
+    <rect x="212" y="20.25" width="86" height="3.5" rx="1.75" fill="#46554c"/>
+
+    <!-- soft green glow behind the letters -->
+    <ellipse cx="254" cy="107" rx="200" ry="60" fill="url(#uic-glow)"/>
+
+    <!-- UIC letterforms, square slab style like the original mark -->
+    <g transform="translate(76,58)">
+      <!-- offset shadow, white like the current on-dark logo -->
+      <g transform="translate(5,5)" fill="#fafbfc">
+        <path d="M0 0h24v68h52V0h24v92H0Z"/>
+        <path d="M124 0h76v24h-26v44h26v24h-76V68h26V24h-26Z"/>
+        <path d="M224 0h100v24h-76v44h76v24H224Z"/>
+      </g>
+      <!-- letters -->
+      <g fill="url(#uic-letters)">
+        <path d="M0 0h24v68h52V0h24v92H0Z"/>
+        <path d="M124 0h76v24h-26v44h26v24h-76V68h26V24h-26Z"/>
+        <path d="M224 0h100v24h-76v44h76v24H224Z"/>
+      </g>
+      <!-- blinking text caret -->
+      <rect x="350" y="16" width="7" height="60" rx="3.5" fill="#fafbfc">
+        <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.5;0.56;0.94;1" dur="1.3s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+  </g>
+
+  <!-- card edge -->
+  <rect x="3" y="3" width="503" height="168" rx="20" fill="none" stroke="#33403a" stroke-width="1.5"/>
+</svg>

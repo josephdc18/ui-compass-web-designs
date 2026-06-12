@@ -9,24 +9,63 @@ eleventyNavigation:
   key: "Home"
   order: 100
 ---
-<section id="hero-1950">
+<script>
+  /* hero entrance: boot as a blueprint before first paint — once per tab
+     session, skipped for reduced-motion. hero-anatomy.js runs the glide and
+     removes the class; the timeout is a failsafe so the hero can never stay
+     dissolved if that script fails to load. */
+  (function () {
+    try {
+      if (sessionStorage.getItem('ha-booted')) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.documentElement.classList.add('ha-booting');
+      setTimeout(function () {
+        document.documentElement.classList.remove('ha-booting');
+      }, 5000);
+    } catch (_) { /* storage blocked → skip the theater, show the hero */ }
+  })();
+</script>
+<section id="hero-1950" data-spec data-spec-id="section">
   <div class="cs-container">
     <div class="cs-content">
       <div class="cs-flex">
-        <span class="cs-topper">{% include "svgs/star-icon.html" %}Veteran Owned</span>
-        <h1 class="cs-title">The Online Solution for Your Business</h1>
+        <span class="cs-topper" data-spec data-spec-id="topper">{% include "svgs/star-icon.html" %}Veteran Owned</span>
+        <h1 class="cs-title" data-spec data-spec-id="title">The Online Solution for Your Business</h1>
       </div>
       <div class="cs-flex-group">
-        <p class="cs-text">We only do web design, web development, and website maintenance. <strong>And we do it really well, for only $150 per month.</strong></p>
+        <p class="cs-text" data-spec data-spec-id="text">We only do web design, web development, and website maintenance. <strong>And we do it really well, for only $150 per month.</strong></p>
         <div class="cs-hero-actions">
-          <a href="/pricing/" class="cs-button-solid">Our Packages</a>
-          <a href="#portfolio" class="cs-hero-work-link">See Our Work {% include "svgs/arrow-diagonal.html" %}</a>
+          <a href="/pricing/" class="cs-button-solid" data-spec data-spec-id="button">Our Packages</a>
+          <a href="#portfolio" class="cs-hero-work-link" data-spec data-spec-id="worklink">See Our Work {% include "svgs/arrow-diagonal.html" %}</a>
         </div>
+        <p class="ha-mobile-hint" aria-hidden="true">PRESS &amp; HOLD — OR TAP SPEC</p>
       </div>
     </div>
   </div>
   {% image "/assets/images/hero-coding.jpg", "A MacBook on a desk showing code in an editor, a stack of notebooks beside it, and soft afternoon light catching the wall behind", "cs-background", "eager" %}
+  <!-- hero anatomy: translucent scrim + construction cross over the photo -->
+  <div class="ha-placeholder" aria-hidden="true">
+    <svg class="ha-cross" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <line class="ha-cross-line" x1="0" y1="0" x2="100" y2="100" pathLength="100" vector-effect="non-scaling-stroke"/>
+      <line class="ha-cross-line" x1="0" y1="100" x2="100" y2="0" pathLength="100" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <span class="ha-stamp">hero-coding.jpg · OBJECT-COVER</span>
+  </div>
+  <div class="ha-cursor-hint" aria-hidden="true">HOLD TO DISSECT</div>
+  <div class="ha-chrome">
+    <label class="ha-toggle">
+      <input type="checkbox" class="ha-sr-only" id="ha-spec-toggle">
+      <span class="ha-pill" aria-hidden="true"></span>
+      <span class="ha-lbl">SPEC</span>
+    </label>
+  </div>
+  <span class="ha-sr-only" aria-live="polite" id="ha-spec-live"></span>
 </section>
+<!-- hero anatomy: the spec layer (positioned + sized over the hero by
+     hero-anatomy.js). Lives outside the hero's stacking context so the
+     measurements can render above the fixed header (z-index 10000). -->
+<div class="ha-dissect" aria-hidden="true"></div>
+<script defer src="/assets/js/hero-anatomy.js?v={{ build.hash }}"></script>
 
 <section id="services-1628">
   <div class="cs-container">
@@ -61,6 +100,25 @@ eleventyNavigation:
   </div>
 </section>
 
+{# Lighthouse score rings shown in the hover reveal on each portfolio card.
+   Scores are real PageSpeed Insights numbers — update them here when a site
+   is re-audited. The fill ring reads --ratio (score/100) to know how far to draw. #}
+{% macro lighthouse(perf, a11y, seo) %}
+<div class="cs-scores" aria-hidden="true">
+  {% for metric in [["Performance", perf], ["Accessibility", a11y], ["SEO", seo]] %}
+  <div class="cs-score">
+    <div class="cs-ring-wrapper">
+      <svg class="cs-ring" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="21" pathLength="100"></circle>
+        <circle cx="24" cy="24" r="21" pathLength="100" style="--ratio:{{ metric[1] / 100 }}"></circle>
+      </svg>
+      <span class="cs-stat">{{ metric[1] }}</span>
+    </div>
+    <span class="cs-metric">{{ metric[0] }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endmacro %}
 <section id="portfolio">
   <div class="cs-container">
     <div class="cs-content">
@@ -71,7 +129,10 @@ eleventyNavigation:
     <ul class="cs-image-group">
       <li class="cs-item">
         <a class="cs-link" href="https://mosaicbishoparts.com" target="_blank" rel="noopener">
-          {% image "/assets/images/mosaic-suites-hero.png", "Mosaic Suites website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-preview">
+            {% image "/assets/images/mosaic-suites-hero.png", "Mosaic Suites website homepage preview", "cs-picture", "lazy" %}
+            {{ lighthouse(99, 96, 100) }}
+          </div>
           <div class="cs-item-text">
             <div class="cs-flex">
               <h3 class="cs-h3">Mosaic Suites</h3>
@@ -85,7 +146,10 @@ eleventyNavigation:
       </li>
       <li class="cs-item">
         <a class="cs-link" href="https://casablancabarbershoptx.com" target="_blank" rel="noopener">
-          {% image "/assets/images/casablanca-barber-hero.png", "Casablanca Barber Shop website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-preview">
+            {% image "/assets/images/casablanca-barber-hero.png", "Casablanca Barber Shop website homepage preview", "cs-picture", "lazy" %}
+            {{ lighthouse(98, 95, 100) }}
+          </div>
           <div class="cs-item-text">
             <div class="cs-flex">
               <h3 class="cs-h3">Casablanca Barber Shop</h3>
@@ -99,7 +163,10 @@ eleventyNavigation:
       </li>
       <li class="cs-item">
         <a class="cs-link" href="https://veteransbenefitscenter.com" target="_blank" rel="noopener">
-          {% image "/assets/images/vbc-hero.png", "Veterans Benefits Center website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-preview">
+            {% image "/assets/images/vbc-hero.png", "Veterans Benefits Center website homepage preview", "cs-picture", "lazy" %}
+            {{ lighthouse(100, 96, 100) }}
+          </div>
           <div class="cs-item-text">
             <div class="cs-flex">
               <h3 class="cs-h3">Veterans Benefits Center</h3>
@@ -113,7 +180,10 @@ eleventyNavigation:
       </li>
       <li class="cs-item">
         <a class="cs-link" href="https://tcvisualsllc.com" target="_blank" rel="noopener">
-          {% image "/assets/images/tcvisuals-hero.png", "TC Visuals LLC website homepage preview", "cs-picture", "lazy" %}
+          <div class="cs-preview">
+            {% image "/assets/images/tcvisuals-hero.png", "TC Visuals LLC website homepage preview", "cs-picture", "lazy" %}
+            {{ lighthouse(99, 94, 100) }}
+          </div>
           <div class="cs-item-text">
             <div class="cs-flex">
               <h3 class="cs-h3">TC Visuals LLC</h3>

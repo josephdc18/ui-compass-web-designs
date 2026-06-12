@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Moments — Infinite Photo Wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ─────────────────────────── Theme variables ─────────────────────────── */
+  :root,
+  [data-theme="light"] {
+    --background: #fafafa;
+    --foreground: #0a0a0a;
+    --background-rgb: 250 250 250;
+    --foreground-rgb: 10 10 10;
+  }
+  [data-theme="dark"] {
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+    --background-rgb: 10 10 10;
+    --foreground-rgb: 250 250 250;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    background: var(--background);
+    font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ─────────────────────────── Section root ─────────────────────────── */
+  section.moments {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--background);
+    isolation: isolate;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: crosshair;
+  }
+
+  /* ─────────────────────────── Cells ─────────────────────────── */
+  .cell {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    will-change: transform;
+    overflow: hidden;
+    border-radius: 3px;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    opacity: 0;
+  }
+  .cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    display: block;
+  }
+
+  /* ─────────────────────────── Hero gradient (z-14) ─────────────────────────── */
+  .hero-gradient {
+    position: absolute; inset: 0;
+    z-index: 14;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 70% 55% at 0% 100%,
+      rgb(var(--background-rgb) / 1)    0%,
+      rgb(var(--background-rgb) / 0.85) 22%,
+      rgb(var(--background-rgb) / 0.55) 40%,
+      rgb(var(--background-rgb) / 0.25) 58%,
+      transparent                       78%
+    );
+  }
+
+  /* ─────────────────────────── Dim overlay (z-20) ─────────────────────────── */
+  .dim {
+    position: absolute; inset: 0;
+    z-index: 20;
+    background: rgb(var(--background-rgb) / 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .dim.show { opacity: 1; pointer-events: auto; }
+
+  /* ─────────────────────────── Featured anchor + frame (z-30) ─────────────────────────── */
+  .featured-anchor {
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 30;
+    pointer-events: none;
+    will-change: transform;
+    opacity: 0;
+  }
+  .frame {
+    position: absolute;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition:
+      width  0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .frame.is-expanded { cursor: default; }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #000;
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.7);
+  }
+  .image-wrapper img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-user-drag: none;
+  }
+
+  /* Rest-state caption strip (only when not expanded) */
+  .rest-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px;
+    background: linear-gradient(to top,
+      rgba(0,0,0,0.85) 0%,
+      rgba(0,0,0,0.40) 50%,
+      transparent 100%);
+    color: #ffffff;
+    pointer-events: none;
+  }
+  .rest-caption .rc-cat {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.22em; opacity: 0.75;
+  }
+  .rest-caption .rc-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px; line-height: 1.2;
+    margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .frame.is-expanded .rest-caption { display: none; }
+
+  /* Title block (above the image) */
+  .title-block {
+    position: absolute;
+    bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 16px;
+    text-align: center;
+    width: max-content;
+    color: var(--foreground);
+  }
+  .title-block .arrows {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .title-block .f-cat {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+  }
+  .title-block .f-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.1;
+    margin-top: 4px;
+    letter-spacing: -0.01em;
+  }
+  .frame:not(.is-expanded) .title-block { display: none; }
+
+  /* Side icon stacks */
+  .side {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .side-left  { right: 100%; margin-right: 16px; }
+  .side-right { left: 100%;  margin-left: 16px; }
+  .frame:not(.is-expanded) .side { display: none; }
+
+  /* Below block */
+  .below {
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    margin-top: 16px;
+    text-align: center;
+    min-width: 320px;
+    color: var(--foreground);
+  }
+  .below .f-loc {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+  }
+  .below .desc {
+    font-size: 13px; line-height: 1.55;
+    margin: 12px auto 0;
+    max-width: 440px;
+    color: rgb(var(--foreground-rgb) / 0.78);
+  }
+  .below .mobile-row {
+    display: none;
+    justify-content: center; gap: 10px;
+    margin-top: 14px;
+  }
+  .below .btn-row {
+    display: flex; justify-content: center; gap: 12px;
+    margin-top: 18px;
+  }
+  .frame:not(.is-expanded) .below { display: none; }
+
+  /* ─────────────────────────── Icon buttons ─────────────────────────── */
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 9999px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    background: rgb(var(--foreground-rgb) / 0.10);
+    color: rgb(var(--foreground-rgb) / 0.85);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.10);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    padding: 0;
+  }
+  .icon-btn:hover {
+    background: rgb(var(--foreground-rgb) / 0.20);
+    color: rgb(var(--foreground-rgb) / 1);
+  }
+  .icon-btn.arrow { width: 32px; height: 32px; }
+  .icon-btn svg { width: 16px; height: 16px; }
+  .icon-btn.arrow svg { width: 13px; height: 13px; }
+
+  /* ─────────────────────────── Buttons ─────────────────────────── */
+  .btn-primary {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    background: var(--foreground);
+    color: var(--background);
+    font-size: 14px; font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    background: rgb(var(--foreground-rgb) / 0.08);
+    color: rgb(var(--foreground-rgb) / 0.90);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.15);
+    font-size: 14px; font-weight: 500;
+    white-space: nowrap; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: rgb(var(--foreground-rgb) / 0.15); }
+
+  /* ─────────────────────────── Hero copy (z-35) ─────────────────────────── */
+  .hero {
+    position: absolute;
+    bottom: 28px; left: 28px;
+    z-index: 35;
+    max-width: 28rem;
+    pointer-events: none;
+    color: var(--foreground);
+  }
+  .hero .eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+  }
+  .hero .hr {
+    width: 32px; height: 1px;
+    background: rgb(var(--foreground-rgb) / 0.45);
+    display: inline-block;
+  }
+  .hero .title {
+    margin-top: 12px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 4vw, 3.75rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .hero .title [data-char] {
+    display: inline-block;
+    white-space: pre;
+    will-change: transform;
+    opacity: 0;
+    transform: translateY(22px) scale(0.8);
+    filter: blur(10px);
+  }
+  .hero .sub {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgb(var(--foreground-rgb) / 0.60);
+    max-width: 20rem;
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+  }
+  @media (max-width: 767px) { .hero .sub { display: none; } }
+  .hero.hidden { display: none; }
+
+  /* ─────────────────────────── Interaction hint (z-40) ─────────────────────────── */
+  .hint {
+    position: absolute;
+    top: 28px; right: 28px;
+    z-index: 40;
+    pointer-events: none;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--foreground-rgb) / 0.55);
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+    transition: opacity 0.7s ease;
+  }
+
+  /* ─────────────────────────── Theme toggle (utility, not in spec) ─────────────────────────── */
+  .theme-toggle {
+    position: absolute;
+    top: 24px; left: 28px;
+    z-index: 41;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgb(var(--foreground-rgb) / 0.45);
+    background: rgb(var(--foreground-rgb) / 0.06);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.12);
+    border-radius: 9999px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+  .theme-toggle:hover { color: rgb(var(--foreground-rgb) / 0.9); background: rgb(var(--foreground-rgb) / 0.12); }
+
+  /* ─────────────────────────── Mobile adaptations ─────────────────────────── */
+  .moments.mobile .side { display: none; }
+  .moments.mobile .below .desc { display: none; }
+  .moments.mobile .frame.is-expanded .mobile-row { display: flex; }
+  .moments.mobile .below { min-width: 260px; }
+</style>
+</head>
+<body>
+<section class="moments" id="moments">
+  <!-- cells injected here by JS -->
+
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="dim" id="dim"></div>
+
+  <div class="featured-anchor" id="anchor">
+    <div class="frame" id="frame">
+      <!-- Title block (expanded only) -->
+      <div class="title-block">
+        <div class="arrows">
+          <button class="icon-btn arrow" id="prevBtn" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="icon-btn arrow" id="nextBtn" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="f-cat" id="fCat"></div>
+        <div class="f-title" id="fTitle"></div>
+      </div>
+
+      <!-- Left side icon stack (desktop expanded) -->
+      <div class="side side-left">
+        <button class="icon-btn" data-act="like" aria-label="Like">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="icon-btn" data-act="save" aria-label="Save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+
+      <!-- Right side icon stack (desktop expanded) -->
+      <div class="side side-right">
+        <button class="icon-btn" data-act="share" aria-label="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        </button>
+        <button class="icon-btn" data-act="download" aria-label="Download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+        <button class="icon-btn" id="closeBtn" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+        </button>
+      </div>
+
+      <!-- Image -->
+      <div class="image-wrapper" id="imgWrap">
+        <img id="fImg" draggable="false" alt="" />
+        <div class="rest-caption">
+          <div class="rc-cat" id="rcCat"></div>
+          <div class="rc-title" id="rcTitle"></div>
+        </div>
+      </div>
+
+      <!-- Below block (expanded only) -->
+      <div class="below">
+        <div class="f-loc" id="fLoc"></div>
+        <div class="mobile-row" id="mobileRow">
+          <button class="icon-btn" data-act="like" aria-label="Like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button class="icon-btn" data-act="save" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <button class="icon-btn" data-act="share" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          <button class="icon-btn" data-act="download" aria-label="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+          <button class="icon-btn" id="mobileClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg></button>
+        </div>
+        <div class="desc" id="fDesc"></div>
+        <div class="btn-row">
+          <button class="btn-primary">Order print</button>
+          <button class="btn-secondary">Inquire</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero" id="hero">
+    <div class="eyebrow" id="eyebrow"><span class="hr"></span>A photography wall</div>
+    <h1 class="title" id="title"></h1>
+    <p class="sub" id="sub">The wall parts wherever your cursor goes. Click to centre the moment.</p>
+  </div>
+
+  <div class="hint" id="hint">Move &middot; Click to open</div>
+
+  <button class="theme-toggle" id="themeToggle">Theme</button>
+</section>
+
+<script>
+"use strict";
+(function () {
+  /* ───────────────────────────────── Constants ───────────────────────────────── */
+  const CELL_H_DESKTOP   = 100;
+  const CELL_H_MOBILE    = 72;
+  const CELL_GAP_DESKTOP = 12;
+  const CELL_GAP_MOBILE  = 8;
+
+  const TILE_SCALE_DESKTOP = 3;
+  const TILE_SCALE_MOBILE  = 2.6;
+
+  const VOID_RADIUS_IDLE_DESKTOP     = 200;
+  const VOID_RADIUS_HOVER_DESKTOP    = 280;
+  const VOID_RADIUS_EXPANDED_DESKTOP = 420;
+  const VOID_RADIUS_IDLE_MOBILE      = 130;
+  const VOID_RADIUS_HOVER_MOBILE     = 180;
+  const VOID_RADIUS_EXPANDED_MOBILE  = 280;
+
+  const VOID_LERP       = 0.25;
+  const PAN_LERP        = 0.07;
+  const RADIUS_LERP     = 0.07;
+  const SOFT_PUSH_RATIO = 1.3;
+
+  /* ───────────────────────────────── Hash + helpers ───────────────────────────────── */
+  function hash(n) {
+    const x = Math.sin(n * 12.9898 + 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function smoothstep(a, b, x) {
+    const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  }
+  function rowDriftSpeed(rowIndex) {
+    const magnitude = 0.05 + hash(rowIndex * 41.3 + 17.1) * 0.18;
+    const sign = rowIndex % 2 === 0 ? -1 : 1;
+    return magnitude * sign;
+  }
+
+  /* ───────────────────────────────── Photo set (55) ───────────────────────────────── */
+  const PHOTOS = [
+    { id: "1506905925346-21bda4d32df4", title: "Granite Light",         category: "Landscape", aspect: 1.5,  location: "French Alps",            year: 2023, description: "Morning broke quietly over the alpine ridge — fifteen minutes after sunrise, before the wind picked up." },
+    { id: "1469474968028-56623f02e42e", title: "Far Saddle",            category: "Landscape", aspect: 1.5,  location: "Aiguille du Midi",       year: 2022, description: "From the bivouac at 3,200 metres the saddle looked closer than it was — three hours' walk, easy." },
+    { id: "1518837695005-2083093ee35b", title: "Field of Hours",        category: "Nature",    aspect: 1.5,  location: "Valensole, Provence",    year: 2021, description: "Provence in late June — every horizon was the same shade of unrepeatable violet." },
+    { id: "1441974231531-c6227db76b6e", title: "October",               category: "Landscape", aspect: 1.5,  location: "Aspen, Colorado",        year: 2023, description: "The aspens held their breath for one afternoon, then let it go all at once." },
+    { id: "1470071459604-3b5ec3a7fe05", title: "First Breath",          category: "Landscape", aspect: 0.75, location: "Big Sur, California",    year: 2022, description: "Coastal fog crept up the valley between five and six — by seven the trees were still again." },
+    { id: "1447752875215-b2761acb3c5d", title: "A Slow Window",         category: "Landscape", aspect: 1.0,  location: "British Columbia",       year: 2024, description: "Sunlight angled through the cedars for maybe twenty minutes a day in November — this was eight of them." },
+    { id: "1500964757637-c85e8a162699", title: "Last Pier",             category: "Landscape", aspect: 1.5,  location: "Burleigh Heads, AU",     year: 2020, description: "The old timber pier at Burleigh has been condemned for years. The sunsets don't seem to mind." },
+    { id: "1454496522488-7a8e488e8606", title: "Sleeping Giant",        category: "Landscape", aspect: 1.5,  location: "Mont Blanc Massif",      year: 2022, description: "Three thousand metres of silence — the only motion was the snow drifting off the cornice." },
+    { id: "1501785888041-af3ef285b470", title: "Honey Hour",            category: "Landscape", aspect: 1.5,  location: "Val d'Orcia, Tuscany",   year: 2023, description: "The valley filled like a cup, slowly, with light the colour of pulled honey." },
+    { id: "1444080748397-f442aa95c3e5", title: "Silver Bones",          category: "Nature",    aspect: 0.75, location: "Hokkaido, Japan",        year: 2024, description: "A birch grove in February — every trunk a struck match, every shadow a perfect parallel." },
+    { id: "1431794062232-2a99a5431c6c", title: "Quiet Walk",            category: "Nature",    aspect: 0.75, location: "Muir Woods, California", year: 2021, description: "The trail through the redwoods at Muir — when you stop walking, the silence becomes its own thing." },
+    { id: "1426604966848-d7adac402bff", title: "Iron Coast",            category: "Landscape", aspect: 1.5,  location: "Reynisfjara, Iceland",   year: 2022, description: "The northern Atlantic doesn't visit gently. The rocks have been negotiating with it for a hundred million years." },
+    { id: "1490604001847-b712b0c2f967", title: "Field of Old Light",    category: "Night",     aspect: 1.5,  location: "Atacama, Chile",         year: 2023, description: "Atacama Desert, October new moon — every photon that landed had been travelling for thousands of years." },
+    { id: "1497436072909-60f360e1d4b1", title: "Spring Run",            category: "Landscape", aspect: 1.5,  location: "Geirangerfjord, Norway", year: 2023, description: "The snowmelt had peaked the week before — the stream was still loud, but starting to clear." },
+    { id: "1505144808419-1957a94ca61e", title: "The Carve",             category: "Landscape", aspect: 0.75, location: "Antelope Canyon, Arizona", year: 2022, description: "A river cut this with patience. The walls keep score in red and rust and amber bands." },
+    { id: "1505765050516-f72dcac9c60e", title: "Equatorial Calm",       category: "Travel",    aspect: 1.0,  location: "Bora Bora",              year: 2024, description: "Late afternoon in the leeward Pacific — the palm fronds rasp like newspaper in a slow wind." },
+    { id: "1542273917363-3b1817f69a2d", title: "Open Country",          category: "Landscape", aspect: 1.5,  location: "Pinedale, Wyoming",      year: 2021, description: "Wyoming, US-191 north of Pinedale — the kind of horizon you have to stand still to understand." },
+    { id: "1418065460487-3e41a6c84dc5", title: "Red Patience",          category: "Landscape", aspect: 1.5,  location: "Sossusvlei, Namibia",    year: 2022, description: "The Namib at first light — the dunes look painted, but they move five centimetres a year." },
+    { id: "1502082553048-f009c37129b9", title: "After the Rain",        category: "Nature",    aspect: 1.0,  location: "Cotswolds, England",     year: 2023, description: "Twenty minutes after a brief shower — the petals held more light than the sky." },
+    { id: "1483347756197-71ef80e95f73", title: "Slow Burn",             category: "Landscape", aspect: 1.5,  location: "Stowe, Vermont",         year: 2022, description: "The maples behind the old farmhouse don't drop their colour all at once. They take a week. They take their time." },
+    { id: "1485470733090-0aae1788d5af", title: "Tideline",              category: "Landscape", aspect: 1.5,  location: "Sennen Cove, Cornwall",  year: 2021, description: "Where the sea wrote a long sentence and revised it, every six hours, for ten thousand years." },
+    { id: "1495107334309-fcf20504a5ab", title: "Glass Geometry",        category: "Architecture", aspect: 0.75, location: "Berlin, Germany",     year: 2020, description: "A façade from the late 1960s, photographed in winter sun — the geometry hadn't aged a day." },
+    { id: "1472213984618-c79aaec7fef0", title: "Russet Hour",           category: "Landscape", aspect: 1.0,  location: "Catskills, New York",    year: 2022, description: "Late October in the Catskills — the air smelt like apple cider and stone." },
+    { id: "1480714378408-67cf0d13bc1b", title: "Held Sky",              category: "Landscape", aspect: 1.5,  location: "Moraine Lake, Banff",    year: 2024, description: "Calm enough that the lake doubled the mountain — for about ninety seconds, before a fish broke the spell." },
+    { id: "1449034446853-66c86144b0ad", title: "Weather Bringing",      category: "Sky",       aspect: 1.5,  location: "Isle of Skye, Scotland", year: 2023, description: "The first front of October pushing south — twenty-six minutes before the rain arrived." },
+    { id: "1506744038136-46273834b3fb", title: "Soft Water",            category: "Landscape", aspect: 1.5,  location: "Lake District, UK",      year: 2022, description: "An unnamed tarn in the Lakes District — the kind of place that asks you to whisper for no good reason." },
+    { id: "1519681393784-d120267933ba", title: "Pass Above the Clouds", category: "Landscape", aspect: 1.5,  location: "Passo dello Stelvio",    year: 2023, description: "The Stelvio at first light — the inversion held in the valley, the road climbed clear of it." },
+    { id: "1500530855697-b586d89ba3ee", title: "Cold Country",          category: "Landscape", aspect: 1.5,  location: "Torres del Paine",       year: 2024, description: "Above the treeline, sixty kilometres from the nearest road, an hour before the wind started moving." },
+    { id: "1469854523086-cc02fe5d8800", title: "Sand Hours",            category: "Travel",    aspect: 1.5,  location: "Wadi Rum, Jordan",       year: 2023, description: "Wadi Rum at the threshold of evening — the sand changed colour faster than I could meter for it." },
+    { id: "1488972685288-c3fd157d7c7a", title: "White Memory",          category: "Architecture", aspect: 0.75, location: "Cádiz, Andalusia",    year: 2022, description: "A modernist house on the Andalusian coast — built in 1962, repainted every spring since." },
+    { id: "1518173946687-a4c8892bbd9f", title: "The Last Ridge",        category: "Landscape", aspect: 1.5,  location: "Karakoram, Pakistan",    year: 2024, description: "From the col, the ridge ahead looked impossible. It usually does, then it doesn't." },
+    { id: "1444723121867-7a241cacace9", title: "Spire",                 category: "Landscape", aspect: 0.75, location: "Chamonix, France",       year: 2023, description: "An aiguille in the Mont Blanc massif — climbed in 1881, photographed at sunrise on a clearer Tuesday." },
+    { id: "1492446845049-9c50cc313f00", title: "Spring Returns",        category: "Nature",    aspect: 1.5,  location: "Yorkshire Dales",        year: 2024, description: "The first green of the year — three days of warmth was all it took for the whole valley to flip." },
+    { id: "1465379944081-7f47de8d74ac", title: "Painted Strand",        category: "Travel",    aspect: 1.0,  location: "Algarve, Portugal",      year: 2023, description: "A beach hut on the Algarve coast — repainted in slightly different colours every summer, by the same family, for sixty years." },
+    { id: "1499002238440-d264edd596ec", title: "A Brief Pink",          category: "Still Life",aspect: 1.0,  location: "Studio, London",         year: 2024, description: "Peonies last about three days indoors. This one lasted ten minutes — long enough." },
+    { id: "1483728642387-6c3bdd6c93e5", title: "Stand of Pines",        category: "Nature",    aspect: 0.75, location: "Black Forest, Germany",  year: 2023, description: "A grove on the ridge — straight as a question mark, every one of them the same age." },
+    { id: "1438761681033-6461ffad8d80", title: "October Smile",         category: "Portrait",  aspect: 0.75, location: "Brooklyn, New York",     year: 2022, description: "An editorial test, supposed to take twenty minutes. We were laughing about something else, and the picture made itself." },
+    { id: "1500916434205-0c77489c6cf7", title: "Long Afternoon",        category: "Landscape", aspect: 1.5,  location: "Outer Banks, NC",        year: 2024, description: "Eastern coast, last week of August — a tide so low it seemed to be considering not coming back." },
+    { id: "1486325212027-8081e485255e", title: "Soft Modern",           category: "Architecture", aspect: 0.75, location: "Lisbon, Portugal",    year: 2023, description: "A residential block, late afternoon — the pink picking up the sky's pink, and giving it back." },
+    { id: "1494500764479-0c8f2919a3d8", title: "Found Water",           category: "Nature",    aspect: 1.0,  location: "Pyrenees",               year: 2023, description: "A pool nobody mapped — the trail walked past it twice before noticing it was there at all." },
+    { id: "1417325384643-aac51acc9e5d", title: "Refuge",                category: "Landscape", aspect: 1.5,  location: "Tatra Mountains",        year: 2023, description: "A cabin in the Tatras — three days' walk from the nearest road, two thousand metres above the noise." },
+    { id: "1448375240586-882707db888b", title: "Stone & Sky",           category: "Landscape", aspect: 1.5,  location: "Dolomites, Italy",       year: 2022, description: "Above the cloud layer at sunrise — the kind of view that doesn't repeat in a season." },
+    { id: "1465056836041-7f43ac27dcb5", title: "First Snow",            category: "Landscape", aspect: 1.5,  location: "Sierra Nevada",          year: 2023, description: "Mid-October on the eastern face — the year's first dusting, gone by Tuesday." },
+    { id: "1464822759023-fed622ff2c3b", title: "The Walk Up",           category: "Landscape", aspect: 1.5,  location: "Glacier National Park",  year: 2022, description: "Three hours to the saddle, the kind of hike where you don't notice the time passing." },
+    { id: "1493246507139-91e8fad9978e", title: "Sunbeams",              category: "Nature",    aspect: 1.5,  location: "Olympic Peninsula",      year: 2023, description: "Half an hour after sunrise the fog parted, just long enough to see the floor of the forest." },
+    { id: "1466692476868-aef1dfb1e735", title: "Cloud Drift",           category: "Sky",       aspect: 1.5,  location: "Western Colorado",       year: 2024, description: "Cirrus clouds at fifteen thousand feet, photographed from a small plane circling slow." },
+    { id: "1455218873509-8097305ee378", title: "Sea Edge",              category: "Landscape", aspect: 1.5,  location: "Faroe Islands",          year: 2023, description: "Faroe Islands, late June — the basalt cliffs run for kilometres, never the same shape twice." },
+    { id: "1481018085669-2bc6e4f00eed", title: "Wide Open",             category: "Landscape", aspect: 1.5,  location: "Nevada, USA",            year: 2022, description: "American west, off-highway — fifty kilometres of nothing in any direction." },
+    { id: "1473773508845-188df298d2d1", title: "Boardwalk",             category: "Nature",    aspect: 1.5,  location: "Estonia",                year: 2023, description: "A wooden path through wetland — built by hand, maintained by no one in particular." },
+    { id: "1470770841072-f978cf4d019e", title: "Drift Country",         category: "Landscape", aspect: 1.5,  location: "Utah",                   year: 2022, description: "Twilight over the high desert — the sky goes through every colour it knows in twelve minutes." },
+    { id: "1487958449943-2429e8be8625", title: "Steel & Sun",           category: "Architecture", aspect: 0.75, location: "Chicago",             year: 2023, description: "A late-modernist office block, photographed in winter at the moment the sun crosses the corner." },
+    { id: "1486718448742-163732cd1544", title: "Spiral",                category: "Architecture", aspect: 0.75, location: "Vienna",              year: 2022, description: "A staircase in a museum addition, designed by an architect known for exactly one good idea." },
+    { id: "1525134479668-1bee5c7c6845", title: "Mid-Sentence",          category: "Portrait",  aspect: 0.75, location: "Berlin",                 year: 2023, description: "Not posed — between answers to a question I'd already forgotten the start of." },
+    { id: "1517248135467-4c7edcad34c4", title: "Slow Cup",              category: "Still Life",aspect: 1.0,  location: "Studio",                 year: 2024, description: "A morning espresso, photographed with the same lens I've used every morning for ten years." },
+    { id: "1542038784456-1ea8e935640e", title: "Wildflower Hour",       category: "Nature",    aspect: 1.5,  location: "Cumbria, UK",            year: 2023, description: "Wildflower meadow at full peak — twenty-three species in a square metre, by the gardener's count." },
+  ];
+
+  /* ───────────────────────────────── URL builders ───────────────────────────────── */
+  function thumbUrl(id, aspect, cellHeight) {
+    const h = Math.round(cellHeight * 2.4);
+    const w = Math.round(h * aspect);
+    return "https://images.unsplash.com/photo-" + id + "?w=" + w + "&h=" + h + "&fit=crop&q=70&auto=format";
+  }
+  function featuredUrl(id, aspect) {
+    const h = 720;
+    const w = Math.round(h * aspect);
+    return "https://images.unsplash.com/photo-" + id + "?w=" + w + "&h=" + h + "&fit=crop&q=80&auto=format";
+  }
+
+  /* ───────────────────────────────── Build the wall ───────────────────────────────── */
+  function buildCells(dims) {
+    const vw = dims.vw, vh = dims.vh, isMobile = dims.isMobile;
+    const cellH = isMobile ? CELL_H_MOBILE : CELL_H_DESKTOP;
+    const gap   = isMobile ? CELL_GAP_MOBILE : CELL_GAP_DESKTOP;
+    const scale = isMobile ? TILE_SCALE_MOBILE : TILE_SCALE_DESKTOP;
+    const stepY = cellH + gap;
+
+    const targetTileW = vw * scale;
+    const targetTileH = vh * scale;
+
+    const rows  = Math.ceil(targetTileH / stepY);
+    const tileH = rows * stepY;
+    const firstRowY = -tileH / 2 + cellH / 2 + gap / 2;
+
+    // Pass 1
+    const rawRows = [];
+    let maxNaturalWidth = 0;
+    let prevRow = null;
+
+    for (let r = 0; r < rows; r++) {
+      const rowItems = [];
+      let rawX = 0, colIdx = 0;
+
+      while (rawX < targetTileW) {
+        let candidate = Math.floor(hash(r * 17.3 + colIdx * 31.7 + 5) * PHOTOS.length);
+
+        const leftIdx = rowItems.length > 0 ? rowItems[rowItems.length - 1].photoIndex : -1;
+        let aboveIdx = -1;
+        if (prevRow) {
+          for (let p = 0; p < prevRow.length; p++) {
+            const prev = prevRow[p];
+            if (rawX >= prev.rawX && rawX < prev.rawX + prev.width + gap) {
+              aboveIdx = prev.photoIndex;
+              break;
+            }
+          }
+        }
+        let attempts = 0;
+        while ((candidate === leftIdx || candidate === aboveIdx) && attempts < PHOTOS.length) {
+          candidate = (candidate + 1) % PHOTOS.length;
+          attempts++;
+        }
+
+        const aspect = PHOTOS[candidate].aspect;
+        const width = cellH * aspect;
+        rowItems.push({ photoIndex: candidate, width: width, rawX: rawX, colIdx: colIdx });
+        rawX += width + gap;
+        colIdx++;
+      }
+      rawRows.push(rowItems);
+      prevRow = rowItems;
+
+      const rowNaturalWidth = rawX - gap;
+      if (rowNaturalWidth > maxNaturalWidth) maxNaturalWidth = rowNaturalWidth;
+    }
+
+    const tileW = maxNaturalWidth + gap;
+
+    // Pass 2
+    const cells = [];
+    let idx = 0;
+    for (let r = 0; r < rows; r++) {
+      const rowItems = rawRows[r];
+      if (rowItems.length === 0) continue;
+      const lastItem = rowItems[rowItems.length - 1];
+      const rowNaturalWidth = lastItem.rawX + lastItem.width;
+      const extra = tileW - rowNaturalWidth - gap;
+      const extraPerGap = rowItems.length > 1 ? extra / rowItems.length : 0;
+
+      let runningX = -tileW / 2 + gap / 2;
+      for (let c = 0; c < rowItems.length; c++) {
+        const item = rowItems[c];
+        const cellCenterX = runningX + item.width / 2;
+        cells.push({
+          index: idx++,
+          rowIndex: r,
+          baseX: cellCenterX,
+          baseY: r * stepY + firstRowY,
+          width: item.width,
+          height: cellH,
+          photoIndex: item.photoIndex,
+          angle: hash(r * 31 + item.colIdx * 17 + 7) * Math.PI * 2,
+          rotation: (hash(r * 5 + item.colIdx * 11 + 3) - 0.5) * 3.6,
+          scale: 1 + (hash(r * 7 + item.colIdx * 13 + 5) - 0.5) * 0.05,
+        });
+        runningX += item.width + gap + extraPerGap;
+      }
+    }
+
+    return { cells: cells, tile: { width: tileW, height: tileH, rows: rows } };
+  }
+
+  /* ───────────────────────────────── Vanilla tween engine (replaces GSAP) ───────────────────────────────── */
+  const EASES = {
+    "power2.inOut": function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; },
+    "power2.out":   function (t) { return 1 - Math.pow(1 - t, 2); },
+    "power3.out":   function (t) { return 1 - Math.pow(1 - t, 3); },
+    "power4.out":   function (t) { return 1 - Math.pow(1 - t, 4); },
+    "back.out":     function (t) { const s = 1.4; const u = t - 1; return 1 + (s + 1) * u * u * u + s * u * u; },
+  };
+  function animateScalar(holder, to, duration, easeName, delay) {
+    const ease = EASES[easeName] || EASES["power2.out"];
+    const from = holder.v;
+    const durMs = duration * 1000;
+    const delayMs = (delay || 0) * 1000;
+    let start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      const elapsed = ts - start - delayMs;
+      if (elapsed < 0) { requestAnimationFrame(step); return; }
+      const t = Math.min(1, elapsed / durMs);
+      holder.v = from + (to - from) * ease(t);
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ───────────────────────────────── State ───────────────────────────────── */
+  const section = document.getElementById("moments");
+  const anchor  = document.getElementById("anchor");
+  const frame   = document.getElementById("frame");
+  const dim     = document.getElementById("dim");
+  const hero    = document.getElementById("hero");
+  const hint    = document.getElementById("hint");
+
+  const fImg   = document.getElementById("fImg");
+  const fCat   = document.getElementById("fCat");
+  const fTitle = document.getElementById("fTitle");
+  const fLoc   = document.getElementById("fLoc");
+  const fDesc  = document.getElementById("fDesc");
+  const rcCat  = document.getElementById("rcCat");
+  const rcTitle= document.getElementById("rcTitle");
+
+  let vw = 0, vh = 0, isMobile = false;
+  let cells = [], tile = { width: 1, height: 1, rows: 1 };
+  let items = [];               // cell DOM elements
+  let rowOffsets = [];
+
+  const mouse = { x: 0, y: 0, has: false };
+  const voidWorld = { x: 0, y: 0 };
+  const panOff = { x: 0, y: 0 };
+  const panTarget = { x: 0, y: 0 };
+  let voidRadius = 0, targetRadius = 0;
+
+  let expanded = false;
+  let pinned = false;
+  let hovering = true;          // default true so intro grows to hover size
+  let hasInteracted = false;
+  let featuredIdx = 0;
+
+  // Intro scalars
+  const introEntrance      = { v: 0 };
+  const introVoidEmerge    = { v: 0 };
+  const introFeaturedEmerge= { v: 0 };
+  let introDone = false;
+
+  let dimsKnown = false;
+
+  /* ───────────────────────────────── Build / rebuild the DOM wall ───────────────────────────────── */
+  function renderCells() {
+    // Remove old cells
+    for (let i = 0; i < items.length; i++) {
+      if (items[i] && items[i].parentNode) items[i].parentNode.removeChild(items[i]);
+    }
+    items = [];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const div = document.createElement("div");
+      div.className = "cell";
+      div.style.width = cell.width + "px";
+      div.style.height = cell.height + "px";
+      const img = document.createElement("img");
+      img.src = thumbUrl(PHOTOS[cell.photoIndex].id, PHOTOS[cell.photoIndex].aspect, cell.height);
+      img.alt = "";
+      img.draggable = false;
+      div.appendChild(img);
+      frag.appendChild(div);
+      items.push(div);
+    }
+    // Insert cells as the first children of the section (below gradient z-14)
+    section.insertBefore(frag, section.firstChild);
+  }
+
+  function nearestCellToOrigin() {
+    let best = 0, bestD = Infinity;
+    for (let i = 0; i < cells.length; i++) {
+      const d = Math.hypot(cells[i].baseX, cells[i].baseY);
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+
+  function rebuild(dims) {
+    vw = dims.vw; vh = dims.vh; isMobile = dims.isMobile;
+    const built = buildCells(dims);
+    cells = built.cells;
+    tile = built.tile;
+    rowOffsets = new Array(tile.rows).fill(0);
+
+    section.classList.toggle("mobile", isMobile);
+
+    renderCells();
+
+    // Reset camera to centred
+    panOff.x = vw / 2; panOff.y = vh / 2;
+    panTarget.x = vw / 2; panTarget.y = vh / 2;
+    voidWorld.x = 0; voidWorld.y = 0;
+    expanded = false; pinned = false;
+    applyExpanded();
+
+    featuredIdx = nearestCellToOrigin();
+    renderFeatured();
+  }
+
+  /* ───────────────────────────────── Featured card rendering ───────────────────────────────── */
+  function currentPhoto() {
+    const cell = cells[featuredIdx];
+    return cell ? PHOTOS[cell.photoIndex] : PHOTOS[0];
+  }
+
+  function applyFrameSize() {
+    const photo = currentPhoto();
+    const aspect = photo.aspect;
+
+    const restH    = isMobile ? 220 : 280;
+    const restMaxW = isMobile ? 270 : 400;
+    const expH     = isMobile ? 280 : 360;
+    const expMaxW  = isMobile ? 300 : 480;
+    const expMinW  = isMobile ? 260 : 340;
+
+    const h    = expanded ? expH : restH;
+    const maxW = expanded ? expMaxW : restMaxW;
+    let w      = h * aspect;
+    let frameH = h;
+    if (w > maxW) { w = maxW; frameH = maxW / aspect; }
+    else if (expanded && w < expMinW) { w = expMinW; frameH = expMinW / aspect; }
+
+    frame.style.width = w + "px";
+    frame.style.height = frameH + "px";
+  }
+
+  function renderFeatured() {
+    const photo = currentPhoto();
+    fImg.src = featuredUrl(photo.id, photo.aspect);
+    fImg.alt = photo.title;
+    fCat.textContent = photo.category;
+    fTitle.textContent = photo.title;
+    rcCat.textContent = photo.category;
+    rcTitle.textContent = photo.title;
+    fLoc.textContent = photo.location + " · " + photo.year;
+    fDesc.textContent = photo.description;
+    applyFrameSize();
+  }
+
+  function applyExpanded() {
+    frame.classList.toggle("is-expanded", expanded);
+    dim.classList.toggle("show", expanded);
+    hero.classList.toggle("hidden", expanded && isMobile);
+    applyFrameSize();
+  }
+
+  /* ───────────────────────────────── Open / close / navigate ───────────────────────────────── */
+  function open() {
+    if (expanded) return;
+    pinned = false;
+    panTarget.x = vw / 2 - voidWorld.x;
+    panTarget.y = vh / 2 - voidWorld.y;
+    expanded = true;
+    applyExpanded();
+  }
+
+  function close() {
+    pinned = false;
+    expanded = false;
+    applyExpanded();
+  }
+
+  function navigate(dir) {
+    const newIdx = (featuredIdx + dir + cells.length) % cells.length;
+    const nextCell = cells[newIdx];
+
+    const driftedX = nextCell.baseX + (rowOffsets[nextCell.rowIndex] || 0);
+    const baseScreenX0 = driftedX + panOff.x;
+    const baseScreenY0 = nextCell.baseY + panOff.y;
+    const kX = Math.round((vw / 2 - baseScreenX0) / tile.width);
+    const kY = Math.round((vh / 2 - baseScreenY0) / tile.height);
+    const nextWorldX = driftedX + kX * tile.width;
+    const nextWorldY = nextCell.baseY + kY * tile.height;
+
+    pinned = true;
+    panTarget.x = vw / 2 - nextWorldX;
+    panTarget.y = vh / 2 - nextWorldY;
+
+    featuredIdx = newIdx;
+    renderFeatured();
+  }
+
+  /* ───────────────────────────────── Animation loop (rAF tick) ───────────────────────────────── */
+  function tick() {
+    // A. Per-row drift — only when no detail is open
+    if (!expanded) {
+      for (let r = 0; r < rowOffsets.length; r++) {
+        rowOffsets[r] += rowDriftSpeed(r);
+      }
+    }
+
+    // B. Pan lerp toward target
+    panOff.x += (panTarget.x - panOff.x) * PAN_LERP;
+    panOff.y += (panTarget.y - panOff.y) * PAN_LERP;
+
+    // C. Update void position (world coords)
+    if (expanded) {
+      if (!pinned) {
+        const dpx = panTarget.x - panOff.x;
+        const dpy = panTarget.y - panOff.y;
+        if (Math.abs(dpx) < 0.5 && Math.abs(dpy) < 0.5) pinned = true;
+      }
+      if (pinned) {
+        voidWorld.x = vw / 2 - panOff.x;
+        voidWorld.y = vh / 2 - panOff.y;
+      }
+    } else if (mouse.has) {
+      const tx = mouse.x - panOff.x;
+      const ty = mouse.y - panOff.y;
+      voidWorld.x += (tx - voidWorld.x) * VOID_LERP;
+      voidWorld.y += (ty - voidWorld.y) * VOID_LERP;
+    }
+
+    // D. Target radius
+    let baseR;
+    if (expanded)      baseR = isMobile ? VOID_RADIUS_EXPANDED_MOBILE : VOID_RADIUS_EXPANDED_DESKTOP;
+    else if (hovering) baseR = isMobile ? VOID_RADIUS_HOVER_MOBILE    : VOID_RADIUS_HOVER_DESKTOP;
+    else               baseR = isMobile ? VOID_RADIUS_IDLE_MOBILE     : VOID_RADIUS_IDLE_DESKTOP;
+    targetRadius = baseR * introVoidEmerge.v;
+    voidRadius += (targetRadius - voidRadius) * RADIUS_LERP;
+
+    const R    = voidRadius;
+    const SOFT = R * SOFT_PUSH_RATIO;
+    const vX   = voidWorld.x;
+    const vY   = voidWorld.y;
+
+    // E. Per-cell loop
+    const entrance = introEntrance.v;
+    const halfDiag = Math.hypot(vw, vh) / 2;
+    const revealActive = entrance < 1;
+    const cullMargin = 240;
+
+    let nearestIdx = featuredIdx;
+    let nearestDist = Infinity;
+
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const el = items[i];
+      if (!el) continue;
+
+      const driftedX = cell.baseX + (rowOffsets[cell.rowIndex] || 0);
+      const baseScreenX0 = driftedX + panOff.x;
+      const baseScreenY0 = cell.baseY + panOff.y;
+      const kX = Math.round((vw / 2 - baseScreenX0) / tile.width);
+      const kY = Math.round((vh / 2 - baseScreenY0) / tile.height);
+      const effectiveWorldX = driftedX + kX * tile.width;
+      const effectiveWorldY = cell.baseY + kY * tile.height;
+
+      const dx = effectiveWorldX - vX;
+      const dy = effectiveWorldY - vY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < nearestDist) { nearestDist = dist; nearestIdx = i; }
+
+      const baseScreenX = effectiveWorldX + panOff.x;
+      const baseScreenY = effectiveWorldY + panOff.y;
+      if (baseScreenX + cell.width < -cullMargin) { el.style.opacity = "0"; continue; }
+      if (baseScreenX > vw + cullMargin)          { el.style.opacity = "0"; continue; }
+      if (baseScreenY + cell.height < -cullMargin){ el.style.opacity = "0"; continue; }
+      if (baseScreenY > vh + cullMargin)          { el.style.opacity = "0"; continue; }
+
+      let finalWorldX = effectiveWorldX;
+      let finalWorldY = effectiveWorldY;
+      let s = cell.scale;
+
+      if (dist < SOFT) {
+        const t = 1 - dist / SOFT;
+        const push = R * t * t;
+        let dirX, dirY;
+        if (dist < 0.5) {
+          dirX = Math.cos(cell.angle);
+          dirY = Math.sin(cell.angle);
+        } else {
+          dirX = dx / dist;
+          dirY = dy / dist;
+        }
+        finalWorldX = effectiveWorldX + dirX * push;
+        finalWorldY = effectiveWorldY + dirY * push;
+        if (dist > R * 0.55 && dist < R * 1.05) {
+          const ringT =
+            smoothstep(R * 0.55, R * 0.8, dist) *
+            (1 - smoothstep(R * 0.85, R * 1.05, dist));
+          s *= 1 + 0.06 * ringT;
+        }
+      }
+
+      let alpha = 1;
+      let introOffsetX = 0;
+      let introOffsetY = 0;
+      if (revealActive) {
+        const distFromCenter = Math.hypot(cell.baseX, cell.baseY);
+        const cellEntrance = entrance * 1.0 - (distFromCenter / halfDiag) * 0.4;
+        const entranceAlpha = Math.max(0, Math.min(1, cellEntrance * 1.5));
+        alpha = entranceAlpha;
+        s *= 0.3 + 0.7 * entranceAlpha;
+        if (distFromCenter > 1) {
+          const dirX = cell.baseX / distFromCenter;
+          const dirY = cell.baseY / distFromCenter;
+          const flyMag = (1 - entranceAlpha) * 420;
+          introOffsetX = dirX * flyMag;
+          introOffsetY = dirY * flyMag;
+        }
+      }
+
+      const screenX = finalWorldX + introOffsetX + panOff.x - cell.width / 2;
+      const screenY = finalWorldY + introOffsetY + panOff.y - cell.height / 2;
+      el.style.transform =
+        "translate3d(" + screenX.toFixed(2) + "px, " + screenY.toFixed(2) + "px, 0) " +
+        "rotate(" + cell.rotation.toFixed(2) + "deg) scale(" + s.toFixed(3) + ")";
+      el.style.opacity = alpha < 0.999 ? alpha.toFixed(3) : "1";
+    }
+
+    // F. Update featured index if a closer cell is now nearest
+    if (nearestIdx !== featuredIdx && nearestDist < R * 0.9 && !expanded) {
+      featuredIdx = nearestIdx;
+      renderFeatured();
+    }
+
+    // G. Position featured anchor
+    if (anchor) {
+      let sx, sy;
+      if (expanded && pinned) {
+        sx = vw / 2;
+        sy = vh / 2;
+      } else {
+        sx = vX + panOff.x;
+        sy = vY + panOff.y;
+      }
+      const fEm = introFeaturedEmerge.v;
+      anchor.style.transform =
+        "translate3d(" + sx.toFixed(2) + "px, " + sy.toFixed(2) + "px, 0) scale(" + fEm.toFixed(3) + ")";
+      anchor.style.opacity = fEm < 0.999 ? fEm.toFixed(3) : "1";
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ───────────────────────────────── Cinematic intro ───────────────────────────────── */
+  function buildTitleChars() {
+    const title = document.getElementById("title");
+    const word = "Moments";
+    title.innerHTML = "";
+    const spans = [];
+    for (let i = 0; i < word.length; i++) {
+      const span = document.createElement("span");
+      span.setAttribute("data-char", "");
+      span.textContent = word[i];
+      title.appendChild(span);
+      spans.push(span);
+    }
+    return spans;
+  }
+
+  function showCopyEl(el, delay, ease) {
+    const cubic = {
+      "power3.out": "cubic-bezier(0.215, 0.61, 0.355, 1)",
+      "power4.out": "cubic-bezier(0.165, 0.84, 0.44, 1)",
+    }[ease] || "cubic-bezier(0.215, 0.61, 0.355, 1)";
+    setTimeout(function () {
+      el.style.transition = "opacity 0.8s " + cubic + ", transform 0.8s " + cubic + ", filter 0.8s " + cubic;
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0) scale(1)";
+      el.style.filter = "blur(0px)";
+    }, delay * 1000);
+  }
+
+  function runIntro(titleChars) {
+    const base = 0.1; // timeline delay
+    animateScalar(introEntrance,       1, 1.7, "power2.inOut", base + 0.0);
+    animateScalar(introVoidEmerge,     1, 1.1, "power2.out",   base + 0.2);
+    animateScalar(introFeaturedEmerge, 1, 0.8, "back.out",     base + 0.7);
+
+    showCopyEl(document.getElementById("eyebrow"), base + 1.1, "power3.out");
+    for (let i = 0; i < titleChars.length; i++) {
+      showCopyEl(titleChars[i], base + 1.25 + i * 0.04, "power4.out");
+    }
+    showCopyEl(document.getElementById("sub"),  base + 1.6, "power3.out");
+    showCopyEl(document.getElementById("hint"), base + 1.7, "power3.out");
+  }
+
+  function skipIntro(titleChars) {
+    introEntrance.v = 1;
+    introVoidEmerge.v = 1;
+    introFeaturedEmerge.v = 1;
+    voidRadius = (hovering ? (isMobile ? VOID_RADIUS_HOVER_MOBILE : VOID_RADIUS_HOVER_DESKTOP) : 0);
+    for (let i = 0; i < titleChars.length; i++) {
+      titleChars[i].style.opacity = "1";
+      titleChars[i].style.transform = "translateY(0) scale(1)";
+      titleChars[i].style.filter = "blur(0px)";
+    }
+    const eb = document.getElementById("eyebrow"), sb = document.getElementById("sub");
+    [eb, sb, hint].forEach(function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+      el.style.filter = "blur(0px)";
+    });
+  }
+
+  /* ───────────────────────────────── Input handlers ───────────────────────────────── */
+  function fadeHint() {
+    if (!hasInteracted) {
+      hasInteracted = true;
+      hint.style.opacity = "0";
+    }
+  }
+
+  window.addEventListener("pointermove", function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.has = true;
+    fadeHint();
+  });
+
+  window.addEventListener("touchmove", function (e) {
+    if (e.touches.length === 0) return;
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+    mouse.has = true;
+    fadeHint();
+  }, { passive: true });
+
+  section.addEventListener("pointerenter", function () { hovering = true; });
+  section.addEventListener("pointerleave", function () { hovering = false; });
+
+  window.addEventListener("keydown", function (e) {
+    if (!expanded || e.repeat) return;
+    if (e.key === "Escape")           close();
+    else if (e.key === "ArrowRight")  navigate(1);
+    else if (e.key === "ArrowLeft")   navigate(-1);
+  });
+
+  // Frame click opens detail (rest state only)
+  frame.addEventListener("click", function () {
+    if (!expanded) open();
+  });
+
+  // Arrows
+  document.getElementById("prevBtn").addEventListener("click", function (e) { e.stopPropagation(); navigate(-1); });
+  document.getElementById("nextBtn").addEventListener("click", function (e) { e.stopPropagation(); navigate(1); });
+
+  // Close buttons
+  document.getElementById("closeBtn").addEventListener("click", function (e) { e.stopPropagation(); close(); });
+  document.getElementById("mobileClose").addEventListener("click", function (e) { e.stopPropagation(); close(); });
+
+  // Other action icons + buttons: no-op, just stop the open-click
+  Array.prototype.forEach.call(document.querySelectorAll('.icon-btn[data-act], .btn-primary, .btn-secondary'), function (btn) {
+    btn.addEventListener("click", function (e) { e.stopPropagation(); });
+  });
+
+  // Backdrop click closes
+  dim.addEventListener("click", close);
+
+  // Theme toggle
+  document.getElementById("themeToggle").addEventListener("click", function () {
+    const html = document.documentElement;
+    html.setAttribute("data-theme", html.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  /* ───────────────────────────────── Resize with mobile-chrome filter ───────────────────────────────── */
+  let prevDims = null;
+  let pendingTitleChars = null;
+
+  function update() {
+    const nvw = window.innerWidth;
+    const nvh = window.innerHeight;
+    const nIsMobile = nvw < 768;
+
+    if (prevDims) {
+      if (prevDims.vw === nvw && prevDims.isMobile === nIsMobile && Math.abs(prevDims.vh - nvh) < 200) {
+        return; // ignore mobile-chrome-only vh changes
+      }
+    }
+    const dims = { vw: nvw, vh: nvh, isMobile: nIsMobile };
+    prevDims = dims;
+    rebuild(dims);
+
+    if (!introDone) {
+      introDone = true;
+      runIntro(pendingTitleChars);
+    } else {
+      skipIntro(pendingTitleChars);
+    }
+  }
+
+  /* ───────────────────────────────── Boot ───────────────────────────────── */
+  pendingTitleChars = buildTitleChars();
+  window.addEventListener("resize", update);
+  update();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

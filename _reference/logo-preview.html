@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Side-by-side preview: current logo vs logo-browser.svg at real nav sizes. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Logo Preview — UI Compass</title>
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { font-family: "Roboto", Arial, sans-serif; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; }
+  .cell {
+    padding: 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 28px;
+    min-height: 50vh; justify-content: center;
+  }
+  .light { background: #fafbfc; color: #262421; }
+  .dark  { background: #0d1411; color: #fafbfc; }
+  .label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; opacity: 0.6; }
+  .big img  { height: 120px; }
+  .nav img  { height: 60px; }   /* desktop nav size */
+  .tiny img { height: 32px; }   /* mobile nav size */
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="cell light">
+      <div class="label">Current — light</div>
+      <div class="big"><img src="../src/assets/logo.svg" alt=""></div>
+      <div class="nav"><img src="../src/assets/logo.svg" alt=""></div>
+      <div class="tiny"><img src="../src/assets/logo.svg" alt=""></div>
+    </div>
+    <div class="cell dark">
+      <div class="label">Current — dark</div>
+      <div class="big"><img src="../src/assets/logo-on-dark.svg" alt=""></div>
+      <div class="nav"><img src="../src/assets/logo-on-dark.svg" alt=""></div>
+      <div class="tiny"><img src="../src/assets/logo-on-dark.svg" alt=""></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell light">
+      <div class="label">New — light</div>
+      <div class="big"><img src="../src/assets/logo-browser.svg" alt=""></div>
+      <div class="nav"><img src="../src/assets/logo-browser.svg" alt=""></div>
+      <div class="tiny"><img src="../src/assets/logo-browser.svg" alt=""></div>
+    </div>
+    <div class="cell dark">
+      <div class="label">New — dark</div>
+      <div class="big"><img src="../src/assets/logo-browser.svg" alt=""></div>
+      <div class="nav"><img src="../src/assets/logo-browser.svg" alt=""></div>
+      <div class="tiny"><img src="../src/assets/logo-browser.svg" alt=""></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outset — Five Projects, All of Them Loved</title>
+<meta name="description" content="Debut — a five-project typographic index with a cursor-borne preview card and an empty sixth slot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+/* ── Tokens — light is a paper index, dark is a slate one ─────────── */
+:root{
+  --background:#f4f1ec;
+  --foreground:#181613;
+  --muted:#8a8378;
+  --surface:#ebe7e0;
+  --border:#d8d2c7;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --background:#16181b;
+    --foreground:#ece9e3;
+    --muted:#7d8189;
+    --surface:#1e2126;
+    --border:#2e3238;
+  }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--background);color:var(--foreground)}
+body{font-family:"Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+
+/* ── Section shell ────────────────────────────────────────────────── */
+.debut{
+  position:relative;height:100dvh;width:100%;overflow:hidden;
+  background:var(--background);
+  user-select:none;-webkit-user-select:none;
+}
+
+/* entrance pre-state: hidden until the timeline takes over */
+.pre .row, .pre [data-chrome]{opacity:0}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.debut > header{
+  position:absolute;top:0;left:0;right:0;height:13vh;padding:0 80px;
+  display:flex;align-items:flex-end;justify-content:space-between;z-index:30;
+}
+.wordmark{font-family:"Fraunces",Georgia,serif;font-size:20px;letter-spacing:-0.015em}
+.wordmark sup{font-family:"Geist Mono",ui-monospace,monospace;font-size:9px;color:var(--muted);margin-left:6px;letter-spacing:0.12em}
+.thesis{font-family:"Geist Mono",ui-monospace,monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.22em;color:var(--muted)}
+.counter{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;font-variant-numeric:tabular-nums;min-width:7ch;text-align:right}
+
+/* ── The index ────────────────────────────────────────────────────── */
+.index{
+  position:absolute;top:13vh;left:80px;right:80px;z-index:10;list-style:none;
+}
+.row{
+  position:relative;width:100%;height:12.5vh;
+  display:flex;align-items:center;gap:32px;text-align:left;
+  opacity:1;
+  transition:opacity 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+/* hairline drawn via a scalable ::after so the entrance can draw it */
+.row::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--border);
+  transform:scaleX(var(--hairline-scale,1));transform-origin:left center;
+}
+.row.ghost::after{
+  background:none;height:0;border-top:1px dashed var(--border);
+}
+/* active bright, neighbours recede — keyed off one data-hot attribute */
+.index[data-anyhot] .row{opacity:0.35}
+.index[data-anyhot] .row[data-hot]{opacity:1}
+
+.row .num{
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;
+  font-variant-numeric:tabular-nums;color:var(--muted);width:40px;flex:none;
+  transition:color 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.row[data-hot] .num{color:var(--foreground)}
+.row.ghost .num{color:color-mix(in srgb, var(--foreground) 30%, transparent)}
+
+.row .title{
+  font-family:"Fraunces",Georgia,serif;
+  font-size:clamp(40px, 6.5vw, 76px);line-height:1;letter-spacing:-0.015em;
+  flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-variation-settings:"wght" 430;
+  color:color-mix(in srgb, var(--foreground) 72%, var(--muted));
+  transition:font-variation-settings 0.45s cubic-bezier(0.16,1,0.3,1),
+             color 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.row[data-hot] .title{
+  font-variation-settings:"wght" 620;
+  color:var(--foreground);
+}
+.rm .row[data-hot] .title{font-variation-settings:"wght" 525} /* half travel — information, not decoration */
+.row.ghost .title{
+  font-style:italic;
+  font-variation-settings:"wght" 360;
+  color:color-mix(in srgb, var(--foreground) 45%, var(--muted));
+}
+.row.ghost[data-hot] .title{font-variation-settings:"wght" 360}
+.rm .row.ghost[data-hot] .title{font-variation-settings:"wght" 360}
+
+.row .meta{
+  text-align:right;flex:none;display:flex;flex-direction:column;gap:4px;
+  transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.row[data-hot] .meta{transform:translateX(-4px)}
+.row .client{font-size:13px}
+.row .scope{
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);
+}
+.row .arrow{display:inline-block;transition:transform 0.45s cubic-bezier(0.16,1,0.3,1)}
+.row.ghost[data-hot] .arrow{transform:translateX(6px)}
+
+.row:focus-visible{outline:1px solid var(--foreground);outline-offset:4px}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.debut > footer{
+  position:absolute;bottom:0;left:0;right:0;height:12vh;padding:0 80px;
+  display:flex;align-items:center;justify-content:space-between;z-index:30;
+}
+.hint,.where{
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:0.22em;color:var(--muted);
+}
+
+/* ── Preview card — the signature carrier ─────────────────────────── */
+.card{
+  position:fixed;left:0;top:0;width:340px;height:255px;z-index:40;
+  pointer-events:none; /* permanently — §16.1 */
+  border-radius:12px;overflow:hidden;background:var(--surface);
+  border:1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  box-shadow:0 18px 48px color-mix(in srgb, var(--foreground) 16%, transparent);
+  will-change:transform;
+}
+.card-inner{position:absolute;inset:0;opacity:0} /* GSAP owns inner; rAF owns outer transform */
+.card .layer{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+}
+.ghost-layer{
+  position:absolute;inset:0;display:grid;place-items:center;opacity:0;
+  background:var(--surface);
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:11px;
+  letter-spacing:0.2em;color:var(--muted);
+}
+.ghost-layer::after{
+  content:"";position:absolute;inset:12px;border:1px dashed var(--border);
+  border-radius:6px;pointer-events:none;
+}
+.card-tag{
+  position:absolute;bottom:12px;left:16px;
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;letter-spacing:0.18em;
+  color:var(--background);mix-blend-mode:difference;
+}
+
+/* docked treatment — mobile + reduced motion */
+.card.docked{left:auto;right:24px;top:16vh;transform:none}
+
+/* ── Case viewer ──────────────────────────────────────────────────── */
+.viewer{position:fixed;inset:0;z-index:50}
+.viewer[hidden]{display:none}
+.scrim{
+  position:absolute;inset:0;
+  background:color-mix(in srgb, var(--background) 88%, transparent);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+}
+.stage{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  gap:56px;padding:0 110px;
+  pointer-events:none; /* let scrim clicks through the empty stage area */
+}
+.cover,.facts{pointer-events:auto}
+.cover{
+  position:relative;width:min(56vw,980px);aspect-ratio:4/3;flex:none;
+  max-width:calc(100% - 360px);
+}
+.facts{display:flex;flex-direction:column;gap:18px;max-width:340px;position:relative}
+.v-num{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;color:var(--muted);letter-spacing:0.12em}
+.v-title{
+  font-family:"Fraunces",Georgia,serif;font-size:44px;line-height:1.05;
+  letter-spacing:-0.015em;font-variation-settings:"wght" 620;font-weight:normal;
+}
+.v-body{font-size:14px;line-height:1.65;max-width:36ch}
+.v-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.v-grid dt{
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:9px;
+  letter-spacing:0.18em;color:var(--muted);margin-bottom:3px;
+}
+.v-grid dd{font-size:13px}
+.v-visit{
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;
+  border-bottom:1px solid var(--border);align-self:flex-start;padding-bottom:3px;
+}
+.v-visit:hover{border-color:var(--foreground)}
+.navbtn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;display:grid;place-items:center;
+  font-family:"Fraunces",Georgia,serif;font-size:26px;color:var(--muted);
+  border:1px solid var(--border);border-radius:999px;
+}
+.navbtn:hover{color:var(--foreground);border-color:var(--foreground)}
+.navbtn.prev{left:32px}
+.navbtn.next{right:32px}
+.v-counter{
+  position:absolute;top:32px;right:40px;
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;font-variant-numeric:tabular-nums;
+}
+.v-close{
+  position:absolute;top:32px;left:40px;
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:0.22em;color:var(--muted);
+  padding:8px 0;
+}
+.v-close:hover{color:var(--foreground)}
+.viewer button:focus-visible, .viewer a:focus-visible{outline:1px solid var(--foreground);outline-offset:4px}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width:1280px){
+  .debut > header, .debut > footer{padding:0 48px}
+  .index{left:48px;right:48px}
+}
+@media (max-width:1024px){
+  .stage{flex-direction:column;gap:28px;padding:80px 32px 32px;overflow-y:auto;justify-content:flex-start}
+  .cover{width:100%;max-width:680px}
+  .facts{max-width:680px;width:100%}
+  .navbtn.prev{left:12px}
+  .navbtn.next{right:12px}
+}
+@media (max-width:767px){
+  .debut{height:auto;min-height:100dvh;overflow:visible}
+  .debut > header{position:relative;height:auto;padding:28px 20px 18px;align-items:baseline}
+  .index{position:relative;top:auto;left:0;right:0;padding:0 20px}
+  .row{height:auto;min-height:96px;padding:18px 0;gap:16px}
+  .row .title{font-size:clamp(30px, 9vw, 40px);white-space:normal}
+  .row .meta .client{display:none} /* meta drops to one line */
+  .debut > footer{position:relative;height:auto;padding:24px 20px 132px;flex-direction:column;gap:8px;align-items:flex-start}
+  .thesis{display:none}
+  .card.docked{top:auto;bottom:16px;right:14px;width:42vw;height:auto;aspect-ratio:4/3}
+}
+
+/* as-cover must win over .docked — keep it last */
+.card.as-cover{
+  position:absolute;inset:0;left:0;top:0;right:auto;bottom:auto;
+  width:100%;height:100%;border-radius:6px;transform:none;
+}
+</style>
+</head>
+<body class="pre">
+
+<section class="debut" id="debut">
+  <header>
+    <div class="wordmark" data-chrome>Outset<sup>EST. 2025</sup></div>
+    <div class="thesis" data-chrome>FIVE PROJECTS · ALL OF THEM LOVED</div>
+    <div class="counter" data-chrome id="counter" aria-live="polite">—— / 05</div>
+  </header>
+
+  <ul class="index" id="index">
+    <li><button class="row" data-i="0" aria-label="Hearth &amp; Rye — Hearth &amp; Rye Bakery, 2025. Open case study.">
+      <span class="num">01</span>
+      <span class="title">Hearth &amp; Rye</span>
+      <span class="meta"><span class="client">Hearth &amp; Rye Bakery</span><span class="scope">IDENTITY &amp; WEB · 2025</span></span>
+    </button></li>
+    <li><button class="row" data-i="1" aria-label="Night Signal — Night Signal Records, 2025. Open case study.">
+      <span class="num">02</span>
+      <span class="title">Night Signal</span>
+      <span class="meta"><span class="client">Night Signal Records</span><span class="scope">WEB &amp; RELEASE DROPS · 2025</span></span>
+    </button></li>
+    <li><button class="row" data-i="2" aria-label="Glasshouse — Glasshouse Architecture, 2026. Open case study.">
+      <span class="num">03</span>
+      <span class="title">Glasshouse</span>
+      <span class="meta"><span class="client">Glasshouse Architecture</span><span class="scope">PORTFOLIO &amp; CMS · 2026</span></span>
+    </button></li>
+    <li><button class="row" data-i="3" aria-label="Komorebi — Komorebi Coffee Roasters, 2026. Open case study.">
+      <span class="num">04</span>
+      <span class="title">Komorebi</span>
+      <span class="meta"><span class="client">Komorebi Coffee Roasters</span><span class="scope">E-COMMERCE · 2026</span></span>
+    </button></li>
+    <li><button class="row" data-i="4" aria-label="Common Ground — Common Ground Trust, 2026. Open case study.">
+      <span class="num">05</span>
+      <span class="title">Common Ground</span>
+      <span class="meta"><span class="client">Common Ground Trust</span><span class="scope">BRAND &amp; WEB · 2026</span></span>
+    </button></li>
+    <li><a class="row ghost" data-i="5" href="mailto:hello@outset.studio" aria-label="Your project — let's talk.">
+      <span class="num">—</span>
+      <span class="title">Your project</span>
+      <span class="meta"><span class="scope">LET'S TALK <span class="arrow">→</span></span></span>
+    </a></li>
+  </ul>
+
+  <footer>
+    <div class="hint" data-chrome>HOVER THE INDEX — CLICK TO OPEN A CASE</div>
+    <div class="where" data-chrome>ROTTERDAM, NL · WORLDWIDE FROM HERE</div>
+  </footer>
+</section>
+
+<!-- The preview card — a cursor ornament; every datum it shows exists in the rows -->
+<div class="card" id="card" aria-hidden="true">
+  <div class="card-inner" id="cardInner">
+    <img class="layer" alt="" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=900&fit=crop&q=80&auto=format">
+    <img class="layer" alt="" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=900&fit=crop&q=80&auto=format">
+    <img class="layer" alt="" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&h=900&fit=crop&q=80&auto=format">
+    <img class="layer" alt="" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&h=900&fit=crop&q=80&auto=format">
+    <img class="layer" alt="" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&h=900&fit=crop&q=80&auto=format">
+    <div class="ghost-layer">2 SLOTS OPEN · Q1 2027</div>
+    <div class="card-tag" id="cardTag">Nº 01 — VIEW CASE</div>
+  </div>
+</div>
+
+<!-- The case viewer -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Case study" hidden>
+  <div class="scrim" id="scrim"></div>
+  <div class="stage">
+    <div class="cover" id="cover"></div>
+    <div class="facts" id="facts">
+      <div class="v-num" id="vNum">Nº 01</div>
+      <h2 class="v-title" id="vTitle">Hearth &amp; Rye</h2>
+      <p class="v-body" id="vBody"></p>
+      <dl class="v-grid">
+        <div><dt>CLIENT</dt><dd id="vClient"></dd></div>
+        <div><dt>SCOPE</dt><dd id="vScope"></dd></div>
+        <div><dt>YEAR</dt><dd id="vYear"></dd></div>
+        <div><dt>STACK</dt><dd id="vStack"></dd></div>
+      </dl>
+      <a class="v-visit" id="vVisit" href="#" target="_blank" rel="noopener">VISIT SITE →</a>
+    </div>
+  </div>
+  <button class="navbtn prev" id="vPrev" aria-label="Previous case">‹</button>
+  <button class="navbtn next" id="vNext" aria-label="Next case">›</button>
+  <div class="v-counter" id="vCounter">01 / 05</div>
+  <button class="v-close" id="vClose">ESC — BACK TO INDEX</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Flip.min.js"></script>
+<script>
+(() => {
+"use strict";
+gsap.registerPlugin(Flip);
+
+/* ── Constants (§4) ─────────────────────────────────────────────── */
+const CARD_W = 340, CARD_OFF_X = 28, CARD_OFF_Y = -20;
+const FOLLOW_LERP = 0.12, SNAP_EPS = 0.05;
+const ROT_GAIN = 0.55, ROT_MAX = 9, ROT_LERP = 0.14;
+const XFADE = 0.35, CARD_IN = 0.4, CARD_OUT = 0.3;
+const FLIGHT_OPEN = 0.65, FLIGHT_CLOSE = 0.6, ATTRACT_STEP = 0.9;
+
+/* ── Data (§13) ─────────────────────────────────────────────────── */
+const PROJECTS = [
+  { title: "Hearth & Rye", client: "Hearth & Rye Bakery", scope: "IDENTITY & WEB", year: "2025",
+    stack: "Next.js · Sanity", url: "https://hearthandrye.example",
+    body: "A neighbourhood bakery that sells out by nine needed a site that takes orders by seven. We built the menu as the homepage and the oven schedule as the API." },
+  { title: "Night Signal", client: "Night Signal Records", scope: "WEB & RELEASE DROPS", year: "2025",
+    stack: "Next.js · Stripe", url: "https://nightsignal.example",
+    body: "An independent label shipping vinyl in runs of 300. Every release page is a timed drop with a live counter, and the archive plays front to back." },
+  { title: "Glasshouse", client: "Glasshouse Architecture", scope: "PORTFOLIO & CMS", year: "2026",
+    stack: "Next.js · Sanity", url: "https://glasshouse.example",
+    body: "Eleven buildings, photographed like they deserve. The practice edits everything themselves; the grid never lets them break it." },
+  { title: "Komorebi", client: "Komorebi Coffee Roasters", scope: "E-COMMERCE", year: "2026",
+    stack: "Next.js · Shopify", url: "https://komorebi.example",
+    body: "Single-origin subscriptions with a roast calendar instead of a product grid. Checkout in two screens; the beans are the photography." },
+  { title: "Common Ground", client: "Common Ground Trust", scope: "BRAND & WEB", year: "2026",
+    stack: "Astro · Decap", url: "https://commonground.example",
+    body: "A community land trust that needed to explain itself to three audiences at once. One page, three doors, no jargon past the fold." },
+];
+
+/* ── Elements ───────────────────────────────────────────────────── */
+const $ = s => document.querySelector(s);
+const section = $("#debut"), indexEl = $("#index"), counterEl = $("#counter");
+const card = $("#card"), cardInner = $("#cardInner"), tagEl = $("#cardTag");
+const layers = [...card.querySelectorAll(".layer")], ghostLayer = card.querySelector(".ghost-layer");
+const viewer = $("#viewer"), scrim = $("#scrim"), cover = $("#cover");
+const vNum = $("#vNum"), vTitle = $("#vTitle"), vBody = $("#vBody");
+const vClient = $("#vClient"), vScope = $("#vScope"), vYear = $("#vYear"), vStack = $("#vStack");
+const vVisit = $("#vVisit"), vCounter = $("#vCounter");
+const vPrev = $("#vPrev"), vNext = $("#vNext"), vClose = $("#vClose");
+const rowEls = [...indexEl.querySelectorAll(".row")];
+const layerFor = i => i === 5 ? ghostLayer : layers[i];
+const VIEWER_CHROME = ".facts > *, .v-counter, .v-close, .navbtn";
+
+/* ── Modes ──────────────────────────────────────────────────────── */
+const rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const mobileMQ = matchMedia("(max-width: 767px)");
+let docked = rm || mobileMQ.matches;
+if (rm) document.documentElement.classList.add("rm");
+
+/* ── State — the one source of truth is (cx, cy) and hot ───────── */
+let tx = innerWidth / 2, ty = innerHeight / 2;   // raw pointer targets
+let cx = tx, cy = ty, pcx = cx;                  // smoothed point + previous (for lerped vx)
+let rot = 0, rotT = 0;
+let hot = -1, shown = -1;                        // shown = currently visible card layer
+let viewerIndex = null, flying = false, entered = false;
+let attractTl = null, inputOver = false;
+let rowBounds = [], listLeft = 0, listRight = 0, listBottom = 0;
+let lastWX = null, lastWY = null, lastWR = null; // last written transform — zero writes at rest
+let lastFocusRow = null;
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+/* ── Geometry (§6) — hot from cached bounds, never :hover ───────── */
+function measure() {
+  const r = indexEl.getBoundingClientRect();
+  listLeft = r.left; listRight = r.right; listBottom = r.bottom;
+  rowBounds = rowEls.map(el => {
+    const b = el.getBoundingClientRect();
+    return { top: b.top, bottom: b.bottom };
+  });
+}
+function hotFor(y, x) {
+  if (x < listLeft || x > listRight) return -1;
+  for (let i = 0; i < rowBounds.length; i++) {
+    const b = rowBounds[i];
+    if (y >= b.top && y < b.bottom) return i;
+  }
+  return -1;
+}
+const rowAim = i => ({
+  x: listLeft + (listRight - listLeft) / 6,                 // left-third midpoint
+  y: (rowBounds[i].top + rowBounds[i].bottom) / 2,
+});
+
+/* ── Follower physics (§7) ──────────────────────────────────────── */
+function stepFollower() {
+  cx += (tx - cx) * FOLLOW_LERP;
+  cy += (ty - cy) * FOLLOW_LERP;
+  if (Math.abs(tx - cx) < SNAP_EPS) cx = tx;
+  if (Math.abs(ty - cy) < SNAP_EPS) cy = ty;
+
+  const vx = cx - pcx; pcx = cx;                 // LERPED velocity — never raw (§16.4)
+  rotT = clamp(vx * ROT_GAIN, -ROT_MAX, ROT_MAX);
+  rot += (rotT - rot) * ROT_LERP;
+  if (Math.abs(rot - rotT) < 0.01) rot = rotT;
+
+  const offX = tx > innerWidth - 420 ? -CARD_W - CARD_OFF_X : CARD_OFF_X;
+  const X = cx + offX, Y = cy + CARD_OFF_Y;
+  if (X !== lastWX || Y !== lastWY || rot !== lastWR) {
+    card.style.transform = `translate3d(${X}px, ${Y}px, 0) rotate(${rot}deg)`;
+    lastWX = X; lastWY = Y; lastWR = rot;
+  }
+}
+
+/* ── Per-frame loop (§8) — one element, one comparison ──────────── */
+function tick() {
+  if (!docked && !flying && viewerIndex === null) {
+    stepFollower();
+    const h = (attractTl || inputOver) ? hotFor(cy, cx) : -1;
+    if (h !== hot) setHot(h);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ── Hot commit (§6, §10) — event consequences only ─────────────── */
+function setHot(h) {
+  const prev = hot; hot = h;
+  rowEls.forEach((r, i) => {
+    if (i === h) r.setAttribute("data-hot", "");
+    else r.removeAttribute("data-hot");
+  });
+  indexEl.toggleAttribute("data-anyhot", h >= 0);
+
+  if (h >= 0) {
+    if (prev < 0) {                              // entering the list
+      if (shown >= 0 && shown !== h) gsap.set(layerFor(shown), { opacity: 0 });
+      gsap.set(layerFor(h), { opacity: 1 });
+      shown = h;
+      cardIn();
+    } else if (h !== shown) {                    // cross-fade exactly two layers (§16.3)
+      gsap.to(layerFor(shown), { opacity: 0, duration: XFADE, ease: "power2.out", overwrite: "auto" });
+      gsap.to(layerFor(h),     { opacity: 1, duration: XFADE, ease: "power2.out", overwrite: "auto" });
+      shown = h;
+    }
+    tagEl.textContent = h === 5 ? "START HERE" : `Nº 0${h + 1} — VIEW CASE`;
+  } else if (prev >= 0) {
+    cardOut();
+  }
+  setCounter(h === -1 || h === 5 ? "—— / 05" : `0${h + 1} / 05`);
+}
+
+function setCounter(t) {
+  if (counterEl.textContent === t) return;
+  counterEl.textContent = t;
+  gsap.fromTo(counterEl, { opacity: 0.25 }, { opacity: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+}
+function cardIn() {
+  if (docked) { gsap.to(cardInner, { opacity: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }); return; }
+  gsap.fromTo(cardInner, { opacity: 0, scale: 0.85 },
+    { opacity: 1, scale: 1, duration: CARD_IN, ease: "back.out(1.4)", overwrite: "auto" });
+}
+function cardOut() {
+  if (docked) { gsap.to(cardInner, { opacity: 0, duration: 0.3, ease: "power2.out", overwrite: "auto" }); return; }
+  gsap.to(cardInner, { opacity: 0, scale: 0.92, duration: CARD_OUT, ease: "power2.out", overwrite: "auto" });
+}
+
+/* ── Entrance & attract (§11) ───────────────────────────────────── */
+function enter() {
+  measure();
+  document.body.classList.remove("pre");
+
+  if (rm) {                                      // reduced motion: a 0.4s opacity fade
+    gsap.fromTo(".row, [data-chrome]", { opacity: 0 },
+      { opacity: 1, duration: 0.4, clearProps: "opacity", onComplete: () => { entered = true; } });
+    return;
+  }
+
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" }, onComplete: measure });
+
+  // 1 · rows rise in — hairlines drawing after
+  tl.fromTo(".row:not(.ghost)", { opacity: 0, y: 36, filter: "blur(10px)" },
+    { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, stagger: 0.09,
+      clearProps: "opacity,transform,filter" }, 0);
+  tl.fromTo(".row", { "--hairline-scale": 0 },
+    { "--hairline-scale": 1, duration: 0.7, ease: "power2.inOut", stagger: 0.09 }, 0.25);
+
+  // 2 · the ghost slot arrives LAST and slower — the punchline reads as one
+  tl.fromTo(".row.ghost", { opacity: 0 }, { opacity: 1, duration: 0.8, clearProps: "opacity" }, 1.15);
+
+  // 3 · chrome
+  tl.fromTo("[data-chrome]", { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, clearProps: "opacity,transform" }, 1.3);
+
+  // 4 · attract mode (desktop only — on mobile, scrolling IS the demo)
+  if (!docked) tl.add(() => attract(), 2.0);
+  else tl.add(() => { entered = true; }, 2.0);
+}
+
+function attract() {
+  if (entered || docked || !rowBounds.length) return;
+  const p0 = rowAim(0);
+  tx = p0.x; ty = p0.y - 60; cx = tx; cy = ty; pcx = cx;   // park just above row 01
+  const proxy = { x: tx, y: ty };
+  const drive = () => { tx = proxy.x; ty = proxy.y; };
+  attractTl = gsap.timeline({ onComplete: () => { attractTl = null; entered = true; } });
+  for (let i = 0; i < 5; i++) {
+    const a = rowAim(i);
+    attractTl.to(proxy, { x: a.x, y: a.y, duration: ATTRACT_STEP, ease: "power2.inOut", onUpdate: drive });
+  }
+  // exit left of the list (never through the ghost) → hot −1 → CARD_OUT parks it
+  attractTl.to(proxy, { x: listLeft - 120, duration: 0.7, ease: "power2.inOut", onUpdate: drive });
+}
+function killAttract() {
+  if (!attractTl) return;
+  attractTl.kill(); attractTl = null; entered = true;
+}
+
+/* ── The case viewer (§12) ──────────────────────────────────────── */
+function populate(i) {
+  const p = PROJECTS[i];
+  vNum.textContent = `Nº 0${i + 1}`;
+  vTitle.textContent = p.title;
+  vBody.textContent = p.body;
+  vClient.textContent = p.client;
+  vScope.textContent = p.scope;
+  vYear.textContent = p.year;
+  vStack.textContent = p.stack;
+  vVisit.href = p.url;
+  vCounter.textContent = `0${i + 1} / 05`;
+}
+
+function openCase(i) {
+  if (flying || viewerIndex !== null) return;
+  killAttract();
+  entered = true;
+  lastFocusRow = rowEls[i];
+  viewerIndex = i; flying = true;                // gate the rAF loop BEFORE Flip.getState (§16.2)
+
+  if (shown !== i) {                             // make sure the right layer is up
+    if (shown >= 0) gsap.set(layerFor(shown), { opacity: 0 });
+    gsap.set(layerFor(i), { opacity: 1 });
+    shown = i;
+  }
+  gsap.set(cardInner, { opacity: 1, scale: 1 });
+  populate(i);
+  viewer.hidden = false;
+  gsap.to(tagEl, { opacity: 0, duration: 0.2 });
+
+  if (rm) {                                      // reduced motion: cross-fade in place
+    cover.appendChild(card);
+    card.classList.add("as-cover");
+    card.style.transform = "none";
+    gsap.set(scrim, { opacity: 1 });
+    gsap.set(VIEWER_CHROME, { opacity: 1, y: 0 });
+    gsap.fromTo(viewer, { opacity: 0 }, { opacity: 1, duration: 0.25, onComplete: () => { flying = false; } });
+  } else {
+    gsap.set(card, { rotation: 0 });             // square up — Flip would capture the lean
+    rot = 0; rotT = 0;
+    const state = Flip.getState(card, { props: "borderRadius" });
+    cover.appendChild(card);                     // no clone — the card IS the cover
+    card.classList.add("as-cover");
+    card.style.transform = "none";
+    Flip.from(state, {
+      duration: docked ? 0.5 : FLIGHT_OPEN, ease: "power3.inOut", absolute: true,
+      onComplete: () => { flying = false; },
+    });
+    gsap.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    gsap.fromTo(VIEWER_CHROME, { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.06, delay: 0.3 });
+  }
+  setCounter(`0${i + 1} / 05`);
+  vClose.focus();
+}
+
+function nav(d) {
+  if (viewerIndex === null || flying) return;
+  const j = (viewerIndex + d + 5) % 5;           // wraps 01–05; the ghost is NOT in the cycle
+  viewerIndex = j;
+  gsap.to(layerFor(shown), { opacity: 0, duration: XFADE, ease: "power2.out", overwrite: "auto" });
+  gsap.to(layerFor(j),     { opacity: 1, duration: XFADE, ease: "power2.out", overwrite: "auto" });
+  shown = j;
+  gsap.to(".facts > *", {
+    opacity: 0, y: -8, duration: 0.18, ease: "power2.in", overwrite: "auto",
+    onComplete: () => {
+      populate(j);
+      gsap.fromTo(".facts > *", { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.04 });
+    },
+  });
+  setCounter(`0${j + 1} / 05`);
+}
+
+function closeCase() {
+  if (flying || viewerIndex === null) return;
+  flying = true;
+  const fromRow = lastFocusRow;
+  const finish = () => {
+    viewer.hidden = true;
+    gsap.set(viewer, { opacity: 1 });
+    viewerIndex = null; flying = false;
+    gsap.set(tagEl, { opacity: 1 });
+    if (fromRow) fromRow.focus({ preventScroll: true });
+  };
+
+  if (rm) {
+    gsap.to(viewer, { opacity: 0, duration: 0.25, onComplete: () => {
+      document.body.appendChild(card);
+      card.classList.remove("as-cover");
+      card.style.transform = "";
+      gsap.set(cardInner, { opacity: hot >= 0 ? 1 : 0 });
+      finish();
+    }});
+    return;
+  }
+
+  gsap.to(VIEWER_CHROME, { opacity: 0, duration: 0.2 });
+  gsap.to(scrim, { opacity: 0, duration: 0.3, delay: 0.1 });
+
+  const overIndex = docked || (inputOver && hotFor(ty, tx) >= 0);
+  if (!overIndex) {
+    // pointer has left the index — fade out in place, then teleport home
+    gsap.to(card, { opacity: 0, duration: 0.25, delay: 0.1, onComplete: () => {
+      document.body.appendChild(card);
+      card.classList.remove("as-cover");
+      gsap.set(card, { opacity: 1, rotation: 0 });
+      gsap.set(cardInner, { opacity: 0, scale: 0.92 });
+      const offX = tx > innerWidth - 420 ? -CARD_W - CARD_OFF_X : CARD_OFF_X;
+      cx = tx; cy = ty; pcx = cx; rot = 0; rotT = 0;
+      card.style.transform = `translate3d(${cx + offX}px, ${cy + CARD_OFF_Y}px, 0)`;
+      lastWX = cx + offX; lastWY = cy + CARD_OFF_Y; lastWR = 0;
+      finish();
+    }});
+    return;
+  }
+
+  // fly back to the live cursor position (or the dock)
+  const state = Flip.getState(card, { props: "borderRadius" });
+  document.body.appendChild(card);
+  card.classList.remove("as-cover");
+  if (docked) {
+    card.style.transform = "";
+  } else {
+    cx = tx; cy = ty; pcx = cx; rot = 0; rotT = 0;     // the card lands in the cursor's hand
+    const offX = tx > innerWidth - 420 ? -CARD_W - CARD_OFF_X : CARD_OFF_X;
+    card.style.transform = `translate3d(${cx + offX}px, ${cy + CARD_OFF_Y}px, 0)`;
+    lastWX = cx + offX; lastWY = cy + CARD_OFF_Y; lastWR = 0;
+  }
+  Flip.from(state, {
+    duration: docked ? 0.5 : FLIGHT_CLOSE, ease: "power3.inOut", absolute: true,
+    onComplete: finish,
+  });
+}
+
+/* ── Input (§9) ─────────────────────────────────────────────────── */
+addEventListener("pointermove", e => {
+  if (docked) {
+    // rm desktop: hover still drives hot, no follower
+    if (!mobileMQ.matches && viewerIndex === null && !flying) {
+      const h = hotFor(e.clientY, e.clientX);
+      if (h !== hot) setHot(h);
+    }
+    return;
+  }
+  if (attractTl) {
+    // a genuine move over the index takes the wheel — same (tx, ty), new driver
+    if (hotFor(e.clientY, e.clientX) >= 0) {
+      killAttract();
+      tx = e.clientX; ty = e.clientY;
+    }
+    return;
+  }
+  tx = e.clientX; ty = e.clientY;
+}, { passive: true });
+
+section.addEventListener("pointerenter", () => { inputOver = true; });
+section.addEventListener("pointerleave", () => {
+  if (!rowEls.includes(document.activeElement)) inputOver = false;
+});
+
+rowEls.forEach((r, i) => {
+  if (i < 5) r.addEventListener("click", () => openCase(i));
+  // keyboard focus parks the follower on the row — identical pipeline, no special case
+  r.addEventListener("focus", () => {
+    killAttract(); entered = true; inputOver = true;
+    if (!docked && rowBounds.length) {
+      const a = rowAim(i);
+      tx = a.x; ty = a.y;
+    }
+  });
+});
+
+// ghost click: plain anchor; the card plays a single confirmation pulse
+rowEls[5].addEventListener("click", () => {
+  gsap.fromTo(cardInner, { scale: 1 },
+    { scale: 1.04, duration: 0.175, yoyo: true, repeat: 1, ease: "sine.inOut", overwrite: "auto" });
+});
+
+scrim.addEventListener("click", closeCase);
+vClose.addEventListener("click", closeCase);
+vPrev.addEventListener("click", () => nav(-1));
+vNext.addEventListener("click", () => nav(1));
+
+addEventListener("keydown", e => {
+  if (viewerIndex === null) return;
+  if (e.key === "Tab") {                          // focus trap
+    const f = [vClose, vPrev, vNext, vVisit];
+    const i = f.indexOf(document.activeElement);
+    e.preventDefault();
+    f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+    return;
+  }
+  if (e.repeat) return;
+  if (e.key === "Escape") closeCase();
+  else if (e.key === "ArrowLeft") nav(-1);
+  else if (e.key === "ArrowRight") nav(1);
+});
+
+// mobile viewer: swipe (threshold 48px) = prev/next
+let swipeX = null;
+viewer.addEventListener("touchstart", e => { swipeX = e.changedTouches[0].clientX; }, { passive: true });
+viewer.addEventListener("touchend", e => {
+  if (swipeX === null) return;
+  const dx = e.changedTouches[0].clientX - swipeX;
+  swipeX = null;
+  if (Math.abs(dx) >= 48) nav(dx < 0 ? 1 : -1);
+}, { passive: true });
+
+/* ── Mobile focus line (§14) — the row nearest 38vh ─────────────── */
+function evalFocusRow() {
+  if (!mobileMQ.matches || viewerIndex !== null || flying) return;
+  const line = innerHeight * 0.38;
+  let best = -1, bd = Infinity;
+  rowEls.forEach((r, i) => {
+    const b = r.getBoundingClientRect();
+    const d = Math.abs((b.top + b.bottom) / 2 - line);
+    if (d < bd) { bd = d; best = i; }
+  });
+  if (best !== hot) setHot(best);
+}
+const io = new IntersectionObserver(() => evalFocusRow(), { threshold: [0, 0.25, 0.5, 0.75, 1] });
+rowEls.forEach(r => io.observe(r));
+addEventListener("scroll", evalFocusRow, { passive: true });
+
+/* ── Dock mode & resize ─────────────────────────────────────────── */
+function applyDockMode() {
+  card.classList.toggle("docked", docked);
+  if (docked) {
+    card.style.transform = "";
+    lastWX = lastWY = lastWR = null;
+    if (mobileMQ.matches) { entered = true; evalFocusRow(); }
+  }
+}
+let resizeT;
+addEventListener("resize", () => {
+  clearTimeout(resizeT);
+  resizeT = setTimeout(() => {
+    measure();
+    const nd = rm || mobileMQ.matches;
+    if (nd !== docked) { docked = nd; killAttract(); applyDockMode(); }
+  }, 150);                                       // debounced 150ms (§16.7)
+});
+
+/* ── Boot — fonts must be live before titles paint (§11) ────────── */
+applyDockMode();
+requestAnimationFrame(tick);
+Promise.race([
+  document.fonts.ready,
+  new Promise(r => setTimeout(r, 600)),
+]).then(() => requestAnimationFrame(enter));
+document.fonts.ready.then(() => measure());      // re-measure once the real metrics land
+})();
+</script>
+</body>
+</html>

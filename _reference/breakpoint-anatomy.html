@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<!--
+  breakpoint-anatomy.html — UI Compass edition
+
+  THE MERGE: breakpoint.html × anatomy.html. One specimen, two instruments.
+
+  The resizable miniature browser (Mosaic Suites in miniature) is the
+  operating table. Drag it through its breakpoints — then press & hold
+  the frame (or pin SPEC) to x-ray it AT THAT WIDTH. Every redline is
+  read live from getComputedStyle / getBoundingClientRect, so when the
+  layout reflows the annotations change with it: Playfair 42px becomes
+  26px, the 3-column card grid becomes 1, the gaps tighten. The demo
+  doesn't just claim the site is responsive — it lets you dissect the
+  proof at every width.
+
+  Busy-ness controls, deliberately:
+  · x-ray off  = exactly the breakpoint demo. Zero added chrome.
+  · x-ray on   = stage chrome dims, the mini-site dims under glass,
+                 and only ~6 annotated organs per tier (fewer on mobile).
+  · while the width is moving, the dissection fades to 12% and the
+    in-frame grid carries the story; redlines re-measure on settle.
+  · the frame stills its breathing under the knife (amp × (1 − xray)).
+  · with x-ray off, each reflow gets a half-second green grid wink —
+    a hint that the skeleton layer exists, then gone.
+
+  Entrance: born as a blueprint (boots at full x-ray over the blur-in),
+  resolves to the real site, then runs the phone→desktop demo leg.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Breakpoint Anatomy — UI Compass Web Designs</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+<style>
+/* ── UI Compass stage tokens (from src/css/root.css) ───────────── */
+:root {
+  --primary:      #006940;
+  --primaryLight: #00bd74;
+  --secondary:    #e6d9c7;
+  --headerColor:  #262421;
+  --white:        #fafbfc;
+  --white-mute:   rgba(255, 255, 255, 0.72);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Mosaic Suites mini-site tokens (from mosaicbishoparts.com) */
+  --m-bg:    #faf8f3;
+  --m-ink:   #1a1a1a;
+  --m-body:  #393a3c;
+  --m-taupe: #aea296;
+  --m-cream: #eae3d9;
+  --m-line:  #e3ddd2;
+}
+
+/* ── The x-ray driver — registered, typed, inherited ───────────── */
+@property --xray { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: #1a1a1a;
+  color: var(--white);
+  font-family: "Roboto", "Arial", sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
+a { color: inherit; text-decoration: none; }
+
+/* ── Section shell — homepage hero treatment (hero-1950) ───────── */
+.breakpoint {
+  position: relative;
+  height: 100dvh; width: 100%;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  /* staged ramps — each clamps a window of the master driver to [0,1] */
+  --xray: 0;
+  --ha-g: clamp(0, calc((var(--xray, 0) - 0.00) / 0.35), 1);   /* grids    */
+  --ha-d: clamp(0, calc((var(--xray, 0) - 0.15) / 0.45), 1);   /* dissolve */
+  --ha-m: clamp(0, calc((var(--xray, 0) - 0.30) / 0.55), 1);   /* measure  */
+  --ha-l: clamp(0, calc((var(--xray, 0) - 0.55) / 0.45), 1);   /* labels   */
+  --ha-hair:  rgba(250, 251, 252, 0.42);
+  --ha-label: rgba(250, 251, 252, 0.85);
+  --ha-muted: rgba(250, 251, 252, 0.55);
+}
+.cs-background {
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.cs-background img {
+  height: 100%; width: 100%;
+  object-fit: cover;
+}
+.cs-background::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-color: rgba(26, 26, 26, 0.35);
+  background-image: linear-gradient(180deg, rgba(26,26,26,0.86) 10.79%, rgba(26,26,26,0.25) 48.32%, rgba(26,26,26,0.86) 82.84%);
+}
+/* the stage deepens under the x-ray so the redlines own the room */
+.cs-background::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: rgba(13, 20, 17, 0.5);
+  opacity: var(--ha-d, 0);
+}
+
+/* stage chrome steps back while the specimen is open */
+.breakpoint [data-chrome] { opacity: calc(1 - var(--ha-l, 0) * 0.55); }
+
+/* ── Chrome: header / footer ───────────────────────────────────── */
+.bp-header {
+  position: absolute; top: 0; left: 0; right: 0;
+  padding: 36px 80px 0;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 32px;
+  z-index: 30;
+}
+
+/* green star-pill topper + Roboto 900 title, exactly like hero-1950 */
+.cs-topper {
+  display: inline-flex; align-items: center; gap: 8px;
+  background-color: var(--primary);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  color: var(--white);
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 14px 7px 11px;
+  margin-bottom: 16px;
+}
+.cs-topper-icon { width: 1em; height: 1em; flex-shrink: 0; }
+.headline {
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 46px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+.headline .accent { color: var(--primaryLight); }
+.hd-sub {
+  padding-bottom: 8px;
+  font-weight: 400;
+  font-size: 15px; line-height: 1.55;
+  color: var(--white);
+  opacity: 0.85;
+  max-width: 36ch;
+  text-align: right;
+}
+
+.bp-footer {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 56px; padding: 0 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 30;
+}
+.hint {
+  font-weight: 700; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--white-mute);
+}
+.bp-foot-right { display: flex; align-items: center; gap: 28px; }
+/* "See our work"-style link, from the homepage hero */
+.work-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--primaryLight);
+  font-size: 13px; font-weight: 700;
+}
+.work-link svg { width: 14px; height: 14px; flex: none; }
+
+/* SPEC pin — the anatomy toggle, living in the stage footer */
+.ha-toggle {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; pointer-events: auto;
+}
+.ha-pill {
+  width: 32px; height: 18px; border-radius: 999px; position: relative;
+  border: 1px solid var(--ha-hair);
+}
+.ha-pill::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--white); opacity: 0.55;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+.ha-toggle input:checked ~ .ha-pill::after {
+  transform: translateX(14px); opacity: 1; background: var(--primaryLight);
+}
+.ha-toggle input:focus-visible ~ .ha-pill {
+  outline: 2px solid var(--primaryLight); outline-offset: 4px;
+}
+.ha-lbl {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.22em; color: var(--ha-label);
+}
+
+/* ── Stage & frame ─────────────────────────────────────────────── */
+.stage {
+  position: absolute; left: 0; right: 0; top: 19%; bottom: 17%;
+  display: grid; place-items: center;
+  z-index: 10;
+}
+/* 0×0 anchor: an overflowing grid item start-aligns in Chrome instead of
+   centering, so the frame hangs off a zero-size point and self-centers
+   via translate(-50%,-50%) in its transform. */
+.anchor { width: 0; height: 0; position: relative; }
+.frame {
+  position: absolute; left: 0; top: 0;
+  transform-origin: center;
+  width: 1280px; /* logical px — rAF writes this */
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--m-bg);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55);
+  will-change: width, transform;
+}
+.bar {
+  height: 44px; padding: 0 16px;
+  display: flex; align-items: center; gap: 12px;
+  background: #efece5;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+}
+.lights { display: flex; gap: 7px; flex: 0 0 auto; }
+.lights i { width: 11px; height: 11px; border-radius: 50%; }
+.lights i:nth-child(1) { background: #ff5f57; }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+.url {
+  flex: 1; text-align: center;
+  font-weight: 400; font-size: 11px; color: #6f6b62;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px; padding: 5px 0;
+}
+.url .lock { margin-right: 6px; font-size: 9px; }
+.readout {
+  flex: 0 0 auto;
+  font-weight: 700; font-size: 10px;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: #3a372f;
+}
+
+.fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--m-bg));
+  opacity: 0; transition: opacity 0.4s;
+}
+.site[data-bp="sm"] ~ .fade,
+.site[data-bp="md"] ~ .fade { opacity: 1; }
+
+/* ── Grip ──────────────────────────────────────────────────────── */
+.grip {
+  position: absolute; right: -7px; top: 0; bottom: 0; width: 14px;
+  cursor: ew-resize;
+  display: grid; place-items: center;
+  touch-action: none;
+  z-index: 5;
+}
+.grip::after { content: ""; position: absolute; inset: 0 -7px; }
+.grip:focus-visible { outline: 1px solid var(--white); outline-offset: 4px; }
+.grip-pill {
+  width: 4px; height: 44px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  transition: height 0.25s, background 0.25s;
+}
+.grip.grabbing .grip-pill, .grip:hover .grip-pill {
+  height: 64px;
+  background: var(--primaryLight);
+}
+
+/* ── Gauge ─────────────────────────────────────────────────────── */
+.gauge {
+  position: absolute; bottom: 9%; left: 50%;
+  transform: translateX(-50%);
+  width: 420px; height: 44px;
+  z-index: 30;
+  touch-action: none;
+}
+.track {
+  position: absolute; top: 10px; left: 0; right: 0; height: 1px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.fill {
+  position: absolute; top: 10px; left: 0; width: 100%; height: 1px;
+  background: var(--primaryLight);
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+.stop {
+  position: absolute; top: 7px;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 6px;
+}
+.stop:focus-visible { outline: 1px solid var(--white); outline-offset: 4px; }
+.stop .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background 0.3s;
+}
+.stop .label {
+  margin-top: 12px;
+  font-weight: 700; font-size: 9px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--white-mute);
+  line-height: 1.6; text-align: center;
+  transition: color 0.3s;
+}
+.stop[aria-pressed="true"] .dot { background: var(--primaryLight); }
+.stop[aria-pressed="true"] .label { color: var(--white); }
+
+.thumb {
+  display: none;
+  position: absolute; top: 10px; left: 0;
+  width: 16px; height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+/* ── Visually hidden live region ───────────────────────────────── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   THE MINI-SITE — Mosaic Suites in miniature, tiers via [data-bp]
+   ════════════════════════════════════════════════════════════════ */
+.site {
+  position: relative;
+  height: 760px;
+  background: var(--m-bg);
+  color: var(--m-ink);
+  overflow: hidden;
+  padding: 56px 64px;
+  font-size: 14px;
+}
+.site[data-bp="lg"] { padding: 44px 48px; }
+.site[data-bp="md"] { padding: 36px 40px; }
+.site[data-bp="sm"] { padding: 24px; }
+
+/* the specimen dims under glass so the white redlines can read on cream */
+.site::after {
+  content: ""; position: absolute; inset: 0; z-index: 5;
+  pointer-events: none;
+  background: rgba(13, 20, 17, 0.55);
+  opacity: var(--ha-d, 0);
+}
+
+/* the honest grids — drawn INSIDE the frame so they scale, clip and
+   reflow with it for free. Column count follows the tier: 12 / 12 / 8 / 4.
+   --wink (set by JS on the frame) flashes them green on each reflow. */
+.ha-grid-base {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 7px,
+    rgba(250, 251, 252, 0.07) 7px 8px);
+  opacity: calc(var(--ha-g, 0) * 0.55 + var(--wink, 0) * 0.4);
+}
+.ha-grid-cols {
+  position: absolute; top: 0; bottom: 0; left: 64px; right: 64px;
+  z-index: 6; pointer-events: none;
+  --n: 12; --gut: 24px;
+  --colw: calc((100% - (var(--n) - 1) * var(--gut)) / var(--n));
+  background: repeating-linear-gradient(
+    to right,
+    rgba(0, 189, 116, 0.13) 0 var(--colw),
+    transparent var(--colw) calc(var(--colw) + var(--gut)));
+  opacity: calc(var(--ha-g, 0) * 0.9 + var(--wink, 0));
+}
+.site[data-bp="lg"] .ha-grid-cols { left: 48px; right: 48px; }
+.site[data-bp="md"] .ha-grid-cols { left: 40px; right: 40px; --n: 8; --gut: 20px; }
+.site[data-bp="sm"] .ha-grid-cols { left: 24px; right: 24px; --n: 4; --gut: 16px; }
+
+/* header */
+.s-head { display: flex; align-items: center; justify-content: space-between; }
+.s-logo { height: 36px; width: auto; flex: none; }
+.s-logo img { width: auto; height: 100%; object-fit: contain; }
+.s-nav { display: flex; align-items: center; gap: 24px; }
+.s-nav a {
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--m-ink);
+}
+.s-book {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  border: 1px solid var(--m-ink);
+  border-radius: 999px;
+  padding: 9px 16px;
+}
+.s-burger {
+  display: none;
+  flex-direction: column; justify-content: center; gap: 4px;
+  width: 24px; height: 24px;
+}
+.s-burger span {
+  display: block; width: 15px; height: 1.5px;
+  background: var(--m-ink);
+}
+.site[data-bp="lg"] .s-reviews { display: none; }
+.site[data-bp="md"] .s-nav a,
+.site[data-bp="sm"] .s-nav a { display: none; }
+.site[data-bp="md"] .s-burger,
+.site[data-bp="sm"] .s-burger { display: flex; }
+.site[data-bp="sm"] .s-book { display: none; }
+
+/* hero — dark panel, like the live site */
+.s-hero {
+  display: grid; grid-template-columns: 55fr 45fr;
+  gap: 44px; align-items: center;
+  margin-top: 36px;
+  background: #161513;
+  border-radius: 8px;
+  padding: 44px 48px;
+}
+.site[data-bp="lg"] .s-hero { grid-template-columns: 1fr 1fr; gap: 36px; padding: 36px 40px; }
+.site[data-bp="md"] .s-hero,
+.site[data-bp="sm"] .s-hero { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
+.site[data-bp="md"] .s-hero { padding: 32px; }
+.site[data-bp="sm"] .s-hero { padding: 22px; }
+.site[data-bp="md"] .s-hero-img,
+.site[data-bp="sm"] .s-hero-img { order: -1; }
+
+.s-topper {
+  font-size: 9.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.24em;
+  color: var(--m-taupe);
+}
+.s-headline {
+  margin-top: 14px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 42px; font-weight: 500; letter-spacing: 0.005em;
+  line-height: 1.12;
+  color: var(--m-cream);
+}
+.site[data-bp="lg"] .s-headline { font-size: 36px; }
+.site[data-bp="md"] .s-headline { font-size: 32px; }
+.site[data-bp="sm"] .s-headline { font-size: 26px; }
+
+.s-dek {
+  margin-top: 14px;
+  color: rgba(234, 227, 217, 0.72);
+  font-size: 13px; line-height: 1.6; max-width: 40ch;
+}
+.s-cta {
+  display: inline-block; margin-top: 22px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  background: var(--m-cream); color: var(--m-ink);
+  border-radius: 999px;
+  padding: 11px 20px;
+}
+.s-hero-img {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden; border-radius: 5px;
+}
+.s-hero-img img { will-change: transform; }
+
+/* photo x-ray — construction cross over the hero photo, drawn on by --ha-d */
+.ha-cross {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 6; pointer-events: none; display: block;
+}
+.ha-cross-line {
+  stroke: var(--ha-hair); stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-d, 0)) * 100);
+}
+
+/* featured stays */
+.s-work { margin-top: 44px; }
+.s-label {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--m-taupe);
+}
+.s-cards {
+  margin-top: 18px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.site[data-bp="lg"] .s-cards { gap: 16px; }
+.site[data-bp="md"] .s-cards { grid-template-columns: repeat(2, 1fr); }
+.site[data-bp="md"] .s-card:nth-child(3) { grid-column: 1 / -1; }
+.site[data-bp="sm"] .s-cards { grid-template-columns: 1fr; }
+
+.s-card-img { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 5px; background: var(--m-cream); }
+.s-card h3 {
+  margin-top: 12px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 16px; font-weight: 500;
+}
+.s-card p { margin-top: 4px; font-size: 11.5px; color: var(--m-taupe); }
+
+/* stats — minutes to everywhere, from the live site */
+.s-stats {
+  margin-top: 44px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--m-line);
+  padding-top: 24px;
+}
+.s-stat { padding: 0 20px; border-left: 1px solid var(--m-line); }
+.s-stat:first-child { border-left: none; padding-left: 0; }
+.s-stat b {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  font-size: 28px; font-weight: 500; display: block;
+}
+.s-stat span {
+  display: block; margin-top: 4px;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--m-taupe);
+}
+.site[data-bp="md"] .s-stat b { font-size: 23px; }
+.site[data-bp="sm"] .s-stats { grid-template-columns: repeat(2, 1fr); row-gap: 24px; }
+.site[data-bp="sm"] .s-stat:nth-child(3) { border-left: none; padding-left: 0; }
+
+/* footer */
+.s-foot {
+  margin-top: 44px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--m-line);
+  padding-top: 28px; padding-bottom: 64px;
+}
+.site[data-bp="sm"] .s-foot { grid-template-columns: 1fr; }
+.s-foot-col p { font-size: 12px; color: var(--m-taupe); line-height: 1.8; }
+.s-foot-col p:first-child { color: var(--m-ink); }
+
+/* ════════════════════════════════════════════════════════════════
+   THE DISSECTION LAYER — screen-space redlines around & over the
+   frame, built once per settled width by JS; nothing here causes
+   layout, and at --xray: 0 all of it is invisible and inert.
+   ════════════════════════════════════════════════════════════════ */
+.ha-dissect {
+  position: absolute; inset: 0; z-index: 20;
+  pointer-events: none; overflow: clip;
+  transition: opacity 0.25s ease;
+}
+/* while the width is in motion the redlines step aside — the in-frame
+   grid carries the story until the physics settle and we re-measure */
+.ha-dissect.ha-dim { opacity: 0.12; }
+
+.ha-measure { position: absolute; overflow: visible; }
+.ha-measure .ha-hairline {
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * var(--len));
+}
+.ha-measure .ha-arrow { stroke: var(--ha-hair); stroke-width: 1; fill: none; opacity: var(--ha-m, 0); }
+.ha-measure .ha-dash-box {
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: 1.2 1.2;            /* pathLength=100 → uniform pattern on every box */
+}
+/* the mask rect that draws each dashed box on around its perimeter */
+.ha-measure .ha-draw {
+  fill: none; stroke: #fff; stroke-width: 4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * 100);
+}
+.ha-measure text {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; fill: var(--ha-label);
+  opacity: var(--ha-l, 0);
+}
+
+.ha-redline {
+  position: absolute; white-space: nowrap;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--ha-label);
+  opacity: var(--ha-l, 0);
+  transform: translateY(calc((1 - var(--ha-l, 0)) * 6px));
+}
+
+/* ── Mobile adaptations (<768px screen) ────────────────────────── */
+@media (max-width: 767px) {
+  .bp-header { padding: 20px 24px 0; }
+  .cs-topper { font-size: 11px; padding: 6px 12px 6px 9px; margin-bottom: 10px; }
+  .headline { font-size: 24px; }
+  .hd-sub { display: none; }
+  .bp-footer { padding: 0 24px; }
+  .work-link { display: none; }
+  .stage { top: 12%; bottom: 42%; }
+  .gauge { bottom: 22%; width: min(420px, calc(100vw - 48px)); }
+  .grip { display: none; }
+  .thumb { display: block; }
+  .ha-redline { font-size: 9px; }
+  .ha-measure text { font-size: 9px; }
+}
+
+/* ── Reduced motion — measurements appear without the draw-on ──── */
+@media (prefers-reduced-motion: reduce) {
+  .ha-measure .ha-hairline { stroke-dashoffset: 0; opacity: var(--ha-m, 0); }
+  .ha-measure .ha-draw { stroke-dashoffset: 0; }
+  .ha-measure .ha-dash-box { opacity: var(--ha-m, 0); }
+  .ha-cross-line { stroke-dashoffset: 0; opacity: var(--ha-d, 0); }
+}
+</style>
+</head>
+<body>
+
+<section class="breakpoint" id="bp">
+
+  <div class="cs-background" aria-hidden="true">
+    <img src="../src/assets/images/hero-coding.jpg" alt="" draggable="false" />
+  </div>
+
+  <header class="bp-header">
+    <div class="hd-main" data-chrome>
+      <span class="cs-topper"><svg class="cs-topper-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L14.94 8.97 22.5 9.5 16.75 14.4 18.5 21.5 12 17.6 5.5 21.5 7.25 14.4 1.5 9.5 9.06 8.97 Z" fill="currentColor"/></svg>Responsive by Hand</span>
+      <h1 class="headline">Built for <span class="accent">Every Width.</span></h1>
+    </div>
+    <div class="hd-sub" data-chrome>One hand-coded layout, phone to desktop. Drag it &mdash; then press &amp; hold to x-ray it. Every redline is measured live from the code.</div>
+  </header>
+
+  <div class="stage" id="stage">
+    <div class="anchor"><div class="frame" id="frame" data-spec data-spec-id="frame">
+
+      <div class="bar">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="url"><span class="lock">&#128274;</span>mosaicbishoparts.com</div>
+        <div class="readout" id="readout">1280 PX · DESKTOP</div>
+      </div>
+
+      <div class="site" id="site" data-bp="xl" aria-hidden="true">
+
+        <header class="s-head">
+          <div class="s-logo" data-flip data-flip-id="wordmark">
+            <img src="https://mosaicbishoparts.com/assets/images/logo.svg" alt="Mosaic Suites" draggable="false" />
+          </div>
+          <nav class="s-nav">
+            <a href="#" tabindex="-1" data-flip data-flip-id="nav-home">Home</a>
+            <a href="#" tabindex="-1" data-flip data-flip-id="nav-about">About Us</a>
+            <a href="#" tabindex="-1" data-flip data-flip-id="nav-stays">Stays</a>
+            <a href="#" tabindex="-1" data-flip data-flip-id="nav-faq">FAQ</a>
+            <a href="#" tabindex="-1" class="s-reviews" data-flip data-flip-id="nav-reviews">Reviews</a>
+            <span class="s-book" data-flip data-flip-id="nav-book">Book Your Stay</span>
+          </nav>
+          <div class="s-burger" data-flip data-flip-id="burger"><span></span><span></span><span></span></div>
+        </header>
+
+        <div class="s-hero">
+          <div class="s-hero-copy">
+            <div class="s-topper" data-flip data-flip-id="hero-topper">Bishop Arts &middot; Dallas, TX</div>
+            <h2 class="s-headline" data-flip data-flip-id="hero-headline" data-spec data-spec-id="headline">Boutique Stays in the Heart of Bishop Arts</h2>
+            <p class="s-dek" data-flip data-flip-id="hero-dek" data-spec data-spec-id="dek">Thoughtfully designed stays for business travelers, families, groups, and extended visits. Steps from the Bishop Arts District.</p>
+            <a href="#" tabindex="-1" class="s-cta" data-flip data-flip-id="hero-cta" data-spec data-spec-id="cta">Book Your Stay</a>
+          </div>
+          <div class="s-hero-img" data-flip data-flip-id="hero-img" data-spec data-spec-id="photo">
+            <img id="heroImg" src="https://mosaicbishoparts.com/images/exterior-day-850w.jpeg" alt="" draggable="false" />
+            <svg class="ha-cross" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <line class="ha-cross-line" x1="0" y1="0" x2="100" y2="100" pathLength="100" vector-effect="non-scaling-stroke"/>
+              <line class="ha-cross-line" x1="0" y1="100" x2="100" y2="0" pathLength="100" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="s-work">
+          <div class="s-label" data-flip data-flip-id="work-label">Featured Stays</div>
+          <div class="s-cards" data-spec data-spec-id="cards">
+            <article class="s-card" data-flip data-flip-id="card-1">
+              <div class="s-card-img"><img src="https://mosaicbishoparts.com/images/th-living-102-850w.jpeg" alt="" draggable="false" /></div>
+              <h3>Bishop Arts 6BR Townhouse</h3><p>Entire home &middot; From $500 / night</p>
+            </article>
+            <article class="s-card" data-flip data-flip-id="card-2">
+              <div class="s-card-img"><img src="https://mosaicbishoparts.com/images/room-modern-850w.jpeg" alt="" draggable="false" /></div>
+              <h3>Modern Private Room</h3><p>Private room &middot; From $80 / night</p>
+            </article>
+            <article class="s-card" data-flip data-flip-id="card-3">
+              <div class="s-card-img"><img src="https://mosaicbishoparts.com/images/room-boutique-850w.jpeg" alt="" draggable="false" /></div>
+              <h3>Boutique Private Room</h3><p>Private room &middot; From $80 / night</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="s-stats" data-spec data-spec-id="stats">
+          <div class="s-stat" data-flip data-flip-id="stat-1"><b>9</b><span>Min to Downtown</span></div>
+          <div class="s-stat" data-flip data-flip-id="stat-2"><b>11</b><span>Min to AAC</span></div>
+          <div class="s-stat" data-flip data-flip-id="stat-3"><b>18</b><span>Min to Love Field</span></div>
+          <div class="s-stat" data-flip data-flip-id="stat-4"><b>22</b><span>Min to DFW</span></div>
+        </div>
+
+        <footer class="s-foot">
+          <div class="s-foot-col" data-flip data-flip-id="foot-contact">
+            <p>Mosaic Suites</p><p>Bishop Arts &middot; Dallas, TX</p><p>mosaicbishoparts.com</p>
+          </div>
+          <div class="s-foot-col" data-flip data-flip-id="foot-explore">
+            <p>Explore</p><p>Stays</p><p>FAQ</p><p>Reviews</p>
+          </div>
+          <div class="s-foot-col" data-flip data-flip-id="foot-colophon">
+            <p>Site</p><p>Hand-coded by UI Compass</p><p>Loads in under a second</p><p>&copy; 2026 Mosaic Suites</p>
+          </div>
+        </footer>
+
+        <!-- the honest grids — live inside the specimen, reflow with it -->
+        <div class="ha-grid-base" aria-hidden="true"></div>
+        <div class="ha-grid-cols" aria-hidden="true"></div>
+
+      </div><!-- /.site -->
+
+      <div class="fade"></div>
+
+      <button class="grip" id="grip"
+              role="slider" aria-orientation="horizontal" aria-label="Frame width"
+              aria-valuemin="360" aria-valuemax="1320" aria-valuenow="1280"
+              aria-valuetext="1280 pixels — desktop layout">
+        <span class="grip-pill" id="gripPill"></span>
+      </button>
+
+    </div></div><!-- /.frame /.anchor -->
+  </div><!-- /.stage -->
+
+  <!-- the dissection — screen-space redlines, above the stage, below the chrome -->
+  <div class="ha-dissect" id="dissect" aria-hidden="true"></div>
+
+  <div class="gauge" id="gauge" data-chrome>
+    <div class="track" id="track"></div>
+    <div class="fill" id="fill"></div>
+    <button class="stop" data-bp="375"  style="left: 1.5625%" aria-pressed="false"><span class="dot"></span><span class="label">375<br>Mobile</span></button>
+    <button class="stop" data-bp="768"  style="left: 42.5%"   aria-pressed="false"><span class="dot"></span><span class="label">768<br>Tablet</span></button>
+    <button class="stop" data-bp="1024" style="left: 69.1667%" aria-pressed="false"><span class="dot"></span><span class="label">1024<br>Laptop</span></button>
+    <button class="stop" data-bp="1280" style="left: 95.8333%" aria-pressed="true"><span class="dot"></span><span class="label">1280<br>Desktop</span></button>
+    <div class="thumb" id="thumb"></div>
+  </div>
+
+  <footer class="bp-footer">
+    <div class="hint" data-chrome>Drag the edge &middot; Pick a stop &middot; Hold the frame to dissect</div>
+    <div class="bp-foot-right" data-chrome>
+      <label class="ha-toggle">
+        <input type="checkbox" class="sr-only" id="specToggle">
+        <span class="ha-pill" aria-hidden="true"></span>
+        <span class="ha-lbl">SPEC</span>
+      </label>
+      <div class="work-link">uicompasswebdesigns.com<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 L12 4 M6 4 h6 v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+  </footer>
+
+  <div class="sr-only" aria-live="polite" id="live"></div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Flip.min.js"></script>
+<script>
+(() => {
+  gsap.registerPlugin(Flip);
+
+  /* ── Constants ──────────────────────────────────────────────── */
+  const BPS         = [375, 768, 1024, 1280];
+  const W_MIN = 360, W_MAX = 1320;
+  const HYSTERESIS  = 6;
+  const SITE_H = 760, BAR_H = 44;
+  const S_MAX       = 0.64;
+  const BREATH_AMP  = 2, BREATH_FREQ = 0.45;
+  const LERP_W      = 0.18;
+  const FRICTION    = 0.93;
+  const COAST_MIN   = 0.4;
+  const SNAP_SPRING = 0.07;
+  const SNAP_EPS    = 0.5;
+  const VEL_SAMPLES = 4;
+  const VEL_CLAMP   = 38;
+  const REFLOW      = 0.55;
+  const STOP_TWEEN  = 0.8;
+  const DEMO_LEG    = 1.3, DEMO_HOLD = 0.7;
+  const KB_SCALE    = 1.05;
+
+  /* x-ray tuning (from anatomy.html) */
+  const SPRING_IN  = 0.085;
+  const SPRING_OUT = 0.07;
+  const X_EPS      = 0.0005;
+  const HOLD_DELAY = 150;
+  const MOVE_CANCEL = 10;
+  const PIN_GLIDE  = 0.8;
+  const PAD = 24, MEASURE_OFF = 12, ARROW = 5;
+
+  const TIER_LABEL = { sm: "MOBILE", md: "TABLET", lg: "LAPTOP", xl: "DESKTOP" };
+  const TIER_BP    = { sm: 375, md: 768, lg: 1024, xl: 1280 };
+
+  /* which organs get redlines, per tier — capped so it never crowds */
+  const SHOW = {
+    xl: ["frame", "headline", "cta", "photo", "cards", "stats"],
+    lg: ["frame", "headline", "cta", "photo", "cards", "stats"],
+    md: ["frame", "headline", "cta", "photo", "cards"],
+    sm: ["frame", "headline", "photo", "cards"],
+  };
+  const MOBILE_SHOW = ["frame", "headline", "photo"];   /* tiny screens: 3 only */
+  const HAIR_IDS = new Set(["frame", "headline"]);      /* width hairlines */
+
+  const RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ── Elements ───────────────────────────────────────────────── */
+  const $ = (id) => document.getElementById(id);
+  const bpEl = $("bp"), frameEl = $("frame"), siteEl = $("site"),
+        gripEl = $("grip"), gripPill = $("gripPill"), fillEl = $("fill"),
+        thumbEl = $("thumb"), readoutEl = $("readout"), gaugeEl = $("gauge"),
+        liveEl = $("live"), heroImg = $("heroImg"), dissect = $("dissect"),
+        specToggle = $("specToggle"),
+        stops = [...document.querySelectorAll(".stop")];
+
+  /* ── State (refs) ───────────────────────────────────────────── */
+  let W = 1280, targetW = 1280, vel = 0, snapTo = 1280;
+  let phase = "idle";                 // grab | coast | snap | idle
+  let owner = "physics";              // physics | tween   (owner of W)
+  let grabbing = false;
+  let tier = "xl";
+  let S = 0.62, isMobile = false;
+  let samples = [];                   // (targetW, t) ring buffer
+  let lastInt = 0, lastW = 0;         // 0 forces a first-frame fan-out write
+  let entranceDone = false, demoDone = false;
+  let cx = 0;                         // frame centre, screen px (captured at grab)
+  let flipTl = null, demoTl = null, stopTw = null, kbTween = null, pulseTl = null;
+  let flipActive = false;
+  const proxy = { w: W };
+
+  /* x-ray state — one master value, one write per frame */
+  let X = 0, lastXr = NaN;
+  let holding = false, pinned = false, booting = false;
+  let xTween = null;
+  const xo = { v: 0 };
+  let armTimer = 0, armX = 0, armY = 0;
+  let lastBreathPx = 0;               // screen-px breath pose, subtracted at build
+
+  /* dissection cache */
+  let built = false, specs = [];
+  let builtW = 0, builtTier = "", builtS = 0, builtMobile = false;
+  let currentEff = 1;                 // frame screen scale at last build
+  let tokenColors = [];
+  let maskSeq = 0;
+
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const nearestBP = (w) => BPS.reduce((a, b) => Math.abs(b - w) < Math.abs(a - w) ? b : a);
+
+  /* ── Scale ──────────────────────────────────────────────────── */
+  const computeS = () => {
+    isMobile = window.innerWidth < 768;
+    S = isMobile
+      ? (window.innerWidth - 32) / W_MAX
+      : Math.min(S_MAX, (window.innerWidth - 128) / W_MAX, (window.innerHeight - 280) / (SITE_H + BAR_H));
+  };
+  computeS();
+  const CENTER = "translate(-50%, -50%)";   // frame hangs off the 0×0 anchor
+  let resizeT = 0;
+  window.addEventListener("resize", () => {
+    computeS();
+    if (entranceDone) frameEl.style.transform = `${CENTER} scale(${S})`;
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => {
+      if (built && phase === "idle" && !flipActive) buildAll();
+    }, 150);
+  });
+
+  /* ── Tier detection with hysteresis ─────────────────────────── */
+  const tierFor = (w, current) => {
+    const up   = (edge) => w >= edge + HYSTERESIS;
+    const down = (edge) => w <  edge - HYSTERESIS;
+    let t = current;
+    if      (t === "sm" && up(768))    t = "md";
+    else if (t === "md" && up(1024))   t = "lg";
+    else if (t === "lg" && up(1280))   t = "xl";
+    if      (t === "xl" && down(1280)) t = "lg";
+    else if (t === "lg" && down(1024)) t = "md";
+    else if (t === "md" && down(768))  t = "sm";
+    return t;   // one step per frame — a fast fling reflows twice, frames apart
+  };
+
+  const setActiveStop = (t) => {
+    stops.forEach(s => s.setAttribute("aria-pressed", String(+s.dataset.bp === TIER_BP[t])));
+  };
+
+  /* the grid wink — with x-ray off, every reflow flashes the skeleton
+     for half a second. It teaches the deeper layer without a tooltip. */
+  const winkObj = { v: 0 };
+  const gridWink = () => {
+    if (RM || holding || pinned || X > 0.05) return;
+    gsap.killTweensOf(winkObj);
+    gsap.fromTo(winkObj, { v: 0 }, {
+      v: 0.32, duration: 0.18, ease: "power1.out", yoyo: true, repeat: 1,
+      onUpdate: () => frameEl.style.setProperty("--wink", winkObj.v.toFixed(3)),
+      onComplete: () => frameEl.style.setProperty("--wink", "0"),
+    });
+  };
+
+  const maybeReflow = (w) => {
+    const next = tierFor(w, tier);
+    if (next === tier) return;
+    tier = next;
+    setActiveStop(next);
+    liveEl.textContent = TIER_LABEL[next].charAt(0) + TIER_LABEL[next].slice(1).toLowerCase() + " layout";
+    gridWink();
+    flipActive = true;
+
+    flipTl?.kill();                                       // never two Flips
+    if (RM) {
+      // reduced motion: 0.25s cross-fade instead of FLIP
+      flipTl = gsap.timeline({ onComplete: afterReflow })
+        .to(siteEl, { opacity: 0, duration: 0.12 })
+        .add(() => siteEl.setAttribute("data-bp", next))
+        .to(siteEl, { opacity: 1, duration: 0.13 });
+      return;
+    }
+    kbTween?.pause();                                     // Flip owns hero transform
+    const state = Flip.getState("[data-flip]", { props: "fontSize,opacity" });
+    siteEl.setAttribute("data-bp", next);
+    flipTl = Flip.from(state, {
+      duration: REFLOW, ease: "power3.inOut",
+      nested: true,
+      onEnter:  (els) => gsap.fromTo(els, { opacity: 0, y: 14 },
+                                     { opacity: 1, y: 0, duration: 0.4, delay: 0.15 }),
+      onLeave:  (els) => gsap.to(els, { opacity: 0, duration: 0.25 }),
+      onComplete: () => { kbTween?.play(); afterReflow(); },
+    });
+  };
+  const afterReflow = () => {
+    flipActive = false;
+    /* the specimen rearranged — if it's under the knife, re-measure now */
+    if ((X > 0.02 || pinned || holding) && phase === "idle") buildAll();
+  };
+
+  /* ── Width physics ──────────────────────────────────────────── */
+  const stepW = () => {
+    if (phase === "grab") {
+      W += (targetW - W) * LERP_W;
+    } else if (phase === "coast") {
+      W += vel;
+      vel *= FRICTION;
+      if (Math.abs(vel) < COAST_MIN) { phase = "snap"; snapTo = nearestBP(W); }
+    } else if (phase === "snap") {
+      W += (snapTo - W) * SNAP_SPRING;
+      if (Math.abs(snapTo - W) < SNAP_EPS) { W = snapTo; phase = "idle"; }
+    }
+    W = clamp(W, W_MIN, W_MAX);
+  };
+
+  /* ── Per-frame loop — width physics + x-ray spring, one write each */
+  const tick = (now) => {
+    if (owner === "physics" && phase !== "idle") stepW();
+
+    /* x-ray spring — gsap tweens (pin/boot) override; spring claims it back */
+    if (!xTween && !booting && !RM) {
+      const xt = (holding || pinned) ? 1 : 0;
+      X += (xt - X) * (xt === 1 ? SPRING_IN : SPRING_OUT);
+      if (Math.abs(xt - X) < X_EPS) X = xt;
+    }
+    if (X !== lastXr) {
+      lastXr = X;
+      bpEl.style.setProperty("--xray", X.toFixed(4));     // THE x-ray write
+    }
+
+    if (W !== lastW) {                                    // single write fan-out
+      lastW = W;
+      frameEl.style.width = `${W}px`;
+      const frac = (W - W_MIN) / (W_MAX - W_MIN);
+      fillEl.style.transform = `scaleX(${frac})`;
+      thumbEl.style.left = `${frac * 100}%`;
+
+      const wInt = Math.round(W);
+      if (wInt !== lastInt) {                             // text + ARIA on int change only
+        lastInt = wInt;
+        readoutEl.textContent = `${wInt} PX · ${TIER_LABEL[tier]}`;
+        gripEl.setAttribute("aria-valuenow", String(wInt));
+        gripEl.setAttribute("aria-valuetext", `${wInt} pixels — ${TIER_LABEL[tier].toLowerCase()} layout`);
+      }
+      maybeReflow(W);
+    }
+
+    /* redlines step aside while anything is moving the width */
+    const calm = phase === "idle" && owner === "physics" && !flipActive && !grabbing;
+    dissect.classList.toggle("ha-dim", !calm);
+
+    /* the specimen settled at a new width while under the knife → re-measure */
+    if (calm && entranceDone && built && (X > 0.02 || pinned) &&
+        (builtW !== Math.round(W) || builtTier !== tier || builtS !== S || builtMobile !== isMobile)) {
+      buildAll();
+    }
+
+    if (entranceDone && !isMobile && !RM) {               // breathing stills under the knife
+      const amp = BREATH_AMP * (1 - X);
+      const breath = Math.sin(now / 1000 * BREATH_FREQ * 6.283) * amp / S;
+      lastBreathPx = breath * S;
+      frameEl.style.transform = `${CENTER} scale(${S}) translateY(${breath}px)`;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+
+  /* ── X-ray glide (pin toggle, boot resolve) ─────────────────── */
+  const killX = () => { if (xTween) { xTween.kill(); xTween = null; } booting = false; };
+  const xGlide = (to, dur) => {
+    killX();
+    xo.v = X;
+    xTween = gsap.to(xo, {
+      v: to, duration: RM ? 0.25 : dur, ease: "power3.inOut",
+      onUpdate: () => { X = xo.v; },
+      onComplete: () => { xTween = null; },
+    });
+  };
+
+  /* ── Tween driver for W (stops, keyboard, demo) ─────────────── */
+  const applyProxy = () => { W = targetW = proxy.w; };
+
+  const glideTo = (bp, dur = STOP_TWEEN) => {
+    killDemo();
+    stopTw?.kill();
+    owner = "tween"; phase = "idle";
+    proxy.w = W;
+    stopTw = gsap.to(proxy, {
+      w: bp, duration: RM ? 0.3 : dur, ease: "power3.inOut",
+      onUpdate: applyProxy,
+      onComplete: () => { owner = "physics"; phase = "idle"; },
+    });
+  };
+
+  stops.forEach(s => s.addEventListener("click", (e) => {
+    if (suppressClick) { suppressClick = false; return; }
+    glideTo(+s.dataset.bp);
+  }));
+
+  /* ── Drag input (resize) ────────────────────────────────────── */
+  const beginGrab = () => {
+    killDemo();
+    stopTw?.kill();
+    owner = "physics"; grabbing = true; phase = "grab";
+    samples = [];
+    targetW = W;
+    pulseTl?.kill(); pulseTl = null;
+    gsap.set(gripPill, { clearProps: "scale" });
+  };
+
+  const endGrab = () => {
+    grabbing = false;
+    gripEl.classList.remove("grabbing");
+    if (RM) {                                             // no fling — tweened snap
+      owner = "tween";
+      proxy.w = W;
+      stopTw = gsap.to(proxy, { w: nearestBP(W), duration: 0.3, ease: "power2.out",
+        onUpdate: applyProxy, onComplete: () => { owner = "physics"; phase = "idle"; } });
+      return;
+    }
+    if (samples.length >= 2) {
+      const a = samples[0], b = samples[samples.length - 1];
+      const frames = Math.max(1, (b.t - a.t) / 16.67);
+      vel = clamp((b.w - a.w) / frames, -VEL_CLAMP, VEL_CLAMP);
+    } else vel = 0;
+    phase = "coast";
+  };
+
+  const pushSample = (w, t) => {
+    samples.push({ w, t });
+    if (samples.length > VEL_SAMPLES) samples.shift();
+  };
+
+  // desktop: edge grip — ×2 centred mirror, /S exactly once
+  gripEl.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    gripEl.setPointerCapture(e.pointerId);
+    const r = frameEl.getBoundingClientRect();
+    cx = r.left + r.width / 2;
+    beginGrab();
+    gripEl.classList.add("grabbing");
+  });
+  gripEl.addEventListener("pointermove", (e) => {
+    if (!grabbing) return;
+    targetW = clamp(2 * (e.clientX - cx) / S, W_MIN, W_MAX);
+    pushSample(targetW, performance.now());
+  });
+  gripEl.addEventListener("pointerup", () => grabbing && endGrab());
+  gripEl.addEventListener("pointercancel", () => grabbing && endGrab());
+
+  // mobile: the gauge is the drag surface — thumb position → W linearly
+  let suppressClick = false, downX = 0;
+  const trackW = () => gaugeEl.getBoundingClientRect();
+  const gaugeToW = (clientX) => {
+    const r = trackW();
+    return W_MIN + clamp((clientX - r.left) / r.width, 0, 1) * (W_MAX - W_MIN);
+  };
+  gaugeEl.addEventListener("pointerdown", (e) => {
+    if (!isMobile) return;
+    gaugeEl.setPointerCapture(e.pointerId);
+    downX = e.clientX;
+    beginGrab();
+    targetW = gaugeToW(e.clientX);
+    pushSample(targetW, performance.now());
+  });
+  gaugeEl.addEventListener("pointermove", (e) => {
+    if (!isMobile || !grabbing) return;
+    targetW = gaugeToW(e.clientX);
+    pushSample(targetW, performance.now());
+  });
+  const gaugeUp = (e) => {
+    if (!isMobile || !grabbing) return;
+    if (Math.abs(e.clientX - downX) > 6) suppressClick = true;
+    endGrab();
+    setTimeout(() => { suppressClick = false; }, 0);
+  };
+  gaugeEl.addEventListener("pointerup", gaugeUp);
+  gaugeEl.addEventListener("pointercancel", gaugeUp);
+
+  /* ── Keyboard ───────────────────────────────────────────────── */
+  gripEl.addEventListener("keydown", (e) => {
+    if (e.repeat) return;
+    const i = BPS.indexOf(nearestBP(W));
+    if      (e.key === "ArrowLeft")  { e.preventDefault(); glideTo(BPS[Math.max(0, i - 1)]); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); glideTo(BPS[Math.min(BPS.length - 1, i + 1)]); }
+    else if (e.key === "Home")       { e.preventDefault(); glideTo(375); }
+    else if (e.key === "End")        { e.preventDefault(); glideTo(1280); }
+  });
+
+  /* ════════════════════════════════════════════════════════════
+     THE DISSECTION — redlines that cannot lie. Everything below is
+     read from getComputedStyle / getBoundingClientRect at build
+     time; rect dimensions are divided by the frame's true screen
+     scale so every number is the mini-site's honest CSS pixel.
+     ════════════════════════════════════════════════════════════ */
+
+  /* token resolution — the label says --m-cream, never rgb() */
+  const TOKENS = ["--m-bg", "--m-ink", "--m-body", "--m-taupe", "--m-cream",
+    "--m-line", "--primary", "--primaryLight"];
+  function parseRGB(s) {
+    const m = s.match(/-?[\d.]+(?:e-?\d+)?/g);
+    if (!m) return [0, 0, 0];
+    let [r, g, b] = m.map(Number);
+    if (s.startsWith("color(")) { r *= 255; g *= 255; b *= 255; }  /* color(srgb r g b) is 0–1 */
+    return [r, g, b];
+  }
+  function alphaOf(s) {
+    const m = s.match(/-?[\d.]+(?:e-?\d+)?/g);
+    return m && m.length >= 4 ? +m[3] : 1;
+  }
+  function resolveTokens() {
+    const probe = document.createElement("span");
+    probe.style.display = "none";
+    document.body.appendChild(probe);
+    tokenColors = TOKENS.map((name) => {
+      probe.style.color = `var(${name})`;
+      return { name, rgb: parseRGB(getComputedStyle(probe).color) };
+    });
+    probe.remove();
+  }
+  function tokenName(color) {
+    const c = parseRGB(color);
+    let best = null, bestD = Infinity;
+    for (const t of tokenColors) {
+      const d = (c[0] - t.rgb[0]) ** 2 + (c[1] - t.rgb[1]) ** 2 + (c[2] - t.rgb[2]) ** 2;
+      if (d < bestD) { bestD = d; best = t.name; }
+    }
+    return best || "--m-ink";
+  }
+
+  /* computed-style readers — font sizes are logical px (transforms
+     never touch them), so they're honest at every frame scale */
+  function famName(fontFamily) {
+    const f = fontFamily.split(",")[0].replace(/['"]/g, "").trim().toUpperCase();
+    return f || "SYSTEM";
+  }
+  function trackPct(cs) {
+    const fs = parseFloat(cs.fontSize);
+    const ls = cs.letterSpacing === "normal" ? 0 : parseFloat(cs.letterSpacing);
+    const pct = (ls / fs) * 100;
+    const s = (Math.round(pct * 10) / 10).toString();
+    return pct > 0 ? `+${s}` : s;
+  }
+  function typeBits(el) {
+    const cs = getComputedStyle(el);
+    const fs = Math.round(parseFloat(cs.fontSize));
+    const lhRaw = parseFloat(cs.lineHeight);
+    const gtc = cs.gridTemplateColumns;
+    return {
+      fam: famName(cs.fontFamily),
+      fs,
+      lh: Number.isFinite(lhRaw) ? Math.round(lhRaw) : Math.round(fs * 1.2),
+      wght: cs.fontWeight,
+      track: trackPct(cs),
+      color: tokenName(cs.color),
+      bg: alphaOf(cs.backgroundColor) > 0 ? tokenName(cs.backgroundColor) : "—",
+      radius: Math.round(parseFloat(cs.borderTopLeftRadius)) || 0,
+      gap: Math.round(parseFloat(cs.columnGap)) || 0,
+      cols: gtc && gtc !== "none" ? gtc.split(" ").length : 0,
+    };
+  }
+  function imgBasename() {
+    try {
+      const src = heroImg.currentSrc || heroImg.src;
+      return decodeURIComponent(src.split("/").pop().split("?")[0]) || "exterior-day.jpeg";
+    } catch (_) { return "exterior-day.jpeg"; }
+  }
+  function redlineText(id, t) {
+    switch (id) {
+      case "frame":    return `RENDERED ×${currentEff.toFixed(2)} · READINGS IN CSS PX`;
+      case "headline": return `${t.fam} · ${t.fs}/${t.lh} · WGHT ${t.wght}`;
+      case "dek":      return `${t.fam} · ${t.fs}/${t.lh} · MAX 40CH`;
+      case "cta":      return `BG ${t.bg} · TRACK ${t.track}% · R${t.radius}`;
+      case "photo":    return `${imgBasename()} · AR 3:2 · OBJECT-COVER`;
+      case "cards":    return `GRID ${t.cols}-COL · GAP ${t.gap}`;
+      case "stats":    return `${t.cols}-UP · PLAYFAIR ITALIC · TAB-NUMS`;
+      default:         return `${t.fam} · ${t.fs}/${t.lh}`;
+    }
+  }
+
+  /* ── Measurement overlays — built once per settled width ────── */
+  const SVG = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    const n = document.createElementNS(SVG, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function buildMeasure(spec) {
+    const { rect, id } = spec;
+    const w = rect.w, h = rect.h;
+    const svg = svgEl("svg", {
+      class: "ha-measure",
+      width: w + PAD * 2, height: h + PAD * 2,
+    });
+    svg.style.left = `${rect.x - PAD}px`;
+    svg.style.top = `${rect.y - PAD}px`;
+
+    /* the dashed box draws on around its perimeter: a solid mask rect
+       sweeps the same path and progressively reveals the dashed stroke */
+    const mid = `ha-bm-${maskSeq++}`;
+    const boxAttrs = {
+      x: PAD + 0.5, y: PAD + 0.5, width: Math.max(1, w - 1), height: Math.max(1, h - 1),
+      pathLength: 100,
+    };
+    const defs = svgEl("defs", {});
+    const mask = svgEl("mask", { id: mid, maskUnits: "userSpaceOnUse",
+      x: 0, y: 0, width: w + PAD * 2, height: h + PAD * 2 });
+    mask.appendChild(svgEl("rect", { ...boxAttrs, class: "ha-draw" }));
+    defs.appendChild(mask);
+    svg.appendChild(defs);
+    svg.appendChild(svgEl("rect", { ...boxAttrs, class: "ha-dash-box", mask: `url(#${mid})` }));
+
+    if (HAIR_IDS.has(id)) {
+      const y = PAD - MEASURE_OFF;
+      const hair = svgEl("line", { x1: PAD, y1: y, x2: PAD + w, y2: y, class: "ha-hairline" });
+      hair.style.setProperty("--len", w.toFixed(1));
+      svg.appendChild(hair);
+      svg.appendChild(svgEl("path", {
+        d: `M ${PAD + ARROW} ${y - 3} L ${PAD} ${y} L ${PAD + ARROW} ${y + 3}`, class: "ha-arrow" }));
+      svg.appendChild(svgEl("path", {
+        d: `M ${PAD + w - ARROW} ${y - 3} L ${PAD + w} ${y} L ${PAD + w - ARROW} ${y + 3}`, class: "ha-arrow" }));
+    }
+    return svg;
+  }
+  function buildGap(a, b) {
+    const gap = b.rect.y - (a.rect.y + a.rect.h);
+    const x = Math.max(a.rect.x, b.rect.x) + 16;
+    const top = a.rect.y + a.rect.h;
+    const svg = svgEl("svg", { class: "ha-measure", width: 90, height: gap });
+    svg.style.left = `${x - 20}px`;
+    svg.style.top = `${top}px`;
+    const hair = svgEl("line", { x1: 20, y1: 0, x2: 20, y2: gap, class: "ha-hairline" });
+    hair.style.setProperty("--len", gap.toFixed(1));
+    svg.appendChild(hair);
+    svg.appendChild(svgEl("path", { d: `M 17 ${ARROW} L 20 0 L 23 ${ARROW}`, class: "ha-arrow" }));
+    svg.appendChild(svgEl("path", { d: `M 17 ${gap - ARROW} L 20 ${gap} L 23 ${gap - ARROW}`, class: "ha-arrow" }));
+    const label = svgEl("text", { x: 28, y: gap / 2 + 3 });
+    label.textContent = `↕ ${Math.round(gap / currentEff)}`;   /* honest CSS px */
+    svg.appendChild(label);
+    return { svg, label, left: x - 20, top };
+  }
+
+  /* label layout — measured widths, candidate positions; no label ever
+     lands on another label, an annotated organ, or the stage chrome */
+  function placeLabels(secW, gapSvgs, chromeObs) {
+    const leaves = specs.filter((s) => s.id !== "frame").map((s) => s.rect);
+    const placed = [];
+    const inter = (a, b, pad) =>
+      a.x < b.x + b.w + pad && a.x + a.w + pad > b.x &&
+      a.y < b.y + b.h + pad && a.y + a.h + pad > b.y;
+    const blocked = (r, self) =>
+      placed.some((p) => inter(r, p, 6)) ||
+      chromeObs.some((o) => inter(r, o, 4)) ||
+      leaves.some((o) => o !== self && inter(r, o, 2));
+
+    const jobs = [];
+    const mk = (txt) => {
+      const el = document.createElement("div");
+      el.className = "ha-redline";
+      el.textContent = txt;
+      dissect.appendChild(el);
+      return el;
+    };
+    for (const sp of specs) {
+      jobs.push({ sp, el: mk(`${Math.round(sp.rect.w / currentEff)} × ${Math.round(sp.rect.h / currentEff)}`), dims: true });
+      /* the long type redlines need horizontal room mobile doesn't have */
+      if (!isMobile) jobs.push({ sp, el: mk(redlineText(sp.id, sp.type)), dims: false });
+    }
+    for (const j of jobs) { j.w = j.el.offsetWidth; j.h = j.el.offsetHeight || 13; }   // one reflow
+
+    for (const j of jobs) {
+      const r = j.sp.rect;
+      const cands = j.dims ? [
+        { x: r.x + r.w - j.w, y: r.y - 28 },                 // above, right-aligned
+        { x: r.x + r.w + 10, y: r.y + r.h / 2 - j.h / 2 },   // beside, right
+        { x: r.x + r.w - j.w, y: r.y + r.h + 8 },            // below, right-aligned
+      ] : [
+        { x: r.x, y: r.y - 28 },                             // above, left-aligned
+        { x: r.x, y: r.y + r.h + 8 },                        // below, left-aligned
+        { x: r.x + r.w + 12, y: r.y + r.h / 2 - j.h / 2 },   // beside, right
+        { x: r.x + 6, y: r.y + 6 },                          // inside, last resort
+      ];
+      let pos = null;
+      for (const c of cands) {
+        if (c.y < 4) continue;   // never force a label above the canvas
+        const cc = { x: Math.max(8, Math.min(c.x, secW - j.w - 8)), y: Math.max(4, c.y), w: j.w, h: j.h };
+        if (!blocked(cc, r)) { pos = cc; break; }
+      }
+      if (!pos) {
+        const c = cands[cands.length - 1];
+        pos = { x: Math.max(8, Math.min(c.x, secW - j.w - 8)), y: Math.max(4, c.y), w: j.w, h: j.h };
+      }
+      j.el.style.left = `${pos.x}px`;
+      j.el.style.top = `${pos.y}px`;
+      placed.push(pos);
+    }
+
+    /* gap labels — nudge right until clear; hopeless ones keep only the hairline */
+    for (const g of gapSvgs) {
+      let bb;
+      try { bb = g.label.getBBox(); } catch (_) { continue; }
+      const r = { x: g.left + bb.x, y: g.top + bb.y, w: bb.width, h: bb.height };
+      const startX = r.x;
+      let tries = 0;
+      while (blocked(r, null) && tries++ < 8) r.x += 24;
+      if (tries > 8) { g.label.remove(); continue; }
+      if (r.x !== startX) g.label.setAttribute("x", +g.label.getAttribute("x") + (r.x - startX));
+      placed.push(r);
+    }
+  }
+
+  function buildAll() {
+    if (!entranceDone || flipActive) return;
+    built = true;
+    builtW = Math.round(W); builtTier = tier; builtS = S; builtMobile = isMobile;
+    dissect.textContent = "";
+    maskSeq = 0;
+
+    resolveTokens();
+    const secRect = bpEl.getBoundingClientRect();
+    const frameRect = frameEl.getBoundingClientRect();
+    currentEff = frameRect.width / Math.max(1, frameEl.offsetWidth);   // true screen scale
+
+    /* rects in section coords, with the breath pose subtracted so the
+       annotations match the frame's settled (still) position */
+    const relRect = (el, inFrame) => {
+      const r = el.getBoundingClientRect();
+      return {
+        x: r.left - secRect.left,
+        y: r.top - secRect.top - (inFrame ? lastBreathPx : 0),
+        w: r.width, h: r.height,
+      };
+    };
+
+    const show = isMobile ? MOBILE_SHOW : SHOW[tier];
+    specs = [...bpEl.querySelectorAll("[data-spec]")]
+      .map((el) => ({ id: el.dataset.specId, el, rect: relRect(el, true), type: typeBits(el) }))
+      .filter((sp) => show.includes(sp.id) && sp.rect.w > 8 && sp.rect.h > 8);
+
+    for (const s of specs) dissect.appendChild(buildMeasure(s));
+
+    /* gap hairlines to the nearest annotated neighbour below (tight ones only) */
+    const gapSvgs = [];
+    const leaves = specs.filter((s) => s.id !== "frame");
+    for (const a of leaves) {
+      let best = null, bestGap = Infinity;
+      for (const b of leaves) {
+        if (b === a) continue;
+        const gap = b.rect.y - (a.rect.y + a.rect.h);
+        const overlap = Math.min(a.rect.x + a.rect.w, b.rect.x + b.rect.w) - Math.max(a.rect.x, b.rect.x);
+        if (gap > 6 && gap < 140 && overlap > 24 && gap < bestGap) { bestGap = gap; best = b; }
+      }
+      if (best) {
+        const g = buildGap(a, best);
+        dissect.appendChild(g.svg);
+        gapSvgs.push(g);
+      }
+    }
+
+    /* the stage chrome is sacred ground — labels route around it */
+    const chromeObs = [gaugeEl, document.querySelector(".bp-header"), document.querySelector(".bp-footer")]
+      .filter(Boolean)
+      .map((el) => relRect(el, false));
+
+    placeLabels(secRect.width, gapSvgs, chromeObs);
+  }
+  const ensureBuilt = () => {
+    if (flipActive || !entranceDone) return;
+    if (!built || builtW !== Math.round(W) || builtTier !== tier || builtS !== S || builtMobile !== isMobile) buildAll();
+  };
+
+  /* ── X-ray input — press & hold the frame ───────────────────── */
+  const beginHold = () => {
+    armTimer = 0;
+    holding = true;
+    if (RM) xGlide(1, 0.25);
+    else killX();              // the spring claims X from wherever it stands
+  };
+  const endHold = () => {
+    clearTimeout(armTimer); armTimer = 0;
+    if (!holding) return;
+    holding = false;
+    if (RM && !pinned) xGlide(0, 0.25);
+  };
+  frameEl.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".grip")) return;
+    killDemo();                // a press claims the stage
+    ensureBuilt();
+    armX = e.clientX; armY = e.clientY;
+    clearTimeout(armTimer);
+    armTimer = setTimeout(beginHold, HOLD_DELAY);
+  });
+  frameEl.addEventListener("pointermove", (e) => {
+    if (armTimer && Math.hypot(e.clientX - armX, e.clientY - armY) > MOVE_CANCEL) {
+      clearTimeout(armTimer); armTimer = 0;   // drag-intent guard
+    }
+  });
+  window.addEventListener("pointerup", endHold);
+  window.addEventListener("pointercancel", endHold);
+  frameEl.addEventListener("pointerenter", ensureBuilt);   // warm build before first hold
+  frameEl.addEventListener("contextmenu", (e) => { if (holding || armTimer) e.preventDefault(); });
+
+  specToggle.addEventListener("change", () => {
+    killDemo();
+    ensureBuilt();
+    pinned = specToggle.checked;
+    liveEl.textContent = pinned ? "Spec view on" : "Spec view off";
+    xGlide(pinned ? 1 : 0, PIN_GLIDE);
+  });
+
+  /* webfont metrics land late — re-measure so the redlines never lie */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => setTimeout(() => {
+      if (built && phase === "idle" && !flipActive) buildAll();
+    }, 100));
+  }
+
+  /* ── Demo run ───────────────────────────────────────────────── */
+  const killDemo = () => {
+    if (demoTl) {
+      demoTl.kill(); demoTl = null;
+      owner = "physics"; phase = "idle"; targetW = W;
+    }
+    demoDone = true;                                      // never runs again
+  };
+
+  const demoRun = () => {
+    if (demoDone || RM) return;
+    owner = "tween";
+    proxy.w = W;
+    demoTl = gsap.timeline({ onComplete: () => { owner = "physics"; demoTl = null; demoDone = true; } });
+    demoTl.to(proxy, { w: 375, duration: DEMO_LEG, ease: "power2.inOut", onUpdate: applyProxy })
+          .to({}, { duration: DEMO_HOLD })
+          .to(proxy, { w: 1280, duration: DEMO_LEG, ease: "power2.inOut", onUpdate: applyProxy });
+  };
+
+  /* ── Micro-motion ───────────────────────────────────────────── */
+  const startMicroMotion = () => {
+    if (RM) return;
+    kbTween = gsap.fromTo(heroImg, { scale: 1 },
+      { scale: KB_SCALE, x: -6, y: -8, duration: 10, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    if (!isMobile) {
+      pulseTl = gsap.timeline({ repeat: -1, repeatDelay: 2.0 })
+        .to(gripPill, { scale: 1.18, duration: 0.4, ease: "sine.inOut" })
+        .to(gripPill, { scale: 1,    duration: 0.4, ease: "sine.inOut" });
+    }
+  };
+
+  /* ── Entrance — born as a blueprint ─────────────────────────── */
+  /* The frame blurs in holding full x-ray (grids + dissolve over the
+     miniature), resolves to the real site, then runs the demo leg.
+     Measurements aren't built yet, so the boot is grids and glass only —
+     calm by construction. */
+  const enter = () => {
+    if (RM) {
+      gsap.set(frameEl, { opacity: 1 });
+      gsap.set("[data-chrome]", { clearProps: "all" });
+      frameEl.style.transform = `${CENTER} scale(${S})`;
+      entranceDone = true;
+      startMicroMotion();
+      return;
+    }
+    booting = true;
+    X = 1;                       // blueprint pre-state — tick writes it this frame
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    tl.fromTo(frameEl,
+        { opacity: 0, xPercent: -50, yPercent: -50, y: 32, scale: S * 0.95, filter: "blur(12px)" },
+        { opacity: 1, xPercent: -50, yPercent: -50, y: 0,  scale: S,        filter: "blur(0px)", duration: 1.1 }, 0);
+    tl.fromTo(".site [data-flip]", { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.04, clearProps: "opacity,transform" }, 0.35);
+    tl.fromTo("[data-chrome]", { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, clearProps: "all" }, 0.9);
+    tl.add(() => {                                        // hand transform to rAF
+      gsap.set(frameEl, { clearProps: "transform,filter" });
+      frameEl.style.transform = `${CENTER} scale(${S})`;
+      entranceDone = true;
+      startMicroMotion();
+    }, 1.45);
+    tl.add(() => {                                        // blueprint resolves to real
+      booting = false;
+      xGlide(0, 1.7);
+    }, 1.55);
+    tl.add(() => demoRun(), 2.6);
+  };
+
+  gsap.set(frameEl, { opacity: 0 });
+  gsap.set("[data-chrome]", { opacity: 0 });
+  frameEl.style.transform = `${CENTER} scale(${S})`;
+
+  Promise.race([
+    document.fonts.ready,
+    new Promise(res => setTimeout(res, 600)),
+  ]).then(enter);
+
+  /* heavy build waits for idle — first hold is then instant */
+  const idleBuild = () => { if (!built && phase === "idle" && !flipActive) ensureBuilt(); };
+  if ("requestIdleCallback" in window) requestIdleCallback(idleBuild, { timeout: 6000 });
+  else setTimeout(idleBuild, 6000);
+})();
+</script>
+</body>
+</html>

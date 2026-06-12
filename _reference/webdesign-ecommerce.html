@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UI Compass Web Designs — Hand-Coded Websites for DFW Small Businesses</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --font-display: "Roboto", "Arial", sans-serif;
+    --font-sans: "Roboto", "Arial", sans-serif;
+    --btn: #006940;       /* cs-button-solid stays primary green in both modes */
+    --btn-ink: #ffffff;
+  }
+  /* Matches the site's light palette (root.css) */
+  html[data-theme="light"] {
+    --foreground: #262421;     /* --headerColor */
+    --body-text: #4e4b66;      /* --bodyTextColor */
+    --background: #faf7f4;     /* --secondaryLight */
+    --chrome: #e6d9c7;         /* --secondary */
+    --accent: #006940;         /* --primary */
+    --accent-ink: #ffffff;
+  }
+  /* Matches the site's dark mode (--dark / --medium / --primaryLight) */
+  html[data-theme="dark"] {
+    --foreground: #fafbfc;     /* --bodyTextColorWhite */
+    --body-text: #ebebeb;
+    --background: #0d1411;     /* --dark */
+    --chrome: #1a221d;         /* --medium */
+    --accent: #00bd74;         /* --primaryLight */
+    --accent-ink: #0d1411;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  /* ---------- Section / layers ---------- */
+  .stage {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  .stage-inner { position: relative; height: 100%; width: 100%; }
+
+  /* Blueprint-style grid wall */
+  .wall {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 100%);
+  }
+
+  /* Ambient accent wash — tints toward the active site's brand color */
+  @property --washColor {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(0,189,116,0);
+  }
+  .wash {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    --washColor: rgba(0,189,116,0.10);
+    background: radial-gradient(ellipse 85% 75% at 50% 42%, var(--washColor), transparent 72%);
+    transition: --washColor 1.1s ease;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 12;
+    padding: 0 20px;
+  }
+  /* cs-topper */
+  .hero .kicker {
+    font-size: clamp(0.8125rem, 1.6vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  /* cs-title */
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    line-height: 1.2;
+    letter-spacing: normal;
+  }
+  .hero h1 .line2 { color: var(--accent); }
+  .hero [data-letter] { display: inline-block; will-change: transform, opacity, filter; }
+
+  .sub-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 12;
+    padding: 16px 24px 0;
+  }
+  @media (min-width: 768px) { .sub-content { padding-top: 24px; } }
+
+  .sub-content p {
+    max-width: 580px;
+    margin: 0 auto 18px;
+    font-size: clamp(13px, 1.3vw, 15px);
+    line-height: 1.6;
+    color: var(--body-text);
+  }
+  .sub-buttons { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
+  /* cs-button-solid: square corners, solid primary green in both modes */
+  .btn {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 0;
+    border: 1px solid color-mix(in srgb, var(--foreground) 25%, transparent);
+    background: transparent;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn.primary {
+    background: var(--btn);
+    color: var(--btn-ink);
+    border-color: var(--btn);
+  }
+  .btn:hover { background: color-mix(in srgb, var(--foreground) 12%, transparent); }
+  .btn.primary:hover { background: color-mix(in srgb, var(--btn) 85%, var(--foreground)); }
+
+  .rating-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+  }
+  .rating-bar .dot { opacity: 0.4; }
+  .stars { display: inline-flex; gap: 2px; }
+  .rating-stack { display: none; }
+  @media (max-width: 767px) {
+    .rating-row-desktop { display: none; }
+    .rating-stack {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+    .rating-stack .info { text-align: left; display: flex; flex-direction: column; gap: 3px; }
+  }
+
+  /* ---------- Cards (mini browser windows) ---------- */
+  .card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    perspective: 1400px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform, opacity;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .browser {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--chrome);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.28), 0 4px 12px rgba(0,0,0,0.18),
+                0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+  }
+  .browser-chrome {
+    height: 11%;
+    min-height: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    padding: 0 6%;
+    background: var(--chrome);
+    flex: none;
+  }
+  .browser-dots { display: flex; gap: 3px; flex: none; }
+  .browser-dots i {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--foreground) 22%, transparent);
+  }
+  .browser-url {
+    flex: 1;
+    min-width: 0;
+    background: color-mix(in srgb, var(--background) 80%, transparent);
+    border-radius: 99px;
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    padding: 3px 8px;
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .browser-body { flex: 1; min-height: 0; position: relative; background: #fff; }
+  .browser-body img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  .badge {
+    position: absolute;
+    top: -13px;
+    left: 10px;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 99px;
+  }
+  .badge.visible { opacity: 1; transform: translateY(0); }
+  .badge i { width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: 0.85; }
+
+  /* Accent glow ring revealed in detail view (replaces the ornate frame) */
+  .glow-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 13px;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ---------- Showcase browser mockup (was painter room preview) ---------- */
+  /* Mobile-first: a full-bleed screenshot filling the lower half of the
+     screen, its slanted top edge echoing the carousel diagonal above it. */
+  .showcase {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    left: 0;
+    right: 0;
+    top: 40vh;
+    bottom: 0;
+    width: 100%;
+    transform: none;
+    /* top edge slants to match the carousel diagonal (left higher) */
+    clip-path: polygon(0 0, 100% 27%, 100% 100%, 0 100%);
+  }
+  @media (min-width: 768px) {
+    .showcase {
+      left: 4vw;
+      right: auto;
+      top: auto;
+      bottom: 6vh;
+      width: clamp(360px, 40vw, 620px);
+      clip-path: none;
+    }
+  }
+  .showcase-browser {
+    overflow: hidden;
+    background: var(--chrome);
+    height: 100%;
+  }
+  @media (min-width: 768px) {
+    .showcase-browser {
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.16),
+                  0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+    }
+  }
+  /* chrome bar is hidden on mobile (full-bleed), restored on desktop */
+  .showcase-chrome { display: none; }
+  @media (min-width: 768px) {
+    .showcase-chrome {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 14px;
+    }
+  }
+  .showcase-chrome .browser-dots i { width: 9px; height: 9px; }
+  .showcase-chrome .browser-url { font-size: 11px; padding: 5px 12px; }
+  .showcase-body { position: relative; background: #fff; height: 100%; }
+  @media (min-width: 768px) {
+    .showcase-body { aspect-ratio: 16 / 10; height: auto; }
+  }
+  .showcase-body img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  /* mobile: caption overlays the bottom of the screenshot */
+  .showcase-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 30px 18px 14px;
+    text-align: center;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.78);
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    z-index: 2;
+  }
+  .showcase-caption strong { color: #fff; font-weight: 600; }
+  @media (min-width: 768px) {
+    .showcase-caption {
+      position: static;
+      margin-top: 10px;
+      padding: 0;
+      background: none;
+      color: color-mix(in srgb, var(--foreground) 55%, transparent);
+    }
+    .showcase-caption strong { color: color-mix(in srgb, var(--foreground) 85%, transparent); }
+  }
+
+  /* ---------- Awards / testimonials slider ---------- */
+  .awards {
+    position: absolute;
+    z-index: 11;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    left: 0;
+    top: 100px;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) {
+    .awards {
+      left: auto;
+      right: 0;
+      top: 0;
+      width: clamp(280px, 30vw, 440px);
+      padding: 48px 40px 0 0;
+    }
+  }
+  .awards-stack { position: relative; min-height: 320px; }
+  .awards-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    will-change: transform, opacity, filter;
+  }
+
+  .laurel-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .laurel {
+    width: 30px; height: 48px;
+    color: var(--foreground);
+    opacity: 0.35;
+  }
+  .laurel.right { transform: scaleX(-1); }
+  .laurel-center { text-align: center; }
+  .laurel-center .label {
+    font-family: var(--font-display);
+    font-size: clamp(12px, 1.1vw, 14px);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .laurel-center .stars { margin-top: 6px; justify-content: center; display: flex; }
+
+  .rating-list { margin-top: 18px; }
+  .rating-list .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 2px;
+    border-bottom: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+  .rating-list .row .src { font-family: var(--font-display); font-size: 13px; font-weight: 700; }
+  .rating-list .row .val { color: color-mix(in srgb, var(--foreground) 60%, transparent); }
+
+  .t-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.05em;
+    border: 2px solid color-mix(in srgb, var(--foreground) 18%, transparent);
+    flex: none;
+  }
+  .t-head .name { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+  .t-head .role {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+    margin-top: 3px;
+  }
+  .t-quote {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(16px, 1.4vw, 21px);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .t-quote .word { display: inline-block; white-space: nowrap; }
+  .t-quote [data-quote-letter] { display: inline-block; will-change: transform, opacity, filter; }
+
+  /* ---------- Detail panel ---------- */
+  .panel {
+    position: absolute;
+    z-index: 17;
+    display: none;
+    opacity: 0;
+    top: 48%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  @media (min-width: 768px) {
+    .panel {
+      top: 50%;
+      left: 54%;
+      transform: translateY(-50%);
+      width: min(400px, 38vw);
+      max-height: none;
+      overflow: visible;
+    }
+  }
+  .panel .niche {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+    margin-bottom: 8px;
+  }
+  .panel h2 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.6vw, 38px);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .panel .domain {
+    font-size: 12.5px;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+    margin-bottom: 14px;
+  }
+  .panel .price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .panel .price { font-family: var(--font-display); font-size: 26px; font-weight: 900; }
+  .panel .edition {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: color-mix(in srgb, var(--foreground) 50%, transparent);
+  }
+  .panel .desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--body-text);
+    margin-bottom: 16px;
+    max-width: 46ch;
+  }
+  .panel .group-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: color-mix(in srgb, var(--foreground) 50%, transparent);
+    margin-bottom: 7px;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .pill {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 6px 13px;
+    border-radius: 0;
+    border: 1px solid color-mix(in srgb, var(--foreground) 25%, transparent);
+    background: transparent;
+    color: var(--foreground);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .pill.selected {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+  }
+  .cart-row { display: flex; align-items: center; gap: 14px; margin: 6px 0 14px; flex-wrap: wrap; }
+  .use-template {
+    background-color: #006940;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    border-radius: 0;
+    box-shadow: 0 3px 12px rgba(66,99,235,0.3), 0 1px 3px rgba(0,0,0,0.15);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    border: none;
+    padding: 13px 24px;
+    cursor: pointer;
+  }
+  .live-link {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+  .back-btn {
+    background: none;
+    border: none;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+  .panel .quote {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--foreground) 75%, transparent);
+  }
+  .panel .quote-author {
+    margin-top: 8px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--foreground) 50%, transparent);
+  }
+
+  /* ---------- Brand lockup (site header logo) ---------- */
+  .lockup {
+    position: fixed;
+    top: 14px;
+    left: 18px;
+    z-index: 50;
+    display: block;
+  }
+  .lockup img { height: 40px; width: auto; display: block; }
+
+  /* ---------- Theme toggle ---------- */
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 50;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--foreground) 25%, transparent);
+    background: color-mix(in srgb, var(--background) 75%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--foreground);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+<a class="lockup" href="https://uicompasswebdesigns.com" aria-label="UI Compass Web Designs">
+  <img id="lockupLogo" src="../src/assets/logo.svg" alt="UI Compass Web Designs" />
+</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☾</button>
+
+<section class="stage" id="stage">
+  <div class="stage-inner" id="stageInner">
+
+    <div class="wall"></div>
+    <div class="wash" id="wash"></div>
+
+    <!-- Hero title -->
+    <div class="hero" id="hero">
+      <div class="kicker" data-hero-kicker>★ Veteran Owned · Our Portfolio</div>
+      <h1 id="heroTitle">
+        <span class="line1">The Online Solution</span><br />
+        <span class="line2">for Your Business</span>
+      </h1>
+    </div>
+
+    <!-- Sub-content -->
+    <div class="sub-content" id="subContent">
+      <p data-hero-reveal>
+        We only do web design, web development, and website maintenance —
+        and we do it really well, for only $150 per month. Browse real client
+        builds below, preview them in place, and make one yours.
+      </p>
+      <div class="sub-buttons" data-hero-reveal>
+        <button class="btn primary" id="viewCollectionBtn">See Our Work</button>
+        <button class="btn">Our Packages</button>
+      </div>
+      <div data-hero-reveal>
+        <div class="rating-bar rating-row-desktop">
+          <span class="stars" data-stars></span>
+          <span>5.0 from DFW small businesses</span>
+          <span class="dot">·</span>
+          <span>200+ sites launched</span>
+          <span class="dot">·</span>
+          <span>100/100 PageSpeed scores</span>
+        </div>
+        <div class="rating-bar rating-stack">
+          <span class="stars" data-stars></span>
+          <span class="info">
+            <span>200+ sites launched</span>
+            <span>100/100 PageSpeed scores</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards injected here by JS -->
+
+    <!-- Showcase browser mockup -->
+    <div class="showcase" id="showcase">
+      <div class="showcase-browser">
+        <div class="showcase-chrome">
+          <span class="browser-dots"><i></i><i></i><i></i></span>
+          <span class="browser-url" id="showcaseUrl">uicompasswebdesigns.com</span>
+        </div>
+        <div class="showcase-body"><img id="showcaseImg" alt="Template preview" /></div>
+      </div>
+      <div class="showcase-caption">Now previewing — <strong id="showcaseDomain"></strong></div>
+    </div>
+
+    <!-- Awards / testimonials slider -->
+    <div class="awards" id="awards">
+      <div class="awards-stack" id="awardsStack">
+
+        <div class="awards-slide" data-awards-slide>
+          <div class="laurel-row">
+            <svg class="laurel" viewBox="0 0 30 48" fill="currentColor" aria-hidden="true">
+              <path d="M24 2c-7 4-12 11-13 19 3-1 6-3 8-6-1 5-4 9-8 11 2 0 5-1 7-2-2 4-5 6-9 7 2 1 4 1 6 1-3 3-6 4-9 4 2 2 4 2 7 2-3 2-6 3-9 2 4 5 11 7 17 5l1 2c-8 3-17-1-21-8C-3 30 3 14 13 7c3-3 7-4 11-5z"/>
+            </svg>
+            <div class="laurel-center">
+              <div class="label">Clients' Choice</div>
+              <div class="stars" data-stars></div>
+            </div>
+            <svg class="laurel right" viewBox="0 0 30 48" fill="currentColor" aria-hidden="true">
+              <path d="M24 2c-7 4-12 11-13 19 3-1 6-3 8-6-1 5-4 9-8 11 2 0 5-1 7-2-2 4-5 6-9 7 2 1 4 1 6 1-3 3-6 4-9 4 2 2 4 2 7 2-3 2-6 3-9 2 4 5 11 7 17 5l1 2c-8 3-17-1-21-8C-3 30 3 14 13 7c3-3 7-4 11-5z"/>
+            </svg>
+          </div>
+          <div class="rating-list">
+            <div class="row"><span class="src">Google Reviews</span><span class="val">5.0 / 5</span></div>
+            <div class="row"><span class="src">Clutch</span><span class="val">4.9 / 5</span></div>
+            <div class="row"><span class="src">UpCity</span><span class="val">Top Designer</span></div>
+            <div class="row"><span class="src">GoodFirms</span><span class="val">Featured</span></div>
+          </div>
+        </div>
+
+        <div class="awards-slide" data-awards-slide>
+          <div class="t-head">
+            <span class="avatar" style="background:#178577;">MR</span>
+            <div>
+              <div class="name">Maria Reyes</div>
+              <div class="role">Owner · Casa Blanca Bakery</div>
+            </div>
+          </div>
+          <div class="t-quote" data-quote>Our new site paid for itself in the first month. Online catering requests tripled.</div>
+        </div>
+
+        <div class="awards-slide" data-awards-slide>
+          <div class="t-head">
+            <span class="avatar" style="background:#2B6CB0;">DK</span>
+            <div>
+              <div class="name">Dave Kowalski</div>
+              <div class="role">Owner · 905 HVAC</div>
+            </div>
+          </div>
+          <div class="t-quote" data-quote>We went from invisible to first page in our service area. The phone actually rings now.</div>
+        </div>
+
+        <div class="awards-slide" data-awards-slide>
+          <div class="t-head">
+            <span class="avatar" style="background:#7C3AED;">CW</span>
+            <div>
+              <div class="name">Cheryl Wilson</div>
+              <div class="role">Counselor · Private Practice</div>
+            </div>
+          </div>
+          <div class="t-quote" data-quote>Calm, professional, and exactly how I wanted clients to feel before they ever call.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="panel" id="panel" data-panel>
+      <div class="niche" data-panel-item data-detail-niche></div>
+      <h2 data-panel-item data-detail-title></h2>
+      <div class="domain" data-panel-item data-detail-domain></div>
+      <div class="price-row" data-panel-item>
+        <span class="price" data-detail-price></span>
+        <span class="edition" data-detail-edition></span>
+      </div>
+      <div class="desc" data-panel-item data-detail-desc></div>
+      <div data-panel-item>
+        <div class="group-label">Site Size</div>
+        <div class="pills" data-detail-sizes></div>
+      </div>
+      <div data-panel-item>
+        <div class="group-label">Included</div>
+        <div class="pills" data-detail-features></div>
+      </div>
+      <div class="cart-row" data-panel-item>
+        <button class="use-template" data-detail-btn id="useTemplateBtn">Use This Template</button>
+        <a class="live-link" data-detail-live href="#" target="_blank" rel="noopener">View Live Site ↗</a>
+        <button class="back-btn" id="backBtn">Back</button>
+      </div>
+      <div class="quote" data-panel-item>
+        <span data-detail-quote></span>
+        <div class="quote-author" data-detail-quote-author></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* =============================== Data =============================== */
+
+  // Local template library (works when this file is opened via file://)
+  var LIB = "/Users/josephclutts/Documents/Websites/Mine/pagy-eleventy-builder";
+
+  function thumb(slug) { return LIB + "/template-thumbnails/" + slug + "/preview.png"; }
+  function live(domain, entry) { return LIB + "/template-websites/" + domain + "/" + (entry || "index.html"); }
+
+  var projects = [
+    {
+      id: 0, title: "Apex Performance", domain: "apexperformancegym.com",
+      niche: "Fitness & Gyms",
+      description: "A high-contrast, high-energy gym site with bold condensed type, program pages for every class, and an enquiry form built into the hero. Designed to convert walk-ins from local search.",
+      image: thumb("apexperformancegym"), liveUrl: live("apexperformancegym.com"),
+      accent: "#D7263D", badgeLabel: "Featured",
+      price: "$495", sizes: ["5 Pages", "10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Lead Forms", "Hosting", "Analytics"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Memberships jumped the month we launched. People tell us the site feels like the gym.",
+      testimonialAuthor: "— Apex Performance, Rockland County NY"
+    },
+    {
+      id: 1, title: "905 HVAC", domain: "905hvac.ca",
+      niche: "HVAC & Home Services",
+      description: "A trust-first service site with emergency call buttons everywhere they matter, service-area pages for the GTA, and a quote form above the fold. Built to win the after-hours phone call.",
+      image: thumb("905hvac"), liveUrl: live("905hvac.ca"),
+      accent: "#2B6CB0", badgeLabel: "Best Seller",
+      price: "$445", sizes: ["5 Pages", "10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Service Areas", "Hosting", "Call Tracking"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "We went from invisible to first page in our service area. The phone actually rings now.",
+      testimonialAuthor: "— 905 HVAC, Burlington ON"
+    },
+    {
+      id: 2, title: "Barba Landscape", domain: "barbalandscapedesign.com",
+      niche: "Landscaping & Outdoor",
+      description: "A lush, photo-forward landscaping site that lets the work sell itself — full-bleed project galleries, a clean services menu, and review strips that build trust on the way down the page.",
+      image: thumb("barbalandscapedesign"), liveUrl: live("barbalandscapedesign.com"),
+      accent: "#2F855A", badgeLabel: "Trending",
+      price: "$465", sizes: ["5 Pages", "10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Gallery CMS", "Hosting", "Reviews Feed"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Clients show up to consultations already sold. The gallery does half my job.",
+      testimonialAuthor: "— Barba Landscape, Santa Monica CA"
+    },
+    {
+      id: 3, title: "Cheryl Wilson Counseling", domain: "cherylwilsontherapy.com",
+      niche: "Therapy & Counseling",
+      description: "A soft, unhurried practice site with generous whitespace, gentle purple accents, and booking actions that never feel pushy. Designed to lower the barrier for a hard first call.",
+      image: thumb("cherylwilsontherapy"), liveUrl: live("cherylwilsontherapy.com"),
+      accent: "#7C3AED", badgeLabel: "Staff Pick",
+      price: "$425", sizes: ["5 Pages", "10 Pages"],
+      features: ["SEO Setup", "Booking", "Hosting", "Blog"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Calm, professional, and exactly how I wanted clients to feel before they ever call.",
+      testimonialAuthor: "— Cheryl Wilson Counseling, WA"
+    },
+    {
+      id: 4, title: "Casa Blanca Bakery", domain: "casablancabakery.com",
+      niche: "Restaurants & Bakeries",
+      description: "A sunny, bilingual bakery site with playful display type, a full menu system, and catering pages — warm enough to smell the pan dulce. Spanish and English, one codebase.",
+      image: thumb("casablancabakery"), liveUrl: live("casablancabakery.com", "es.html"),
+      accent: "#178577", badgeLabel: "New",
+      price: "$395", sizes: ["5 Pages", "10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Menu CMS", "Hosting", "Bilingual"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Our new site paid for itself in the first month. Online catering requests tripled.",
+      testimonialAuthor: "— Casa Blanca Bakery"
+    },
+    {
+      id: 5, title: "Bespoke Estate Law", domain: "bespokeestatelaw.com",
+      niche: "Legal & Professional",
+      description: "A polished, navy-and-gold estate-law site with consultation booking, practice-area pages, and a blog for long-tail search. Credible at a glance, readable in depth.",
+      image: thumb("bespokeestatelaw"), liveUrl: live("bespokeestatelaw.com"),
+      accent: "#B58A3C", badgeLabel: "Client Favorite",
+      price: "$545", sizes: ["10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Booking", "Hosting", "Blog"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Prospective clients mention the website in almost every consultation. It sets the tone.",
+      testimonialAuthor: "— Bespoke Estate Law, SC"
+    },
+    {
+      id: 6, title: "Architectural Photography Inc.", domain: "architecturalphotographyinc.com",
+      niche: "Photography & Portfolio",
+      description: "A portfolio-first site where the photography is the interface — edge-to-edge project covers, fast galleries, and a service menu for commercial clients. The work loads before you can blink.",
+      image: thumb("architecturalphotographyinc"), liveUrl: live("architecturalphotographyinc.com"),
+      accent: "#3A6EA5", badgeLabel: "Exclusive",
+      price: "$475", sizes: ["10 Pages", "15 Pages"],
+      features: ["SEO Setup", "Gallery CMS", "Hosting", "Analytics"],
+      edition: "100/100 PageSpeed · Eleventy",
+      testimonial: "Finally a site that keeps up with the images. Clients browse twice as long now.",
+      testimonialAuthor: "— Architectural Photography Inc."
+    }
+  ];
+
+  var N = projects.length;            // 7
+  var VISUAL_N = N;
+  var FAN_GAP = 35;
+  var SUB_HEIGHT_EST = 150;
+  var P_DIAG_FULL = 0.20;
+  var CARD_RATIO = 0.72;              // browser card: 16:10 screenshot + chrome bar
+
+  /* ============================= Helpers ============================== */
+
+  function hash(n) {
+    var x = Math.sin(n * 12.9898 + 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  function getSubGap(vw, vh) {
+    // Clear the fan's drooping outer cards (fanPose adds norm^2 * droop)
+    var droop = vw < 768 ? vh * 0.06 : vh * 0.1;
+    return Math.round(droop) + 12;
+  }
+
+  /* ============================ DOM refs ============================== */
+
+  var stage = document.getElementById("stage");
+  var inner = document.getElementById("stageInner");
+  var hero = document.getElementById("hero");
+  var heroTitle = document.getElementById("heroTitle");
+  var subContent = document.getElementById("subContent");
+  var showcase = document.getElementById("showcase");
+  var showcaseImg = document.getElementById("showcaseImg");
+  var showcaseUrl = document.getElementById("showcaseUrl");
+  var showcaseDomain = document.getElementById("showcaseDomain");
+  var awards = document.getElementById("awards");
+  var awardsSlides = Array.prototype.slice.call(document.querySelectorAll("[data-awards-slide]"));
+  var panel = document.getElementById("panel");
+
+  /* ====================== Build static decorations ===================== */
+
+  var STAR_PATH = "M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17l-6.1 3.6 1.4-6.8L2.2 9.1l6.9-.8z";
+  document.querySelectorAll("[data-stars]").forEach(function (el) {
+    var html = "";
+    for (var s = 0; s < 5; s++) {
+      html += '<svg viewBox="0 0 24 24" style="fill: color-mix(in srgb, var(--accent) 85%, transparent); width:13px; height:13px;"><path d="' + STAR_PATH + '"/></svg>';
+    }
+    el.innerHTML = html;
+  });
+
+  // Hero letter spans
+  heroTitle.querySelectorAll(".line1, .line2").forEach(function (line) {
+    var text = line.textContent;
+    line.textContent = "";
+    text.split("").forEach(function (ch) {
+      if (ch === " ") {
+        line.appendChild(document.createTextNode(" "));
+      } else {
+        var sp = document.createElement("span");
+        sp.setAttribute("data-letter", "");
+        sp.textContent = ch;
+        line.appendChild(sp);
+      }
+    });
+  });
+
+  // Quote letter spans (split by word to preserve wrapping)
+  document.querySelectorAll("[data-quote]").forEach(function (q) {
+    var words = q.textContent.trim().split(/\s+/);
+    q.textContent = "";
+    words.forEach(function (word, wi) {
+      var w = document.createElement("span");
+      w.className = "word";
+      word.split("").forEach(function (ch) {
+        var sp = document.createElement("span");
+        sp.setAttribute("data-quote-letter", "");
+        sp.textContent = ch;
+        w.appendChild(sp);
+      });
+      q.appendChild(w);
+      if (wi < words.length - 1) q.appendChild(document.createTextNode(" "));
+    });
+  });
+
+  /* ============================ Build cards ============================ */
+
+  var cardEls = [], cardInnerEls = [], badgeEls = [], glowEls = [];
+
+  projects.forEach(function (p, i) {
+    var card = document.createElement("div");
+    card.className = "card";
+    card.setAttribute("data-card", "");
+    card.style.opacity = "0";
+
+    var badgeRot = (hash(i * 13 + 5) - 0.5) * 4;
+    card.innerHTML =
+      '<div class="card-inner">' +
+        '<div class="badge" style="background:' + p.accent + "; rotate:" + badgeRot + "deg; box-shadow: 0 2px 8px " + p.accent + '66;">' +
+          "<i></i>" + p.badgeLabel +
+        "</div>" +
+        '<div class="browser">' +
+          '<div class="browser-chrome">' +
+            '<span class="browser-dots"><i></i><i></i><i></i></span>' +
+            '<span class="browser-url">' + p.domain + "</span>" +
+          "</div>" +
+          '<div class="browser-body"><img src="' + p.image + '" alt="' + p.title + ' website template" draggable="false" loading="lazy" /></div>' +
+        "</div>" +
+        '<div class="glow-ring" style="box-shadow: 0 0 0 2px ' + p.accent + ", 0 24px 70px -12px " + p.accent + '99;"></div>' +
+      "</div>";
+
+    inner.appendChild(card);
+    cardEls.push(card);
+    cardInnerEls.push(card.querySelector(".card-inner"));
+    badgeEls.push(card.querySelector(".badge"));
+    glowEls.push(card.querySelector(".glow-ring"));
+
+    card.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (!entranceDone) return;
+      if (detailIdx === -1) goToDetail(i);
+    });
+    card.addEventListener("mouseenter", function () {
+      hoverIdx = i;
+      if (entranceDone && detailIdx === -1 && !showcaseVisible) setWash(p.accent, 0.16);
+    });
+    card.addEventListener("mouseleave", function () {
+      if (hoverIdx === i) hoverIdx = -1;
+      if (entranceDone && detailIdx === -1 && !showcaseVisible) setWash(brandAccent(), 0.10);
+    });
+  });
+
+  /* ============================== State =============================== */
+
+  var vw = 0, vh = 0, titleH = 0, cardW = 0, cardH = 0;
+  var entranceDone = false;
+  var detailIdx = -1;
+  var hoverIdx = -1;
+  var detailAnimating = -1;
+  var detailTl = null;
+  var showcaseVisible = false;
+  var showcaseIdx = -1;
+  var awardsVisible = false;
+  var awardsSlide = -1;
+  var awardsSlideTl = null;
+  var heroO = 1;
+  var st = null;
+
+  var cards = projects.map(function (_, i) {
+    return {
+      cx: 0, cy: 0, cr: 0, cs: 1, co: 0,
+      tx: 0, ty: 0, tr: 0, ts: 1, to: 0,
+      z: i, flipY: 0,
+      ptx: undefined, pty: undefined
+    };
+  });
+
+  /* ============================ Measuring ============================= */
+
+  function getCardW() {
+    var w;
+    if (vw < 480) w = 150;
+    else if (vw < 640) w = 180;
+    else if (vw < 768) w = 200;
+    else if (vw < 1024) w = 250;
+    else w = 300;
+    if (vh < 700) w *= 0.7;
+    else if (vh < 800) w *= 0.8;
+    else if (vh < 900) w *= 0.9;
+    return Math.round(w);
+  }
+
+  function fanTop() {
+    var isMobile = vw < 768;
+    var fanGap = isMobile ? 20 : FAN_GAP;
+    var subGap = getSubGap(vw, vh);
+    var total = titleH + fanGap + cardH + subGap + SUB_HEIGHT_EST;
+    return Math.max(40, (vh - total) / 2);
+  }
+
+  function measure() {
+    vw = window.innerWidth;
+    vh = window.innerHeight;
+    cardW = getCardW();
+    cardH = Math.round(cardW * CARD_RATIO);
+    cardEls.forEach(function (el) {
+      el.style.width = cardW + "px";
+      el.style.height = cardH + "px";
+    });
+    titleH = hero.getBoundingClientRect().height;
+    var isMobile = vw < 768;
+    var fanGap = isMobile ? 20 : FAN_GAP;
+    var subGap = getSubGap(vw, vh);
+    var top = fanTop();
+    hero.style.top = top + "px";
+    subContent.style.top = (top + titleH + fanGap + cardH + subGap) + "px";
+  }
+
+  /* ============================== Poses =============================== */
+
+  function fanPose(i) {
+    var isMobile = vw < 768;
+    var offset = i - (N - 1) / 2;
+    var norm = offset / ((N - 1) / 2);
+    var spread = isMobile ? vw * 0.1 : vw * 0.09;
+    var droop = isMobile ? vh * 0.06 : vh * 0.1;
+    var rotPer = isMobile ? 4 : 5.5;
+    var scale = isMobile ? 0.85 : 1.0;
+    var fanGap = isMobile ? 20 : FAN_GAP;
+    return {
+      x: vw / 2 + offset * spread,
+      y: fanTop() + titleH + fanGap + cardH / 2 + norm * norm * droop,
+      r: offset * rotPer,
+      s: scale
+    };
+  }
+
+  function diagParams() {
+    var m = vw < 768;
+    var margin = cardH * 0.75;
+    return {
+      xs: m ? vw * -0.10 : vw * 0.10,
+      xe: m ? vw * 1.10 : vw * 0.80,
+      bow: m ? vw * 0.06 : vw * 0.12,
+      ys: m ? vh * 0.40 - margin : -margin,
+      ye: m ? vh * 0.56 + margin : vh + margin,
+      margin: margin,
+      mobile: m
+    };
+  }
+
+  function diagPose(D, pos, i) {
+    var wp = ((pos % N) + N) % N;
+    var t = wp / N;
+    return {
+      x: D.xs + t * (D.xe - D.xs) + Math.sin(t * Math.PI) * D.bow,
+      y: D.ys + t * (D.ye - D.ys),
+      r: (hash(i * 5 + 2) - 0.5) * 7 + (D.mobile ? 2 : 4),
+      s: D.mobile ? 0.95 : 1.0
+    };
+  }
+
+  function diagZ(D, y) {
+    var yRange = D.ye - D.ys;
+    return Math.round(((y - D.ys + D.margin) / (yRange + D.margin)) * VISUAL_N);
+  }
+
+  function detailPose() {
+    var m = vw < 768;
+    var targetW = m ? vw * 0.86 : Math.min(vw * 0.40, 560);
+    return {
+      x: m ? vw * 0.5 : vw * 0.30,
+      y: m ? vh * 0.25 : vh * 0.5,
+      s: targetW / cardW
+    };
+  }
+
+  /* ============================== Theme =============================== */
+
+  var root = document.documentElement;
+  // Same theme resolution as the live site: stored choice, else OS preference
+  var storedTheme = null;
+  try { storedTheme = window.localStorage ? window.localStorage.getItem("theme") : null; } catch (err) {}
+  root.dataset.theme = storedTheme ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+  var toggle = document.getElementById("themeToggle");
+  var lockupLogo = document.getElementById("lockupLogo");
+  function syncToggleIcon() {
+    var dark = root.dataset.theme === "dark";
+    toggle.textContent = dark ? "☀" : "☾";
+    lockupLogo.src = dark ? "../src/assets/logo-on-dark.svg" : "../src/assets/logo.svg";
+  }
+  syncToggleIcon();
+  toggle.addEventListener("click", function () {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    try { if (window.localStorage) window.localStorage.setItem("theme", root.dataset.theme); } catch (err) {}
+    syncToggleIcon();
+    if (detailIdx === -1 && !showcaseVisible) setWash(brandAccent(), 0.10);
+  });
+
+  /* ================== Ambient accent wash (brand tinting) ================== */
+
+  var washEl = document.getElementById("wash");
+  // --primaryLight in dark mode, --primary in light mode
+  function brandAccent() { return root.dataset.theme === "dark" ? "#00bd74" : "#006940"; }
+  function setWash(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+    washEl.style.setProperty("--washColor", "rgba(" + r + "," + g + "," + b + "," + alpha + ")");
+  }
+
+  /* ===================== Showcase mockup / awards ====================== */
+
+  function setShowcaseVisible(show) {
+    if (show === showcaseVisible) return;
+    showcaseVisible = show;
+    if (show) {
+      gsap.to(showcase, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", overwrite: "auto" });
+      if (showcaseIdx !== -1) setWash(projects[showcaseIdx].accent, 0.18);
+    } else {
+      gsap.to(showcase, { opacity: 0, y: 20, duration: 0.4, ease: "power2.in", overwrite: "auto" });
+      if (detailIdx === -1) setWash(brandAccent(), 0.10);
+    }
+  }
+
+  function setShowcaseSite(idx) {
+    if (idx === showcaseIdx) return;
+    showcaseIdx = idx;
+    var p = projects[idx];
+    showcaseUrl.textContent = p.domain;
+    showcaseDomain.textContent = p.title;
+    setWash(p.accent, 0.18);
+    gsap.to(showcaseImg, {
+      opacity: 0, duration: 0.2, overwrite: "auto",
+      onComplete: function () {
+        showcaseImg.src = p.image;
+        gsap.to(showcaseImg, { opacity: 1, duration: 0.2 });
+      }
+    });
+  }
+
+  function setAwardsVisible(show) {
+    if (show === awardsVisible) return;
+    awardsVisible = show;
+    var m = vw < 768;
+    if (show) {
+      gsap.to(awards, { opacity: 1, top: m ? 100 : 0, duration: 0.6, ease: "power2.out", overwrite: "auto" });
+    } else {
+      gsap.to(awards, { opacity: 0, top: m ? 80 : -20, duration: 0.4, ease: "power2.in", overwrite: "auto" });
+      awardsSlide = -1;
+      if (awardsSlideTl) { awardsSlideTl.kill(); awardsSlideTl = null; }
+      awardsSlides.forEach(function (s) {
+        gsap.killTweensOf(s);
+        gsap.killTweensOf(s.querySelectorAll("[data-quote-letter]"));
+        gsap.set(s, { opacity: 0 });
+      });
+    }
+  }
+
+  function setAwardsSlide(idx) {
+    if (idx === awardsSlide) return;
+    awardsSlide = idx;
+    if (awardsSlideTl) awardsSlideTl.kill();
+    awardsSlides.forEach(function (s, j) {
+      if (j !== idx) {
+        gsap.killTweensOf(s);
+        gsap.killTweensOf(s.querySelectorAll("[data-quote-letter]"));
+        gsap.set(s, { opacity: 0 });
+      }
+    });
+    var slide = awardsSlides[idx];
+    awardsSlideTl = gsap.timeline();
+    awardsSlideTl.fromTo(slide,
+      { opacity: 0, scale: 0.92, filter: "blur(8px)", y: 20 },
+      { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.5, ease: "power3.out" },
+      0
+    );
+    var letters = slide.querySelectorAll("[data-quote-letter]");
+    if (letters.length) {
+      gsap.set(letters, { opacity: 0, scale: 1.4, filter: "blur(6px)" });
+      awardsSlideTl.to(letters, {
+        opacity: 1, scale: 1, filter: "blur(0px)",
+        duration: 0.25, stagger: 0.008, ease: "power2.out"
+      }, 0.2);
+    }
+  }
+
+  /* ============================ Detail view ============================ */
+
+  var detailFields = {
+    niche: panel.querySelector("[data-detail-niche]"),
+    title: panel.querySelector("[data-detail-title]"),
+    domain: panel.querySelector("[data-detail-domain]"),
+    price: panel.querySelector("[data-detail-price]"),
+    edition: panel.querySelector("[data-detail-edition]"),
+    desc: panel.querySelector("[data-detail-desc]"),
+    sizes: panel.querySelector("[data-detail-sizes]"),
+    features: panel.querySelector("[data-detail-features]"),
+    btn: panel.querySelector("[data-detail-btn]"),
+    liveLink: panel.querySelector("[data-detail-live]"),
+    quote: panel.querySelector("[data-detail-quote]"),
+    quoteAuthor: panel.querySelector("[data-detail-quote-author]")
+  };
+
+  function buildPills(container, items) {
+    container.innerHTML = "";
+    items.forEach(function (label, i) {
+      var b = document.createElement("button");
+      b.className = "pill" + (i === 0 ? " selected" : "");
+      b.textContent = label;
+      b.addEventListener("click", function (e) {
+        e.stopPropagation();
+        container.querySelectorAll(".pill").forEach(function (p) { p.classList.remove("selected"); });
+        b.classList.add("selected");
+      });
+      container.appendChild(b);
+    });
+  }
+
+  function openPanel(p) {
+    detailFields.niche.textContent = p.niche;
+    detailFields.title.textContent = p.title;
+    detailFields.domain.textContent = p.domain;
+    detailFields.price.textContent = p.price;
+    detailFields.edition.textContent = p.edition;
+    detailFields.desc.textContent = p.description;
+    detailFields.quote.textContent = "“" + p.testimonial + "”";
+    detailFields.quoteAuthor.textContent = p.testimonialAuthor;
+    detailFields.btn.style.backgroundColor = p.accent;
+    detailFields.btn.style.boxShadow = "0 3px 12px " + p.accent + "55, 0 1px 3px rgba(0,0,0,0.15)";
+    detailFields.btn.textContent = "Use This Template";
+    detailFields.liveLink.href = p.liveUrl;
+    buildPills(detailFields.sizes, p.sizes);
+    buildPills(detailFields.features, p.features);
+
+    panel.style.display = "block";
+    gsap.fromTo(panel, { opacity: 0 }, { opacity: 1, duration: 0.4, overwrite: "auto" });
+    gsap.fromTo(panel.querySelectorAll("[data-panel-item]"),
+      { y: 24, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: "power3.out", delay: 0.15 }
+    );
+  }
+
+  function goToDetail(visualIdx) {
+    if (detailIdx === visualIdx) return;
+    detailIdx = visualIdx;
+    detailAnimating = visualIdx;
+    var c = cards[visualIdx];
+    var p = projects[visualIdx];
+    var d = detailPose();
+    c.z = VISUAL_N + 3;
+    c.to = 1;
+
+    setWash(p.accent, 0.22);
+    badgeEls[visualIdx].classList.remove("visible");
+
+    var midX = lerp(c.cx, d.x, 0.5);
+    var upY = Math.min(c.cy, d.y) - 60;
+
+    if (detailTl) detailTl.kill();
+    detailTl = gsap.timeline({
+      onComplete: function () { detailAnimating = -1; }
+    });
+    // Phase 1 — rise up + move toward center
+    detailTl.to(c, { cx: midX, cy: upY, cs: d.s * 0.85, cr: 0, duration: 0.45, ease: "power2.out" }, 0);
+    // Phase 2 — coin flip
+    detailTl.to(c, { flipY: 360, duration: 0.7, ease: "power2.inOut" }, 0.2);
+    // Phase 3 — settle at detail position
+    detailTl.to(c, { cx: d.x, cy: d.y, cs: d.s, duration: 0.6, ease: "power3.inOut" }, 0.4);
+    // Accent glow reveal (replaces the ornate frame)
+    detailTl.fromTo(glowEls[visualIdx],
+      { opacity: 0, scale: 1.06 },
+      { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 0.95);
+    // Panel
+    detailTl.call(function () { openPanel(p); }, null, 0.5);
+  }
+
+  function closeDetail() {
+    if (detailIdx === -1) return;
+    var i = detailIdx;
+    var c = cards[i];
+    detailIdx = -1;
+    detailAnimating = -1;
+    if (detailTl) { detailTl.kill(); detailTl = null; }
+
+    gsap.to(c, { flipY: 0, duration: 0.6, ease: "power2.inOut", overwrite: "auto" });
+    setWash(brandAccent(), 0.10);
+    glowEls.forEach(function (g) { gsap.to(g, { opacity: 0, duration: 0.3, overwrite: "auto" }); });
+    gsap.to(panel, {
+      opacity: 0, duration: 0.3, overwrite: "auto",
+      onComplete: function () { panel.style.display = "none"; }
+    });
+  }
+
+  /* ========================== rAF tick loop =========================== */
+
+  function tick() {
+    requestAnimationFrame(tick);
+    if (!vw) return;
+
+    var p = st ? st.progress : 0;
+    var trans = clamp(p / P_DIAG_FULL, 0, 1);
+    var convP = clamp((p - P_DIAG_FULL) / (1 - P_DIAG_FULL), 0, 1);
+    var convOffset = convP * N * 2; // two full conveyor loops
+    var D = diagParams();
+    var inDetail = detailIdx !== -1;
+    var i, c;
+
+    /* Hero / sub-content opacity (spring-faded) */
+    if (entranceDone) {
+      var heroTarget = inDetail ? 0 : clamp(1 - trans * 2.5, 0, 1);
+      heroO += (heroTarget - heroO) * 0.12;
+      hero.style.opacity = heroO;
+      subContent.style.opacity = heroO;
+      hero.style.transform = "translateY(" + (-trans * 50) + "px)";
+      subContent.style.transform = "translateY(" + (-trans * 50) + "px)";
+      var heroOff = heroO < 0.05;
+      hero.style.pointerEvents = heroOff ? "none" : "";
+      subContent.style.pointerEvents = heroOff ? "none" : "";
+    }
+
+    /* Showcase mockup + site cycling */
+    setShowcaseVisible(entranceDone && trans >= 1 && !inDetail);
+    if (showcaseVisible) {
+      setShowcaseSite(clamp(Math.floor(convP * N), 0, N - 1));
+    }
+
+    /* Awards slider */
+    setAwardsVisible(entranceDone && trans >= 1 && !inDetail);
+    if (awardsVisible) {
+      setAwardsSlide(clamp(Math.floor(convP * 4), 0, 3));
+    }
+
+    /* Card targets */
+    for (i = 0; i < N; i++) {
+      c = cards[i];
+
+      if (inDetail) {
+        if (i === detailIdx) {
+          var d = detailPose();
+          c.tx = d.x; c.ty = d.y; c.tr = 0; c.ts = d.s; c.to = 1;
+          c.z = VISUAL_N + 3;
+        } else {
+          c.to = 0;
+        }
+        c.ptx = undefined; c.pty = undefined;
+      } else if (!entranceDone) {
+        c.tx = c.cx; c.ty = c.cy; c.tr = c.cr; c.ts = c.cs; c.to = c.co;
+        c.ptx = undefined; c.pty = undefined;
+      } else if (trans < 1) {
+        var f = fanPose(i);
+        var g0 = diagPose(D, i, i);
+        c.tx = lerp(f.x, g0.x, trans);
+        c.ty = lerp(f.y, g0.y, trans);
+        c.tr = lerp(f.r, g0.r, trans);
+        c.ts = lerp(f.s, g0.s, trans);
+        c.to = 1;
+        c.z = trans < 0.5
+          ? 2 + N - Math.round(Math.abs(i - (N - 1) / 2))
+          : 2 + diagZ(D, g0.y);
+        c.ptx = undefined; c.pty = undefined;
+      } else {
+        var g = diagPose(D, i + convOffset, i);
+        // Snap teleport on conveyor wrap
+        if (c.ptx !== undefined &&
+            (Math.abs(g.x - c.ptx) > vw * 0.3 || Math.abs(g.y - c.pty) > vh * 0.3)) {
+          c.cx = g.x; c.cy = g.y;
+        }
+        c.ptx = g.x; c.pty = g.y;
+        c.tx = g.x; c.ty = g.y; c.tr = g.r; c.ts = g.s; c.to = 1;
+        c.z = 2 + diagZ(D, g.y);
+      }
+
+      // Hover lift
+      if (hoverIdx === i && !inDetail && entranceDone) c.ty -= 28;
+    }
+
+    /* Spring interpolation + apply to DOM */
+    var spring = inDetail ? 0.15 : 0.25;
+    for (i = 0; i < N; i++) {
+      c = cards[i];
+      if (detailAnimating !== i && entranceDone) {
+        c.cx += (c.tx - c.cx) * spring;
+        c.cy += (c.ty - c.cy) * spring;
+        c.cr += (c.tr - c.cr) * spring;
+        c.cs += (c.ts - c.cs) * spring;
+      }
+      c.co += (c.to - c.co) * spring;
+
+      var el = cardEls[i];
+      el.style.transform = "translate3d(" + (c.cx - cardW / 2) + "px," + (c.cy - cardH / 2) + "px,0)";
+      el.style.zIndex = String(Math.max(0, Math.round(c.z)));
+      el.style.opacity = c.co.toFixed(3);
+      el.style.pointerEvents = c.co < 0.1 ? "none" : "auto";
+      cardInnerEls[i].style.transform =
+        "rotate(" + c.cr.toFixed(2) + "deg) scale(" + c.cs.toFixed(3) + ") rotateY(" + c.flipY.toFixed(1) + "deg)";
+
+      badgeEls[i].classList.toggle("visible", hoverIdx === i && !inDetail && entranceDone);
+    }
+  }
+
+  /* ============================ Entrance ============================== */
+
+  function runEntrance() {
+    var isMobile = vw < 768;
+    var fanGap = isMobile ? 20 : FAN_GAP;
+    var centerX = vw / 2;
+    var centerY = fanTop() + titleH + fanGap + cardH / 2;
+
+    // Stack: offscreen below
+    cards.forEach(function (c, i) {
+      c.cx = vw / 2;
+      c.cy = vh + 80 + cardH / 2;
+      c.cr = (hash(i * 7 + 11) - 0.5) * 6;
+      c.cs = 1;
+      c.co = 0;
+      c.z = 2 + i;
+      c.flipY = 0;
+    });
+
+    var tl = gsap.timeline({
+      delay: 0.25,
+      onComplete: function () { entranceDone = true; }
+    });
+
+    // Beat 1 — rise
+    cards.forEach(function (c, i) {
+      tl.to(c, { cx: centerX, cy: centerY, co: 1, duration: 0.9, ease: "power2.inOut" }, i * 0.015);
+    });
+    // Beat 2 — breathe (concurrent)
+    cards.forEach(function (c, i) {
+      tl.to(c, { cs: 0.76, cr: (hash(i * 3 + 1) - 0.5) * 7, duration: 1.2, ease: "sine.inOut" }, 0);
+    });
+    // Beat 3 — fan out
+    tl.addLabel("fan", ">-0.15");
+    cards.forEach(function (c, i) {
+      var f = fanPose(i);
+      var dist = Math.abs(i - (N - 1) / 2);
+      tl.to(c, { cx: f.x, cy: f.y, cr: f.r, cs: f.s, duration: 1.1, ease: "power4.out" }, "fan+=" + (dist * 0.045));
+    });
+
+    // Hero kicker + letters
+    tl.fromTo(hero.querySelector("[data-hero-kicker]"),
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+      0.05
+    );
+    tl.fromTo(hero.querySelectorAll("[data-letter]"),
+      { opacity: 0, y: 18, scale: 0.85, filter: "blur(6px)" },
+      { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.7, stagger: 0.02, ease: "power3.out" },
+      0.1
+    );
+    // Sub-content reveals
+    tl.fromTo(subContent.querySelectorAll("[data-hero-reveal]"),
+      { opacity: 0, y: 20, filter: "blur(4px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, stagger: 0.1, ease: "power4.out" },
+      "fan+=0.3"
+    );
+  }
+
+  /* ============================== Events ============================== */
+
+  stage.addEventListener("click", function (e) {
+    if (e.target.closest("[data-card]") || e.target.closest("[data-panel]")) return;
+    closeDetail();
+  });
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeDetail();
+  });
+  window.addEventListener("resize", function () {
+    measure();
+  });
+
+  document.getElementById("backBtn").addEventListener("click", function (e) {
+    e.stopPropagation();
+    closeDetail();
+  });
+  document.getElementById("useTemplateBtn").addEventListener("click", function (e) {
+    e.stopPropagation();
+    var btn = e.currentTarget;
+    btn.textContent = "Request Sent ✓";
+    setTimeout(function () { btn.textContent = "Use This Template"; }, 1400);
+  });
+  document.getElementById("viewCollectionBtn").addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (!st) return;
+    window.scrollTo({ top: st.start + (st.end - st.start) * 0.3, behavior: "smooth" });
+  });
+
+  /* =============================== Init =============================== */
+
+  function init() {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+
+    measure();
+
+    // Showcase initial state
+    gsap.set(showcase, { opacity: 0, y: 20 });
+    showcaseImg.src = projects[0].image;
+    showcaseUrl.textContent = projects[0].domain;
+    showcaseDomain.textContent = projects[0].title;
+    showcaseIdx = 0;
+
+    // Awards initial state
+    gsap.set(awards, { opacity: 0, top: vw < 768 ? 80 : -20 });
+    awardsSlides.forEach(function (s) { gsap.set(s, { opacity: 0 }); });
+
+    // ScrollTrigger pin
+    st = ScrollTrigger.create({
+      trigger: stage,
+      start: "top top",
+      end: "+=500%",
+      pin: true,
+      pinSpacing: true
+    });
+
+    requestAnimationFrame(tick);
+    runEntrance();
+
+    // Re-measure once fonts settle (title height shifts)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(measure);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

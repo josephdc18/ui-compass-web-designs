@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Selected Work — Infinite Wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ─────────────────────────── Theme variables ─────────────────────────── */
+  :root,
+  [data-theme="light"] {
+    --background: #fafafa;
+    --foreground: #0a0a0a;
+    --background-rgb: 250 250 250;
+    --foreground-rgb: 10 10 10;
+  }
+  [data-theme="dark"] {
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+    --background-rgb: 10 10 10;
+    --foreground-rgb: 250 250 250;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    background: var(--background);
+    font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ─────────────────────────── Section root ─────────────────────────── */
+  section.moments {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--background);
+    isolation: isolate;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: crosshair;
+  }
+
+  /* ─────────────────────────── Cells ─────────────────────────── */
+  .cell {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    will-change: transform;
+    overflow: hidden;
+    border-radius: 4px;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    opacity: 0;
+    box-shadow: 0 8px 24px -10px rgba(0,0,0,0.55);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.06);
+  }
+  .cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;   /* show the top (hero) of each site */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    display: block;
+  }
+
+  /* ─────────────────────────── Hero gradient (z-14) ─────────────────────────── */
+  .hero-gradient {
+    position: absolute; inset: 0;
+    z-index: 14;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 70% 55% at 0% 100%,
+      rgb(var(--background-rgb) / 1)    0%,
+      rgb(var(--background-rgb) / 0.85) 22%,
+      rgb(var(--background-rgb) / 0.55) 40%,
+      rgb(var(--background-rgb) / 0.25) 58%,
+      transparent                       78%
+    );
+  }
+
+  /* ─────────────────────────── Dim overlay (z-20) ─────────────────────────── */
+  .dim {
+    position: absolute; inset: 0;
+    z-index: 20;
+    background: rgb(var(--background-rgb) / 0.62);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .dim.show { opacity: 1; pointer-events: auto; }
+
+  /* ─────────────────────────── Featured anchor + frame (z-30) ─────────────────────────── */
+  .featured-anchor {
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 30;
+    pointer-events: none;
+    will-change: transform;
+    opacity: 0;
+  }
+  .frame {
+    position: absolute;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition:
+      width  0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .frame.is-expanded { cursor: default; }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.10);
+  }
+  .image-wrapper img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    -webkit-user-drag: none;
+  }
+
+  /* Rest-state caption strip (only when not expanded) */
+  .rest-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px;
+    background: linear-gradient(to top,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.45) 55%,
+      transparent 100%);
+    color: #ffffff;
+    pointer-events: none;
+  }
+  .rest-caption .rc-cat {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.22em; opacity: 0.75;
+  }
+  .rest-caption .rc-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px; line-height: 1.2;
+    margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .frame.is-expanded .rest-caption { display: none; }
+
+  /* Title block (above the image) */
+  .title-block {
+    position: absolute;
+    bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 16px;
+    text-align: center;
+    width: max-content;
+    color: var(--foreground);
+  }
+  .title-block .arrows {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .title-block .f-cat {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+  }
+  .title-block .f-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.1;
+    margin-top: 4px;
+    letter-spacing: -0.01em;
+  }
+  .frame:not(.is-expanded) .title-block { display: none; }
+
+  /* Side icon stacks */
+  .side {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .side-left  { right: 100%; margin-right: 16px; }
+  .side-right { left: 100%;  margin-left: 16px; }
+  .frame:not(.is-expanded) .side { display: none; }
+
+  /* Below block */
+  .below {
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    margin-top: 16px;
+    text-align: center;
+    min-width: 320px;
+    color: var(--foreground);
+  }
+  .below .f-loc {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+  }
+  .below .desc {
+    font-size: 13px; line-height: 1.55;
+    margin: 12px auto 0;
+    max-width: 440px;
+    color: rgb(var(--foreground-rgb) / 0.78);
+  }
+  .below .mobile-row {
+    display: none;
+    justify-content: center; gap: 10px;
+    margin-top: 14px;
+  }
+  .below .btn-row {
+    display: flex; justify-content: center; gap: 12px;
+    margin-top: 18px;
+  }
+  .frame:not(.is-expanded) .below { display: none; }
+
+  /* ─────────────────────────── Icon buttons ─────────────────────────── */
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 9999px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    background: rgb(var(--foreground-rgb) / 0.10);
+    color: rgb(var(--foreground-rgb) / 0.85);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.10);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    padding: 0;
+  }
+  .icon-btn:hover {
+    background: rgb(var(--foreground-rgb) / 0.20);
+    color: rgb(var(--foreground-rgb) / 1);
+  }
+  .icon-btn.arrow { width: 32px; height: 32px; }
+  .icon-btn svg { width: 16px; height: 16px; }
+  .icon-btn.arrow svg { width: 13px; height: 13px; }
+
+  /* ─────────────────────────── Buttons ─────────────────────────── */
+  .btn-primary {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    background: var(--foreground);
+    color: var(--background);
+    font-size: 14px; font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none; cursor: pointer;
+    transition: opacity 0.2s;
+    display: inline-flex; align-items: center; gap: 7px;
+    text-decoration: none;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary svg { width: 14px; height: 14px; }
+  .btn-secondary {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    background: rgb(var(--foreground-rgb) / 0.08);
+    color: rgb(var(--foreground-rgb) / 0.90);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.15);
+    font-size: 14px; font-weight: 500;
+    white-space: nowrap; cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { background: rgb(var(--foreground-rgb) / 0.15); }
+
+  /* ─────────────────────────── Hero copy (z-35) ─────────────────────────── */
+  .hero {
+    position: absolute;
+    bottom: 28px; left: 28px;
+    z-index: 35;
+    max-width: 30rem;
+    pointer-events: none;
+    color: var(--foreground);
+  }
+  .hero .eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--foreground-rgb) / 0.65);
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+  }
+  .hero .hr {
+    width: 32px; height: 1px;
+    background: rgb(var(--foreground-rgb) / 0.45);
+    display: inline-block;
+  }
+  .hero .title {
+    margin-top: 12px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 4vw, 3.75rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .hero .title [data-char] {
+    display: inline-block;
+    white-space: pre;
+    will-change: transform;
+    opacity: 0;
+    transform: translateY(22px) scale(0.8);
+    filter: blur(10px);
+  }
+  .hero .sub {
+    margin-top: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgb(var(--foreground-rgb) / 0.62);
+    max-width: 22rem;
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+  }
+  @media (max-width: 767px) { .hero .sub { display: none; } }
+  .hero.hidden { display: none; }
+
+  /* ─────────────────────────── Interaction hint (z-40) ─────────────────────────── */
+  .hint {
+    position: absolute;
+    top: 28px; right: 28px;
+    z-index: 40;
+    pointer-events: none;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--foreground-rgb) / 0.55);
+    opacity: 0; transform: translateY(18px); filter: blur(8px);
+    transition: opacity 0.7s ease;
+  }
+
+  /* ─────────────────────────── Theme toggle (utility) ─────────────────────────── */
+  .theme-toggle {
+    position: absolute;
+    top: 24px; left: 28px;
+    z-index: 41;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgb(var(--foreground-rgb) / 0.45);
+    background: rgb(var(--foreground-rgb) / 0.06);
+    border: 1px solid rgb(var(--foreground-rgb) / 0.12);
+    border-radius: 9999px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+  .theme-toggle:hover { color: rgb(var(--foreground-rgb) / 0.9); background: rgb(var(--foreground-rgb) / 0.12); }
+
+  /* ─────────────────────────── Mobile adaptations ─────────────────────────── */
+  .moments.mobile .side { display: none; }
+  .moments.mobile .below .desc { display: none; }
+  .moments.mobile .frame.is-expanded .mobile-row { display: flex; }
+  .moments.mobile .below { min-width: 260px; }
+</style>
+</head>
+<body>
+<section class="moments" id="moments">
+  <!-- cells injected here by JS -->
+
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="dim" id="dim"></div>
+
+  <div class="featured-anchor" id="anchor">
+    <div class="frame" id="frame">
+      <!-- Title block (expanded only) -->
+      <div class="title-block">
+        <div class="arrows">
+          <button class="icon-btn arrow" id="prevBtn" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="icon-btn arrow" id="nextBtn" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="f-cat" id="fCat"></div>
+        <div class="f-title" id="fTitle"></div>
+      </div>
+
+      <!-- Left side icon stack (desktop expanded) -->
+      <div class="side side-left">
+        <button class="icon-btn" data-act="like" aria-label="Like">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="icon-btn" data-act="save" aria-label="Save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+
+      <!-- Right side icon stack (desktop expanded) -->
+      <div class="side side-right">
+        <button class="icon-btn" data-act="share" aria-label="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        </button>
+        <button class="icon-btn" data-act="bookmark" aria-label="Bookmark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="icon-btn" id="closeBtn" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+        </button>
+      </div>
+
+      <!-- Image -->
+      <div class="image-wrapper" id="imgWrap">
+        <img id="fImg" draggable="false" alt="" />
+        <div class="rest-caption">
+          <div class="rc-cat" id="rcCat"></div>
+          <div class="rc-title" id="rcTitle"></div>
+        </div>
+      </div>
+
+      <!-- Below block (expanded only) -->
+      <div class="below">
+        <div class="f-loc" id="fLoc"></div>
+        <div class="mobile-row" id="mobileRow">
+          <button class="icon-btn" data-act="like" aria-label="Like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button class="icon-btn" data-act="share" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          <button class="icon-btn" id="mobileClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg></button>
+        </div>
+        <div class="desc" id="fDesc"></div>
+        <div class="btn-row">
+          <a class="btn-primary" id="visitBtn" target="_blank" rel="noopener">
+            Visit site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+          <a class="btn-secondary" id="likeBtn" href="#">Get one like this</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero" id="hero">
+    <div class="eyebrow" id="eyebrow"><span class="hr"></span>A wall of launches</div>
+    <h1 class="title" id="title"></h1>
+    <p class="sub" id="sub">Every tile is a site we designed and shipped. Move to part the wall — click one to open it, then visit it live.</p>
+  </div>
+
+  <div class="hint" id="hint">Move &middot; Click to open</div>
+
+  <button class="theme-toggle" id="themeToggle">Theme</button>
+</section>
+
+<script>
+"use strict";
+(function () {
+  /* ───────────────────────────────── Constants ───────────────────────────────── */
+  const CELL_H_DESKTOP   = 104;   // website thumbs read a touch taller
+  const CELL_H_MOBILE    = 76;
+  const CELL_GAP_DESKTOP = 14;
+  const CELL_GAP_MOBILE  = 9;
+
+  const TILE_SCALE_DESKTOP = 2.4; // fewer repeats than the 55-photo original
+  const TILE_SCALE_MOBILE  = 2.1;
+
+  const VOID_RADIUS_IDLE_DESKTOP     = 200;
+  const VOID_RADIUS_HOVER_DESKTOP    = 290;
+  const VOID_RADIUS_EXPANDED_DESKTOP = 440;
+  const VOID_RADIUS_IDLE_MOBILE      = 130;
+  const VOID_RADIUS_HOVER_MOBILE     = 180;
+  const VOID_RADIUS_EXPANDED_MOBILE  = 290;
+
+  const VOID_LERP       = 0.25;
+  const PAN_LERP        = 0.07;
+  const RADIUS_LERP     = 0.07;
+  const SOFT_PUSH_RATIO = 1.3;
+
+  /* ───────────────────────────────── Hash + helpers ───────────────────────────────── */
+  function hash(n) {
+    const x = Math.sin(n * 12.9898 + 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function smoothstep(a, b, x) {
+    const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  }
+  function rowDriftSpeed(rowIndex) {
+    const magnitude = 0.05 + hash(rowIndex * 41.3 + 17.1) * 0.18;
+    const sign = rowIndex % 2 === 0 ? -1 : 1;
+    return magnitude * sign;
+  }
+
+  /* ───────────────────────────────── Project set ─────────────────────────────────
+     One entry per launched template → hero-thumbs/<slug>.png (all 1280×800, aspect 1.6).
+     NOTE: `domain`/url values are best-guess placeholders — swap in real live URLs. */
+  const ASPECT = 1.6;
+  const RAW = [
+    ["cliffsidecuts",               "Cliffside Cuts",            "Barbershop",        "cliffsidecuts.com",            "A sharp, booking-first site for a high-volume barbershop."],
+    ["kingsbarbercollege",          "Kings Barber College",      "Trade School",      "kingsbarbercollege.com",       "Enrollment-driven landing for a barbering academy."],
+    ["esoterictattooart",           "Esoteric Tattoo Art",       "Tattoo Studio",     "esoterictattooart.com",        "Moody portfolio site built around the artists' work."],
+    ["youngsavagefitness",          "Young Savage Fitness",      "Fitness",           "youngsavagefitness.com",       "High-energy coaching site with class sign-ups."],
+    ["apexperformancegym",          "Apex Performance Gym",      "Gym",               "apexperformancegym.com",       "Membership and schedule front-end for a performance gym."],
+    ["architecturalphotographyinc", "Architectural Photography", "Photography",       "architecturalphoto.com",       "Gallery-led site for an architectural photographer."],
+    ["tinasmothersphotography",     "Tina Smothers Photography", "Photography",       "tinasmothersphoto.com",        "Warm, editorial portfolio for a portrait photographer."],
+    ["bladeworksstudio",            "Bladeworks Studio",         "Design Studio",     "bladeworksstudio.com",         "Bold studio site with a strong typographic system."],
+    ["cosgrovestudio",              "Cosgrove Studio",           "Creative Studio",   "cosgrovestudio.com",           "Minimal, image-first site for a creative studio."],
+    ["balancedskin",                "Balanced Skin",             "Skincare",          "balancedskin.com",             "Calm, clinical booking site for a skincare practice."],
+    ["casaridge",                   "Casa Ridge",                "Real Estate",       "casaridge.com",                "Listings-forward site for a boutique real-estate brand."],
+    ["clos-audio",                  "Clos Audio",                "Audio",             "clos-audio.com",               "Product showcase for a high-end audio brand."],
+    ["clutchsportstoledo",          "Clutch Sports Toledo",      "Sports Bar",        "clutchsportstoledo.com",       "Events and menu hub for a sports bar."],
+    ["coastalcarolinapest",         "Coastal Carolina Pest",     "Pest Control",      "coastalcarolinapest.com",      "Service-area site with fast quote requests."],
+    ["diamondlandscapelv",          "Diamond Landscape",         "Landscaping",       "diamondlandscapelv.com",       "Project-gallery site for a landscaping company."],
+    ["domoteckinteriors",           "Domoteck Interiors",        "Interior Design",   "domoteckinteriors.com",        "Refined portfolio for an interior-design firm."],
+    ["groovemusicschool",           "Groove Music School",       "Music",             "groovemusicschool.com",        "Lesson sign-ups and programs for a music school."],
+    ["honey-do-painting",           "Honey-Do Painting",         "Painting",          "honeydopainting.com",          "Friendly residential-painting site with estimates."],
+    ["iconicautoaesthetics",        "Iconic Auto Aesthetics",    "Auto Detailing",    "iconicautoaesthetics.com",     "Detailing-package site with before/after gallery."],
+    ["jmbikeshop",                  "JM Bike Shop",              "Bike Shop",         "jmbikeshop.com",               "Retail and service site for a neighborhood bike shop."],
+    ["mapleandyolk",                "Maple & Yolk",              "Restaurant",        "mapleandyolk.com",             "Bright breakfast-spot site with menu and hours."],
+    ["noonabakery",                 "Noona Bakery",              "Bakery",            "noonabakery.com",              "Cozy bakery site with daily specials."],
+    ["kennedyhouseofpancakes",      "Kennedy House of Pancakes", "Restaurant",        "kennedyhop.com",               "Classic diner site with online ordering."],
+    ["thedepotwineandspirits",      "The Depot Wine & Spirits",  "Wine & Spirits",    "thedepotwine.com",             "Inventory-forward site for a wine & spirits shop."],
+    ["terrazastainedglass",         "Terraza Stained Glass",     "Stained Glass",     "terrazastainedglass.com",      "Commission portfolio for a stained-glass artisan."],
+    ["turpinart",                   "Turpin Art",                "Fine Art",          "turpinart.com",                "Gallery site for an independent fine artist."],
+    ["virtualgreensgolfclub",       "Virtual Greens Golf Club",  "Golf",              "virtualgreensgolf.com",        "Tee-time and simulator booking for an indoor club."],
+    ["veterangrains",               "Veteran Grains",            "Agriculture",       "veterangrains.com",            "Story-driven site for a veteran-owned grain farm."],
+    ["thefootballfactorynj",        "The Football Factory",      "Sports Training",   "thefootballfactorynj.com",     "Program and registration site for a training academy."],
+    ["thegratefuldogla",            "The Grateful Dog",          "Pet Care",          "thegratefuldogla.com",         "Booking site for a dog daycare & boarding service."],
+    ["selfstorageaaa",              "AAA Self Storage",          "Storage",           "aaaselfstorage.com",           "Unit-size selector and reservations for storage."],
+    ["piedmontrvcenter",            "Piedmont RV Center",        "RV Dealer",         "piedmontrvcenter.com",         "Inventory site for an RV dealership."],
+    ["redrockwebdesign",            "Red Rock Web Design",       "Web Design",        "redrockwebdesign.com",         "Agency site with services and a project gallery."],
+    ["mlc-music",                   "MLC Music",                 "Music Lessons",     "mlc-music.com",                "Instructor profiles and lesson booking."],
+    ["prevailk9training",           "Prevail K9 Training",       "Dog Training",      "prevailk9training.com",        "Program-based site for a dog-training company."],
+    ["caliberplumbingservice",      "Caliber Plumbing",          "Plumbing",          "caliberplumbing.com",          "Emergency-ready plumbing site with quick contact."],
+    ["chameleoncoatingny",          "Chameleon Coating",         "Epoxy Coatings",    "chameleoncoatingny.com",       "Finish-gallery site for a floor-coating company."],
+    ["blackdiamondtileandflooring", "Black Diamond Tile & Floor","Flooring",          "blackdiamondtile.com",         "Showroom-style site for a tile & flooring contractor."],
+    ["ironwomancleaning",           "Iron Woman Cleaning",       "Cleaning",          "ironwomancleaning.com",        "Service-list site with instant booking for cleaning."],
+    ["makopoolrestorations",        "Mako Pool Restorations",    "Pool Service",      "makopoolrestorations.com",     "Restoration-gallery site for a pool company."],
+  ];
+  const PROJECTS = RAW.map(function (p) {
+    return {
+      slug: p[0], title: p[1], category: p[2],
+      domain: p[3], url: "https://" + p[3],
+      description: p[4], aspect: ASPECT,
+    };
+  });
+
+  /* ───────────────────────────────── Image URL (local thumbs) ───────────────────────────────── */
+  function imgUrl(slug) { return "hero-thumbs/" + slug + ".png"; }
+
+  /* ───────────────────────────────── Build the wall ───────────────────────────────── */
+  function buildCells(dims) {
+    const vw = dims.vw, vh = dims.vh, isMobile = dims.isMobile;
+    const cellH = isMobile ? CELL_H_MOBILE : CELL_H_DESKTOP;
+    const gap   = isMobile ? CELL_GAP_MOBILE : CELL_GAP_DESKTOP;
+    const scale = isMobile ? TILE_SCALE_MOBILE : TILE_SCALE_DESKTOP;
+    const stepY = cellH + gap;
+
+    const targetTileW = vw * scale;
+    const targetTileH = vh * scale;
+
+    const rows  = Math.ceil(targetTileH / stepY);
+    const tileH = rows * stepY;
+    const firstRowY = -tileH / 2 + cellH / 2 + gap / 2;
+
+    const N = PROJECTS.length;
+
+    // Pass 1
+    const rawRows = [];
+    let maxNaturalWidth = 0;
+    let prevRow = null;
+
+    for (let r = 0; r < rows; r++) {
+      const rowItems = [];
+      let rawX = 0, colIdx = 0;
+
+      while (rawX < targetTileW) {
+        let candidate = Math.floor(hash(r * 17.3 + colIdx * 31.7 + 5) * N);
+
+        const leftIdx = rowItems.length > 0 ? rowItems[rowItems.length - 1].pIndex : -1;
+        let aboveIdx = -1;
+        if (prevRow) {
+          for (let p = 0; p < prevRow.length; p++) {
+            const prev = prevRow[p];
+            if (rawX >= prev.rawX && rawX < prev.rawX + prev.width + gap) {
+              aboveIdx = prev.pIndex;
+              break;
+            }
+          }
+        }
+        let attempts = 0;
+        while ((candidate === leftIdx || candidate === aboveIdx) && attempts < N) {
+          candidate = (candidate + 1) % N;
+          attempts++;
+        }
+
+        const aspect = PROJECTS[candidate].aspect;
+        const width = cellH * aspect;
+        rowItems.push({ pIndex: candidate, width: width, rawX: rawX, colIdx: colIdx });
+        rawX += width + gap;
+        colIdx++;
+      }
+      rawRows.push(rowItems);
+      prevRow = rowItems;
+
+      const rowNaturalWidth = rawX - gap;
+      if (rowNaturalWidth > maxNaturalWidth) maxNaturalWidth = rowNaturalWidth;
+    }
+
+    const tileW = maxNaturalWidth + gap;
+
+    // Pass 2
+    const cells = [];
+    let idx = 0;
+    for (let r = 0; r < rows; r++) {
+      const rowItems = rawRows[r];
+      if (rowItems.length === 0) continue;
+      const lastItem = rowItems[rowItems.length - 1];
+      const rowNaturalWidth = lastItem.rawX + lastItem.width;
+      const extra = tileW - rowNaturalWidth - gap;
+      const extraPerGap = rowItems.length > 1 ? extra / rowItems.length : 0;
+
+      let runningX = -tileW / 2 + gap / 2;
+      for (let c = 0; c < rowItems.length; c++) {
+        const item = rowItems[c];
+        const cellCenterX = runningX + item.width / 2;
+        cells.push({
+          index: idx++,
+          rowIndex: r,
+          baseX: cellCenterX,
+          baseY: r * stepY + firstRowY,
+          width: item.width,
+          height: cellH,
+          pIndex: item.pIndex,
+          angle: hash(r * 31 + item.colIdx * 17 + 7) * Math.PI * 2,
+          rotation: (hash(r * 5 + item.colIdx * 11 + 3) - 0.5) * 2.4,  // gentler tilt for screenshots
+          scale: 1 + (hash(r * 7 + item.colIdx * 13 + 5) - 0.5) * 0.05,
+        });
+        runningX += item.width + gap + extraPerGap;
+      }
+    }
+
+    return { cells: cells, tile: { width: tileW, height: tileH, rows: rows } };
+  }
+
+  /* ───────────────────────────────── Vanilla tween engine ───────────────────────────────── */
+  const EASES = {
+    "power2.inOut": function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; },
+    "power2.out":   function (t) { return 1 - Math.pow(1 - t, 2); },
+    "power3.out":   function (t) { return 1 - Math.pow(1 - t, 3); },
+    "power4.out":   function (t) { return 1 - Math.pow(1 - t, 4); },
+    "back.out":     function (t) { const s = 1.4; const u = t - 1; return 1 + (s + 1) * u * u * u + s * u * u; },
+  };
+  function animateScalar(holder, to, duration, easeName, delay) {
+    const ease = EASES[easeName] || EASES["power2.out"];
+    const from = holder.v;
+    const durMs = duration * 1000;
+    const delayMs = (delay || 0) * 1000;
+    let start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      const elapsed = ts - start - delayMs;
+      if (elapsed < 0) { requestAnimationFrame(step); return; }
+      const t = Math.min(1, elapsed / durMs);
+      holder.v = from + (to - from) * ease(t);
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ───────────────────────────────── State + DOM refs ───────────────────────────────── */
+  const section = document.getElementById("moments");
+  const anchor  = document.getElementById("anchor");
+  const frame   = document.getElementById("frame");
+  const dim     = document.getElementById("dim");
+  const hero    = document.getElementById("hero");
+  const hint    = document.getElementById("hint");
+
+  const fImg   = document.getElementById("fImg");
+  const fCat   = document.getElementById("fCat");
+  const fTitle = document.getElementById("fTitle");
+  const fLoc   = document.getElementById("fLoc");
+  const fDesc  = document.getElementById("fDesc");
+  const rcCat  = document.getElementById("rcCat");
+  const rcTitle= document.getElementById("rcTitle");
+  const visitBtn = document.getElementById("visitBtn");
+
+  let vw = 0, vh = 0, isMobile = false;
+  let cells = [], tile = { width: 1, height: 1, rows: 1 };
+  let items = [];
+  let rowOffsets = [];
+
+  const mouse = { x: 0, y: 0, has: false };
+  const voidWorld = { x: 0, y: 0 };
+  const panOff = { x: 0, y: 0 };
+  const panTarget = { x: 0, y: 0 };
+  let voidRadius = 0, targetRadius = 0;
+
+  let expanded = false;
+  let pinned = false;
+  let hovering = true;
+  let hasInteracted = false;
+  let featuredIdx = 0;
+
+  const introEntrance       = { v: 0 };
+  const introVoidEmerge     = { v: 0 };
+  const introFeaturedEmerge = { v: 0 };
+  let introDone = false;
+
+  /* ───────────────────────────────── Build / rebuild ───────────────────────────────── */
+  function renderCells() {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i] && items[i].parentNode) items[i].parentNode.removeChild(items[i]);
+    }
+    items = [];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const div = document.createElement("div");
+      div.className = "cell";
+      div.style.width = cell.width + "px";
+      div.style.height = cell.height + "px";
+      const img = document.createElement("img");
+      img.src = imgUrl(PROJECTS[cell.pIndex].slug);
+      img.alt = "";
+      img.draggable = false;
+      img.loading = "lazy";
+      div.appendChild(img);
+      frag.appendChild(div);
+      items.push(div);
+    }
+    section.insertBefore(frag, section.firstChild);
+  }
+
+  function nearestCellToOrigin() {
+    let best = 0, bestD = Infinity;
+    for (let i = 0; i < cells.length; i++) {
+      const d = Math.hypot(cells[i].baseX, cells[i].baseY);
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+
+  function rebuild(dims) {
+    vw = dims.vw; vh = dims.vh; isMobile = dims.isMobile;
+    const built = buildCells(dims);
+    cells = built.cells;
+    tile = built.tile;
+    rowOffsets = new Array(tile.rows).fill(0);
+
+    section.classList.toggle("mobile", isMobile);
+    renderCells();
+
+    panOff.x = vw / 2; panOff.y = vh / 2;
+    panTarget.x = vw / 2; panTarget.y = vh / 2;
+    voidWorld.x = 0; voidWorld.y = 0;
+    expanded = false; pinned = false;
+    applyExpanded();
+
+    featuredIdx = nearestCellToOrigin();
+    renderFeatured();
+  }
+
+  /* ───────────────────────────────── Featured card ───────────────────────────────── */
+  function currentProject() {
+    const cell = cells[featuredIdx];
+    return cell ? PROJECTS[cell.pIndex] : PROJECTS[0];
+  }
+
+  function applyFrameSize() {
+    const aspect = currentProject().aspect;
+    const restH    = isMobile ? 188 : 248;
+    const restMaxW = isMobile ? 300 : 440;
+    const expH     = isMobile ? 230 : 320;
+    const expMaxW  = isMobile ? 330 : 540;
+    const expMinW  = isMobile ? 260 : 360;
+
+    const h    = expanded ? expH : restH;
+    const maxW = expanded ? expMaxW : restMaxW;
+    let w      = h * aspect;
+    let frameH = h;
+    if (w > maxW) { w = maxW; frameH = maxW / aspect; }
+    else if (expanded && w < expMinW) { w = expMinW; frameH = expMinW / aspect; }
+
+    frame.style.width = w + "px";
+    frame.style.height = frameH + "px";
+  }
+
+  function renderFeatured() {
+    const p = currentProject();
+    fImg.src = imgUrl(p.slug);
+    fImg.alt = p.title;
+    fCat.textContent = p.category;
+    fTitle.textContent = p.title;
+    rcCat.textContent = p.category;
+    rcTitle.textContent = p.title;
+    fLoc.textContent = p.domain;
+    fDesc.textContent = p.description;
+    visitBtn.href = p.url;
+    applyFrameSize();
+  }
+
+  function applyExpanded() {
+    frame.classList.toggle("is-expanded", expanded);
+    dim.classList.toggle("show", expanded);
+    hero.classList.toggle("hidden", expanded && isMobile);
+    applyFrameSize();
+  }
+
+  /* ───────────────────────────────── Open / close / navigate ───────────────────────────────── */
+  function open() {
+    if (expanded) return;
+    pinned = false;
+    panTarget.x = vw / 2 - voidWorld.x;
+    panTarget.y = vh / 2 - voidWorld.y;
+    expanded = true;
+    applyExpanded();
+  }
+  function close() {
+    pinned = false;
+    expanded = false;
+    applyExpanded();
+  }
+  function navigate(dir) {
+    const newIdx = (featuredIdx + dir + cells.length) % cells.length;
+    const nextCell = cells[newIdx];
+    const driftedX = nextCell.baseX + (rowOffsets[nextCell.rowIndex] || 0);
+    const baseScreenX0 = driftedX + panOff.x;
+    const baseScreenY0 = nextCell.baseY + panOff.y;
+    const kX = Math.round((vw / 2 - baseScreenX0) / tile.width);
+    const kY = Math.round((vh / 2 - baseScreenY0) / tile.height);
+    const nextWorldX = driftedX + kX * tile.width;
+    const nextWorldY = nextCell.baseY + kY * tile.height;
+
+    pinned = true;
+    panTarget.x = vw / 2 - nextWorldX;
+    panTarget.y = vh / 2 - nextWorldY;
+    featuredIdx = newIdx;
+    renderFeatured();
+  }
+
+  /* ───────────────────────────────── Tick ───────────────────────────────── */
+  function tick() {
+    if (!expanded) {
+      for (let r = 0; r < rowOffsets.length; r++) rowOffsets[r] += rowDriftSpeed(r);
+    }
+
+    panOff.x += (panTarget.x - panOff.x) * PAN_LERP;
+    panOff.y += (panTarget.y - panOff.y) * PAN_LERP;
+
+    if (expanded) {
+      if (!pinned) {
+        const dpx = panTarget.x - panOff.x, dpy = panTarget.y - panOff.y;
+        if (Math.abs(dpx) < 0.5 && Math.abs(dpy) < 0.5) pinned = true;
+      }
+      if (pinned) {
+        voidWorld.x = vw / 2 - panOff.x;
+        voidWorld.y = vh / 2 - panOff.y;
+      }
+    } else if (mouse.has) {
+      const tx = mouse.x - panOff.x, ty = mouse.y - panOff.y;
+      voidWorld.x += (tx - voidWorld.x) * VOID_LERP;
+      voidWorld.y += (ty - voidWorld.y) * VOID_LERP;
+    }
+
+    let baseR;
+    if (expanded)      baseR = isMobile ? VOID_RADIUS_EXPANDED_MOBILE : VOID_RADIUS_EXPANDED_DESKTOP;
+    else if (hovering) baseR = isMobile ? VOID_RADIUS_HOVER_MOBILE    : VOID_RADIUS_HOVER_DESKTOP;
+    else               baseR = isMobile ? VOID_RADIUS_IDLE_MOBILE     : VOID_RADIUS_IDLE_DESKTOP;
+    targetRadius = baseR * introVoidEmerge.v;
+    voidRadius += (targetRadius - voidRadius) * RADIUS_LERP;
+
+    const R = voidRadius, SOFT = R * SOFT_PUSH_RATIO, vX = voidWorld.x, vY = voidWorld.y;
+
+    const entrance = introEntrance.v;
+    const halfDiag = Math.hypot(vw, vh) / 2;
+    const revealActive = entrance < 1;
+    const cullMargin = 240;
+
+    let nearestIdx = featuredIdx, nearestDist = Infinity;
+
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const el = items[i];
+      if (!el) continue;
+
+      const driftedX = cell.baseX + (rowOffsets[cell.rowIndex] || 0);
+      const baseScreenX0 = driftedX + panOff.x;
+      const baseScreenY0 = cell.baseY + panOff.y;
+      const kX = Math.round((vw / 2 - baseScreenX0) / tile.width);
+      const kY = Math.round((vh / 2 - baseScreenY0) / tile.height);
+      const effectiveWorldX = driftedX + kX * tile.width;
+      const effectiveWorldY = cell.baseY + kY * tile.height;
+
+      const dx = effectiveWorldX - vX, dy = effectiveWorldY - vY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < nearestDist) { nearestDist = dist; nearestIdx = i; }
+
+      const baseScreenX = effectiveWorldX + panOff.x;
+      const baseScreenY = effectiveWorldY + panOff.y;
+      if (baseScreenX + cell.width < -cullMargin) { el.style.opacity = "0"; continue; }
+      if (baseScreenX > vw + cullMargin)          { el.style.opacity = "0"; continue; }
+      if (baseScreenY + cell.height < -cullMargin){ el.style.opacity = "0"; continue; }
+      if (baseScreenY > vh + cullMargin)          { el.style.opacity = "0"; continue; }
+
+      let finalWorldX = effectiveWorldX, finalWorldY = effectiveWorldY, s = cell.scale;
+
+      if (dist < SOFT) {
+        const t = 1 - dist / SOFT;
+        const push = R * t * t;
+        let dirX, dirY;
+        if (dist < 0.5) { dirX = Math.cos(cell.angle); dirY = Math.sin(cell.angle); }
+        else { dirX = dx / dist; dirY = dy / dist; }
+        finalWorldX = effectiveWorldX + dirX * push;
+        finalWorldY = effectiveWorldY + dirY * push;
+        if (dist > R * 0.55 && dist < R * 1.05) {
+          const ringT = smoothstep(R * 0.55, R * 0.8, dist) * (1 - smoothstep(R * 0.85, R * 1.05, dist));
+          s *= 1 + 0.06 * ringT;
+        }
+      }
+
+      let alpha = 1, introOffsetX = 0, introOffsetY = 0;
+      if (revealActive) {
+        const distFromCenter = Math.hypot(cell.baseX, cell.baseY);
+        const cellEntrance = entrance * 1.0 - (distFromCenter / halfDiag) * 0.4;
+        const entranceAlpha = Math.max(0, Math.min(1, cellEntrance * 1.5));
+        alpha = entranceAlpha;
+        s *= 0.3 + 0.7 * entranceAlpha;
+        if (distFromCenter > 1) {
+          const dirX = cell.baseX / distFromCenter, dirY = cell.baseY / distFromCenter;
+          const flyMag = (1 - entranceAlpha) * 420;
+          introOffsetX = dirX * flyMag; introOffsetY = dirY * flyMag;
+        }
+      }
+
+      const screenX = finalWorldX + introOffsetX + panOff.x - cell.width / 2;
+      const screenY = finalWorldY + introOffsetY + panOff.y - cell.height / 2;
+      el.style.transform =
+        "translate3d(" + screenX.toFixed(2) + "px, " + screenY.toFixed(2) + "px, 0) " +
+        "rotate(" + cell.rotation.toFixed(2) + "deg) scale(" + s.toFixed(3) + ")";
+      el.style.opacity = alpha < 0.999 ? alpha.toFixed(3) : "1";
+    }
+
+    if (nearestIdx !== featuredIdx && nearestDist < R * 0.9 && !expanded) {
+      featuredIdx = nearestIdx;
+      renderFeatured();
+    }
+
+    if (anchor) {
+      let sx, sy;
+      if (expanded && pinned) { sx = vw / 2; sy = vh / 2; }
+      else { sx = vX + panOff.x; sy = vY + panOff.y; }
+      const fEm = introFeaturedEmerge.v;
+      anchor.style.transform =
+        "translate3d(" + sx.toFixed(2) + "px, " + sy.toFixed(2) + "px, 0) scale(" + fEm.toFixed(3) + ")";
+      anchor.style.opacity = fEm < 0.999 ? fEm.toFixed(3) : "1";
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ───────────────────────────────── Intro ───────────────────────────────── */
+  function buildTitleChars() {
+    const title = document.getElementById("title");
+    const word = "Our Work";
+    title.innerHTML = "";
+    const spans = [];
+    for (let i = 0; i < word.length; i++) {
+      const span = document.createElement("span");
+      span.setAttribute("data-char", "");
+      span.textContent = word[i];
+      title.appendChild(span);
+      spans.push(span);
+    }
+    return spans;
+  }
+  function showCopyEl(el, delay, ease) {
+    const cubic = {
+      "power3.out": "cubic-bezier(0.215, 0.61, 0.355, 1)",
+      "power4.out": "cubic-bezier(0.165, 0.84, 0.44, 1)",
+    }[ease] || "cubic-bezier(0.215, 0.61, 0.355, 1)";
+    setTimeout(function () {
+      el.style.transition = "opacity 0.8s " + cubic + ", transform 0.8s " + cubic + ", filter 0.8s " + cubic;
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0) scale(1)";
+      el.style.filter = "blur(0px)";
+    }, delay * 1000);
+  }
+  function runIntro(titleChars) {
+    const base = 0.1;
+    animateScalar(introEntrance,       1, 1.7, "power2.inOut", base + 0.0);
+    animateScalar(introVoidEmerge,     1, 1.1, "power2.out",   base + 0.2);
+    animateScalar(introFeaturedEmerge, 1, 0.8, "back.out",     base + 0.7);
+    showCopyEl(document.getElementById("eyebrow"), base + 1.1, "power3.out");
+    for (let i = 0; i < titleChars.length; i++) showCopyEl(titleChars[i], base + 1.25 + i * 0.04, "power4.out");
+    showCopyEl(document.getElementById("sub"),  base + 1.6, "power3.out");
+    showCopyEl(document.getElementById("hint"), base + 1.7, "power3.out");
+  }
+  function skipIntro(titleChars) {
+    introEntrance.v = 1; introVoidEmerge.v = 1; introFeaturedEmerge.v = 1;
+    voidRadius = hovering ? (isMobile ? VOID_RADIUS_HOVER_MOBILE : VOID_RADIUS_HOVER_DESKTOP) : 0;
+    for (let i = 0; i < titleChars.length; i++) {
+      titleChars[i].style.opacity = "1";
+      titleChars[i].style.transform = "translateY(0) scale(1)";
+      titleChars[i].style.filter = "blur(0px)";
+    }
+    [document.getElementById("eyebrow"), document.getElementById("sub"), hint].forEach(function (el) {
+      el.style.opacity = "1"; el.style.transform = "translateY(0)"; el.style.filter = "blur(0px)";
+    });
+  }
+
+  /* ───────────────────────────────── Input ───────────────────────────────── */
+  function fadeHint() {
+    if (!hasInteracted) { hasInteracted = true; hint.style.opacity = "0"; }
+  }
+  window.addEventListener("pointermove", function (e) {
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; fadeHint();
+  });
+  window.addEventListener("touchmove", function (e) {
+    if (e.touches.length === 0) return;
+    mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; mouse.has = true; fadeHint();
+  }, { passive: true });
+  section.addEventListener("pointerenter", function () { hovering = true; });
+  section.addEventListener("pointerleave", function () { hovering = false; });
+  window.addEventListener("keydown", function (e) {
+    if (!expanded || e.repeat) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight") navigate(1);
+    else if (e.key === "ArrowLeft") navigate(-1);
+  });
+
+  frame.addEventListener("click", function () { if (!expanded) open(); });
+  document.getElementById("prevBtn").addEventListener("click", function (e) { e.stopPropagation(); navigate(-1); });
+  document.getElementById("nextBtn").addEventListener("click", function (e) { e.stopPropagation(); navigate(1); });
+  document.getElementById("closeBtn").addEventListener("click", function (e) { e.stopPropagation(); close(); });
+  document.getElementById("mobileClose").addEventListener("click", function (e) { e.stopPropagation(); close(); });
+  // Visit / Get-one-like-this are real links — just stop the open-click from firing
+  Array.prototype.forEach.call(document.querySelectorAll('.icon-btn[data-act], .btn-primary, .btn-secondary'), function (btn) {
+    btn.addEventListener("click", function (e) { e.stopPropagation(); });
+  });
+  dim.addEventListener("click", close);
+  document.getElementById("themeToggle").addEventListener("click", function () {
+    const html = document.documentElement;
+    html.setAttribute("data-theme", html.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  /* ───────────────────────────────── Resize (mobile-chrome filter) ───────────────────────────────── */
+  let prevDims = null;
+  let pendingTitleChars = null;
+  function update() {
+    const nvw = window.innerWidth, nvh = window.innerHeight, nIsMobile = nvw < 768;
+    if (prevDims) {
+      if (prevDims.vw === nvw && prevDims.isMobile === nIsMobile && Math.abs(prevDims.vh - nvh) < 200) return;
+    }
+    const dims = { vw: nvw, vh: nvh, isMobile: nIsMobile };
+    prevDims = dims;
+    rebuild(dims);
+    if (!introDone) { introDone = true; runIntro(pendingTitleChars); }
+    else { skipIntro(pendingTitleChars); }
+  }
+
+  /* ───────────────────────────────── Boot ───────────────────────────────── */
+  pendingTitleChars = buildTitleChars();
+  window.addEventListener("resize", update);
+  update();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

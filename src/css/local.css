@@ -32,6 +32,28 @@
   #portfolio .cs-item:hover .cs-icon{filter:brightness(0) invert(1)}
   #portfolio .cs-picture{width:100%;height:clamp(21.5rem,30vw,26.25rem);margin:auto;border-radius:1.5rem;display:block;position:relative;overflow:hidden}
   #portfolio .cs-picture img{width:100%;height:100%;object-fit:cover;object-position:top center;position:absolute;top:0;left:0}
+  /* Lighthouse score reveal — a brand-green glass panel morphs up over the
+     screenshot on hover/keyboard-focus and the score rings draw themselves in.
+     Scores live in index.html (cs-stat text + --ratio on the fill circle). */
+  #portfolio .cs-preview{width:100%;height:clamp(21.5rem,30vw,26.25rem);border-radius:1.5rem;position:relative;overflow:hidden}
+  #portfolio .cs-preview .cs-picture{height:100%;border-radius:inherit}
+  #portfolio .cs-scores{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;gap:clamp(1.25rem,3.5vw,2.5rem);background:rgba(1,45,28,.84);clip-path:inset(100% 0 0 0 round 1.5rem);transition:clip-path .5s cubic-bezier(.4,0,.2,1)}
+  #portfolio .cs-item:hover .cs-scores,
+  #portfolio .cs-link:focus-visible .cs-scores{clip-path:inset(0 round 1.5rem)}
+  #portfolio .cs-score{display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;transform:translateY(.75rem);transition:opacity .35s ease,transform .35s ease}
+  #portfolio .cs-score:nth-child(2){transition-delay:.08s}
+  #portfolio .cs-score:nth-child(3){transition-delay:.16s}
+  #portfolio .cs-item:hover .cs-score,
+  #portfolio .cs-link:focus-visible .cs-score{opacity:1;transform:none}
+  #portfolio .cs-ring-wrapper{position:relative;width:clamp(3.5rem,5.5vw,4.25rem);aspect-ratio:1}
+  #portfolio .cs-ring{width:100%;height:100%;display:block;transform:rotate(-90deg)}
+  #portfolio .cs-ring circle{fill:none;stroke-width:3}
+  #portfolio .cs-ring circle:first-child{stroke:rgba(255,255,255,.22)}
+  #portfolio .cs-ring circle:last-child{stroke:var(--primaryLight);stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset .9s cubic-bezier(.4,0,.2,1) .2s}
+  #portfolio .cs-item:hover .cs-ring circle:last-child,
+  #portfolio .cs-link:focus-visible .cs-ring circle:last-child{stroke-dashoffset:calc(100 - var(--ratio,0)*100)}
+  #portfolio .cs-stat{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:700;font-size:clamp(1rem,1.4vw,1.1875rem);line-height:1}
+  #portfolio .cs-metric{color:rgba(255,255,255,.85);font-size:clamp(.75rem,1vw,.875rem);line-height:1.2em;text-align:center}
   #portfolio .cs-item-text{padding:clamp(1rem,2vw,1.25rem) clamp(1rem,2.8vw,2.5rem);background-color:#f7f7f7;border-radius:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-grow:1;gap:1rem;transition:background-color .3s}
   #portfolio .cs-flex{display:flex;flex-direction:column;gap:.5rem;text-align:left;min-width:0}
   #portfolio .cs-h3{font-size:clamp(1.25rem,1.8vw,1.5625rem);line-height:1.2em;text-align:left;margin:0;color:var(--headerColor);transition:color .3s}
@@ -64,6 +86,22 @@
 }
 @media only screen and (min-width:37.5rem){
   #portfolio .cs-item{grid-column:span 6}
+}
+/* No hover available (phones/tablets) — there's no way to trigger the reveal
+   before the link navigates, so dock the scores as an always-visible strip
+   over the bottom of the screenshot instead, rings already drawn. */
+@media (hover:none){
+  #portfolio .cs-scores{inset:auto 0 0 0;padding:2.75rem 1rem 1rem;background:linear-gradient(180deg,rgba(1,45,28,0) 0%,rgba(1,45,28,.9) 55%);clip-path:none;gap:clamp(1.5rem,6vw,2.5rem)}
+  #portfolio .cs-score{opacity:1;transform:none}
+  #portfolio .cs-ring-wrapper{width:3rem}
+  #portfolio .cs-stat{font-size:.9375rem}
+  #portfolio .cs-metric{font-size:.6875rem}
+  #portfolio .cs-ring circle:last-child{stroke-dashoffset:calc(100 - var(--ratio,0)*100)}
+}
+@media (prefers-reduced-motion:reduce){
+  #portfolio .cs-scores,
+  #portfolio .cs-score,
+  #portfolio .cs-ring circle:last-child{transition:none}
 }
 
 /* sbs-2295 */
@@ -298,3 +336,234 @@ body.dark-mode #cta-697{
   background-color:var(--primary);
 }
 
+
+/* ══════════════════════════════════════════════════════════════════
+   hero anatomy — press & hold the hero to dissect it.
+   A single JS-driven custom property (--xray, 0→1) feeds four staged
+   ramps; everything below renders from those ramps. No layout shift:
+   every anatomy element is an absolutely-positioned overlay, and at
+   --xray:0 (the default) all of it is invisible and inert.
+   ════════════════════════════════════════════════════════════════ */
+@property --xray { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+body{
+  --xray: 0;
+  /* staged ramps — each clamps a window of the master driver to [0,1] */
+  --ha-g: clamp(0, calc((var(--xray, 0) - 0.00) / 0.35), 1);   /* grids    */
+  --ha-d: clamp(0, calc((var(--xray, 0) - 0.15) / 0.45), 1);   /* dissolve */
+  --ha-m: clamp(0, calc((var(--xray, 0) - 0.30) / 0.55), 1);   /* measure  */
+  --ha-l: clamp(0, calc((var(--xray, 0) - 0.55) / 0.45), 1);   /* labels   */
+  --ha-hair:  rgba(250, 251, 252, 0.40);
+  --ha-label: rgba(250, 251, 252, 0.82);
+  --ha-muted: rgba(250, 251, 252, 0.55);
+  --ha-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+#hero-1950, #cs-navigation{
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+#hero-1950{ overflow: clip; }
+
+/* the specimen dims under glass so annotations pop */
+#hero-1950 .cs-container{
+  position: relative;
+  z-index: 2;
+  opacity: calc(1 - var(--ha-l, 0) * 0.3);
+}
+
+/* photo x-ray — a translucent scrim + construction cross overlays the
+   real <picture>; the image stays visible underneath throughout */
+#hero-1950 .ha-placeholder{
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  opacity: var(--ha-d, 0);
+  background: rgba(13, 20, 17, 0.45);
+  display: flex; align-items: center; justify-content: center;
+}
+#hero-1950 .ha-cross{
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+}
+#hero-1950 .ha-cross-line{
+  stroke: var(--ha-hair); stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-d, 0)) * 100);
+}
+#hero-1950 .ha-stamp{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--ha-label);
+  background: var(--dark); border: 1px solid var(--ha-hair);
+  padding: 4px 10px;
+}
+
+/* x-ray scrim over the header — same treatment as the hero photo, so the
+   white hairlines and labels stay legible on the white nav bar. The huge
+   z-index keeps it above every child inside the header's own stacking
+   context; the dissect layer (10050 > 10000) still draws above it. */
+#cs-navigation::after{
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: rgba(13, 20, 17, 0.55);
+  opacity: var(--ha-d, 0);
+  z-index: 99999;
+}
+
+/* spec chrome — readout + SPEC toggle in the hero's bottom padding zone */
+#hero-1950 .ha-chrome{
+  position: absolute; bottom: 0;
+  left:  max(1rem, calc((100% - 80rem) / 2));
+  right: max(1rem, calc((100% - 80rem) / 2));
+  height: 3rem; z-index: 30;
+  display: flex; align-items: center; justify-content: flex-end;
+  pointer-events: none;
+}
+#hero-1950 .ha-toggle{
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; pointer-events: auto;
+}
+.ha-sr-only{
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+#hero-1950 .ha-pill{
+  width: 32px; height: 18px; border-radius: 999px; position: relative;
+  border: 1px solid var(--ha-hair);
+}
+#hero-1950 .ha-pill::after{
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bodyTextColorWhite); opacity: 0.55;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+#hero-1950 .ha-toggle input:checked ~ .ha-pill::after{
+  transform: translateX(14px); opacity: 1; background: var(--primaryLight);
+}
+#hero-1950 .ha-toggle input:focus-visible ~ .ha-pill{
+  outline: 2px solid var(--primaryLight); outline-offset: 4px;
+}
+#hero-1950 .ha-lbl{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.22em; color: var(--ha-label);
+}
+#hero-1950 .ha-mobile-hint{
+  display: none;
+  font-family: var(--ha-mono); font-size: 9px;
+  letter-spacing: 0.2em; color: var(--ha-muted); margin: 16px 0 0;
+}
+
+/* the dissection layer — measurements built once by hero-anatomy.js.
+   Positioned + sized over the hero by JS; sits outside the hero's stacking
+   context so it can render above the fixed header (z-index 10000). */
+.ha-dissect{ position: absolute; top: 0; left: 0; width: 100%; z-index: 10050; pointer-events: none; overflow: clip; }
+
+.ha-dissect .ha-measure{ position: absolute; overflow: visible; }
+.ha-dissect .ha-measure .ha-hairline{
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * var(--len));
+}
+.ha-dissect .ha-measure .ha-arrow{ stroke: var(--ha-hair); stroke-width: 1; fill: none; opacity: var(--ha-m, 0); }
+.ha-dissect .ha-measure .ha-dash-box{
+  stroke: var(--ha-hair); stroke-width: 1; fill: none;
+  stroke-dasharray: 1.2 1.2;            /* pathLength=100 → uniform pattern on every box */
+}
+/* the mask rect that draws each dashed box on around its perimeter */
+.ha-dissect .ha-measure .ha-draw{
+  fill: none; stroke: #fff; stroke-width: 4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--ha-m, 0)) * 100);
+}
+.ha-dissect .ha-measure text{
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; fill: var(--ha-label);
+  opacity: var(--ha-l, 0);
+}
+
+.ha-dissect .ha-redline{
+  position: absolute; white-space: nowrap;
+  font-family: var(--ha-mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--ha-label);
+  opacity: var(--ha-l, 0);
+  transform: translateY(calc((1 - var(--ha-l, 0)) * 6px));
+}
+
+/* cursor hint — lerped follower, desktop only */
+.ha-cursor-hint{
+  position: fixed; top: 0; left: 0; z-index: 10070; pointer-events: none;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  color: rgba(250, 251, 252, 0.55);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.ha-cursor-hint.ha-on{ opacity: 1; }
+
+/* mobile (<48rem — the site's own breakpoint) */
+@media only screen and (max-width: 47.9375rem){
+  #hero-1950 .ha-mobile-hint{ display: block; }
+  #hero-1950 .ha-stamp{ display: none; }
+  .ha-cursor-hint{ display: none; }
+  .ha-dissect .ha-measure text{ font-size: 9px; }
+}
+
+/* reduced motion — measurements appear without the draw-on */
+@media (prefers-reduced-motion: reduce){
+  .ha-dissect .ha-measure .ha-hairline{ stroke-dashoffset: 0; opacity: var(--ha-m, 0); }
+  .ha-dissect .ha-measure .ha-draw{ stroke-dashoffset: 0; }
+  .ha-dissect .ha-measure .ha-dash-box{ opacity: var(--ha-m, 0); }
+  #hero-1950 .ha-cross-line{ stroke-dashoffset: 0; opacity: var(--ha-d, 0); }
+  .ha-cursor-hint{ transition: none; }
+}
+
+
+/* ── hero entrance — born as a blueprint ─────────────────────────────
+   An inline script in index.html sets html.ha-booting before first paint
+   (once per tab session, never for reduced-motion). The pre-state below
+   holds the hero at full x-ray with its content lowered and blurred;
+   hero-anatomy.js removes the class and glides --xray 1→0, and the
+   .ha-reveal transitions carry each piece up into place. */
+html.ha-booting body{ --xray: 1; }
+html.ha-booting #hero-1950 :is(.cs-topper, .cs-title){
+  opacity: 0; transform: translateY(28px); filter: blur(10px);
+}
+html.ha-booting #hero-1950 :is(.cs-text, .cs-hero-actions, .ha-mobile-hint){
+  opacity: 0; transform: translateY(18px);
+}
+html.ha-booting #hero-1950 .ha-chrome > *{
+  opacity: 0; transform: translateY(10px);
+}
+
+/* destination transitions live on .ha-reveal (added only when the entrance
+   actually runs) so repeat visits carry zero transition baggage. None of
+   these touch a ramp-fed property. */
+html:not(.ha-booting) body.ha-reveal #hero-1950 :is(.cs-topper, .cs-title){
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) body.ha-reveal #hero-1950 .cs-topper{ transition-delay: 0.60s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 .cs-title{ transition-delay: 0.72s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 :is(.cs-text, .cs-hero-actions, .ha-mobile-hint){
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) body.ha-reveal #hero-1950 .cs-text{ transition-delay: 1.10s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 .cs-hero-actions{ transition-delay: 1.18s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 .ha-mobile-hint{ transition-delay: 1.26s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 .ha-chrome > *{
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html:not(.ha-booting) body.ha-reveal #hero-1950 .ha-chrome > :nth-child(1){ transition-delay: 1.40s; }
+html:not(.ha-booting) body.ha-reveal #hero-1950 .ha-chrome > :nth-child(2){ transition-delay: 1.48s; }
+
+/* belt-and-braces: the inline script already skips the boot for
+   reduced-motion, but if the class lands anyway, neutralize it */
+@media (prefers-reduced-motion: reduce){
+  html.ha-booting body{ --xray: 0; }
+  html.ha-booting #hero-1950 :is(.cs-topper, .cs-title, .cs-text, .cs-hero-actions, .ha-mobile-hint),
+  html.ha-booting #hero-1950 .ha-chrome > *{
+    opacity: 1; transform: none; filter: none;
+  }
+  html:not(.ha-booting) body.ha-reveal #hero-1950 :is(.cs-topper, .cs-title, .cs-text, .cs-hero-actions, .ha-mobile-hint),
+  html:not(.ha-booting) body.ha-reveal #hero-1950 .ha-chrome > *{
+    transition: none !important;
+  }
+}

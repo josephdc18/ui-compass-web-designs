@@ -141,6 +141,11 @@
   <!-- Analytics: Umami (privacy-friendly, cookieless). `defer` keeps it off the critical render path. -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="39245a35-e08a-4be3-b01e-3ea0a84d390e"></script>
   <script defer src="https://umami.sidecarr.com/script.js" data-website-id="66e5690c-662d-4482-9203-e14ee9716bde"></script>
+  <!-- Custom events (calls, quote CTAs, form submits) by delegation — see the
+       header comment in the file for why not data-umami-event attributes.
+       Deferred after the trackers; it guards on window.umami anyway in case a
+       tracker is blocked. -->
+  <script defer src="/assets/js/analytics-events.js?v={{ build.hash }}"></script>
 
   <!-- For home page, use full title, including location for SEO. Other pages should just include the page name -->
   <title>

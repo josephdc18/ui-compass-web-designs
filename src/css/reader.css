@@ -26,7 +26,8 @@ html[data-reader-size] .post-related-date { font-size: calc(.8rem * var(--reader
 
 @media (max-width: 63.99rem) {
   body.blog-post-page {
-    --reader-bar-clearance: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+    --reader-bar-gap: max(.75rem, env(safe-area-inset-bottom, 0px));
+    --reader-bar-clearance: calc(3.5rem + var(--reader-bar-gap));
   }
   body.blog-post-page .blog-container { padding-bottom: calc(clamp(60px, 7vw, 100px) + var(--reader-bar-clearance)); }
   body.blog-post-page .post-quick-actions,
@@ -41,20 +42,21 @@ html[data-reader-size] .post-related-date { font-size: calc(.8rem * var(--reader
   .reader-bar {
     display: block;
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: max(.75rem, env(safe-area-inset-left, 0px));
+    right: max(.75rem, env(safe-area-inset-right, 0px));
+    bottom: var(--reader-bar-gap);
     z-index: 10003;
-    min-height: var(--reader-bar-clearance);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: 3.5rem;
     background: rgba(255, 255, 255, .97);
-    border-top: 1px solid rgba(15, 23, 42, .12);
-    box-shadow: 0 -8px 24px rgba(15, 23, 42, .1);
+    border: 1px solid rgba(15, 23, 42, .12);
+    border-radius: 1rem;
+    box-shadow: 0 10px 32px rgba(15, 23, 42, .18), 0 2px 8px rgba(15, 23, 42, .08);
+    overflow: hidden;
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
     transition: transform .24s ease;
   }
-  .reader-bar.is-hidden { transform: translateY(110%); }
+  .reader-bar.is-hidden { transform: translateY(calc(120% + var(--reader-bar-gap))); }
   .reader-bar-inner { height: 3.5rem; }
   .reader-bar-actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); height: 100%; }
   .reader-action {

@@ -1742,14 +1742,26 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 .blog-index-media { display: block; min-width: 0; overflow: hidden; background: #e8ece9; }
 .blog-index-picture { display: block; width: 100%; height: 100%; }
 .blog-index-picture img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
-.blog-feature .blog-index-media { aspect-ratio: 16 / 9; }
+/* The artwork is a fixed-ratio window, not a slot the image gets to size.
+   Card art here is not a consistent shape — the current feature is 850x1062
+   portrait — and with `min-height` plus an auto ratio the image's own
+   proportions drove the grid row: the card stood 820px tall at 1280px wide and
+   354px at 1592px, depending only on which srcset candidate the browser picked.
+   The ::before spacer sets the ratio and caps it in rem; the picture is taken
+   out of flow so it contributes no height of its own. `aspect-ratio` alone
+   cannot do this — a stretched grid item ignores it, because its height is
+   decided by the row we are trying to size in the first place. */
+.blog-feature .blog-index-media { position: relative; }
+.blog-feature .blog-index-media::before { content: ""; display: block; padding-top: 42.5%; }
+.blog-feature .blog-index-picture { position: absolute; inset: 0; }
 .blog-feature:hover .blog-index-picture img,
 .blog-row-link:hover .blog-index-picture img { transform: scale(1.035); }
 .blog-feature-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.5rem, 4vw, 3rem);
+  gap: .55rem;
+  padding: 1.15rem 1.15rem 1.35rem;
 }
 .blog-feature-kicker, .blog-row-category {
   color: var(--primary);
@@ -1758,7 +1770,12 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
   letter-spacing: .13em;
   text-transform: uppercase;
 }
-.blog-feature-body > strong { color: var(--headerColor); font-size: clamp(1.5rem, 3vw, 2.35rem); line-height: 1.18; margin: .6rem 0 .8rem; }
+/* Feature type is set to the same scale as the reference: a card, not a hero.
+   The gap on .blog-feature-body owns the rhythm, so these carry no margins. */
+.blog-feature-body > strong { color: var(--headerColor); font-size: 1.25rem; line-height: 1.22; letter-spacing: -.02em; margin: 0; }
+.blog-feature-kicker { font-size: .6875rem; }
+.blog-feature-description { font-size: .875rem; }
+.blog-feature .blog-index-meta { margin-top: .15rem; }
 .blog-feature-description, .blog-row-description { color: var(--bodyTextColor); line-height: 1.55; }
 .blog-index-meta { color: var(--bodyTextColor); font-size: .8rem; opacity: .72; margin-top: 1rem; }
 
@@ -1833,7 +1850,12 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 
 @media (min-width: 48rem) {
   .blog-feature { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
-  .blog-feature .blog-index-media { aspect-ratio: auto; min-height: 22rem; }
+  /* Ratio beside the body, capped in rem so a wide viewport cannot grow the card
+     without limit. min-height keeps a short body from collapsing the artwork. */
+  .blog-feature .blog-index-media { min-height: 11.5rem; }
+  .blog-feature .blog-index-media::before { padding-top: min(52.5%, 20rem); }
+  .blog-feature-body { padding: 1.5rem 1.6rem; }
+  .blog-feature-body > strong { font-size: 1.375rem; }
   .blog-toolbar { grid-template-columns: minmax(15rem, 22rem) 1fr; align-items: center; }
   .blog-filters { justify-content: flex-end; }
   .blog-row-link { grid-template-columns: 11rem minmax(0, 1fr) auto; padding: 1.25rem .5rem; gap: 1.5rem; }

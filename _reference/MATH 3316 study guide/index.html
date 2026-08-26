@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATH 3316 — Exam 1 Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        uta: { orange: '#F58025', blue: '#0064B1' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body { max-width: 100%; overflow-x: hidden; }
+        @supports (overflow-x: clip) { html, body { overflow-x: clip; } }
+        :root { color-scheme: light; }
+        html.dark { color-scheme: dark; }
+        .focus-box { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .focus-box:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #2d3748; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 5px; }
+        .dark ::-webkit-scrollbar-thumb { background: #4a5568; }
+
+        .answer-hidden { opacity: 0; max-height: 0; overflow: hidden; transition: all 0.3s ease-out; }
+        .answer-visible { opacity: 1; max-height: 400px; margin-top: 0.5rem; }
+
+        .toc-link-active { background-color: #0064B1 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(0,100,177,0.25); }
+        html.dark .toc-link-active { background-color: #1d4ed8 !important; color: #f9fafb !important; }
+        .toc-link-complete { position: relative; padding-right: 1.8rem; }
+        .toc-link-complete::after { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); color: #16a34a; font-size: 0.8rem; }
+        .toc-link-weak { position: relative; padding-left: 1.9rem; }
+        .toc-link-weak::before { content: "\f071"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); color: #d97706; font-size: 0.75rem; }
+        html.dark .toc-link-complete::after { color: #4ade80; }
+        html.dark .toc-link-weak::before { color: #fbbf24; }
+
+        section, .focus-box, main { overflow: visible; }
+        .term-tip { position: relative; display: inline; text-decoration: underline dotted; text-decoration-thickness: 2px; text-decoration-color: rgba(245,128,37,0.95); text-underline-offset: 0.15em; cursor: help; font-style: normal; }
+        .term-tip::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(6px); max-width: min(320px, 86vw); width: max-content; padding: 0.55rem 0.65rem; border-radius: 0.5rem; background: rgba(17,24,39,0.96); color: #f9fafb; border: 1px solid rgba(148,163,184,0.45); box-shadow: 0 10px 22px rgba(0,0,0,0.22); line-height: 1.35; font-size: 0.78rem; opacity: 0; pointer-events: none; white-space: normal; z-index: 9999; transition: opacity 0.16s ease, transform 0.16s ease; }
+        .term-tip::before { content: ""; position: absolute; left: 50%; bottom: calc(100% + 2px); transform: translateX(-50%); border-width: 6px 6px 0 6px; border-style: solid; border-color: rgba(17,24,39,0.96) transparent transparent transparent; opacity: 0; pointer-events: none; transition: opacity 0.16s ease; z-index: 9998; }
+        .term-tip:hover::after, .term-tip:hover::before, .term-tip:focus-visible::after, .term-tip:focus-visible::before { opacity: 1; }
+        .term-tip:hover::after, .term-tip:focus-visible::after { transform: translateX(-50%) translateY(0); }
+        html.dark .term-tip::after { background: rgba(2,6,23,0.97); border-color: rgba(100,116,139,0.6); }
+        html.dark .term-tip::before { border-color: rgba(2,6,23,0.97) transparent transparent transparent; }
+
+        .quiz-accordion { border-radius: 0.75rem; border: 1px solid rgba(75,85,99,0.85); background: rgba(17,24,39,0.65); }
+        .quiz-accordion > summary { cursor: pointer; list-style: none; }
+        .quiz-accordion > summary::-webkit-details-marker { display: none; }
+        .quiz-accordion-chevron { transition: transform 0.2s ease; }
+        .quiz-accordion[open] .quiz-accordion-chevron { transform: rotate(180deg); }
+        .quiz-accordion > div > .bg-gray-800 { border-top: 1px solid rgba(75,85,99,0.6); border-top-left-radius: 0; border-top-right-radius: 0; }
+
+        /* ----- Feature blocks: mastery, traps ----- */
+        .mastery-block, .traps-block { border:0; border-radius:0.75rem; overflow:hidden; }
+        .mastery-block { background: rgba(0,100,177,0.06); } html.dark .mastery-block { background: rgba(59,130,246,0.09); }
+        .traps-block { background: rgba(245,158,11,0.08); } html.dark .traps-block { background: rgba(245,158,11,0.10); }
+        .mastery-block > summary, .traps-block > summary { cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:0.75rem; padding:0.7rem 1rem; font-size:0.9rem; }
+        .mastery-block > summary::-webkit-details-marker, .traps-block > summary::-webkit-details-marker { display:none; }
+        .mastery-body, .traps-body { padding: 0 1rem 1rem; }
+        .mastery-pill { font-size:0.72rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:9999px; white-space:nowrap; }
+        .mastery-pill-none { background:#e5e7eb; color:#374151; } html.dark .mastery-pill-none { background:#374151; color:#d1d5db; }
+        .mastery-pill-weak { background:#fef3c7; color:#92400e; } html.dark .mastery-pill-weak { background:rgba(180,83,9,0.35); color:#fcd34d; }
+        .mastery-pill-mastered { background:#dcfce7; color:#166534; } html.dark .mastery-pill-mastered { background:rgba(22,101,52,0.4); color:#86efac; }
+        .mastery-card { background:#fff; border:1px solid #e5e7eb; border-radius:0.6rem; padding:0.75rem; } html.dark .mastery-card { background:rgba(255,255,255,0.04); border-color:#374151; }
+        .mastery-prompt { font-size:0.9rem; font-weight:600; margin-bottom:0.5rem; }
+        .mastery-choice { text-align:left; width:100%; padding:0.45rem 0.6rem; border:1px solid #d1d5db; border-radius:0.5rem; font-size:0.85rem; transition:background .15s,border-color .15s; background:#fff; }
+        html.dark .mastery-choice { background:#111827; border-color:#374151; color:#e5e7eb; }
+        .mastery-choice:hover { background:#f3f4f6; } html.dark .mastery-choice:hover { background:#374151; }
+        .mastery-choice:focus-visible, .mastery-check:focus-visible, .mastery-input:focus-visible { outline:2px solid #0064B1; outline-offset:2px; }
+        .mastery-choice.correct { background:#16a34a; border-color:#16a34a; color:#fff; }
+        .mastery-choice.incorrect { background:#dc2626; border-color:#dc2626; color:#fff; }
+        .mastery-input { flex:1; min-width:0; padding:0.45rem 0.6rem; border:1px solid #d1d5db; border-radius:0.5rem; font-size:0.85rem; background:#fff; } html.dark .mastery-input { background:#111827; border-color:#374151; color:#e5e7eb; }
+        .mastery-input.correct { border-color:#16a34a; } .mastery-input.incorrect { border-color:#dc2626; }
+        .mastery-check { padding:0.45rem 0.8rem; border-radius:0.5rem; font-size:0.8rem; font-weight:600; background:#0064B1; color:#fff; white-space:nowrap; }
+        .mastery-check:hover { background:#0a4f86; }
+        .mastery-feedback { font-size:0.8rem; margin-top:0.5rem; line-height:1.45; }
+        .mastery-feedback.correct { color:#15803d; } html.dark .mastery-feedback.correct { color:#86efac; }
+        .mastery-feedback.incorrect { color:#b91c1c; } html.dark .mastery-feedback.incorrect { color:#fca5a5; }
+        .trap-card { border:0; background:transparent; }
+        .trap-card + .trap-card { border-top:1px solid rgba(217,119,6,0.2); }
+        .trap-card > summary { cursor:pointer; list-style:none; padding:0.55rem 0; font-size:0.85rem; font-weight:600; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; color:#92400e; }
+        html.dark .trap-card > summary { color:#fcd34d; }
+        .trap-card > summary::-webkit-details-marker { display:none; }
+        .trap-card > summary::after { content:"\f078"; font-family:"Font Awesome 6 Free"; font-weight:900; font-size:0.6rem; opacity:0.5; transition:transform .2s ease; }
+        .trap-card[open] > summary::after { transform:rotate(180deg); }
+        .trap-body { padding:0 0 0.65rem; font-size:0.82rem; line-height:1.5; }
+
+        /* ----- Review queue + exam mode ----- */
+        .review-card { padding:0; }
+        .exam-card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:0.6rem; padding:0.85rem; } html.dark .exam-card { background:rgba(255,255,255,0.04); border-color:#374151; }
+        .review-btn, .exam-btn { padding:0.45rem 0.95rem; border-radius:0.5rem; font-size:0.82rem; font-weight:600; }
+        .review-got, .exam-primary { background:#0064B1; color:#fff; } .review-got:hover, .exam-primary:hover { background:#0a4f86; }
+        .review-correct { background:#16a34a; color:#fff; } .review-correct:hover { background:#15803d; }
+        .review-missed, .exam-secondary { background:#e5e7eb; color:#374151; } html.dark .review-missed, html.dark .exam-secondary { background:#374151; color:#e5e7eb; }
+        .review-missed:hover, .exam-secondary:hover { background:#d1d5db; } html.dark .review-missed:hover, html.dark .exam-secondary:hover { background:#4b5563; }
+        .review-badge { font-size:0.72rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:9999px; background:#fee2e2; color:#b91c1c; } html.dark .review-badge { background:rgba(185,28,28,0.3); color:#fca5a5; }
+        .review-badge.zero { background:#dcfce7; color:#166534; } html.dark .review-badge.zero { background:rgba(22,101,52,0.35); color:#86efac; }
+        .exam-choice { display:block; width:100%; text-align:left; padding:0.45rem 0.6rem; border:1px solid #d1d5db; border-radius:0.5rem; font-size:0.85rem; margin-top:0.35rem; background:#fff; } html.dark .exam-choice { background:#111827; border-color:#374151; color:#e5e7eb; }
+        .exam-choice:hover { background:#f3f4f6; } html.dark .exam-choice:hover { background:#374151; }
+        .exam-choice.selected { background:#0064B1; color:#fff; border-color:#0064B1; }
+        .exam-input { width:100%; padding:0.45rem 0.6rem; border:1px solid #d1d5db; border-radius:0.5rem; font-size:0.85rem; background:#fff; } html.dark .exam-input { background:#111827; border-color:#374151; color:#e5e7eb; }
+        .exam-timer { font-variant-numeric:tabular-nums; font-weight:700; }
+        .exam-timer.warning { color:#dc2626; }
+        .exam-result-row { display:grid; grid-template-columns:1fr auto; gap:0.5rem; align-items:center; font-size:0.85rem; }
+        .exam-bar { height:0.5rem; border-radius:9999px; background:#e5e7eb; overflow:hidden; } html.dark .exam-bar { background:#374151; }
+        .exam-bar > span { display:block; height:100%; background:linear-gradient(to right,#F58025,#f59e0b); }
+        .exam-miss { background:#fef2f2; border:1px solid #fecaca; border-radius:0.5rem; padding:0.6rem 0.75rem; } html.dark .exam-miss { background:rgba(220,38,38,0.1); border-color:rgba(220,38,38,0.4); }
+        .review-btn:focus-visible, .exam-btn:focus-visible, .exam-choice:focus-visible, .exam-input:focus-visible, .review-reveal:focus-visible { outline:2px solid #0064B1; outline-offset:2px; }
+
+        /* ----- Visual tools ----- */
+        .tool-card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:0.75rem; padding:1rem; } html.dark .tool-card { background:rgba(255,255,255,0.04); border-color:#374151; }
+        .tool-svg { width:100%; height:auto; color:#0064B1; touch-action:none; } html.dark .tool-svg { color:#93c5fd; }
+        .tool-out { font-family:'JetBrains Mono',monospace; font-size:0.78rem; background:#0f172a; color:#86efac; border-radius:0.5rem; padding:0.55rem 0.7rem; margin-top:0.5rem; line-height:1.5; }
+        .tool-hint { font-size:0.72rem; color:#92400e; background:#fef3c7; border-radius:0.4rem; padding:0.3rem 0.5rem; margin-top:0.4rem; } html.dark .tool-hint { background:rgba(180,83,9,0.25); color:#fcd34d; }
+        .tool-btn { font-size:0.74rem; font-weight:600; padding:0.3rem 0.6rem; border-radius:0.4rem; background:#e5e7eb; color:#374151; } html.dark .tool-btn { background:#374151; color:#e5e7eb; }
+        .tool-btn:hover { background:#d1d5db; } html.dark .tool-btn:hover { background:#4b5563; }
+        .tool-btn.active { background:#0064B1; color:#fff; }
+        .tool-input { width:100%; padding:0.35rem 0.5rem; border:1px solid #d1d5db; border-radius:0.4rem; font-size:0.8rem; background:#fff; } html.dark .tool-input { background:#111827; border-color:#374151; color:#e5e7eb; }
+        .tool-btn:focus-visible, .tool-input:focus-visible, .tw-cell:focus-visible { outline:2px solid #0064B1; outline-offset:2px; }
+        .scatter-dot { fill:#0064B1; cursor:grab; } html.dark .scatter-dot { fill:#60a5fa; }
+        .tw-cell { width:100%; padding:0.3rem; border:1px solid #d1d5db; border-radius:0.3rem; font-size:0.8rem; text-align:center; background:#fff; } html.dark .tw-cell { background:#111827; border-color:#374151; color:#e5e7eb; }
+
+        /* ----- Cheat-sheet focus mode ----- */
+        body.cheat-focus #intro-hero, body.cheat-focus #progress-dashboard, body.cheat-focus #review-queue,
+        body.cheat-focus #exam-mode, body.cheat-focus #visual-tools, body.cheat-focus aside,
+        body.cheat-focus main > section:not(#cheat-sheet), body.cheat-focus #main-content-column > section:not(#cheat-sheet),
+        body.cheat-focus .mastery-block, body.cheat-focus .traps-block { display:none !important; }
+        body.cheat-focus #main-content-grid { display:block; }
+        body.cheat-focus #cheat-sheet { box-shadow:none; }
+        .focus-toolbar { position:fixed; bottom:1rem; right:1rem; z-index:60; display:none; gap:0.5rem; }
+        body.cheat-focus .focus-toolbar { display:flex; }
+        .focus-toolbar button { box-shadow:0 6px 16px rgba(0,0,0,0.22); }
+
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
+
+        @media print {
+            nav, aside, #progress-dashboard, #review-queue, #scroll-progress-wrap, footer .no-print, .no-print { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            section { box-shadow: none !important; border: 1px solid #ccc !important; break-inside: avoid; }
+            .answer-hidden { opacity: 1 !important; max-height: none !important; }
+            details { open: true; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100 font-sans">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="bg-uta-blue text-white p-2 rounded-lg"><i class="fas fa-chart-bar text-xl"></i></div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight text-gray-900 dark:text-white">MATH 3316</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Statistical Inference · Exam 1</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <button onclick="document.getElementById('cheat-sheet').scrollIntoView({behavior:'smooth'})" type="button" class="inline-flex items-center gap-2 rounded-md bg-gray-100 dark:bg-gray-700 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"><i class="fas fa-sheet-plastic"></i><span class="hidden sm:inline">Cheat Sheet</span><span class="sm:hidden">Cheat</span></button>
+                    <button onclick="window.print()" type="button" class="inline-flex items-center gap-2 rounded-md bg-uta-blue px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors"><i class="fas fa-print"></i><span>Print</span></button>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="Toggle Dark Mode"><i class="fas fa-moon text-gray-600 dark:text-yellow-400 text-xl" id="theme-icon"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress-wrap" class="fixed top-16 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-40">
+        <div class="h-full bg-uta-orange transition-all duration-150" id="scroll-progress" style="width: 0%;"></div>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero -->
+        <section id="intro-hero" class="text-center space-y-4 mb-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Statistical Inference — Exam 1 Survival Guide</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">Chapter 1–2: describing relationships (scatterplots, correlation, regression, residuals) and the Normal model (z-scores, the 68–95–99.7 rule, percentiles, and normal plots). Mini-textbook, cheat sheet, and practice quiz in one.</p>
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-full text-sm font-semibold border border-blue-100 dark:border-blue-800"><i class="fas fa-info-circle"></i><span>Designed for Focus &amp; Retention</span></div>
+        </section>
+
+        <!-- Progress Dashboard -->
+        <section id="progress-dashboard" class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2"><i class="fas fa-chart-line text-uta-blue"></i> Progress Tracker</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1" id="progress-summary-text">0 of 8 sections complete</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Overall Completion</p>
+                    <p class="text-3xl font-extrabold text-uta-blue dark:text-blue-300" id="progress-overall-percent">0%</p>
+                </div>
+            </div>
+            <div class="mt-4 w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div id="progress-meter-fill" class="h-full bg-gradient-to-r from-uta-orange to-orange-500 transition-all duration-300" style="width: 0%;"></div>
+            </div>
+            <div class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+                <div class="bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 rounded-lg p-3"><div class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Completed</div><div class="font-bold text-lg"><span id="progress-completed-count">0</span>/<span id="progress-total-count">8</span></div></div>
+                <div class="bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 rounded-lg p-3"><div class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Weak Topics</div><div class="font-bold text-lg" id="progress-weak-count">0</div></div>
+                <div class="bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 rounded-lg p-3"><div class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</div><div class="font-bold text-sm mt-1" id="progress-status-label">Just getting started</div></div>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+                <button id="reset-progress-btn" type="button" class="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-sm font-semibold hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><i class="fas fa-rotate-left"></i> Reset Progress</button>
+            </div>
+        </section>
+
+        <!-- 10 Things Checklist -->
+        <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+            <div class="bg-gradient-to-r from-uta-blue to-blue-700 p-6 rounded-t-2xl">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fas fa-list-check"></i> The 10 Things You Must Know</h3>
+                <p class="text-blue-100 text-sm mt-1">Master these and you pass.</p>
+            </div>
+            <div class="p-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">1.</div><p class="text-sm leading-snug"><strong>Explanatory vs Response</strong><br><span class="text-gray-500 dark:text-gray-400">x explains/predicts y.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">2.</div><p class="text-sm leading-snug"><strong>Form/Direction/Strength</strong><br><span class="text-gray-500 dark:text-gray-400">how to read a scatterplot.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">3.</div><p class="text-sm leading-snug"><strong>Correlation <em>r</em></strong><br><span class="text-gray-500 dark:text-gray-400">−1 to 1, linear only.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">4.</div><p class="text-sm leading-snug"><strong>LSRL</strong><br><span class="text-gray-500 dark:text-gray-400">ŷ = a + bx (slope &amp; intercept).</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">5.</div><p class="text-sm leading-snug"><strong>Residuals</strong><br><span class="text-gray-500 dark:text-gray-400">obs − predicted; they sum to 0.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">6.</div><p class="text-sm leading-snug"><strong>Lurking variables</strong><br><span class="text-gray-500 dark:text-gray-400">correlation ≠ causation.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">7.</div><p class="text-sm leading-snug"><strong>Two-way tables</strong><br><span class="text-gray-500 dark:text-gray-400">marginal &amp; conditional %.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">8.</div><p class="text-sm leading-snug"><strong>z-score</strong><br><span class="text-gray-500 dark:text-gray-400">z = (x − μ)/σ.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">9.</div><p class="text-sm leading-snug"><strong>68–95–99.7 rule</strong><br><span class="text-gray-500 dark:text-gray-400">within 1/2/3 SD.</span></p></div>
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><div class="mt-1 text-uta-orange font-bold">10.</div><p class="text-sm leading-snug"><strong>Percentiles / normal plot</strong><br><span class="text-gray-500 dark:text-gray-400">work backward; straight line = normal.</span></p></div>
+            </div>
+        </section>
+
+        <!-- Main grid -->
+        <div id="main-content-grid" class="grid gap-12 md:grid-cols-[250px_1fr] relative items-start">
+
+            <!-- Sidebar -->
+            <aside class="hidden md:block sticky top-24">
+                <nav class="space-y-1" aria-label="Sidebar">
+                    <a href="#section-1" data-toc="section-1" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">1. Explanatory vs Response</a>
+                    <a href="#section-2" data-toc="section-2" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">2. Scatterplots</a>
+                    <a href="#section-3" data-toc="section-3" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">3. Correlation r</a>
+                    <a href="#section-4" data-toc="section-4" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">4. Regression Line</a>
+                    <a href="#section-5" data-toc="section-5" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">5. Residuals &amp; Cautions</a>
+                    <a href="#section-6" data-toc="section-6" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">6. Two-Way Tables</a>
+                    <a href="#section-7" data-toc="section-7" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">7. Normal &amp; z-scores</a>
+                    <a href="#section-8" data-toc="section-8" class="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">8. Empirical Rule &amp; Plots</a>
+                    <a href="#tools" class="block px-3 py-2 text-sm font-bold rounded-md text-uta-blue bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 transition-colors mt-3">Interactive Tools</a>
+                    <a href="#worked" class="block px-3 py-2 text-sm font-bold rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Worked Problems</a>
+                    <a href="#quiz" class="block px-3 py-2 text-sm font-bold rounded-md text-uta-orange bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 transition-colors">Practice Quiz</a>
+                </nav>
+            </aside>
+
+            <!-- Content -->
+            <div id="main-content-column" class="space-y-12">
+
+                <!-- SECTION 1 -->
+                <section id="section-1" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-1"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div><h2 class="text-2xl font-bold">Explanatory vs Response Variables</h2></div>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <h3 class="font-bold text-lg mb-2 text-uta-blue dark:text-blue-400">The one question that decides it</h3>
+                            <p class="mb-2">Ask: <em>"Which variable could cause or predict the other?"</em></p>
+                            <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                                <li><strong>Explanatory variable (x):</strong> the one that explains, predicts, or influences. Goes on the <strong>x-axis</strong>.</li>
+                                <li><strong>Response variable (y):</strong> the outcome being measured/predicted. Goes on the <strong>y-axis</strong>.</li>
+                            </ul>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-3 text-sm mt-3"><strong>Memory hook:</strong> e<u>X</u>planatory → <strong>x</strong>. The thing you'd manipulate or that comes first in time is usually x.</div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Quick examples</h3>
+                            <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                                <li>Time (x) explains radioactive <em>count</em> (y) — time drives decay.</li>
+                                <li>Highway fuel use (x) explains CO₂ emissions (y) — more fuel ⇒ more CO₂.</li>
+                                <li>Drinks consumed (x) explains blood alcohol content (y).</li>
+                                <li>Day of week (x) explains study time (y).</li>
+                            </ul>
+                            <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-uta-blue p-3 text-sm mt-3"><strong>Watch out:</strong> sometimes either direction is defensible (e.g. detergent price vs quality). Pick the causal story that matches the prompt.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2 -->
+                <section id="section-2" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-2"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div><h2 class="text-2xl font-bold">Scatterplots: Form, Direction, Strength</h2></div>
+                    <div class="space-y-6">
+                        <p>Describe every scatterplot with these <strong>three words</strong> + check for outliers.</p>
+                        <div class="grid sm:grid-cols-3 gap-3">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><h3 class="font-bold text-uta-blue dark:text-blue-400 mb-1">Form</h3><p class="text-sm text-gray-600 dark:text-gray-300"><strong>Linear</strong> (straight band) or <strong>curved/nonlinear</strong> (e.g. exponential decay bends).</p></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><h3 class="font-bold text-uta-blue dark:text-blue-400 mb-1">Direction</h3><p class="text-sm text-gray-600 dark:text-gray-300"><strong>Positive</strong> (rises L→R) or <strong>negative</strong> (falls L→R).</p></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><h3 class="font-bold text-uta-blue dark:text-blue-400 mb-1">Strength</h3><p class="text-sm text-gray-600 dark:text-gray-300"><strong>Strong</strong> (tight band), <strong>moderate</strong>, or <strong>weak</strong> (lots of scatter).</p></div>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-3 text-sm">
+                            <strong>Outliers vs influential points:</strong> an <strong>outlier</strong> falls far from the pattern in the y-direction; an <strong class="term-tip" data-tip="A point at an extreme x-value that can substantially tip (lever) the regression line.">influential observation</strong> sits at an extreme x and can tip the regression line. (e.g. O'Doul's near-beer: very low alcohol but ~70 cal — an outlier above the line.)
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-uta-blue p-3 text-sm"><strong>Exam tells:</strong> equal x-steps with <em>unequal</em> y-drops ⇒ <strong>curved</strong>, not linear (radioactive decay). Tight band rising ⇒ strong, positive, linear.</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3 -->
+                <section id="section-3" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-3"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div><h2 class="text-2xl font-bold">Correlation <em>r</em></h2></div>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <p class="mb-2"><span class="font-mono">r</span> measures the <strong>strength and direction of a LINEAR relationship</strong> only.</p>
+                            <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                                <li>Range: <span class="font-mono">−1 ≤ r ≤ 1</span>.</li>
+                                <li><span class="font-mono">r &gt; 0</span> positive, <span class="font-mono">r &lt; 0</span> negative, <span class="font-mono">r ≈ 0</span> no linear relationship.</li>
+                                <li>Near <span class="font-mono">±1</span> = very strong; |r| ≈ 0.5 = moderate.</li>
+                                <li><strong>No units</strong>, and switching x and y doesn't change r.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-3 text-sm">
+                            <strong>Cautions:</strong> r only works for <em>linear</em> form — a perfect curve can still have r far from ±1. r is <strong>not resistant</strong> (outliers pull it). Strong r ≠ causation.
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-uta-blue p-3 text-sm"><strong>Reference values:</strong> CO₂ vs highway fuel had <span class="font-mono">r = 0.97</span> → "very strong, positive, linear." Use the <a href="#tools" class="underline text-uta-blue">z &amp; stats tools</a> below to sanity-check.</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 4 -->
+                <section id="section-4" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-4"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div><h2 class="text-2xl font-bold">Least-Squares Regression Line</h2></div>
+                    <div class="space-y-6">
+                        <div class="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-center text-lg">ŷ = a + bx</div>
+                        <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                            <li><strong>b = slope</strong> = predicted change in y for each <strong>+1 unit</strong> of x.</li>
+                            <li><strong>a = intercept</strong> = predicted y when x = 0.</li>
+                            <li><strong>Predict:</strong> plug an x into the equation. Round only at the end.</li>
+                        </ul>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Worked: y = 15 + 20x</p>
+                            <p>slope = <strong>20</strong>, intercept = <strong>15</strong>. At x = 30: y = 15 + 20(30) = <strong>615</strong>. At x = 0 ⇒ 15; x = 60 ⇒ 1215. A positive slope ⇒ line rises L→R.</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Worked: CO₂ = −10.49 + 29.07·(FuelHwy)</p>
+                            <p>Each +1 L/100km adds ~29.07 g/km CO₂. Predict at x = 8.0: −10.49 + 29.07(8) = <strong>222.07 g/km</strong>.</p>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-3 text-sm"><strong>Fit check:</strong> the line fits well when the points sit close to it — i.e., the vertical distances (residuals) are <strong>small</strong>. High |r| ⇒ tight fit.</div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Formulas if given summary stats: <span class="font-mono">b = r·(s<sub>y</sub>/s<sub>x</sub>)</span> and <span class="font-mono">a = ȳ − b·x̄</span>. The line always passes through <span class="font-mono">(x̄, ȳ)</span>.</p>
+                    </div>
+                </section>
+
+                <!-- SECTION 5 -->
+                <section id="section-5" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-5"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">5</div><h2 class="text-2xl font-bold">Residuals &amp; Cautions</h2></div>
+                    <div class="space-y-6">
+                        <div class="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-center">residual = observed y − predicted ŷ</div>
+                        <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                            <li>Positive residual = point <strong>above</strong> the line; negative = below.</li>
+                            <li><strong>Sum of residuals = 0</strong> (in theory). If they're rounded, the sum is a tiny nonzero value <em>due to rounding</em> — not chance or error.</li>
+                            <li>A <strong>residual plot</strong> with no pattern ⇒ a line is appropriate.</li>
+                        </ul>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Worked: dominant = 0.886 + 1.373·(nondominant)</p>
+                            <p>nondom = 21.0, dom = 40.3 ⇒ pred = 29.719 ⇒ residual = +10.58. nondom = 31.5, dom = 36.9 ⇒ pred = 44.14 ⇒ residual = −7.24.</p>
+                        </div>
+                        <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-3 text-sm">
+                            <strong>Correlation ≠ causation.</strong> A <span class="term-tip" data-tip="A variable not measured that affects both x and y, creating a misleading association." tabindex="0">lurking variable</span> can drive both. Big hospitals correlate with longer stays because they treat <em>sicker patients</em> (severity is the lurker). Tea + nursing-home cheer? The lurker is the students' <em>social visits</em>.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 6 -->
+                <section id="section-6" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-6"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">6</div><h2 class="text-2xl font-bold">Two-Way Tables: Marginal &amp; Conditional</h2></div>
+                    <div class="space-y-6">
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><h3 class="font-bold text-uta-blue dark:text-blue-400 mb-1">Marginal distribution</h3><p class="text-sm text-gray-600 dark:text-gray-300">One variable's totals ÷ <strong>grand total</strong> × 100. Lives in the table's margins (row or column totals).</p></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><h3 class="font-bold text-uta-blue dark:text-blue-400 mb-1">Conditional distribution</h3><p class="text-sm text-gray-600 dark:text-gray-300">Within <strong>one row or column</strong>: cell ÷ that row/column total × 100. "Given X, what % are Y?"</p></div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm overflow-x-auto">
+                            <p class="font-bold mb-2">Worked: marginal distribution of country (grand total = 4576)</p>
+                            <table class="w-full text-center border-collapse">
+                                <thead><tr class="border-b border-gray-300 dark:border-gray-600"><th class="py-1 text-left">Country</th><th>Total</th><th>Percent</th></tr></thead>
+                                <tbody class="font-mono">
+                                    <tr><td class="text-left font-sans">Canada</td><td>176</td><td>3.85%</td></tr>
+                                    <tr><td class="text-left font-sans">France</td><td>672</td><td>14.69%</td></tr>
+                                    <tr><td class="text-left font-sans">Germany</td><td>218</td><td>4.76%</td></tr>
+                                    <tr><td class="text-left font-sans">Italy</td><td>321</td><td>7.01%</td></tr>
+                                    <tr><td class="text-left font-sans">Japan</td><td>645</td><td>14.10%</td></tr>
+                                    <tr><td class="text-left font-sans">U.K.</td><td>475</td><td>10.38%</td></tr>
+                                    <tr><td class="text-left font-sans">U.S.</td><td>2069</td><td>45.21%</td></tr>
+                                </tbody>
+                            </table>
+                            <p class="mt-2 text-gray-600 dark:text-gray-300">Each % = country total ÷ 4576 × 100. They sum to 100%.</p>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-3 text-sm"><strong>Tip:</strong> marginal uses the <em>grand</em> total; conditional uses a <em>single row/column</em> total. Rounded percents should land at 100% (±0.01 from rounding).</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 7 -->
+                <section id="section-7" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-7"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">7</div><h2 class="text-2xl font-bold">Normal Distributions &amp; z-scores</h2></div>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <p class="mb-2">A Normal model is the bell curve, written <span class="font-mono">X ~ N(μ, σ)</span> — mean μ, standard deviation σ.</p>
+                            <p>The <strong class="term-tip" data-tip="The Normal model with mean 0 and standard deviation 1, written Z ~ N(0, 1).">standard normal</strong> is the special case <span class="font-mono">Z ~ N(0, 1)</span>. We convert any value to a z-score so we can use one table.</p>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg"><p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Standardize</p><p class="font-mono text-lg text-center">z = (x − μ) / σ</p><p class="text-xs text-gray-400 mt-2">How many SDs x is from the mean.</p></div>
+                            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg"><p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Work backward</p><p class="font-mono text-lg text-center">x = μ + zσ</p><p class="text-xs text-gray-400 mt-2">Given a z / percentile, get the value.</p></div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Worked: X ~ N(12, 0.015)</p>
+                            <ul class="list-disc list-inside space-y-1 ml-2 text-gray-600 dark:text-gray-300">
+                                <li>x = 11.97 ⇒ z = (11.97 − 12)/0.015 = <strong>−2</strong></li>
+                                <li>P(X &lt; 11.97) = P(Z &lt; −2) ≈ <strong>0.0228</strong> (2.28%)</li>
+                                <li>P(X &gt; 11.97) = 1 − 0.0228 = <strong>0.9772</strong></li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-uta-blue p-3 text-sm">
+                            <strong>Probability process:</strong> (1) write μ, σ; (2) find z; (3) z-table gives <em>area to the LEFT</em>; (4) "greater than" ⇒ <span class="font-mono">1 − left</span>; (5) "between" ⇒ <span class="font-mono">bigger left − smaller left</span>.
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Percentiles (work backward)</p>
+                            <p>25th percentile means area-left = 0.25 ⇒ z ≈ −0.67 ⇒ x = 12 + (−0.67)(0.015) ≈ <strong>11.99</strong>.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 8 -->
+                <section id="section-8" class="focus-box bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="section-8"></div>
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3"><div class="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center font-bold">8</div><h2 class="text-2xl font-bold">Empirical Rule &amp; Normal Plots</h2></div>
+                    <div class="space-y-6">
+                        <div class="grid sm:grid-cols-3 gap-3 text-center">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><p class="text-3xl font-extrabold text-uta-orange">68%</p><p class="text-sm text-gray-600 dark:text-gray-300">within <strong>1</strong> SD: μ ± σ</p></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><p class="text-3xl font-extrabold text-uta-orange">95%</p><p class="text-sm text-gray-600 dark:text-gray-300">within <strong>2</strong> SD: μ ± 2σ</p></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"><p class="text-3xl font-extrabold text-uta-orange">99.7%</p><p class="text-sm text-gray-600 dark:text-gray-300">within <strong>3</strong> SD: μ ± 3σ</p></div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                            <p class="font-bold mb-1">Worked: μ = 100, σ = 15 (IQ)</p>
+                            <p>1 SD: 85–115 (≈68%) · 2 SD: 70–130 (≈95%) · 3 SD: 55–145 (≈99.7%).</p>
+                            <p class="mt-1 text-gray-600 dark:text-gray-300">Tail tricks: below μ−2σ ≈ 2.5%; above μ+σ ≈ 16% (since the middle 68% leaves 32% split between two tails).</p>
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-uta-blue p-3 text-sm">
+                            <strong>Normal probability plot:</strong> if the points fall on a roughly <strong>straight line</strong>, the data is approximately Normal. Strong bends or obvious outliers ⇒ not Normal.
+                            <p class="mt-2 italic">Say on the exam: "The data appears approximately Normal because the points in the normal probability plot follow a roughly straight-line pattern."</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- INTERACTIVE TOOLS -->
+                <section id="tools" class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-5"><i class="fas fa-calculator text-uta-blue"></i> Interactive Tools</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- z-score calc -->
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
+                            <h3 class="font-bold text-lg mb-3">z-score &amp; probability</h3>
+                            <div class="grid grid-cols-3 gap-2 mb-3">
+                                <label class="text-sm">x<input id="zc-x" type="number" step="any" value="11.97" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"></label>
+                                <label class="text-sm">μ<input id="zc-mu" type="number" step="any" value="12" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"></label>
+                                <label class="text-sm">σ<input id="zc-sd" type="number" step="any" value="0.015" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"></label>
+                            </div>
+                            <button onclick="calcZ()" class="w-full rounded-md bg-uta-blue text-white text-sm font-semibold py-2 hover:bg-blue-700 transition-colors">Compute</button>
+                            <div id="zc-out" class="mt-3 text-sm font-mono bg-gray-900 text-green-300 rounded-lg p-3 leading-relaxed">z = −2.0000<br>P(X &lt; x) = 0.0228<br>P(X &gt; x) = 0.9772</div>
+                        </div>
+                        <!-- empirical rule -->
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
+                            <h3 class="font-bold text-lg mb-3">Empirical Rule ranges</h3>
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                <label class="text-sm">μ<input id="er-mu" type="number" step="any" value="100" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"></label>
+                                <label class="text-sm">σ<input id="er-sd" type="number" step="any" value="15" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"></label>
+                            </div>
+                            <button onclick="calcER()" class="w-full rounded-md bg-uta-orange text-white text-sm font-semibold py-2 hover:bg-orange-600 transition-colors">Compute</button>
+                            <div id="er-out" class="mt-3 text-sm font-mono bg-gray-900 text-orange-200 rounded-lg p-3 leading-relaxed">68% → 85 to 115<br>95% → 70 to 130<br>99.7% → 55 to 145</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">Probabilities use the exact normal CDF, so they match a z-table to 4 decimals.</p>
+                </section>
+
+                <!-- z-table reference -->
+                <section id="ztable" class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-4"><i class="fas fa-table text-uta-blue"></i> Handy z-values (area to the LEFT)</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-center text-sm border-collapse">
+                            <thead><tr class="border-b border-gray-300 dark:border-gray-600 font-bold"><th class="py-2">z</th><th>−2</th><th>−1.645</th><th>−1</th><th>−0.67</th><th>0</th><th>+0.67</th><th>+1</th><th>+1.645</th><th>+1.96</th><th>+2</th></tr></thead>
+                            <tbody class="font-mono"><tr><td class="py-2 font-bold font-sans">P(Z&lt;z)</td><td>.0228</td><td>.05</td><td>.1587</td><td>.2514</td><td>.5000</td><td>.7486</td><td>.8413</td><td>.95</td><td>.975</td><td>.9772</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">For "greater than," subtract from 1. For "between," subtract the smaller left-area from the larger.</p>
+                </section>
+
+                <!-- WORKED PROBLEMS -->
+                <section id="worked" class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-5"><i class="fas fa-pen-ruler text-uta-orange"></i> Worked Exam-Style Problems</h2>
+                    <div class="space-y-4">
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">A. X ~ N(12, 0.015). Find P(X &lt; 11.97).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">z = (11.97 − 12)/0.015 = −2<br>P(Z &lt; −2) = <span class="text-green-400">0.0228 (2.28%)</span></div></div></details>
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">B. Same model. Find P(X &gt; 11.99).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">z = (11.99 − 12)/0.015 = −0.667<br>P(Z &lt; −0.67) ≈ 0.2514<br>P(X &gt; 11.99) = 1 − 0.2514 = <span class="text-green-400">0.7486 (≈74.86%)</span></div></div></details>
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">C. Find the 25th percentile of N(12, 0.015).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">area-left = 0.25 ⇒ z ≈ −0.67<br>x = 12 + (−0.67)(0.015) ≈ <span class="text-green-400">11.99</span></div></div></details>
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">D. Predict CO₂ from highway fuel = 8.0 (line CO₂ = −10.49 + 29.07x).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">ŷ = −10.49 + 29.07(8.0) = −10.49 + 232.56 = <span class="text-green-400">222.07 g/km</span></div></div></details>
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">E. Residual for dom = 40.3, nondom = 21.0 (dom = 0.886 + 1.373·nondom).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">pred = 0.886 + 1.373(21.0) = 29.719<br>residual = 40.3 − 29.719 = <span class="text-green-400">+10.58</span></div></div></details>
+                        <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">F. Marginal % for the U.S. (US total 2069, grand total 4576).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 text-gray-100 p-4 text-sm font-mono">2069 ÷ 4576 × 100 = <span class="text-green-400">45.21%</span></div></div></details>
+                    </div>
+                </section>
+
+                <!-- QUIZ -->
+                <section id="quiz" class="mt-12">
+                    <div class="mb-4 flex flex-wrap items-center justify-end gap-2" data-section-control="quiz"></div>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-2xl p-8 shadow-xl">
+                        <h2 class="text-3xl font-bold mb-6 text-center border-b border-gray-700 pb-4"><i class="fas fa-clipboard-question mr-2"></i> Practice Quiz</h2>
+                        <div class="space-y-8">
+
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-uta-orange">A. Fill in the Blank</h3>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">1. The z-score formula is __________.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('a1')">Show Answer</button><div id="a1" class="answer-hidden text-green-400 font-bold font-mono">z = (x − μ) / σ</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">2. To get a value from a z-score, use __________.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('a2')">Show Answer</button><div id="a2" class="answer-hidden text-green-400 font-bold font-mono">x = μ + zσ</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">3. Correlation r ranges from ___ to ___.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('a3')">Show Answer</button><div id="a3" class="answer-hidden text-green-400 font-bold">−1 to 1</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">4. The empirical rule percentages are ___, ___, ___.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('a4')">Show Answer</button><div id="a4" class="answer-hidden text-green-400 font-bold">68%, 95%, 99.7%</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">5. The standard normal is Z ~ N(___, ___).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('a5')">Show Answer</button><div id="a5" class="answer-hidden text-green-400 font-bold">N(0, 1)</div></div></div></details>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-uta-orange">B. Multiple Choice</h3>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">6. In a normal probability plot, the data is approximately normal when the points…</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-300" data-qid="s8-q3">
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,true)" role="button" tabindex="0">A) follow a roughly straight line</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">B) form a strong curve</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">C) cluster in one corner</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">D) have many outliers</div>
+                                </div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">7. r = 0.97 between fuel use and CO₂ means the relationship is…</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-300" data-qid="s3-q2">
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,true)" role="button" tabindex="0">A) strong, positive, linear</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">B) strong, negative, linear</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">C) weak, positive, linear</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">D) nonlinear</div>
+                                </div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">8. The slope of a regression line tells you…</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><div class="space-y-2 text-sm text-gray-300" data-qid="s4-q4">
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">A) the value of y when x = 0</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,true)" role="button" tabindex="0">B) the change in predicted y per +1 unit of x</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">C) the correlation</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">D) the sum of residuals</div>
+                                </div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">9. Hospital size correlates with longer stays. Best explanation?</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><div class="space-y-2 text-sm text-gray-300" data-qid="s5-q5">
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">A) Small hospitals give better care, so go small</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,true)" role="button" tabindex="0">B) Big hospitals treat sicker patients (lurking variable)</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">C) Bigger buildings cause illness</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">D) The correlation must be an error</div>
+                                </div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">10. For N(100,15), about what % is below 70?</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-300" data-qid="s8-q2">
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">A) 5%</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,true)" role="button" tabindex="0">B) 2.5%</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">C) 16%</div>
+                                    <div class="p-2 border border-gray-600 rounded cursor-pointer hover:bg-gray-700" onclick="checkMCQ(this,false)" role="button" tabindex="0">D) 32%</div>
+                                </div></div></div></details>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-uta-orange">C. Short Calculation</h3>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">11. X ~ N(50, 4). z-score for x = 58?</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('c11')">Show Answer</button><div id="c11" class="answer-hidden text-green-400 font-mono mt-2">z = (58 − 50)/4 = +2</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">12. Line ŷ = 15 + 4x. Predict y at x = 3.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('c12')">Show Answer</button><div id="c12" class="answer-hidden text-green-400 font-mono mt-2">ŷ = 15 + 4(3) = 27</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">13. N(100,15): use μ + zσ for the 25th percentile (z ≈ −0.67).</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('c13')">Show Answer</button><div id="c13" class="answer-hidden text-green-400 font-mono mt-2">x = 100 + (−0.67)(15) ≈ 89.95</div></div></div></details>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">14. P(X &gt; x) where z = −2.</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4"><button class="text-xs text-blue-300 hover:text-white" onclick="toggleAnswer('c14')">Show Answer</button><div id="c14" class="answer-hidden text-green-400 font-mono mt-2">1 − 0.0228 = 0.9772</div></div></div></details>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-uta-orange">Answer Key</h3>
+                                <details class="quiz-accordion"><summary class="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-100"><span class="leading-snug">Reveal full key</span><i class="quiz-accordion-chevron fas fa-chevron-down text-xs text-gray-400"></i></summary><div><div class="bg-gray-800 p-4 text-sm text-gray-200"><ol class="space-y-1 list-decimal list-inside">
+                                    <li class="font-mono">z = (x − μ)/σ</li>
+                                    <li class="font-mono">x = μ + zσ</li>
+                                    <li>−1 to 1</li>
+                                    <li>68%, 95%, 99.7%</li>
+                                    <li>N(0, 1)</li>
+                                    <li>A</li><li>A</li><li>B</li><li>B</li><li>B</li>
+                                    <li class="font-mono">z = +2</li>
+                                    <li class="font-mono">27</li>
+                                    <li class="font-mono">≈ 89.95</li>
+                                    <li class="font-mono">0.9772</li>
+                                </ol></div></div></details>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CHEAT SHEET -->
+                <section id="cheat-sheet" class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-4"><i class="fas fa-sheet-plastic text-uta-blue"></i> One-Page Cheat Sheet</h2>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-1"><p class="font-bold text-uta-blue dark:text-blue-400">Formulas</p>
+                            <p class="font-mono">z = (x − μ)/σ</p><p class="font-mono">x = μ + zσ</p><p class="font-mono">ŷ = a + bx</p><p class="font-mono">b = r·s<sub>y</sub>/s<sub>x</sub> · a = ȳ − b·x̄</p><p class="font-mono">residual = y − ŷ</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-1"><p class="font-bold text-uta-blue dark:text-blue-400">Empirical Rule</p>
+                            <p>±1σ → 68% · ±2σ → 95% · ±3σ → 99.7%</p><p>below μ−2σ ≈ 2.5% · above μ+σ ≈ 16%</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-1"><p class="font-bold text-uta-blue dark:text-blue-400">z-table moves</p>
+                            <p>table = area to LEFT</p><p>"greater than" → 1 − left</p><p>"between" → bigger − smaller left</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-1"><p class="font-bold text-uta-blue dark:text-blue-400">Words to use</p>
+                            <p>scatterplot: form · direction · strength + outliers</p><p>r: linear only, no units, not resistant</p><p>marginal = ÷ grand total; conditional = ÷ one row/col</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LAST MINUTE -->
+                <section id="last-minute-tips" class="bg-yellow-50 dark:bg-yellow-900/10 border-l-8 border-yellow-400 p-6 rounded-r-lg shadow-sm">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Last-Minute Tips</h3>
+                    <div class="space-y-3 text-gray-700 dark:text-gray-300">
+                        <p>If you only get one pass before the exam:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Memorize</strong> <span class="font-mono">z = (x − μ)/σ</span> and <span class="font-mono">x = μ + zσ</span> — half the exam is these two.</li>
+                            <li><strong>68–95–99.7</strong> cold, plus the tail shortcuts (2.5%, 16%).</li>
+                            <li><strong>Read the question's direction:</strong> "less than" = table value; "greater than" = 1 − table; "between" = subtract.</li>
+                            <li><strong>Normal plot = straight line ⇒ normal.</strong> Say it in one sentence.</li>
+                            <li><strong>Don't round mid-problem.</strong> Carry full precision, round the final answer to the requested places.</li>
+                            <li><strong>Correlation ≠ causation</strong> — name the lurking variable when asked.</li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-500 text-sm py-12 border-t border-gray-200 dark:border-gray-700">
+            <p>MATH 3316 — Statistical Inference · Exam 1 Study Guide</p>
+            <p class="no-print mt-1 text-xs">Progress saves locally in this browser.</p>
+        </footer>
+    </main>
+
+    <script>
+        /* ============================================================
+           MATH 3316 Study App
+           Module order: state · question bank · attempts (recordAttempt) ·
+           mastery · review · exam · tools · export/import · cheat/a11y · boot
+           ============================================================ */
+        const app = { state: null };
+        const nowIso = () => new Date().toISOString();
+        const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
+        const CONTENT_SECTION_IDS = ['section-1','section-2','section-3','section-4','section-5','section-6','section-7','section-8'];
+
+        // ---------- State (versioned + migration) ----------
+        const APP_STATE_VERSION = 2;
+        const STATE_KEY = 'm3316-state';
+        const LEGACY_PROGRESS_KEY = 'm3316-progress';
+        let stateRepaired = false;
+
+        function safeReadJson(key){
+            try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; }
+            catch(e){ return null; }
+        }
+        function safeWriteJson(key, value){
+            try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+            catch(e){ return false; }
+        }
+        function cloneDefaultState(){
+            return { version: APP_STATE_VERSION, completedSections:{}, weakTopics:{},
+                     mastery:{}, reviewQueue:[], examHistory:[], activeExam:null, preferences:{} };
+        }
+        function normalizeMasteryEntry(m){
+            const e = { attempts:+m.attempts||0, correct:+m.correct||0, score:+m.score||0,
+                        mastered:!!m.mastered, lastAttemptAt:m.lastAttemptAt||null, perQuestion:{} };
+            if(isObj(m.perQuestion)) for(const q in m.perQuestion){
+                if(QUESTION_ID_SET.has(q) && isObj(m.perQuestion[q]))
+                    e.perQuestion[q] = { attempts:+m.perQuestion[q].attempts||0, correct:+m.perQuestion[q].correct||0 };
+            }
+            return e;
+        }
+        function normalizeReviewEntry(e){
+            return { questionId:e.questionId, attempts:+e.attempts||0, correctStreak:+e.correctStreak||0,
+                     lastAttemptAt:e.lastAttemptAt||null, nextReviewAt:e.nextReviewAt||nowIso(),
+                     intervalDays:[1,3,7].includes(+e.intervalDays)?+e.intervalDays:1 };
+        }
+        function normalizeState(raw){
+            const d = cloneDefaultState();
+            if(!isObj(raw)) return d;
+            const valid = (id) => CONTENT_SECTION_IDS.includes(id);
+            if(isObj(raw.completedSections)) for(const k in raw.completedSections){ if(valid(k) && raw.completedSections[k]) d.completedSections[k]=true; }
+            if(isObj(raw.weakTopics)) for(const k in raw.weakTopics){ if(valid(k) && raw.weakTopics[k]) d.weakTopics[k]=true; }
+            if(isObj(raw.mastery)) for(const k in raw.mastery){ if(valid(k) && isObj(raw.mastery[k])) d.mastery[k]=normalizeMasteryEntry(raw.mastery[k]); }
+            if(Array.isArray(raw.reviewQueue)) d.reviewQueue = raw.reviewQueue.filter(e => isObj(e) && QUESTION_ID_SET.has(e.questionId)).map(normalizeReviewEntry);
+            if(Array.isArray(raw.examHistory)) d.examHistory = raw.examHistory.filter(isObj).slice(0,10);
+            if(isObj(raw.activeExam)) d.activeExam = raw.activeExam;
+            if(isObj(raw.preferences)) d.preferences = raw.preferences;
+            return d;
+        }
+        function migrateLegacyProgress(){
+            const legacy = safeReadJson(LEGACY_PROGRESS_KEY);
+            if(!isObj(legacy)) return null;
+            const d = cloneDefaultState();
+            if(isObj(legacy.complete)) for(const k in legacy.complete){ if(CONTENT_SECTION_IDS.includes(k) && legacy.complete[k]) d.completedSections[k]=true; }
+            if(isObj(legacy.weak)) for(const k in legacy.weak){ if(CONTENT_SECTION_IDS.includes(k) && legacy.weak[k]) d.weakTopics[k]=true; }
+            return d;
+        }
+        function getStoredState(){
+            const raw = safeReadJson(STATE_KEY);
+            if(isObj(raw) && raw.version === APP_STATE_VERSION) return normalizeState(raw);
+            if(isObj(raw)){ stateRepaired = true; return normalizeState(raw); }   // unknown/old version → coerce
+            const migrated = migrateLegacyProgress();
+            if(migrated){ stateRepaired = true; return migrated; }
+            return cloneDefaultState();
+        }
+        function persistState(){ safeWriteJson(STATE_KEY, app.state); }
+
+        // ---------- Question bank ----------
+        const QUESTION_BANK = [
+            // Section 1 — Explanatory vs Response
+            { id:'s1-q1', topicId:'section-1', subtopicId:'s1-roles', type:'mcq', difficulty:'easy', prompt:'Researchers record the time elapsed and measure the radioactive count remaining. Which is the explanatory variable?', choices:[{id:'a',text:'Time elapsed'},{id:'b',text:'Radioactive count'},{id:'c',text:'Neither'},{id:'d',text:'Both equally'}], answer:'a', explanation:'Time drives/predicts the decay, so time is explanatory (x).', tags:['roles'] },
+            { id:'s1-q2', topicId:'section-1', subtopicId:'s1-roles', type:'mcq', difficulty:'easy', prompt:'For highway fuel use and CO₂ emissions, which is the explanatory variable?', choices:[{id:'a',text:'Highway fuel use'},{id:'b',text:'CO₂ emissions'},{id:'c',text:'Neither'},{id:'d',text:'Both'}], answer:'a', explanation:'More fuel ⇒ more CO₂; fuel use explains emissions.', tags:['roles'] },
+            { id:'s1-q3', topicId:'section-1', subtopicId:'s1-axes', type:'fill', difficulty:'easy', prompt:'The explanatory variable is plotted on the ___ axis.', answer:['x','x-axis','x axis','the x-axis','horizontal'], explanation:'eXplanatory → x-axis.', tags:['axes'] },
+            { id:'s1-q4', topicId:'section-1', subtopicId:'s1-roles', type:'mcq', difficulty:'easy', prompt:'Drinks consumed and blood alcohol content (BAC) — which is the response variable?', choices:[{id:'a',text:'BAC'},{id:'b',text:'Drinks consumed'},{id:'c',text:'Neither'},{id:'d',text:'Both'}], answer:'a', explanation:'BAC is the outcome predicted by number of drinks.', tags:['roles'] },
+            { id:'s1-q5', topicId:'section-1', subtopicId:'s1-roles', type:'mcq', difficulty:'medium', prompt:'The explanatory variable is best described as the one that…', choices:[{id:'a',text:'explains or predicts the other'},{id:'b',text:'is always larger'},{id:'c',text:'is measured second'},{id:'d',text:'goes on the y-axis'}], answer:'a', explanation:'Explanatory = explains/predicts; it goes on the x-axis.', tags:['roles'] },
+            { id:'s1-q6', topicId:'section-1', subtopicId:'s1-axes', type:'mcq', difficulty:'easy', prompt:'The response variable is plotted on which axis?', choices:[{id:'a',text:'y'},{id:'b',text:'x'},{id:'c',text:'either'},{id:'d',text:'neither'}], answer:'a', explanation:'Response (outcome) goes on the y-axis.', tags:['axes'] },
+
+            // Section 2 — Scatterplots
+            { id:'s2-q1', topicId:'section-2', subtopicId:'s2-describe', type:'mcq', difficulty:'easy', prompt:'A scatterplot shows a tight band of points rising left to right. Describe it.', choices:[{id:'a',text:'strong, positive, linear'},{id:'b',text:'weak, negative, linear'},{id:'c',text:'strong, negative, linear'},{id:'d',text:'no association'}], answer:'a', explanation:'Tight = strong; rising = positive; straight band = linear.', tags:['describe'] },
+            { id:'s2-q2', topicId:'section-2', subtopicId:'s2-form', type:'mcq', difficulty:'medium', prompt:'Equal steps in x produce increasingly small drops in y. The form is…', choices:[{id:'a',text:'curved (nonlinear)'},{id:'b',text:'linear'},{id:'c',text:'positive linear'},{id:'d',text:'no association'}], answer:'a', explanation:'Unequal y-changes for equal x-steps ⇒ curved (e.g. decay).', tags:['form'] },
+            { id:'s2-q3', topicId:'section-2', subtopicId:'s2-describe', type:'fill', difficulty:'easy', prompt:"Name the three words used to describe a scatterplot's pattern.", answer:['form, direction, strength','form direction strength','form,direction,strength'], explanation:'Form, direction, strength (then check for outliers).', tags:['describe'] },
+            { id:'s2-q4', topicId:'section-2', subtopicId:'s2-outliers', type:'mcq', difficulty:'medium', prompt:'A point lying far from the overall pattern in the y-direction is called a(n)…', choices:[{id:'a',text:'outlier'},{id:'b',text:'influential point'},{id:'c',text:'marginal value'},{id:'d',text:'residual'}], answer:'a', explanation:'Outlier = far from the pattern in y.', tags:['outliers'] },
+            { id:'s2-q5', topicId:'section-2', subtopicId:'s2-outliers', type:'mcq', difficulty:'hard', prompt:'A point at an extreme x-value that can substantially tip the regression line is…', choices:[{id:'a',text:'an influential observation'},{id:'b',text:'an outlier in y'},{id:'c',text:'a lurking variable'},{id:'d',text:'a residual'}], answer:'a', explanation:'Extreme-x points are influential (they can tip the line).', tags:['outliers'] },
+            { id:'s2-q6', topicId:'section-2', subtopicId:'s2-describe', type:'mcq', difficulty:'easy', prompt:'Points falling from left to right indicate which direction?', choices:[{id:'a',text:'negative'},{id:'b',text:'positive'},{id:'c',text:'none'},{id:'d',text:'curved'}], answer:'a', explanation:'Falling L→R is a negative direction.', tags:['describe'] },
+
+            // Section 3 — Correlation r
+            { id:'s3-q1', topicId:'section-3', subtopicId:'s3-range', type:'fill', difficulty:'easy', prompt:'Correlation r ranges from ___ to ___.', answer:['-1 to 1','−1 to 1','-1 and 1','-1,1','from -1 to 1'], explanation:'−1 ≤ r ≤ 1.', tags:['range'] },
+            { id:'s3-q2', topicId:'section-3', subtopicId:'s3-interpret', type:'mcq', difficulty:'easy', prompt:'r = 0.97 between fuel use and CO₂ means the relationship is…', choices:[{id:'a',text:'strong, positive, linear'},{id:'b',text:'strong, negative, linear'},{id:'c',text:'weak, positive, linear'},{id:'d',text:'nonlinear'}], answer:'a', explanation:'r near +1 ⇒ strong, positive, linear.', tags:['interpret'] },
+            { id:'s3-q3', topicId:'section-3', subtopicId:'s3-meaning', type:'mcq', difficulty:'medium', prompt:'Correlation r measures the strength and direction of a ___ relationship only.', choices:[{id:'a',text:'linear'},{id:'b',text:'curved'},{id:'c',text:'categorical'},{id:'d',text:'causal'}], answer:'a', explanation:'r captures only the LINEAR component.', tags:['meaning'] },
+            { id:'s3-q4', topicId:'section-3', subtopicId:'s3-properties', type:'mcq', difficulty:'medium', prompt:'If you swap which variable is x and which is y, the value of r…', choices:[{id:'a',text:'stays the same'},{id:'b',text:'changes sign'},{id:'c',text:'doubles'},{id:'d',text:'becomes 0'}], answer:'a', explanation:'r is symmetric in x and y.', tags:['properties'] },
+            { id:'s3-q5', topicId:'section-3', subtopicId:'s3-properties', type:'mcq', difficulty:'easy', prompt:'Correlation r has which units?', choices:[{id:'a',text:'none'},{id:'b',text:'same as x'},{id:'c',text:'same as y'},{id:'d',text:'percent'}], answer:'a', explanation:'r is unitless.', tags:['properties'] },
+            { id:'s3-q6', topicId:'section-3', subtopicId:'s3-meaning', type:'mcq', difficulty:'hard', prompt:'A scatterplot shows a perfect symmetric U-shaped curve. Its correlation r is…', choices:[{id:'a',text:'near 0'},{id:'b',text:'near +1'},{id:'c',text:'exactly +1'},{id:'d',text:'exactly −1'}], answer:'a', explanation:'r only captures linear association; a symmetric curve can have r≈0.', tags:['meaning'] },
+            { id:'s3-q7', topicId:'section-3', subtopicId:'s3-properties', type:'mcq', difficulty:'medium', prompt:'Is r resistant to outliers?', choices:[{id:'a',text:'No — outliers can pull it strongly'},{id:'b',text:'Yes — it ignores them'},{id:'c',text:'Only for negative r'},{id:'d',text:'Only for large samples'}], answer:'a', explanation:'r is NOT resistant; a single outlier can move it.', tags:['properties'] },
+
+            // Section 4 — LSRL
+            { id:'s4-q1', topicId:'section-4', subtopicId:'s4-predict', type:'numeric', difficulty:'easy', prompt:'For the line ŷ = 15 + 4x, predict y when x = 3.', answer:27, tolerance:0.01, auditNote:'15 + 4·3 = 27', explanation:'ŷ = 15 + 4(3) = 27.', tags:['predict'] },
+            { id:'s4-q2', topicId:'section-4', subtopicId:'s4-predict', type:'numeric', difficulty:'easy', prompt:'For y = 15 + 20x, predict y at x = 30.', answer:615, tolerance:0.01, auditNote:'15 + 20·30 = 615', explanation:'15 + 20(30) = 615.', tags:['predict'] },
+            { id:'s4-q3', topicId:'section-4', subtopicId:'s4-predict', type:'numeric', difficulty:'medium', prompt:'Using CO₂ = −10.49 + 29.07·x, predict CO₂ at x = 8.0.', answer:222.07, tolerance:0.05, auditNote:'−10.49 + 29.07·8 = 222.07 (guide worked D)', explanation:'−10.49 + 29.07(8.0) = 222.07 g/km.', tags:['predict'] },
+            { id:'s4-q4', topicId:'section-4', subtopicId:'s4-meaning', type:'mcq', difficulty:'easy', prompt:'The slope b of a regression line tells you…', choices:[{id:'a',text:'the change in predicted y per +1 unit of x'},{id:'b',text:'the value of y when x = 0'},{id:'c',text:'the correlation'},{id:'d',text:'the sum of residuals'}], answer:'a', explanation:'Slope = predicted change in y for each +1 unit of x.', tags:['meaning'] },
+            { id:'s4-q5', topicId:'section-4', subtopicId:'s4-meaning', type:'mcq', difficulty:'easy', prompt:'The intercept a of ŷ = a + bx is…', choices:[{id:'a',text:'the predicted y when x = 0'},{id:'b',text:'the slope'},{id:'c',text:'the mean of y'},{id:'d',text:'the residual'}], answer:'a', explanation:'Intercept = predicted y at x = 0.', tags:['meaning'] },
+            { id:'s4-q6', topicId:'section-4', subtopicId:'s4-meaning', type:'mcq', difficulty:'medium', prompt:'The least-squares line always passes through which point?', choices:[{id:'a',text:'(x̄, ȳ) — the means'},{id:'b',text:'(0, 0)'},{id:'c',text:'the largest x'},{id:'d',text:'the first data point'}], answer:'a', explanation:'The LSRL passes through the point of averages (x̄, ȳ).', tags:['meaning'] },
+            { id:'s4-q7', topicId:'section-4', subtopicId:'s4-predict', type:'numeric', difficulty:'easy', prompt:'For y = 15 + 20x, what is the predicted y at x = 0?', answer:15, tolerance:0.01, auditNote:'15 + 20·0 = 15 (= intercept)', explanation:'At x = 0, y = the intercept = 15.', tags:['predict'] },
+
+            // Section 5 — Residuals & cautions
+            { id:'s5-q1', topicId:'section-5', subtopicId:'s5-residual', type:'mcq', difficulty:'easy', prompt:'A residual is defined as…', choices:[{id:'a',text:'observed y − predicted ŷ'},{id:'b',text:'predicted ŷ − observed y'},{id:'c',text:'x − x̄'},{id:'d',text:'y − x'}], answer:'a', explanation:'residual = observed − predicted.', tags:['residual'] },
+            { id:'s5-q2', topicId:'section-5', subtopicId:'s5-residual', type:'numeric', difficulty:'medium', prompt:'Using dom = 0.886 + 1.373·nondom, find the residual when nondom = 21.0 and the observed dom = 40.3.', answer:10.58, tolerance:0.05, auditNote:'pred = 0.886 + 1.373·21 = 29.719; 40.3 − 29.719 = +10.58 (guide E)', explanation:'predicted 29.719; residual = 40.3 − 29.719 = +10.58.', tags:['residual'] },
+            { id:'s5-q3', topicId:'section-5', subtopicId:'s5-residual', type:'mcq', difficulty:'easy', prompt:'In theory, the sum of the residuals from a least-squares line equals…', choices:[{id:'a',text:'0'},{id:'b',text:'1'},{id:'c',text:'r'},{id:'d',text:'the slope'}], answer:'a', explanation:'Residuals sum to 0 (rounding can leave a tiny nonzero).', tags:['residual'] },
+            { id:'s5-q4', topicId:'section-5', subtopicId:'s5-residual', type:'mcq', difficulty:'easy', prompt:'A positive residual means the observed point lies ___ the regression line.', choices:[{id:'a',text:'above'},{id:'b',text:'below'},{id:'c',text:'on'},{id:'d',text:'left of'}], answer:'a', explanation:'Positive residual ⇒ point above the line.', tags:['residual'] },
+            { id:'s5-q5', topicId:'section-5', subtopicId:'s5-cautions', type:'mcq', difficulty:'medium', prompt:'Larger hospitals are correlated with longer stays. Best explanation?', choices:[{id:'a',text:'Big hospitals treat sicker patients (a lurking variable)'},{id:'b',text:'Small hospitals give better care'},{id:'c',text:'Big buildings cause illness'},{id:'d',text:'The correlation must be an error'}], answer:'a', explanation:'Severity of illness is the lurking variable.', tags:['cautions'] },
+            { id:'s5-q6', topicId:'section-5', subtopicId:'s5-residual', type:'mcq', difficulty:'medium', prompt:'A residual plot that shows no pattern (random scatter) indicates…', choices:[{id:'a',text:'a line is an appropriate model'},{id:'b',text:'the data is curved'},{id:'c',text:'there is an outlier'},{id:'d',text:'r = 0'}], answer:'a', explanation:'No pattern in residuals ⇒ a line fits well.', tags:['residual'] },
+            { id:'s5-q7', topicId:'section-5', subtopicId:'s5-cautions', type:'mcq', difficulty:'hard', prompt:"Students bring tea to a nursing home and residents' cheer rises. What is a likely lurking variable?", choices:[{id:'a',text:'the students’ social visits'},{id:'b',text:'the temperature of the tea'},{id:'c',text:'the time of day'},{id:'d',text:'there is none'}], answer:'a', explanation:'The companionship of the visits drives the cheer, not the tea.', tags:['cautions'] },
+
+            // Section 6 — Two-way tables
+            { id:'s6-q1', topicId:'section-6', subtopicId:'s6-marginal', type:'mcq', difficulty:'easy', prompt:'A marginal distribution is found by dividing by the…', choices:[{id:'a',text:'grand total'},{id:'b',text:'row total'},{id:'c',text:'column total'},{id:'d',text:'cell count'}], answer:'a', explanation:'Marginal uses the grand total.', tags:['marginal'] },
+            { id:'s6-q2', topicId:'section-6', subtopicId:'s6-conditional', type:'mcq', difficulty:'medium', prompt:'A conditional distribution is found by dividing a cell by…', choices:[{id:'a',text:'a single row or column total'},{id:'b',text:'the grand total'},{id:'c',text:'the number of categories'},{id:'d',text:'100'}], answer:'a', explanation:'Conditional uses one row/column total.', tags:['conditional'] },
+            { id:'s6-q3', topicId:'section-6', subtopicId:'s6-marginal', type:'numeric', difficulty:'easy', prompt:'The U.S. total is 2069 out of a grand total of 4576. Its marginal percentage is ___ % (2 dp).', answer:45.21, tolerance:0.05, auditNote:'2069/4576·100 = 45.21 (guide worked F)', explanation:'2069 ÷ 4576 × 100 = 45.21%.', tags:['marginal'] },
+            { id:'s6-q4', topicId:'section-6', subtopicId:'s6-marginal', type:'numeric', difficulty:'medium', prompt:"France's total is 672 of the grand total 4576. Marginal percentage (2 dp)?", answer:14.69, tolerance:0.05, auditNote:'672/4576·100 = 14.69', explanation:'672 ÷ 4576 × 100 = 14.69%.', tags:['marginal'] },
+            { id:'s6-q5', topicId:'section-6', subtopicId:'s6-conditional', type:'mcq', difficulty:'easy', prompt:'“Given the row category X, what percent are Y?” describes a ___ distribution.', choices:[{id:'a',text:'conditional'},{id:'b',text:'marginal'},{id:'c',text:'normal'},{id:'d',text:'residual'}], answer:'a', explanation:'“Given…” signals a conditional distribution.', tags:['conditional'] },
+            { id:'s6-q6', topicId:'section-6', subtopicId:'s6-marginal', type:'mcq', difficulty:'easy', prompt:'A complete marginal distribution’s percentages should add to about…', choices:[{id:'a',text:'100%'},{id:'b',text:'50%'},{id:'c',text:'the grand total'},{id:'d',text:'r'}], answer:'a', explanation:'They sum to 100% (± rounding).', tags:['marginal'] },
+
+            // Section 7 — Normal & z-scores
+            { id:'s7-q1', topicId:'section-7', subtopicId:'s7-formula', type:'mcq', difficulty:'easy', prompt:'Which is the z-score formula?', choices:[{id:'a',text:'z = (x − μ)/σ'},{id:'b',text:'z = (μ − x)/σ'},{id:'c',text:'z = x − μ'},{id:'d',text:'z = σ(x − μ)'}], answer:'a', explanation:'z = (x − μ)/σ.', tags:['formula'] },
+            { id:'s7-q2', topicId:'section-7', subtopicId:'s7-formula', type:'mcq', difficulty:'easy', prompt:'To recover a value x from a z-score, use…', choices:[{id:'a',text:'x = μ + zσ'},{id:'b',text:'x = μ − zσ'},{id:'c',text:'x = zσ'},{id:'d',text:'x = (x − μ)/σ'}], answer:'a', explanation:'x = μ + zσ (work backward).', tags:['formula'] },
+            { id:'s7-q3', topicId:'section-7', subtopicId:'s7-standard', type:'fill', difficulty:'easy', prompt:'The standard normal distribution is Z ~ N(__, __).', answer:['0, 1','0,1','0 and 1','(0,1)','n(0,1)','mean 0 sd 1'], explanation:'Standard normal: mean 0, SD 1.', tags:['standard'] },
+            { id:'s7-q4', topicId:'section-7', subtopicId:'s7-zscore', type:'numeric', difficulty:'easy', prompt:'X ~ N(50, 4). Find the z-score for x = 58.', answer:2, tolerance:0.01, auditNote:'(58−50)/4 = 2', explanation:'z = (58 − 50)/4 = +2.', tags:['zscore'] },
+            { id:'s7-q5', topicId:'section-7', subtopicId:'s7-zscore', type:'numeric', difficulty:'medium', prompt:'X ~ N(12, 0.015). Find the z-score for x = 11.97.', answer:-2, tolerance:0.01, auditNote:'(11.97−12)/0.015 = −2 (guide A)', explanation:'z = (11.97 − 12)/0.015 = −2.', tags:['zscore'] },
+            { id:'s7-q6', topicId:'section-7', subtopicId:'s7-prob', type:'numeric', difficulty:'medium', prompt:'X ~ N(12, 0.015). Find P(X < 11.97) as a decimal (4 dp).', answer:0.0228, tolerance:0.0015, auditNote:'P(Z<−2) = 0.0228 (guide A)', explanation:'P(Z < −2) ≈ 0.0228.', tags:['prob'] },
+            { id:'s7-q7', topicId:'section-7', subtopicId:'s7-prob', type:'numeric', difficulty:'medium', prompt:'If z = −2, find P(X > x) as a decimal.', answer:0.9772, tolerance:0.0015, auditNote:'1 − 0.0228 = 0.9772', explanation:'P(X > x) = 1 − 0.0228 = 0.9772.', tags:['prob'] },
+            { id:'s7-q8', topicId:'section-7', subtopicId:'s7-prob', type:'mcq', difficulty:'easy', prompt:'A standard normal (z) table gives the area to the…', choices:[{id:'a',text:'left of z'},{id:'b',text:'right of z'},{id:'c',text:'between ±z'},{id:'d',text:'above the mean'}], answer:'a', explanation:'The table gives area to the LEFT.', tags:['prob'] },
+            { id:'s7-q9', topicId:'section-7', subtopicId:'s7-prob', type:'numeric', difficulty:'hard', prompt:'X ~ N(12, 0.015). Find P(X > 11.99) as a decimal (z = −0.67, area-left ≈ 0.2514).', answer:0.7486, tolerance:0.005, auditNote:'1 − 0.2514 = 0.7486 (guide B)', explanation:'P(X > 11.99) = 1 − 0.2514 = 0.7486.', tags:['prob'] },
+            { id:'s7-q10', topicId:'section-7', subtopicId:'s7-percentile', type:'numeric', difficulty:'hard', prompt:'Find the 25th percentile of N(12, 0.015) using z ≈ −0.67.', answer:11.99, tolerance:0.01, auditNote:'12 + (−0.67)(0.015) = 11.99 (guide C)', explanation:'x = 12 + (−0.67)(0.015) ≈ 11.99.', tags:['percentile'] },
+
+            // Section 8 — Empirical rule & normal plots
+            { id:'s8-q1', topicId:'section-8', subtopicId:'s8-rule', type:'fill', difficulty:'easy', prompt:'The empirical rule percentages (within 1, 2, 3 SD) are ___.', answer:['68%, 95%, 99.7%','68 95 99.7','68%,95%,99.7%','68,95,99.7','68% 95% 99.7%'], explanation:'68%, 95%, 99.7%.', tags:['rule'] },
+            { id:'s8-q2', topicId:'section-8', subtopicId:'s8-tails', type:'mcq', difficulty:'medium', prompt:'For N(100, 15), about what percent of values fall below 70?', choices:[{id:'a',text:'2.5%'},{id:'b',text:'5%'},{id:'c',text:'16%'},{id:'d',text:'32%'}], answer:'a', explanation:'70 = μ − 2σ; below μ − 2σ ≈ 2.5%.', tags:['tails'] },
+            { id:'s8-q3', topicId:'section-8', subtopicId:'s8-plot', type:'mcq', difficulty:'easy', prompt:'In a normal probability plot, the data is approximately Normal when the points…', choices:[{id:'a',text:'follow a roughly straight line'},{id:'b',text:'form a strong curve'},{id:'c',text:'cluster in a corner'},{id:'d',text:'have many outliers'}], answer:'a', explanation:'Roughly straight line ⇒ approximately Normal.', tags:['plot'] },
+            { id:'s8-q4', topicId:'section-8', subtopicId:'s8-rule', type:'numeric', difficulty:'easy', prompt:'For N(100, 15), the 95% (±2σ) range runs from ___ to 130. Give the lower bound.', answer:70, tolerance:0.01, auditNote:'100 − 2·15 = 70', explanation:'μ − 2σ = 100 − 30 = 70.', tags:['rule'] },
+            { id:'s8-q5', topicId:'section-8', subtopicId:'s8-rule', type:'numeric', difficulty:'easy', prompt:'For N(100, 15), give the upper bound of the 99.7% (±3σ) range.', answer:145, tolerance:0.01, auditNote:'100 + 3·15 = 145', explanation:'μ + 3σ = 100 + 45 = 145.', tags:['rule'] },
+            { id:'s8-q6', topicId:'section-8', subtopicId:'s8-tails', type:'mcq', difficulty:'medium', prompt:'For a Normal model, about what percent of values lie above μ + σ?', choices:[{id:'a',text:'16%'},{id:'b',text:'2.5%'},{id:'c',text:'32%'},{id:'d',text:'68%'}], answer:'a', explanation:'Middle 68% leaves 32% in two tails ⇒ 16% above μ + σ.', tags:['tails'] },
+            { id:'s8-q7', topicId:'section-8', subtopicId:'s8-rule', type:'numeric', difficulty:'easy', prompt:'For IQ ~ N(100, 15), give the lower bound of the 68% (±1σ) range.', answer:85, tolerance:0.01, auditNote:'100 − 15 = 85', explanation:'μ − σ = 100 − 15 = 85.', tags:['rule'] }
+        ];
+        const QUESTION_ID_SET = new Set(QUESTION_BANK.map(q => q.id));
+        const QUESTIONS_BY_ID = Object.fromEntries(QUESTION_BANK.map(q => [q.id, q]));
+        function getQuestionById(id){ return QUESTIONS_BY_ID[id] || null; }
+        function getQuestionsByTopic(topicId){ return QUESTION_BANK.filter(q => q.topicId === topicId); }
+        function getQuestionsBySubtopic(subId){ return QUESTION_BANK.filter(q => q.subtopicId === subId); }
+        function getExamPool(filter){
+            filter = filter || {};
+            let pool = QUESTION_BANK.slice();
+            if(Array.isArray(filter.topics) && filter.topics.length) pool = pool.filter(q => filter.topics.includes(q.topicId));
+            if(Array.isArray(filter.difficulties) && filter.difficulties.length) pool = pool.filter(q => filter.difficulties.includes(q.difficulty));
+            return pool;
+        }
+        function normalizeText(s){
+            return String(s).toLowerCase().trim()
+                .replace(/[−–—]/g,'-').replace(/μ/g,'mu').replace(/σ/g,'sigma')
+                .replace(/ŷ/g,'yhat').replace(/[̄ȳ̱]/g,'')
+                .replace(/\s+/g,' ').replace(/\s*([=()/*,+\-])\s*/g,'$1');
+        }
+        function getAcceptedAnswers(q){ return Array.isArray(q.answer) ? q.answer : [q.answer]; }
+        function checkNumericAnswer(input, expected, tol){
+            const cleaned = String(input).replace(/[%\s,$]/g,'').replace(/[−–—]/g,'-').replace(/^\+/,'');
+            const v = parseFloat(cleaned);
+            if(Number.isNaN(v)) return false;
+            return Math.abs(v - expected) <= (tol == null ? 1e-9 : tol);
+        }
+        function isAnswerCorrect(q, input){
+            if(!q) return false;
+            if(q.type === 'mcq') return String(input) === String(q.answer);
+            if(q.type === 'numeric') return checkNumericAnswer(input, q.answer, q.tolerance);
+            const got = normalizeText(input);
+            return getAcceptedAnswers(q).some(a => normalizeText(a) === got);
+        }
+        function validateQuestionBank(){
+            const ids = new Set(); const warn = [];
+            for(const q of QUESTION_BANK){
+                if(ids.has(q.id)) warn.push('duplicate id: ' + q.id);
+                ids.add(q.id);
+                if(!CONTENT_SECTION_IDS.includes(q.topicId)) warn.push('bad topicId: ' + q.id);
+                if(q.answer === undefined || q.answer === null || q.answer === '') warn.push('missing answer: ' + q.id);
+                if(q.type === 'mcq'){
+                    if(!Array.isArray(q.choices) || !q.choices.length) warn.push('mcq has no choices: ' + q.id);
+                    else if(!q.choices.some(c => c.id === q.answer)) warn.push('mcq answer not a choice id: ' + q.id);
+                }
+                if(q.type === 'numeric' && typeof q.answer !== 'number') warn.push('numeric answer not a number: ' + q.id);
+            }
+            for(const sec of CONTENT_SECTION_IDS){
+                const n = getQuestionsByTopic(sec).length;
+                if(n < 4) warn.push('thin coverage: ' + sec + ' (' + n + ')');
+            }
+            if(warn.length) console.warn('[validateQuestionBank]', warn);
+            else console.info('[validateQuestionBank] OK — ' + QUESTION_BANK.length + ' questions across ' + CONTENT_SECTION_IDS.length + ' sections');
+            return warn;
+        }
+
+        // ---------- Attempts backbone (single writer: mastery + SRS) ----------
+        const MASTERY_THRESHOLD = 0.8;
+        const MASTERY_MIN_ATTEMPTS = 3;
+        const REVIEW_INTERVALS = [1, 3, 7];
+        const REVIEW_GRADUATE_STREAK = 2;
+
+        function ensureMastery(topicId){
+            if(!app.state.mastery[topicId]) app.state.mastery[topicId] = { attempts:0, correct:0, score:0, mastered:false, lastAttemptAt:null, perQuestion:{} };
+            return app.state.mastery[topicId];
+        }
+        function recomputeMastery(topicId){
+            const m = app.state.mastery[topicId]; if(!m) return;
+            m.score = m.attempts ? m.correct / m.attempts : 0;
+            m.mastered = m.attempts >= MASTERY_MIN_ATTEMPTS && m.score >= MASTERY_THRESHOLD;
+            if(m.mastered){ app.state.completedSections[topicId] = true; delete app.state.weakTopics[topicId]; }
+            else if(m.attempts > 0 && m.score < MASTERY_THRESHOLD){ app.state.weakTopics[topicId] = true; }
+        }
+        function computeSectionMastery(topicId){ return app.state.mastery[topicId] || null; }
+
+        function findReviewEntry(qid){ return app.state.reviewQueue.find(e => e.questionId === qid); }
+        function addDays(iso, days){ const d = iso ? new Date(iso) : new Date(); d.setDate(d.getDate() + days); return d.toISOString(); }
+        function getNextReviewInterval(cur){
+            const i = REVIEW_INTERVALS.indexOf(cur);
+            return i < 0 ? REVIEW_INTERVALS[0] : REVIEW_INTERVALS[Math.min(i + 1, REVIEW_INTERVALS.length - 1)];
+        }
+        function addToReviewQueue(qid){
+            let e = findReviewEntry(qid);
+            if(!e){ e = { questionId:qid, attempts:0, correctStreak:0, lastAttemptAt:null, nextReviewAt:nowIso(), intervalDays:1 }; app.state.reviewQueue.push(e); }
+            else { e.correctStreak = 0; e.intervalDays = 1; e.nextReviewAt = nowIso(); }
+            e.attempts++; e.lastAttemptAt = nowIso();
+            return e;
+        }
+        function applyReviewAttempt(qid, wasCorrect){
+            let e = findReviewEntry(qid);
+            if(!e){ return wasCorrect ? null : addToReviewQueue(qid); }
+            e.attempts++; e.lastAttemptAt = nowIso();
+            if(wasCorrect){
+                e.correctStreak++;
+                if(e.correctStreak >= REVIEW_GRADUATE_STREAK){ app.state.reviewQueue = app.state.reviewQueue.filter(x => x.questionId !== qid); return null; }
+                e.intervalDays = getNextReviewInterval(e.intervalDays);
+                e.nextReviewAt = addDays(nowIso(), e.intervalDays);
+            } else {
+                e.correctStreak = 0; e.intervalDays = 1; e.nextReviewAt = addDays(nowIso(), 1);
+            }
+            return e;
+        }
+        function getDueReviewEntries(){
+            const now = Date.now();
+            return app.state.reviewQueue.filter(e => new Date(e.nextReviewAt).getTime() <= now);
+        }
+
+        // The ONE place attempts mutate state. source: 'mastery' | 'exam' | 'quiz' | 'review'
+        function recordAttempt(opts){
+            const q = getQuestionById(opts.questionId); if(!q) return;
+            const wasCorrect = !!opts.wasCorrect, source = opts.source, topicId = q.topicId;
+            if(source === 'mastery' || source === 'exam'){
+                const m = ensureMastery(topicId);
+                m.attempts++; if(wasCorrect) m.correct++;
+                const pq = m.perQuestion[opts.questionId] || (m.perQuestion[opts.questionId] = { attempts:0, correct:0 });
+                pq.attempts++; if(wasCorrect) pq.correct++;
+                m.lastAttemptAt = nowIso();
+                recomputeMastery(topicId);
+            }
+            if(source === 'mastery' || source === 'exam' || source === 'quiz'){
+                if(!wasCorrect){ addToReviewQueue(opts.questionId); app.state.weakTopics[topicId] = true; }
+                else { applyReviewAttempt(opts.questionId, true); }
+            }
+            if(source === 'review'){ applyReviewAttempt(opts.questionId, wasCorrect); }
+            persistState();
+            if(app.refreshProgress) app.refreshProgress();
+            if(app.refreshReview) app.refreshReview();
+            if(app.refreshMastery) app.refreshMastery();
+        }
+
+        // ---------- Dark mode ----------
+        function applyTheme(dark){
+            document.documentElement.classList.toggle('dark', dark);
+            const icon = document.getElementById('theme-icon');
+            if(icon){ icon.className = dark ? 'fas fa-sun text-yellow-400 text-xl' : 'fas fa-moon text-gray-600 text-xl'; }
+        }
+        function toggleDarkMode(){
+            const dark = !document.documentElement.classList.contains('dark');
+            localStorage.setItem('m3316-theme', dark ? 'dark' : 'light');
+            applyTheme(dark);
+        }
+        (function(){
+            const saved = localStorage.getItem('m3316-theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(saved ? saved === 'dark' : prefersDark);
+        })();
+
+        // ---------- Quiz reveal ----------
+        function toggleAnswer(id){
+            const el = document.getElementById(id);
+            if(!el) return;
+            el.classList.toggle('answer-hidden');
+            el.classList.toggle('answer-visible');
+        }
+        function checkMCQ(el, correct){
+            const wrap = el.parentElement;
+            wrap.querySelectorAll('[role="button"]').forEach(o => {
+                o.classList.remove('bg-green-600','bg-red-600','border-green-400','border-red-400','text-white');
+                o.setAttribute('aria-pressed','false');
+            });
+            el.classList.add(correct?'bg-green-600':'bg-red-600', correct?'border-green-400':'border-red-400', 'text-white');
+            el.setAttribute('aria-pressed','true');
+            const details = el.closest('details');
+            if(details){ details.setAttribute('data-answered','1'); details.setAttribute('data-correct', correct?'1':'0'); }
+            // Route recognition answer into spaced repetition if this question is mapped to the bank.
+            const qid = wrap.getAttribute('data-qid');
+            if(qid && details && !details.getAttribute('data-srs-logged')){
+                details.setAttribute('data-srs-logged','1');
+                if(typeof recordAttempt === 'function') recordAttempt({ questionId:qid, wasCorrect:!!correct, source:'quiz' });
+            }
+            updateQuizTally(correct);
+        }
+        function updateQuizTally(lastCorrect){
+            const quiz = document.getElementById('quiz'); if(!quiz) return;
+            const answered = quiz.querySelectorAll('details[data-answered]');
+            let correct = 0; answered.forEach(d => { if(d.getAttribute('data-correct')==='1') correct++; });
+            const tally = document.getElementById('quiz-tally');
+            if(tally) tally.textContent = 'Multiple-choice score: ' + correct + ' / ' + answered.length + ' answered';
+            const live = document.getElementById('quiz-live');
+            if(live && lastCorrect !== undefined) live.textContent = (lastCorrect?'Correct. ':'Incorrect. ') + 'Score ' + correct + ' of ' + answered.length + '.';
+        }
+
+        // ---------- Interactive tools ----------
+        function normCDF(z){ // exact standard-normal CDF via erf approximation
+            const t = 1/(1+0.2316419*Math.abs(z));
+            const d = 0.3989422804014327*Math.exp(-z*z/2);
+            let p = d*t*(0.319381530+t*(-0.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));
+            p = z > 0 ? 1-p : p;
+            return p;
+        }
+        function calcZ(){
+            const x=+document.getElementById('zc-x').value, mu=+document.getElementById('zc-mu').value, sd=+document.getElementById('zc-sd').value;
+            const out=document.getElementById('zc-out');
+            if(!sd){ out.innerHTML='σ must be nonzero.'; return; }
+            const z=(x-mu)/sd, left=normCDF(z);
+            out.innerHTML = `z = ${z.toFixed(4)}<br>P(X &lt; x) = ${left.toFixed(4)}<br>P(X &gt; x) = ${(1-left).toFixed(4)}`;
+        }
+        function calcER(){
+            const mu=+document.getElementById('er-mu').value, sd=+document.getElementById('er-sd').value;
+            const f=n=>Number.isInteger(n)?n:(+n.toFixed(4));
+            document.getElementById('er-out').innerHTML =
+                `68% → ${f(mu-sd)} to ${f(mu+sd)}<br>95% → ${f(mu-2*sd)} to ${f(mu+2*sd)}<br>99.7% → ${f(mu-3*sd)} to ${f(mu+3*sd)}`;
+        }
+
+        // ---------- Progress UI (section complete / weak, backed by app.state) ----------
+        const sectionIds = Array.from(document.querySelectorAll('[data-section-control]')).map(el => el.getAttribute('data-section-control'));
+
+        function buttonHTML(id, type, on){
+            if(type==='complete'){
+                return on
+                    ? `<button type="button" data-section-id="${id}" data-control-type="complete" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/45 transition-colors"><i class="fas fa-circle-check"></i><span>Completed</span></button>`
+                    : `<button type="button" data-section-id="${id}" data-control-type="complete" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"><i class="fas fa-check"></i><span>Mark Complete</span></button>`;
+            }
+            return on
+                ? `<button type="button" data-section-id="${id}" data-control-type="weak" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/45 transition-colors"><i class="fas fa-triangle-exclamation"></i><span>Weak Topic</span></button>`
+                : `<button type="button" data-section-id="${id}" data-control-type="weak" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"><i class="fas fa-flag"></i><span>Mark Weak</span></button>`;
+        }
+        function renderControls(){
+            document.querySelectorAll('[data-section-control]').forEach(box => {
+                const id = box.getAttribute('data-section-control');
+                box.innerHTML = buttonHTML(id,'complete',!!app.state.completedSections[id]) + buttonHTML(id,'weak',!!app.state.weakTopics[id]);
+            });
+        }
+        function renderTOC(){
+            document.querySelectorAll('[data-toc]').forEach(link => {
+                const id = link.getAttribute('data-toc');
+                link.classList.toggle('toc-link-complete', !!app.state.completedSections[id]);
+                link.classList.toggle('toc-link-weak', !!app.state.weakTopics[id]);
+            });
+        }
+        function renderDashboard(){
+            const total = sectionIds.filter(id => id!=='quiz').length; // 8 content sections
+            const done = sectionIds.filter(id => id!=='quiz' && app.state.completedSections[id]).length;
+            const weak = sectionIds.filter(id => app.state.weakTopics[id]).length;
+            const pct = total ? Math.round(done/total*100) : 0;
+            document.getElementById('progress-summary-text').textContent = `${done} of ${total} sections complete`;
+            document.getElementById('progress-overall-percent').textContent = pct+'%';
+            document.getElementById('progress-meter-fill').style.width = pct+'%';
+            document.getElementById('progress-completed-count').textContent = done;
+            document.getElementById('progress-total-count').textContent = total;
+            document.getElementById('progress-weak-count').textContent = weak;
+            const status = document.getElementById('progress-status-label');
+            status.textContent = done===total ? 'All sections done — review weak topics!' : weak ? `${weak} weak topic(s) flagged` : (done? 'Keep going' : 'Just getting started');
+        }
+        function renderAll(){ renderControls(); renderTOC(); renderDashboard(); }
+
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('[data-control-type]');
+            if(!btn) return;
+            const id = btn.getAttribute('data-section-id'), type = btn.getAttribute('data-control-type');
+            const bucket = type==='complete' ? app.state.completedSections : app.state.weakTopics;
+            if(bucket[id]) delete bucket[id]; else bucket[id] = true;
+            persistState(); renderAll();
+        });
+        document.getElementById('reset-progress-btn').addEventListener('click', () => {
+            if(confirm('Reset all progress? This clears completion, mastery, the review queue, and exam history.')){
+                app.state = cloneDefaultState(); persistState(); renderAll();
+                if(app.refreshReview) app.refreshReview();
+                if(app.refreshMastery) app.refreshMastery();
+            }
+        });
+
+        // ---------- Scroll progress + TOC active ----------
+        const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+        function onScroll(){
+            const h = document.documentElement;
+            const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+            document.getElementById('scroll-progress').style.width = Math.min(100, Math.max(0, scrolled*100))+'%';
+            let active = null;
+            for(const s of sections){ if(s.getBoundingClientRect().top <= 140) active = s.id; }
+            document.querySelectorAll('[data-toc]').forEach(l => l.classList.toggle('toc-link-active', l.getAttribute('data-toc')===active));
+        }
+        window.addEventListener('scroll', onScroll, {passive:true});
+
+        // ---------- Mastery checks (per section, bank-driven) ----------
+        function escapeHtml(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+        function masteryCardHTML(q){
+            let body;
+            if(q.type === 'mcq'){
+                body = '<div class="mastery-choices grid sm:grid-cols-2 gap-2" role="group" aria-label="Answer choices">' +
+                    q.choices.map(c => '<button type="button" class="mastery-choice" data-mastery-choice data-qid="'+q.id+'" data-choice="'+c.id+'" aria-pressed="false">'+escapeHtml(c.text)+'</button>').join('') +
+                    '</div>';
+            } else {
+                body = '<div class="flex gap-2 items-center">' +
+                    '<input type="text" inputmode="'+(q.type==='numeric'?'decimal':'text')+'" class="mastery-input" data-mastery-input data-qid="'+q.id+'" placeholder="'+(q.type==='numeric'?'numeric answer':'your answer')+'" aria-label="Your answer">' +
+                    '<button type="button" class="mastery-check" data-mastery-check data-qid="'+q.id+'">Check</button>' +
+                    '</div>';
+            }
+            return '<div class="mastery-card" data-mastery-card="'+q.id+'">' +
+                '<p class="mastery-prompt">'+escapeHtml(q.prompt)+'</p>' + body +
+                '<div class="mastery-feedback" data-feedback="'+q.id+'" role="status" aria-live="polite"></div>' +
+                '</div>';
+        }
+        function buildMasteryBlock(topicId){
+            const qs = getQuestionsByTopic(topicId);
+            const d = document.createElement('details');
+            d.className = 'mastery-block mt-6';
+            d.setAttribute('data-mastery-block', topicId);
+            if(!qs.length){
+                d.innerHTML = '<summary><span class="flex items-center gap-2 font-semibold"><i class="fas fa-graduation-cap text-uta-blue"></i> Check your mastery</span></summary><div class="mastery-body"><p class="text-sm text-gray-500">Questions coming soon.</p></div>';
+                return d;
+            }
+            d.innerHTML =
+                '<summary><span class="flex items-center gap-2 font-semibold"><i class="fas fa-graduation-cap text-uta-blue"></i> Check your mastery</span>' +
+                '<span class="mastery-pill mastery-pill-none" data-mastery-pill="'+topicId+'">Not started</span></summary>' +
+                '<div class="mastery-body space-y-3">' +
+                '<p class="text-xs text-gray-500 dark:text-gray-400">Reach ≥'+Math.round(MASTERY_THRESHOLD*100)+'% over at least '+MASTERY_MIN_ATTEMPTS+' answers to master this section. Missed questions go to your spaced-repetition review queue.</p>' +
+                qs.map(masteryCardHTML).join('') +
+                '</div>';
+            return d;
+        }
+        function masteryStatusMeta(topicId){
+            const m = computeSectionMastery(topicId);
+            if(!m || !m.attempts) return { label:'Not started', cls:'mastery-pill-none' };
+            const pct = Math.round(m.score*100);
+            if(m.mastered) return { label:'Mastered ✓ ('+pct+'%)', cls:'mastery-pill-mastered' };
+            return { label:'Needs review ('+pct+'%, '+m.attempts+' tries)', cls:'mastery-pill-weak' };
+        }
+        function renderMasteryStatus(topicId){
+            const pill = document.querySelector('[data-mastery-pill="'+topicId+'"]');
+            if(!pill) return;
+            const meta = masteryStatusMeta(topicId);
+            pill.className = 'mastery-pill ' + meta.cls;
+            pill.textContent = meta.label;
+        }
+        function renderAllMasteryStatuses(){ CONTENT_SECTION_IDS.forEach(renderMasteryStatus); }
+        function showMasteryFeedback(qid, correct, q){
+            const fb = document.querySelector('[data-feedback="'+qid+'"]');
+            if(!fb) return;
+            fb.className = 'mastery-feedback ' + (correct ? 'correct' : 'incorrect');
+            let expected = '';
+            if(!correct){
+                if(q.type === 'numeric') expected = ' The answer is <strong>'+escapeHtml(q.answer)+'</strong>.';
+                else if(q.type !== 'mcq') expected = ' Expected: <strong>'+escapeHtml(getAcceptedAnswers(q)[0])+'</strong>.';
+                else { const c = q.choices.find(c => c.id === q.answer); expected = c ? ' Correct: <strong>'+escapeHtml(c.text)+'</strong>.' : ''; }
+            }
+            fb.innerHTML = (correct ? '<i class="fas fa-circle-check"></i> Correct. ' : '<i class="fas fa-circle-xmark"></i> Not quite.'+expected+' ') + escapeHtml(q.explanation || '');
+        }
+        function answerMasteryChoice(btn){
+            const qid = btn.getAttribute('data-qid'), choice = btn.getAttribute('data-choice');
+            const q = getQuestionById(qid); if(!q) return;
+            const correct = isAnswerCorrect(q, choice);
+            const group = btn.parentElement;
+            group.querySelectorAll('[data-mastery-choice]').forEach(b => { b.classList.remove('correct','incorrect'); b.setAttribute('aria-pressed','false'); });
+            btn.classList.add(correct ? 'correct' : 'incorrect');
+            btn.setAttribute('aria-pressed','true');
+            if(!correct){ const cb = group.querySelector('[data-choice="'+q.answer+'"]'); if(cb) cb.classList.add('correct'); }
+            showMasteryFeedback(qid, correct, q);
+            recordAttempt({ questionId:qid, wasCorrect:correct, source:'mastery' });
+        }
+        function answerMasteryInput(qid){
+            const input = document.querySelector('[data-mastery-input][data-qid="'+qid+'"]');
+            const q = getQuestionById(qid); if(!q || !input) return;
+            if(!input.value.trim()) return;
+            const correct = isAnswerCorrect(q, input.value);
+            input.classList.toggle('correct', correct); input.classList.toggle('incorrect', !correct);
+            showMasteryFeedback(qid, correct, q);
+            recordAttempt({ questionId:qid, wasCorrect:correct, source:'mastery' });
+        }
+        function initMastery(){
+            CONTENT_SECTION_IDS.forEach(id => {
+                const sec = document.getElementById(id);
+                if(sec && !sec.querySelector('[data-mastery-block]')) sec.appendChild(buildMasteryBlock(id));
+            });
+            document.addEventListener('click', e => {
+                const choice = e.target.closest('[data-mastery-choice]');
+                if(choice){ answerMasteryChoice(choice); return; }
+                const check = e.target.closest('[data-mastery-check]');
+                if(check){ answerMasteryInput(check.getAttribute('data-qid')); }
+            });
+            document.addEventListener('keydown', e => {
+                const input = e.target.closest('[data-mastery-input]');
+                if(input && e.key === 'Enter'){ e.preventDefault(); answerMasteryInput(input.getAttribute('data-qid')); }
+            });
+            app.refreshMastery = renderAllMasteryStatuses;
+            renderAllMasteryStatuses();
+        }
+
+        // ---------- Common traps (per section) ----------
+        const TRAP_PLAN = {
+            'section-1': [{ title:'Putting the response on the x-axis', wrong:'“The first variable mentioned goes on x.”', why:'The axis is decided by role, not word order.', correct:'Explanatory (the predictor) → x-axis; response (the outcome) → y-axis.' }],
+            'section-2': [{ title:'Calling one stray point “curved”', wrong:'“There’s an outlier, so the form is nonlinear.”', why:'Form describes the overall pattern; a single outlier is separate from it.', correct:'Describe form/direction/strength for the bulk of points, then note outliers separately.' }],
+            'section-3': [{ title:'r ≈ 0 means “no relationship”', wrong:'“r is near 0, so x and y are unrelated.”', why:'r measures only the LINEAR part.', correct:'r ≈ 0 means no LINEAR relationship — a strong curve can still have r ≈ 0.' }],
+            'section-4': [{ title:'Extrapolating beyond the data', wrong:'“Just plug any x into ŷ = a + bx.”', why:'The line is only justified over the observed range of x.', correct:'Predict within the data range; far-out x-values are unreliable.' }],
+            'section-5': [{ title:'“Residuals don’t sum to 0, so I made an error”', wrong:'“Mine add to 0.02 — something is wrong.”', why:'Rounding leaves a tiny nonzero sum.', correct:'In theory the sum is exactly 0; a small leftover is just rounding, not error.' }],
+            'section-6': [{ title:'Marginal vs. conditional mix-up', wrong:'“Divide every count by the grand total.”', why:'That only produces marginal percentages.', correct:'Marginal ÷ grand total; conditional ÷ a single row/column total.' }],
+            'section-7': [
+                { title:'Reading the z-table as area to the RIGHT', wrong:'“The table value is P(Z > z).”', why:'Standard z-tables give the area to the LEFT.', correct:'Table = area to the LEFT. For “greater than,” use 1 − left.' },
+                { title:'Rounding z mid-problem', wrong:'“Round z to 0.7, then look it up.”', why:'Early rounding throws off the probability.', correct:'Carry full precision; round only the final answer.' }
+            ],
+            'section-8': [{ title:'Applying 68–95–99.7 to any data', wrong:'“Use the empirical rule on this skewed data.”', why:'The rule holds only for Normal (bell-shaped) models.', correct:'Only use 68–95–99.7 when the distribution is approximately Normal.' }]
+        };
+        function createTrapCard(t){
+            return '<details class="trap-card"><summary><span>'+escapeHtml(t.title)+'</span></summary>' +
+                '<div class="trap-body space-y-1">' +
+                '<p><strong>Wrong assumption:</strong> '+escapeHtml(t.wrong)+'</p>' +
+                '<p><strong>Why it’s wrong:</strong> '+escapeHtml(t.why)+'</p>' +
+                '<p><strong>Correct pattern:</strong> '+escapeHtml(t.correct)+'</p>' +
+                '</div></details>';
+        }
+        function initCommonTraps(){
+            CONTENT_SECTION_IDS.forEach(id => {
+                const traps = TRAP_PLAN[id]; const sec = document.getElementById(id);
+                if(!traps || !sec || sec.querySelector('[data-traps-block]')) return;
+                const d = document.createElement('details');
+                d.className = 'traps-block mt-6'; d.setAttribute('data-traps-block', id);
+                d.innerHTML = '<summary><span class="flex items-center gap-2 font-semibold"><i class="fas fa-triangle-exclamation text-amber-500"></i> Common traps</span><span class="text-xs text-gray-400">'+traps.length+'</span></summary>' +
+                    '<div class="traps-body space-y-2">'+traps.map(createTrapCard).join('')+'</div>';
+                sec.appendChild(d);
+            });
+        }
+
+        // ---------- Practice-quiz upgrade (keyboard, live region, tally) ----------
+        function initQuizUpgrade(){
+            const quiz = document.getElementById('quiz'); if(!quiz) return;
+            const bar = document.createElement('div');
+            bar.className = 'flex items-center justify-between gap-3 mb-4 text-gray-300';
+            bar.innerHTML = '<span class="quiz-tally" id="quiz-tally">Multiple-choice score: 0 / 0 answered</span>' +
+                '<span id="quiz-live" class="sr-only" role="status" aria-live="polite"></span>';
+            const card = quiz.querySelector('.space-y-8');
+            if(card && card.parentElement) card.parentElement.insertBefore(bar, card);
+            quiz.addEventListener('keydown', e => {
+                const opt = e.target.closest('[role="button"]');
+                if(opt && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); opt.click(); }
+            });
+        }
+
+        // ---------- Shared labels / small helpers ----------
+        const SECTION_LABELS = {
+            'section-1':'1 · Explanatory vs Response', 'section-2':'2 · Scatterplots', 'section-3':'3 · Correlation r',
+            'section-4':'4 · Regression (LSRL)', 'section-5':'5 · Residuals & Cautions', 'section-6':'6 · Two-Way Tables',
+            'section-7':'7 · Normal & z-scores', 'section-8':'8 · Empirical Rule & Plots'
+        };
+        function formatMMSS(s){ s = Math.max(0, s|0); const m = Math.floor(s/60), ss = s%60; return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss; }
+        function addMinutes(iso, m){ const d = new Date(iso); d.setMinutes(d.getMinutes()+m); return d.toISOString(); }
+        function shuffleArray(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+        function answerText(q){ return q.type==='mcq' ? ((q.choices.find(c=>c.id===q.answer)||{}).text || '') : (q.type==='numeric' ? String(q.answer) : getAcceptedAnswers(q)[0]); }
+
+        // ---------- Spaced-repetition review queue (UI; algorithm in Slice 0 backbone) ----------
+        function buildReviewCard(entry, dueCount){
+            const q = getQuestionById(entry.questionId); if(!q) return '';
+            return '<div class="review-card" data-review-qid="'+entry.questionId+'">' +
+                '<div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-2"><span>'+escapeHtml(SECTION_LABELS[q.topicId]||q.topicId)+'</span><span>'+dueCount+' due · interval '+entry.intervalDays+'d</span></div>' +
+                '<p class="font-semibold mb-3">'+escapeHtml(q.prompt)+'</p>' +
+                '<button type="button" class="review-reveal text-sm text-uta-blue font-semibold" data-review-reveal>Show answer</button>' +
+                '<div class="review-answer hidden mt-2 text-sm"><p class="font-mono text-green-600 dark:text-green-400">'+escapeHtml(answerText(q))+'</p><p class="text-gray-500 dark:text-gray-400 mt-1">'+escapeHtml(q.explanation||'')+'</p></div>' +
+                '<div class="flex gap-2 mt-3"><button type="button" class="review-btn review-missed" data-review-resp="0"><i class="fas fa-xmark mr-1"></i>Missed it</button><button type="button" class="review-btn review-correct" data-review-resp="1"><i class="fas fa-check mr-1"></i>Got it</button></div>' +
+                '</div>';
+        }
+        function renderReviewQueue(){
+            const panel = document.getElementById('review-panel'); const badge = document.getElementById('review-badge'); if(!panel) return;
+            const due = getDueReviewEntries(); const total = app.state.reviewQueue.length;
+            if(badge){ badge.textContent = due.length + ' due now'; badge.className = 'review-badge' + (due.length ? '' : ' zero'); }
+            if(!due.length){
+                if(!total) panel.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400">No cards yet. Miss a question in a mastery check or exam and it lands here for spaced review (1 → 3 → 7 day intervals).</p>';
+                else { const next = app.state.reviewQueue.map(e=>new Date(e.nextReviewAt).getTime()).sort((a,b)=>a-b)[0]; panel.innerHTML = '<p class="text-sm text-green-600 dark:text-green-400"><i class="fas fa-circle-check"></i> All caught up — nothing due now. '+total+' card(s) scheduled; next on '+new Date(next).toLocaleDateString()+'.</p>'; }
+                return;
+            }
+            panel.innerHTML = buildReviewCard(due[0], due.length);
+        }
+        function initReviewQueue(){
+            if(document.getElementById('review-queue')) return;
+            const sec = document.createElement('section');
+            sec.id = 'review-queue';
+            sec.className = 'bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6';
+            sec.innerHTML = '<div class="flex items-center justify-between mb-3"><h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2"><i class="fas fa-clock-rotate-left text-uta-blue"></i> Spaced Repetition Review</h2><span class="review-badge zero" id="review-badge" role="status" aria-live="polite">0 due now</span></div><div id="review-panel"></div>';
+            const dash = document.getElementById('progress-dashboard');
+            if(dash && dash.parentElement) dash.parentElement.insertBefore(sec, dash.nextSibling);
+            else { const m = document.querySelector('main'); if(m) m.appendChild(sec); }
+            document.addEventListener('click', e => {
+                const reveal = e.target.closest('[data-review-reveal]');
+                if(reveal){ const card = reveal.closest('[data-review-qid]'); const a = card && card.querySelector('.review-answer'); if(a) a.classList.remove('hidden'); reveal.classList.add('hidden'); return; }
+                const resp = e.target.closest('[data-review-resp]');
+                if(resp){ const card = resp.closest('[data-review-qid]'); if(card) recordAttempt({ questionId:card.getAttribute('data-review-qid'), wasCorrect:resp.getAttribute('data-review-resp')==='1', source:'review' }); }
+            });
+            app.refreshReview = renderReviewQueue;
+            renderReviewQueue();
+        }
+
+        // ---------- Timed exam mode ----------
+        function setExamStatus(msg, isErr){ const el = document.getElementById('exam-status'); if(!el) return; el.textContent = msg||''; el.className = 'text-sm mt-3 ' + (isErr ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'); }
+        function buildExamQuestionCard(q, idx, current){
+            let body;
+            if(q.type === 'mcq'){
+                body = q.choices.map(c => '<button type="button" class="exam-choice'+(current===c.id?' selected':'')+'" data-exam-choice data-qid="'+q.id+'" data-choice="'+c.id+'" aria-pressed="'+(current===c.id)+'">'+escapeHtml(c.text)+'</button>').join('');
+            } else {
+                body = '<input type="text" inputmode="'+(q.type==='numeric'?'decimal':'text')+'" class="exam-input" data-exam-input data-qid="'+q.id+'" value="'+(current!=null?escapeHtml(current):'')+'" placeholder="'+(q.type==='numeric'?'numeric answer':'your answer')+'" aria-label="Answer to question '+(idx+1)+'">';
+            }
+            return '<div class="exam-card" data-exam-qcard="'+q.id+'"><p class="font-semibold text-sm mb-2">'+(idx+1)+'. '+escapeHtml(q.prompt)+'</p>'+body+'</div>';
+        }
+        function clearExamTimer(){ if(app.examTimer){ clearInterval(app.examTimer); app.examTimer = null; } }
+        function renderExamTimer(){
+            const ex = app.state.activeExam; const el = document.getElementById('exam-timer');
+            if(!ex || !el){ clearExamTimer(); return; }
+            const remain = Math.max(0, Math.round((new Date(ex.endAt).getTime() - Date.now())/1000));
+            el.textContent = formatMMSS(remain);
+            el.classList.toggle('warning', remain <= 30);
+            if(remain <= 0){ clearExamTimer(); submitExam('time'); }
+        }
+        function startExamTimer(){ clearExamTimer(); renderExamTimer(); app.examTimer = setInterval(renderExamTimer, 500); }
+        function renderExamSession(){
+            const ex = app.state.activeExam; if(!ex) return;
+            const setup = document.getElementById('exam-setup'), session = document.getElementById('exam-session'), results = document.getElementById('exam-results');
+            if(setup) setup.classList.add('hidden'); if(results) results.classList.add('hidden');
+            if(!session) return;
+            session.classList.remove('hidden');
+            const cards = ex.questionIds.map((qid,i)=>buildExamQuestionCard(getQuestionById(qid), i, ex.answers[qid])).join('');
+            session.innerHTML = '<div class="flex items-center justify-between mb-3"><span class="text-sm font-semibold">'+ex.questionIds.length+' questions</span><span class="exam-timer text-lg" id="exam-timer" role="timer" aria-live="off">--:--</span></div><div class="space-y-4">'+cards+'</div><div class="flex gap-2 mt-4"><button type="button" class="exam-btn exam-primary" data-exam-submit>Submit exam</button><button type="button" class="exam-btn exam-secondary" data-exam-cancel>Cancel</button></div>';
+            startExamTimer();
+        }
+        function startExam(){
+            if(app.state.activeExam && new Date(app.state.activeExam.endAt).getTime() > Date.now()){ setExamStatus('An exam is already in progress.', true); return; }
+            const count = parseInt((document.getElementById('exam-count')||{}).value,10) || 10;
+            const minutes = parseInt((document.getElementById('exam-duration')||{}).value,10) || 10;
+            const scope = (document.getElementById('exam-scope')||{}).value || 'all';
+            let topics = null;
+            if(scope === 'weak'){ topics = Object.keys(app.state.weakTopics); if(!topics.length){ setExamStatus('No weak topics yet — take a section’s mastery check or a full exam first.', true); return; } }
+            else if(scope !== 'all'){ topics = [scope]; }
+            const pool = getExamPool({ topics: topics });
+            if(pool.length < 3){ setExamStatus('Only '+pool.length+' question(s) in this scope — choose a broader scope.', true); return; }
+            const chosen = shuffleArray(pool).slice(0, Math.min(count, pool.length));
+            app.state.activeExam = { id:'exam-'+Date.now(), questionIds:chosen.map(q=>q.id), answers:{}, startedAt:nowIso(), endAt:addMinutes(nowIso(), minutes), durationSec:minutes*60 };
+            persistState(); setExamStatus(''); renderExamSession();
+        }
+        function evaluateExam(ex){
+            const byTopic = {}; const missed = []; let correctCount = 0;
+            ex.questionIds.forEach(qid => {
+                const q = getQuestionById(qid); const ok = isAnswerCorrect(q, ex.answers[qid]);
+                if(ok) correctCount++; else missed.push(qid);
+                const t = byTopic[q.topicId] || (byTopic[q.topicId] = { correct:0, total:0 }); t.total++; if(ok) t.correct++;
+            });
+            const scoreOverall = ex.questionIds.length ? correctCount/ex.questionIds.length : 0;
+            const recommend = Object.keys(byTopic).filter(t => byTopic[t].correct/byTopic[t].total < 0.8);
+            return { id:ex.id, endedAt:nowIso(), durationSec:ex.durationSec, total:ex.questionIds.length, correct:correctCount, scoreOverall, byTopic, missed, recommend };
+        }
+        function submitExam(reason){
+            const ex = app.state.activeExam; if(!ex) return;
+            clearExamTimer();
+            const ae = document.activeElement;
+            if(ae && ae.getAttribute && ae.getAttribute('data-exam-input')) ex.answers[ae.getAttribute('data-qid')] = ae.value;
+            const result = evaluateExam(ex);
+            ex.questionIds.forEach(qid => recordAttempt({ questionId:qid, wasCorrect:isAnswerCorrect(getQuestionById(qid), ex.answers[qid]), source:'exam' }));
+            app.state.examHistory.unshift(result); app.state.examHistory = app.state.examHistory.slice(0, 10);
+            app.state.activeExam = null; persistState();
+            renderExamResults(result, reason);
+        }
+        function cancelExam(){
+            if(!app.state.activeExam) return;
+            if(typeof confirm === 'function' && !confirm('Cancel this exam? Your answers on it will be discarded.')) return;
+            clearExamTimer(); app.state.activeExam = null; persistState();
+            const session = document.getElementById('exam-session'), setup = document.getElementById('exam-setup');
+            if(session) session.classList.add('hidden'); if(setup) setup.classList.remove('hidden');
+            setExamStatus('Exam canceled.');
+        }
+        function renderExamResults(result, reason){
+            const session = document.getElementById('exam-session'), setup = document.getElementById('exam-setup'), panel = document.getElementById('exam-results');
+            if(session) session.classList.add('hidden'); if(setup) setup.classList.remove('hidden'); if(!panel) return;
+            panel.classList.remove('hidden');
+            const pct = Math.round(result.scoreOverall*100);
+            const topicRows = Object.keys(result.byTopic).map(t => { const b = result.byTopic[t]; const p = Math.round(b.correct/b.total*100);
+                return '<div class="exam-result-row"><span>'+escapeHtml(SECTION_LABELS[t]||t)+'</span><span class="font-semibold">'+b.correct+'/'+b.total+' ('+p+'%)</span></div><div class="exam-bar"><span style="width:'+p+'%"></span></div>'; }).join('');
+            const missRows = result.missed.map(qid => { const q = getQuestionById(qid);
+                return '<div class="exam-miss"><p class="text-sm font-semibold">'+escapeHtml(q.prompt)+'</p><p class="text-sm mt-1">Answer: <span class="font-mono text-green-600 dark:text-green-400">'+escapeHtml(answerText(q))+'</span></p><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">'+escapeHtml(q.explanation||'')+'</p></div>'; }).join('');
+            const rec = result.recommend.length ? '<p class="text-sm mt-3"><i class="fas fa-arrow-trend-up text-uta-orange"></i> Focus next on: '+result.recommend.map(t=>escapeHtml(SECTION_LABELS[t]||t)).join(', ')+'.</p>' : '<p class="text-sm mt-3 text-green-600 dark:text-green-400">Strong across all sampled topics — nice work.</p>';
+            panel.innerHTML = '<div class="flex items-center justify-between mb-3"><h3 class="text-xl font-bold">Results'+(reason==='time'?' · time expired':'')+'</h3><span class="text-3xl font-extrabold text-uta-blue dark:text-blue-300">'+pct+'%</span></div>' +
+                '<p class="text-sm text-gray-500 dark:text-gray-400 mb-3">'+result.correct+' of '+result.total+' correct. Missed questions were added to your review queue.</p>' +
+                '<div class="space-y-2 mb-2">'+topicRows+'</div>' + rec +
+                (missRows ? '<details class="mt-4"><summary class="cursor-pointer text-sm font-semibold">Review missed questions ('+result.missed.length+')</summary><div class="space-y-2 mt-2">'+missRows+'</div></details>' : '') +
+                '<button type="button" class="exam-btn exam-secondary mt-4" data-exam-dismiss>Done</button>';
+        }
+        function initExamMode(){
+            if(document.getElementById('exam-mode')) return;
+            const sec = document.createElement('section');
+            sec.id = 'exam-mode';
+            sec.className = 'bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6';
+            const scopeOpts = ['<option value="all">All topics</option>','<option value="weak">Weak topics only</option>'].concat(CONTENT_SECTION_IDS.map(id=>'<option value="'+id+'">'+escapeHtml(SECTION_LABELS[id])+'</option>')).join('');
+            sec.innerHTML = '<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-1"><i class="fas fa-stopwatch text-uta-orange"></i> Timed Practice Exam</h2>' +
+                '<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Simulate Exam 1 under time pressure. Questions interleave topics; misses flow into your review queue.</p>' +
+                '<div id="exam-setup" class="grid sm:grid-cols-4 gap-3 items-end">' +
+                '<label class="text-sm">Questions<select id="exam-count" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"><option>10</option><option>15</option><option>20</option></select></label>' +
+                '<label class="text-sm">Minutes<select id="exam-duration" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm"><option>10</option><option>20</option><option>30</option></select></label>' +
+                '<label class="text-sm">Scope<select id="exam-scope" class="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1.5 text-sm">'+scopeOpts+'</select></label>' +
+                '<button type="button" class="exam-btn exam-primary" data-exam-start><i class="fas fa-play mr-1"></i> Start exam</button>' +
+                '</div>' +
+                '<p id="exam-status" class="text-sm mt-3 text-gray-500 dark:text-gray-400" role="status" aria-live="polite"></p>' +
+                '<div id="exam-session" class="hidden mt-4"></div>' +
+                '<div id="exam-results" class="hidden mt-4"></div>';
+            const anchor = document.getElementById('review-queue') || document.getElementById('progress-dashboard');
+            if(anchor && anchor.parentElement) anchor.parentElement.insertBefore(sec, anchor.nextSibling);
+            else { const m = document.querySelector('main'); if(m) m.appendChild(sec); }
+            document.addEventListener('click', e => {
+                if(e.target.closest('[data-exam-start]')){ startExam(); return; }
+                if(e.target.closest('[data-exam-submit]')){ submitExam('manual'); return; }
+                if(e.target.closest('[data-exam-cancel]')){ cancelExam(); return; }
+                if(e.target.closest('[data-exam-dismiss]')){ const p = document.getElementById('exam-results'); if(p) p.classList.add('hidden'); return; }
+                const ch = e.target.closest('[data-exam-choice]');
+                if(ch && app.state.activeExam){ const qid = ch.getAttribute('data-qid'); app.state.activeExam.answers[qid] = ch.getAttribute('data-choice'); persistState();
+                    ch.parentElement.querySelectorAll('[data-exam-choice]').forEach(b=>{ b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); }); ch.classList.add('selected'); ch.setAttribute('aria-pressed','true'); }
+            });
+            document.addEventListener('input', e => {
+                const inp = e.target.closest('[data-exam-input]');
+                if(inp && app.state.activeExam){ app.state.activeExam.answers[inp.getAttribute('data-qid')] = inp.value; persistState(); }
+            });
+            // Resume an in-progress exam after reload; discard if its time already expired.
+            if(app.state.activeExam){
+                if(new Date(app.state.activeExam.endAt).getTime() > Date.now()) renderExamSession();
+                else { app.state.activeExam = null; persistState(); }
+            }
+        }
+
+        // ---------- Visual tools (hand-rolled SVG, no libraries) ----------
+        function normalPdf(z){ return 0.3989422804014327 * Math.exp(-z*z/2); }
+        function invNormCDF(p){
+            if(p <= 0) return -Infinity; if(p >= 1) return Infinity;
+            const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.3577518672690,-30.66479806614716,2.506628277459239];
+            const b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572];
+            const c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783];
+            const d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416];
+            const plow=0.02425, phigh=1-plow; let q,r;
+            if(p < plow){ q=Math.sqrt(-2*Math.log(p)); return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+            if(p <= phigh){ q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
+            q=Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+        }
+        function numVal(id, def){ const el = document.getElementById(id); const v = el ? parseFloat(el.value) : NaN; return Number.isNaN(v) ? def : v; }
+        function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+        function bellSvg(opts){
+            const w=opts.w||320, h=opts.h||150, pad=24, base=h-pad, top=14, zmin=-4, zmax=4, peak=normalPdf(0);
+            const px = z => pad+(z-zmin)/(zmax-zmin)*(w-2*pad);
+            const py = dd => base-(dd/peak)*(base-top);
+            let curve=''; for(let z=zmin; z<=zmax+1e-9; z+=0.1){ curve += (curve?'L':'M')+px(z).toFixed(1)+' '+py(normalPdf(z)).toFixed(1); }
+            let shapes=''; (opts.shades||[]).forEach(s => { let z0=Math.max(zmin,s.z0), z1=Math.min(zmax,s.z1); if(z1<=z0) return;
+                let p='M'+px(z0).toFixed(1)+' '+base.toFixed(1); for(let z=z0; z<=z1+1e-9; z+=0.1){ p+='L'+px(z).toFixed(1)+' '+py(normalPdf(z)).toFixed(1); }
+                p+='L'+px(z1).toFixed(1)+' '+base.toFixed(1)+'Z'; shapes += '<path d="'+p+'" fill="'+(s.fill||'rgba(245,128,37,0.45)')+'"/>'; });
+            let marks=''; (opts.marks||[]).forEach(m => { const x=px(m.z); marks += '<line x1="'+x.toFixed(1)+'" y1="'+top+'" x2="'+x.toFixed(1)+'" y2="'+base+'" stroke="'+(m.color||'#0064B1')+'" stroke-width="1.3" stroke-dasharray="3 3"/>';
+                if(m.label) marks += '<text x="'+x.toFixed(1)+'" y="'+(top-3)+'" font-size="9" text-anchor="middle" fill="'+(m.color||'#0064B1')+'">'+escapeHtml(m.label)+'</text>'; });
+            return '<svg viewBox="0 0 '+w+' '+h+'" class="tool-svg" role="img" aria-label="Normal distribution curve"><line x1="'+pad+'" y1="'+base+'" x2="'+(w-pad)+'" y2="'+base+'" stroke="currentColor" stroke-opacity="0.3"/>'+shapes+'<path d="'+curve+'" fill="none" stroke="currentColor" stroke-width="1.5"/>'+marks+'</svg>';
+        }
+        function scatterSvg(pts, opts){
+            const w=320, h=200, pad=26, base=h-pad, left=pad;
+            const px = x => left+x/10*(w-pad-left); const py = y => base-y/10*(base-pad);
+            let g='<svg viewBox="0 0 '+w+' '+h+'" class="tool-svg" role="img" aria-label="Scatterplot">';
+            g+='<line x1="'+left+'" y1="'+base+'" x2="'+(w-pad)+'" y2="'+base+'" stroke="currentColor" stroke-opacity="0.3"/><line x1="'+left+'" y1="'+pad+'" x2="'+left+'" y2="'+base+'" stroke="currentColor" stroke-opacity="0.3"/>';
+            if(opts.fit){ const yA=clamp(opts.fit.a,-2,12), yB=clamp(opts.fit.a+opts.fit.b*10,-2,12);
+                g+='<line x1="'+px(0)+'" y1="'+py(yA)+'" x2="'+px(10)+'" y2="'+py(yB)+'" stroke="#F58025" stroke-width="2"/>';
+                if(opts.showResid) pts.forEach(p => { const yh=clamp(opts.fit.a+opts.fit.b*p.x,-2,12); g+='<line x1="'+px(p.x)+'" y1="'+py(p.y)+'" x2="'+px(p.x)+'" y2="'+py(yh)+'" stroke="#dc2626" stroke-width="1" stroke-dasharray="2 2"/>'; }); }
+            pts.forEach((p,i) => { g+='<circle class="scatter-dot" data-dot="'+i+'" cx="'+px(p.x).toFixed(1)+'" cy="'+py(p.y).toFixed(1)+'" r="5"/>'; });
+            return g+'</svg>';
+        }
+        function computeLSRL(pts){
+            const n=pts.length; if(n<2) return null;
+            let sx=0, sy=0; pts.forEach(p => { sx+=p.x; sy+=p.y; }); const mx=sx/n, my=sy/n;
+            let sxx=0, sxy=0, syy=0; pts.forEach(p => { const dx=p.x-mx, dy=p.y-my; sxx+=dx*dx; syy+=dy*dy; sxy+=dx*dy; });
+            if(sxx===0) return null;
+            return { a: my-(sxy/sxx)*mx, b: sxy/sxx, r: syy ? sxy/Math.sqrt(sxx*syy) : 0 };
+        }
+        const LSRL_PRESETS = {
+            linear:[[1,1.4],[2,2.1],[3,3.3],[4,3.9],[5,5.2],[6,6.1],[7,7.4],[8,7.9]],
+            negative:[[1,8.5],[2,7.6],[3,7],[4,5.8],[5,5],[6,3.9],[7,3.1],[8,2]],
+            weak:[[1,4.5],[2,6],[3,3.4],[4,7],[5,4],[6,6.6],[7,5],[8,7.2]],
+            curved:[[1,8],[2,4.5],[3,2.2],[4,1.1],[5,1],[6,1.8],[7,4],[8,7.5]]
+        };
+        function ensureTools(){ if(!app.tools) app.tools = {}; return app.tools; }
+        function lsrlState(){ const t=ensureTools(); if(!t.lsrl) t.lsrl = { points: LSRL_PRESETS.linear.map(p=>({x:p[0],y:p[1]})), showResid:true }; return t.lsrl; }
+        function twState(){ const t=ensureTools(); if(!t.tw) t.tw = { cells:[[30,10],[15,45]], rows:['Treatment A','Treatment B'], cols:['Improved','Not'], mode:'row' }; return t.tw; }
+        function describeR(r){ const a=Math.abs(r); const s=a>0.8?'strong':a>0.5?'moderate':a>0.2?'weak':'no'; const d=r>0.05?'positive':(r<-0.05?'negative':'no'); return s+(a>0.2?(', '+d):'')+' linear relationship'; }
+
+        function renderNV(){
+            const x=numVal('nv-x',12), mu=numVal('nv-mu',12), sd=numVal('nv-sd',0.015)||1, mode=(document.getElementById('nv-mode')||{}).value||'less';
+            const x2wrap=document.getElementById('nv-x2-wrap'); if(x2wrap) x2wrap.style.display = mode==='between'?'':'none';
+            const z=(x-mu)/sd, left=normCDF(z); let P, shades, label;
+            if(mode==='less'){ P=left; shades=[{z0:-4,z1:z}]; label='P(X < '+x+')'; }
+            else if(mode==='greater'){ P=1-left; shades=[{z0:z,z1:4}]; label='P(X > '+x+')'; }
+            else { const x2=numVal('nv-x2',mu+sd); const z2=(x2-mu)/sd; const lo=Math.min(z,z2), hi=Math.max(z,z2); P=normCDF(hi)-normCDF(lo); shades=[{z0:lo,z1:hi}]; label='P('+Math.min(x,x2)+' < X < '+Math.max(x,x2)+')'; }
+            const svgEl=document.getElementById('nv-svg'); if(svgEl) svgEl.innerHTML=bellSvg({shades:shades, marks:[{z:z,label:'z='+z.toFixed(2)}]});
+            const out=document.getElementById('nv-out'); if(out) out.innerHTML='z = '+z.toFixed(4)+'<br>'+label+' = '+P.toFixed(4)+' ('+(P*100).toFixed(2)+'%)';
+        }
+        function renderER(){
+            const mu=numVal('er2-mu',100), sd=numVal('er2-sd',15)||1, f=n=>Number.isInteger(n)?n:+n.toFixed(2);
+            const svgEl=document.getElementById('er2-svg'); if(svgEl) svgEl.innerHTML=bellSvg({ shades:[{z0:-3,z1:3,fill:'rgba(245,128,37,0.16)'},{z0:-2,z1:2,fill:'rgba(245,128,37,0.28)'},{z0:-1,z1:1,fill:'rgba(245,128,37,0.45)'}], marks:[{z:1,label:'68%'},{z:2,label:'95%'},{z:3,label:'99.7%'},{z:-1},{z:-2},{z:-3}] });
+            const out=document.getElementById('er2-out'); if(out) out.innerHTML='68% → '+f(mu-sd)+' to '+f(mu+sd)+'<br>95% → '+f(mu-2*sd)+' to '+f(mu+2*sd)+'<br>99.7% → '+f(mu-3*sd)+' to '+f(mu+3*sd);
+        }
+        function renderPC(){
+            const p=numVal('pc-p',25), mu=numVal('pc-mu',100), sd=numVal('pc-sd',15)||1, pp=clamp(p,0.1,99.9)/100;
+            const z=invNormCDF(pp), x=mu+z*sd, lab=document.getElementById('pc-pval'); if(lab) lab.textContent=p+'th';
+            const svgEl=document.getElementById('pc-svg'); if(svgEl) svgEl.innerHTML=bellSvg({ shades:[{z0:-4,z1:z,fill:'rgba(0,100,177,0.4)'}], marks:[{z:z,label:'z='+z.toFixed(2)}] });
+            const out=document.getElementById('pc-out'); if(out) out.innerHTML=p+'th percentile → z = '+z.toFixed(4)+'<br>x = μ + zσ = '+x.toFixed(4);
+        }
+        function renderLSRL(){
+            const st=lsrlState(), fit=computeLSRL(st.points), svgEl=document.getElementById('lsrl-svg');
+            if(svgEl) svgEl.innerHTML=scatterSvg(st.points, { fit:fit, showResid:st.showResid });
+            const out=document.getElementById('lsrl-out'); if(out) out.innerHTML = fit ? ('ŷ = '+fit.a.toFixed(2)+' + '+fit.b.toFixed(2)+'x &nbsp; r = '+fit.r.toFixed(3)+' ('+st.points.length+' pts)') : 'Add at least 2 points.';
+        }
+        function renderScatter(){
+            const noise=numVal('sc-noise',30)/100, sign=((document.getElementById('sc-sign')||{}).value==='neg')?-1:1;
+            const jit=[0.4,-0.6,0.35,-0.2,0.55,-0.45,0.25,-0.55,0.3,-0.35], pts=[];
+            for(let i=0;i<10;i++){ const x=i+0.5; let y=5+sign*(x-5)*0.9+noise*jit[i]*9; pts.push({ x:x, y:clamp(y,0.2,9.8) }); }
+            const fit=computeLSRL(pts), svgEl=document.getElementById('sc-svg'); if(svgEl) svgEl.innerHTML=scatterSvg(pts, { fit:fit, showResid:false });
+            const out=document.getElementById('sc-out'); if(out) out.innerHTML='r = '+fit.r.toFixed(3)+'<br>'+describeR(fit.r);
+        }
+        function renderTwoWay(){
+            const st=twState();
+            for(let r=0;r<2;r++) for(let c=0;c<2;c++){ const el=document.getElementById('tw-'+r+'-'+c); if(el){ const v=parseFloat(el.value); st.cells[r][c]=Number.isNaN(v)?0:v; } }
+            const rowT=st.cells.map(row=>row[0]+row[1]), colT=[st.cells[0][0]+st.cells[1][0], st.cells[0][1]+st.cells[1][1]], grand=rowT[0]+rowT[1];
+            const pct=(n,dn)=> dn ? (n/dn*100).toFixed(1)+'%' : '—';
+            let html='<table class="w-full text-center text-xs"><thead><tr><th></th><th>'+escapeHtml(st.cols[0])+'</th><th>'+escapeHtml(st.cols[1])+'</th><th>Total</th></tr></thead><tbody>';
+            for(let r=0;r<2;r++){ html+='<tr><td class="text-left font-medium">'+escapeHtml(st.rows[r])+'</td>';
+                for(let c=0;c<2;c++){ const denom = st.mode==='row'?rowT[r]:colT[c]; html+='<td>'+st.cells[r][c]+'<br><span class="text-gray-400">'+pct(st.cells[r][c],denom)+'</span></td>'; }
+                html+='<td>'+rowT[r]+'<br><span class="text-gray-400">'+pct(rowT[r],grand)+'</span></td></tr>'; }
+            html+='<tr><td class="text-left font-semibold">Total</td><td>'+colT[0]+'<br><span class="text-gray-400">'+pct(colT[0],grand)+'</span></td><td>'+colT[1]+'<br><span class="text-gray-400">'+pct(colT[1],grand)+'</span></td><td>'+grand+'</td></tr></tbody></table>';
+            const res=document.getElementById('tw-result'); if(res) res.innerHTML=html;
+            const out=document.getElementById('tw-out'); if(out) out.textContent='Conditional % shown is within each '+(st.mode==='row'?'row (treatment)':'column (outcome)')+'. Margin % = total ÷ grand total ('+grand+').';
+        }
+        function renderTool(name){ try { ({nv:renderNV, er:renderER, pc:renderPC, lsrl:renderLSRL, scatter:renderScatter, tw:renderTwoWay}[name] || function(){})(); } catch(e){ console.warn('tool render', name, e); } }
+        function renderAllTools(){ ['nv','er','pc','lsrl','scatter','tw'].forEach(renderTool); }
+        function handleToolAction(btn){
+            const act=btn.getAttribute('data-tool-action');
+            if(act==='lsrl-preset'){ const p=btn.getAttribute('data-preset'); ensureTools().lsrl = { points: LSRL_PRESETS[p].map(x=>({x:x[0],y:x[1]})), showResid: lsrlState().showResid }; renderLSRL(); }
+            else if(act==='lsrl-add'){ lsrlState().points.push({ x:clamp(numVal('lsrl-addx',5),0,10), y:clamp(numVal('lsrl-addy',5),0,10) }); renderLSRL(); }
+            else if(act==='lsrl-clear'){ lsrlState().points=[]; renderLSRL(); }
+            else if(act==='lsrl-resid'){ const s=lsrlState(); s.showResid=!s.showResid; renderLSRL(); }
+            else if(act==='tw-mode'){ twState().mode=btn.getAttribute('data-mode'); document.querySelectorAll('[data-tool-action="tw-mode"]').forEach(b=>b.classList.toggle('active', b===btn)); renderTwoWay(); }
+        }
+        function initVisualTools(){
+            if(document.getElementById('visual-tools')) return;
+            ensureTools();
+            const card = (tool, title, icon, inner) => '<div class="tool-card" data-tool="'+tool+'"><h3 class="font-bold mb-2 flex items-center gap-2"><i class="fas '+icon+' text-uta-blue"></i> '+title+'</h3>'+inner+'</div>';
+            const sec = document.createElement('section');
+            sec.id='visual-tools';
+            sec.className='bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700';
+            sec.innerHTML = '<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-1"><i class="fas fa-wand-magic-sparkles text-uta-orange"></i> Interactive Visualizers</h2>' +
+                '<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Build intuition — slide, drag, and edit to watch the math move. Every tool also works without a mouse.</p>' +
+                '<div class="grid md:grid-cols-2 gap-4">' +
+                card('nv','Normal probability visualizer','fa-chart-area',
+                    '<div class="grid grid-cols-3 gap-2 mb-2"><label class="text-xs">x<input id="nv-x" type="number" step="any" value="11.97" class="tool-input mt-1"></label><label class="text-xs">μ<input id="nv-mu" type="number" step="any" value="12" class="tool-input mt-1"></label><label class="text-xs">σ<input id="nv-sd" type="number" step="any" value="0.015" class="tool-input mt-1"></label></div>' +
+                    '<div class="flex gap-2 mb-2"><label class="text-xs flex-1">Region<select id="nv-mode" class="tool-input mt-1"><option value="less">P(X &lt; x)</option><option value="greater">P(X &gt; x)</option><option value="between">P(x &lt; X &lt; x₂)</option></select></label><label class="text-xs flex-1" id="nv-x2-wrap" style="display:none">x₂<input id="nv-x2" type="number" step="any" value="12.03" class="tool-input mt-1"></label></div>' +
+                    '<div id="nv-svg"></div><div class="tool-out" id="nv-out"></div><div class="tool-hint">The table gives area to the LEFT. For “greater than,” use 1 − left.</div>') +
+                card('er','Empirical-rule explorer','fa-chart-column',
+                    '<div class="grid grid-cols-2 gap-2 mb-2"><label class="text-xs">μ<input id="er2-mu" type="number" step="any" value="100" class="tool-input mt-1"></label><label class="text-xs">σ<input id="er2-sd" type="number" step="any" value="15" class="tool-input mt-1"></label></div>' +
+                    '<div id="er2-svg"></div><div class="tool-out" id="er2-out"></div><div class="tool-hint">68–95–99.7 holds only for Normal (bell-shaped) data.</div>') +
+                card('pc','Percentile / inverse-z finder','fa-magnifying-glass-chart',
+                    '<div class="mb-2"><label class="text-xs">Percentile: <span id="pc-pval">25th</span><input id="pc-p" type="range" min="1" max="99" value="25" class="w-full mt-1"></label></div>' +
+                    '<div class="grid grid-cols-2 gap-2 mb-2"><label class="text-xs">μ<input id="pc-mu" type="number" step="any" value="100" class="tool-input mt-1"></label><label class="text-xs">σ<input id="pc-sd" type="number" step="any" value="15" class="tool-input mt-1"></label></div>' +
+                    '<div id="pc-svg"></div><div class="tool-out" id="pc-out"></div><div class="tool-hint">Work backward: percentile → z (area to the left) → x = μ + zσ.</div>') +
+                card('lsrl','Least-squares line + residuals','fa-arrow-trend-up',
+                    '<div class="flex flex-wrap gap-1 mb-2"><button type="button" class="tool-btn" data-tool-action="lsrl-preset" data-preset="linear">Strong +</button><button type="button" class="tool-btn" data-tool-action="lsrl-preset" data-preset="negative">Negative</button><button type="button" class="tool-btn" data-tool-action="lsrl-preset" data-preset="weak">Weak</button><button type="button" class="tool-btn" data-tool-action="lsrl-preset" data-preset="curved">Curved</button><button type="button" class="tool-btn" data-tool-action="lsrl-resid">Toggle residuals</button></div>' +
+                    '<div id="lsrl-svg"></div>' +
+                    '<div class="flex flex-wrap gap-2 items-end mt-2"><label class="text-xs">x<input id="lsrl-addx" type="number" step="any" value="5" class="tool-input mt-1" style="width:4rem"></label><label class="text-xs">y<input id="lsrl-addy" type="number" step="any" value="5" class="tool-input mt-1" style="width:4rem"></label><button type="button" class="tool-btn" data-tool-action="lsrl-add">Add point</button><button type="button" class="tool-btn" data-tool-action="lsrl-clear">Clear</button></div>' +
+                    '<div class="tool-out" id="lsrl-out"></div><div class="tool-hint">Drag a point, or add by hand. The line minimizes squared vertical residuals (red).</div>') +
+                card('scatter','Correlation reader','fa-braille',
+                    '<div class="flex gap-2 mb-2"><label class="text-xs flex-1">Direction<select id="sc-sign" class="tool-input mt-1"><option value="pos">Positive</option><option value="neg">Negative</option></select></label><label class="text-xs flex-1">Scatter<input id="sc-noise" type="range" min="0" max="100" value="30" class="w-full mt-1"></label></div>' +
+                    '<div id="sc-svg"></div><div class="tool-out" id="sc-out"></div><div class="tool-hint">More scatter ⇒ |r| → 0. r measures only LINEAR association.</div>') +
+                card('tw','Two-way table calculator','fa-table-cells',
+                    '<table class="w-full text-center text-xs mb-2"><thead><tr><th></th><th>Improved</th><th>Not</th></tr></thead><tbody>' +
+                    '<tr><td class="text-left">Treat. A</td><td><input id="tw-0-0" class="tw-cell" type="number" value="30"></td><td><input id="tw-0-1" class="tw-cell" type="number" value="10"></td></tr>' +
+                    '<tr><td class="text-left">Treat. B</td><td><input id="tw-1-0" class="tw-cell" type="number" value="15"></td><td><input id="tw-1-1" class="tw-cell" type="number" value="45"></td></tr></tbody></table>' +
+                    '<div class="flex gap-1 mb-2"><button type="button" class="tool-btn active" data-tool-action="tw-mode" data-mode="row">Conditional by row</button><button type="button" class="tool-btn" data-tool-action="tw-mode" data-mode="col">by column</button></div>' +
+                    '<div id="tw-result"></div><div class="tool-out" id="tw-out"></div>') +
+                '</div>';
+            const tools = document.getElementById('tools');
+            if(tools && tools.parentElement) tools.parentElement.insertBefore(sec, tools.nextSibling);
+            else { const m=document.querySelector('main'); if(m) m.appendChild(sec); }
+            sec.addEventListener('input', e => { const c=e.target.closest('[data-tool]'); if(c) renderTool(c.getAttribute('data-tool')); });
+            sec.addEventListener('click', e => { const btn=e.target.closest('[data-tool-action]'); if(btn) handleToolAction(btn); });
+            // drag for the LSRL scatter (best-effort; tools are fully usable without it)
+            let drag=null;
+            sec.addEventListener('pointerdown', e => { const dot=e.target.closest && e.target.closest('.scatter-dot'); if(dot && dot.closest('#lsrl-svg')){ drag={ idx:+dot.getAttribute('data-dot'), svg:dot.closest('svg') }; if(e.preventDefault) e.preventDefault(); } });
+            sec.addEventListener('pointermove', e => { if(!drag || !drag.svg || !drag.svg.getBoundingClientRect) return; const rect=drag.svg.getBoundingClientRect(); if(!rect.width) return;
+                const w=320,h=200,pad=26,base=h-pad,left=pad; const sx=(e.clientX-rect.left)/rect.width*w, sy=(e.clientY-rect.top)/rect.height*h;
+                const st=lsrlState(); if(st.points[drag.idx]){ st.points[drag.idx]={ x:clamp((sx-left)/(w-pad-left)*10,0,10), y:clamp((base-sy)/(base-pad)*10,0,10) }; renderLSRL(); } });
+            const endDrag=()=>{ drag=null; }; sec.addEventListener('pointerup', endDrag); sec.addEventListener('pointerleave', endDrag);
+            app.refreshTools = renderAllTools;
+            renderAllTools();
+        }
+
+        // ---------- Cheat-sheet / focus mode ----------
+        function isCheatSheetHash(){ return !!(window.location && window.location.hash === '#cheat-sheet-mode'); }
+        function applyCheatSheetMode(on, opts){
+            document.body.classList.toggle('cheat-focus', on);
+            const navBtn = document.getElementById('focus-toggle-btn'); if(navBtn) navBtn.setAttribute('aria-pressed', on?'true':'false');
+            if(on){ const cs = document.getElementById('cheat-sheet'); if(cs && opts && opts.scroll && cs.scrollIntoView) cs.scrollIntoView({ behavior:'smooth' }); }
+        }
+        function toggleCheatSheet(){ const on = !document.body.classList.contains('cheat-focus'); if(window.location){ try { window.location.hash = on ? 'cheat-sheet-mode' : ''; } catch(e){} } applyCheatSheetMode(on, { scroll:true }); }
+        function handleCheatPrint(){ if(typeof window.print === 'function') window.print(); }
+        function initCheatSheet(){
+            const tb = document.createElement('div'); tb.className = 'focus-toolbar';
+            tb.innerHTML = '<button type="button" class="exam-btn exam-primary" data-cheat-print><i class="fas fa-print mr-1"></i>Print</button><button type="button" class="exam-btn exam-secondary" data-cheat-exit><i class="fas fa-xmark mr-1"></i>Exit focus</button>';
+            document.body.appendChild(tb);
+            const printBtn = document.querySelector('nav button[onclick*="print"]');
+            if(printBtn && printBtn.parentElement){
+                const fb = document.createElement('button'); fb.type = 'button'; fb.id = 'focus-toggle-btn'; fb.setAttribute('aria-pressed','false');
+                fb.className = 'inline-flex items-center gap-2 rounded-md bg-gray-100 dark:bg-gray-700 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors';
+                fb.innerHTML = '<i class="fas fa-bullseye"></i><span class="hidden sm:inline">Focus</span>';
+                fb.addEventListener('click', toggleCheatSheet); printBtn.parentElement.insertBefore(fb, printBtn);
+            }
+            document.addEventListener('click', e => { if(e.target.closest('[data-cheat-exit]')) toggleCheatSheet(); else if(e.target.closest('[data-cheat-print]')) handleCheatPrint(); });
+            if(window.addEventListener) window.addEventListener('hashchange', () => applyCheatSheetMode(isCheatSheetHash(), { scroll:false }));
+            if(isCheatSheetHash()) applyCheatSheetMode(true, { scroll:false });
+        }
+
+        // ---------- Progress export / import ----------
+        function setImportStatus(msg, isErr){ const el = document.getElementById('io-status'); if(!el) return; el.textContent = msg||''; el.className = 'text-xs mt-2 ' + (isErr ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'); }
+        function serializeProgress(){ return JSON.stringify({ app:'MATH 3316 Study Guide', version:APP_STATE_VERSION, exportedAt:nowIso(), state:app.state }, null, 2); }
+        function exportProgressState(){
+            try {
+                const blob = new Blob([serializeProgress()], { type:'application/json' });
+                const url = URL.createObjectURL(blob); const a = document.createElement('a');
+                a.href = url; a.download = 'm3316-progress-' + nowIso().slice(0,10) + '.json';
+                document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+                setImportStatus('Progress exported.');
+            } catch(e){ setImportStatus('Export is not supported in this browser.', true); }
+        }
+        function applyImportedState(parsed){
+            if(!isObj(parsed) || !isObj(parsed.state)){ setImportStatus('That file isn’t a valid MATH 3316 progress export.', true); return false; }
+            const ns = normalizeState(parsed.state); ns.version = APP_STATE_VERSION; app.state = ns; persistState();
+            if(app.refreshProgress) app.refreshProgress(); if(app.refreshMastery) app.refreshMastery(); if(app.refreshReview) app.refreshReview();
+            setImportStatus('Progress imported.'); return true;
+        }
+        function importProgressFile(file){
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = () => { try { applyImportedState(JSON.parse(reader.result)); } catch(e){ setImportStatus('Could not parse that file.', true); } };
+            reader.onerror = () => setImportStatus('Could not read that file.', true);
+            reader.readAsText(file);
+        }
+        function initProgressIO(){
+            const resetBtn = document.getElementById('reset-progress-btn'); if(!resetBtn || !resetBtn.parentElement) return;
+            const row = resetBtn.parentElement;
+            const exportBtn = document.createElement('button'); exportBtn.type = 'button';
+            exportBtn.className = 'inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors';
+            exportBtn.innerHTML = '<i class="fas fa-download"></i> Export'; exportBtn.addEventListener('click', exportProgressState);
+            const importLabel = document.createElement('label');
+            importLabel.className = 'inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer';
+            importLabel.innerHTML = '<i class="fas fa-upload"></i> Import';
+            const fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.accept = 'application/json,.json'; fileInput.className = 'hidden';
+            fileInput.addEventListener('change', e => { if(e.target.files && e.target.files[0]) importProgressFile(e.target.files[0]); e.target.value = ''; });
+            importLabel.appendChild(fileInput); row.appendChild(exportBtn); row.appendChild(importLabel);
+            const status = document.createElement('p'); status.id = 'io-status'; status.className = 'text-xs mt-2'; status.setAttribute('role','status'); status.setAttribute('aria-live','polite');
+            if(row.parentElement) row.parentElement.appendChild(status);
+        }
+
+        // ---------- Accessibility / mobile hardening + nav links ----------
+        function initA11y(){
+            ['quiz-live','exam-status','review-badge','io-status','review-panel'].forEach(id => { const el = document.getElementById(id); if(el && !el.getAttribute('role')) el.setAttribute('role','status'); });
+            try { const el = document.documentElement; if(el.scrollWidth > el.clientWidth + 2) console.warn('[a11y] horizontal overflow:', el.scrollWidth, '>', el.clientWidth); } catch(e){}
+        }
+        function initNavLinks(){
+            const nav = document.querySelector('aside nav'); if(!nav) return;
+            const mk = (href, label) => { const a = document.createElement('a'); a.href = href; a.className = 'block px-3 py-2 text-sm font-bold rounded-md text-uta-blue bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors'; a.textContent = label; return a; };
+            const exam = mk('#exam-mode', '★ Timed Exam'); const review = mk('#review-queue', '★ Spaced Review');
+            nav.insertBefore(exam, nav.firstChild); nav.insertBefore(review, exam);
+            const toolsLink = nav.querySelector('a[href="#tools"]');
+            const vis = mk('#visual-tools', 'Visualizers');
+            if(toolsLink && toolsLink.parentNode) toolsLink.parentNode.insertBefore(vis, toolsLink.nextSibling); else nav.appendChild(vis);
+        }
+
+        // ---------- Boot ----------
+        function initApp(){
+            app.state = getStoredState();
+            persistState();                 // write back normalized/migrated state
+            app.refreshProgress = renderAll;
+            validateQuestionBank();
+            renderAll();
+            initCommonTraps();
+            initMastery();
+            initQuizUpgrade();
+            initReviewQueue();
+            initExamMode();
+            initVisualTools();
+            initCheatSheet();
+            initProgressIO();
+            initNavLinks();
+            initA11y();
+            if(stateRepaired) setImportStatus('Saved progress was repaired after a format change.');
+            onScroll();
+        }
+        initApp();
+    </script>
+</body>
+</html>

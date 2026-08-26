@@ -6,6 +6,7 @@ author: UI Compass
 date: 2026-05-22T22:02:00.000-05:00
 updated: 2026-05-22T22:02:00.000-05:00
 draft: false
+category: SEO
 tags:
   - post
 tldrTitle: Key Takeaways

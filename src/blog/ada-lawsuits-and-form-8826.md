@@ -112,6 +112,11 @@ faq:
       every <a href="/web-design/">new build</a>, and into the quarterly review
       for clients on <a href="/unlimited-edits-and-support/">unlimited edits and
       support</a>.
+sources:
+  - label: IRS — About Form 8826, Disabled Access Credit
+    url: https://www.irs.gov/forms-pubs/about-form-8826
+  - label: IRS — Form 8826
+    url: https://www.irs.gov/pub/irs-pdf/f8826.pdf
 related:
   - wcag-2-2-aa-in-five-minutes
   - why-accessibility-overlay-widgets-get-sued

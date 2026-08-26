@@ -108,6 +108,9 @@ faq:
       format (we recommend "123 Main St Ste 4" — no comma, no pound sign, "Ste"
       abbreviation) and use it everywhere. The US Postal Service standard
       formats are documented in their PUB 28 if you want the source.
+sources:
+  - label: USPS — Publication 28, Postal Addressing Standards
+    url: https://pe.usps.com/text/pub28/
 related:
   - five-reviews-a-month-beats-thirty-in-a-week
   - faq-schema-3x-screen-space

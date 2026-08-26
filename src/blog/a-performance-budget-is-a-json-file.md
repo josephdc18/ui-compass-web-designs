@@ -111,6 +111,11 @@ faq:
       it on the next build because the page weight crossed the threshold.
       Without the budget, the 4MB image ships to production and the mobile
       PageSpeed score drops 15 points overnight with nobody knowing why.
+sources:
+  - label: web.dev — Web Vitals
+    url: https://web.dev/articles/vitals
+  - label: GoogleChrome — Lighthouse CI
+    url: https://github.com/GoogleChrome/lighthouse-ci
 related:
   - the-1-second-tax
   - four-dependencies-to-delete

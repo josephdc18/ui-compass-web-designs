@@ -109,6 +109,11 @@ faq:
       foundations (clean NAP, sufficient depth, real local proof) usually start
       ranking around week 6. Pages that fail one of the three can take 3–6
       months to settle, or never make it to page 1.
+sources:
+  - label: Google Search — Spam policies for web search
+    url: https://developers.google.com/search/docs/essentials/spam-policies
+  - label: Google Search Central — An update on doorway pages
+    url: https://developers.google.com/search/blog/2015/03/an-update-on-doorway-pages
 related:
   - site-by-service-matrix
   - designed-on-a-monitor-used-on-a-phone

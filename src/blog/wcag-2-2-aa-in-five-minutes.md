@@ -105,6 +105,15 @@ faq:
       href="/blog/redesign-or-optimize-warning-signs/">our scoreboard</a>. The
       same root cause — a builder template optimized for screenshots, not
       visitors — produces all of them.
+sources:
+  - label: WebAIM — The 2026 WebAIM Million
+    url: https://webaim.org/projects/million/
+  - label: W3C — WCAG 2.2 Contrast (Minimum)
+    url: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+  - label: W3C — WCAG 2.2 Keyboard
+    url: https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
+  - label: W3C — WCAG 2.2 Non-text Content
+    url: https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
 related:
   - trust-signals-that-move-the-needle
   - the-seven-homepage-sections

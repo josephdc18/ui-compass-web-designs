@@ -94,6 +94,9 @@ faq:
       points to lead with, how the conversion paths differ, how each market's
       analytics is read, and how the operation keeps both sides alive over time.
       A translator is one input. The Playbook is the framework for the rest.
+sources:
+  - label: Google Search Central — Localized versions of your pages
+    url: https://developers.google.com/search/docs/specialty/international/localized-versions
 related:
   - comparing-local-dfw-web-design-companies
 ---

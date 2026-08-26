@@ -91,6 +91,13 @@ faq:
       disabled, the AI sees the same blank page. The bigger conversation there
       is whether to <a href="/blog/redesign-or-optimize-warning-signs/">rebuild
       on a hand-coded foundation</a>.
+sources:
+  - label: OpenAI — Overview of OpenAI crawlers
+    url: https://developers.openai.com/api/docs/bots
+  - label: Google — Common crawlers
+    url: https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers
+  - label: Google Search Central — JavaScript SEO basics
+    url: https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics
 related:
   - faq-schema-3x-screen-space
   - the-1-second-tax

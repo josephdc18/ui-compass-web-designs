@@ -102,6 +102,9 @@ faq:
       afterthought. Hand-coded sites with the five breakpoints we use treat 568
       and 768 as named transition points, so the layout is intentional at every
       width.
+sources:
+  - label: Google Search Central — Mobile-first indexing best practices
+    url: https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing
 related:
   - a-page-per-suburb-for-trades
   - drag-and-drop-vs-hiring

@@ -87,6 +87,11 @@ faq:
       continuously: rankings drop, security degrades, design dates. <a
       href="/blog/managing-a-website/">The monthly is the upkeep that preserves
       the asset.</a>
+sources:
+  - label: IRS — About Form 8826, Disabled Access Credit
+    url: https://www.irs.gov/forms-pubs/about-form-8826
+  - label: IRS — Form 8826
+    url: https://www.irs.gov/pub/irs-pdf/f8826.pdf
 related:
   - one-client-pays-for-the-year
   - managing-a-website

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --primary:#006940;
+    --primaryLight:#00bd74;
+    --secondary:#e6d9c7;
+    --secondaryLight:#faf7f4;
+    --headerColor:#262421;
+    --bodyTextColor:#4e4b66;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:628px;overflow:hidden}
+  body{
+    font-family:"Roboto","Arial",sans-serif;
+    background:var(--secondaryLight);
+    color:var(--headerColor);
+    display:flex;align-items:center;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{position:relative;display:flex;width:100%;height:100%;align-items:center;padding:0 0 0 64px;gap:48px}
+
+  /* ---- left text column ---- */
+  .col{width:430px;flex:none}
+  .logo{height:40px;width:auto;display:block;margin-bottom:34px}
+
+  .topper{
+    display:inline-flex;align-items:center;gap:9px;
+    background-color:var(--primary);color:#fff;
+    font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+    border-radius:999px;padding:8px 16px 8px 13px;
+    box-shadow:0 6px 18px rgba(0,105,64,0.22);
+    margin-bottom:22px;
+  }
+  .topper svg{width:15px;height:15px;flex-shrink:0}
+
+  h1{
+    font-size:44px;font-weight:900;line-height:1.18;letter-spacing:-0.01em;
+    color:var(--headerColor);margin-bottom:20px;
+  }
+  .text{
+    font-size:18px;font-weight:400;line-height:1.5;color:var(--bodyTextColor);
+    margin-bottom:30px;max-width:392px;
+  }
+  .text b{color:var(--primary);font-weight:700}
+
+  .btn{
+    display:inline-block;background-color:var(--primary);color:#fff;
+    font-size:16px;font-weight:700;line-height:54px;
+    padding:0 34px;text-decoration:none;letter-spacing:0.01em;
+  }
+  .url{
+    margin-top:22px;font-size:14px;font-weight:500;color:#8a8780;
+    display:flex;align-items:center;gap:9px;
+  }
+  .url .dot{width:5px;height:5px;border-radius:50%;background:var(--primary)}
+
+  /* ---- right browser + phone mockup ---- */
+  .show{position:relative;flex:1;height:100%}
+  .browser{
+    position:absolute;top:50%;left:0;transform:translateY(-50%);
+    width:520px;border-radius:12px;overflow:hidden;
+    background:#fff;
+    border:1px solid #e7e3dd;
+    box-shadow:0 28px 56px -14px rgba(38,36,33,0.30), 0 6px 16px rgba(38,36,33,0.08);
+  }
+  .phone{
+    position:absolute;right:34px;bottom:64px;z-index:5;
+    width:152px;border-radius:26px;background:#1c1b1a;padding:7px;
+    border:1px solid #2c2a28;
+    box-shadow:0 30px 50px -12px rgba(38,36,33,0.45), 0 8px 18px rgba(38,36,33,0.18);
+  }
+  .phone .pscreen{border-radius:20px;overflow:hidden;background:#fff;position:relative}
+  .phone .notch{
+    position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;
+    width:48px;height:13px;background:#1c1b1a;border-radius:0 0 9px 9px;
+  }
+  .phone img{display:block;width:100%;height:auto}
+  .bar{
+    height:42px;display:flex;align-items:center;gap:8px;padding:0 16px;
+    background:#f4f1ec;border-bottom:1px solid #e9e5df;
+  }
+  .bar i{width:11px;height:11px;border-radius:50%;background:#d6d2ca;display:block}
+  .bar i:nth-child(1){background:#e2655a}
+  .bar i:nth-child(2){background:#e3b341}
+  .bar i:nth-child(3){background:#4cae6a}
+  .addr{
+    margin-left:14px;flex:1;height:25px;border-radius:6px;
+    background:#fff;border:1px solid #e6e2db;
+    display:flex;align-items:center;padding:0 12px;
+    font-size:12.5px;color:#6f6c66;font-weight:500;
+  }
+  .addr svg{width:11px;height:11px;margin-right:8px;opacity:0.6}
+  .shot{display:block;width:100%;height:auto}
+
+  .badge{
+    position:absolute;left:18px;bottom:18px;z-index:3;
+    display:inline-flex;align-items:center;gap:7px;
+    background:rgba(255,255,255,0.94);color:var(--headerColor);
+    font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+    padding:7px 13px;border-radius:999px;
+    box-shadow:0 6px 16px rgba(38,36,33,0.18);
+  }
+  .badge .led{width:7px;height:7px;border-radius:50%;background:var(--primary)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="col">
+      <img class="logo" src="LOGO_SRC" alt="UI Compass Web Designs">
+      <span class="topper">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L14.94 8.97 22.5 9.5 16.75 14.4 18.5 21.5 12 17.6 5.5 21.5 7.25 14.4 1.5 9.5 9.06 8.97 Z" fill="currentColor"/></svg>
+        Veteran Owned · DFW
+      </span>
+      <h1>Custom Websites for Small Businesses</h1>
+      <p class="text">We only do web design, web development, and website maintenance. <b>And we do it really well, for only $150 per month.</b></p>
+      <a class="btn" href="#">See Our Work</a>
+      <div class="url"><span class="dot"></span>uicompass.com</div>
+    </div>
+
+    <div class="show">
+      <div class="browser">
+        <div class="bar">
+          <i></i><i></i><i></i>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm3 8H9V6a3 3 0 0 1 6 0z" fill="#6f6c66"/></svg>
+            casablancabarbershoptx.com
+          </div>
+        </div>
+        <img class="shot" src="SHOT_SRC" alt="Casablanca Barber Shop website">
+        <span class="badge"><span class="led"></span>Recent build</span>
+      </div>
+
+      <div class="phone">
+        <div class="pscreen">
+          <span class="notch"></span>
+          <img src="SHOT2_SRC" alt="Casablanca Barber Shop on mobile">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

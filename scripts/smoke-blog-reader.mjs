@@ -75,6 +75,23 @@ async function settle(page, milliseconds = 80) {
   await page.evaluate(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))));
 }
 
+/**
+ * Scrolling down auto-hides the reader bar — intended behaviour, and the bar
+ * translates fully off-screen, so puppeteer's click() then throws "Node is
+ * either not clickable". Any test that scrolls before pressing a bar control
+ * has to bring it back first, the way a reader would with a flick upward.
+ * Waits for the class rather than sleeping, since the hide lands a frame or two
+ * after the scroll event.
+ */
+async function revealBar(page) {
+  await page.evaluate(() => window.scrollBy(0, -40));
+  await page.waitForFunction(
+    () => !document.querySelector('[data-reader-bar]')?.classList.contains('is-hidden'),
+    { polling: 'raf', timeout: 4000 },
+  );
+  await settle(page);
+}
+
 async function openPage(pathname, viewport = DESKTOP, beforeLoad) {
   const page = await browser.newPage();
   await page.setViewport(viewport);
@@ -258,6 +275,9 @@ async function testPostMobile() {
 
   await page.evaluate(() => window.scrollTo(0, 600));
   await settle(page);
+  // After revealBar's upward nudge, not before it — the nudge moves the page,
+  // and the scroll-lock and restore assertions below compare against this.
+  await revealBar(page);
   const beforeOpen = await page.evaluate(() => window.scrollY);
   await page.click('[data-panel-toggle="contents"]');
   await settle(page);
@@ -274,7 +294,7 @@ async function testPostMobile() {
   check('Contents opens as one modal sheet and receives focus', opened.open === 'true' && !opened.scrim && opened.fixed === 'fixed' && opened.focusInside, `${opened.active} close=${opened.closeDisplay}`);
   check('mobile sheet has modal semantics', opened.modal === 'true' && opened.inert === true);
   await page.evaluate(() => window.scrollTo(0, 1400));
-  const held = await page.evaluate(() => Math.abs(parseFloat(document.body.style.top) + 600) < 12);
+  const held = await page.evaluate((y) => Math.abs(parseFloat(document.body.style.top) + y) < 12, beforeOpen);
   check('fixed-body scroll lock holds the page', held);
   await page.keyboard.press('Escape');
   await settle(page);
@@ -294,6 +314,64 @@ async function testPostMobile() {
   }));
   check('toolbar arrows keep one roving tab stop', roving.active === 'display' && roving.zeroes === 1, roving.active);
 
+  // Regressions. Counting the TOC links proved they exist; none of these four
+  // were caught by that, and all four shipped broken.
+  //
+  // 1. The sheet stops at the bar's top edge, so a bar left under the scrim
+  //    stayed on screen dimmed and dead — the control you pressed to open the
+  //    sheet was the one you could not press to close it.
+  await revealBar(page);
+  await page.click('[data-panel-toggle="contents"]');
+  // settle() waits 80ms; the sheet slides for 280ms. Measuring geometry before
+  // the transform lands reads a panel that is still on its way up.
+  await page.waitForFunction(() => {
+    const value = getComputedStyle(document.querySelector('[data-panel="contents"]')).transform;
+    return value === 'none' || Math.abs(Number(value.split(',').pop().replace(')', '')) || 0) < 0.5;
+  }, { timeout: 4000 });
+  const zorder = await page.evaluate(() => {
+    const bar = document.querySelector('[data-reader-bar]').getBoundingClientRect();
+    const hit = document.elementFromPoint(bar.left + bar.width / 2, bar.top + bar.height / 2);
+    const panel = document.querySelector('[data-panel="contents"]').getBoundingClientRect();
+    return { hit: hit ? hit.className || hit.tagName : null, panelBottom: Math.round(panel.bottom), barTop: Math.round(bar.top) };
+  });
+  check('open sheet leaves the reader bar on top and pressable',
+    typeof zorder.hit === 'string' && zorder.hit.includes('reader-action'), zorder.hit);
+  check('sheet stops at the bar rather than covering it',
+    zorder.panelBottom <= zorder.barTop + 2, `panel=${zorder.panelBottom} bar=${zorder.barTop}`);
+
+  // 2. While a sheet is open the body is position:fixed, so window.scrollTo is
+  //    a no-op and the unlock restored the pre-open position — the jump was
+  //    silently thrown away and the heading stayed off-screen.
+  const jumped = await page.evaluate(async () => {
+    const link = [...document.querySelectorAll('[data-panel="contents"] .toc a')][3];
+    const id = link.getAttribute('href').slice(1);
+    link.click();
+    await new Promise((r) => setTimeout(r, 1200));
+    const rect = document.getElementById(id).getBoundingClientRect();
+    const navBottom = document.querySelector('#cs-navigation').getBoundingClientRect().bottom;
+    return {
+      id,
+      top: Math.round(rect.top),
+      navBottom: Math.round(navBottom),
+      open: document.querySelector('[data-panel="contents"]').dataset.open,
+      focused: document.activeElement?.id,
+    };
+  });
+  check('TOC jump scrolls the heading into view',
+    jumped.top > 0 && jumped.top < 400, `${jumped.id} at ${jumped.top}`);
+  check('TOC jump clears the fixed navbar',
+    jumped.top >= jumped.navBottom - 1, `${jumped.top} vs ${jumped.navBottom}`);
+  check('TOC jump closes the sheet and moves focus to the heading',
+    jumped.open === 'false' && jumped.focused === jumped.id, `${jumped.open}/${jumped.focused}`);
+
+  // The jump scrolled down, which correctly auto-hides the bar. Return to the
+  // top so the remaining tests act on a visible toolbar.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await settle(page, 200);
+  check('scrolling back to the top reveals the bar again',
+    await page.$eval('[data-reader-bar]', (node) => !node.classList.contains('is-hidden')));
+
+  await revealBar(page);
   await page.click('[data-panel-toggle="display"]');
   await settle(page);
   await page.$eval('[data-panel="display"]', (panel) => {
@@ -364,12 +442,85 @@ async function testPostMobile() {
   await closePage(page);
 }
 
+// Two index defects the row and control counts could not see: an undefined
+// .sr-only utility painting its label as body text, and a row grid that kept
+// reserving the artwork column for posts whose card image does not exist.
+async function testIndexLayout() {
+  console.log('\nIndex layout regressions');
+  const page = await openPage('/blog/', MOBILE);
+  const layout = await page.evaluate(() => {
+    const hidden = [...document.querySelectorAll('.sr-only')];
+    const widthOf = (row) => {
+      const strong = row?.querySelector('.blog-row-body strong');
+      return strong ? Math.round(strong.getBoundingClientRect().width) : 0;
+    };
+    const rows = [...document.querySelectorAll('.blog-row')];
+    return {
+      srOnlyCount: hidden.length,
+      srOnlyVisible: hidden.filter((node) => node.getBoundingClientRect().width > 1).length,
+      withMedia: widthOf(rows.find((row) => row.querySelector('.blog-index-media'))),
+      noMedia: widthOf(rows.find((row) => !row.querySelector('.blog-index-media'))),
+      noMediaRows: rows.filter((row) => !row.querySelector('.blog-index-media')).length,
+    };
+  });
+  check('.sr-only text is never painted', layout.srOnlyCount > 0 && layout.srOnlyVisible === 0,
+    `${layout.srOnlyVisible}/${layout.srOnlyCount} visible`);
+  if (layout.noMediaRows > 0) {
+    check('rows without artwork use the full row width',
+      layout.noMedia >= layout.withMedia, `noMedia=${layout.noMedia} withMedia=${layout.withMedia}`);
+  }
+
+  // The navbar is fixed and collapses its top bar on scroll, so a constant
+  // sticky offset is wrong at one end or the other. It was 60px against a
+  // 72px settled navbar, which parked the toolbar 12px behind it.
+  // Scroll far enough that the toolbar pins, but not past its own containing
+  // block: a sticky element leaves with the section that holds it, and the
+  // production index of four posts is short enough that scrolling to the page
+  // bottom takes the whole archive off-screen.
+  await page.evaluate(() => {
+    const grid = document.getElementById('archive-grid');
+    const target = grid.getBoundingClientRect().bottom + window.scrollY - window.innerHeight + 40;
+    window.scrollTo(0, Math.max(0, target));
+  });
+  // The navbar adds .scroll on the scroll event and THEN collapses its top bar
+  // over 300ms. --reader-sticky-offset is measured from the row that does not
+  // collapse, so the toolbar only clears once that transition has finished.
+  // Waiting for two equal frames is not enough — that is satisfied before the
+  // class even lands.
+  await page.waitForFunction(
+    () => document.querySelector('#cs-navigation')?.classList.contains('scroll'),
+    { polling: 'raf', timeout: 4000 },
+  ).catch(() => {});
+  await settle(page, 400);
+  const stuck = await page.evaluate(() => {
+    const toolbar = document.querySelector('.blog-toolbar').getBoundingClientRect();
+    const nav = document.querySelector('#cs-navigation').getBoundingClientRect();
+    const offset = parseFloat(getComputedStyle(document.documentElement)
+      .getPropertyValue('--reader-sticky-offset')) || 72;
+    const hit = document.elementFromPoint(toolbar.left + 40, toolbar.top + 8);
+    return {
+      pinned: Math.abs(toolbar.top - offset) <= 2,
+      overlap: Math.round(nav.bottom - toolbar.top),
+      hit: hit ? hit.className || hit.id || hit.tagName : null,
+    };
+  });
+  if (!stuck.pinned) {
+    check('index too short for the toolbar to stick — nothing to assert', true, 'skipped');
+  } else {
+    check('sticky toolbar clears the fixed navbar', stuck.overlap <= 1, `${stuck.overlap}px behind nav`);
+    check('sticky toolbar is the topmost element at its own edge',
+      typeof stuck.hit === 'string' && stuck.hit.includes('blog-toolbar'), stuck.hit);
+  }
+  await closePage(page);
+}
+
 async function testBlockedStorage() {
   console.log('\nBlocked storage fallback');
   const page = await openPage('/blog/a-page-per-suburb-for-trades/', MOBILE, () => {
     Object.defineProperty(Storage.prototype, 'setItem', { configurable: true, value() { throw new DOMException('blocked', 'SecurityError'); } });
   });
   await page.evaluate(() => localStorage.removeItem('uic_bookmarks'));
+  await revealBar(page);
   await page.click('[data-reader-bar] [data-share-bookmark]');
   await settle(page);
   const state = await page.evaluate(() => ({
@@ -427,6 +578,7 @@ try {
   await testIndex();
   await testKoreanIndex();
   await testPostMobile();
+  await testIndexLayout();
   await testBlockedStorage();
   await testSavedSanitization();
   await testDesktopAndService();

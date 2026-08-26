@@ -283,11 +283,19 @@
         var target = document.getElementById(id);
         if (!target) return;
         event.preventDefault();
+        // Close the sheet BEFORE measuring or scrolling. While a sheet is open
+        // reader-bar.js pins the body with position:fixed, which makes
+        // window.scrollTo a no-op AND makes `rect.top + scrollY` meaningless
+        // (scrollY reads 0 against a fixed body). Closing first unlocks to the
+        // position the reader was already looking at — no visible movement —
+        // and leaves a normal document to scroll. restoreFocus:false because
+        // focus belongs on the heading we are jumping to, not back on the
+        // Contents button.
+        document.dispatchEvent(new CustomEvent('uic:reader-close-panels', { detail: { restoreFocus: false } }));
         window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - jumpOffset()), behavior: reducedMotion() ? 'auto' : 'smooth' });
         target.setAttribute('tabindex', '-1');
         target.focus({ preventScroll: true });
         history.replaceState(null, '', '#' + encodeURIComponent(id));
-        document.dispatchEvent(new CustomEvent('uic:reader-close-panels'));
         requestUpdate();
       });
     });

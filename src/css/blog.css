@@ -1764,7 +1764,10 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 
 .blog-toolbar {
   position: sticky;
-  top: 60px;
+  /* Published by blog-filter.js from the navbar row's live height. The literal
+     is only the pre-JS fallback — the navbar is fixed and changes height on
+     scroll, so no constant clears it at both ends. */
+  top: var(--reader-sticky-offset, 72px);
   z-index: 90;
   display: grid;
   gap: .85rem;
@@ -1809,6 +1812,14 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 .blog-rows { list-style: none; padding: 0; margin: 0; border-top: 1px solid #dfe4e1; }
 .blog-row { list-style: none; border-bottom: 1px solid #dfe4e1; }
 .blog-row-link { display: grid; grid-template-columns: 7rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding: 1rem .25rem; color: inherit; text-decoration: none; }
+/* A post can ship before its card artwork exists — the image shortcode returns
+   nothing for a missing source, and the template omits the whole media wrapper.
+   Without this the row still reserves the artwork column and the title is
+   squeezed into 7rem, wrapping one word per line. Driven off :has() rather than
+   a template class so the layout cannot drift out of step with the
+   `assetExists` condition that decides whether the wrapper is emitted. */
+.blog-row-link:not(:has(.blog-index-media)) { grid-template-columns: minmax(0, 1fr) auto; }
+.blog-feature:not(:has(.blog-index-media)) { grid-template-columns: minmax(0, 1fr); }
 .blog-row .blog-index-media { width: 7rem; aspect-ratio: 4 / 3; border-radius: .6rem; }
 .blog-row-body { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
 .blog-row-body strong { color: var(--headerColor); font-size: clamp(1rem, 2.2vw, 1.25rem); line-height: 1.28; margin: .25rem 0; }
@@ -1823,7 +1834,7 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 @media (min-width: 48rem) {
   .blog-feature { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
   .blog-feature .blog-index-media { aspect-ratio: auto; min-height: 22rem; }
-  .blog-toolbar { top: 70px; grid-template-columns: minmax(15rem, 22rem) 1fr; align-items: center; }
+  .blog-toolbar { grid-template-columns: minmax(15rem, 22rem) 1fr; align-items: center; }
   .blog-filters { justify-content: flex-end; }
   .blog-row-link { grid-template-columns: 11rem minmax(0, 1fr) auto; padding: 1.25rem .5rem; gap: 1.5rem; }
   .blog-row .blog-index-media { width: 11rem; aspect-ratio: 16 / 10; }

@@ -29,6 +29,25 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+/* Visually hidden, still announced. Unlike .skip this never becomes visible on
+   focus — it is for text that only ever exists for assistive tech: the search
+   field's label, the words behind the S/M/L/XL size initials, and the reader's
+   role="status" live region. Lives in root.css because root.css is inlined on
+   every page, and the class is used by the blog index, the Korean index and the
+   post layout alike. Without it those spans render as ordinary body text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 .skip:focus {
   left: 1rem;
   top: 1rem;

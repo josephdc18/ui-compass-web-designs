@@ -109,6 +109,26 @@
     apply();
   });
 
+  // The site navbar is position:fixed AND collapses its top bar on scroll, so a
+  // hardcoded sticky offset is wrong at one end or the other — 60px left the
+  // toolbar 12px behind the settled navbar, and the unscrolled navbar is twice
+  // that tall again. Measure the row that does not collapse: .cs-container is
+  // border-box and carries its own padding inside the measured height, so the
+  // rect height is the whole answer. Same custom property and same measurement
+  // toc.js publishes on a post; the two never run on the same page.
+  var navRow = document.querySelector('#cs-navigation .cs-container');
+  function publishNavOffset() {
+    document.documentElement.style.setProperty(
+      '--reader-sticky-offset', navRow.getBoundingClientRect().height + 'px');
+  }
+  if (navRow) {
+    publishNavOffset();
+    // The row only, never #cs-navigation itself — observing the navbar would
+    // fire on every frame of its 300ms collapse transition.
+    if (window.ResizeObserver) new ResizeObserver(publishNavOffset).observe(navRow);
+    window.addEventListener('resize', publishNavOffset);
+  }
+
   readSavedUrls();
   activeFilter = fromHash();
   apply();

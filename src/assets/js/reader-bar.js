@@ -153,8 +153,12 @@
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
 
-  document.addEventListener('uic:reader-close-panels', function () {
-    if (currentPanel) setPanel(currentPanel.dataset.panel, false);
+  document.addEventListener('uic:reader-close-panels', function (event) {
+    if (!currentPanel) return;
+    // toc.js closes the sheet on its way to a heading and asks to keep focus
+    // off the trigger, so the jump can land focus on the heading instead.
+    var restoreFocus = !(event.detail && event.detail.restoreFocus === false);
+    setPanel(currentPanel.dataset.panel, false, { restoreFocus: restoreFocus });
   });
   document.addEventListener('uic:focus-changed', function (event) {
     if (event.detail && event.detail.on && currentPanel) setPanel(currentPanel.dataset.panel, false, { restoreFocus: false });

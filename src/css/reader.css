@@ -32,13 +32,19 @@ html[data-reader-size] .post-related-date { font-size: calc(.8rem * var(--reader
   body.blog-post-page .post-quick-actions,
   body.blog-post-page .post-header .post-share { display: none; }
 
+  /* Above the scrim (10001), not under it. The sheet stops at the bar's top
+     edge rather than covering it, so a bar left beneath the scrim stayed on
+     screen while being dimmed and dead — the toolbar you pressed to open the
+     sheet became the one control you could not press to close it. Keeping it
+     above means Contents still toggles shut, and Display/Share still switch
+     panels, from the same place the reader's thumb already is. */
   .reader-bar {
     display: block;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9999;
+    z-index: 10003;
     min-height: var(--reader-bar-clearance);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     background: rgba(255, 255, 255, .97);

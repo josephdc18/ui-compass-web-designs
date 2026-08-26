@@ -35,13 +35,11 @@ eleventyNavigation:
 </div>
 
 {% set featured = collections.post | last %}
-<section id="insight-archive" class="blog-index" aria-labelledby="insight-archive-title">
+{# aria-label, not aria-labelledby: the heading this section used to be named by
+   is gone, and a labelledby pointing at a missing id leaves the region with no
+   accessible name at all. The page h1 in the banner above still says "Blog". #}
+<section id="insight-archive" class="blog-index" aria-label="All articles">
   <div class="cs-container">
-    <header class="blog-index-heading">
-      <span class="cs-topper">Practical field notes</span>
-      <h2 id="insight-archive-title">Build a site that earns its keep</h2>
-    </header>
-
     {% if featured %}
     {% set featuredCategory = featured.data.category | default('uncategorized') | slug %}
     <a class="blog-feature" href="{{ featured.url }}" data-category="{{ featuredCategory }}" data-slug="{{ featured.data.pageName }}" data-url="{{ featured.url }}" data-search="{{ (featured.data.blogTitle ~ ' ' ~ featured.data.blogDescription ~ ' ' ~ (featured.data.category or '')) | lower }}">

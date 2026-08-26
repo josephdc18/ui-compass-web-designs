@@ -99,25 +99,29 @@
 
     if (next) {
       var initialFocus = next.querySelector('[data-panel-close]') || focusable(next)[0];
+      function reassertPanelFocus() {
+        if (currentPanel === next && !next.contains(document.activeElement) && initialFocus) {
+          initialFocus.focus({ preventScroll: true });
+        }
+      }
       if (initialFocus) initialFocus.focus({ preventScroll: true });
       requestAnimationFrame(function () {
         // Keep a frame fallback for engines that reject focus on a
         // just-unhidden dialog before its transition has painted.
-        if (!next.contains(document.activeElement) && initialFocus) initialFocus.focus({ preventScroll: true });
+        reassertPanelFocus();
       });
       window.setTimeout(function () {
         // Some pointer implementations restore focus to the activating button
         // after its click handlers finish. Reassert the dialog focus in the
         // next task, but only if this sheet is still the active one.
-        if (currentPanel === next && !next.contains(document.activeElement) && initialFocus) {
-          initialFocus.focus({ preventScroll: true });
-        }
+        reassertPanelFocus();
       }, 0);
-      window.setTimeout(function () {
-        if (currentPanel === next && !next.contains(document.activeElement) && initialFocus) {
-          initialFocus.focus({ preventScroll: true });
-        }
-      }, 50);
+      window.setTimeout(reassertPanelFocus, 50);
+      // Chrome can restore pointer focus after the sheet's opening transform
+      // starts. Reassert once the panel has actually landed, with a timer for
+      // reduced-motion engines that do not emit transitionend.
+      next.addEventListener('transitionend', reassertPanelFocus, { once: true });
+      window.setTimeout(reassertPanelFocus, 320);
     } else if (options.restoreFocus !== false && previousTrigger && document.contains(previousTrigger)) {
       previousTrigger.focus();
       lastTrigger = null;

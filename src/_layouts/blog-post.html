@@ -353,10 +353,10 @@ eleventyComputed:
             <button type="button" class="reader-panel-close" data-panel-close aria-label="{{ 'blog.reader.close' | t(locale) }}">×</button>
           </div>
           <div class="reader-panel-head">
-            <p class="reader-readout"><b data-read-left>{{ readMins }}</b> <span>{{ 'blog.reader.minutes_left' | t(locale) }}</span> <span data-section-count data-template="{{ 'blog.reader.section_count' | t(locale) }}"></span></p>
+            <p class="reader-readout"><b data-read-left>{{ readMins }}</b> <span>{{ 'blog.reader.minutes_left' | t(locale) }}</span> <span class="reader-readout-sections" data-section-count data-template="{{ 'blog.reader.section_count' | t(locale) }}"></span></p>
             <div class="reader-meter" aria-hidden="true"><i data-progress></i></div>
           </div>
-          <nav class="toc"></nav>
+          <nav class="toc" aria-label="{{ 'blog.reader.contents_heading' | t(locale) }}"></nav>
           <div class="reader-panel-foot"><a href="{% if isKo %}/ko{% endif %}/blog/">{{ 'blog.reader.all_articles' | t(locale) }}</a><a href="/saved/">{{ 'blog.reader.saved_articles' | t(locale) }} <span data-saved-count>0</span></a></div>
         </div>
       </aside>

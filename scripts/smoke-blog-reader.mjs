@@ -280,6 +280,10 @@ async function testPostMobile() {
   await revealBar(page);
   const beforeOpen = await page.evaluate(() => window.scrollY);
   await page.click('[data-panel-toggle="contents"]');
+  await page.waitForFunction(() => {
+    const panel = document.querySelector('[data-panel="contents"]');
+    return panel?.dataset.open === 'true' && panel.contains(document.activeElement);
+  }, { timeout: 1500 });
   await settle(page);
   const opened = await page.evaluate(() => ({
     open: document.querySelector('[data-panel="contents"]').dataset.open,
@@ -561,6 +565,23 @@ async function testDesktopAndService() {
   }));
   check('desktop keeps a hidden-but-rendered reader bar', desktop.barNode && desktop.barDisplay === 'none', desktop.barDisplay);
   check('desktop TOC, share rail, and meta actions remain visible', desktop.toc !== 'none' && desktop.rail !== 'none' && desktop.meta !== 'none');
+  await post.evaluate(() => window.scrollTo(0, document.querySelector('#blog-content').getBoundingClientRect().top + window.scrollY + 700));
+  await settle(post, 180);
+  const desktopProgress = await post.evaluate(() => {
+    const panel = document.querySelector('.reader-panel--contents');
+    const link = panel.querySelector('.toc a');
+    return {
+      readout: getComputedStyle(panel.querySelector('.reader-panel-head')).display,
+      pct: panel.querySelector('[data-read-pct]').textContent,
+      mins: panel.querySelector('[data-read-left]').textContent,
+      meter: panel.querySelector('[data-progress]').style.width,
+      spine: getComputedStyle(link, '::before').width,
+      active: panel.querySelectorAll('.toc a.active').length,
+    };
+  });
+  check('desktop TOC carries the LogoNuri readout, meter, and spine',
+    desktopProgress.readout !== 'none' && parseFloat(desktopProgress.meter) > 0 && desktopProgress.spine === '2px' && desktopProgress.active === 1,
+    JSON.stringify(desktopProgress));
   await closePage(post);
 
   const service = await openPage('/web-design/', MOBILE);

@@ -67,6 +67,14 @@
 
 html{overflow-x:clip}
 body{font-family:"Roboto","Arial",sans-serif;margin:0;padding:0;transition:background-color .3s;overflow-x:clip}
+/* Blog documents opt into viewport-fit=cover in base.html. Keep their canvas
+   extended behind Safari's bottom browser chrome while the actual reader
+   controls independently respect env(safe-area-inset-*). This lives in the
+   inlined root sheet so it also covers the flat blog indexes, which do not load
+   reader.css. */
+@media (max-width:63.99rem){
+  html:has(body.blog-post-page),html:has(body.blog-index-page),body.blog-post-page,body.blog-index-page{min-height:100lvh}
+}
 
 *,*:before,*:after{box-sizing:border-box}
 

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0{% if blog or blogIndex %}, viewport-fit=cover{% endif %}">
   {% include "hreflang.html" %}
 
   <!--Swap our for actual link-->
@@ -82,7 +82,14 @@
   <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-touch-icon-120x120.png">
   <link rel="manifest" href="/assets/favicons/site.webmanifest">
   <link rel="alternate" type="application/atom+xml" title="{{ client.name }} Blog" href="/feed.xml">
+  {# Blog pages use floating, safe-area-aware reader chrome. Let Safari's
+     bottom address bar retain its glass treatment over the document instead
+     of painting the site-wide opaque white toolbar color behind it. #}
+  {% if blog or blogIndex %}
+  <meta name="theme-color" content="transparent">
+  {% else %}
   <meta name="theme-color" content="#ffffff">
+  {% endif %}
   <meta name="apple-mobile-web-app-capable" content="yes">
   <script defer src="/assets/pwa-splash.js?v={{ build.hash }}"></script>
 

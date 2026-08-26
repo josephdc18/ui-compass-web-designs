@@ -253,6 +253,8 @@ async function testPostMobile() {
   const page = await openPage('/blog/a-page-per-suburb-for-trades/', MOBILE);
   const initial = await page.evaluate(() => ({
     body: document.body.className,
+    viewport: document.querySelector('meta[name="viewport"]')?.content || '',
+    themeColor: document.querySelector('meta[name="theme-color"]')?.content || '',
     barDisplay: getComputedStyle(document.querySelector('[data-reader-bar]')).display,
     chipCount: document.querySelectorAll('.toc-mobile').length,
     mins: document.querySelector('[data-read-mins]')?.dataset.readMins,
@@ -264,6 +266,8 @@ async function testPostMobile() {
     ids: [...document.querySelectorAll('#blog-content h2, #blog-content h3, [data-toc-section] h2')].map((node) => node.id),
   }));
   check('post body flag', initial.body.includes('blog-post-page'), initial.body);
+  check('blog viewport extends behind Safari chrome', initial.viewport.includes('viewport-fit=cover'), initial.viewport);
+  check('blog does not force an opaque Safari toolbar tint', initial.themeColor === 'transparent', initial.themeColor);
   check('reader bar is visible at 390px', initial.barDisplay !== 'none', initial.barDisplay);
   check('blog chip rail is absent', initial.chipCount === 0);
   check('build-time read minutes are present', /^\d+$/.test(initial.mins || ''), initial.mins);
@@ -321,9 +325,9 @@ async function testPostMobile() {
   // Regressions. Counting the TOC links proved they exist; none of these four
   // were caught by that, and all four shipped broken.
   //
-  // 1. The sheet stops at the bar's top edge, so a bar left under the scrim
-  //    stayed on screen dimmed and dead — the control you pressed to open the
-  //    sheet was the one you could not press to close it.
+  // A modal sheet and a floating island should not read as two stacked cards.
+  // Opening a sheet dismisses the island and makes the sheet the sole floating
+  // surface, inset by the same safe-area-aware edge rhythm.
   await revealBar(page);
   await page.click('[data-panel-toggle="contents"]');
   // settle() waits 80ms; the sheet slides for 280ms. Measuring geometry before
@@ -334,14 +338,20 @@ async function testPostMobile() {
   }, { timeout: 4000 });
   const zorder = await page.evaluate(() => {
     const bar = document.querySelector('[data-reader-bar]').getBoundingClientRect();
-    const hit = document.elementFromPoint(bar.left + bar.width / 2, bar.top + bar.height / 2);
     const panel = document.querySelector('[data-panel="contents"]').getBoundingClientRect();
-    return { hit: hit ? hit.className || hit.tagName : null, panelBottom: Math.round(panel.bottom), barTop: Math.round(bar.top) };
+    return {
+      barTop: Math.round(bar.top),
+      panelLeft: Math.round(panel.left),
+      panelRight: Math.round(innerWidth - panel.right),
+      panelBottom: Math.round(innerHeight - panel.bottom),
+      panelRadius: getComputedStyle(document.querySelector('[data-panel="contents"]')).borderBottomLeftRadius,
+    };
   });
-  check('open sheet leaves the reader bar on top and pressable',
-    typeof zorder.hit === 'string' && zorder.hit.includes('reader-action'), zorder.hit);
-  check('sheet stops at the bar rather than covering it',
-    zorder.panelBottom <= zorder.barTop + 2, `panel=${zorder.panelBottom} bar=${zorder.barTop}`);
+  check('open sheet dismisses the island instead of stacking two surfaces',
+    zorder.barTop >= MOBILE.height, `bar top=${zorder.barTop}`);
+  check('open sheet is an inset, fully rounded floating surface',
+    zorder.panelLeft >= 10 && zorder.panelRight >= 10 && zorder.panelBottom >= 10 && zorder.panelRadius !== '0px',
+    JSON.stringify(zorder));
 
   // 2. While a sheet is open the body is position:fixed, so window.scrollTo is
   //    a no-op and the unlock restored the pre-open position — the jump was

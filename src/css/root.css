@@ -1,4 +1,5 @@
 :root {
+  --reader-bar-clearance: 0px;
   --primary: #006940;
   --primaryLight: #00bd74;
   --secondary: #e6d9c7;

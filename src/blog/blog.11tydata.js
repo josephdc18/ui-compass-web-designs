@@ -1,3 +1,15 @@
+const fs = require('fs');
+
+function computedReadMinutes(data) {
+  const declared = Number(data.readMins);
+  if (Number.isFinite(declared) && declared > 0) return Math.ceil(declared);
+  const inputPath = data.page && data.page.inputPath;
+  if (!inputPath || !fs.existsSync(inputPath)) return 1;
+  const source = fs.readFileSync(inputPath, 'utf8').replace(/^---[\s\S]*?---\s*/, '');
+  const words = source.trim().split(/\s+/u).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 // Directory data for English-language blog posts.
 // Mirrors src/ko/blog/blog.11tydata.js for the Korean set.
 //
@@ -12,5 +24,6 @@ module.exports = {
   tags: 'post',
   eleventyComputed: {
     permalink: (data) => `/blog/${data.pageName}/index.html`,
+    readMins: computedReadMinutes,
   },
 };

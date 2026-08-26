@@ -146,7 +146,9 @@ body.dark-mode .share-dropdown {
 body.focus-mode #cs-navigation,
 body.focus-mode #banner-1106-14,
 body.focus-mode .toc-sidebar,
-body.focus-mode .toc-mobile,
+body.focus-mode .reader-bar,
+body.focus-mode .reader-scrim,
+body.focus-mode .reader-panel,
 body.focus-mode .post-crumbs,
 body.focus-mode .post-share,
 body.focus-mode .post-share-rail,
@@ -248,6 +250,7 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
 }
 .faq-item:last-child { margin-bottom: 0; }
 .faq-item summary {
+  position: relative;
   padding: 1rem 1.25rem;
   cursor: pointer;
   display: flex;
@@ -556,6 +559,9 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   .post-quick-actions,
   .toc-sidebar,
   .toc-mobile,
+  .reader-bar,
+  .reader-panel,
+  .reader-scrim,
   .pb-go-top-progress,
   .focus-exit-btn,
   .audit-fab,
@@ -826,4 +832,100 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
     break-inside: avoid;
   }
   img { max-width: 100% !important; height: auto !important; }
+}
+
+/* FAQ and article footer endcaps: rules and typography, not nested cards. */
+.faq-section {
+  margin: 3rem 0 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.faq-section > h2,
+.post-endcap > h2,
+.post-endcap .post-related-header h2 {
+  margin: 0 0 1rem;
+  color: var(--be-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.faq-accordion { border-top: 1px solid var(--be-border); }
+.faq-item,
+.faq-item:last-child {
+  margin: 0;
+  overflow: visible;
+  border: 0;
+  border-bottom: 1px solid var(--be-border);
+  border-radius: 0;
+  background: transparent;
+}
+.faq-item summary {
+  min-height: 3.5rem;
+  padding: 1rem 2.2rem 1rem 0;
+  color: var(--be-text);
+  background: transparent;
+  border: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.faq-item summary:hover,
+.faq-item[open] summary { background: transparent; border: 0; color: var(--be-primary); }
+.faq-item summary::after,
+.faq-item[open] summary::after {
+  content: "";
+  position: absolute;
+  right: .35rem;
+  width: .55rem;
+  height: .55rem;
+  margin: -.2rem 0 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform .2s ease;
+}
+.faq-item[open] summary::after { transform: rotate(-135deg); }
+.faq-answer {
+  padding: 0 2rem 1.2rem 0;
+  background: transparent;
+  color: var(--bodyTextColor);
+  font-family: var(--bodyFontFamily, sans-serif);
+  line-height: 1.7;
+}
+body.dark-mode .faq-section > h2,
+body.dark-mode .post-endcap > h2,
+body.dark-mode .post-endcap .post-related-header h2,
+body.dark-mode .faq-item summary { color: var(--bodyTextColorWhite, #fff); }
+body.dark-mode .faq-answer { color: rgba(255,255,255,.78); }
+body.dark-mode .faq-item[open] summary { color: var(--primaryLight, #00bd74); }
+
+.post-endcap,
+.post-related.post-endcap {
+  margin: 3rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--be-border);
+}
+.post-endcap .post-related-header { margin-bottom: 1.25rem; }
+.post-sources ul { margin: 0; padding-left: 1.2rem; }
+.post-sources li { margin: 0 0 .65rem; color: var(--be-text-muted); line-height: 1.5; }
+.post-sources a { color: var(--be-primary); text-decoration: underline; text-underline-offset: 3px; }
+body.dark-mode .post-sources a { color: var(--primaryLight, #00bd74); }
+
+@media print {
+  .faq-section {
+    margin: .25in 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+  .faq-section > h2 { margin: 0 0 .08in !important; font-size: 13pt !important; color: #000 !important; }
+  .faq-accordion { border-top: 1pt solid #999 !important; }
+  .faq-item,
+  .faq-item:last-child { margin: 0 !important; border: 0 !important; border-bottom: 1pt solid #bbb !important; background: #fff !important; }
+  .faq-item summary { padding: .08in 0 !important; border: 0 !important; background: #fff !important; }
+  .faq-item .faq-answer { display: block !important; padding: 0 0 .1in !important; background: #fff !important; color: #000 !important; }
+  .faq-item:not([open]) > .faq-answer { display: block !important; }
+  .post-endcap { break-inside: avoid; page-break-inside: avoid; }
 }

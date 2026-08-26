@@ -1,0 +1,29 @@
+---
+interior: true
+blogIndex: true
+locale: ko
+layout: 'base.html'
+description: '웹 디자인, 성능, SEO, 소규모 비즈니스 성장에 관한 UI Compass의 실용 가이드입니다.'
+metaTitle: '블로그 | UI Compass'
+tagTitle: '블로그'
+preloadImg: '/assets/images/650a93edffde.jpg'
+preloadCSS: '/css/blog.css'
+permalink: 'ko/blog/'
+---
+<div id="banner-1106-15">
+  <div class="cs-container"><h1 class="cs-int-title">블로그</h1><div class="cs-breadcrumbs"><a href="/ko/" class="cs-link">홈</a><a href="/ko/blog/" class="cs-link cs-active">블로그</a></div></div>
+  <picture class="cs-background"><source media="(max-width: 600px)" srcset="/assets/images/c8d9a75a4014.avif" type="image/avif"><source media="(max-width: 600px)" srcset="/assets/images/1dfa64a6dea0.webp" type="image/webp"><source media="(min-width: 601px)" srcset="/assets/images/650a93edffde.jpg" type="image/jpeg"><img alt="" aria-hidden="true" decoding="async" height="474" src="/assets/images/650a93edffde.jpg" width="1920" fetchpriority="high" loading="eager"></picture>
+</div>
+{% set posts = collections['post-ko'] | default([]) %}{% set featured = posts | last %}
+<section id="insight-archive" class="blog-index" aria-labelledby="insight-archive-title"><div class="cs-container">
+  <header class="blog-index-heading"><span class="cs-topper">실용 가이드</span><h2 id="insight-archive-title">제 역할을 다하는 웹사이트 만들기</h2></header>
+  {% if featured %}{% set featuredCategory = featured.data.category | default('uncategorized') | slug %}
+  <a class="blog-feature" href="{{ featured.url }}" data-category="{{ featuredCategory }}" data-slug="{{ featured.data.pageName }}" data-url="{{ featured.url }}" data-search="{{ (featured.data.blogTitle ~ ' ' ~ featured.data.blogDescription ~ ' ' ~ (featured.data.category or '')) | lower }}">
+    {% if featured.data.image and (featured.data.image | assetExists) %}<span class="blog-index-media">{% image featured.data.image, featured.data.imageAlt or featured.data.blogTitle, 'blog-index-picture', 'eager', '(max-width: 767px) 100vw, 52vw' %}</span>{% endif %}
+    <span class="blog-feature-body"><span class="blog-feature-kicker">최신 글{% if featured.data.category %} · {{ featured.data.category }}{% endif %}</span><strong>{{ featured.data.blogTitle }}</strong><span class="blog-feature-description">{{ featured.data.blogDescription }}</span><span class="blog-index-meta"><time datetime="{{ featured.date | dateIso }}">{{ featured.date | localizedDate(locale) }}</time> · {{ featured.data.readMins }}분</span></span>
+  </a>{% endif %}
+  <div class="blog-toolbar"><label class="blog-search"><span class="sr-only">글 검색</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><input id="blog-search" type="search" autocomplete="off" placeholder="글 검색" aria-label="글 검색"><kbd>⌘K</kbd></label><div class="blog-filters" role="group" aria-label="카테고리로 글 필터링"><button type="button" class="blog-filter" data-filter="all" aria-pressed="true">전체</button>{% for item in collections.blogCategoriesKo %}<button type="button" class="blog-filter" data-filter="{{ item.slug }}" aria-pressed="false">{{ item.label }} <span>{{ item.count }}</span></button>{% endfor %}<button type="button" class="blog-filter blog-filter--saved" data-filter="saved" aria-pressed="false" hidden>저장됨 <span data-saved-filter-count>0</span></button></div></div>
+  <ul id="archive-grid" class="blog-rows" role="list">{% for post in posts | reverse %}{% if not featured or post.url != featured.url %}{% set postCategory = post.data.category | default('uncategorized') | slug %}<li class="blog-row" data-category="{{ postCategory }}" data-slug="{{ post.data.pageName }}" data-url="{{ post.url }}" data-search="{{ (post.data.blogTitle ~ ' ' ~ post.data.blogDescription ~ ' ' ~ (post.data.category or '')) | lower }}"><a href="{{ post.url }}" class="blog-row-link">{% if post.data.image and (post.data.image | assetExists) %}<span class="blog-index-media">{% image post.data.image, post.data.imageAlt or post.data.blogTitle, 'blog-index-picture', 'lazy', '(max-width: 600px) 34vw, 220px' %}</span>{% endif %}<span class="blog-row-body"><span class="blog-row-category">{{ post.data.category | default('글') }}</span><strong>{{ post.data.blogTitle }}</strong><span class="blog-row-description">{{ post.data.blogDescription }}</span><span class="blog-index-meta"><time datetime="{{ post.date | dateIso }}">{{ post.date | localizedDate(locale) }}</time> · {{ post.data.readMins }}분</span></span><span class="blog-row-arrow" aria-hidden="true">↗</span></a></li>{% endif %}{% endfor %}</ul>
+  <p id="archive-empty" class="blog-empty" hidden>일치하는 글이 없습니다. <button type="button" data-clear-filters>필터 지우기</button></p>
+</div></section>
+<script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script><script defer src="/assets/js/blog-filter.js?v={{ build.hash }}"></script>

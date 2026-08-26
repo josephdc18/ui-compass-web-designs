@@ -156,6 +156,17 @@ body.dark-mode .audit-fab {
   }
 }
 
+@media (max-width: 63.99rem) {
+  body.blog-post-page .audit-fab {
+    bottom: calc(4.5rem + var(--reader-bar-clearance));
+  }
+}
+@media (max-width: 47.99rem) {
+  body.blog-post-page .audit-fab {
+    bottom: calc(4rem + var(--reader-bar-clearance));
+  }
+}
+
 /* =================================================================
    Dialog + backdrop
    ================================================================= */

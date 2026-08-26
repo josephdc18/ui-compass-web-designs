@@ -133,6 +133,13 @@ collections:
         hint: >-
           Optional. Small uppercase label above the title in post previews. Start typing to pick an existing label (Strategy / Design / Performance / SEO) or type a new one to create it. Keep it under about 20 characters.
 
+      - label: 'Category'
+        name: 'category'
+        widget: 'select'
+        options: ['Strategy', 'SEO', 'Performance', 'Design']
+        required: true
+        hint: 'Required. Used by the searchable Blog index and the category breadcrumb.'
+
       - { label: 'Hero Image', name: 'image', widget: 'image', required: false, hint: 'The big background image at the top of the post AND the thumbnail in post previews. PNG or JPG. Aim for ~1600×900 pixels. Paste or drag an image straight in.' }
 
       - label: 'Hero Image Description'
@@ -147,7 +154,7 @@ collections:
         widget: 'tagPicker'
         default: ['post']
         hint: >-
-          Always include 'post'. Add 'featured' to surface this entry in the Featured Posts sidebar of other posts. The four "category" tags (strategy, design, performance, seo) drive the per-category collection pages. Click a chip's × to remove. Type to filter existing tags, press Enter to create a new one. Lowercase only — use dashes for spaces (e.g. service-by-location).
+          Always include 'post'. Tags describe topics and power internal content tools; Category controls the Blog index filter. Click a chip's × to remove. Type to filter existing tags, press Enter to create a new one. Lowercase only — use dashes for spaces (e.g. service-by-location).
 
       # ---- Optional in-post components ----
       - label: 'Summary'
@@ -176,9 +183,9 @@ collections:
         field: { label: 'Bullet', name: 'point', widget: 'string' }
 
       # ---- Body ----
-      # Body sits BEFORE FAQ and Related Guides so the editor reads in the same
+      # Body sits BEFORE FAQ, Sources, and Related Guides so the editor reads in the same
       # order as the published page: hero → meta → key takeaways → body → FAQ →
-      # related. Matches blog-post.html.
+      # sources → related. Matches blog-post.html.
       - label: 'Body'
         name: 'body'
         widget: 'markdown'
@@ -193,7 +200,7 @@ collections:
         collapsed: true
         summary: '{{fields.q}}'
         hint: >-
-          Optional Q&A list at the bottom of the post. Also auto-generates the rich-snippet markup Google uses to show FAQ answers directly in search results. 3–6 questions is the sweet spot.
+          Optional Q&A list at the bottom of the post. It also emits valid FAQPage structured data. Use 3–6 concise questions when they genuinely help readers.
         fields:
           - label: 'Question'
             name: 'q'
@@ -206,6 +213,22 @@ collections:
             editor_components: []
             hint: >-
               Answer in 2–4 sentences. Use the toolbar for bold, italics, and links. Paragraph breaks happen automatically when you press Enter twice.
+
+      - label: 'Sources'
+        name: 'sources'
+        widget: 'list'
+        required: false
+        collapsed: true
+        summary: '{{fields.label}}'
+        hint: 'Primary sources for factual claims. Only HTTPS URLs are published.'
+        fields:
+          - { label: 'Label', name: 'label', widget: 'string' }
+          - { label: 'URL', name: 'url', widget: 'string' }
+          - label: 'Link relationship'
+            name: 'rel'
+            widget: 'select'
+            required: false
+            options: ['nofollow', 'ugc', 'sponsored']
 
       - label: 'Related Guides'
         name: 'related'

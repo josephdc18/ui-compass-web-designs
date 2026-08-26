@@ -7,6 +7,53 @@ const path = require('path');
 
 const fs = require('fs');
 
+function resolveSrc(src) {
+  return typeof src === 'string' && src.startsWith('/') && !src.startsWith('//')
+    ? `./src${src}`
+    : src;
+}
+
+function headingSlug(value) {
+  return String(value || '')
+    .toLocaleLowerCase()
+    .normalize('NFKC')
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '') || 'section';
+}
+
+function bodyMarkdownLibrary() {
+  const md = new MarkdownIt({ html: true, linkify: false, typographer: false });
+  md.core.ruler.after('inline', 'stable-heading-ids', (state) => {
+    const used = new Set();
+
+    // Raw HTML headings keep their author-provided IDs. Reserve those IDs so
+    // a later Markdown heading cannot accidentally receive the same fragment.
+    state.tokens.forEach((token) => {
+      if (token.type !== 'html_block' && token.type !== 'html_inline') return;
+      const re = /<h[1-6]\b[^>]*\bid\s*=\s*(["'])(.*?)\1/gi;
+      let match;
+      while ((match = re.exec(token.content))) used.add(match[2]);
+    });
+
+    state.tokens.forEach((token, index) => {
+      if (token.type !== 'heading_open') return;
+      const explicit = token.attrGet('id');
+      if (explicit) {
+        used.add(explicit);
+        return;
+      }
+      const inline = state.tokens[index + 1];
+      const base = headingSlug(inline && inline.type === 'inline' ? inline.content : 'section');
+      let slug = base;
+      let suffix = 2;
+      while (used.has(slug)) slug = `${base}-${suffix++}`;
+      used.add(slug);
+      token.attrSet('id', slug);
+    });
+  });
+  return md;
+}
+
 // eleventy-img output cache. CF Pages wipes ./public between deploys but
 // preserves node_modules/.cache when the project's "Build cache" toggle is on,
 // so stashing processed images here lets eleventy-img's exists-check skip
@@ -59,12 +106,6 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
 
   // Resolve site-absolute paths (e.g. "/assets/images/foo.png" from frontmatter)
   // to the source file under ./src so eleventy-img can read them.
-  function resolveSrc(s) {
-    return typeof s === 'string' && s.startsWith('/') && !s.startsWith('//')
-      ? `./src${s}`
-      : s;
-  }
-
   async function renderOne(srcPath, extraClass) {
     const metadata = await Image(resolveSrc(srcPath), {
       widths: [400, 850, 1920],
@@ -153,6 +194,7 @@ function collectDraftBlogPaths() {
 module.exports = function (eleventyConfig) {
   // adds the navigation plugin for easy navs
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
+  eleventyConfig.setLibrary('md', bodyMarkdownLibrary());
 
   let eleventyOutputDir = './public';
   eleventyConfig.on('eleventy.directories', (dirs) => {
@@ -223,20 +265,27 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
   eleventyConfig.addLiquidShortcode('image', imageShortcode);
 
-  // Per-category blog collections — populated by adding the matching tag
-  // (lowercased) to a post's `tags` array, alongside `post`/`featured`.
-  ['strategy', 'seo', 'design', 'performance'].forEach((tag) => {
-    eleventyConfig.addCollection(tag, (api) =>
-      api.getFilteredByTag(tag).reverse(),
-    );
-  });
-
-  // Blog index hero — picks posts with `hero: true` in frontmatter, sorted
-  // newest first. The blog.html template uses `collections.hero | first` so
-  // the hero is an explicit editorial choice, not a side effect of tagging.
-  eleventyConfig.addCollection('hero', (api) =>
-    api.getAll().filter((p) => p.data.hero).sort((a, b) => b.date - a.date),
+  eleventyConfig.addFilter('assetExists', (src) =>
+    typeof src === 'string' && fs.existsSync(resolveSrc(src)),
   );
+
+  function categoryCollection(api, tag) {
+    const counts = new Map();
+    api.getFilteredByTag(tag).forEach((post) => {
+      const label = String(post.data.category || '').trim();
+      if (!label) return;
+      const slug = headingSlug(label);
+      const current = counts.get(slug) || { label, slug, count: 0 };
+      current.count += 1;
+      counts.set(slug, current);
+    });
+    return Array.from(counts.values()).sort((a, b) =>
+      b.count - a.count || a.label.localeCompare(b.label),
+    );
+  }
+
+  eleventyConfig.addCollection('blogCategories', (api) => categoryCollection(api, 'post'));
+  eleventyConfig.addCollection('blogCategoriesKo', (api) => categoryCollection(api, 'post-ko'));
 
   // date filter for blog posts
   eleventyConfig.addFilter('postDate', (dateObj) => {
@@ -290,6 +339,24 @@ module.exports = function (eleventyConfig) {
       if (pageName) byPageName.set(pageName, post);
     }
     return related.map((slug) => byPageName.get(slug)).filter(Boolean);
+  });
+
+  eleventyConfig.addFilter('validSources', (sources, inputPath) => {
+    if (!Array.isArray(sources)) return [];
+    const allowedRels = new Set(['nofollow', 'ugc', 'sponsored']);
+    return sources.reduce((valid, source, index) => {
+      const label = source && typeof source.label === 'string' ? source.label.trim() : '';
+      const url = source && typeof source.url === 'string' ? source.url.trim() : '';
+      let isHttps = false;
+      try { isHttps = new URL(url).protocol === 'https:'; } catch (e) {}
+      if (!label || !url || !isHttps) {
+        console.warn(`[sources] skipped invalid entry ${index + 1}${inputPath ? ` in ${inputPath}` : ''}`);
+        return valid;
+      }
+      const rel = source.rel && allowedRels.has(source.rel) ? source.rel : '';
+      valid.push({ label, url, rel });
+      return valid;
+    }, []);
   });
 
   // =========================================================================

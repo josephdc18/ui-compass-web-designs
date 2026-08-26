@@ -96,6 +96,72 @@
        Defines design tokens + base typography; required for first paint on every page. -->
   <style>{{ "/css/root.css" | cssInline | safe }}</style>
 
+  {% if blog %}
+  <script>
+    (function () {
+      'use strict';
+      var KEY = 'uic_reader_prefs';
+      var LEGACY_FOCUS_KEY = 'uic_focus_mode';
+      var sizes = ['s', 'm', 'l', 'xl'];
+      var speeds = [0.9, 1, 1.25, 1.5];
+      var memory = null;
+
+      function sanitize(value) {
+        value = value && typeof value === 'object' ? value : {};
+        return {
+          v: 1,
+          size: sizes.indexOf(value.size) !== -1 ? value.size : 'm',
+          speed: speeds.indexOf(Number(value.speed)) !== -1 ? Number(value.speed) : 1,
+          focus: value.focus === true
+        };
+      }
+      function read() {
+        if (memory) return sanitize(memory);
+        var parsed = null;
+        try { parsed = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+        var prefs = sanitize(parsed);
+        try {
+          if (!parsed && localStorage.getItem(LEGACY_FOCUS_KEY) === '1') {
+            prefs.focus = true;
+            localStorage.setItem(KEY, JSON.stringify(prefs));
+            localStorage.removeItem(LEGACY_FOCUS_KEY);
+          }
+        } catch (e) { memory = prefs; }
+        return prefs;
+      }
+      function apply(prefs) {
+        document.documentElement.setAttribute('data-reader-size', prefs.size);
+        document.documentElement.setAttribute('data-reader-focus', String(prefs.focus));
+        if (document.body) document.body.classList.toggle('focus-mode', prefs.focus);
+      }
+      function emit(prefs) {
+        document.dispatchEvent(new CustomEvent('uic:reader-prefs-changed', { detail: prefs }));
+      }
+      function write(patch) {
+        var next = sanitize(Object.assign({}, read(), patch || {}));
+        memory = next;
+        try { localStorage.setItem(KEY, JSON.stringify(next)); memory = null; } catch (e) {}
+        apply(next);
+        emit(next);
+        return next;
+      }
+      function reset() {
+        var next = sanitize({});
+        memory = next;
+        try { localStorage.removeItem(KEY); localStorage.removeItem(LEGACY_FOCUS_KEY); memory = null; } catch (e) {}
+        apply(next);
+        emit(next);
+        return next;
+      }
+      var initial = read();
+      apply(initial);
+      window.uicReaderPrefs = { get: read, set: write, reset: reset };
+      window.__uicReaderPrefs = initial;
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/reader.css?v={{ build.hash }}">
+  {% endif %}
+
   {% if preloadImg %}
   <link rel="preload" as="image" href="{{ preloadImg }}" fetchpriority="high" />
   {% endif %}
@@ -166,7 +232,9 @@
   {% endif %}
 </head>
 
-<body>
+{% set bodyClass = '' %}
+{% if blog %}{% set bodyClass = 'blog-post-page' %}{% elif blogIndex %}{% set bodyClass = 'blog-index-page' %}{% endif %}
+<body class="{{ bodyClass }}">
   {% if not hideSiteChrome %}
   <!--Screen reader skip main nav-->
   <a class="skip" aria-label="skip to main content" href="#main">Click To Skip To Main Content</a>

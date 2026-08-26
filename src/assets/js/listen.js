@@ -7,9 +7,7 @@
  * - Highlights the current word as it speaks (best-effort using boundary events).
  * - Floating mini-player pill: Pause/Resume, Stop, status text.
  *
- * Bound entry point: window.uicListenStart() — invoked by article-actions.js after the
- * first click. Subsequent clicks on #listenBtn stop playback; the mini-player handles
- * pause/resume.
+ * Exposes window.uicListen; article-actions.js owns every article button.
  *
  * Note: SpeechSynthesis is best-effort across browsers. We catch all errors and degrade
  * silently (Listen button reverts to inactive).
@@ -17,12 +15,9 @@
 (function () {
   'use strict';
 
-  if (window.uicListenStart) return; // already loaded
+  if (window.uicListen) return;
 
   if (!('speechSynthesis' in window)) {
-    window.uicListenStart = function () {
-      console.warn('SpeechSynthesis not available in this browser');
-    };
     return;
   }
 
@@ -30,6 +25,9 @@
   var utterances = [];
   var currentIndex = 0;
   var state = 'idle'; // idle | playing | paused
+  var allowedRates = [0.9, 1, 1.25, 1.5];
+  var storedPrefs = window.uicReaderPrefs ? window.uicReaderPrefs.get() : {};
+  var playbackRate = allowedRates.indexOf(Number(storedPrefs.speed)) !== -1 ? Number(storedPrefs.speed) : 1;
   var player = null;
   var statusEl = null;
   var playBtn = null;
@@ -48,6 +46,11 @@
   // text-searching the DOM.
   var articleWords = [];
   var chunkStartWord = [];
+
+  function setState(next) {
+    state = next;
+    document.dispatchEvent(new CustomEvent('uic:listen-state', { detail: { state: state } }));
+  }
 
   function pickVoice() {
     var voices = synth.getVoices() || [];
@@ -253,7 +256,7 @@
     utterances = chunks.map(function (chunk, i) {
       var u = new SpeechSynthesisUtterance(chunk);
       if (voice) u.voice = voice;
-      u.rate = 1; u.pitch = 1; u.volume = 1;
+      u.rate = playbackRate; u.pitch = 1; u.volume = 1;
       u.onboundary = function (ev) {
         if (ev.name !== 'word') return;
         var idx = (chunkStartWord[i] || 0) + wordOffsetInChunk(chunk, ev.charIndex);
@@ -263,10 +266,10 @@
         clearActiveWord();
         if (state === 'playing') speakAt(i + 1);
       };
-      u.onerror = function () { stop(); };
+      u.onerror = function () { stop(); setState('error'); };
       return u;
     });
-    state = 'playing';
+    setState('playing');
     userScrollPauseUntil = 0;
     setPlayIcon(false);
     setBtnLabel('Stop');
@@ -276,12 +279,12 @@
   function togglePause() {
     if (state === 'playing') {
       synth.pause();
-      state = 'paused';
+      setState('paused');
       setPlayIcon(true);
       setStatus('Paused');
     } else if (state === 'paused') {
       synth.resume();
-      state = 'playing';
+      setState('playing');
       userScrollPauseUntil = 0;
       setPlayIcon(false);
       setStatus('Reading ' + (currentIndex + 1) + ' / ' + utterances.length);
@@ -291,7 +294,7 @@
   function stop() {
     // Set state BEFORE cancel(): cancel() fires the current utterance's onend synchronously,
     // and onend checks `state === 'playing'` to decide whether to queue the next chunk.
-    state = 'idle';
+    setState('idle');
     // Drop any pending utterance handlers so a late event can't restart playback.
     utterances.forEach(function (u) { u.onend = null; u.onboundary = null; u.onerror = null; });
     try {
@@ -317,7 +320,8 @@
 
   // The main Listen button's active label is "Stop"; pause/resume lives in the mini-player.
   function onListenButton() {
-    if (state === 'idle') {
+    if (state === 'idle' || state === 'error') {
+      if (state === 'error') state = 'idle';
       buildPlayer();
       start();
     } else {
@@ -325,19 +329,21 @@
     }
   }
 
-  // Wire the listen button (replacing the lazy-load shim).
-  function bind() {
-    listenBtn = document.getElementById('listenBtn');
-    if (!listenBtn) return;
-    // article-actions.js installed a one-shot listener that already fired. Bind the persistent one.
-    listenBtn.addEventListener('click', onListenButton);
+  function setRate(value) {
+    value = Number(value);
+    playbackRate = allowedRates.indexOf(value) !== -1 ? value : 1;
+    utterances.forEach(function (utterance) { utterance.rate = playbackRate; });
+    return playbackRate;
   }
 
-  bind();
-
-  // Public entry point invoked by the lazy loader after script load.
-  window.uicListenStart = onListenButton;
-  window.uicListenStop = stop;
+  window.uicListen = {
+    toggle: onListenButton,
+    start: start,
+    stop: stop,
+    togglePause: togglePause,
+    getState: function () { return state; },
+    setRate: setRate
+  };
 
   // Stop on navigation away.
   window.addEventListener('pagehide', stop);

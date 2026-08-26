@@ -1,5 +1,6 @@
 ---
 interior: true
+blogIndex: true
 layout: 'base.html'
 description: 'Practical guides on web design, performance, SEO, and growing a small business online — written by the UI Compass team.'
 metaTitle: 'Blog | UI Compass'
@@ -33,118 +34,63 @@ eleventyNavigation:
   </picture>
 </div>
 
-<!-- ============================================ -->
-<!--                Featured hero                 -->
-<!-- ============================================ -->
-{% set featuredPost = (collections.hero | first) %}
-{% if featuredPost %}
-<section id="insight-featured" aria-labelledby="insight-featured-title">
+{% set featured = collections.post | last %}
+<section id="insight-archive" class="blog-index" aria-labelledby="insight-archive-title">
   <div class="cs-container">
-    <article class="cs-card">
-      {% if featuredPost.data.image %}
-      <a class="cs-media" href="{{ featuredPost.url }}" aria-hidden="true" tabindex="-1">
-        {% image featuredPost.data.image, featuredPost.data.imageAlt or featuredPost.data.blogTitle, 'cs-image', 'eager', '(max-width: 900px) 100vw, 720px' %}
-      </a>
-      {% endif %}
-      <div class="cs-body">
-        <span class="cs-topper">Featured{% if featuredPost.data.category %} · {{ featuredPost.data.category }}{% endif %}</span>
-        <h2 id="insight-featured-title" class="cs-title">
-          <a href="{{ featuredPost.url }}" class="cs-title-link">{{ featuredPost.data.blogTitle }}</a>
-        </h2>
-        <p class="cs-lead">{{ featuredPost.data.blogDescription }}</p>
-        <p class="cs-meta">
-          <time class="cs-meta-date" datetime="{{ featuredPost.date | dateIso }}">{{ featuredPost.date | postDate }}</time>
-          {% if featuredPost.data.readMins %}<span class="cs-meta-read">{{ featuredPost.data.readMins }} min read</span>{% endif %}
-          {% if featuredPost.data.category %}<span class="cs-meta-category">{{ featuredPost.data.category }}</span>{% endif %}
-        </p>
-        <a href="{{ featuredPost.url }}" class="cs-cta">
-          Read the article
-          <svg class="cs-cta-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </article>
-  </div>
-</section>
-{% endif %}
-
-<!-- ============================================ -->
-<!--               Insight clusters               -->
-<!-- ============================================ -->
-{% set id = 'strategy' %}
-{% set topper = 'Strategy · Own your site' %}
-{% set title = 'Decisions that <em>compound</em> for years' %}
-{% set posts = collections.strategy %}
-{% set modifier = 'off-white' %}
-{% include "insight-cluster.html" %}
-
-<!-- ============================================ -->
-<!--             Pullquote interlude              -->
-<!-- ============================================ -->
-<section id="cta-697">
-  <div class="cs-container">
-    <div class="cs-content">
-      <h2 class="cs-title">Let's build your website today!</h2><a href="/contact/" class="cs-button-solid">Get In Touch</a>
-    </div>
-  </div><img class="cs-background" src="/assets/images/0b65f54152e9.svg" alt="" aria-hidden="true" width="1920" height="318" loading="lazy" decoding="async">
-</section>
-
-{% set id = 'seo' %}
-{% set topper = 'SEO · Get found' %}
-{% set title = 'Show up where the next customer is <em>already searching</em>' %}
-{% set posts = collections.seo %}
-{% set modifier = 'off-white' %}
-{% include "insight-cluster.html" %}
-
-{% set id = 'performance' %}
-{% set topper = 'Performance · Earn the click' %}
-{% set title = 'Speed, reliability, and the <em>2-second rule</em>' %}
-{% set posts = collections.performance %}
-{% set modifier = 'default' %}
-{% include "insight-cluster.html" %}
-
-{% set id = 'design' %}
-{% set topper = 'Design · Build trust' %}
-{% set title = 'Layouts that turn <em>visitors into leads</em>' %}
-{% set posts = collections.design %}
-{% set modifier = 'off-white' %}
-{% include "insight-cluster.html" %}
-
-<!-- ============================================ -->
-<!--          Filterable archive (all posts)      -->
-<!-- ============================================ -->
-{% if collections.post | length > 0 %}
-<section id="insight-archive" aria-labelledby="insight-archive-title">
-  <div class="cs-container">
-    <header class="cs-header cs-header-top">
-      <div class="cs-header-text">
-        <span class="cs-topper">Archive</span>
-        <h2 id="insight-archive-title" class="cs-title">Browse every article</h2>
-      </div>
-      <div class="cs-tablist" role="group" aria-label="Filter articles by category">
-        <button type="button" class="cs-tab" data-filter="all" aria-pressed="true">All</button>
-        <button type="button" class="cs-tab" data-filter="strategy" aria-pressed="false">Strategy</button>
-        <button type="button" class="cs-tab" data-filter="seo" aria-pressed="false">SEO</button>
-        <button type="button" class="cs-tab" data-filter="performance" aria-pressed="false">Performance</button>
-        <button type="button" class="cs-tab" data-filter="design" aria-pressed="false">Design</button>
-      </div>
+    <header class="blog-index-heading">
+      <span class="cs-topper">Practical field notes</span>
+      <h2 id="insight-archive-title">Build a site that earns its keep</h2>
     </header>
-    <ul class="cs-grid" id="archive-grid" role="list">
-      {%- for post in collections.post | reverse -%}
-      <li class="cs-row" data-category="{{ post.data.category | default('uncategorized') | lower }}">
-        <a href="{{ post.url }}" class="cs-row-link">
-          <time class="cs-date" datetime="{{ post.date | dateIso }}">{{ post.date | postDate }}</time>
-          <span class="cs-title-wrap">
-            <span class="cs-row-title">{{ post.data.blogTitle }}</span>
-            {% if post.data.category %}<span class="cs-category" aria-label="Category">{{ post.data.category }}</span>{% endif %}
-          </span>
-          <span class="cs-arrow" aria-hidden="true">&rarr;</span>
+
+    {% if featured %}
+    {% set featuredCategory = featured.data.category | default('uncategorized') | slug %}
+    <a class="blog-feature" href="{{ featured.url }}" data-category="{{ featuredCategory }}" data-slug="{{ featured.data.pageName }}" data-url="{{ featured.url }}" data-search="{{ (featured.data.blogTitle ~ ' ' ~ featured.data.blogDescription ~ ' ' ~ (featured.data.category or '')) | lower }}">
+      {% if featured.data.image and (featured.data.image | assetExists) %}
+      <span class="blog-index-media">{% image featured.data.image, featured.data.imageAlt or featured.data.blogTitle, 'blog-index-picture', 'eager', '(max-width: 767px) 100vw, 52vw' %}</span>
+      {% endif %}
+      <span class="blog-feature-body">
+        <span class="blog-feature-kicker">Newest{% if featured.data.category %} · {{ featured.data.category }}{% endif %}</span>
+        <strong>{{ featured.data.blogTitle }}</strong>
+        <span class="blog-feature-description">{{ featured.data.blogDescription }}</span>
+        <span class="blog-index-meta"><time datetime="{{ featured.date | dateIso }}">{{ featured.date | postDate }}</time> · {{ featured.data.readMins }} min read</span>
+      </span>
+    </a>
+    {% endif %}
+
+    <div class="blog-toolbar">
+      <label class="blog-search">
+        <span class="sr-only">Search articles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <input id="blog-search" type="search" autocomplete="off" placeholder="Search articles" aria-label="Search articles">
+        <kbd>⌘K</kbd>
+      </label>
+      <div class="blog-filters" role="group" aria-label="Filter articles by category">
+        <button type="button" class="blog-filter" data-filter="all" aria-pressed="true">All</button>
+        {% for item in collections.blogCategories %}
+        <button type="button" class="blog-filter" data-filter="{{ item.slug }}" aria-pressed="false">{{ item.label }} <span>{{ item.count }}</span></button>
+        {% endfor %}
+        <button type="button" class="blog-filter blog-filter--saved" data-filter="saved" aria-pressed="false" hidden>Saved <span data-saved-filter-count>0</span></button>
+      </div>
+    </div>
+
+    <ul id="archive-grid" class="blog-rows" role="list">
+      {% for post in collections.post | reverse %}
+      {% if not featured or post.url != featured.url %}
+      {% set postCategory = post.data.category | default('uncategorized') | slug %}
+      <li class="blog-row" data-category="{{ postCategory }}" data-slug="{{ post.data.pageName }}" data-url="{{ post.url }}" data-search="{{ (post.data.blogTitle ~ ' ' ~ post.data.blogDescription ~ ' ' ~ (post.data.category or '')) | lower }}">
+        <a href="{{ post.url }}" class="blog-row-link">
+          {% if post.data.image and (post.data.image | assetExists) %}<span class="blog-index-media">{% image post.data.image, post.data.imageAlt or post.data.blogTitle, 'blog-index-picture', 'lazy', '(max-width: 600px) 34vw, 220px' %}</span>{% endif %}
+          <span class="blog-row-body"><span class="blog-row-category">{{ post.data.category | default('Article') }}</span><strong>{{ post.data.blogTitle }}</strong><span class="blog-row-description">{{ post.data.blogDescription }}</span><span class="blog-index-meta"><time datetime="{{ post.date | dateIso }}">{{ post.date | postDate }}</time> · {{ post.data.readMins }} min read</span></span>
+          <span class="blog-row-arrow" aria-hidden="true">↗</span>
         </a>
       </li>
-      {%- endfor -%}
+      {% endif %}
+      {% endfor %}
     </ul>
-    <p class="cs-empty" id="archive-empty" hidden>No posts in this category yet.</p>
+
+    <p id="archive-empty" class="blog-empty" hidden>No articles match that. <button type="button" data-clear-filters>Clear filters</button></p>
   </div>
 </section>
-{% endif %}
 
-<script src="/assets/js/blog-filter.js" defer></script>
+<script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/blog-filter.js?v={{ build.hash }}"></script>

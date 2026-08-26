@@ -134,7 +134,194 @@
   // Blog TOC: walks h2 + h3 in .article-content and builds hierarchical OLs.
   // -------------------------------------------------------------------
 
+  function initReaderBlogToc() {
+    var panel = document.querySelector('.toc-sidebar.reader-panel');
+    var nav = panel && panel.querySelector('.toc');
+    var article = document.getElementById('blog-content');
+    if (!panel || !nav || !article) return;
+
+    var headings = Array.from(article.querySelectorAll('h2, h3'))
+      .concat(Array.from(document.querySelectorAll('[data-toc-section] h2')));
+    var trigger = document.querySelector('[data-panel-toggle="contents"]');
+    if (!headings.length) {
+      panel.hidden = true;
+      if (trigger) trigger.hidden = true;
+      return;
+    }
+
+    var used = new Set(Array.from(document.querySelectorAll('[id]')).map(function (el) { return el.id; }));
+    function runtimeSlug(value) {
+      var base = String(value || '').toLocaleLowerCase().normalize('NFKC')
+        .replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '') || 'section';
+      var slug = base;
+      var suffix = 2;
+      while (used.has(slug)) slug = base + '-' + suffix++;
+      used.add(slug);
+      return slug;
+    }
+    headings.forEach(function (heading) {
+      if (!heading.id) heading.id = runtimeSlug(heading.textContent);
+    });
+
+    var list = document.createElement('ol');
+    var sublist = null;
+    headings.forEach(function (heading) {
+      var item = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = '#' + heading.id;
+      link.textContent = heading.textContent.replace(/\s+/g, ' ').trim();
+      item.appendChild(link);
+      if (heading.tagName === 'H3' && list.lastElementChild) {
+        if (!sublist) {
+          sublist = document.createElement('ol');
+          list.lastElementChild.appendChild(sublist);
+        }
+        sublist.appendChild(item);
+      } else {
+        list.appendChild(item);
+        sublist = null;
+      }
+    });
+    nav.replaceChildren(list);
+
+    var sectionCount = document.querySelector('[data-section-count]');
+    if (sectionCount) {
+      var count = headings.filter(function (heading) { return heading.tagName === 'H2'; }).length;
+      sectionCount.textContent = (sectionCount.dataset.template || '· {n} sections').replace('{n}', String(count));
+    }
+
+    var navRow = document.querySelector('#cs-navigation .cs-container');
+    var readerBar = document.querySelector('.reader-bar');
+    var navOffset = 0;
+    function measureOffset() {
+      navOffset = navRow ? navRow.getBoundingClientRect().height : 0;
+      document.documentElement.style.setProperty('--reader-sticky-offset', navOffset + 'px');
+      requestUpdate();
+    }
+    function jumpOffset() {
+      var barHeight = 0;
+      if (readerBar) {
+        var rect = readerBar.getBoundingClientRect();
+        if (rect.height && rect.top < window.innerHeight / 2) barHeight = rect.height;
+      }
+      return navOffset + barHeight + 12;
+    }
+    function bounds() {
+      var sections = Array.from(document.querySelectorAll('[data-toc-section]'));
+      var end = sections.length ? sections[sections.length - 1] : article;
+      return {
+        top: article.getBoundingClientRect().top + window.scrollY,
+        bottom: end.getBoundingClientRect().bottom + window.scrollY
+      };
+    }
+
+    var links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+    var order = headings.map(function (heading) { return heading.id; });
+    var readMinutes = window.uicArticle ? window.uicArticle.getReadMinutes() : null;
+    var left = document.querySelector('[data-read-left]');
+    var pct = document.querySelector('[data-read-pct]');
+    var meters = Array.from(document.querySelectorAll('[data-progress]'));
+    var ticking = false;
+
+    // The only writer of scroll-derived reader state.
+    function update() {
+      ticking = false;
+      var range = bounds();
+      var offset = jumpOffset();
+      var span = range.bottom - range.top - window.innerHeight + offset;
+      var fraction = span > 0 ? (window.scrollY + offset - range.top) / span : (window.scrollY + offset >= range.top ? 1 : 0);
+      fraction = Math.max(0, Math.min(1, fraction));
+      meters.forEach(function (meter) { meter.style.width = (fraction * 100).toFixed(2) + '%'; });
+      if (pct) pct.textContent = Math.round(fraction * 100) + '%';
+      if (left && readMinutes !== null) left.textContent = fraction >= 1 ? '0' : String(Math.max(1, Math.ceil(readMinutes * (1 - fraction))));
+
+      var line = window.scrollY + offset;
+      var active = -1;
+      headings.forEach(function (heading, index) {
+        if (heading.getBoundingClientRect().top + window.scrollY <= line) active = index;
+      });
+      links.forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var index = order.indexOf(id);
+        var isActive = active !== -1 && index === active;
+        link.classList.toggle('active', isActive);
+        link.classList.toggle('cs-toc-current', isActive);
+        link.classList.toggle('is-read', active !== -1 && index !== -1 && index < active);
+        if (isActive) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    }
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    measureOffset();
+    if (window.ResizeObserver) {
+      var geometry = new ResizeObserver(requestUpdate);
+      geometry.observe(article);
+      var tocSections = Array.from(document.querySelectorAll('[data-toc-section]'));
+      if (tocSections.length) geometry.observe(tocSections[tocSections.length - 1]);
+      if (readerBar) geometry.observe(readerBar);
+      if (navRow) new ResizeObserver(measureOffset).observe(navRow);
+    }
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    window.addEventListener('load', requestUpdate);
+    document.addEventListener('uic:reader-prefs-changed', requestUpdate);
+    document.querySelectorAll('details').forEach(function (details) { details.addEventListener('toggle', requestUpdate); });
+    document.querySelectorAll('#blog-content img').forEach(function (image) {
+      if (!image.complete) image.addEventListener('load', requestUpdate, { once: true });
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(requestUpdate);
+
+    function reducedMotion() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    links.forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        var id = link.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (!target) return;
+        event.preventDefault();
+        window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - jumpOffset()), behavior: reducedMotion() ? 'auto' : 'smooth' });
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+        history.replaceState(null, '', '#' + encodeURIComponent(id));
+        document.dispatchEvent(new CustomEvent('uic:reader-close-panels'));
+        requestUpdate();
+      });
+    });
+
+    var initialHash = window.location.hash;
+    var mayCorrect = !!initialHash;
+    function cancelCorrection() { mayCorrect = false; }
+    ['wheel', 'touchstart', 'pointerdown'].forEach(function (type) { window.addEventListener(type, cancelCorrection, { once: true, passive: true }); });
+    window.addEventListener('keydown', cancelCorrection, { once: true });
+    function alignHash() {
+      if (!mayCorrect || window.location.hash !== initialHash) return;
+      var id;
+      try { id = decodeURIComponent(initialHash.slice(1)); } catch (e) { return; }
+      var target = document.getElementById(id);
+      if (!target) return;
+      window.scrollTo(0, Math.max(0, target.getBoundingClientRect().top + window.scrollY - jumpOffset()));
+      requestUpdate();
+    }
+    function queueHashAlignment() { requestAnimationFrame(function () { requestAnimationFrame(alignHash); }); }
+    queueHashAlignment();
+    window.addEventListener('load', queueHashAlignment, { once: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueHashAlignment);
+
+    function refreshSavedCount() {
+      var count = document.querySelector('[data-saved-count]');
+      if (count && window.uicBookmarks) count.textContent = String(window.uicBookmarks.urls().length);
+    }
+    refreshSavedCount();
+    document.addEventListener('uic:bookmarks-changed', refreshSavedCount);
+    update();
+  }
+
   function initBlogToc() {
+    if (document.body.classList.contains('blog-post-page')) return initReaderBlogToc();
     var sidebar = document.querySelector('.toc-sidebar');
     if (!sidebar) return;
     var nav = sidebar.querySelector('.toc');

@@ -52,9 +52,21 @@ eleventyComputed:
 </script>
 {% endif %}
 
-<!-- Mobile-only TOC chip rail (h2s only). Hidden on >=64em, where the
-     sticky sidebar TOC takes over. Populated by toc.js. -->
-<nav class="toc-mobile" aria-label="Table of contents (mobile)"></nav>
+<span hidden data-reader-messages
+      data-listen-src="/assets/js/listen.js?v={{ build.hash }}"
+      data-save="{{ 'blog.reader.save' | t(locale) }}"
+      data-saved="{{ 'blog.reader.saved' | t(locale) }}"
+      data-focus-off="{{ 'blog.reader.focus' | t(locale) }}"
+      data-focus-on="{{ 'blog.reader.focused' | t(locale) }}"
+      data-listen-label="{{ 'blog.reader.listen' | t(locale) }}"
+      data-listen-loading="{{ 'blog.reader.listen_loading' | t(locale) }}"
+      data-listen-stop="{{ 'blog.reader.listen_stop' | t(locale) }}"
+      data-toast-copied="{{ 'blog.reader.toast_copied' | t(locale) }}"
+      data-toast-copy-failed="{{ 'blog.reader.toast_copy_failed' | t(locale) }}"
+      data-toast-saved="{{ 'blog.reader.toast_saved' | t(locale) }}"
+      data-toast-removed="{{ 'blog.reader.toast_removed' | t(locale) }}"
+      data-toast-session="{{ 'blog.reader.toast_session_only' | t(locale) }}"
+      data-toast-listen-error="{{ 'blog.reader.toast_listen_error' | t(locale) }}"></span>
 
 <!-- Two-section layout:
      1. Hero band — breadcrumb, header, and image span the FULL container width.
@@ -65,14 +77,14 @@ eleventyComputed:
   <article class="blog-article">
     {% set isKo = locale == 'ko' %}
 
-    {% set categoryLabel = category or topper %}
+    {% set categoryLabel = category %}
     <nav class="post-crumbs" aria-label="Breadcrumb">
       <a href="{% if isKo %}/ko/{% else %}/{% endif %}">{% if isKo %}홈{% else %}Home{% endif %}</a>
       <span class="post-crumbs-sep" aria-hidden="true">/</span>
       <a href="{% if isKo %}/ko/blog/{% else %}/blog/{% endif %}">{% if isKo %}블로그{% else %}Blog{% endif %}</a>
       {% if categoryLabel %}
       <span class="post-crumbs-sep" aria-hidden="true">/</span>
-      <a class="post-crumbs-category" href="{% if isKo %}/ko{% endif %}/blog/category/{{ categoryLabel | slug }}/">{{ categoryLabel }}</a>
+      <a class="post-crumbs-category" href="{% if isKo %}/ko{% endif %}/blog/#{{ categoryLabel | slug }}">{{ categoryLabel }}</a>
       {% endif %}
     </nav>
 
@@ -111,18 +123,18 @@ eleventyComputed:
           <div class="post-quick-actions">
             <span class="post-readtime">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-              <span id="readingTimeText">3 min read</span>
+              <span id="readingTimeText" data-read-mins="{{ readMins }}">{{ readMins }} min read</span>
             </span>
-            <button type="button" class="post-quick-btn" id="focusModeBtn" data-press
-                    aria-label="Toggle focus mode" title="Focus mode">
+            <button type="button" class="post-quick-btn" id="focusModeBtn" data-focus-toggle data-press
+                    aria-label="{{ 'blog.reader.aria_focus' | t(locale) }}" aria-pressed="false" title="{{ 'blog.reader.focus' | t(locale) }}">
               <svg class="focus-icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg class="focus-icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10 10 0 0 1 12 19C5 19 1.5 12 1.5 12a17 17 0 0 1 4.06-4.94"/><path d="M9.9 4.24A10 10 0 0 1 12 4c7 0 10.5 7 10.5 7a17 17 0 0 1-3.07 4.06"/><path d="M9.88 9.88A3 3 0 0 0 14.12 14.12"/><path d="M1 1l22 22"/></svg>
-              <span data-focus-label>Focus</span>
+              <span data-focus-label>{{ 'blog.reader.focus' | t(locale) }}</span>
             </button>
-            <button type="button" class="post-quick-btn" id="listenBtn" data-press
-                    aria-label="Listen to article" title="Listen">
+            <button type="button" class="post-quick-btn" id="listenBtn" data-listen-toggle data-press
+                    aria-label="{{ 'blog.reader.aria_listen' | t(locale) }}" aria-pressed="false" title="{{ 'blog.reader.listen' | t(locale) }}">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 14v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2z"/><path d="M3 14v3a2 2 0 0 0 2 2h1v-7H5a2 2 0 0 0-2 2z"/></svg>
-              <span data-listen-label>Listen</span>
+              <span data-listen-label>{{ 'blog.reader.listen' | t(locale) }}</span>
             </button>
           </div>
 
@@ -145,7 +157,7 @@ eleventyComputed:
 
             <!-- Save lives at the top of the dropdown; native + socials follow below. -->
             <div class="share-dropdown" id="shareDropdown" role="menu">
-              <button type="button" class="share-option" id="bookmarkBtn" role="menuitem" data-press
+              <button type="button" class="share-option" id="bookmarkBtn" role="menuitem" data-share-bookmark data-press
                       aria-label="Save for later" aria-pressed="false">
                 <svg class="bookmark-empty" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 <svg class="bookmark-filled" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor" style="display:none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
@@ -177,7 +189,7 @@ eleventyComputed:
         </div>
       </header>
 
-    {% if image %}
+    {% if image and (image | assetExists) %}
       {% image image, imageAlt or '', 'blog-mainImage', 'eager', '(max-width: 900px) 100vw, 900px' %}
     {% endif %}
 
@@ -233,7 +245,7 @@ eleventyComputed:
       <!-- Floating Exit Focus button (position: fixed; only visible in focus mode). -->
       <button type="button" class="focus-exit-btn" data-focus-exit aria-label="Exit focus mode">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        Exit focus
+        {% if isKo %}집중 모드 종료{% else %}Exit focus{% endif %}
       </button>
 
       {% if summary %}
@@ -258,19 +270,14 @@ eleventyComputed:
 
       {% if faq and faq.length > 0 %}
       <section class="faq-section" data-toc-section aria-label="{{ 'blog.faq_heading' | t(locale) }}">
-        <header class="faq-section-header">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <h2>{{ 'blog.faq_heading' | t(locale) }}</h2>
-        </header>
-        <div class="faq-section-body">
-          <div class="faq-accordion">
-            {% for item in faq %}
-            <details class="faq-item">
-              <summary>{{ item.q }}</summary>
-              <div class="faq-answer">{{ item.a | mdBlock | safe }}</div>
-            </details>
-            {% endfor %}
-          </div>
+        <h2 id="faq-heading">{{ 'blog.faq_heading' | t(locale) }}</h2>
+        <div class="faq-accordion">
+          {% for item in faq %}
+          <details class="faq-item">
+            <summary>{{ item.q }}</summary>
+            <div class="faq-answer">{{ item.a | mdBlock | safe }}</div>
+          </details>
+          {% endfor %}
         </div>
       </section>
 
@@ -295,20 +302,32 @@ eleventyComputed:
       </script>
       {% endif %}
 
+      {% set sourceItems = sources | validSources(page.inputPath) %}
+      {% if sourceItems.length > 0 %}
+      <section class="post-endcap post-sources" aria-labelledby="sources-heading">
+        <h2 id="sources-heading">{{ 'blog.sources_heading' | t(locale) }}</h2>
+        <ul>
+          {% for source in sourceItems %}
+          <li><a href="{{ source.url }}" rel="noopener{% if source.rel %} {{ source.rel }}{% endif %}" target="_blank">{{ source.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
       {#- Related Guides: inline at the bottom of the article. Each entry in
           `related` is a pageName slug pointing at another post; we look it
           up in collections.post and carry image/topper/title/date from the
           live post data. Orphan slugs (post deleted) silently drop out. -#}
       {%- set relatedPosts = related | resolveRelatedPosts(collections.post) -%}
       {%- if relatedPosts.length > 0 -%}
-      <section class="post-related" aria-label="Related guides">
+      <section class="post-endcap post-related" aria-label="{{ 'blog.related_heading' | t(locale) }}">
         <header class="post-related-header">
-          <h2>Related guides</h2>
+          <h2>{{ 'blog.related_heading' | t(locale) }}</h2>
         </header>
         <div class="post-related-grid">
           {%- for match in relatedPosts -%}
             <a class="post-related-card" href="{{ match.url }}">
-              {% if match.data.image %}
+              {% if match.data.image and (match.data.image | assetExists) %}
                 {% image match.data.image, match.data.imageAlt or match.data.blogTitle, 'post-related-image', 'lazy', '(max-width: 700px) 50vw, 320px' %}
               {% endif %}
               <div class="post-related-body">
@@ -326,15 +345,71 @@ eleventyComputed:
 
       </div><!-- /.main-content -->
 
-      <aside class="toc-sidebar" aria-label="Table of contents">
+      <aside class="toc-sidebar reader-panel reader-panel--contents" id="reader-panel-contents" data-panel="contents" data-open="false" aria-label="{{ 'blog.reader.contents_heading' | t(locale) }}">
         <div class="cs-featured-group">
-          <span class="cs-sidebar-header">On This Page</span>
+          <div class="reader-panel-bar" data-sheet-handle aria-label="{{ 'blog.reader.aria_grab' | t(locale) }}">
+            <span class="cs-sidebar-header" id="reader-contents-heading">{{ 'blog.reader.contents_heading' | t(locale) }}</span>
+            <span class="reader-pct" data-read-pct aria-hidden="true">0%</span>
+            <button type="button" class="reader-panel-close" data-panel-close aria-label="{{ 'blog.reader.close' | t(locale) }}">×</button>
+          </div>
+          <div class="reader-panel-head">
+            <p class="reader-readout"><b data-read-left>{{ readMins }}</b> <span>{{ 'blog.reader.minutes_left' | t(locale) }}</span> <span data-section-count data-template="{{ 'blog.reader.section_count' | t(locale) }}"></span></p>
+            <div class="reader-meter" aria-hidden="true"><i data-progress></i></div>
+          </div>
           <nav class="toc"></nav>
+          <div class="reader-panel-foot"><a href="{% if isKo %}/ko{% endif %}/blog/">{{ 'blog.reader.all_articles' | t(locale) }}</a><a href="/saved/">{{ 'blog.reader.saved_articles' | t(locale) }} <span data-saved-count>0</span></a></div>
         </div>
       </aside>
     </div><!-- /.blog-article-body -->
   </article>
 </div>
+
+<section class="reader-panel reader-panel--display" id="reader-panel-display" data-panel="display" data-open="false">
+  <div class="reader-panel-bar" data-sheet-handle aria-label="{{ 'blog.reader.aria_grab' | t(locale) }}"><h2 id="reader-display-heading">{{ 'blog.reader.display_heading' | t(locale) }}</h2><button type="button" class="reader-panel-close" data-panel-close aria-label="{{ 'blog.reader.close' | t(locale) }}">×</button></div>
+  <div class="reader-preference">
+    <span>{{ 'blog.reader.text_size' | t(locale) }}</span>
+    <div class="reader-segmented" role="radiogroup" aria-label="{{ 'blog.reader.text_size' | t(locale) }}">
+      <button type="button" role="radio" data-reader-size="s" aria-checked="false">S<span class="sr-only"> {{ 'blog.reader.size_s' | t(locale) }}</span></button>
+      <button type="button" role="radio" data-reader-size="m" aria-checked="true">M<span class="sr-only"> {{ 'blog.reader.size_m' | t(locale) }}</span></button>
+      <button type="button" role="radio" data-reader-size="l" aria-checked="false">L<span class="sr-only"> {{ 'blog.reader.size_l' | t(locale) }}</span></button>
+      <button type="button" role="radio" data-reader-size="xl" aria-checked="false">XL<span class="sr-only"> {{ 'blog.reader.size_xl' | t(locale) }}</span></button>
+    </div>
+  </div>
+  <div class="reader-preference">
+    <span>{{ 'blog.reader.voice_speed' | t(locale) }}</span>
+    <div class="reader-segmented" role="radiogroup" aria-label="{{ 'blog.reader.voice_speed' | t(locale) }}">
+      <button type="button" role="radio" data-reader-speed="0.9" aria-checked="false">0.9×</button><button type="button" role="radio" data-reader-speed="1" aria-checked="true">1×</button><button type="button" role="radio" data-reader-speed="1.25" aria-checked="false">1.25×</button><button type="button" role="radio" data-reader-speed="1.5" aria-checked="false">1.5×</button>
+    </div>
+  </div>
+  <button type="button" class="reader-reset" data-reader-reset>{{ 'blog.reader.reset' | t(locale) }}</button>
+</section>
+
+<section class="reader-panel reader-panel--share" id="reader-panel-share" data-panel="share" data-open="false">
+  <div class="reader-panel-bar" data-sheet-handle aria-label="{{ 'blog.reader.aria_grab' | t(locale) }}"><h2 id="reader-share-heading">{{ 'blog.reader.share_heading' | t(locale) }}</h2><button type="button" class="reader-panel-close" data-panel-close aria-label="{{ 'blog.reader.close' | t(locale) }}">×</button></div>
+  <div class="reader-share-grid">
+    <button type="button" data-share="copy">{{ 'blog.reader.copy' | t(locale) }}</button>
+    <button type="button" data-share="native" data-share-native hidden>{{ 'blog.reader.native_share' | t(locale) }}</button>
+    <button type="button" data-share="email">{{ 'blog.reader.email' | t(locale) }}</button>
+    <button type="button" data-share="twitter">{{ 'blog.reader.twitter' | t(locale) }}</button>
+    <button type="button" data-share="facebook">{{ 'blog.reader.facebook' | t(locale) }}</button>
+    <button type="button" data-share="linkedin">{{ 'blog.reader.linkedin' | t(locale) }}</button>
+    <button type="button" data-share="reddit">{{ 'blog.reader.reddit' | t(locale) }}</button>
+    <button type="button" data-share="print">{{ 'blog.reader.print' | t(locale) }}</button>
+  </div>
+</section>
+
+<div class="reader-bar" role="toolbar" aria-label="{{ 'blog.reader.toolbar' | t(locale) }}" data-reader-bar>
+  <div class="reader-bar-inner"><div class="reader-bar-actions">
+    <button type="button" class="reader-action" data-panel-toggle="contents" aria-controls="reader-panel-contents" aria-expanded="false" aria-label="{{ 'blog.reader.aria_contents' | t(locale) }}" tabindex="0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>{{ 'blog.reader.contents' | t(locale) }}</span></button>
+    <button type="button" class="reader-action" data-panel-toggle="display" aria-controls="reader-panel-display" aria-expanded="false" aria-label="{{ 'blog.reader.aria_display' | t(locale) }}" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 4v6M4 17h16M16 14v6"/></svg><span>{{ 'blog.reader.display' | t(locale) }}</span></button>
+    <button type="button" class="reader-action" data-focus-toggle aria-label="{{ 'blog.reader.aria_focus' | t(locale) }}" aria-pressed="false" tabindex="-1"><svg class="focus-icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="focus-icon-off" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><path d="M3 3l18 18M10 5.2A11 11 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-3 4M6 7C3.4 9 2 12 2 12s3.5 7 10 7c1 0 2-.2 2.8-.5"/></svg><span data-focus-label>{{ 'blog.reader.focus' | t(locale) }}</span></button>
+    <button type="button" class="reader-action" data-listen-toggle aria-label="{{ 'blog.reader.aria_listen' | t(locale) }}" aria-pressed="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v5h3v-7H6a2 2 0 0 0-2 2Zm16 0v5h-3v-7h1a2 2 0 0 1 2 2Z"/></svg><span data-listen-label>{{ 'blog.reader.listen' | t(locale) }}</span></button>
+    <button type="button" class="reader-action" data-share-bookmark aria-label="{{ 'blog.reader.aria_save' | t(locale) }}" aria-pressed="false" tabindex="-1"><svg class="bookmark-empty" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><svg class="bookmark-filled" viewBox="0 0 24 24" aria-hidden="true" style="display:none;fill:currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="action-label">{{ 'blog.reader.save' | t(locale) }}</span></button>
+    <button type="button" class="reader-action" data-panel-toggle="share" aria-controls="reader-panel-share" aria-expanded="false" aria-label="{{ 'blog.reader.aria_share' | t(locale) }}" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"/></svg><span>{{ 'blog.reader.share' | t(locale) }}</span></button>
+  </div></div>
+  <span class="sr-only" data-reader-status role="status" aria-live="polite"></span>
+</div>
+<div class="reader-scrim" data-scrim hidden></div>
 
 <!-- Blog reading-experience scripts. All deferred. listen.js loads on demand.
      toc.js + article-actions.js are scoped to blog posts (and to service pages
@@ -343,9 +418,10 @@ eleventyComputed:
 <link rel="preload" as="style" href="/css/blog-extras.css?v={{ build.hash }}" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="/css/blog-extras.css?v={{ build.hash }}"></noscript>
 
-<script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/article-actions.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/toc.js?v={{ build.hash }}"></script>
+<script defer src="/assets/js/reader-bar.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/tooltips.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/print-extras.js?v={{ build.hash }}"></script>
 <script defer src="/assets/js/hover-prefetch.js?v={{ build.hash }}"></script>

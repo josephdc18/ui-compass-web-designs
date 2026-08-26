@@ -171,6 +171,7 @@
       var tldrTitle = data.get('tldrTitle') || 'Key Takeaways';
       var tldr = data.get('tldr');
       var faq = data.get('faq');
+      var sources = data.get('sources');
       // Source raw markdown for the reading-time count. widgetFor('body')
       // returns the rendered React tree (no .textContent available at
       // render time); data.get('body') gives the markdown source, which
@@ -268,26 +269,37 @@
       // production's `{{ item.a | safe }}` by injecting via dangerouslySet.
       var faqSection = null;
       if (faq && typeof faq.size !== 'undefined' && faq.size > 0) {
-        faqSection = h('section', { className: 'faq-section' },
-          h('header', { className: 'faq-section-header' },
-            h('h2', {}, 'Frequently asked questions')
-          ),
-          h('div', { className: 'faq-section-body' },
-            h('div', { className: 'faq-accordion' },
-              faq.map(function (item, i) {
-                var q = (item && typeof item.get === 'function') ? item.get('q') : '';
-                var a = (item && typeof item.get === 'function') ? item.get('a') : '';
-                return h('details', { className: 'faq-item', open: true, key: i },
-                  h('summary', {}, q || ''),
-                  h('div', {
-                    className: 'faq-answer',
-                    dangerouslySetInnerHTML: { __html: renderBlockMd(a) }
-                  })
-                );
-              }).toArray()
-            )
+        faqSection = h('section', { className: 'faq-section', 'data-toc-section': true },
+          h('h2', { id: 'faq-heading' }, 'Frequently asked questions'),
+          h('div', { className: 'faq-accordion' },
+            faq.map(function (item, i) {
+              var q = (item && typeof item.get === 'function') ? item.get('q') : '';
+              var a = (item && typeof item.get === 'function') ? item.get('a') : '';
+              return h('details', { className: 'faq-item', open: true, key: i },
+                h('summary', {}, q || ''),
+                h('div', {
+                  className: 'faq-answer',
+                  dangerouslySetInnerHTML: { __html: renderBlockMd(a) }
+                })
+              );
+            }).toArray()
           )
         );
+      }
+
+      var sourcesSection = null;
+      if (sources && typeof sources.size !== 'undefined' && sources.size > 0) {
+        var sourceRows = sources.map(function (item, i) {
+          var label = item && typeof item.get === 'function' ? item.get('label') : '';
+          var url = item && typeof item.get === 'function' ? item.get('url') : '';
+          var rel = item && typeof item.get === 'function' ? item.get('rel') : '';
+          if (!label || !/^https:\/\//i.test(url || '')) return null;
+          return h('li', { key: i }, h('a', { href: url, target: '_blank', rel: 'noopener' + (rel ? ' ' + rel : '') }, label));
+        }).filter(Boolean).toArray();
+        if (sourceRows.length) {
+          sourcesSection = h('section', { className: 'post-endcap post-sources' },
+            h('h2', { id: 'sources-heading' }, 'Sources'), h('ul', {}, sourceRows));
+        }
       }
 
       // Related posts now render in the sidebar (Featured Posts column),
@@ -307,7 +319,8 @@
             h('section', { className: 'article-content', id: 'blog-content' },
               widgetFor('body')
             ),
-            faqSection
+            faqSection,
+            sourcesSection
           )
         ),
         h('div', { className: 'preview-featured-stub' },

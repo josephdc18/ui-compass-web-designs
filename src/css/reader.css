@@ -54,12 +54,23 @@ html[data-reader-size] .post-related-date { font-size: calc(.8rem * var(--reader
     overflow: hidden;
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
-    transition: transform .24s ease;
+    visibility: visible;
+    /* visibility stepped, never interpolated — same pattern as the sheets. */
+    transition: transform .24s ease, visibility 0s;
   }
-  .reader-bar.is-hidden { transform: translateY(calc(120% + var(--reader-bar-gap))); }
+  /* Translating the island down is not enough to stop it painting. iOS Safari's
+     layout viewport extends behind the bottom address bar, so a fixed element
+     parked "below the fold" still renders in that strip — and this one is an
+     opaque backdrop-filtered slab, which turned the translucent address bar
+     solid and hid the page content that should show through it. visibility
+     takes it out of the paint entirely, delayed by the length of the slide so
+     the animation still plays on the way out. */
+  .reader-bar.is-hidden,
   body.reader-sheet-open .reader-bar {
     transform: translateY(calc(120% + var(--reader-bar-gap)));
+    visibility: hidden;
     pointer-events: none;
+    transition: transform .24s ease, visibility 0s linear .24s;
   }
   .reader-bar-inner { height: 3.5rem; }
   .reader-bar-actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); height: 100%; }
@@ -269,7 +280,18 @@ html[data-reader-size] .post-related-date { font-size: calc(.8rem * var(--reader
   .reader-share-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
   .reader-share-grid button:hover { border-color: var(--primary, #006940); color: var(--primary, #006940); }
 
-  body.reader-sheet-open #cs-navigation { visibility: hidden; }
+  /* The site navbar stays put behind an open sheet. It was hidden outright here
+     as a hedge against #cs-navigation's z-index of 10000 outranking the scrim,
+     but the scrim is 10001 and nothing between them creates a stacking context,
+     so it already covers the navbar — and reader-bar.js marks it `inert`, so it
+     is unreachable as well as dimmed.
+     Dropping that rule is not enough on its own. #cs-navigation is
+     `position: fixed` with NO `top`, so it renders at its static position — and
+     the scroll lock sets `body { position: fixed; top: -<scrollY>px }`, which
+     drags that static position up by the full scroll offset. At 560px down the
+     navbar was sitting at top: -560px: still "visible", still off-screen.
+     Pinning it for the duration of the lock is what actually keeps it there. */
+  body.reader-sheet-open #cs-navigation { top: 0; }
   body.focus-mode .reader-bar,
   body.focus-mode .reader-scrim,
   body.focus-mode .reader-panel { display: none !important; }

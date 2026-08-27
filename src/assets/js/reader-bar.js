@@ -198,6 +198,24 @@
     bar.classList.remove('is-hidden');
   });
 
+  // An auto-hidden bar is visibility:hidden — that is what stops it painting in
+  // the strip behind iOS Safari's address bar — which also makes it unfocusable,
+  // so the focusin reveal above can never fire for a keyboard user. Tab brings
+  // it back instead, and `keyboardNav` then holds it there: moving focus makes
+  // the browser scroll the new target into view, and that scroll read as a
+  // downward gesture and re-hid the bar in the same frame it was revealed.
+  // Auto-hide is a reading-with-your-thumb affordance; once someone is tabbing,
+  // the toolbar stays put until they touch or click again.
+  var keyboardNav = false;
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Tab') return;
+    keyboardNav = true;
+    if (!currentPanel) bar.classList.remove('is-hidden');
+  });
+  ['pointerdown', 'touchstart'].forEach(function (type) {
+    document.addEventListener(type, function () { keyboardNav = false; }, { capture: true, passive: true });
+  });
+
   // Pointer drag on the sheet handle.
   panels.forEach(function (panel) {
     var handle = panel.querySelector('[data-sheet-handle]');
@@ -269,7 +287,7 @@
     accumulated += delta;
     lastY = nextY;
     var state = window.uicArticle ? window.uicArticle.getListenState() : 'idle';
-    var protectedState = currentPanel || bar.contains(document.activeElement) || state === 'playing' || state === 'loading';
+    var protectedState = currentPanel || keyboardNav || bar.contains(document.activeElement) || state === 'playing' || state === 'loading';
     if (protectedState || nextY < 100 || accumulated < -12) bar.classList.remove('is-hidden');
     else if (accumulated > 20) bar.classList.add('is-hidden');
   }, { passive: true });

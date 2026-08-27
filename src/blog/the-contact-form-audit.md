@@ -8,7 +8,7 @@ blogDescription: >-
   60-second audit that catches it, and why this is the cheapest insurance a
   small business website can buy.
 author: Joseph C.
-date: 2026-03-17T16:00:00.000Z
+date: 2026-04-23T18:13:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/the-contact-form-audit-card.png
+image: /assets/images/the-contact-form-audit-card.webp
 imageAlt: >-
   A small business owner staring at an empty email inbox while a website on a
   phone shows a contact form submission confirmation

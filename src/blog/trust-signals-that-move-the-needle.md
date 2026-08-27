@@ -8,7 +8,7 @@ blogDescription: >-
   certifications. The four kinds that earn a lead, and the three kinds that
   quietly cost you one.
 author: Joseph C.
-date: 2026-04-08T16:00:00.000Z
+date: 2026-07-24T18:35:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/trust-signals-that-move-the-needle-card.png
+image: /assets/images/trust-signals-that-move-the-needle-card.webp
 imageAlt: >-
   A small business owner reviewing a wall of customer testimonials with real
   photographs and named attributions

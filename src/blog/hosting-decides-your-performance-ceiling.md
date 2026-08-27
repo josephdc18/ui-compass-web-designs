@@ -8,7 +8,7 @@ blogDescription: >-
   between a 60 PageSpeed score and a 95, and no amount of optimization closes it
   from the wrong side.
 author: Joseph C.
-date: 2026-02-18T16:00:00.000Z
+date: 2025-11-25T17:24:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,10 @@ tags:
 category: Strategy
 readMins: 7
 topper: Strategy
-image: /assets/images/hosting-decides-your-performance-ceiling-card.png
+image: /assets/images/hosting-decides-your-performance-ceiling-photo.jpg
 imageAlt: >-
-  A world map showing edge nodes versus a single origin server, with arrows
-  representing visitor requests from different cities
+  A data centre aisle lit blue, with rows of server racks running into the
+  distance
 tldrTitle: Key Takeaways
 tldr:
   - >-

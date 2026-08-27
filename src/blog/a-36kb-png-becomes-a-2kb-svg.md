@@ -7,7 +7,7 @@ blogDescription: >-
   The four-step image pipeline that turns a 2.3MB hero into a 37KB one and turns
   a 36KB PNG icon into a 2KB SVG. Same pixels. 90% less weight.
 author: Joseph C.
-date: 2025-11-29T16:00:00.000Z
+date: 2026-08-19T14:00:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Performance
 readMins: 6
 topper: Performance
-image: /assets/images/a-36kb-png-becomes-a-2kb-svg-card.png
+image: /assets/images/a-36kb-png-becomes-a-2kb-svg-card.webp
 imageAlt: >-
   A side-by-side comparison of a heavy PNG icon and a light SVG version of the
   same shape, with file sizes labeled

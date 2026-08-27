@@ -7,7 +7,7 @@ blogDescription: >-
   real and the differences are real. Here is what you actually get at each tier,
   where the hidden costs are, and how to read a quote that does not lie to you.
 author: Joseph C.
-date: 2026-05-23T16:00:00.000Z
+date: 2026-03-09T17:38:00.000Z
 draft: true
 tags:
   - post
@@ -15,8 +15,10 @@ tags:
 category: Strategy
 readMins: 7
 topper: Strategy
-image: /assets/images/small-business-website-cost-card.png
-imageAlt: A pricing table comparing four website-build tiers from cheap to premium
+image: /assets/images/small-business-website-cost-photo.jpg
+imageAlt: >-
+  A calculator, reading glasses, coins and a notepad laid out on a white
+  desk
 tldrTitle: Key Takeaways
 tldr:
   - >-

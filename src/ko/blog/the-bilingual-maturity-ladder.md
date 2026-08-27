@@ -4,7 +4,7 @@ blogTitle: 이중 언어 성숙도 사다리 — 영어와 한국어 웹사이�
 titleTag: 이중 언어 성숙도 사다리
 blogDescription: 영어와 한국어로 고객을 응대하시는 사업체를 위한 실용 가이드. 이중 언어 사이트가 조용히 실패하는 네 가지 방식, 성숙한 이중 언어 사이트의 다섯 단계, 그리고 거기에 도달하기 위한 여섯 부분의 운영 매뉴얼.
 author: UI Compass
-date: 2026-05-09T12:00:00.000Z
+date: 2025-11-03T16:18:00.000Z
 category: Strategy
 readMins: 18
 tldrTitle: 핵심 요약

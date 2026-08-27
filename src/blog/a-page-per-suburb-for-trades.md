@@ -8,7 +8,7 @@ blogDescription: >-
   into dozens of indexable answers, the 100K-population threshold, and how to
   keep the pages substantial instead of thin.
 author: Joseph C.
-date: 2026-05-14T03:58:00.000Z
+date: 2025-11-28T14:18:00.000Z
 topper: SEO
 image: >-
   /assets/images/uploads/green-illustrated-outdoors-adventure-presentation-1-.png

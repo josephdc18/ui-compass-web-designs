@@ -8,7 +8,7 @@ blogDescription: >-
   Most service businesses clear that bar in the first quarter. Here is the math,
   with the assumptions out loud.
 author: Joseph C.
-date: 2026-05-27T16:00:00.000Z
+date: 2026-04-04T16:35:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Strategy
 readMins: 5
 topper: Strategy
-image: /assets/images/one-client-pays-for-the-year-card.png
+image: /assets/images/one-client-pays-for-the-year-card.webp
 imageAlt: A calculator on a desk showing a single client equals one year of website cost
 tldrTitle: 'The math, out loud'
 tldr:

@@ -7,7 +7,7 @@ blogDescription: >-
   seven jobs. The sections that need to be there, the order they belong in, and
   what each one costs you when it is missing or misplaced.
 author: Joseph C.
-date: 2026-03-31T16:00:00.000Z
+date: 2026-06-03T17:58:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Design
 readMins: 7
 topper: Design
-image: /assets/images/the-seven-homepage-sections-card.png
+image: /assets/images/the-seven-homepage-sections-card.webp
 imageAlt: >-
   A wireframe of a small business homepage with seven sections labeled in order
   from top to bottom

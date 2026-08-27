@@ -7,7 +7,7 @@ blogDescription: >-
   Overviews can read your site at all. Most builder defaults block them. The
   5-minute fix that puts you back in the AI citation pool.
 author: Joseph C.
-date: 2025-11-08T16:00:00.000Z
+date: 2026-02-03T16:22:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: SEO
 readMins: 6
 topper: SEO
-image: /assets/images/unblock-ai-crawlers-card.png
+image: /assets/images/unblock-ai-crawlers-card.webp
 imageAlt: >-
   A laptop screen showing a robots.txt configuration file with AI crawler
   user-agents

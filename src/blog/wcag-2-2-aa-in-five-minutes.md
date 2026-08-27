@@ -8,7 +8,7 @@ blogDescription: >-
   tests every owner can run on their own site in 5 minutes, plus the four fixes
   most sites need.
 author: Joseph C.
-date: 2026-01-29T16:00:00.000Z
+date: 2026-07-17T16:37:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/wcag-2-2-aa-in-five-minutes-card.png
+image: /assets/images/wcag-2-2-aa-in-five-minutes-card.webp
 imageAlt: >-
   A laptop screen showing a website accessibility audit report with three test
   categories highlighted

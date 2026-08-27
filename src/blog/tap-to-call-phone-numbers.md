@@ -8,7 +8,7 @@ blogDescription: >-
   the four common ways the phone number gets ruined before the visitor can tap
   it.
 author: Joseph C.
-date: 2026-03-08T16:00:00.000Z
+date: 2026-05-08T15:20:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,8 @@ tags:
 category: Design
 readMins: 5
 topper: Design
-image: /assets/images/tap-to-call-phone-numbers-card.png
-imageAlt: >-
-  A close-up of a smartphone screen showing a phone number that becomes a
-  single-tap call link
+image: /assets/images/tap-to-call-phone-numbers-photo.jpg
+imageAlt: A man in a suit taking a phone call on a city street
 tldrTitle: Key Takeaways
 tldr:
   - >-

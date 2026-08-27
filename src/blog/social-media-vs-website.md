@@ -8,7 +8,7 @@ blogDescription: >-
   website is the only thing online that is actually yours, and the only address
   customers can find when the rest goes dark.
 author: Joseph C.
-date: 2026-05-16T16:00:00.000Z
+date: 2026-03-31T13:47:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,10 @@ tags:
 category: Strategy
 readMins: 6
 topper: Strategy
-image: /assets/images/social-media-vs-website-card.png
+image: /assets/images/social-media-vs-website-photo.jpg
 imageAlt: >-
-  A social media feed icon on the left, a website icon on the right, with a
-  contract or deed between them
+  A smartphone on a yellow background showing a screen full of social media
+  apps
 tldrTitle: Key Takeaways
 tldr:
   - >-

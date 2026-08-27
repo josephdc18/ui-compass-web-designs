@@ -8,12 +8,10 @@ blogDescription: >-
   the inbox at all. What domain email actually costs, what SPF, DKIM and DMARC
   are for, and the migration order that avoids losing mail.
 author: Joseph C.
-date: 2026-03-02T16:00:00.000Z
+date: 2026-01-25T14:04:00.000Z
 topper: Strategy
-image: /assets/images/your-gmail-address-is-costing-you-work-card.png
-imageAlt: >-
-  Two email signatures side by side, one from a free webmail address and one
-  from a business domain
+image: /assets/images/your-gmail-address-is-costing-you-work-photo.jpg
+imageAlt: A desk flat lay with a keyboard, a phone, a notebook and earphones
 draft: false
 tags:
   - post

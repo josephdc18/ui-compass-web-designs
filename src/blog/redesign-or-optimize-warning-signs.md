@@ -7,7 +7,7 @@ blogDescription: >-
   showing. Zero or one means optimize. Four or more means rebuild. The framework
   that decides what you actually need before you spend a dime.
 author: Joseph C.
-date: 2025-10-28T16:00:00.000Z
+date: 2025-09-28T16:47:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Strategy
 readMins: 8
 topper: Strategy
-image: /assets/images/redesign-or-optimize-warning-signs-card.png
+image: /assets/images/redesign-or-optimize-warning-signs-card.webp
 imageAlt: A small business owner reviewing a printed website audit at a desk
 summary: >-
   Half of "I need a redesign" calls are actually optimization jobs — and the

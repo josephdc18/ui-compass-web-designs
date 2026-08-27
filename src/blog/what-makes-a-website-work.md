@@ -7,7 +7,7 @@ blogDescription: >-
   is findable, believable, fast, and convertible. Drop any one and the site is
   decoration. Here is what each one means and the cost of missing it.
 author: Joseph C.
-date: 2026-05-30T16:00:00.000Z
+date: 2025-09-01T17:40:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Strategy
 readMins: 6
 topper: Strategy
-image: /assets/images/what-makes-a-website-work-card.png
+image: /assets/images/what-makes-a-website-work-card.webp
 imageAlt: A phone showing a business website with four checkmark icons around it
 tldrTitle: 'Four properties, all required'
 tldr:

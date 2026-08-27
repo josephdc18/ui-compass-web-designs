@@ -8,9 +8,9 @@ blogDescription: >-
   test for the first screen, the four headline patterns that pass it, and the
   clever ones that never do.
 author: Joseph C.
-date: 2026-04-11T16:00:00.000Z
+date: 2025-12-01T13:20:00.000Z
 topper: Design
-image: /assets/images/the-twelve-word-headline-test-card.png
+image: /assets/images/the-twelve-word-headline-test-card.webp
 imageAlt: >-
   A browser window showing only the top screen of a homepage, with the headline
   circled and a stopwatch beside it

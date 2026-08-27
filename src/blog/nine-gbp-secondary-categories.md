@@ -8,7 +8,7 @@ blogDescription: >-
   slots untouched. The strategic way to fill them, plus three other GBP features
   that quietly compound the same effect.
 author: Joseph C.
-date: 2025-12-19T16:00:00.000Z
+date: 2025-12-13T18:58:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,8 @@ tags:
 category: SEO
 readMins: 6
 topper: SEO
-image: /assets/images/nine-gbp-secondary-categories-card.png
-imageAlt: >-
-  A Google Business Profile dashboard showing the categories panel with multiple
-  secondary slots filled in
+image: /assets/images/nine-gbp-secondary-categories-photo.jpg
+imageAlt: A close-up of a folded road map with place names picked out in orange
 tldrTitle: Key Takeaways
 tldr:
   - >-

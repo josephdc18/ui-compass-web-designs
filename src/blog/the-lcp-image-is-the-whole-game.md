@@ -7,9 +7,9 @@ blogDescription: >-
   homepage. Six things to do to it, in the order that matters, plus the two
   well-meant optimisations that make it slower.
 author: Joseph C.
-date: 2025-11-14T16:00:00.000Z
+date: 2026-05-28T17:44:00.000Z
 topper: Performance
-image: /assets/images/the-lcp-image-is-the-whole-game-card.png
+image: /assets/images/the-lcp-image-is-the-whole-game-card.webp
 imageAlt: >-
   A waterfall chart with one very long image request highlighted against a row
   of short ones

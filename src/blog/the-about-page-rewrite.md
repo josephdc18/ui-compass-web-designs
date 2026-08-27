@@ -9,7 +9,7 @@ blogDescription: >-
   structure that converts, and the four sins that turn the page into a sales
   obstacle.
 author: Joseph C.
-date: 2026-03-24T16:00:00.000Z
+date: 2025-09-12T17:53:00.000Z
 draft: true
 tags:
   - post
@@ -17,10 +17,8 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/the-about-page-rewrite-card.png
-imageAlt: >-
-  A laptop screen showing an About page with the visitor's perspective
-  highlighted instead of the company history
+image: /assets/images/the-about-page-rewrite-photo.jpg
+imageAlt: An empty meeting room with a long wooden table and an exposed brick wall
 tldrTitle: Key Takeaways
 tldr:
   - >-

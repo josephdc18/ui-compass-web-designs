@@ -8,7 +8,7 @@ blogDescription: >-
   is the small JSON file that fails the deploy when any of those things happen,
   so the regression never reaches production.
 author: Joseph C.
-date: 2025-10-03T16:00:00.000Z
+date: 2026-01-19T18:31:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Performance
 readMins: 6
 topper: Performance
-image: /assets/images/a-performance-budget-is-a-json-file-card.png
+image: /assets/images/a-performance-budget-is-a-json-file-card.webp
 imageAlt: >-
   A terminal window showing a build process failing with a performance budget
   violation, alongside a JSON config file

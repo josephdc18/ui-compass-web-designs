@@ -9,9 +9,9 @@ blogDescription: >-
   container pattern that fixes most layout bugs.
 author: Joseph C.
 authorImage: /assets/images/uploads/joseph-face.png
-date: 2026-04-17T16:00:00.000Z
+date: 2026-06-01T17:31:00.000Z
 topper: Performance
-image: /assets/images/designed-on-a-monitor-used-on-a-phone-card.png
+image: /assets/images/designed-on-a-monitor-used-on-a-phone-card.webp
 imageAlt: >-
   A 27-inch monitor next to a small smartphone showing the same website rendered
   at very different sizes

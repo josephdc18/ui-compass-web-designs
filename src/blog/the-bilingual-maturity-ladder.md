@@ -8,7 +8,7 @@ blogDescription: >-
   second market, the five stages of a mature bilingual site, and the six-part
   operational playbook to get there.
 author: Joseph C.
-date: 2026-05-04T16:00:00.000Z
+date: 2025-11-03T16:18:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: SEO
 readMins: 14
 topper: SEO
-image: /assets/images/the-bilingual-maturity-ladder-card.png
+image: /assets/images/the-bilingual-maturity-ladder-card.webp
 imageAlt: A bilingual web designer reviewing English and Spanish layouts side by side
 tldrTitle: Key Takeaways
 tldr:

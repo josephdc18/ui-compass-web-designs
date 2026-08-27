@@ -9,7 +9,7 @@ blogDescription: >-
   the four ways overlays actively make accessibility worse, and what real
   compliance looks like.
 author: Joseph C.
-date: 2026-02-08T16:00:00.000Z
+date: 2026-01-23T17:55:00.000Z
 draft: true
 tags:
   - post
@@ -17,7 +17,7 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/why-accessibility-overlay-widgets-get-sued-card.png
+image: /assets/images/why-accessibility-overlay-widgets-get-sued-card.webp
 imageAlt: >-
   A laptop screen with an overlay widget icon on the corner of a website,
   crossed out with a red X

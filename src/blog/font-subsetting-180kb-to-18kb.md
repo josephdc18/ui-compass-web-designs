@@ -8,7 +8,7 @@ blogDescription: >-
   WOFF2 turns a typical 180KB font family into roughly 18KB. The 4-step diet
   that closes a top-3 performance gap on most small business sites.
 author: Joseph C.
-date: 2025-11-19T16:00:00.000Z
+date: 2025-10-21T15:20:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Performance
 readMins: 6
 topper: Performance
-image: /assets/images/font-subsetting-180kb-to-18kb-card.png
+image: /assets/images/font-subsetting-180kb-to-18kb-card.webp
 imageAlt: >-
   A side-by-side weight comparison showing a full 180KB font family on one side
   and an 18KB subset on the other

@@ -8,7 +8,7 @@ blogDescription: >-
   others. Here is what managing a website actually involves, who does which
   part, and how to keep it under an hour a month.
 author: Joseph C.
-date: 2026-06-10T16:00:00.000Z
+date: 2026-01-01T16:34:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,8 @@ tags:
 category: Strategy
 readMins: 5
 topper: Strategy
-image: /assets/images/managing-a-website-card.png
-imageAlt: >-
-  A simple checklist showing minimal owner tasks versus everything handled by
-  the team
+image: /assets/images/managing-a-website-photo.jpg
+imageAlt: A workshop wall with hand tools hung in neat rows
 tldrTitle: What you actually have to do
 tldr:
   - >-

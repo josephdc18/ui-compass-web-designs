@@ -8,12 +8,10 @@ blogDescription: >-
   method to the shape of the job, plus the four fields worth asking for and the
   ones that quietly cost you enquiries.
 author: Joseph C.
-date: 2026-04-24T16:00:00.000Z
+date: 2025-10-01T14:11:00.000Z
 topper: Strategy
-image: /assets/images/booking-friction-form-calendar-phone-card.png
-imageAlt: >-
-  Three routes to a booking shown side by side — a phone handset, a short form,
-  and a calendar grid
+image: /assets/images/booking-friction-form-calendar-phone-photo.jpg
+imageAlt: An open paper planner with reading glasses resting on the page
 draft: false
 tags:
   - post

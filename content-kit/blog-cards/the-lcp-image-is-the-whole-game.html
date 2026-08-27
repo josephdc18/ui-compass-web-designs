@@ -1,0 +1,217 @@
+<!doctype html>
+<!-- no-auto-dark: already dark — single-variant cinematic card -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog Card — The LCP Image Is The Whole Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ===================================================================
+     MotionVFX-flavoured card — "LCP".
+     Stage read: a stack of image frames flying toward camera, only the
+     front one lit, with a waterfall bar behind showing one request that
+     dwarfs the rest. Same strip/body/footer skeleton as every card.
+     =================================================================== */
+  :root {
+    --ground:#05070a; --ground-2:#0b0f14;
+    --primary:#00bd74; --cyan:#35e6ff; --mint:#8dffc4; --hot:#ffb545;
+    --header:#f4f7f6; --muted:rgba(244,247,246,0.42);
+    --hairline:rgba(244,247,246,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; min-height: 0; }
+  html, body {
+    width: 1200px; height: 630px; background: var(--ground);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+    color: var(--header); overflow: hidden;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  .card {
+    position: relative; width: 1200px; height: 630px;
+    padding: 24px 56px 22px;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(680px 560px at 30% 44%, rgba(0,189,116,0.26), transparent 64%),
+      radial-gradient(620px 520px at 88% 84%, rgba(255,181,69,0.14), transparent 66%),
+      radial-gradient(760px 640px at 4% 4%, rgba(53,230,255,0.12), transparent 62%),
+      linear-gradient(160deg, var(--ground-2) 0%, var(--ground) 62%, #03050a 100%);
+    overflow: hidden;
+  }
+  .grid {
+    position: absolute; inset: -10% -10% -32%; z-index: 1; opacity: 0.55;
+    background-image:
+      linear-gradient(rgba(141,255,196,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(141,255,196,0.12) 1px, transparent 1px);
+    background-size: 64px 64px;
+    transform: perspective(800px) rotateX(68deg) translateY(140px);
+    transform-origin: 50% 100%;
+    mask-image: linear-gradient(to top, #000 0%, transparent 74%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 74%);
+  }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.16; z-index: 8; }
+
+  .strip { position: relative; z-index: 6; display: flex; align-items: center; gap: 18px; }
+  .strip .rule { flex: 1; height: 1px; background: var(--hairline); }
+  .strip .issue { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--header); }
+
+  .body { position: relative; z-index: 6; flex: 1; padding-top: 4px; display: flex; align-items: center; min-height: 0; }
+
+  /* Left column is a real flow column, not absolutes — the oversized mark
+     sets the rhythm and everything beneath it stacks predictably. */
+  .copy { position: relative; z-index: 6; width: 560px; flex: none; }
+
+  .mark {
+    font-family: "Anton", "Roboto", sans-serif; font-weight: 400;
+    font-size: 208px; line-height: 0.80; letter-spacing: -0.03em;
+    background: linear-gradient(112deg, #ffffff 0%, var(--mint) 40%, var(--cyan) 78%, rgba(53,230,255,0.62) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 44px rgba(0,189,116,0.42));
+  }
+  .kicker {
+    margin-top: 14px;
+    font-weight: 900; font-size: 17px;
+    letter-spacing: 0.30em; text-transform: uppercase;
+    color: rgba(244,247,246,0.50);
+  }
+  .line {
+    margin-top: 18px; max-width: 560px;
+    font-weight: 800; font-size: 32px; line-height: 1.16; letter-spacing: -0.02em; color: var(--header);
+  }
+  .line em { font-family: "Playfair Display", serif; font-style: italic; font-weight: 500; color: var(--mint); }
+
+  /* === Stage === */
+  .stage { position: absolute; right: -6px; top: 50%; width: 620px; height: 500px; transform: translateY(-52%); perspective: 1250px; z-index: 5; }
+
+  .frame {
+    position: absolute; left: 90px; width: 400px; height: 226px; border-radius: 10px;
+    border: 1px solid rgba(141,255,196,0.16);
+    background: linear-gradient(150deg, rgba(18,30,28,0.9), rgba(7,11,14,0.85));
+    box-shadow: 0 34px 70px rgba(0,0,0,0.6);
+  }
+  .frame.f3 { top: 22px;  transform: rotateY(-22deg) rotateX(9deg) translateZ(-190px) scale(0.9);  opacity: 0.30; }
+  .frame.f2 { top: 108px; transform: rotateY(-22deg) rotateX(9deg) translateZ(-105px) scale(0.95); opacity: 0.52; }
+  .frame.f1 {
+    top: 208px; transform: rotateY(-22deg) rotateX(9deg);
+    border-color: rgba(141,255,196,0.5);
+    background:
+      radial-gradient(150% 120% at 12% 0%, rgba(0,189,116,0.30), transparent 60%),
+      linear-gradient(150deg, rgba(26,48,42,0.96), rgba(7,11,14,0.94));
+    box-shadow: 0 46px 96px rgba(0,0,0,0.72), 0 0 70px rgba(0,189,116,0.30), inset 0 1px 0 rgba(255,255,255,0.14);
+  }
+  .frame.f1::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; border-radius: 10px 0 0 10px;
+    background: linear-gradient(180deg, transparent, var(--mint), transparent);
+    box-shadow: 0 0 20px rgba(141,255,196,0.95);
+  }
+  .frame .tag {
+    position: absolute; left: 16px; top: 14px;
+    font-family: "Roboto Mono", monospace; font-size: 12px; letter-spacing: 0.10em;
+    color: rgba(244,247,246,0.55);
+  }
+  .frame.f1 .tag { color: var(--mint); }
+  /* Mountain glyph so the lit plane reads as an image, not a card. */
+  .frame .pic { position: absolute; left: 16px; right: 16px; bottom: 14px; height: 132px; }
+  .frame .pic svg { width: 100%; height: 100%; display: block; }
+
+  /* Waterfall: three ordinary requests, then the one that dwarfs them.
+     Sits under the copy column so it never collides with the stage. */
+  .waterfall { margin-top: 26px; width: 330px; }
+  .bar { height: 6px; border-radius: 4px; margin-bottom: 8px; background: rgba(244,247,246,0.22); }
+  .bar.b1 { width: 46px; } .bar.b2 { width: 72px; } .bar.b3 { width: 58px; }
+  .bar.lcp {
+    width: 330px; height: 10px; margin-top: 2px; margin-bottom: 0;
+    background: linear-gradient(90deg, var(--primary), var(--mint) 62%, var(--hot));
+    box-shadow: 0 0 22px rgba(141,255,196,0.5);
+  }
+  .waterfall .cap {
+    margin-top: 10px; font-family: "Roboto Mono", monospace; font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,247,246,0.55);
+  }
+  .waterfall .cap b { color: var(--hot); font-weight: 700; }
+
+  .foot {
+    position: relative; z-index: 6;
+    padding-top: 12px; margin-top: 12px;
+    border-top: 1px solid var(--hairline);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 36px; height: 36px; flex: none; display: block; filter: brightness(0) invert(1); opacity: 0.92; }
+  .brand .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .brand .name { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 19px; color: var(--header); }
+  .brand .name .dot { color: var(--primary); }
+  .brand .sub-mark { margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+  .foot-meta { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--header); }
+  .foot-meta .dot { color: var(--primary); margin: 0 8px; }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <div class="grid" aria-hidden="true"></div>
+
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 630" aria-hidden="true">
+    <filter id="g">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="19"/>
+      <feColorMatrix values="0 0 0 0 0.72  0 0 0 0 0.82  0 0 0 0 0.78  0 0 0 0.5 0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+  </svg>
+
+  <div class="strip">
+    <span class="rule"></span>
+    <span class="issue">Issue Nº 35 · May 2026</span>
+  </div>
+
+  <section class="body">
+    <div class="copy">
+      <div class="mark">LCP</div>
+      <div class="kicker">One element · one score</div>
+      <p class="line">One file decides the whole <em>score.</em></p>
+      <div class="waterfall" aria-hidden="true">
+        <div class="bar b1"></div>
+        <div class="bar b2"></div>
+        <div class="bar b3"></div>
+        <div class="bar lcp"></div>
+        <div class="cap">Everything else <b>·</b> the hero</div>
+      </div>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="frame f3"><span class="tag">hero-3000w.jpg</span></div>
+      <div class="frame f2"><span class="tag">slide-2.jpg</span></div>
+      <div class="frame f1">
+        <span class="tag">hero.avif · fetchpriority="high"</span>
+        <div class="pic">
+          <svg viewBox="0 0 360 132" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8dffc4" stop-opacity="0.30"/>
+                <stop offset="100%" stop-color="#35e6ff" stop-opacity="0.06"/>
+              </linearGradient>
+            </defs>
+            <rect width="360" height="132" rx="6" fill="url(#sky)"/>
+            <circle cx="288" cy="34" r="15" fill="#8dffc4" opacity="0.75"/>
+            <path d="M0 132 L96 52 L158 104 L214 66 L360 132 Z" fill="#05070a" opacity="0.62"/>
+            <path d="M0 132 L96 52 L158 104 L214 66 L360 132 Z" fill="none" stroke="#8dffc4" stroke-opacity="0.55" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div class="brand">
+      <img class="brand-mark" src="../assets/logo.svg" alt="UI Compass" data-inline-logo>
+      <div class="wordmark">
+        <span class="name">UI Compass<span class="dot">.</span></span>
+        <span class="sub-mark">Web Designs</span>
+      </div>
+    </div>
+    <div class="foot-meta">Performance<span class="dot">•</span>8 min read</div>
+  </div>
+
+</main>
+</body>
+</html>

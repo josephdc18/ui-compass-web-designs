@@ -7,7 +7,7 @@ blogDescription: >-
   mean the time is now, the two signals that mean wait, and the math that makes
   the decision concrete instead of guilty.
 author: Joseph C.
-date: 2026-05-20T16:00:00.000Z
+date: 2025-09-20T14:26:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Strategy
 readMins: 5
 topper: Strategy
-image: /assets/images/5-signs-ready-for-a-website-card.png
+image: /assets/images/5-signs-ready-for-a-website-card.webp
 imageAlt: >-
   A checklist with five items checked off in green and two crossed out, on a
   desk next to a phone

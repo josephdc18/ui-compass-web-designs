@@ -8,7 +8,7 @@ blogDescription: >-
   costs you map-pack rankings, the 30-minute audit, and the one fix that does
   not trigger a Google review.
 author: Joseph C.
-date: 2025-12-09T16:00:00.000Z
+date: 2025-12-31T13:01:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: SEO
 readMins: 6
 topper: SEO
-image: /assets/images/nap-consistency-four-phone-formats-card.png
+image: /assets/images/nap-consistency-four-phone-formats-card.webp
 imageAlt: >-
   Four browser tabs side by side showing the same business with four different
   phone number formats across Google, Yelp, Facebook, and a website

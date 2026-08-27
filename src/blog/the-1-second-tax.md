@@ -8,7 +8,7 @@ blogDescription: >-
   slow site. Where the delay actually comes from, and how to read your PageSpeed
   score without panicking.
 author: Joseph C.
-date: 2026-02-27T16:00:00.000Z
+date: 2025-12-29T15:30:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Performance
 readMins: 5
 topper: Performance
-image: /assets/images/the-1-second-tax-card.png
+image: /assets/images/the-1-second-tax-card.webp
 imageAlt: >-
   A speedometer overlaid on a laptop displaying a website with a slow loading
   indicator

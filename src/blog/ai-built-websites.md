@@ -7,7 +7,7 @@ blogDescription: >-
   Where AI tools genuinely help, where they silently fail, and how to use them
   without inheriting the failures.
 author: Joseph C.
-date: 2026-06-03T16:00:00.000Z
+date: 2026-06-05T13:42:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Strategy
 readMins: 6
 topper: Strategy
-image: /assets/images/ai-built-websites-card.png
+image: /assets/images/ai-built-websites-card.webp
 imageAlt: >-
   A robot icon on the left, a human icon on the right, with a website layout
   between them

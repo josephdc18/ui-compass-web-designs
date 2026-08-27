@@ -92,7 +92,7 @@ The fields below are the minimum. Add notes if a post performed unusually well o
 - Angle: comparison / platform lock-in
 - Hook: "Hand-coded sites load up to 10× faster than page-builder sites. And the gap is not configurable."
 - Template: blog promo (links to /blog/the-10x-load-time-gap/)
-- Graphic: src/assets/images/the-10x-load-time-gap-card.png (the existing blog OG card)
+- Graphic: src/assets/images/the-10x-load-time-gap-card.webp (the existing blog OG card)
 - CTA: "Read it → uicompass.com/blog/the-10x-load-time-gap/" + "Drop your URL."
 - Hashtags: #UICompass #DallasWebDesign #SmallBusinessWebsite #Performance #WebDev
 - Source: /blog/the-10x-load-time-gap (own post)
@@ -108,7 +108,7 @@ The fields below are the minimum. Add notes if a post performed unusually well o
 - Angle: anatomy / framework
 - Hook: "A small business homepage is not an art project. It is a salesperson with seven jobs."
 - Template: blog promo (links to /blog/the-seven-homepage-sections/)
-- Graphic: src/assets/images/the-seven-homepage-sections-card.png (the existing anatomy blog card)
+- Graphic: src/assets/images/the-seven-homepage-sections-card.webp (the existing anatomy blog card)
 - CTA: "Read it → uicompass.com/blog/the-seven-homepage-sections/" + "Which one is missing on yours?"
 - Hashtags: #UICompass #DallasWebDesign #SmallBusinessWebsite #WebDesign #ConversionDesign
 - Source: /blog/the-seven-homepage-sections (own post)
@@ -124,7 +124,7 @@ The fields below are the minimum. Add notes if a post performed unusually well o
 - Angle: how-to / liability avoidance
 - Hook: "96% of the top million websites fail a basic accessibility check. Three tests, five minutes flat, anyone can run on their own site."
 - Template: blog promo (links to /blog/wcag-2-2-aa-in-five-minutes/)
-- Graphic: src/assets/images/wcag-2-2-aa-in-five-minutes-card.png (the audit-checklist blog card)
+- Graphic: src/assets/images/wcag-2-2-aa-in-five-minutes-card.webp (the audit-checklist blog card)
 - CTA: "Read it → uicompass.com/blog/wcag-2-2-aa-in-five-minutes/" + "Comment 'audit' and drop your URL."
 - Hashtags: #UICompass #Accessibility #ADACompliance #WCAG #SmallBusinessWebsite
 - Source: /blog/wcag-2-2-aa-in-five-minutes (own post)
@@ -140,7 +140,7 @@ The fields below are the minimum. Add notes if a post performed unusually well o
 - Angle: anatomy / hidden failure
 - Hook: "1 in 4 contact forms on small business sites does not actually deliver to the owner's inbox."
 - Template: blog promo (links to /blog/the-contact-form-audit/)
-- Graphic: src/assets/images/the-contact-form-audit-card.png (the anatomy blog card)
+- Graphic: src/assets/images/the-contact-form-audit-card.webp (the anatomy blog card)
 - CTA: "Read it → uicompass.com/blog/the-contact-form-audit/" + "When did you last test-submit your own form?"
 - Hashtags: #UICompass #DallasWebDesign #SmallBusinessWebsite #WebDev #LeadGen
 - Source: /blog/the-contact-form-audit (own post)
@@ -156,7 +156,7 @@ The fields below are the minimum. Add notes if a post performed unusually well o
 - Angle: stat / urgency math
 - Hook: "A 1-second delay costs you 7% of your conversions."
 - Template: blog promo (links to /blog/the-1-second-tax/)
-- Graphic: src/assets/images/the-1-second-tax-card.png (the stat blog card with stopwatch)
+- Graphic: src/assets/images/the-1-second-tax-card.webp (the stat blog card with stopwatch)
 - CTA: "Read it → uicompass.com/blog/the-1-second-tax/" + "What's your current PageSpeed score?"
 - Hashtags: #UICompass #DallasWebDesign #SmallBusinessWebsite #Performance #WebDev
 - Source: /blog/the-1-second-tax (own post)

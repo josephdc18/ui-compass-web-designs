@@ -7,7 +7,7 @@ blogDescription: >-
   treatment, an equity value, and a useful life. Treating it like a recurring
   expense is the most expensive accounting mistake small business owners make.
 author: Joseph C.
-date: 2026-06-13T16:00:00.000Z
+date: 2026-03-26T18:01:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Strategy
 readMins: 5
 topper: Strategy
-image: /assets/images/website-is-an-asset-card.png
+image: /assets/images/website-is-an-asset-card.webp
 imageAlt: >-
   A house with a brick foundation labeled "website" and stacks of papers labeled
   "tax credit"

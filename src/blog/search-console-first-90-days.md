@@ -8,12 +8,12 @@ blogDescription: >-
   that matters: what you already rank for, what Google refused to index, which
   pages fail Core Web Vitals, and whether your sitemap is being read at all.
 author: Joseph C.
-date: 2026-01-15T16:00:00.000Z
+date: 2026-08-07T18:16:00.000Z
 topper: SEO
-image: /assets/images/search-console-first-90-days-card.png
+image: /assets/images/search-console-first-90-days-photo.jpg
 imageAlt: >-
-  A Search Console performance graph with a query table below it, four rows
-  highlighted
+  A person working at a desktop computer with a dashboard open on the
+  monitor
 draft: false
 tags:
   - post

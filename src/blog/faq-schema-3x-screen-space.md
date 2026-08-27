@@ -8,7 +8,7 @@ blogDescription: >-
   it into roughly three times the vertical space, plus the five mistakes that
   get the whole thing thrown out.
 author: Joseph C.
-date: 2026-01-08T16:00:00.000Z
+date: 2026-02-28T14:49:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: SEO
 readMins: 5
 topper: SEO
-image: /assets/images/faq-schema-3x-screen-space-card.png
+image: /assets/images/faq-schema-3x-screen-space-card.webp
 imageAlt: >-
   A search results page showing an expanded FAQ schema result taking three times
   the vertical space of the result above it

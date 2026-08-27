@@ -8,8 +8,8 @@ blogDescription: >-
   published, real addresses, and an honest read on who is the right call for
   small businesses, growth companies, and enterprise B2B.
 author: Joseph C.
-date: 2026-05-07T16:00:00.000Z
-updated: 2026-05-11T16:00:00.000Z
+date: 2026-01-05T15:23:00.000Z
+updated: 2026-01-05T15:23:00.000Z
 draft: true
 tags:
   - post
@@ -18,7 +18,7 @@ tags:
 category: Strategy
 readMins: 14
 topper: Strategy
-image: /assets/images/comparing-local-dfw-web-design-companies-card.png
+image: /assets/images/comparing-local-dfw-web-design-companies-card.webp
 imageAlt: >-
   An editorial directory of Dallas-Fort Worth web design companies arranged by
   tier and fit

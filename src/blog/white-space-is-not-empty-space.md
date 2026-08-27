@@ -7,7 +7,7 @@ blogDescription: >-
   spacing problem. The four kinds of white space that decide whether a page
   reads as professional or as cramped, and the math behind every number.
 author: Joseph C.
-date: 2026-04-30T16:00:00.000Z
+date: 2025-09-26T14:03:00.000Z
 draft: true
 tags:
   - post
@@ -15,7 +15,7 @@ tags:
 category: Design
 readMins: 6
 topper: Design
-image: /assets/images/white-space-is-not-empty-space-card.png
+image: /assets/images/white-space-is-not-empty-space-card.webp
 imageAlt: >-
   A clean editorial layout with generous margins and a hand pointing to white
   space between paragraphs

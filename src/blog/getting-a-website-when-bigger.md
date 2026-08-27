@@ -8,7 +8,7 @@ blogDescription: >-
   business bigger. Waiting until you are ready is waiting for the result to fund
   the cause.
 author: Joseph C.
-date: 2026-06-17T16:00:00.000Z
+date: 2026-05-12T16:55:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Strategy
 readMins: 5
 topper: Strategy
-image: /assets/images/getting-a-website-when-bigger-card.png
+image: /assets/images/getting-a-website-when-bigger-card.webp
 imageAlt: >-
   A small seedling on the left, a tree on the right, with an arrow showing
   growth

@@ -8,7 +8,7 @@ blogDescription: >-
   and "ready to serve," what it costs you in conversion, and why the choice
   locks in the day you pick a platform.
 author: Joseph C.
-date: 2026-05-10T16:00:00.000Z
+date: 2025-12-16T17:26:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Strategy
 readMins: 7
 topper: Strategy
-image: /assets/images/the-10x-load-time-gap-card.png
+image: /assets/images/the-10x-load-time-gap-card.webp
 imageAlt: >-
   A split-screen graphic showing a hand-coded static site loading in 0.5 seconds
   versus a page-builder site loading in 5 seconds

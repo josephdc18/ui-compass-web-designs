@@ -8,7 +8,7 @@ blogDescription: >-
   pattern-detection cares about cadence, the 40-review threshold most local
   businesses sit just under, and the six places your direct review link belongs.
 author: Joseph C.
-date: 2025-12-29T16:00:00.000Z
+date: 2026-02-16T16:47:00.000Z
 draft: true
 tags:
   - post
@@ -16,10 +16,8 @@ tags:
 category: SEO
 readMins: 6
 topper: SEO
-image: /assets/images/five-reviews-a-month-beats-thirty-in-a-week-card.png
-imageAlt: >-
-  A line graph showing a steady upward trend of Google reviews over six months
-  versus a sudden spike that triggers a flag
+image: /assets/images/five-reviews-a-month-beats-thirty-in-a-week-photo.jpg
+imageAlt: The interior of a busy independent coffee shop
 tldrTitle: Key Takeaways
 tldr:
   - >-

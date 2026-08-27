@@ -8,7 +8,7 @@ blogDescription: >-
   JavaScript. Together they add roughly 200KB to every page load and buy you
   almost nothing.
 author: Joseph C.
-date: 2025-10-15T16:00:00.000Z
+date: 2026-05-16T17:49:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Performance
 readMins: 6
 topper: Performance
-image: /assets/images/four-dependencies-to-delete-card.png
+image: /assets/images/four-dependencies-to-delete-card.webp
 imageAlt: >-
   A browser network panel showing four large dependency files dimmed and crossed
   out

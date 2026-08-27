@@ -8,7 +8,7 @@ blogDescription: >-
   covers half of eligible accessibility spend up to $5,000 per year. The math on
   the threat, the math on the offset.
 author: Joseph C.
-date: 2026-01-19T16:00:00.000Z
+date: 2026-07-05T18:23:00.000Z
 draft: true
 tags:
   - post
@@ -16,7 +16,7 @@ tags:
 category: Strategy
 readMins: 6
 topper: Strategy
-image: /assets/images/ada-lawsuits-and-form-8826-card.png
+image: /assets/images/ada-lawsuits-and-form-8826-card.webp
 imageAlt: >-
   A desk with a printed demand letter on one side and an IRS Form 8826 worksheet
   on the other

@@ -8,9 +8,9 @@ blogDescription: >-
   LocalBusiness, Breadcrumb, Product, Review — plus the honest version of what
   schema does and does not do for ranking.
 author: Joseph C.
-date: 2026-02-05T16:00:00.000Z
+date: 2026-08-20T14:42:00.000Z
 topper: SEO
-image: /assets/images/structured-data-after-faq-rich-results-card.png
+image: /assets/images/structured-data-after-faq-rich-results-card.webp
 imageAlt: >-
   A search result listing with a breadcrumb trail, star rating, and business
   hours pulled out as labelled blocks

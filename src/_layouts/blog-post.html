@@ -93,9 +93,16 @@ eleventyComputed:
 
         <div class="post-meta">
           <div class="post-meta-left">
-            {% if authorImage %}
+            {# `avatar` resolves the post's own authorImage first, then falls back
+               to the per-author map in src/_data/authors.js. Routed through the
+               image shortcode rather than a raw <img>: the source portrait is
+               1263x1263 / 1.5MB and renders at 44px, which was tolerable on the
+               one post that set it and is not now that it is on every article.
+               alt="" because the wrapping link already carries "About <author>";
+               a duplicate here would announce the name twice. #}
+            {% if avatar %}
             <a href="{{ authorUrl | default('/about/') }}" class="post-meta-avatar" aria-label="About {{ author }}">
-              <img src="{{ authorImage }}" alt="{{ author }}" width="44" height="44" loading="lazy" decoding="async">
+              {% image avatar, '', 'post-avatar-picture', 'lazy', '44px' %}
             </a>
             {% endif %}
             <div class="post-meta-info">

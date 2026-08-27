@@ -862,6 +862,15 @@ body.focus-mode .focus-exit-btn { display: inline-flex; }
   border-radius: 0;
   background: transparent;
 }
+/* One rule between the last answer and whatever follows, not two. The final
+   .faq-item closes the list, and .post-endcap opens Sources with its own
+   border-top — stacked, they read as two rules with 4.5rem of empty space
+   between them. The endcap's rule is the one worth keeping: it sits directly
+   above the heading it introduces and carries the padding beneath it, whereas
+   the FAQ's hugs the question above. Dropped only when an endcap actually
+   follows, so a post with no Sources and no Related still closes its list.
+   `~` rather than `+`: the FAQPage JSON-LD <script> is a sibling in between. */
+.faq-section:has(~ .post-endcap) .faq-item:last-child { border-bottom: 0; }
 .faq-item summary {
   min-height: 3.5rem;
   padding: 1rem 2.2rem 1rem 0;

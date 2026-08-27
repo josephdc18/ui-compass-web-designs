@@ -473,6 +473,9 @@ body.dark-mode .post-topper { color: var(--primaryLight, #00bd74); }
   border-color: var(--be-primary);
   transform: scale(1.04);
 }
+/* The image shortcode wraps the img in a <picture>, which is inline by default
+   and would collapse the circle. */
+.post-meta-avatar picture,
 .post-meta-avatar img {
   display: block;
   width: 100%;
@@ -1813,8 +1816,11 @@ body.dark-mode .post-related-title { color: var(--bodyTextColorWhite, #fff); }
 .blog-filters::-webkit-scrollbar { display: none; }
 .blog-filter {
   flex: none;
-  min-height: 2.6rem;
-  padding: .55rem .9rem;
+  /* 2.125rem = 34px tall. Comfortably past WCAG 2.2 AA's 24px target minimum
+     (2.5.8) while sitting well short of the 44px AAA figure — these are a
+     scrolling chip strip, not primary navigation. */
+  min-height: 2.125rem;
+  padding: .3rem .85rem;
   border: 1px solid #dfe4e1;
   border-radius: 999px;
   background: #fff;

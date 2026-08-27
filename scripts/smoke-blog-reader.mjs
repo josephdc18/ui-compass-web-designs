@@ -177,10 +177,41 @@ async function testIndex() {
   if (category) {
     await page.click(`[data-filter="${category}"]`);
     await settle(page);
-    const composed = await page.$$eval('[data-search]', (nodes) => nodes
+    // Rows only. The feature card is a fixed editorial slot and is deliberately
+    // exempt from the category and Saved chips — see apply() in blog-filter.js.
+    const composed = await page.$$eval('.blog-row', (nodes) => nodes
       .filter((node) => !node.hidden).every((node) => node.dataset.category === document.querySelector('.blog-filter[aria-pressed="true"]')?.dataset.filter));
     check('category filter uses the shared visibility pipeline', composed, category);
     check('tab click updates the hash', new URL(page.url()).hash === `#${category}`, new URL(page.url()).hash);
+
+    // Every chip, including one the feature does not belong to, and Saved.
+    const chipStates = await page.evaluate(async (tabs) => {
+      const feature = document.querySelector('.blog-feature');
+      const out = [];
+      for (const filter of tabs.concat('saved')) {
+        const chip = document.querySelector(`.blog-filter[data-filter="${filter}"]`);
+        if (!chip) continue;
+        chip.click();
+        await new Promise((done) => setTimeout(done, 60));
+        out.push({ filter, hidden: feature.hidden, sameCategory: feature.dataset.category === filter });
+      }
+      return out;
+    }, summary.tabs);
+    const offCategory = chipStates.filter((state) => !state.sameCategory);
+    check('chips never hide the feature card',
+      chipStates.every((state) => !state.hidden),
+      chipStates.filter((s) => s.hidden).map((s) => s.filter).join(', ') || `${offCategory.length} off-category chips checked`);
+
+    // Search is the exception: a masthead contradicting the query is worse.
+    await page.click(`[data-filter="all"]`);
+    await page.click('#blog-search', { clickCount: 3 });
+    await page.type('#blog-search', '__no_article_matches_this__');
+    await new Promise((done) => setTimeout(done, 200));
+    check('search still filters the feature card',
+      await page.$eval('.blog-feature', (node) => node.hidden));
+    await page.click('[data-clear-filters]');
+    await settle(page);
+    check('clearing restores the feature card', !(await page.$eval('.blog-feature', (node) => node.hidden)));
   }
 
   await page.evaluate(() => localStorage.setItem('uic_bookmarks', '{not json'));
@@ -434,11 +465,25 @@ async function testPostMobile() {
     sourceInToc: [...document.querySelectorAll('.toc a')].some((node) => node.getAttribute('href') === '#sources-heading'),
     faqInToc: [...document.querySelectorAll('.toc a')].some((node) => node.getAttribute('href') === '#faq-heading'),
     rels: [...document.querySelectorAll('.post-sources a')].map((node) => node.rel),
+    // One rule between the last answer and Sources, not two. The final
+    // .faq-item's border-bottom and .post-endcap's border-top used to stack
+    // with 4.5rem of empty space between them.
+    lastFaqBorder: (() => {
+      const last = [...document.querySelectorAll('.faq-item')].pop();
+      return last ? getComputedStyle(last).borderBottomWidth : null;
+    })(),
+    endcapBorder: (() => {
+      const cap = document.querySelector('.post-endcap');
+      return cap ? getComputedStyle(cap).borderTopWidth : null;
+    })(),
   }));
   check('FAQ uses rules without card wrappers', faq.wrappers === 0 && faq.items > 0, `${faq.items} rows`);
   check('FAQ JSON-LD still matches visible row count', faq.schema === faq.items, `${faq.schema}/${faq.items}`);
   check('Sources render with noopener links', faq.sourceCount > 0 && faq.rels.every((rel) => rel.split(/\s+/).includes('noopener')), `${faq.sourceCount}`);
   check('FAQ is in the TOC and Sources are not', faq.faqInToc && !faq.sourceInToc);
+  check('exactly one rule between the last FAQ row and the next section',
+    faq.lastFaqBorder === '0px' && faq.endcapBorder === '1px',
+    `faq=${faq.lastFaqBorder} endcap=${faq.endcapBorder}`);
 
   await page.evaluate(() => {
     const section = document.querySelector('[data-toc-section]');
@@ -528,6 +573,46 @@ async function testIndexLayout() {
   await closePage(page);
 }
 
+// Static pass over every built article: the browser tests only visit two or
+// three, and "every article has the right byline avatar" is a claim about all
+// of them. Before the per-author fallback, exactly one of thirty-eight posts
+// set authorImage, so the avatar was missing almost everywhere.
+async function testBylineAvatars() {
+  console.log('\nByline avatars');
+  const { readdir } = await import('node:fs/promises');
+  const roots = [join(PUBLIC, 'blog'), join(PUBLIC, 'ko', 'blog')];
+  const articles = [];
+  for (const root of roots) {
+    if (!existsSync(root)) continue;
+    for (const entry of await readdir(root, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const file = join(root, entry.name, 'index.html');
+      if (existsSync(file)) articles.push(file);
+    }
+  }
+
+  const missing = [];
+  const wrong = [];
+  for (const file of articles) {
+    const html = await readFile(file, 'utf8');
+    const block = html.match(/<a[^>]*class="post-meta-avatar"[\s\S]*?<\/a>/);
+    if (!block) { missing.push(file.replace(PUBLIC, '')); continue; }
+    const author = (block[0].match(/aria-label="About ([^"]+)"/) || [])[1] || '';
+    const src = (block[0].match(/src="([^"]+)"/) || [])[1] || '';
+    const expected = author === 'UI Compass' ? 'favicon-192x192' : 'joseph-face';
+    if (!src.includes(expected)) wrong.push(`${file.replace(PUBLIC, '')} ${author} -> ${src}`);
+  }
+
+  check('every built article carries a byline avatar',
+    articles.length > 0 && missing.length === 0, `${articles.length - missing.length}/${articles.length}`);
+  check('each avatar matches its author', wrong.length === 0, wrong.slice(0, 3).join('; '));
+  // The source portrait is 1263x1263 / 1.5MB and renders at 44px; a raw <img>
+  // would ship all of it to every article page.
+  const sample = await readFile(articles[0], 'utf8');
+  check('avatars go through the responsive image pipeline',
+    /class="post-meta-avatar"[\s\S]*?<picture/.test(sample) && /\/images\/joseph-face-\d+w|\/images\/favicon-192x192-\d+w/.test(sample));
+}
+
 async function testBlockedStorage() {
   console.log('\nBlocked storage fallback');
   const page = await openPage('/blog/a-page-per-suburb-for-trades/', MOBILE, () => {
@@ -610,6 +695,7 @@ try {
   await testKoreanIndex();
   await testPostMobile();
   await testIndexLayout();
+  await testBylineAvatars();
   await testBlockedStorage();
   await testSavedSanitization();
   await testDesktopAndService();

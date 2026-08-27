@@ -1,4 +1,11 @@
 const fs = require('fs');
+const authors = require('../../_data/authors.js');
+
+// See src/blog/blog.11tydata.js for why this computes `avatar` rather than
+// writing back into `authorImage`.
+function computedAvatar(data) {
+  return data.authorImage || authors.avatars[data.author] || null;
+}
 
 function computedReadMinutes(data) {
   const declared = Number(data.readMins);
@@ -24,5 +31,6 @@ module.exports = {
   eleventyComputed: {
     permalink: (data) => `/ko/blog/${data.pageName}/index.html`,
     readMins: computedReadMinutes,
+    avatar: computedAvatar,
   },
 };

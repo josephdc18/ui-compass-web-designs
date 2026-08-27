@@ -6,6 +6,7 @@
   if (!root) return;
 
   var nodes = Array.from(root.querySelectorAll('[data-search]'));
+  var feature = root.querySelector('.blog-feature');
   var tabs = Array.from(root.querySelectorAll('[data-filter]'));
   var search = document.getElementById('blog-search');
   var empty = document.getElementById('archive-empty');
@@ -45,9 +46,14 @@
 
     nodes.forEach(function (node) {
       var url = normalizeUrl(node.dataset.url);
-      var categoryMatch = activeFilter === 'all' ||
-        (activeFilter === 'saved' ? savedUrls.has(url) : node.dataset.category === activeFilter);
       var searchMatch = !query || (node.dataset.search || '').indexOf(query) !== -1;
+      // The feature card is a fixed editorial slot — "here is the newest post" —
+      // not a result in the list below it, so the category and Saved chips scope
+      // the archive and leave it standing. A search query is different: that is
+      // the reader asking for one specific thing, and a masthead contradicting
+      // the query they just typed is the one case where keeping it is worse.
+      var categoryMatch = node === feature || activeFilter === 'all' ||
+        (activeFilter === 'saved' ? savedUrls.has(url) : node.dataset.category === activeFilter);
       var show = categoryMatch && searchMatch;
       node.hidden = !show;
       if (show) visible += 1;

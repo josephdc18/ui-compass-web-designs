@@ -101,7 +101,7 @@ collections:
         hint: >-
           Who wrote the post. Defaults to UI Compass for company-voice posts. Use a real name for personal posts. Example: Joseph C.
 
-      - { label: 'Author Avatar', name: 'authorImage', widget: 'image', required: false, hint: 'Optional. Small circular photo next to the byline. A square image works best — it gets cropped to a circle.' }
+      - { label: 'Author Avatar', name: 'authorImage', widget: 'image', required: false, hint: 'Leave blank. The byline photo is chosen automatically from the Author name — Joseph C. gets his headshot, UI Compass gets the logo mark. Only set this to override that for one post. A square image works best; it gets cropped to a circle.' }
 
       - label: 'Author Link'
         name: 'authorUrl'

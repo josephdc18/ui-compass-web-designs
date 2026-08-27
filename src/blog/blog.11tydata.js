@@ -1,4 +1,12 @@
 const fs = require('fs');
+const authors = require('../_data/authors.js');
+
+// Computed into `avatar`, not back into `authorImage`: a computed value that
+// reads its own key is a circular dependency Eleventy refuses to resolve. The
+// layout reads `avatar`, so the CMS's optional `authorImage` still overrides.
+function computedAvatar(data) {
+  return data.authorImage || authors.avatars[data.author] || null;
+}
 
 function computedReadMinutes(data) {
   const declared = Number(data.readMins);
@@ -25,5 +33,6 @@ module.exports = {
   eleventyComputed: {
     permalink: (data) => `/blog/${data.pageName}/index.html`,
     readMins: computedReadMinutes,
+    avatar: computedAvatar,
   },
 };

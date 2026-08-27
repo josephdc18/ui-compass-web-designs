@@ -63,3 +63,30 @@ Validated `sources:` data was added to these English posts:
 
 The Korean bilingual-maturity post carries the matching localized-page source.
 All 16 unique URLs pass `npm run check:sources` after redirects.
+
+## Second pass — 2026-08-27
+
+Ten posts were added and `site-by-service-matrix` was given the FAQ, sources,
+and metadata it was missing. All eleven shipped with `sources:` attached, and
+were written to the standard the first audit asked for: primary documentation
+for anything factual, and an explicit "this is a UI Compass heuristic" label on
+anything we recommend but cannot cite. `npm run check:sources` now covers 50
+unique URLs and passes.
+
+| Post | Primary sources attached | Notes |
+| --- | --- | --- |
+| `analytics-you-will-actually-read` | GA4 developer docs; web.dev Web Vitals; MDN Performance API | Deliberately quotes no conversion-rate or page-weight benchmarks. The six-number review is labeled as our own client format. |
+| `a-palette-that-survives-dark-mode` | W3C contrast-minimum and non-text-contrast | The 4.5:1 / 3:1 / 24×24 figures come straight from the criteria. Palette values are worked examples, not prescriptions. |
+| `booking-friction-form-calendar-phone` | W3C target-size-minimum; HTML Standard autofill; MDN inputmode | Response-time targets are labeled as operating targets we set. No abandonment percentages are quoted. |
+| `search-console-first-90-days` | Google Search Console, sitemap, Page Indexing, and Core Web Vitals docs | The monthly cadence is labeled a recommended habit. `support.google.com` is now on the source-checker's bot-block allowlist (it answers a bot with 404). |
+| `site-by-service-matrix` | Google spam policies; Google doorway-page post | The FAQ now states outright that the 100,000-population threshold is a UI Compass planning heuristic. The body still asserts it as a rule and remains the open item from the first audit. |
+| `structured-data-after-faq-rich-results` | Google structured-data intro, LocalBusiness, Breadcrumb, review-snippet; schema.org LocalBusiness | Supersedes `faq-schema-3x-screen-space`, which the first audit flagged as materially outdated. Makes no ranking claim for schema. |
+| `the-content-refresh-cadence` | Google publication-dates, helpful-content, and 301-redirect docs | The quarterly four-page rotation is labeled a working routine. |
+| `the-lcp-image-is-the-whole-game` | web.dev LCP, optimize-LCP, fetch-priority; MDN responsive images | Deliberately quotes no format-savings percentage — the post tells the reader to encode their own hero and measure. |
+| `the-twelve-word-headline-test` | Nielsen Norman Group F-pattern, scrolling and attention, microcontent | The twelve-word ceiling is labeled a house heuristic in both the body and the FAQ. |
+| `who-actually-owns-your-domain` | ICANN transfer policy, EPP status codes, gTLD life cycle, ICANN Lookup | Grace-period durations are described as varying by registrar and TLD rather than given as fixed numbers. |
+| `your-gmail-address-is-costing-you-work` | Google Workspace SPF; RFC 6376 (DKIM); RFC 7489 (DMARC); Gmail sender guidelines | Quotes no mailbox prices, since they move. Deliverability is described directionally, not as a percentage. |
+
+Still open from the first audit: `faq-schema-3x-screen-space` remains published
+as written, and now sits alongside a post that says its central promise no
+longer exists. It should be updated or retired.

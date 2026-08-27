@@ -1,19 +1,87 @@
 ---
 blogTitle: The Site-by-Service Matrix and How It Can Help Your Site Rank on Google
 pageName: site-by-service-matrix
-blogDescription: The Site-by-Service Matrix and How It Can Help Your Site Rank on Google
+titleTag: The Site-by-Service Matrix for Local SEO
+blogDescription: >-
+  Services down the side, suburbs across the top, and a check mark in every cell
+  with real demand. The four-step method for turning one trades business into
+  dozens of pages Google can rank, and the rules that keep those pages
+  substantial instead of thin.
 author: UI Compass
-date: 2026-05-22T22:02:00.000-05:00
-updated: 2026-05-22T22:02:00.000-05:00
+date: 2026-07-27T17:58:00.000Z
+updated: 2026-07-27T17:58:00.000Z
+topper: SEO
+image: /assets/images/uploads/2.jpg
+imageAlt: >-
+  A spreadsheet grid with plumbing services listed down the left and
+  Dallas-Fort Worth suburbs across the top
 draft: false
 category: SEO
 tags:
   - post
+  - seo
+  - service-by-location
+  - google
+  - local
+  - ranking
 tldrTitle: Key Takeaways
 tldr:
   - For better SEO optimization, set up one service per web page.
   - Dedicate a page to each location that you will service.
   - Each location page must be unique. If not, Google will demote the site.
+faq:
+  - q: What exactly is a site-by-service matrix?
+    a: >-
+      A grid. Your services run down the left-hand side, the places you work run
+      across the top, and each cell is a potential page — one service, in one
+      place. Ticking the cells with genuine demand turns a vague intention to
+      "do local SEO" into a finite, countable list of pages to build, in
+      priority order.
+  - q: Won't dozens of near-identical location pages get me penalised?
+    a: >-
+      They will if they are near-identical, and that is the real risk here.
+      Google's spam policies target scaled content created primarily to
+      manipulate rankings rather than to help people, and a template with the
+      suburb name swapped in is exactly that pattern. The protection is
+      substance: a unique opening, a real local detail, a job you actually did
+      there, a customer from that area. Pages that pass that bar are not the
+      thing the policy is aimed at.
+  - q: Where does the 100,000-population figure come from?
+    a: >-
+      It is a UI Compass planning heuristic, not a Google rule and not a
+      published industry standard. We use it because it is a cheap, checkable
+      proxy for "is there likely enough native search volume here to support a
+      dedicated page." Treat it as a starting filter and then override it with
+      real evidence — your own job log for a suburb beats any population figure.
+  - q: How do I decide which cells to build first?
+    a: >-
+      Order by evidence of demand, not by grid position. Cells where you have
+      completed a job in the last twelve months come first, because the demand
+      is proven. Then cells where competitors already run a dedicated page, which
+      tells you someone has found the query worth the effort. Then everything
+      supported only by keyword-tool volume. Your top few services in your top
+      few suburbs usually deliver most of the benefit long before the grid is
+      finished.
+  - q: What goes on a service-plus-suburb page so it is not thin?
+    a: >-
+      Answer the question the searcher actually has. What the job involves in
+      that area, what it typically costs and what changes the price, how quickly
+      you can get there, a genuine local reference point, one job you have done
+      nearby, and a clear way to make contact. If you cannot write something
+      about the cell that would not be equally true of the neighbouring suburb,
+      the cell probably belongs in a grouped regional page instead.
+  - q: Does the matrix replace my Google Business Profile?
+    a: >-
+      No — the two do different jobs and reinforce each other. Your profile
+      anchors the business to its physical address. The matrix pages cover the
+      surrounding areas that address does not, in the customer's own words. Both
+      need the same name, address and phone in the same format everywhere, or
+      you are asking Google to reconcile signals that do not match.
+sources:
+  - label: Google Search — Spam policies for Google web search
+    url: https://developers.google.com/search/docs/essentials/spam-policies
+  - label: Google Search Central — An update on doorway pages
+    url: https://developers.google.com/search/blog/2015/03/an-update-on-doorway-pages
 related:
   - a-page-per-suburb-for-trades
   - drag-and-drop-vs-hiring

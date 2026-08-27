@@ -249,7 +249,9 @@ async function testIndex() {
   check('bookmark URL normalization matches trailing slashes', saved.matches);
   await page.click('[data-filter="saved"]');
   await settle(page);
-  check('Saved filter shows exactly the saved post', (await visibleCount(page)) === 1);
+  const savedVisible = await page.$$eval('[data-search]', (nodes) => nodes
+    .filter((node) => !node.hidden).map((node) => `${node.className.split(/\s+/)[0]}:${node.dataset.url}`));
+  check('Saved filter shows exactly the saved post', savedVisible.length === 1, savedVisible.join(', '));
 
   if (summary.total > 4) {
     // Fixture: a post whose frontmatter names a card PNG that has never been

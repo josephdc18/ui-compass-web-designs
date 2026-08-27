@@ -169,7 +169,14 @@
   <link rel="stylesheet" href="/css/reader.css?v={{ build.hash }}">
   {% endif %}
 
-  {% if preloadImg %}
+  {# `preloadImgResponsive` names a source that the {% image %} shortcode renders,
+     so the preload has to name the derivative rather than the source — see
+     imagePreloadShortcode in .eleventy.js. `preloadImg` stays for the pages whose
+     heroes are hand-authored <picture> elements pointing at already-optimised
+     files; there the source IS what gets displayed. #}
+  {% if preloadImgResponsive %}
+  {% imagePreload preloadImgResponsive, preloadImgSizes %}
+  {% elif preloadImg %}
   <link rel="preload" as="image" href="{{ preloadImg }}" fetchpriority="high" />
   {% endif %}
 

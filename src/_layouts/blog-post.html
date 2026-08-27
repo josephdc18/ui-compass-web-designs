@@ -6,7 +6,8 @@ eleventyComputed:
     description: '{{ blogDescription }}'
     metaTitle: '{{ blogTitle }}'
     tagTitle: '{{ titleTag }}'
-    preloadImg: '{{ image }}'
+    preloadImgResponsive: '{{ image }}'
+    preloadImgSizes: '(max-width: 900px) 100vw, 900px'
     permalink: '/blog/{{ pageName | slug }}/index.html'
 ---
 
@@ -18,7 +19,7 @@ eleventyComputed:
   "@type": "BlogPosting",
   "headline": {{ blogTitle | dump | safe }},
   "description": {{ blogDescription | dump | safe }},
-  {% if image %}"image": "https://{{ client.domain }}{{ image }}",{% endif %}
+  {% if image %}"image": "https://{{ client.domain }}{{ image | imageMetaUrl }}",{% endif %}
   "datePublished": "{{ date | dateIso }}",
   "dateModified": "{{ date | dateIso }}",
   "author": {

@@ -96,6 +96,31 @@ if (fs.existsSync(localesDir)) {
     });
 }
 
+// One options object for every eleventy-img call, so the preload shortcode
+// below resolves the exact same derivative URLs the <picture> will reference.
+// Two different option sets would produce two different hashes and the preload
+// would fetch a second copy of the image instead of priming the one in use.
+const IMAGE_OPTIONS = {
+  widths: [400, 850, 1920],
+  formats: ['webp', 'jpeg'],
+  urlPath: '/images/',
+  outputDir: IMAGE_OUTPUT_DIR,
+  useCache: true,
+  cacheOptions: {
+    duration: '*',
+    directory: './node_modules/.cache/eleventy-img-fetch',
+  },
+  filenameFormat: function (id, src, width, format) {
+    const extension = path.extname(src);
+    const name = path.basename(src, extension);
+    return `${name}-${width}w-${id}.${format}`;
+  },
+};
+
+function escapeAttr(value) {
+  return String(value == null ? '' : value).replace(/"/g, '&quot;');
+}
+
 // allows the use of {% image... %} to create responsive, optimised images
 // CHANGE DEFAULT MEDIA QUERIES AND WIDTHS
 async function imageShortcode(src, alt, className, loading, sizes = '(max-width: 600px) 400px, 850px') {
@@ -107,22 +132,7 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
   // Resolve site-absolute paths (e.g. "/assets/images/foo.png" from frontmatter)
   // to the source file under ./src so eleventy-img can read them.
   async function renderOne(srcPath, extraClass) {
-    const metadata = await Image(resolveSrc(srcPath), {
-      widths: [400, 850, 1920],
-      formats: ['webp', 'jpeg'],
-      urlPath: '/images/',
-      outputDir: IMAGE_OUTPUT_DIR,
-      useCache: true,
-      cacheOptions: {
-        duration: '*',
-        directory: './node_modules/.cache/eleventy-img-fetch',
-      },
-      filenameFormat: function (id, src, width, format) {
-        const extension = path.extname(src);
-        const name = path.basename(src, extension);
-        return `${name}-${width}w-${id}.${format}`;
-      },
-    });
+    const metadata = await Image(resolveSrc(srcPath), IMAGE_OPTIONS);
     const lowsrc = metadata.jpeg[0];
     const highsrc = metadata.jpeg[metadata.jpeg.length - 1];
     const cls = [className, extraClass].filter(Boolean).join(' ');
@@ -144,8 +154,8 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
     </picture>`;
   }
 
-  // Skip gracefully when the source PNG hasn't been generated yet (lets new
-  // posts ship without crashing the whole build before card screenshots run).
+  // Skip gracefully when the card hasn't been rendered yet (lets new posts ship
+  // without crashing the whole build before card screenshots run).
   if (typeof src === 'string' && !fs.existsSync(resolveSrc(src))) {
     console.warn(`[image] source missing, skipping: ${src}`);
     return '';
@@ -153,7 +163,7 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
 
   // If a dark sibling exists at <slug>-dark-card.<ext>, render both pictures
   // and let CSS toggle them via body.dark-mode. Otherwise render single image.
-  // Source filenames are <slug>-card.png / <slug>-dark-card.png.
+  // Source filenames are <slug>-card.webp / <slug>-dark-card.webp.
   const darkSrc = typeof src === 'string'
     ? src.replace(/-card(\.[a-zA-Z0-9]+)$/, '-dark-card$1')
     : src;
@@ -167,6 +177,35 @@ async function imageShortcode(src, alt, className, loading, sizes = '(max-width:
     renderOne(darkSrc, 'theme-dark'),
   ]);
   return lightHtml + '\n' + darkHtml;
+}
+
+// Preload the derivative the <picture> will actually use, never the source.
+//
+// `preloadImg` used to emit `href="{{ image }}"`, which pointed at the original
+// in src/assets/images — a 2400x1260 card the page never displays, fetched at
+// fetchpriority=high against the real LCP image. imagesrcset/imagesizes mirror
+// the webp <source> exactly, so the browser primes that request rather than
+// starting a second one. Only webp is preloaded: a preload can name one type,
+// every target browser for these pages takes the webp branch, and anything that
+// does not simply falls through to the jpeg <source> unprimed.
+async function imagePreloadShortcode(src, sizes = '(max-width: 600px) 400px, 850px') {
+  if (typeof src !== 'string' || !src || !fs.existsSync(resolveSrc(src))) return '';
+  const metadata = await Image(resolveSrc(src), IMAGE_OPTIONS);
+  const webp = metadata.webp;
+  if (!webp || !webp.length) return '';
+  const srcset = webp.map((entry) => entry.srcset).join(', ');
+  return `<link rel="preload" as="image" type="image/webp" imagesrcset="${escapeAttr(srcset)}" imagesizes="${escapeAttr(sizes)}" fetchpriority="high" />`;
+}
+
+// Absolute URL of the largest jpeg derivative, for JSON-LD and og:image.
+// Structured-data consumers want a plain, widely-decodable URL rather than the
+// multi-megabyte source, and jpeg rather than webp for the widest reach.
+async function imageMetaUrl(src) {
+  if (typeof src !== 'string' || !src || !fs.existsSync(resolveSrc(src))) return '';
+  const metadata = await Image(resolveSrc(src), IMAGE_OPTIONS);
+  const jpeg = metadata.jpeg;
+  if (!jpeg || !jpeg.length) return '';
+  return jpeg[jpeg.length - 1].url;
 }
 
 // In prod, exclude blog posts whose frontmatter has `draft: true` from the
@@ -264,6 +303,13 @@ module.exports = function (eleventyConfig) {
   // allows the {% image %} shortcode to be used for optimised images (in webp if possible)
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
   eleventyConfig.addLiquidShortcode('image', imageShortcode);
+
+  eleventyConfig.addNunjucksAsyncShortcode('imagePreload', imagePreloadShortcode);
+  eleventyConfig.addLiquidShortcode('imagePreload', imagePreloadShortcode);
+  eleventyConfig.addNunjucksAsyncFilter('imageMetaUrl', (src, cb) => {
+    imageMetaUrl(src).then((url) => cb(null, url), (err) => cb(err));
+  });
+  eleventyConfig.addLiquidFilter('imageMetaUrl', imageMetaUrl);
 
   eleventyConfig.addFilter('assetExists', (src) =>
     typeof src === 'string' && fs.existsSync(resolveSrc(src)),

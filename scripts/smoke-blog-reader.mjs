@@ -252,7 +252,12 @@ async function testIndex() {
   check('Saved filter shows exactly the saved post', (await visibleCount(page)) === 1);
 
   if (summary.total > 4) {
-    const missing = await page.$('[data-slug="managing-a-website"]');
+    // Fixture: a post whose frontmatter names a card PNG that has never been
+    // rendered. The `assetExists` guard in the listing has to drop the media
+    // wrapper entirely rather than emit an empty <picture>. Any post with no
+    // artwork on disk works here — `managing-a-website` filled the role until
+    // it was given a photograph.
+    const missing = await page.$('[data-slug="what-makes-a-website-work"]');
     check('missing-image draft card exists in dev', !!missing);
     if (missing) check('missing-image draft has no media wrapper', !(await missing.$('.blog-index-media')));
   }
@@ -332,6 +337,27 @@ async function testPostMobile() {
   }));
   check('Contents opens as one modal sheet and receives focus', opened.open === 'true' && !opened.scrim && opened.fixed === 'fixed' && opened.focusInside, `${opened.active} close=${opened.closeDisplay}`);
   check('mobile sheet has modal semantics', opened.modal === 'true' && opened.inert === true);
+  // The navbar stays put behind the scrim rather than being hidden outright —
+  // hiding it made the top of the screen jump for no benefit, since the scrim
+  // outranks it and inert already makes it unreachable.
+  const navBehindSheet = await page.evaluate(() => {
+    const nav = document.querySelector('#cs-navigation');
+    const rect = nav.getBoundingClientRect();
+    const over = document.elementFromPoint(rect.left + rect.width / 2, Math.max(1, rect.top + rect.height / 2));
+    return {
+      visibility: getComputedStyle(nav).visibility,
+      // The mechanism that actually mattered: #cs-navigation is fixed with no
+      // `top`, so it renders at its static position, and the scroll lock's
+      // `body { top: -<scrollY>px }` used to drag it that far off-screen.
+      top: Math.round(rect.top),
+      over: over ? String(over.className || over.tagName) : null,
+    };
+  });
+  check('navbar stays on screen behind an open sheet, covered by the scrim',
+    navBehindSheet.visibility === 'visible'
+      && navBehindSheet.top === 0
+      && (navBehindSheet.over || '').includes('reader-scrim'),
+    `visibility=${navBehindSheet.visibility} top=${navBehindSheet.top} over=${navBehindSheet.over}`);
   await page.evaluate(() => window.scrollTo(0, 1400));
   const held = await page.evaluate((y) => Math.abs(parseFloat(document.body.style.top) + y) < 12, beforeOpen);
   check('fixed-body scroll lock holds the page', held);
@@ -413,6 +439,27 @@ async function testPostMobile() {
   // top so the remaining tests act on a visible toolbar.
   await page.evaluate(() => window.scrollTo(0, 0));
   await settle(page, 200);
+  // An auto-hidden bar must stop painting, not merely slide down: iOS Safari's
+  // layout viewport runs behind the bottom address bar, and an opaque
+  // backdrop-filtered slab parked there turned that bar solid.
+  await page.evaluate(() => { document.activeElement.blur(); window.scrollTo(0, 1400); });
+  await page.waitForFunction(
+    () => document.querySelector('[data-reader-bar]').classList.contains('is-hidden'),
+    { polling: 'raf', timeout: 4000 },
+  );
+  await settle(page, 320);
+  const parked = await page.$eval('[data-reader-bar]', (bar) => ({
+    visibility: getComputedStyle(bar).visibility,
+    paints: bar.checkVisibility ? bar.checkVisibility({ visibilityProperty: true, checkOpacity: true }) : null,
+  }));
+  check('a hidden bar leaves the paint entirely', parked.visibility === 'hidden' && parked.paints === false,
+    `${parked.visibility} paints=${parked.paints}`);
+  // visibility:hidden is unfocusable, so Tab has to be what brings it back.
+  await page.keyboard.press('Tab');
+  await settle(page, 250);
+  check('Tab restores an auto-hidden bar to the keyboard order',
+    await page.$eval('[data-reader-bar]', (bar) => getComputedStyle(bar).visibility === 'visible'));
+
   check('scrolling back to the top reveals the bar again',
     await page.$eval('[data-reader-bar]', (node) => !node.classList.contains('is-hidden')));
 

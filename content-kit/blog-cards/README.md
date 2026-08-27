@@ -29,19 +29,42 @@ Each card type fills the **body** between the strips with different content. The
 ## Workflow
 
 1. Tell Claude **"make a blog card for `<post-slug>` using `<template>`"** (or just the slug — I'll pick a template that fits). I copy the template, fill the tokens, and write `<slug>.html` here.
-2. Screenshot via Browserless:
+2. Screenshot. Two renderers, same 1200×630 @2× output → `src/assets/images/<slug>-card.webp`:
    ```bash
-   npm run blog-card -- <slug>   # one card
-   npm run blog-card -- --all    # every card missing an image
+   npm run blog-card -- <slug>              # Browserless, needs BROWSERLESS_API_KEY in .dev.vars
+   node scripts/render-card-local.mjs <slug> # installed Chrome, free and offline
    ```
-   Reads `BROWSERLESS_API_KEY` from `.dev.vars`. Output → `src/assets/images/<slug>-card.png` at 2× retina.
+   The two are pixel-equivalent, so use the local one while iterating on a
+   design and keep Browserless as the CI path. Both accept `--all` (only cards
+   with no PNG yet); the local one also takes `--all-existing`, which
+   re-renders everything — that is what you want after editing the shared
+   shell or renumbering the issue lines.
 3. Generate the dark variant for every card:
    ```bash
    node scripts/make-dark-cards.mjs   # writes <slug>-dark.html for each
    npm run blog-card -- --all         # screenshots the new dark files
    ```
-   The eleventy `{% image %}` shortcode auto-detects `<slug>-dark-card.png` and renders both `<picture>`s wrapped in `.theme-light` / `.theme-dark`; CSS in `src/css/blog.css` toggles them based on `body.dark-mode`.
-4. Update the post's frontmatter `image:` to `/assets/images/<slug>-card.png`. (Already done for all current posts; new posts will need this.)
+   The eleventy `{% image %}` shortcode auto-detects `<slug>-dark-card.webp` and renders both `<picture>`s wrapped in `.theme-light` / `.theme-dark`; CSS in `src/css/blog.css` toggles them based on `body.dark-mode`.
+
+   Put `<!-- no-auto-dark: why -->` in a light card to exclude it. Two cases
+   need it: cards that are already dark (the cinematic single-variant ones),
+   where the substitutions would invert a deliberate palette, and cards whose
+   dark sibling was hand-authored, which the generator would otherwise
+   overwrite with a mechanical translation of the light one.
+4. Update the post's frontmatter `image:` to `/assets/images/<slug>-card.webp`. (Already done for all current posts; new posts will need this.)
+
+## Not every post gets a card
+
+A card is one option, not the only one. Some posts carry a photograph instead
+(`<slug>-photo.jpg`, fetched with `scripts/fetch-stock-photo.mjs`, CC0 only,
+provenance recorded in `src/assets/images/_sources.json`), and a few carry a
+screenshot of the thing being described. Mixing them is deliberate — an index
+where every row is the same generated card reads as a template.
+
+The `Issue Nº NN · Month YYYY` line is derived, not authored:
+`scripts/randomize-post-dates.mjs` renumbers every card from the post's
+publication date, so re-run `render-card-local.mjs --all-existing` after any
+date change or the artwork disagrees with the byline.
 
 ## Headline rules
 

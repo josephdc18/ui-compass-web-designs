@@ -4,7 +4,7 @@
 // src/assets/images/ and writes orphans to scripts/orphan-images.txt.
 //
 // Exclusion rules:
-//   1. Any *.png matching <slug>-card.png or <slug>-dark-card.png — eleventy-img
+//   1. Any *.png matching <slug>-card.webp or <slug>-dark-card.webp — eleventy-img
 //      shortcode auto-discovers dark siblings (.eleventy.js:115-118).
 //   2. Anything under src/assets/images/uploads/ — Decap CMS media folder.
 //   3. src/assets/images/_sources.json is EXCLUDED from the haystack — it lists

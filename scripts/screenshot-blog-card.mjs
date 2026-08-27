@@ -8,7 +8,7 @@
  *   BROWSERLESS_TOKEN=xxx node scripts/screenshot-blog-card.mjs --all
  *
  * Reads:  content-kit/blog-cards/<slug>.html
- * Writes: src/assets/images/<slug>-card.png
+ * Writes: src/assets/images/<slug>-card.webp
  *
  * Browserless docs: https://docs.browserless.io/HTTP-APIs/screenshot
  * Endpoint override: set BROWSERLESS_URL (default https://chrome.browserless.io).
@@ -70,13 +70,16 @@ if (!TOKEN) {
 
 async function shoot(slug) {
   const htmlPath = resolve(CARDS_DIR, `${slug}.html`);
-  const outPath = resolve(OUT_DIR, `${slug}-card.png`);
+  const outPath = resolve(OUT_DIR, `${slug}-card.webp`);
   const html = inlineLogo(await readFile(htmlPath, "utf8"));
 
   const url = `${BASE}/screenshot?token=${encodeURIComponent(TOKEN)}`;
   const body = {
     html,
-    options: { type: "png", fullPage: false, omitBackground: false },
+    // WebP at 92 rather than PNG: these are pipeline sources, not served
+    // files, and PNG cost ~3.1MB a card against ~236KB here for a derivative
+    // that comes out byte-comparable. Matches scripts/render-card-local.mjs.
+    options: { type: "webp", quality: 92, fullPage: false, omitBackground: false },
     viewport: { width: 1200, height: 630, deviceScaleFactor: 2 },
     gotoOptions: { waitUntil: "networkidle0" },
     waitForTimeout: 800,
@@ -110,7 +113,7 @@ if (args[0] === "--all") {
   for (const f of files) {
     if (!f.endsWith(".html")) continue;
     const slug = basename(f, ".html");
-    if (await exists(resolve(OUT_DIR, `${slug}-card.png`))) continue;
+    if (await exists(resolve(OUT_DIR, `${slug}-card.webp`))) continue;
     slugs.push(slug);
   }
 } else if (args.length) {

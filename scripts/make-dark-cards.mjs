@@ -93,16 +93,31 @@ function transform(html) {
   return out;
 }
 
+// Opt-out marker. Two kinds of card must not be auto-derived:
+//   - cards that are already dark (the cinematic single-variant ones), where
+//     the substitutions would invert an intentional palette;
+//   - cards whose dark sibling was hand-authored, which this script would
+//     silently overwrite with a mechanical translation of the light one.
+// Put `<!-- no-auto-dark -->` anywhere in the light card to skip it; a reason
+// may follow the keyword (`<!-- no-auto-dark: already dark -->`).
+const NO_AUTO_DARK = /<!--\s*no-auto-dark\b/;
+
 const files = (await readdir(CARDS_DIR))
   .filter((f) => f.endsWith(".html") && !f.endsWith("-dark.html"));
 
 let count = 0;
+let skipped = 0;
 for (const file of files) {
   const src = resolve(CARDS_DIR, file);
   const dst = resolve(CARDS_DIR, file.replace(/\.html$/, "-dark.html"));
   const html = await readFile(src, "utf8");
+  if (NO_AUTO_DARK.test(html)) {
+    skipped++;
+    console.log(`– ${basename(src)} (no-auto-dark)`);
+    continue;
+  }
   await writeFile(dst, transform(html));
   count++;
   console.log(`✓ ${basename(dst)}`);
 }
-console.log(`\n${count} dark cards written.`);
+console.log(`\n${count} dark cards written${skipped ? `, ${skipped} skipped` : ""}.`);

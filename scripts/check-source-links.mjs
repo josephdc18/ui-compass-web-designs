@@ -3,9 +3,22 @@ import path from 'node:path';
 import matter from 'gray-matter';
 
 const ROOTS = ['src/blog', 'src/ko/blog'];
-const BOT_BLOCK_ALLOWLIST = new Set(['w3.org', 'www.w3.org', 'irs.gov', 'www.irs.gov']);
 const BLOCK_STATUSES = new Set([401, 403, 406, 418, 429, 503]);
-const TIMEOUT_MS = 15_000;
+
+// Hosts that refuse a non-browser client. The value is the set of statuses to
+// treat as "blocked, not broken" for that host — most serve a normal refusal
+// code, but Google's help centre answers a bot with a plain 404, so it needs
+// 404 tolerated for that host and nowhere else.
+const BOT_BLOCK_ALLOWLIST = new Map([
+  ['w3.org', BLOCK_STATUSES],
+  ['www.w3.org', BLOCK_STATUSES],
+  ['irs.gov', BLOCK_STATUSES],
+  ['www.irs.gov', BLOCK_STATUSES],
+  ['support.google.com', new Set([...BLOCK_STATUSES, 404])],
+]);
+
+// icann.org routinely takes more than 15s to answer a HEAD.
+const TIMEOUT_MS = 30_000;
 const CONCURRENCY = 6;
 
 async function markdownFiles(directory) {
@@ -48,15 +61,24 @@ async function collectSources() {
 }
 
 async function request(url, method) {
-  const response = await fetch(url, {
-    method,
-    redirect: 'follow',
-    signal: AbortSignal.timeout(TIMEOUT_MS),
-    headers: {
-      'user-agent': 'UI-Compass-Source-Checker/1.0 (+https://uicompass.com)',
-      accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8',
-    },
-  });
+  let response;
+  try {
+    response = await fetch(url, {
+      method,
+      redirect: 'follow',
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+      headers: {
+        'user-agent': 'UI-Compass-Source-Checker/1.0 (+https://uicompass.com)',
+        accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8',
+      },
+    });
+  } catch (error) {
+    // Some hosts (icann.org among them) accept the HEAD connection and then
+    // never answer it, while the same URL responds fine to GET. Treat a failed
+    // HEAD as inconclusive rather than as a dead link.
+    if (method === 'HEAD') return request(url, 'GET');
+    throw error;
+  }
 
   if (method === 'HEAD' && (response.status === 405 || response.status === 501)) {
     return request(url, 'GET');
@@ -67,14 +89,15 @@ async function request(url, method) {
 
 async function check(url, references) {
   const host = new URL(url).hostname.toLowerCase();
-  const allowlisted = BOT_BLOCK_ALLOWLIST.has(host);
+  const tolerated = BOT_BLOCK_ALLOWLIST.get(host);
+  const allowlisted = Boolean(tolerated);
 
   try {
     const response = await request(url, 'HEAD');
     if (response.ok) {
       return { kind: 'ok', url, status: response.status, finalUrl: response.url, references };
     }
-    if (allowlisted && BLOCK_STATUSES.has(response.status)) {
+    if (allowlisted && tolerated.has(response.status)) {
       return { kind: 'allowlisted', url, status: response.status, finalUrl: response.url, references };
     }
     return { kind: 'failed', url, status: response.status, finalUrl: response.url, references };

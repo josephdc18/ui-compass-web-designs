@@ -23,7 +23,7 @@
             </ul></div>
           </li>
           <li class="cs-li"><a href="{{ lp }}/pricing/" class="cs-li-link {% if page.url == lp + '/pricing/' %}cs-active{% endif %}">{% if isKo %}요금제{% else %}Pricing{% endif %}</a></li>
-          <li class="cs-li"><a href="/blog/" class="cs-li-link {% if page.url == '/blog/' %}cs-active{% endif %}">{% if isKo %}블로그{% else %}Blog{% endif %}</a></li>
+          <li class="cs-li"><a href="/blog/" class="cs-li-link {% if '/blog/' in page.url %}cs-active{% endif %}">{% if isKo %}블로그{% else %}Blog{% endif %}</a></li>
           <li class="cs-li"><a href="{{ lp }}/about/" class="cs-li-link {% if page.url == lp + '/about/' %}cs-active{% endif %}">{% if isKo %}회사 소개{% else %}About{% endif %}</a></li>
           <li class="cs-li cs-dropdown"><button class="cs-li-link cs-dropdown-button {% if '/locations/' in page.url %}cs-active{% endif %}" aria-controls="dropdown-Locations" aria-expanded="false" aria-label="dropdown-Locations">{% if isKo %}서비스 지역{% else %}Locations{% endif %} <img alt="" decoding="async" height="15" src="/assets/images/d66b9da40237.svg" width="15" aria-hidden="true" loading="eager" class="cs-drop-icon"></button>
             <div class="cs-drop-wrapper"><ul class="cs-drop-ul" id="dropdown-Locations">

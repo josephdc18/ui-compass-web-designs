@@ -1,6 +1,8 @@
-# Retired Spanish locale — 301 any stale /es/* URL to its English equivalent
-# so Google de-indexes the duplicates and consolidates ranking signals.
-/es/* /:splat 301
+# NOTE: /es/* was previously 301'd to its English equivalent while the Spanish
+# locale was retired. That rule is gone — the Spanish site is live again and
+# the catch-all bounced every /es/ URL, including the language switcher, back
+# to English. Do not reinstate it without also removing the `es` entry from
+# src/_data/i18n.js, or the switcher will advertise pages it cannot reach.
 
 /shop-admin /crm/ 301
 /shop-admin/* /crm/ 301

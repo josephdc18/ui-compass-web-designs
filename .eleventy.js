@@ -218,7 +218,7 @@ const IS_PROD = process.env.CF_PAGES === '1' || process.env.NODE_ENV === 'produc
 function collectDraftBlogPaths() {
   if (!IS_PROD) return [];
   const drafts = [];
-  for (const dir of ['./src/blog', './src/ko/blog']) {
+  for (const dir of ['./src/blog', './src/ko/blog', './src/es/blog']) {
     if (!fs.existsSync(dir)) continue;
     for (const name of fs.readdirSync(dir)) {
       if (!name.endsWith('.md')) continue;

@@ -247,6 +247,13 @@ async function testIndex() {
   }), featuredUrl);
   check('Saved count is the build intersection', !saved.hidden && saved.count === '1', saved.count);
   check('bookmark URL normalization matches trailing slashes', saved.matches);
+  // Settle the chip into place before clicking it. .blog-toolbar is sticky, so
+  // puppeteer's own scroll-into-view can reposition the strip between the point
+  // being computed and the click landing — which silently pressed nothing and
+  // left the filter on "all". A real coordinate click still exercises hit
+  // testing; it just is not racing the sticky reflow any more.
+  await page.$eval('[data-filter="saved"]', (node) => node.scrollIntoView({ block: 'center' }));
+  await settle(page, 200);
   await page.click('[data-filter="saved"]');
   await settle(page);
   const savedVisible = await page.$$eval('[data-search]', (nodes) => nodes

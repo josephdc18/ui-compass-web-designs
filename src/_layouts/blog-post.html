@@ -76,16 +76,17 @@ eleventyComputed:
      inline share row in .post-meta takes over. -->
 <div class="blog-container main-content-wrapper blog-with-toc">
   <article class="blog-article">
-    {% set isKo = locale == 'ko' %}
+    {% set loc = locale | default(i18nConfig.defaultLocale) %}
+    {% set lp = '' if loc == i18nConfig.defaultLocale else '/' + loc %}
 
     {% set categoryLabel = category %}
     <nav class="post-crumbs" aria-label="Breadcrumb">
-      <a href="{% if isKo %}/ko/{% else %}/{% endif %}">{% if isKo %}홈{% else %}Home{% endif %}</a>
+      <a href="{{ lp }}/">{{ 'nav.home' | t(loc) }}</a>
       <span class="post-crumbs-sep" aria-hidden="true">/</span>
-      <a href="{% if isKo %}/ko/blog/{% else %}/blog/{% endif %}">{% if isKo %}블로그{% else %}Blog{% endif %}</a>
+      <a href="{{ lp }}/blog/">{{ 'nav.blog' | t(loc) }}</a>
       {% if categoryLabel %}
       <span class="post-crumbs-sep" aria-hidden="true">/</span>
-      <a class="post-crumbs-category" href="{% if isKo %}/ko{% endif %}/blog/#{{ categoryLabel | slug }}">{{ categoryLabel }}</a>
+      <a class="post-crumbs-category" href="{{ lp }}/blog/#{{ categoryLabel | slug }}">{{ categoryLabel }}</a>
       {% endif %}
     </nav>
 
@@ -251,9 +252,9 @@ eleventyComputed:
       <div class="main-content">
 
       <!-- Floating Exit Focus button (position: fixed; only visible in focus mode). -->
-      <button type="button" class="focus-exit-btn" data-focus-exit aria-label="Exit focus mode">
+      <button type="button" class="focus-exit-btn" data-focus-exit aria-label="{{ 'blog.reader.aria_focus' | t(loc) }}">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        {% if isKo %}집중 모드 종료{% else %}Exit focus{% endif %}
+        {{ 'blog.exit_focus' | t(loc) }}
       </button>
 
       {% if summary %}
@@ -326,7 +327,12 @@ eleventyComputed:
           `related` is a pageName slug pointing at another post; we look it
           up in collections.post and carry image/topper/title/date from the
           live post data. Orphan slugs (post deleted) silently drop out. -#}
-      {%- set relatedPosts = related | resolveRelatedPosts(collections.post) -%}
+      {#- Resolve against this post's own language collection. Pointing a
+          Spanish or Korean article at collections.post would surface English
+          "related guides" under a Spanish heading; an unresolvable slug drops
+          the section entirely, which is the right failure. -#}
+      {%- set relatedCollection = collections.post if loc == i18nConfig.defaultLocale else collections['post-' + loc] -%}
+      {%- set relatedPosts = related | resolveRelatedPosts(relatedCollection | default([])) -%}
       {%- if relatedPosts.length > 0 -%}
       <section class="post-endcap post-related" aria-label="{{ 'blog.related_heading' | t(locale) }}">
         <header class="post-related-header">
@@ -343,7 +349,7 @@ eleventyComputed:
                 <span class="post-related-topper">{{ match.data.topper }}</span>
                 {% endif %}
                 <h3 class="post-related-title">{{ match.data.blogTitle }}</h3>
-                <span class="post-related-date">{{ match.date | postDate }}</span>
+                <span class="post-related-date">{{ match.date | localizedDate(loc) }}</span>
               </div>
             </a>
           {%- endfor -%}
@@ -365,7 +371,7 @@ eleventyComputed:
             <div class="reader-meter" aria-hidden="true"><i data-progress></i></div>
           </div>
           <nav class="toc" aria-label="{{ 'blog.reader.contents_heading' | t(locale) }}"></nav>
-          <div class="reader-panel-foot"><a href="{% if isKo %}/ko{% endif %}/blog/">{{ 'blog.reader.all_articles' | t(locale) }}</a><a href="/saved/">{{ 'blog.reader.saved_articles' | t(locale) }} <span data-saved-count>0</span></a></div>
+          <div class="reader-panel-foot"><a href="{{ lp }}/blog/">{{ 'blog.reader.all_articles' | t(locale) }}</a><a href="/saved/">{{ 'blog.reader.saved_articles' | t(locale) }} <span data-saved-count>0</span></a></div>
         </div>
       </aside>
     </div><!-- /.blog-article-body -->

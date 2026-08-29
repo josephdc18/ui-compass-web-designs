@@ -278,19 +278,37 @@ async function testIndex() {
   await closePage(deep);
 }
 
-async function testKoreanIndex() {
-  console.log('\nKorean index');
-  const page = await openPage('/ko/blog/', MOBILE);
-  const state = await page.evaluate(() => ({
-    body: document.body.className,
-    feature: document.querySelectorAll('.blog-feature').length,
-    rows: document.querySelectorAll('.blog-row').length,
-    search: document.querySelector('#blog-search')?.getAttribute('aria-label'),
-  }));
-  check('Korean index exists with its body flag', state.body.split(/\s+/).includes('blog-index-page'), state.body);
-  check('Korean index supports zero or one post builds', state.feature + state.rows <= 1, `${state.feature + state.rows}`);
-  check('Korean index controls are localized', state.search === '글 검색', state.search);
-  await closePage(page);
+// One case per translated blog index. `search` is the localized aria-label on
+// the search input — it proves the page rendered its own locale's strings
+// rather than falling through to English.
+const LOCALIZED_INDEXES = [
+  { name: 'Korean', url: '/ko/blog/', search: '글 검색', homeCrumb: '홈' },
+  { name: 'Spanish', url: '/es/blog/', search: 'Buscar artículos', homeCrumb: 'Inicio' },
+];
+
+async function testLocalizedIndexes() {
+  for (const locale of LOCALIZED_INDEXES) {
+    console.log(`\n${locale.name} index`);
+    const page = await openPage(locale.url, MOBILE);
+    const state = await page.evaluate(() => ({
+      body: document.body.className,
+      feature: document.querySelectorAll('.blog-feature').length,
+      rows: document.querySelectorAll('.blog-row').length,
+      search: document.querySelector('#blog-search')?.getAttribute('aria-label'),
+      lang: document.documentElement.lang,
+      crumb: document.querySelector('.cs-breadcrumbs .cs-link')?.textContent.trim(),
+      // Every post link must stay inside this locale's own tree.
+      strayLinks: Array.from(document.querySelectorAll('.blog-row-link, .blog-feature'))
+        .map((a) => a.getAttribute('href'))
+        .filter((href) => href && !href.startsWith(location.pathname)),
+    }));
+    check(`${locale.name} index exists with its body flag`, state.body.split(/\s+/).includes('blog-index-page'), state.body);
+    check(`${locale.name} index declares its language`, state.lang === locale.url.split('/')[1], state.lang);
+    check(`${locale.name} index controls are localized`, state.search === locale.search, state.search);
+    check(`${locale.name} index breadcrumb is localized`, state.crumb === locale.homeCrumb, state.crumb);
+    check(`${locale.name} index links stay in-locale`, state.strayLinks.length === 0, state.strayLinks.join(', ') || 'none');
+    await closePage(page);
+  }
 }
 
 async function testPostMobile() {
@@ -748,7 +766,7 @@ async function testDesktopAndService() {
 
 try {
   await testIndex();
-  await testKoreanIndex();
+  await testLocalizedIndexes();
   await testPostMobile();
   await testIndexLayout();
   await testBylineAvatars();

@@ -21,7 +21,10 @@
   </button>
 
   <ul class="language-switcher-dropdown" role="listbox" aria-label="{{ 'accessibility.language' | t(currentLocale) }}">
+    {# A locale only appears when this page exists there. Offering a language
+       that lands on a 404 is a worse experience than not offering it. #}
     {% for loc in availableLocales %}
+    {% if loc.code == currentLocale or (page.url | hasTranslation(loc.code, collections.all)) %}
     <li role="option" {% if loc.code == currentLocale %}aria-selected="true" {% endif %}>
       <a href="{{ page.url | localizedUrl(loc.code) }}" class="language-option{% if loc.code == currentLocale %} active{% endif %}" lang="{{ loc.code }}" hreflang="{{ loc.hreflang }}">
         <span class="language-flag" aria-hidden="true">{{ loc.flag }}</span>
@@ -33,6 +36,7 @@
         {% endif %}
       </a>
     </li>
+    {% endif %}
     {% endfor %}
   </ul>
 </div>

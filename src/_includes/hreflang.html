@@ -12,10 +12,15 @@
 {% set availableLocales = "" | availableLocales %}
 {% set baseUrl = "https://" + client.domain %}
 
-{# Generate hreflang for each available locale #}
+{# Only locales that actually have this page. Announcing an alternate that
+   404s is worse than announcing none — Google drops the whole cluster. #}
 {% for loc in availableLocales %}
+{% if page.url | hasTranslation(loc.code, collections.all) %}
 <link rel="alternate" hreflang="{{ loc.hreflang }}" href="{{ baseUrl }}{{ page.url | localizedUrl(loc.code) }}">
+{% endif %}
 {% endfor %}
 
 {# x-default for language selector pages or when no specific language matches #}
+{% if page.url | hasTranslation(i18nConfig.defaultLocale, collections.all) %}
 <link rel="alternate" hreflang="x-default" href="{{ baseUrl }}{{ page.url | localizedUrl(i18nConfig.defaultLocale) }}">
+{% endif %}

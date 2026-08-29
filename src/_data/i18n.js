@@ -28,6 +28,15 @@ module.exports = {
             dateFormat: 'yyyy\ub144 M\uc6d4 d\uc77c',
             flag: '\u{1F1F0}\u{1F1F7}',
         },
+        es: {
+            code: 'es',
+            name: 'Spanish',
+            nativeName: 'Espa\u00f1ol',
+            dir: 'ltr',
+            hreflang: 'es',
+            dateFormat: "d 'de' MMMM 'de' yyyy",
+            flag: '\u{1F1F2}\u{1F1FD}',
+        },
         // Add more languages as needed:
         // fr: { code: 'fr', name: 'French', nativeName: 'Fran\u00e7ais', dir: 'ltr', hreflang: 'fr', dateFormat: 'd MMMM yyyy', flag: '\u{1F1EB}\u{1F1F7}' },
         // de: { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr', hreflang: 'de', dateFormat: 'd. MMMM yyyy', flag: '\u{1F1E9}\u{1F1EA}' },

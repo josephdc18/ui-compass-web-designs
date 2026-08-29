@@ -332,6 +332,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addCollection('blogCategories', (api) => categoryCollection(api, 'post'));
   eleventyConfig.addCollection('blogCategoriesKo', (api) => categoryCollection(api, 'post-ko'));
+  eleventyConfig.addCollection('blogCategoriesEs', (api) => categoryCollection(api, 'post-es'));
 
   // date filter for blog posts
   eleventyConfig.addFilter('postDate', (dateObj) => {
@@ -419,8 +420,20 @@ module.exports = function (eleventyConfig) {
     autoLinks = {};
   }
 
-  function applyAutoLinks(html) {
-    const keys = Object.keys(autoLinks);
+  // The dictionary is keyed by locale. Legacy flat dictionaries (a bare map of
+  // keyword -> URL) are read as the default locale's set so an older
+  // autoLinks.js keeps working unchanged.
+  function autoLinksFor(locale) {
+    const isNested = Object.values(autoLinks).every(
+      (v) => v && typeof v === 'object' && !Array.isArray(v),
+    );
+    if (!isNested) return locale === i18nConfig.defaultLocale ? autoLinks : {};
+    return autoLinks[locale] || {};
+  }
+
+  function applyAutoLinks(html, locale) {
+    const dictionary = autoLinksFor(locale);
+    const keys = Object.keys(dictionary);
     if (!keys.length) return html;
     const used = new Set();
     const sorted = keys.slice().sort((a, b) => b.length - a.length); // longest first
@@ -460,7 +473,7 @@ module.exports = function (eleventyConfig) {
         if (used.has(key)) continue;
         const re = new RegExp('(?<![\\w-])(' + escapeRe(key) + ')(?![\\w-])', 'i');
         if (!re.test(chunk)) continue;
-        const url = autoLinks[key];
+        const url = dictionary[key];
         chunk = chunk.replace(re, '<a href="' + url + '" class="auto-link">$1</a>');
         used.add(key);
       }
@@ -475,9 +488,19 @@ module.exports = function (eleventyConfig) {
     if (!/\.html$/.test(op)) return content;
     if (op.indexOf('/blog/') === -1) return content;
     if (/\/blog\/index\.html$/.test(op)) return content;
+    // Dictionaries are per-locale: the keys are English words that also occur
+    // verbatim in Spanish and Korean copy ("SEO", "hosting", "WordPress"), so
+    // an unscoped pass would link translated articles out to English pages.
+    const locale = op.match(
+      new RegExp('(?:^|/)(' + i18nConfig.localeList.join('|') + ')/blog/'),
+    );
     // Only rewrite within the article-content section so we never touch nav/footer.
     const re = /(<section id="blog-content"[^>]*>)([\s\S]*?)(<\/section>)/;
-    return content.replace(re, (m, open, body, close) => open + applyAutoLinks(body) + close);
+    const pageLocale = locale ? locale[1] : i18nConfig.defaultLocale;
+    return content.replace(
+      re,
+      (m, open, body, close) => open + applyAutoLinks(body, pageLocale) + close,
+    );
   });
 
   // date filter for sitemap and other templates
@@ -512,11 +535,10 @@ module.exports = function (eleventyConfig) {
     return i18nConfig.getLocale(localeCode || i18nConfig.defaultLocale);
   });
 
-  /** Localized URL: {{ page.url | localizedUrl("ko") }} */
-  eleventyConfig.addFilter('localizedUrl', function (url, targetLocale) {
-    // Draft posts resolve permalink to `false`, which propagates to page.url.
-    // The page still renders its layout chain (which calls this filter) before
-    // being skipped at write time, so guard against non-string inputs.
+  // Draft posts resolve permalink to `false`, which propagates to page.url.
+  // The page still renders its layout chain (which calls this) before being
+  // skipped at write time, so guard against non-string inputs.
+  function localizedUrlFor(url, targetLocale) {
     if (typeof url !== 'string') return '';
     const defaultLocale = i18nConfig.defaultLocale;
     let cleanUrl = url;
@@ -528,11 +550,66 @@ module.exports = function (eleventyConfig) {
     }
     if (targetLocale === defaultLocale) return cleanUrl;
     return '/' + targetLocale + cleanUrl;
+  }
+
+  /** Localized URL: {{ page.url | localizedUrl("ko") }} */
+  eleventyConfig.addFilter('localizedUrl', localizedUrlFor);
+
+  /**
+   * Every URL this build will write, as a Set. Keyed off the collections.all
+   * array so the Set is built once per build rather than once per page — the
+   * language switcher and hreflang block both consult it on every page.
+   * Draft posts resolve `url` to false and are filtered out, which is what
+   * makes them invisible to the switcher as well as to the listing.
+   */
+  const urlSetCache = new WeakMap();
+  function urlSetFor(all) {
+    if (!Array.isArray(all)) return null;
+    let set = urlSetCache.get(all);
+    if (!set) {
+      set = new Set(
+        all.map((item) => item && item.url).filter((u) => typeof u === 'string'),
+      );
+      urlSetCache.set(all, set);
+    }
+    return set;
+  }
+
+  /** Split '/pricing/#faq' into ['/pricing/', '#faq']. */
+  function splitHash(url) {
+    const i = url.indexOf('#');
+    return i === -1 ? [url, ''] : [url.slice(0, i), url.slice(i)];
+  }
+
+  /**
+   * Check a translation actually exists before linking to it:
+   *   {% if page.url | hasTranslation('es', collections.all) %}
+   * Without the collections argument there is nothing to check against, so it
+   * answers true — callers that cannot reach collections keep the old
+   * link-everything behaviour rather than silently dropping every alternate.
+   */
+  eleventyConfig.addFilter('hasTranslation', function (url, targetLocale, all) {
+    if (typeof url !== 'string') return false;
+    const set = urlSetFor(all);
+    if (!set) return true;
+    const [path] = splitHash(localizedUrlFor(url, targetLocale));
+    return set.has(path);
   });
 
-  /** Check translation exists: {% if page.url | hasTranslation("ko") %} */
-  eleventyConfig.addFilter('hasTranslation', function (url, targetLocale) {
-    return true;
+  /**
+   * A nav href in the current locale, falling back to the English page when
+   * this locale does not have its own:
+   *   {{ '/ecommerce/' | localeHref(locale, collections.all) }}
+   * Keeps locale-specific menus from linking to pages that were never built.
+   */
+  eleventyConfig.addFilter('localeHref', (url, localeCode, all) => {
+    if (typeof url !== 'string') return url;
+    if (!localeCode || localeCode === i18nConfig.defaultLocale) return url;
+    const [path, hash] = splitHash(url);
+    const candidate = '/' + localeCode + path;
+    const set = urlSetFor(all);
+    if (set && set.has(candidate)) return candidate + hash;
+    return url;
   });
 
   /** Text direction: {{ locale | localeDir }} */

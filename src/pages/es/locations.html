@@ -1,0 +1,63 @@
+---
+interior: true
+layout: base.html
+locale: 'es'
+tagTitle: "Zonas de servicio"
+metaTitle: "Zonas de servicio | UI Compass"
+description: "Trabajamos 100 % en remoto desde Arlington, Texas, con negocios pequeños en todo Texas, Tennessee y el resto de Estados Unidos."
+preloadImg: "/assets/images/650a93edffde.jpg"
+preloadCSS: "/css/locations.css"
+permalink: 'es/locations/'
+eleventyNavigation:
+  key: "Zonas de servicio"
+  order: 1000
+---
+{% set cityLinks = [
+  { name: "Arlington", stateSlug: "texas", slug: "arlington" },
+  { name: "Fort Worth", stateSlug: "texas", slug: "fort-worth" },
+  { name: "Dallas", stateSlug: "texas", slug: "dallas" },
+  { name: "Austin", stateSlug: "texas", slug: "austin" },
+  { name: "Houston", stateSlug: "texas", slug: "houston" },
+  { name: "San Antonio", stateSlug: "texas", slug: "san-antonio" },
+  { name: "Frisco", stateSlug: "texas", slug: "frisco" },
+  { name: "Irving", stateSlug: "texas", slug: "irving" },
+  { name: "Grand Prairie", stateSlug: "texas", slug: "grand-prairie" },
+  { name: "Mansfield", stateSlug: "texas", slug: "mansfield" },
+  { name: "Memphis", stateSlug: "tennessee", slug: "memphis" },
+  { name: "Nashville", stateSlug: "tennessee", slug: "nashville" },
+  { name: "Knoxville", stateSlug: "tennessee", slug: "knoxville" },
+  { name: "Chattanooga", stateSlug: "tennessee", slug: "chattanooga" }
+] %}
+<div id="banner-1106-8">
+  <div class="cs-container">
+    <h1 class="cs-int-title">Dónde trabajamos</h1>
+    <div class="cs-breadcrumbs"><a href="/es/" class="cs-link">Inicio</a> <a href="/es/locations/" class="cs-link cs-active">Zonas de servicio</a></div>
+  </div>
+  <picture class="cs-background">
+    <source media="(max-width: 600px)" srcset="/assets/images/c8d9a75a4014.avif" type="image/avif">
+    <source media="(max-width: 600px)" srcset="/assets/images/1dfa64a6dea0.webp" type="image/webp">
+    <source media="(max-width: 600px)" srcset="/assets/images/b896161cdbb4.jpg" type="image/jpeg">
+    <source media="(max-width: 1024px)" srcset="/assets/images/5135b605189c.avif" type="image/avif">
+    <source media="(max-width: 1024px)" srcset="/assets/images/ff3d33b65e6c.webp" type="image/webp">
+    <source media="(max-width: 1024px)" srcset="/assets/images/88ed390a60a7.jpg" type="image/jpeg">
+    <source media="(min-width: 1024px)" srcset="/assets/images/c92c46d7fe76.avif" type="image/avif">
+    <source media="(min-width: 1024px)" srcset="/assets/images/b74af3ed403e.webp" type="image/webp">
+    <source media="(min-width: 1024px)" srcset="/assets/images/650a93edffde.jpg" type="image/jpeg"><img alt="Varias laptops mostrando código de desarrollo web" aria-hidden="true" decoding="async" height="474" src="/assets/images/650a93edffde.jpg" width="1920" fetchpriority="high" loading="eager">
+  </picture>
+</div>
+
+<section id="content-page-1399-2">
+  <div class="cs-container cs-container-listing">
+    <div class="cs-content">
+      <h2 class="cs-title">Trabajo 100 % en remoto desde casa, así que puedo ayudar a negocios en distintos pueblos y ciudades de Estados Unidos:</h2>
+      {# The city pages exist in English only. Linking to the English URL is the
+         honest fallback: a translated label pointing at a page that was never
+         built would be worse than an English destination. #}
+      <ul class="cs-ul-columns">
+        {% for city in cityLinks %}
+        <li><a href="/locations/{{ city.stateSlug }}/{{ city.slug }}-web-design/">Diseño web en {{ city.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

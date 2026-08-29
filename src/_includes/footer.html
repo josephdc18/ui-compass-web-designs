@@ -1,18 +1,19 @@
-{% set lp = '/ko' if locale == 'ko' else '' %}
-{% set isKo = locale == 'ko' %}
+{# See header.html for how `lp`, the `t` filter, and `localeHref` fit together. #}
+{% set loc = locale | default(i18nConfig.defaultLocale) %}
+{% set lp = '' if loc == i18nConfig.defaultLocale else '/' + loc %}
 <section id="contact-1392">
   <div class="cs-container">
     <div class="cs-content">
-      <span class="cs-topper">{% if isKo %}문의하기{% else %}Contact Us{% endif %}</span>
-      <h2 class="cs-title">{% if isKo %}연락해 주십시오{% else %}Get in Touch{% endif %}</h2>
-      <p class="cs-text">{% if isKo %}프로젝트에 대해 알려 주시면 영업일 기준 1일 이내에 답변드리겠습니다.{% else %}Tell us about your project and we'll get back to you within one business day.{% endif %}</p>
+      <span class="cs-topper">{{ 'footer.contact_topper' | t(loc) }}</span>
+      <h2 class="cs-title">{{ 'footer.contact_title' | t(loc) }}</h2>
+      <p class="cs-text">{{ 'footer.contact_text' | t(loc) }}</p>
       <ul class="cs-ul">
         <li class="cs-li">
           <picture class="cs-icon-wrapper">
             <img aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E" alt="phone icon" class="cs-icon" width="40" height="40" decoding="async" data-orig-src="/assets/images/930dbb120e9b.svg" data-tinted="" style="-webkit-mask-image:url(&quot;/assets/images/930dbb120e9b.svg&quot;);mask-image:url(&quot;/assets/images/930dbb120e9b.svg&quot;);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--pb-icon-tint, var(--primary))" loading="lazy">
           </picture>
           <div class="cs-flex-group">
-            <span class="cs-header">{% if isKo %}전화{% else %}Phone{% endif %}</span>
+            <span class="cs-header">{{ 'footer.phone' | t(loc) }}</span>
             <a href="tel:+1{{ client.phone }}" class="cs-link">{{ client.phoneFormatted }}</a>
           </div>
         </li>
@@ -21,7 +22,7 @@
             <img aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E" alt="email icon" class="cs-icon" width="40" height="40" decoding="async" data-orig-src="/assets/images/8367fee24236.svg" data-tinted="" style="-webkit-mask-image:url(&quot;/assets/images/8367fee24236.svg&quot;);mask-image:url(&quot;/assets/images/8367fee24236.svg&quot;);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--pb-icon-tint, var(--primary))" loading="lazy">
           </picture>
           <div class="cs-flex-group">
-            <span class="cs-header">{% if isKo %}이메일{% else %}Email{% endif %}</span>
+            <span class="cs-header">{{ 'footer.email' | t(loc) }}</span>
             <!--email_off--><a href="mailto:{{ client.email }}" class="cs-link">{{ client.email }}</a><!--/email_off-->
           </div>
         </li>
@@ -30,39 +31,39 @@
             <img aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22/%3E" alt="location icon" class="cs-icon" width="40" height="40" decoding="async" data-orig-src="/assets/images/515b7539f4df.svg" data-tinted="" style="-webkit-mask-image:url(&quot;/assets/images/515b7539f4df.svg&quot;);mask-image:url(&quot;/assets/images/515b7539f4df.svg&quot;);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--pb-icon-tint, var(--primary))" loading="lazy">
           </picture>
           <div class="cs-flex-group">
-            <span class="cs-header">{% if isKo %}주소{% else %}Address{% endif %}</span>
+            <span class="cs-header">{{ 'footer.address' | t(loc) }}</span>
             <a href="https://www.google.com/maps/place/{{ client.address.city }},+{{ client.address.county }}/" target="_blank" rel="noopener" class="cs-link">{{ client.address.city }}, {{ client.address.county }}</a>
           </div>
         </li>
       </ul>
     </div>
     <form class="cs-form" id="cs-form-1392" name="Contact Form" method="POST" action="https://formspree.io/f/xanavbkk">
-      <h3 class="cs-h3">{% if isKo %}상담 예약하기{% else %}Make Appointment{% endif %}</h3>
+      <h3 class="cs-h3">{{ 'footer.make_appointment' | t(loc) }}</h3>
       <label class="cs-label">
-        <span class="cs-label-text">{% if isKo %}이름{% else %}Name{% endif %}</span>
-        <input class="cs-input" required type="text" id="name-1392" name="name" placeholder="{% if isKo %}이름{% else %}Name{% endif %}">
+        <span class="cs-label-text">{{ 'footer.form_name' | t(loc) }}</span>
+        <input class="cs-input" required type="text" id="name-1392" name="name" placeholder="{{ 'footer.form_name' | t(loc) }}">
       </label>
       <label class="cs-label">
-        <span class="cs-label-text">{% if isKo %}회사명{% else %}Company{% endif %}</span>
-        <input class="cs-input" type="text" id="company-1392" name="company" placeholder="{% if isKo %}회사명{% else %}Company{% endif %}">
+        <span class="cs-label-text">{{ 'footer.form_company' | t(loc) }}</span>
+        <input class="cs-input" type="text" id="company-1392" name="company" placeholder="{{ 'footer.form_company' | t(loc) }}">
       </label>
       <label class="cs-label cs-email">
-        <span class="cs-label-text">{% if isKo %}이메일{% else %}Email{% endif %}</span>
-        <input class="cs-input" required type="email" id="email-1392" name="email" placeholder="{% if isKo %}이메일{% else %}Email{% endif %}">
+        <span class="cs-label-text">{{ 'footer.form_email' | t(loc) }}</span>
+        <input class="cs-input" required type="email" id="email-1392" name="email" placeholder="{{ 'footer.form_email' | t(loc) }}">
       </label>
       <label class="cs-label cs-phone">
-        <span class="cs-label-text">{% if isKo %}전화번호{% else %}Phone{% endif %}</span>
-        <input class="cs-input" required type="tel" id="phone-1392" name="phone" placeholder="{% if isKo %}전화번호{% else %}Phone{% endif %}">
+        <span class="cs-label-text">{{ 'footer.form_phone' | t(loc) }}</span>
+        <input class="cs-input" required type="tel" id="phone-1392" name="phone" placeholder="{{ 'footer.form_phone' | t(loc) }}">
       </label>
       <label class="cs-label">
-        <span class="cs-label-text">{% if isKo %}어떻게 알게 되셨나요?{% else %}How Did You Find Us{% endif %}</span>
-        <input class="cs-input" type="text" id="source-1392" name="source" placeholder="{% if isKo %}어떻게 알게 되셨나요?{% else %}How Did You Find Us{% endif %}">
+        <span class="cs-label-text">{{ 'footer.form_source' | t(loc) }}</span>
+        <input class="cs-input" type="text" id="source-1392" name="source" placeholder="{{ 'footer.form_source' | t(loc) }}">
       </label>
       <label class="cs-label">
-        <span class="cs-label-text">{% if isKo %}메시지{% else %}Message{% endif %}</span>
-        <textarea class="cs-input cs-textarea" required name="Message" id="message-1392" placeholder="{% if isKo %}메시지를 작성해 주십시오...{% else %}Write message...{% endif %}"></textarea>
+        <span class="cs-label-text">{{ 'footer.form_message' | t(loc) }}</span>
+        <textarea class="cs-input cs-textarea" required name="Message" id="message-1392" placeholder="{{ 'footer.form_message_placeholder' | t(loc) }}"></textarea>
       </label>
-      <button class="cs-button-solid cs-submit" type="submit">{% if isKo %}메시지 보내기{% else %}Send Message{% endif %}</button>
+      <button class="cs-button-solid cs-submit" type="submit">{{ 'footer.form_submit' | t(loc) }}</button>
       <input type="hidden" name="_form_name" value="Contact Form">
     </form>
   </div>
@@ -73,39 +74,39 @@
 
     <!-- Top tagline + work link -->
     <div class="cs-top">
-      <p class="cs-top-tagline">{% if isKo %}{{ client.address.city }}, {{ client.address.county }} 소재. 소규모 사업체를 위한 맞춤형 웹사이트.{% else %}Based in {{ client.address.city }}, {{ client.address.county }}. Custom sites for small businesses.{% endif %}</p>
-      <a class="cs-hero-work-link" href="{{ lp }}/#portfolio">{% if isKo %}작업 사례 보기{% else %}See our work{% endif %} {% include "svgs/arrow-diagonal.html" %}</a>
+      <p class="cs-top-tagline">{{ 'footer.top_tagline' | t(loc) | replace('{city}', client.address.city) | replace('{county}', client.address.county) }}</p>
+      <a class="cs-hero-work-link" href="{{ '/#portfolio' | localeHref(loc, collections.all) }}">{{ 'footer.see_our_work' | t(loc) }} {% include "svgs/arrow-diagonal.html" %}</a>
     </div>
 
     <!-- Site map columns -->
     <div class="cs-columns">
 
       <div class="cs-col">
-        <span class="cs-col-header">{% if isKo %}사이트맵{% else %}Sitemap{% endif %}</span>
+        <span class="cs-col-header">{{ 'footer.sitemap' | t(loc) }}</span>
         <ul class="cs-col-ul">
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/about/">{% if isKo %}회사 소개{% else %}About{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/pricing/">{% if isKo %}요금제{% else %}Pricing{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/#reviews-211">{% if isKo %}고객 후기{% else %}Reviews{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/#faq-1261">{% if isKo %}자주 묻는 질문{% else %}FAQ{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="/blog/">{% if isKo %}인사이트{% else %}Insights{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/contact/">{% if isKo %}문의{% else %}Contact{% endif %}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/about/' | localeHref(loc, collections.all) }}">{{ 'nav.about' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/pricing/' | localeHref(loc, collections.all) }}">{{ 'nav.pricing' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/#reviews-211' | localeHref(loc, collections.all) }}">{{ 'footer.reviews' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/#faq-1261' | localeHref(loc, collections.all) }}">{{ 'footer.faq' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/blog/' | localeHref(loc, collections.all) }}">{{ 'footer.insights' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/contact/' | localeHref(loc, collections.all) }}">{{ 'nav.contact' | t(loc) }}</a></li>
         </ul>
       </div>
 
       <div class="cs-col">
-        <span class="cs-col-header">{% if isKo %}서비스{% else %}Services{% endif %}</span>
+        <span class="cs-col-header">{{ 'footer.services_header' | t(loc) }}</span>
         <ul class="cs-col-ul">
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/web-design/">{% if isKo %}웹 디자인{% else %}Web Design{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/web-development/">{% if isKo %}웹 개발{% else %}Web Development{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/search-engine-optimisation/">{% if isKo %}검색 엔진 최적화{% else %}Search Engine Optimization{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/hosting-and-domains/">{% if isKo %}호스팅 및 도메인{% else %}Hosting &amp; Domains{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/unlimited-edits-and-support/">{% if isKo %}무제한 수정 및 지원{% else %}Unlimited Edits &amp; Support{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/ecommerce/">{% if isKo %}이커머스{% else %}eCommerce{% endif %}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/web-design/' | localeHref(loc, collections.all) }}">{{ 'nav.web_design' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/web-development/' | localeHref(loc, collections.all) }}">{{ 'nav.web_development' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/search-engine-optimisation/' | localeHref(loc, collections.all) }}">{{ 'nav.seo' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/hosting-and-domains/' | localeHref(loc, collections.all) }}">{{ 'nav.hosting' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/unlimited-edits-and-support/' | localeHref(loc, collections.all) }}">{{ 'nav.unlimited_edits' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/ecommerce/' | localeHref(loc, collections.all) }}">{{ 'nav.ecommerce' | t(loc) }}</a></li>
         </ul>
       </div>
 
       <div class="cs-col">
-        <span class="cs-col-header">{% if isKo %}서비스 지역{% else %}Service Areas{% endif %}</span>
+        <span class="cs-col-header">{{ 'footer.service_areas' | t(loc) }}</span>
         <ul class="cs-col-ul">
           <li class="cs-li"><a class="cs-link" href="/locations/texas/dallas-web-design/">Dallas, TX</a></li>
           <li class="cs-li"><a class="cs-link" href="/locations/texas/fort-worth-web-design/">Fort Worth, TX</a></li>
@@ -113,15 +114,15 @@
           <li class="cs-li"><a class="cs-link" href="/locations/texas/houston-web-design/">Houston, TX</a></li>
           <li class="cs-li"><a class="cs-link" href="/locations/tennessee/nashville-web-design/">Nashville, TN</a></li>
           <li class="cs-li"><a class="cs-link" href="/locations/tennessee/memphis-web-design/">Memphis, TN</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/locations/">{% if isKo %}전체 지역 보기{% else %}View all locations{% endif %} <span aria-hidden="true">&rarr;</span></a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/locations/' | localeHref(loc, collections.all) }}">{{ 'footer.view_all_locations' | t(loc) }} <span aria-hidden="true">&rarr;</span></a></li>
         </ul>
       </div>
 
       <div class="cs-col">
-        <span class="cs-col-header">{% if isKo %}무료 도구{% else %}Free Tools{% endif %}</span>
+        <span class="cs-col-header">{{ 'footer.free_tools' | t(loc) }}</span>
         <ul class="cs-col-ul">
-          <li class="cs-li"><a class="cs-link cs-featured" href="/checklist/">{% if isKo %}웹사이트 런칭 체크리스트{% else %}Website Launch Checklist{% endif %}</a></li>
-          <li class="cs-li"><a class="cs-link" href="{{ lp }}/#hero-1950">{% if isKo %}무료 PageSpeed 진단{% else %}Free PageSpeed Audit{% endif %}</a></li>
+          <li class="cs-li"><a class="cs-link cs-featured" href="/checklist/">{{ 'footer.launch_checklist' | t(loc) }}</a></li>
+          <li class="cs-li"><a class="cs-link" href="{{ '/#hero-1950' | localeHref(loc, collections.all) }}">{{ 'footer.free_audit' | t(loc) }}</a></li>
         </ul>
       </div>
 
@@ -175,7 +176,7 @@
         </div>
       </div>
 
-      <p class="cs-tagline">{% if isKo %}{{ client.address.city }}, {{ client.address.county }}에 위치한 웹 디자인 스튜디오입니다. 정해진 월 정액 요금으로 모바일 최적화 웹사이트를 무제한 수정과 함께 소규모 사업체에 제공하고 있습니다.{% else %}Web design studio in {{ client.address.city }}, {{ client.address.county }}. We build mobile-optimized websites for small businesses, with unlimited edits, for one flat monthly fee.{% endif %}</p>
+      <p class="cs-tagline">{{ 'footer.studio_blurb' | t(loc) | replace('{city}', client.address.city) | replace('{county}', client.address.county) }}</p>
 
       <ul class="cs-contact-list">
         <li class="cs-contact-li">
@@ -199,7 +200,7 @@
             <svg class="cs-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z" fill="currentColor"/>
             </svg>
-            {% if isKo %}이메일 보내기{% else %}Click to email{% endif %}
+            {{ 'footer.click_to_email' | t(loc) }}
           </a><!--/email_off-->
         </li>
       </ul>
@@ -207,7 +208,7 @@
 
     <!-- Bottom credit row -->
     <div class="cs-bottom">
-      <span class="cs-copyright">{% if isKo %}{{ client.address.city }}, {{ client.address.county }}에서 <span class="cs-heart" aria-hidden="true">♡</span>을 담아 제작{% else %}Crafted with <span class="cs-heart" aria-hidden="true">♡</span> in {{ client.address.city }}, {{ client.address.county }}{% endif %}<span class="cs-sep" aria-hidden="true"> | </span>&copy; 2026 {{ client.name }}</span>
+      <span class="cs-copyright">{{ 'footer.crafted_in' | t(loc) | replace('{heart}', '<span class="cs-heart" aria-hidden="true">♡</span>') | replace('{city}', client.address.city) | replace('{county}', client.address.county) | safe }}<span class="cs-sep" aria-hidden="true"> | </span>&copy; 2026 {{ client.name }}</span>
 
       <!-- Notification toggle — hidden via CSS unless `body.is-pwa` is set
            (added by push.js when display-mode: standalone). Subscribes via the
@@ -223,7 +224,7 @@
           <path class="pwa-notify-toggle__clapper" d="M10 18a2 2 0 004 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           <line class="pwa-notify-toggle__slash" x1="4" y1="20" x2="20" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
-        <span class="pwa-notify-toggle__label" data-pwa-notify-label>{% if isKo %}알림 활성화{% else %}Enable Notifications{% endif %}</span>
+        <span class="pwa-notify-toggle__label" data-pwa-notify-label>{{ 'footer.enable_notifications' | t(loc) }}</span>
       </button>
     </div>
   </div>

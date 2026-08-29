@@ -1,0 +1,29 @@
+---
+interior: true
+blogIndex: true
+locale: es
+layout: 'base.html'
+description: 'Guías prácticas de UI Compass sobre diseño web, rendimiento, SEO y crecimiento para negocios pequeños.'
+metaTitle: 'Blog | UI Compass'
+tagTitle: 'Blog'
+preloadImg: '/assets/images/650a93edffde.jpg'
+preloadCSS: '/css/blog.css'
+permalink: 'es/blog/'
+---
+<div id="banner-1106-15">
+  <div class="cs-container"><h1 class="cs-int-title">Blog</h1><div class="cs-breadcrumbs"><a href="/es/" class="cs-link">Inicio</a><a href="/es/blog/" class="cs-link cs-active">Blog</a></div></div>
+  <picture class="cs-background"><source media="(max-width: 600px)" srcset="/assets/images/c8d9a75a4014.avif" type="image/avif"><source media="(max-width: 600px)" srcset="/assets/images/1dfa64a6dea0.webp" type="image/webp"><source media="(min-width: 601px)" srcset="/assets/images/650a93edffde.jpg" type="image/jpeg"><img alt="" aria-hidden="true" decoding="async" height="474" src="/assets/images/650a93edffde.jpg" width="1920" fetchpriority="high" loading="eager"></picture>
+</div>
+{% set posts = collections['post-es'] | default([]) %}{% set featured = posts | last %}
+<section id="insight-archive" class="blog-index" aria-labelledby="insight-archive-title"><div class="cs-container">
+  <header class="blog-index-heading"><span class="cs-topper">Guías prácticas</span><h2 id="insight-archive-title">Cómo hacer que su sitio haga su trabajo</h2></header>
+  {% if featured %}{% set featuredCategory = featured.data.category | default('uncategorized') | slug %}
+  <a class="blog-feature" href="{{ featured.url }}" data-category="{{ featuredCategory }}" data-slug="{{ featured.data.pageName }}" data-url="{{ featured.url }}" data-search="{{ (featured.data.blogTitle ~ ' ' ~ featured.data.blogDescription ~ ' ' ~ (featured.data.category or '')) | lower }}">
+    {% if featured.data.image and (featured.data.image | assetExists) %}<span class="blog-index-media">{% image featured.data.image, featured.data.imageAlt or featured.data.blogTitle, 'blog-index-picture', 'eager', '(max-width: 767px) 100vw, 52vw' %}</span>{% endif %}
+    <span class="blog-feature-body"><span class="blog-feature-kicker">Más reciente{% if featured.data.category %} · {{ featured.data.category }}{% endif %}</span><strong>{{ featured.data.blogTitle }}</strong><span class="blog-feature-description">{{ featured.data.blogDescription }}</span><span class="blog-index-meta"><time datetime="{{ featured.date | dateIso }}">{{ featured.date | localizedDate(locale) }}</time> · {{ featured.data.readMins }} min</span></span>
+  </a>{% endif %}
+  <div class="blog-toolbar"><label class="blog-search"><span class="sr-only">Buscar artículos</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><input id="blog-search" type="search" autocomplete="off" placeholder="Buscar artículos" aria-label="Buscar artículos"><kbd>⌘K</kbd></label><div class="blog-filters" role="group" aria-label="Filtrar artículos por categoría"><button type="button" class="blog-filter" data-filter="all" aria-pressed="true">Todos</button>{% for item in collections.blogCategoriesEs %}<button type="button" class="blog-filter" data-filter="{{ item.slug }}" aria-pressed="false">{{ item.label }} <span>{{ item.count }}</span></button>{% endfor %}<button type="button" class="blog-filter blog-filter--saved" data-filter="saved" aria-pressed="false" hidden>Guardados <span data-saved-filter-count>0</span></button></div></div>
+  <ul id="archive-grid" class="blog-rows" role="list">{% for post in posts | reverse %}{% if not featured or post.url != featured.url %}{% set postCategory = post.data.category | default('uncategorized') | slug %}<li class="blog-row" data-category="{{ postCategory }}" data-slug="{{ post.data.pageName }}" data-url="{{ post.url }}" data-search="{{ (post.data.blogTitle ~ ' ' ~ post.data.blogDescription ~ ' ' ~ (post.data.category or '')) | lower }}"><a href="{{ post.url }}" class="blog-row-link">{% if post.data.image and (post.data.image | assetExists) %}<span class="blog-index-media">{% image post.data.image, post.data.imageAlt or post.data.blogTitle, 'blog-index-picture', 'lazy', '(max-width: 600px) 34vw, 220px' %}</span>{% endif %}<span class="blog-row-body"><span class="blog-row-category">{{ post.data.category | default('Artículo') }}</span><strong>{{ post.data.blogTitle }}</strong><span class="blog-row-description">{{ post.data.blogDescription }}</span><span class="blog-index-meta"><time datetime="{{ post.date | dateIso }}">{{ post.date | localizedDate(locale) }}</time> · {{ post.data.readMins }} min</span></span><span class="blog-row-arrow" aria-hidden="true">↗</span></a></li>{% endif %}{% endfor %}</ul>
+  <p id="archive-empty" class="blog-empty" hidden>No hay artículos que coincidan. <button type="button" data-clear-filters>Quitar filtros</button></p>
+</div></section>
+<script defer src="/assets/js/bookmarks.js?v={{ build.hash }}"></script><script defer src="/assets/js/blog-filter.js?v={{ build.hash }}"></script>
